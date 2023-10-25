@@ -1,0 +1,359 @@
+<p-tabView styleClass="tab-dialog" (onChange)="changeTab($event)" [activeIndex]="tabActiveIndex">
+  <div class="p-sm">
+    <p-tabPanel header="Properties" leftIcon="ui-icon-insert-drive-file" [selected]="true">
+      <div class="max-h-350">
+        <div class="scrollable">
+          <table class="ecm-table   w-100">
+            <tbody>
+              <tr *ngFor="let info of docInfo; let index=i;let isOdd=odd;
+                   let isEven=even" [class.even]="isEven" [ngClass]="{'hidden': info.hidden=='true'}">
+                <th class="text-align-left" style="width:26%">{{info.desc}}</th>
+                <td *ngIf="info.desc==='Document Title'" class="table-column">{{info.mvalues[0]}}</td>
+                <td *ngIf="info.desc!=='Document Title'" class="table-column">{{info.mvalues[0]}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="System Properties" leftIcon="ui-icon-personal-video">
+      <table class="ecm-table  w-100">
+        <tbody *ngFor="let sys of docSysProp;">
+          <tr class="even">
+            <th style="width:26%" class="text-align-left">Id</th>
+            <td>{{sys.id}}</td>
+          </tr>
+          <tr>
+          <tr class="odd">
+            <th style="width:26%" class="text-align-left">Created By</th>
+            <td>{{sys.creator}}</td>
+          </tr>
+          <tr class="even">
+            <th style="width:26%" class="text-align-left">Size</th>
+            <td>{{(sys.size/1024).toFixed(2)}} Kb</td>
+          </tr>
+          <tr class="odd">
+            <th style="width:26%" class="text-align-left">Format</th>
+            <td>{{sys.format}}</td>
+          </tr>
+          <tr class="even">
+            <th style="width:26%" class="text-align-left">Modified By</th>
+            <td>{{sys.modifier}}</td>
+          </tr>
+          <tr class="odd">
+            <th style="width:26%" class="text-align-left">Added On</th>
+            <td>{{sys.addOn}}</td>
+          </tr>
+          <tr class="even">
+            <th style="width:26%" class="text-align-left">Modified On</th>
+            <td>{{sys.modOn}}</td>
+          </tr>
+          <tr class="odd">
+            <th style="width:26%" class="text-align-left">Version Id</th>
+            <td>{{sys.vsid}}</td>
+          </tr>
+          <tr class="even">
+            <th style="width:26%" class="text-align-left">Major Version</th>
+            <td>{{sys.verNo}}</td>
+          </tr>
+          <tr class="odd">
+            <th style="width:26%" class="text-align-left">EntryTemplate</th>
+            <td>{{sys.etName}}</td>
+          </tr>
+          <tr class="even">
+            <th style="width:26%" class="text-align-left">EntryTemplate Id</th>
+            <td>{{sys.entryTemplate}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </p-tabPanel>
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Versions" leftIcon="ui-icon-date-range">
+      <div class="max-h-350">
+        <div class="scrollable">
+          <table class="ecm-table  w-100">
+            <thead>
+              <th></th>
+              <th></th>
+              <th class="text-align-left">Version No</th>
+              <th class="text-align-left">Created By</th>
+              <th class="text-align-left">Modified By</th>
+              <th class="text-align-left">Added On</th>
+              <th class="text-align-left">Modified On</th>
+              <th class="text-align-left">Actions</th>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let version of docVersion; let index=i;let isOdd=odd;
+               let isEven=even">
+                <tr [class.even]="isEven">
+                  <td><a href="javascript:">
+                      <i class="fa ui-icon-chevron-right" (click)="selectVersion(version)"></i>
+                    </a></td>
+                  <td class="icon">
+                    <span *ngIf="version.format">
+                      <span class="v-m"></span>
+                      <img src="assets/images/icons/file-pdf-o.png" *ngIf="version.format.indexOf('pdf')!==-1">
+                      <img src="assets/images/icons/file-excel-o.png"
+                        *ngIf="version.format.indexOf('sheet')!==-1 || version.format.indexOf('xls')!==-1 || version.format.indexOf('xlsx')!==-1
+                        || version.format.indexOf('spreadsheet')!==-1 || version.format.indexOf('vnd.ms-excel')!==-1
+                        || version.format.indexOf('vnd.excel')!==-1 ||  version.format.indexOf('vnd.openxmlformats-officedocument.spreadsheetml.sheet')!==-1">
+                      <img src="assets/images/icons/file-image-o.png"
+                        *ngIf="version.format.indexOf('image')!==-1 && version.format.indexOf('tiff')===-1 && version.format.indexOf('tif')===-1">
+                      <img src="assets/images/icons/file-word-o.png" *ngIf="version.format.indexOf('word')!==-1 || version.format.indexOf('msword')!==-1 ||
+                          version.format.indexOf('vnd.openxmlformats-officedocument.wordprocessingml.document')!==-1">
+                      <img src="assets/images/icons/file-msg-48.png"
+                        *ngIf="version.format.indexOf('vnd.ms-outlook')!==-1">
+                      <img src="assets/images/icons/file-ppt-48.png" *ngIf="version.format.indexOf('ppt')!==-1 || version.format.indexOf('pptx')!==-1 ||
+                        version.format.indexOf('vnd.powerpoint')!==-1 || version.format.indexOf('vnd.ms-powerpoint')!==-1 ||
+                        version.format.indexOf('vnd.openxmlformats-officedocument.presentationml.presentation')!==-1">
+                      <img src="assets/images/icons/file-tiff-48.png"
+                        *ngIf="version.format.indexOf('tiff')!==-1 || version.format.indexOf('tif')!==-1">
+                      <img src="assets/images/icons/file-text-o.png" *ngIf="version.format.indexOf('pdf')===-1 && version.format.indexOf('sheet')===-1
+                              && version.format.indexOf('xls')===-1 && version.format.indexOf('xlsx')===-1
+                              && version.format.indexOf('image')===-1  && version.format.indexOf('word')===-1
+                              && version.format.indexOf('vnd.ms-outlook')===-1 && version.format.indexOf('ppt')===-1 && version.format.indexOf('pptx')===-1
+                              && version.format.indexOf('tiff')===-1 && version.format.indexOf('tif')===-1 && version.format.indexOf('vnd.ms-excel')===-1
+                       && version.format.indexOf('vnd.excel')===-1 && version.format.indexOf('vnd.openxmlformats-officedocument.spreadsheetml.sheet')===-1
+                        && version.format.indexOf('msword')===-1 && version.format.indexOf('vnd.openxmlformats-officedocument.wordprocessingml.document')===-1 && version.format.indexOf('vnd.powerpoint')===-1
+                        && version.format.indexOf('vnd.ms-powerpoint')===-1 && version.format.indexOf('vnd.openxmlformats-officedocument.presentationml.presentation')===-1
+                        && version.format.indexOf('spreadsheet')===-1">
+                    </span>
+                    <span *ngIf="!version.format">
+                      <span class="v-m"></span>
+                      <img src="assets/images/icons/file-text-o.png" class="icon">
+                    </span>
+                  </td>
+                  <td>{{version.verNo}}</td>
+                  <td>{{version.creator}}</td>
+                  <td>{{version.modifier}}</td>
+                  <td>{{version.addOn}}</td>
+                  <td>{{version.modOn}}</td>
+                  <td role="button">
+                    <button pButton type="button" icon="fa ui-icon-remove-red-eye" title="View Document"
+                      (click)="viewDoc(version,'version')"></button>
+                    <button pButton type="button" icon="fa ui-icon-get-app" title="Download Document"
+                      (click)="downloadDoc(version)"></button>
+                  </td>
+                </tr>
+                <tr [ngClass]="{'hide':selectedVersion.id!==version.id ,'show':selectedVersion===version.id}">
+                  <td colspan="9">
+                    <p-dataTable [value]="selectedVersion.props">
+                      <p-column field="prop">
+                        <ng-template let-col let-property="rowData" let-ri="rowIndex" pTemplate="body">
+
+                          <span class="text-bold">{{property[col.field]}}</span>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="value">
+                        <ng-template let-col let-property="rowData" let-ri="rowIndex" pTemplate="body">
+                          <span>{{property[col.field]}}</span>
+                        </ng-template>
+                      </p-column>
+                    </p-dataTable>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Security" leftIcon="ui-icon-https">
+      <div class="max-h-350">
+        <div class="scrollable">
+          <table class="ecm-table  w-100">
+            <thead>
+              <th class="text-align-left">User/Group</th>
+              <th class="text-align-left">Access Level</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let security of docSecurity; let index=i;let isOdd=odd;
+                 let isEven=even" [class.even]="isEven">
+                <td>
+                  <i *ngIf="security.accessType=='ALLOW'" class="material-icons primary-color v-m">done</i>
+                  <i *ngIf="security.accessType=='DENY'" class="material-icons primary-deny v-m">clear</i>
+                  <i *ngIf="security.granteeType=='USER'" class="material-icons primary-color v-m">person</i>
+                  <i *ngIf="security.granteeType=='GROUP'" class="material-icons primary-color v-m">people</i>
+                  <span (mouseover)="showPrivilages(security)" pTooltip="{{privilage}}"
+                    [tooltipStyleClass]="'tooltip-max-width'" tooltipPosition="bottom"
+                    class="m-l-md v-m">{{security.displayName?security.displayName : security.granteeName}}</span>
+                </td>
+                <td>{{security.accessLevel}}
+                  <i *ngIf="security.permissionSource=='PARENT'"
+                    class="material-icons primary-color v-m pull-right">subdirectory_arrow_left</i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Links" leftIcon="ui-icon-filter-none">
+      <div class="max-h-350">
+        <div class="scrollable">
+          <table class="ecm-table  w-100 ">
+            <tbody>
+              <tr>
+                <th *ngIf="!noLink" style="width:45%;" class="text-align-left">Linked Documents</th>
+                <th *ngIf="!noLink" class="text-align-left">Actions</th>
+              </tr>
+              <tr *ngFor="let doclink of linkedDocuments;let index=i;let isOdd=odd;
+                 let isEven=even" [class.even]="isEven">
+                <td *ngIf="!noLink">{{doclink.desc}}</td>
+                <td *ngIf="!noLink">
+                  <button pButton type="button" icon="fa ui-icon-remove-red-eye" title="View Link"
+                    (click)="viewDoc(doclink,'link')"></button>
+                  <button pButton type="button" icon="fa ui-icon-remove" title="Remove Link"
+                    (click)="confirmRemoveLink(doclink)"></button>
+                </td>
+              </tr>
+              <td class="no-result text-align-center" *ngIf="noLink">No Links to show!</td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="History" leftIcon="ui-icon-restore">
+      <div class="ui-g">
+        <div class="ui-g-12 p-0">
+          <button pButton type="button" label="Export" (click)="exportDocHistoryToExcel();" class="pull-right m-b-sm"
+            [disabled]="!docHistory || docHistory.length==0"></button>
+          <p-dropdown [options]="docVersions" name="versions" [(ngModel)]="selectedVersionVal" [autoWidth]="false"
+            autoDisplayFirst="false" [placeholder]="'Select'" class="pull-right m-5 w-10" (onChange)="changeVersion()"></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g" *ngIf="!docHistory || docHistory.length===0">
+        <div class="ui-g-12 p-0 text-align-center no-result">
+          No audit history found. Only ECM Admin can view the document events history
+        </div>
+      </div>
+      <div *ngIf="docHistory && docHistory.length>0">
+        <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+          <!-- global filter -->
+          <div class="ui-g">
+            <div class="ui-g-10 p-0">
+              <table>
+                <tr>
+                  <td><i class="fa fa-search v-m m-r-md"></i></td>
+                  <td>
+                    <input #gbHistory type="text" pInputText size="50" value="filterInput" [ngModel]="filterInput"
+                      style="color: #ffffff" class="v-m p-0">
+                  </td>
+                  <td class="pull-right w-100">
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="ui-g-2 p-0">
+              <div class="pull-right" style="padding-left: 10px;">
+              </div>
+              <div *ngIf="docHistory && docHistory.length>0" class="pull-right">
+                Total Items: {{docHistory.length}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--<div class="scrollable">-->
+        <p-dataTable [value]="docHistory" [sortMode]="'single'" [rows]="10" [globalFilter]="gbHistory"
+          [paginator]="true">
+          <p-column [sortField]="'desc'" [sortable]="true" field="desc" header="Description"></p-column>
+          <p-column [sortField]="'user'" [sortable]="true" field="user" header="User"></p-column>
+          <p-column [sortField]="'timestamp2'" [sortable]="true" field="timestamp" header="Date"></p-column>
+        </p-dataTable>
+        <!--<table class="ecm-table    w-100" *ngIf="docHistory && docHistory.length>0">-->
+        <!--<tbody>-->
+        <!--<tr>-->
+        <!--<th class="text-align-left">Description</th>-->
+        <!--<th class="text-align-left">User</th>-->
+        <!--<th class="text-align-left">Date</th>-->
+        <!--</tr>-->
+        <!--<tr *ngFor="let history of docHistory;let index=i;let isOdd=odd;-->
+        <!--let isEven=even" [class.even]="isEven">-->
+        <!--<td>{{history.desc}}</td>-->
+        <!--<td>{{history.user}}</td>-->
+        <!--<td>{{history.timestamp}}</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+        <!--</table>-->
+        <!--</div>-->
+      </div>
+    </p-tabPanel>
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Folders Filed In" leftIcon="ui-icon-folder">
+      <div class="max-h-350">
+        <div class="scrollable">
+          <table class="ecm-table w-100">
+            <thead>
+              <th class="text-align-left">Folder Name</th>
+              <th class="text-align-left">Folder Path</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let folder of foldersFiledIn;let i = index;let isOdd=odd;
+                 let isEven=even" [class.even]="isEven">
+                <td>{{folder.name}}</td>
+                <td>{{folder.path}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Document Track" leftIcon="ui-icon-track-changes">
+      <div class="ui-g" *ngIf="!docTrack || docTrack.length===0">
+        <div class="ui-g-12 p-0 text-align-center no-result">
+          No document track found
+        </div>
+      </div> 
+      <div class="max-h-350">
+        <div class="scrollable">
+         <!--  <table class="ecm-table w-100" *ngIf="docTrack && docTrack.length>0">
+            <tbody>
+              <tr>
+                <th class="text-align-left">Workflow Subject</th>
+                <th class="text-align-left">Sender</th>
+                <th class="text-align-left">Sent Date</th>
+              </tr>
+              <tr *ngFor="let track of docTrack;let index=i;let isOdd=odd;
+                     let isEven=even" [class.even]="isEven">
+                <td>{{track.subject}}</td>
+                <td>{{track.creator}}</td>
+                <td>{{track.createdDate | date : 'dd/MM/yyyy hh:mm a'}}</td>
+              </tr>
+            </tbody>
+          </table> -->
+          <table class="ecm-table" style="width: 800px;" *ngIf="docTrack && docTrack.length>0">
+            <tbody>
+              <tr>
+                <th *ngIf="docTrack && docTrack.length>0" class="text-align-left" style="width:42%">Workflow Subject</th>
+                <th *ngIf="docTrack && docTrack.length>0" class="text-align-left" style="width:35%;">Sender</th>
+                <!--Creator-->
+                <th *ngIf="docTrack && docTrack.length>0" class="text-align-left" style="width:20%;">Sent Date</th>
+                <th *ngIf="docTrack && docTrack.length>0" class="text-align-right" style="width:3%;">Action</th>
+              </tr>
+              <tr *ngFor="let track of docTrack;let index=i;let isOdd=odd;
+                     let isEven=even" [class.even]="isEven">
+                <td *ngIf="docTrack && docTrack.length>0">{{track.subject}}</td>
+                <td *ngIf="docTrack && docTrack.length>0">{{track.creator}}</td>
+                <td *ngIf="docTrack && docTrack.length>0">{{track.createdDate | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                <td *ngIf="docTrack && docTrack.length>0" class="text-align-right">
+                  <button pButton type="button" icon="fa ui-icon-link" title="View Details"
+                    (click)="viewWorkItem(track)"></button>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </p-tabPanel>
+  </div>
+  <div class="progress-bar">
+    <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+  </div>
+</p-tabView>
+<p-dialog [modal]="true" showEffect="fade" appendTo="body" [style]="{'max-width':'70%'}" [resizable]="false"
+  [(visible)]="viewer" [responsive]="true" (onHide)="closeViewPopUp()">
+  <p-header>
+    {{docTitle | truncate : 50}}
+  </p-header>
+  <iframe *ngIf="showIframe" class="col-sm-12" [class]="'docViewerModal'" scrolling="yes" [src]="attach_url"
+    frameborder="0"></iframe>
+</p-dialog>
+<p-confirmDialog appendTo="body" key="confirmRemoveLink" header="Confirmation" icon="fa fa-help-outline" width="425">
+</p-confirmDialog>

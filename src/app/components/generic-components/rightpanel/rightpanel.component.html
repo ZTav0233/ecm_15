@@ -1,0 +1,298 @@
+<div class="col-sm-2 documentResultsRight">
+  <ul>
+    <li [ngClass]="{'disabled': !allowInfo}" (click)="openDoc()"><i class="material-icons v-m">info</i><span
+        class="v-m"> Info</span></li>
+    <li [ngClass]="{'disabled': !allowDownloads}" (click)="download()"><i class="material-icons v-m">get_app</i><span
+        class="v-m"> Download</span></li>
+    <li [ngClass]="{'disabled': !allowCheckin}" (click)="openEditDoc();"><i
+        class="material-icons v-m">restore_page</i><span class="v-m"> Update Document</span></li>
+    <li [ngClass]="{'disabled': !allowLaunch}" (click)="launch()"><i class="material-icons v-m">near_me</i><span
+        class="v-m"> Launch</span></li>
+    <li [ngClass]="{'disabled': !allowLaunch}" (click)="addCart()"><i class="material-icons v-m">shopping_cart</i><span
+        class="v-m"> Add To Cart</span></li>
+    <li [ngClass]="{'disabled':!allowLaunch}" *ngIf="currentScreen!='Favourites'" (click)="addFavourites()"><i
+        class="material-icons v-m">star</i><span class="v-m"> Add To Favorites</span></li>
+    <li [ngClass]="{'disabled': !allowRemoveFav}" *ngIf="currentScreen=='Favourites'" (click)="removeFav()"><i
+        class="material-icons v-m">star_border</i><span class="v-m"> Remove From Favorites</span></li>
+    <li (click)="mailTo()" [ngClass]="{'disabled': !allowDownloads}"><i class="material-icons v-m">mail</i><span
+        class="v-m"> Mail To</span></li>
+    <li [ngClass]="{'disabled': !allowLinks}" (click)="linkDocs()"><i class="material-icons v-m">style</i><span
+        class="v-m"> Link Both Documents</span></li>
+    <li [ngClass]="{'disabled': !allowShowLinks}" (click)="showLinkedDocs()"><i class="material-icons v-m">link</i><span
+          class="v-m">View Linked Documents</span></li>
+    <li [ngClass]="{'disabled': !allowShowTrack}" (click)="showDocTrack()"><i class="material-icons v-m">track_changes</i><span
+      class="v-m">View Document Track</span></li>
+    <li [ngClass]="{'disabled': !allowLaunch}" (click)="openSubTree()"><i class="material-icons v-m">folder</i><span
+        class="v-m"> Add To Folder</span></li>
+    <li [ngClass]="{'disabled': !allowEditProp || !allowRemoveFol}" (click)="confirmUnfile()"><i
+        class="material-icons v-m">folder_open</i><span class="v-m"> Remove From Folder</span></li>
+    <li [ngClass]="{'disabled': (!allowEditProp && currentScreen!='Browse') || !allowMove}" (click)="openMoveTree()"><i
+        class="material-icons v-m">screen_share</i><span class="v-m"> Move To Folder</span></li>
+    <li [ngClass]="{'disabled': !allowEditSec}" (click)="openEditSecurity()"><i
+        class="material-icons v-m">security</i><span class="v-m"> Edit Security</span></li>
+    <li [ngClass]="{'disabled': !allowInfo}" (click)="confirmDelete()"><i class="material-icons v-m">delete</i><span
+        class="v-m"> Delete</span></li>
+  </ul>
+</div>
+<p-confirmDialog appendTo="body" key="confirmKey" header="Confirmation"></p-confirmDialog>
+<p-dialog appendTo="body" [(visible)]="update" [modal]="true" showEffect="fade" [style]="{ width: '800px' }" 
+  (onHide)="onModalHide()">
+  <p-header>
+    Update Document
+  </p-header>
+  <div class="ui-g">
+    <div class="ui-g-12 ui-md-12 p-0 ">
+      <form [formGroup]="docEditPropForm" class="tabled-form">
+        <div class="ui-g-6 ui-md-7 ui-sm-12 p-0 fix-h-400">
+          <div class="scrollable">
+            <table class="w-100">
+              <tbody>
+                <tr>
+                  <td>
+                    <label>Properties:</label>
+                  </td>
+                </tr>
+                <tr *ngFor="let info of docTemplateDetails.props;">
+                  <ng-container *ngIf="info.hidden === 'false' || info.hidden === 'FALSE' && fileselected">
+                    <td>
+                      <label>{{info.desc}}:<b *ngIf="info.req === 'true' || info.symName==='DocumentTitle'"
+                          style="color:red">*</b></label>
+                    </td>
+                    <td
+                      (click)="(!(excepClassNames && excepClassNames.indexOf(docTemplateDetails.name.toLowerCase())> -1)) 
+                      && (info.symName.toLowerCase()==='documentfrom' || info.symName.toLowerCase()==='documentto') 
+                      ? openListDialog(info.symName) : '' "
+                      class="input">
+                      <input id="placeholder{{info.symName}}UpdateDoc"
+                        [placeholder]="(!(excepClassNames && excepClassNames.indexOf(docTemplateDetails.name.toLowerCase())> -1)) 
+                        && (info.symName.toLowerCase()==='documentfrom' || info.symName.toLowerCase()==='documentto') ? 'Click Here To Select' :''"
+                        *ngIf="!info.lookups && info.dtype=='STRING' && info.symName!='ECMNo'" [maxlength]="info.len"
+                        [formControlName]="info.symName" class="form-control" type="text" name="{{info.symName}}"
+                        [title]="docEditPropForm.get(info.symName).value?docEditPropForm.get(info.symName).value:''"
+                        pInputText>
+                      <input *ngIf="!info.lookups && info.dtype=='STRING' && info.symName==='ECMNo'" [maxlength]="15"
+                        [formControlName]="info.symName" class="form-control" type="text" name="{{info.symName}}"
+                        [title]="docEditPropForm.get(info.symName).value?docEditPropForm.get(info.symName).value:''"
+                        pInputText>
+                      <p-calendar id="calendar" *ngIf="!info.lookups && info.dtype=='DATE'" [showIcon]="true"
+                        [formControlName]="info.symName" class="form-control" dateFormat="dd/mm/yy"
+                        [readonlyInput]="true" [appendTo]="'body'" [showButtonBar]="true" [monthNavigator]="true"
+                        [yearNavigator]="true" yearRange="1900:2030"></p-calendar>
+                      <input *ngIf="!info.lookups && info.dtype=='LONG'" [formControlName]="info.symName"
+                        class="form-control" type="number" name="{{info.symName}}"
+                        [title]="docEditPropForm.get(info.symName).value?docEditPropForm.get(info.symName).value:''"
+                        pInputText>
+                      <p-dropdown *ngIf="info.lookups" [options]="info.lookups" placeholder="Select" [filter]="true"
+                        filterBy="label,value.name" [formControlName]="info.symName" class="form-control"
+                        (click)="onClickLookup(info)" [style]="{'width':'100%'}" 
+                        [title]="docEditPropForm.get(info.symName).value?docEditPropForm.get(info.symName).value:''">
+                      </p-dropdown>
+                    </td>
+                    <td>
+                      <span class="close" *ngIf="(!(excepClassNames && excepClassNames.indexOf(docTemplateDetails.name.toLowerCase())> -1))
+                        && (info.symName.toLowerCase()==='documentfrom' || info.symName.toLowerCase()==='documentto')"
+                        (click)="clearDocToFrom(info.symName)">&times;</span>
+                    </td>
+                    <!--<td>-->
+                    <!--<button *ngIf="(docTemplateDetails.name.toLowerCase()!=='ap contracts payments') && (info.symName.toLowerCase()==='documentfrom' || info.symName.toLowerCase()==='documentto')" pButton type="button" (click)="openListDialog(info.symName);showDesignation=true;"-->
+                    <!--icon="ui-icon-view-list"></button>-->
+                    <!--</td>-->
+                  </ng-container>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ui-g-6 ui-md-5 ui-fluid ui-sm-12 p-0">
+          <table class="pull-right">
+            <tbody>
+              <tr>
+                <td>
+                  <label>Select File:</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p-fileUpload class="updateDocFileSelect" name="demo[]" (onSelect)="selectFile($event)"
+                    invalidFileTypeMessageDetail="Please select a file with valid format"
+                    invalidFileTypeMessageSummary="Unknown File Format," [accept]="allowedExtensionsString"
+                    chooseLabel="Browse" [showCancelButton]="false" [showUploadButton]="false">
+                    <ng-template pTemplate="content">
+                      <p class="fileDrop">Drop Files Here</p>
+                    </ng-template>
+                    <ng-template let-file pTemplate="file">
+                      <div class="file-text-ellipsis" *ngIf="uploadedFile" pTooltip="{{file.name}}"
+                        [tooltipStyleClass]="'tooltip'" tooltipPosition="bottom">{{file.name}}
+                        <span style="display: inline-table">
+                          <button pButton type="button" icon="ui-icon-close" title="Remove"
+                            (click)="removeSelectedFile()" class="remove-btn v-m w-30"></button>
+                        </span>
+                      </div>
+                    </ng-template>
+                  </p-fileUpload>
+                  <p *ngIf="!isFileSizeCorrect" class="error">Maximum File size allowed limit!</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+  </div>
+  <p-footer>
+    <div class="progress-bar">
+      <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+    </div>
+    <!-- <button pButton class="pull-right"
+      [disabled]="docEditPropForm.get('DocumentFrom')|| docEditPropForm.get('DocumentTo')? !(docEditPropForm.valid && (docEditPropForm.dirty || fileselected || docEditPropForm.get('DocumentFrom').value || docEditPropForm.get('DocumentTo').value )):!(docEditPropForm.valid && (docEditPropForm.dirty || fileselected)) "
+      type="button" label="Save" (click)="fileselected ? updatedAttachment() : updateEdits()"></button> -->
+    <button pButton class="pull-right" [disabled]="docEditPropForm.get('DocumentFrom') ? !(docEditPropForm.valid &&
+      (docEditPropForm.dirty || fileselected || docEditPropForm.get('DocumentFrom').value)) :
+      docEditPropForm.get('DocumentTo') ? !(docEditPropForm.valid &&
+      (docEditPropForm.dirty || fileselected || docEditPropForm.get('DocumentTo').value)) :
+      !(docEditPropForm.valid && (docEditPropForm.dirty || fileselected))" type="button" label="Save"
+      (click)="fileselected ? updatedAttachment() : updateEdits()"></button>
+    <button pButton class="pull-right" type="button" label="Cancel" (click)="cancel()"></button>
+  </p-footer>
+</p-dialog>
+<div *ngIf="showFileIn">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [resizable]="false" [(visible)]="showFileIn" [style]="{ width: '600px', height: '400px' }">
+    <p-header>
+      Add To Folder
+    </p-header>
+    <div class="fix-h-350">
+      <div class="scrollable">
+        <!--<tree [folderPermission]="folderPermission" [clearSelectedDocs]="true" [changeView]="false"></tree>-->
+        <p-tree [value]="addToFolderList" selectionMode="single" [(selection)]="selectedAddFolder"
+          (onNodeExpand)="nodeExpand($event)"></p-tree>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" pButton (click)="fileIn()" label="Add"></button>
+      <button type="button" pButton (click)="showFileIn=false" label="Cancel"></button>
+    </p-footer>
+  </p-dialog>
+</div>
+<div *ngIf="showMove">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [resizable]="false" (onHide)="hideTree();"
+    [(visible)]="showMove" [style]="{ width: '600px', height: '400px' }">
+    <p-header>
+      Move To Folder
+    </p-header>
+    <div class="fix-h-350">
+      <div class="scrollable">
+        <p-tree [value]="moveToList" selectionMode="single" [(selection)]="selectedMoveToFolder"
+          (onNodeExpand)="nodeExpand($event)"></p-tree>
+      </div>
+    </div>
+    <!--<div *ngIf="!(router.url.includes('browse'))" class="fix-h-350">-->
+    <!--<div class="scrollable">-->
+    <!--<tree [folderPermission]="folderPermission" [clearSelectedDocs]="true" [changeView]="false"></tree>-->
+    <!--</div>-->
+    <!--</div>-->
+    <p-footer>
+      <button type="button" [disabled]="!selectedMoveToFolder" pButton (click)="moveToFolder()" label="Move"></button>
+      <button type="button" pButton (click)="showMove=false" label="Cancel"></button>
+    </p-footer>
+  </p-dialog>
+</div>
+<div *ngIf="showRemove">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [resizable]="false" [(visible)]="showRemove" [style]="{ width: '600px', height: '400px' }">
+    <p-header>
+      Select Folder
+    </p-header>
+    <div class="fix-h-350">
+      <div class="scrollable">
+        <ng-container *ngIf="removeFolderList">
+          <p-tree *ngIf="removeFolderList.length>=1" [value]="removeFolderList" disabled="true" selectionMode="checkbox"
+            [(selection)]="selectedRemoveFolder" (onNodeSelect)="onNodeSelectRemove($event)"></p-tree>
+
+          <p class="text-align-center" *ngIf="removeFolderList.length===0">The selected document is not filed in any
+            folder</p>
+        </ng-container>
+        <!--<ng-template *ngIf="removeFolderList">-->
+        <!--<span *ngIf="removeFolderList.length==1"> Remove is not allowed since it is placed in only one folder</span>-->
+        <!--</ng-template>-->
+      </div>
+    </div>
+    <p-footer *ngIf="removeFolderList">
+      <span class="pull-left p-t-md" style="color: red;" *ngIf="removeFolderList.length===1">
+        Remove is not allowed since the document is placed in only one folder
+      </span>
+      <span class="pull-left p-t-md" style="color: red;"
+        *ngIf="(selectedRemoveFolder && removeFolderList && selectedRemoveFolder.length == removeFolderList.length)">
+        Remove is not allowed from all folders
+      </span>
+      <!--<span class="pull-left p-t-md" style="color: red;" *ngIf="isRemoveDisable">-->
+      <!--User dont have permission to remove from this folder-->
+      <!--</span>-->
+      <button
+        title="{{ removeFolderList.length==1 ? 'Remove is not allowed since the document is placed in only one folder' : ''}}"
+        [disabled]="isRemoveDisable && removeFolderList.length==1 || !(selectedRemoveFolder && removeFolderList && selectedRemoveFolder.length < removeFolderList.length && selectedRemoveFolder.length>0) "
+        type="button" pButton (click)="removeFromFolderConfirm()" label="Remove"></button>
+      <button type="button" pButton (click)="showRemove=false" label="Cancel"></button>
+    </p-footer>
+  </p-dialog>
+</div>
+<div *ngIf="showMoveFrom">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [resizable]="false" (onHide)="hideTree();"
+    [(visible)]="showMoveFrom"  [style]="{ width: '600px', height: '400px' }">
+    <p-header>
+      Select Folder From Which Document Should Be Moved
+    </p-header>
+    <div class="fix-h-350">
+      <div class="scrollable">
+        <p-tree [value]="moveFolderList" selectionMode="single" [(selection)]="selectedMoveFromFolder"></p-tree>
+      </div>
+    </div>
+    <p-footer *ngIf="moveFolderList">
+      <button
+        [disabled]="!selectedMoveFromFolder" type="button" pButton
+        (click)="showMoveFrom=false;showMove=true;selectFolderMove()" label="Select"></button>
+      <button type="button" pButton (click)="showMoveFrom=false" label="Cancel"></button>
+    </p-footer>
+  </p-dialog>
+</div>
+<p-dialog header="Modify Security Permission {{selectedPolicy.name}}" [style]="{width:'700px'}" [modal]="true" showEffect="fade"
+  appendTo="body" [(visible)]="showPermissionDialogue" (onHide)="closeEditSecurity();isButtonSaveDisabled=true;"
+  (onShow)="openEditSecurityPopUp()">
+  <app-edit-ap-permission [selectedPolicy]="selectedPolicy" [newPermissions]="newPermissions" (isSaveDisabled)="isSaveButtonDisabled($event)"
+    (addNP)="addNewPermission()" (addP)="addPermission($event)" (getGS)="getGranteesSuggestion($event)"
+    (pc)="permissionChanged($event)" [isFullAccess]="isFullAccess" (removeNP)="removeNewPermission($event)"
+    (removeP)="removePermission($event)" (accessTC)="accessTypeChanged($event)"></app-edit-ap-permission>
+  <p-footer>
+    <button type="button" [disabled]="isButtonSaveDisabled" pButton (click)="savePermissions()" label="Save"></button>
+    <button type="button" pButton (click)="showPermissionDialogue=false" label="Cancel"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showDesignation" [style]="{ width: '550px', height: '550px' }">
+  <p-header> Select {{docToOrFrom}}</p-header>
+  <div class="ui-g-12 ui-md-12">
+    <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+      <!-- global filter -->
+      <div class="ui-g">
+        <div class="ui-g-10 p-0">
+          <table>
+            <tr>
+              <td><i class="fa fa-search v-m m-r-md"></i></td>
+              <td>
+                <input #gb type="text" pInputText size="50" placeholder="Search Designation" style="color: #ffffff"
+                  class="v-m p-0">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  <p-table [style]="{'max-height':'450px','min-height':'450px'}" selectionMode="single" #dt 
+      [value]="designation" [lazy]="false" [rows]="10" [paginator]="true"
+      (onRowClick)="onSelectionChange($event,docToOrFrom);showDesignation=false" [totalRecords]="totalRecords"
+      [responsive]="true" (onLazyLoad)="loadLazy($event,dt)" [selection]="selectedDesignation"
+      >
+      <!-- <p-column field="value" header=""></p-column> -->
+    </p-table>
+  </div>
+</p-dialog>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

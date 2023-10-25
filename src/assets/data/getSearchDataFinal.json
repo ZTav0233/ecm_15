@@ -1,0 +1,2213 @@
+{
+    "continueData": "bnVsbA==",
+    "row": [
+        {
+            "id": "{D05E5D77-0000-C42F-83D3-6ABDD6B7BE70}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "01/02/2021 02:33 PM",
+            "modOn": "01/02/2021 02:33 PM",
+            "format": "application/octet-stream",
+            "fileName": "Offer Letter Request Number (2021-0209)",
+            "docclass": "",
+            "entryTemplate": "{30EF8976-0000-C11E-97C0-8A4C34E986F8}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Offer Letter Request Number (2021-0209)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210201-5"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{708D1A78-0000-CB10-BDB4-623189109AE4}",
+            "creator": "MAlTabel",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "10/03/2021 08:13 AM",
+            "modOn": "10/03/2021 01:17 PM",
+            "format": "application/pdf",
+            "fileName": "Bader Adjustment Order No. 02 - to - Contract No_ 14050627 Hire of Big Sundry Vehicles & Provision of Drivers, 3549605 9.1.6",
+            "docclass": "",
+            "entryTemplate": "{A03F3F6A-0000-C01B-AEF8-260FC7092F0A}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Bader Adjustment Order No. 02 - to - Contract No_ 14050627 Hire of Big Sundry Vehicles & Provision of Drivers, 3549605 9.1.6"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210310-1"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "10/03/2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "TK31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{70523578-0000-C81D-A36D-1F9183373D3A}",
+            "creator": "MAlTabel",
+            "modifier": "MAlTabel",
+            "addOn": "15/03/2021 12:57 PM",
+            "modOn": "15/03/2021 12:58 PM",
+            "format": "application/pdf",
+            "fileName": "BBBBBBBBBBBBBBBader",
+            "docclass": "",
+            "entryTemplate": "{A03F3F6A-0000-C01B-AEF8-260FC7092F0A}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "BBBBBBBBBBBBBBBader"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210315-6"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "15/03/2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AA11"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{D03C5E78-0000-C41E-9D80-CB0249C2B637}",
+            "creator": "ECMQA1",
+            "modifier": "ECMQA1",
+            "addOn": "23/03/2021 11:39 AM",
+            "modOn": "23/03/2021 11:40 AM",
+            "format": "application/pdf",
+            "fileName": "ECMQA2_TestDoc3",
+            "docclass": "",
+            "entryTemplate": "{A03F3F6A-0000-C01B-AEF8-260FC7092F0A}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "ECMQA2_TestDoc3"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210124-240"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "TK21"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{20A13D77-0200-C82E-84E6-BF721B5A51D0}",
+            "creator": "ECMQA3",
+            "modifier": "AVannadil",
+            "addOn": "24/01/2021 08:50 AM",
+            "modOn": "23/03/2021 10:30 AM",
+            "format": "application/pdf",
+            "fileName": "ECMQA2_TestDoc1",
+            "docclass": "",
+            "entryTemplate": "{A03F3F6A-0000-C01B-AEF8-260FC7092F0A}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "ECMQA2_TestDoc1"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210124-238"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "01/03/2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "TK21"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{706F3578-0000-CE1E-B6EE-91819849217D}",
+            "creator": "AVannadil",
+            "modifier": "AVannadil",
+            "addOn": "15/03/2021 01:29 PM",
+            "modOn": "15/03/2021 01:29 PM",
+            "format": "application/pdf",
+            "fileName": "PDF_Initial_2021",
+            "docclass": "",
+            "entryTemplate": "{A03F3F6A-0000-C01B-AEF8-260FC7092F0A}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "PDF_Initial_2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210121-200"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "23/01/2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "TK31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{408E1A78-0000-C91C-9D13-46FC8CF2EA04}",
+            "creator": "MAlTabel",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "10/03/2021 08:13 AM",
+            "modOn": "10/03/2021 01:17 PM",
+            "format": "application/pdf",
+            "fileName": "Bader Adjustment Order Request (Cont) - Contract 40461, 3504175 9.1.6",
+            "docclass": "",
+            "entryTemplate": "{A03F3F6A-0000-C01B-AEF8-260FC7092F0A}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Bader Adjustment Order Request (Cont) - Contract 40461, 3504175 9.1.6"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210310-2"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "10/03/2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "TK31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{50396378-0000-CC19-88D9-B75A2E078370}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "24/03/2021 10:53 AM",
+            "modOn": "24/03/2021 10:53 AM",
+            "format": "application/octet-stream",
+            "fileName": "UnderTaken Statement Request Number (00059-2021)",
+            "docclass": "",
+            "entryTemplate": "{D08E3870-0000-C517-A78E-2E157FE605F6}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "UnderTaken Statement Request Number (00059-2021)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210324-10"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "13/04/2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AA81"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{10176277-0000-C213-BF9E-59EB37F981BB}",
+            "creator": "FTanbouz",
+            "modifier": "FTanbouz",
+            "addOn": "02/02/2021 12:33 PM",
+            "modOn": "04/02/2021 01:41 PM",
+            "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "fileName": "ECM SAMPLE DOC_Feb2021",
+            "docclass": "",
+            "entryTemplate": "{A0D8486A-0000-CE15-B504-0C58324FC8CC}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "ECM SAMPLE DOC_Feb2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210202-9"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "02/02/2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "TK31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{40705777-0000-CB19-BF0D-BD698042170C}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "31/01/2021 10:55 AM",
+            "modOn": "31/01/2021 10:55 AM",
+            "format": "application/octet-stream",
+            "fileName": "Transfer Advice Request Number (2021-0194)",
+            "docclass": "",
+            "entryTemplate": "{30EF8976-0000-C11E-97C0-8A4C34E986F8}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Transfer Advice Request Number (2021-0194)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210131-5"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{50794977-0000-C916-9170-FAC050719D70}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "28/01/2021 05:50 PM",
+            "modOn": "28/01/2021 05:50 PM",
+            "format": "application/octet-stream",
+            "fileName": "Transfer Advice Request Number (2021-0187)",
+            "docclass": "",
+            "entryTemplate": "{30EF8976-0000-C11E-97C0-8A4C34E986F8}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Transfer Advice Request Number (2021-0187)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210128-6"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{00901A78-0000-C51D-8AB8-075BE436B2A9}",
+            "creator": "MAlTabel",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "10/03/2021 08:15 AM",
+            "modOn": "10/03/2021 01:17 PM",
+            "format": "application/pdf",
+            "fileName": "Bader HANDRAIL BONDING FOR LIGHTNING PROTECTION, OTS NK D 9.1.6",
+            "docclass": "",
+            "entryTemplate": "{A03F3F6A-0000-C01B-AEF8-260FC7092F0A}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Bader HANDRAIL BONDING FOR LIGHTNING PROTECTION, OTS NK D 9.1.6"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210310-6"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "10/03/2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "TK31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{A016F277-0000-C117-B4F7-D8BAD5ADDAB0}",
+            "creator": "ECMQA1",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "02/03/2021 11:38 AM",
+            "modOn": "02/03/2021 11:39 AM",
+            "format": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "fileName": "TEST_DOC_ECMQA1_02032021",
+            "docclass": "",
+            "entryTemplate": "{A03F3F6A-0000-C01B-AEF8-260FC7092F0A}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "TEST_DOC_ECMQA1_02032021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210302-377"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "02/03/2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "TK31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{30A86177-0000-C542-AA31-6E1C1FD05602}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "02/02/2021 10:32 AM",
+            "modOn": "02/02/2021 10:32 AM",
+            "format": "application/octet-stream",
+            "fileName": "Offer Letter Request Number (2021-0212)",
+            "docclass": "",
+            "entryTemplate": "{30EF8976-0000-C11E-97C0-8A4C34E986F8}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Offer Letter Request Number (2021-0212)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210202-4"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{10014477-0000-CB47-A507-25F20C2FFB7C}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "27/01/2021 04:20 PM",
+            "modOn": "27/01/2021 04:20 PM",
+            "format": "application/octet-stream",
+            "fileName": "Offer Letter Request Number (2021-0155)",
+            "docclass": "",
+            "entryTemplate": "{30EF8976-0000-C11E-97C0-8A4C34E986F8}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Offer Letter Request Number (2021-0155)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210127-5"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{F0146378-0000-C718-B65B-7C64AD3D3AC7}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "24/03/2021 10:13 AM",
+            "modOn": "24/03/2021 10:13 AM",
+            "format": "application/pdf",
+            "fileName": "Transfer Advice Request Number (2021-0332)",
+            "docclass": "",
+            "entryTemplate": "{20B55378-0000-C919-A5F0-84F989D1F3F4}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Transfer Advice Request Number (2021-0332)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210324-3"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{B08E1A78-0000-CD10-80AF-202E0575491D}",
+            "creator": "MAlTabel",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "10/03/2021 08:14 AM",
+            "modOn": "10/03/2021 01:17 PM",
+            "format": "application/pdf",
+            "fileName": "Bader Admin and Finance Balanced Scorecard 2016_2017, 3450269 9.1.6",
+            "docclass": "",
+            "entryTemplate": "{A03F3F6A-0000-C01B-AEF8-260FC7092F0A}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Bader Admin and Finance Balanced Scorecard 2016_2017, 3450269 9.1.6"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210310-3"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "10/03/2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "TK31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{505B5478-0000-C74E-A409-EDBB95F47911}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "21/03/2021 01:36 PM",
+            "modOn": "21/03/2021 01:36 PM",
+            "format": "application/octet-stream",
+            "fileName": "Offer Letter Request Number (2021-0302)",
+            "docclass": "",
+            "entryTemplate": "{30EF8976-0000-C11E-97C0-8A4C34E986F8}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Offer Letter Request Number (2021-0302)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210321-6"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{505B5478-0000-C01D-A88B-5F000C803F27}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "21/03/2021 01:36 PM",
+            "modOn": "21/03/2021 01:36 PM",
+            "format": "application/octet-stream",
+            "fileName": "Transfer Advice Request Number (2021-0302)",
+            "docclass": "",
+            "entryTemplate": "{30EF8976-0000-C11E-97C0-8A4C34E986F8}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Transfer Advice Request Number (2021-0302)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210321-5"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{F0304477-0000-CC1B-8955-C82666402ECD}",
+            "creator": "ECMQA1",
+            "modifier": "ECMQA1",
+            "addOn": "27/01/2021 05:13 PM",
+            "modOn": "27/01/2021 05:17 PM",
+            "format": "application/pdf",
+            "fileName": "1_TEST_CORRES_DOC_29122019",
+            "docclass": "",
+            "entryTemplate": "{A03F3F6A-0000-C01B-AEF8-260FC7092F0A}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "1_TEST_CORRES_DOC_29122019"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "191229-33"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "12/05/2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "TK31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{20BBFB77-0000-C924-8A51-E0C194B1D050}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "04/03/2021 08:34 AM",
+            "modOn": "04/03/2021 08:34 AM",
+            "format": "application/octet-stream",
+            "fileName": "Offer Letter Request Number (2021-0287)",
+            "docclass": "",
+            "entryTemplate": "{30EF8976-0000-C11E-97C0-8A4C34E986F8}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Offer Letter Request Number (2021-0287)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210304-2"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{309F6277-0000-C820-B329-063DF50AFD65}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "02/02/2021 03:02 PM",
+            "modOn": "02/02/2021 03:02 PM",
+            "format": "application/octet-stream",
+            "fileName": "Offer Letter Request Number (2021-0213)",
+            "docclass": "",
+            "entryTemplate": "{30EF8976-0000-C11E-97C0-8A4C34E986F8}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Offer Letter Request Number (2021-0213)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210202-13"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{40EA7778-0000-C414-953C-46EF4E5B7209}",
+            "creator": "AVannadil",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "28/03/2021 11:19 AM",
+            "modOn": "28/03/2021 11:19 AM",
+            "format": "application/pdf",
+            "fileName": "SYNLAB28",
+            "docclass": "",
+            "entryTemplate": "{C04E3F6A-0000-CA12-B616-EB4F4348DE3F}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "SYNLAB28"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210328-4"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "23/06/2020"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "TK31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{D0928678-0000-C911-8400-82D88F791C40}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "31/03/2021 07:37 AM",
+            "modOn": "31/03/2021 07:37 AM",
+            "format": "application/pdf",
+            "fileName": "Offer Letter Request Number (2021-0365)",
+            "docclass": "",
+            "entryTemplate": "{20B55378-0000-C919-A5F0-84F989D1F3F4}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Offer Letter Request Number (2021-0365)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210331-1"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{C0396978-0000-C214-ACA2-DB8B4F0C6AB6}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "25/03/2021 02:51 PM",
+            "modOn": "25/03/2021 02:51 PM",
+            "format": "application/pdf",
+            "fileName": "Offer Letter Request Number (2021-0346)",
+            "docclass": "",
+            "entryTemplate": "{20B55378-0000-C919-A5F0-84F989D1F3F4}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Offer Letter Request Number (2021-0346)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210325-3"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{601D6878-0000-C21D-B394-6336AA50911E}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "25/03/2021 09:41 AM",
+            "modOn": "25/03/2021 09:41 AM",
+            "format": "application/octet-stream",
+            "fileName": "UnderTaken Statement Request Number (00067-2021)",
+            "docclass": "",
+            "entryTemplate": "{D08E3870-0000-C517-A78E-2E157FE605F6}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "UnderTaken Statement Request Number (00067-2021)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210325-1"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "17/03/2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AA81"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{70F87778-0000-C315-B731-E7A2B42B8E21}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "28/03/2021 11:34 AM",
+            "modOn": "28/03/2021 11:34 AM",
+            "format": "application/pdf",
+            "fileName": "Offer Letter Request Number (2021-0354)",
+            "docclass": "",
+            "entryTemplate": "{20B55378-0000-C919-A5F0-84F989D1F3F4}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Offer Letter Request Number (2021-0354)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210328-5"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{C0928678-0000-C71E-B6AC-F25E6DCDF0A8}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "31/03/2021 07:37 AM",
+            "modOn": "31/03/2021 07:37 AM",
+            "format": "application/pdf",
+            "fileName": "Transfer Advice Request Number (2021-0365)",
+            "docclass": "",
+            "entryTemplate": "{20B55378-0000-C919-A5F0-84F989D1F3F4}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Transfer Advice Request Number (2021-0365)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210331-49"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{50837C78-0000-C51F-A5FC-E2BD10EE7A3B}",
+            "creator": "TRaouf",
+            "modifier": "p8devadmin",
+            "addOn": "29/03/2021 08:44 AM",
+            "modOn": "29/03/2021 09:49 AM",
+            "format": "application/pdf",
+            "fileName": "Ahmadi Hospital Clearance Memo[80529]",
+            "docclass": "",
+            "entryTemplate": "",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Ahmadi Hospital Clearance Memo[80529]"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "29/03/2021"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "PJ51"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{70556378-0000-CF47-8542-96F2F8CBB1CF}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "24/03/2021 11:24 AM",
+            "modOn": "24/03/2021 11:24 AM",
+            "format": "application/pdf",
+            "fileName": "Offer Letter Request Number (2021-0334)",
+            "docclass": "",
+            "entryTemplate": "{20B55378-0000-C919-A5F0-84F989D1F3F4}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Offer Letter Request Number (2021-0334)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210324-12"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{B0396978-0000-C816-A967-6629F39F97F7}",
+            "creator": "ECMTCEAdmin",
+            "modifier": "ECMTCEAdmin",
+            "addOn": "25/03/2021 02:51 PM",
+            "modOn": "25/03/2021 02:51 PM",
+            "format": "application/pdf",
+            "fileName": "Transfer Advice Request Number (2021-0346)",
+            "docclass": "",
+            "entryTemplate": "{20B55378-0000-C919-A5F0-84F989D1F3F4}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "Transfer Advice Request Number (2021-0346)"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "210325-2"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        ""
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "AT31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        },
+        {
+            "id": "{00825A6F-0000-C915-B76C-58B565A41A76}",
+            "creator": "ECMTDCAdmin",
+            "modifier": "ECMTDCAdmin",
+            "addOn": "31/12/2019 08:51 AM",
+            "modOn": "31/12/2019 08:51 AM",
+            "format": "application/pdf",
+            "fileName": "title",
+            "docclass": "",
+            "entryTemplate": "{40A2FE5D-0000-C716-8F66-737FCEE4B5D4}",
+            "props": [
+                {
+                    "name": "DocumentTitle",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "title"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "ECMNo",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "191231-2"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "DocumentDate",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "31/12/2019"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                },
+                {
+                    "name": "OrgCode",
+                    "dtype": "STRING",
+                    "mvalues": [
+                        "TK31"
+                    ],
+                    "mtype": "N",
+                    "len": 64,
+                    "rOnly": "false",
+                    "hidden": "false",
+                    "req": "false",
+                    "ltype": 0,
+                    "lkpId": 0
+                }
+            ]
+        }
+    ],
+    "totalResults": 32,
+    "message": "Next Page"
+}

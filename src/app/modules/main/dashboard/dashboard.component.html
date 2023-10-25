@@ -1,0 +1,544 @@
+<div class="ui-g">
+  <div class="ui-g-12 p-0">
+    <button role="button" class="pull-right" pButton type="button" label="GoTo Inbox"
+      (click)="goToInbox(false)"></button>
+  </div>
+  <div class="ui-g-12 p-0">
+    <mat-tab-group (selectedTabChange)="tabChange($event.tab.textLabel,selectedTabIndex)"
+      [(selectedIndex)]="selectedTabIndex" [@.disabled]="true">
+      <mat-tab label="{{currentUser.fulName}}">
+        <div class="ui-g dashboard" *ngIf="dashboardStatistics[currentUser.EmpNo]">
+          <div class="ui-g-12 ui-lg-4 p-l-0">
+            <div class="task-box task-box-1 chart-card">
+              <div class="task-box-header">
+                <h4 style="color: white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].today.all.active">
+                  Today: (All)
+                  <span style="float: right;">{{dashboardStatistics[currentUser.EmpNo].today.all.total}}
+                    Workitems</span>
+                </h4>
+                <h4 style="color: white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].today.to.active">
+                  Today: (To)
+                  <span style="float: right;">{{dashboardStatistics[currentUser.EmpNo].today.to.total}} Workitems</span>
+                </h4>
+                <h4 style="color: white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].today.cc.active">
+                  Today: (CC)
+                  <span style="float: right;">{{dashboardStatistics[currentUser.EmpNo].today.cc.total}} Workitems</span>
+                </h4>
+              </div>
+              <div class="task-box-content">
+                <ng-container *ngIf="dashboardStatistics[currentUser.EmpNo].today.all.total>0">
+                  <canvas *ngIf="dashboardStatistics[currentUser.EmpNo].today.all.active" baseChart
+                    [type]="'pie'" [datasets]="dashboardStatistics[currentUser.EmpNo].today.all.chartData"
+                    [labels]="chartLabels" [options]="chartOptions"  
+                    (chartClick)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'Today','')">
+                  </canvas>
+                </ng-container>
+                <ng-container *ngIf="dashboardStatistics[currentUser.EmpNo].today.to.total>0">
+                  <canvas *ngIf="dashboardStatistics[currentUser.EmpNo].today.to.active" baseChart
+                    [type]="'pie'" [datasets]="dashboardStatistics[currentUser.EmpNo].today.to.chartData"
+                    [labels]="chartLabels" [options]="chartOptions"  
+                    (chartClick)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'Today','TO')">
+                  </canvas>
+                </ng-container>
+                <ng-container *ngIf="dashboardStatistics[currentUser.EmpNo].today.cc.total>0">
+                  <canvas *ngIf="dashboardStatistics[currentUser.EmpNo].today.cc.active" baseChart
+                    [type]="'pie'" [datasets]="dashboardStatistics[currentUser.EmpNo].today.cc.chartData"
+                    [labels]="chartLabels" [options]="chartOptions"  
+                    (chartClick)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'Today','CC')">
+                  </canvas>
+                </ng-container>
+              </div>
+              <div class="task-box-footer">
+                <div class="pull-right">
+                  <p-selectButton [options]="types"
+                    (click)="changeActiveView(dashboardStatistics[currentUser.EmpNo].today.selectedType,currentUser.EmpNo,'today')"
+                    [(ngModel)]="dashboardStatistics[currentUser.EmpNo].today.selectedType"></p-selectButton>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-lg-4">
+            <div class="task-box task-box-2 chart-card">
+              <div class="task-box-header">
+                <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].total.all.active">
+                  Total: (All)
+                  <span style="float: right;">{{dashboardStatistics[currentUser.EmpNo].total.all.total}}
+                    Workitems</span>
+                </h4>
+                <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].total.to.active">
+                  Total: (To)
+                  <span style="float: right;">{{dashboardStatistics[currentUser.EmpNo].total.to.total}} Workitems</span>
+                </h4>
+                <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].total.cc.active">
+                  Total: (CC)
+                  <span style="float: right;">{{dashboardStatistics[currentUser.EmpNo].total.cc.total}} Workitems</span>
+                </h4>
+              </div>
+              <div class="task-box-content">
+                <ng-container *ngIf="dashboardStatistics[currentUser.EmpNo].total.all.total>0">
+                  <canvas *ngIf="dashboardStatistics[currentUser.EmpNo].total.all.active" baseChart
+                    [type]="'pie'" [datasets]="dashboardStatistics[currentUser.EmpNo].total.all.chartData"
+                    [labels]="chartLabels" [options]="chartOptions"  
+                    (chartClick)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'Total','')">
+                  </canvas>
+                </ng-container>
+                <ng-container *ngIf="dashboardStatistics[currentUser.EmpNo].total.to.total>0">
+                  <canvas *ngIf="dashboardStatistics[currentUser.EmpNo].total.to.active" baseChart
+                    [type]="'pie'" [datasets]="dashboardStatistics[currentUser.EmpNo].total.to.chartData"
+                    [labels]="chartLabels" [options]="chartOptions"  
+                    (chartClick)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'Total','TO')">
+                  </canvas>
+                </ng-container>
+                <ng-container *ngIf="dashboardStatistics[currentUser.EmpNo].total.cc.total>0">
+                  <canvas *ngIf="dashboardStatistics[currentUser.EmpNo].total.cc.active" baseChart
+                    [type]="'pie'" [datasets]="dashboardStatistics[currentUser.EmpNo].total.cc.chartData"
+                    [labels]="chartLabels" [options]="chartOptions"  
+                    (chartClick)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'Total','CC')">
+                  </canvas>
+                </ng-container>
+              </div>
+              <div class="task-box-footer">
+                <div class="pull-right">
+                  <p-selectButton [options]="types"
+                    (click)="changeActiveView(dashboardStatistics[currentUser.EmpNo].total.selectedType,currentUser.EmpNo,'total')"
+                    [(ngModel)]="dashboardStatistics[currentUser.EmpNo].total.selectedType"></p-selectButton>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-lg-4 p-r-0">
+            <div class="task-box task-box-3 chart-card">
+              <div class="task-box-header">
+                <!--<h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].overDue.active">Workitems Over Due: <span style="float: right;">-->
+                <!--{{dashboardStatistics[this.currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].overDue.total}} Workitems</span>-->
+                <!--</h4>-->
+                <!--<h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].dueToday.active">Workitems Due Today: <span style="float: right;">-->
+                <!--{{dashboardStatistics[this.currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].dueToday.total}} Workitems</span>-->
+                <!--</h4>-->
+                <h4 style="color:white" class="m-0">Workitems Due Today & Overdue</h4>
+              </div>
+              <div class="task-box-content">
+                <!--<ng-container *ngIf="dashboardStatistics[this.currentUser.EmpNo].deadline.all.total>0">-->
+                <!--<p-chart type="pie" [datasets]="dashboardStatistics[this.currentUser.EmpNo].deadline.all.chartData" role="button" (onDataSelect)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'deadline','')"></p-chart>-->
+                <!--</ng-container>-->
+                <ng-container
+                  *ngIf="dashboardStatistics[this.currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].overDue.total>0">
+                  <canvas
+                    *ngIf="dashboardStatistics[this.currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].overDue.active"
+                    baseChart [type]="'pie'"
+                    [datasets]="dashboardStatistics[this.currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].overDue.chartData"
+                    [labels]="dueChartLabels" [options]="chartOptions"   
+                    (chartClick)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'deadline','overDue',dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType)">
+                  </canvas>
+                </ng-container>
+                <ng-container
+                  *ngIf="dashboardStatistics[this.currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].dueToday.total>0">
+                  <canvas
+                    *ngIf="dashboardStatistics[this.currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].dueToday.active"
+                    baseChart [type]="'pie'"
+                    [datasets]="dashboardStatistics[this.currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].dueToday.chartData"
+                    [labels]="dueChartLabels" [options]="chartOptions"   
+                    (chartClick)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'deadline','dueToday',dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType)">
+                  </canvas>
+                </ng-container>
+              </div>
+              <div class="task-box-footer">
+                <!--<div class="row" style="min-height:35px;">-->
+                <!--</div>-->
+                <div class="pull-left">
+                  <p-selectButton [options]="dueWorkitemTypes"
+                    (click)="changeActiveWorkitemView(dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType,this.currentUser.EmpNo)"
+                    [(ngModel)]="dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType">
+                  </p-selectButton>
+                </div>
+                <div class="pull-right">
+                  <p-selectButton [options]="dueTypes"
+                    (click)="changeActiveView(dashboardStatistics[this.currentUser.EmpNo].deadline.selectedType,this.currentUser.EmpNo,'deadline',dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType)"
+                    [(ngModel)]="dashboardStatistics[this.currentUser.EmpNo].deadline.selectedType"></p-selectButton>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-lg-12 messages p-l-0">
+            <p-panel header="Announcements" styleClass="max-h-228">
+              <ul>
+                <li *ngFor="let news of newsItems;">
+                  <div>
+                    <div class="overview-box-icon">
+                      <i class="material-icons">notifications</i>
+                    </div>
+                    <div>
+                      <span class="name">{{news.subject}}</span>
+                      <span class="announcement-msg" [innerHTML]="news.message | safeHtml"></span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </p-panel>
+          </div>
+        </div>
+      </mat-tab>
+      <ng-container *ngIf="currentUser.roles !== undefined">
+        <ng-container *ngIf="currentUser.roles.length > 0">
+          <ng-container *ngFor="let role of currentUser.roles;">
+            <mat-tab label="{{role.name}}">
+              <ng-template mat-tab-label>
+                <i *ngIf="role.status==='INACTIVE'" class="material-icons">flash_off</i>{{role.name}}
+              </ng-template>
+              <div class="ui-g dashboard" *ngIf="dashboardStatistics[role.id]">
+                <div class="ui-g-12 ui-lg-4 p-l-0">
+                  <div class="task-box task-box-1 chart-card">
+                    <div class="task-box-header">
+                      <h4 style="color: white;" class="m-0" *ngIf="dashboardStatistics[role.id].today.all.active">Today:
+                        (All) <span style="float: right;">{{dashboardStatistics[role.id].today.all.total}}
+                          Workitems</span></h4>
+                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role.id].today.to.active">Today:
+                        (To) <span style="float: right;">{{dashboardStatistics[role.id].today.to.total}}
+                          Workitems</span></h4>
+                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role.id].today.cc.active">Today:
+                        (CC) <span style="float: right;">{{dashboardStatistics[role.id].today.cc.total}}
+                          Workitems</span></h4>
+                    </div>
+                    <div class="task-box-content">
+                      <ng-container *ngIf="dashboardStatistics[role.id].today.all.total>0">
+                        <canvas *ngIf="dashboardStatistics[role.id].today.all.active" baseChart [type]="'pie'"
+                          [datasets]="dashboardStatistics[role.id].today.all.chartData" [labels]="chartLabels"
+                          [options]="chartOptions"  
+                          (chartClick)="onSelect($event,'Role',role.name,role.id,'Today','')">
+                        </canvas>
+                      </ng-container>
+                      <ng-container *ngIf="dashboardStatistics[role.id].today.to.total>0">
+                        <canvas *ngIf="dashboardStatistics[role.id].today.to.active" baseChart [type]="'pie'"
+                          [datasets]="dashboardStatistics[role.id].today.to.chartData" [labels]="chartLabels"
+                          [options]="chartOptions"  
+                          (chartClick)="onSelect($event,'Role',role.name,role.id,'Today','TO')">
+                        </canvas>
+                      </ng-container>
+                      <ng-container *ngIf="dashboardStatistics[role.id].today.cc.total>0">
+                        <canvas *ngIf="dashboardStatistics[role.id].today.cc.active" baseChart [type]="'pie'"
+                          [datasets]="dashboardStatistics[role.id].today.cc.chartData" [labels]="chartLabels"
+                          [options]="chartOptions"  
+                          (chartClick)="onSelect($event,'Role',role.name,role.id,'Today','CC')">
+                        </canvas>
+                      </ng-container>
+                    </div>
+                    <div class="task-box-footer">
+                      <div class="pull-right">
+                        <p-selectButton [options]="types"
+                          (click)="changeActiveView(dashboardStatistics[role.id].today.selectedType,role.id,'today')"
+                          [(ngModel)]="dashboardStatistics[role.id].today.selectedType"></p-selectButton>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-lg-4">
+                  <div class="task-box task-box-2 chart-card">
+                    <div class="task-box-header">
+                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role.id].total.all.active">Total:
+                        (All) <span style="float: right;">{{dashboardStatistics[role.id].total.all.total}}
+                          Workitems</span></h4>
+                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role.id].total.to.active">Total:
+                        (To) <span style="float: right;">{{dashboardStatistics[role.id].total.to.total}}
+                          Workitems</span></h4>
+                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role.id].total.cc.active">Total:
+                        (CC) <span style="float: right;">{{dashboardStatistics[role.id].total.cc.total}}
+                          Workitems</span></h4>
+                    </div>
+                    <div class="task-box-content">
+                      <ng-container *ngIf="dashboardStatistics[role.id].total.all.total>0">
+                        <canvas *ngIf="dashboardStatistics[role.id].total.all.active" baseChart [type]="'pie'"
+                          [datasets]="dashboardStatistics[role.id].total.all.chartData" [labels]="chartLabels"
+                          [options]="chartOptions"  
+                          (chartClick)="onSelect($event,'Role',role.name,role.id,'Total','')">
+                        </canvas>
+                      </ng-container>
+                      <ng-container *ngIf="dashboardStatistics[role.id].total.to.total>0">
+                        <canvas *ngIf="dashboardStatistics[role.id].total.to.active" baseChart [type]="'pie'"
+                          [datasets]="dashboardStatistics[role.id].total.to.chartData" [labels]="chartLabels"
+                          [options]="chartOptions"  
+                          (chartClick)="onSelect($event,'Role',role.name,role.id,'Total','TO')">
+                        </canvas>
+                      </ng-container>
+                      <ng-container *ngIf="dashboardStatistics[role.id].total.cc.total>0">
+                        <canvas *ngIf="dashboardStatistics[role.id].total.cc.active" baseChart [type]="'pie'"
+                          [datasets]="dashboardStatistics[role.id].total.cc.chartData" [labels]="chartLabels"
+                          [options]="chartOptions"  
+                          (chartClick)="onSelect($event,'Role',role.name,role.id,'Total','CC')">
+                        </canvas>
+                      </ng-container>
+                    </div>
+                    <div class="task-box-footer">
+                      <div class="pull-right">
+                        <p-selectButton [options]="types"
+                          (click)="changeActiveView(dashboardStatistics[role.id].total.selectedType,role.id,'total')"
+                          [(ngModel)]="dashboardStatistics[role.id].total.selectedType"></p-selectButton>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-lg-4 p-r-0">
+                  <div class="task-box task-box-3 chart-card">
+                    <div class="task-box-header">
+                      <!--<h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].overDue.active" >Workitems Over Due: <span style="float: right;">-->
+                      <!--{{dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].overDue.total}} Workitems</span>-->
+                      <!--</h4>-->
+                      <!--<h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].dueToday.active" >Workitems Due Today: <span style="float: right;">-->
+                      <!--{{dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].dueToday.total}} Workitems</span>-->
+                      <!--</h4>-->
+                      <h4 style="color:white" class="m-0">Workitems Due Today & Overdue</h4>
+                    </div>
+                    <div class="task-box-content">
+                      <!--<ng-container *ngIf="dashboardStatistics[role.id].deadline.all.total>0">-->
+                      <!--<p-chart type="pie" [datasets]="dashboardStatistics[role.id].deadline.all.chartData" role="button" (onDataSelect)="onSelect($event,'Role',role.name,role.id,'deadline','')"></p-chart>-->
+                      <!--</ng-container>-->
+                      <ng-container
+                        *ngIf="dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].overDue.total>0">
+                        <canvas
+                          *ngIf="dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].overDue.active"
+                          baseChart [type]="'pie'"
+                          [datasets]="dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].overDue.chartData"
+                          [labels]="dueChartLabels" [options]="chartOptions"   
+                          (chartClick)="onSelect($event,'Role',role.name,role.id,'deadline','overDue',dashboardStatistics[role.id].deadline.selectedWorkitemType)">
+                        </canvas>
+                      </ng-container>
+                      <ng-container
+                        *ngIf="dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].dueToday.total>0">
+                        <canvas
+                          *ngIf="dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].dueToday.active"
+                          baseChart [type]="'pie'"
+                          [datasets]="dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].dueToday.chartData"
+                          [labels]="dueChartLabels" [options]="chartOptions"   
+                          (chartClick)="onSelect($event,'Role',role.name,role.id,'deadline','dueToday',dashboardStatistics[role.id].deadline.selectedWorkitemType)">
+                        </canvas>
+                      </ng-container>
+                    </div>
+                    <div class="task-box-footer">
+                      <!--<div class="row" style="min-height:35px;">-->
+                      <!--</div>-->
+                      <div class="pull-left">
+                        <p-selectButton [options]="dueWorkitemTypes"
+                          (click)="changeActiveWorkitemView(dashboardStatistics[role.id].deadline.selectedWorkitemType,role.id)"
+                          [(ngModel)]="dashboardStatistics[role.id].deadline.selectedWorkitemType"></p-selectButton>
+                      </div>
+                      <div class="pull-right">
+                        <p-selectButton [options]="dueTypes"
+                          (click)="changeActiveView(dashboardStatistics[role.id].deadline.selectedType,role.id,'deadline',dashboardStatistics[role.id].deadline.selectedWorkitemType)"
+                          [(ngModel)]="dashboardStatistics[role.id].deadline.selectedType"></p-selectButton>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ui-g-12 ui-lg-12 messages p-l-0 p-r-0">
+                  <p-panel header="Announcements" styleClass="max-h-228">
+                    <ul>
+                      <li *ngFor="let news of newsItems;">
+                        <div>
+                          <div class="overview-box-icon">
+                            <i class="material-icons">notifications</i>
+                          </div>
+                          <div>
+                            <span class="name">{{news.subject}}</span>
+                            <span class="announcement-msg" [innerHTML]="news.message | safeHtml"></span>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </p-panel>
+                </div>
+              </div>
+            </mat-tab>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="currentUser.delegated !== undefined">
+        <ng-container *ngIf="currentUser.delegated.length > 0">
+          <ng-container *ngFor="let delegate of currentUser.delegated;">
+            <mat-tab label="{{delegate.delName}}">
+              <div class="ui-g dashboard" *ngIf="dashboardStatistics[delegate.userId]">
+                <div class="ui-g-12 ui-lg-4 p-l-0">
+                  <div class="task-box task-box-1 chart-card">
+                    <div class="task-box-header">
+                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate.userId].today.all.active">
+                        Today: (All) <span
+                          style="float: right;">{{dashboardStatistics[delegate.userId].today.all.total}}
+                          Workitems</span></h4>
+                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate.userId].today.to.active">
+                        Today: (To) <span style="float: right;">{{dashboardStatistics[delegate.userId].today.to.total}}
+                          Workitems</span></h4>
+                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate.userId].today.cc.active">
+                        Today: (CC) <span style="float: right;">{{dashboardStatistics[delegate.userId].today.cc.total}}
+                          Workitems</span></h4>
+                    </div>
+                    <div class="task-box-content">
+                      <ng-container *ngIf="dashboardStatistics[delegate.userId].today.all.total>0">
+                        <canvas *ngIf="dashboardStatistics[delegate.userId].today.all.active" baseChart
+                          [type]="'pie'" [datasets]="dashboardStatistics[delegate.userId].today.all.chartData"
+                          [labels]="chartLabels" [options]="chartOptions"  
+                          (chartClick)="onSelect($event,'Del',delegate.delName,delegate.userId,'Today','')">
+                        </canvas>
+                      </ng-container>
+                      <ng-container *ngIf="dashboardStatistics[delegate.userId].today.to.total>0">
+                        <canvas *ngIf="dashboardStatistics[delegate.userId].today.to.active" baseChart
+                          [type]="'pie'" [datasets]="dashboardStatistics[delegate.userId].today.to.chartData"
+                          [labels]="chartLabels" [options]="chartOptions"  
+                          (chartClick)="onSelect($event,'Del',delegate.delName,delegate.userId,'Today','TO')">
+                        </canvas>
+                      </ng-container>
+                      <ng-container *ngIf="dashboardStatistics[delegate.userId].today.cc.total>0">
+                        <canvas *ngIf="dashboardStatistics[delegate.userId].today.cc.active" baseChart
+                          [type]="'pie'" [datasets]="dashboardStatistics[delegate.userId].today.cc.chartData"
+                          [labels]="chartLabels" [options]="chartOptions"  
+                          (chartClick)="onSelect($event,'Del',delegate.delName,delegate.userId,'Today','CC')">
+                        </canvas>
+                      </ng-container>
+                    </div>
+                    <div class="task-box-footer">
+                      <div class="pull-right">
+                        <p-selectButton [options]="types"
+                          (click)="changeActiveView(dashboardStatistics[delegate.userId].today.selectedType,delegate.userId,'today')"
+                          [(ngModel)]="dashboardStatistics[delegate.userId].today.selectedType"></p-selectButton>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-lg-4">
+                  <div class="task-box task-box-2 chart-card">
+                    <div class="task-box-header">
+                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate.userId].total.all.active">
+                        Total: (All) <span
+                          style="float: right;">{{dashboardStatistics[delegate.userId].total.all.total}}
+                          Workitems</span></h4>
+                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate.userId].total.to.active">
+                        Total: (To) <span style="float: right;">{{dashboardStatistics[delegate.userId].total.to.total}}
+                          Workitems</span></h4>
+                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate.userId].total.cc.active">
+                        Total: (CC) <span style="float: right;">{{dashboardStatistics[delegate.userId].total.cc.total}}
+                          Workitems</span></h4>
+                    </div>
+                    <div class="task-box-content">
+                      <ng-container *ngIf="dashboardStatistics[delegate.userId].total.all.total>0">
+                        <canvas *ngIf="dashboardStatistics[delegate.userId].total.all.active" baseChart
+                          [type]="'pie'" [datasets]="dashboardStatistics[delegate.userId].total.all.chartData"
+                          [labels]="chartLabels" [options]="chartOptions"  
+                          (chartClick)="onSelect($event,'Del',delegate.delName,delegate.userId,'Total','')">
+                        </canvas>
+                      </ng-container>
+                      <ng-container *ngIf="dashboardStatistics[delegate.userId].total.to.total>0">
+                        <canvas *ngIf="dashboardStatistics[delegate.userId].total.to.active" baseChart
+                          [type]="'pie'" [datasets]="dashboardStatistics[delegate.userId].total.to.chartData"
+                          [labels]="chartLabels" [options]="chartOptions"  
+                          (chartClick)="onSelect($event,'Del',delegate.delName,delegate.userId,'Total','TO')">
+                        </canvas>
+                      </ng-container>
+                      <ng-container *ngIf="dashboardStatistics[delegate.userId].total.cc.total>0">
+                        <canvas *ngIf="dashboardStatistics[delegate.userId].total.cc.active" baseChart
+                          [type]="'pie'" [datasets]="dashboardStatistics[delegate.userId].total.cc.chartData"
+                          [labels]="chartLabels" [options]="chartOptions"  
+                          (chartClick)="onSelect($event,'Del',delegate.delName,delegate.userId,'Total','CC')">
+                        </canvas>
+                      </ng-container>
+                    </div>
+                    <div class="task-box-footer">
+                      <div class="pull-right">
+                        <p-selectButton [options]="types"
+                          (click)="changeActiveView(dashboardStatistics[delegate.userId].total.selectedType,delegate.userId)"
+                          [(ngModel)]="dashboardStatistics[delegate.userId].total.selectedType"></p-selectButton>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-lg-4 p-r-0">
+                  <div class="task-box task-box-3 chart-card">
+                    <div class="task-box-header">
+                      <!--<h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].overDue.active">Workitems Over Due: <span style="float: right;">-->
+                      <!--{{dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].overDue.total}} Workitems</span>-->
+                      <!--</h4>-->
+                      <!--<h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].dueToday.active">Workitems Due Today: <span style="float: right;">-->
+                      <!--{{dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].dueToday.total}} Workitems</span>-->
+                      <!--</h4>-->
+                      <h4 style="color:white" class="m-0">Workitems Due Today & Overdue</h4>
+                    </div>
+                    <div class="task-box-content">
+                      <!--<ng-container *ngIf="dashboardStatistics[delegate.userId].deadline.all.total>0">-->
+                      <!--<p-chart type="pie" [datasets]="dashboardStatistics[delegate.userId].deadline.all.chartData" role="button" (onDataSelect)="onSelect($event,'Del',delegate.delName,delegate.userId,'deadline','')"></p-chart>-->
+                      <!--</ng-container>-->
+
+                      <ng-container
+                        *ngIf="dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].overDue.total>0">
+                        <canvas
+                          *ngIf="dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].overDue.active"
+                          baseChart [type]="'pie'"
+                          [datasets]="dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].overDue.chartData"
+                          [labels]="dueChartLabels" [options]="chartOptions"   
+                          (chartClick)="onSelect($event,'Del',delegate.delName,delegate.userId,'deadline','overDue',dashboardStatistics[delegate.userId].deadline.selectedWorkitemType)">
+                        </canvas>
+                      </ng-container>
+                      <ng-container
+                        *ngIf="dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].dueToday.total>0">
+                        <canvas
+                          *ngIf="dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].dueToday.active"
+                          baseChart [type]="'pie'"
+                          [datasets]="dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].dueToday.chartData"
+                          [labels]="dueChartLabels" [options]="chartOptions"   
+                          (chartClick)="onSelect($event,'Del',delegate.delName,delegate.userId,'deadline','dueToday',dashboardStatistics[delegate.userId].deadline.selectedWorkitemType)">
+                        </canvas>
+                      </ng-container>
+                    </div>
+                    <div class="task-box-footer">
+                      <!--<div class="row" style="min-height:35px;">-->
+                      <!--</div>-->
+                      <div class="pull-left">
+                        <p-selectButton [options]="dueWorkitemTypes"
+                          (click)="changeActiveWorkitemView(dashboardStatistics[delegate.userId].deadline.selectedWorkitemType,delegate.userId)"
+                          [(ngModel)]="dashboardStatistics[delegate.userId].deadline.selectedWorkitemType">
+                        </p-selectButton>
+                      </div>
+                      <div class="pull-right">
+                        <p-selectButton [options]="dueTypes"
+                          (click)="changeActiveView(dashboardStatistics[delegate.userId].deadline.selectedType,delegate.userId,'deadline', dashboardStatistics[delegate.userId].deadline.selectedWorkitemType)"
+                          [(ngModel)]="dashboardStatistics[delegate.userId].deadline.selectedType"></p-selectButton>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-lg-12 messages p-l-0 p-r-0">
+                  <p-panel header="Announcements" styleClass="max-h-228">
+                    <ul>
+                      <li *ngFor="let news of newsItems;">
+                        <div>
+                          <div class="overview-box-icon">
+                            <i class="material-icons">notifications</i>
+                          </div>
+                          <div>
+                            <span class="name">{{news.subject}}</span>
+                            <span class="announcement-msg" [innerHTML]="news.message | safeHtml"></span>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </p-panel>
+                </div>
+              </div>
+            </mat-tab>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </mat-tab-group>
+  </div>
+</div>
+<!-- <ng-template #noWorkitems>
+  <div class=ui-lg-11 style="min-height: 204px;"></div>
+</ng-template> -->
+<div>
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>
+<p-dialog [modal]="true" showEffect="fade" [(visible)]="showDelegationInactiveDialog" [style]="{width: '300px',height: '120px'}"
+  (onHide)="reloadApp()">
+  <p-header>
+    Delegated user Access has been ended.
+  </p-header>
+  <p-footer>
+    <button pButton class="pull-right" type="button" label="Ok" (click)="reloadApp()"></button>
+  </p-footer>
+</p-dialog>

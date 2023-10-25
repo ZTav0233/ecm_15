@@ -1,0 +1,147 @@
+<div *ngIf="screen==='APComponent'" class="ui-g">
+  <div class="ui-g-12 ui-md-3 p-l-0">
+    <label for="APType">Name:
+    </label>
+  </div>
+  <div class="ui-g-12 ui-md-4">
+    <input  id="APName"  type="text" pInputText name="APName" [(ngModel)]="selectedPolicy.name"
+     autoDisplayFirst="false" [required]="true" >
+  </div>
+  <div class="ui-g-12 ui-md-12 p-l-0"></div>
+   <div class="ui-g-12 ui-md-3 p-l-0">
+    <label for="orgUnit">OrgCode:
+    </label>
+  </div>
+  <div class="ui-g-12 ui-md-4">
+                  <div class="ui-inputgroup">
+                    <span class="md-inputfield ">
+                      <p-autoComplete id="orgUnit" [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedorgcode"
+                      [disabled]="selectedPolicy.type!=='ORGCODE'"  [suggestions]="suggestionsResults" (completeMethod)="search($event)"
+                        field="desc" (onSelect)="orgUnitSelected($event,selectedPolicy);" [size]="30" placeholder="Search OrgUnit"
+                        [minLength]="1" [appendTo]="'body'" [required]="true">
+                        <ng-template let-selectedorgCode pTemplate="item">
+                          <div class="ui-helper-clearfix">
+                            <span class="pull-left">{{selectedorgCode.desc}}</span>
+                            <span class="pull-right font-light">{{selectedorgCode.orgCode}}</span>
+                          </div>
+                        </ng-template>
+                      </p-autoComplete>
+                      <i class="topbar-icon material-icons">search</i>
+                    </span>
+                  </div>
+  </div>
+  <div class="ui-g-12 ui-md-12 p-l-0"></div>
+
+  <div class="ui-g-12 ui-md-3 p-l-0">
+    <label for="APType">Access Policy Type:
+    </label>
+  </div>
+  <div class="ui-g-12 ui-md-4">
+    <!--{{selectedPolicy | json}}-->
+    <p-dropdown id="APType" name="APType" [placeholder]="'Select'" [options]="accessPolicyType"
+                [(ngModel)]="selectedPolicy.type" 
+                [required]="true" [disabled]="!(newPermissions && newPermissions.length>0)">
+              </p-dropdown>
+  </div>
+  <div class="ui-g-12 ui-md-12 p-l-0"></div>
+</div>
+<div *ngIf="selectedPolicy && selectedPolicy.permissions" class="max-h-400">
+  <!-- <p-dataTable [value]="selectedPolicy.permissions" [rowStyleClass]="rowStyleMapFn" >
+    <p-column field="granteeName" header="User/Group Name">
+      <ng-template let-col let-permission="rowData" let-ri="rowIndex" pTemplate="body">
+        <span *ngIf="!permission.displayName">{{permission[col.field]}}</span>
+        <span *ngIf="permission.displayName">{{permission.displayName}}</span>
+      </ng-template>
+    </p-column>
+    <p-column field="granteeType" header="Type">
+      <ng-template let-col let-permission="rowData" let-ri="rowIndex" pTemplate="body">
+        <span>{{permission[col.field]}}</span>
+      </ng-template>
+    </p-column>
+    <p-column field="accessType" header="Access Type">
+      <ng-template let-col let-permission="rowData" let-ri="rowIndex" pTemplate="body">
+        <p-dropdown [options]="accessType" [(ngModel)]="permission.accessType" [autoWidth]="false"
+                    name="permissionAccessType{{ri}}" appendTo="body" [disabled]="permission.accessLevel==='Full Control' && !isAdmin"
+                    (onChange)="accessTypeChanged(permission)"></p-dropdown>
+      </ng-template>
+    </p-column>
+    <p-column *ngIf="accessLevelsArray || accessLevels" field="accessLevel" header="Access Level">
+      <ng-template  let-col let-permission="rowData" let-ri="rowIndex" pTemplate="body">
+        <p-dropdown  [options]="isAdmin ? accessLevels : accessLevelsArray[ri]" [disabled]="permission.accessLevel==='Full Control' && !isAdmin" [(ngModel)]="permission.accessLevel" [autoWidth]="false"
+                    name="permissionAccessLevels{{ri}}" appendTo="body" (click)="onClickPerm(ri,permission)"
+                    (onChange)="permissionChanged(permission)"></p-dropdown>
+      </ng-template>
+    </p-column>
+    <p-column header="Action" styleClass="text-align-center">
+      <ng-template let-col let-permission="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>
+                <button pButton type="button" icon="ui-icon-remove" title="Remove Permission"
+                        (click)="removePermission(permission)" [disabled]="permission.accessLevel==='Full Control' && !isAdmin"
+                        class="remove-btn v-m" *ngIf="permission.action!=='REMOVE'"></button>
+                <button pButton type="button" *ngIf="permission.action==='REMOVE'" icon="ui-icon-add"
+                        title="Remove Permission"
+                        (click)="addPermission(permission)"
+                        class="remove-btn v-m"></button>
+                </span>
+      </ng-template>
+    </p-column>
+
+  </p-dataTable> -->
+</div>
+
+<div class="ui-g p-l-0 p-r-0 ">
+  <div class="ui-g-12 p-l-0 p-b-xs" *ngIf="newPermissions && newPermissions.length>0">
+    <label class="text-bold">New Permission</label>
+  </div>
+  <div class="ui-g-12 p-l-0 p-r-0 p-t-0" *ngIf="newPermissions && newPermissions.length>0">
+
+    <!-- <p-dataTable [value]="newPermissions">
+      <p-column header="Search User/Group Name">
+        <ng-template let-col let-newPermission="rowData" let-ri="rowIndex" pTemplate="body">
+          <div class="ui-g">
+            <div class="ui-g-12 p-0">
+              <div class="ui-g-10 p-l-0 p-t-0 p-b-0">
+                <p-autoComplete [(ngModel)]="newPermission.granteeName"
+                                [suggestions]="newPermission.granteesSuggestion" (onSelect)="selectParticipant($event,newPermission);"
+                                (completeMethod)="getGranteesSuggestion($event,newPermission)" field="name"
+                                [size]="30" placeholder="Search Grantee" [minLength]="1" appendTo="body"
+                                [forceSelection]="true">
+                </p-autoComplete>
+                <span *ngIf="newPermission.Isexist" class="error">Already Exist</span>
+              </div>
+              <div class="ui-g-2 p-r-0">
+                <p-dropdown [options]="granteeTypes" [(ngModel)]="newPermission.granteeType" [autoWidth]="false"
+                            name="granteeType{{ri}}" appendTo="body" autoDisplayFirst="false"
+                            (onChange)="onGranteeTypeChange(newPermission)"></p-dropdown>
+              </div>
+            </div>
+          </div>
+
+        </ng-template>
+      </p-column>
+      <p-column header="Access Type">
+        <ng-template let-col let-newPermission="rowData" let-ri="rowIndex" pTemplate="body">
+          <p-dropdown [options]="accessType" [(ngModel)]="newPermission.accessType" [autoWidth]="false"
+                      name="accessType{{ri}}" appendTo="body"></p-dropdown>
+        </ng-template>
+      </p-column>
+      <p-column header="Access Level">
+        <ng-template let-col let-newPermission="rowData" let-ri="rowIndex" pTemplate="body">
+          <p-dropdown [options]="accessLevels" [(ngModel)]="newPermission.accessLevel" [autoWidth]="false"
+                      name="accessLevels{{ri}}" appendTo="body"></p-dropdown>
+        </ng-template>
+      </p-column>
+      <p-column header="Action" styleClass="text-align-center">
+        <ng-template let-col let-newPermission="rowData" let-ri="rowIndex" pTemplate="body">
+          <span>
+            <button pButton type="button" icon="ui-icon-remove" title="Edit"
+                    (click)="removeNewPermission(newPermission)" class="remove-btn v-m"></button>
+          </span>
+        </ng-template>
+      </p-column>
+    </p-dataTable> -->
+  </div>
+  <div class="ui-g-12 p-l-0 p-r-0">
+    <button type="button" pButton (click)="addNewPermission()" label="Add More"></button>
+  </div>
+</div>

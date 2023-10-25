@@ -1,0 +1,18 @@
+<div class="h-100">
+  <!--<app-menu></app-menu>-->
+  <div class="layout-main h-100" style="margin-left: 0px;">
+    <!--<app-header></app-header>-->
+    <ng-container *ngIf="!router.url.includes('update-doc')">
+      <app-breadcrumb></app-breadcrumb>
+    </ng-container>
+    <div class="layout-content h-84">
+      <div class="ui-g card m-h-100">
+        <div class="ui-g-12 p-0">
+          <router-outlet #viewContainerRef>
+          </router-outlet>
+        </div>
+      </div>
+    </div>
+    <div class="layout-main-mask" *ngIf="mobileMenuActive"></div>
+  </div>
+</div>

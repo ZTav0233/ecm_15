@@ -1,0 +1,20 @@
+
+li.disabled > a {
+  color: #cccccc !important;
+  text-decoration: none;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+
+.topbar-menu > li.search-item input {
+  width: 260px !important;
+
+}
+
+.subIconInput {
+  margin-right: 17%;
+}
+
+.ui-margin-right {
+  margin-right: 20px;
+}

@@ -1,0 +1,58 @@
+<div>
+  <p-tree  [contextMenu]="cm" [value]="folderList" (onNodeContextMenuSelect)="onContextMenu($event)"
+    selectionMode="single" [(selection)]="selectedFolder" (onNodeExpand)="nodeExpand($event)"
+    (onNodeSelect)="nodeSelect($event)"></p-tree>
+  <p-contextMenu appendTo="body"  #cm [model]="cmItems"></p-contextMenu>
+</div>
+<div>
+  <div style="max-height: 40vh" *ngIf="viewSecurity">
+
+    <p-dialog [(visible)]="viewSecurity" [style]="{ width: '900px', height: '500px' }" [modal]="!isPopUp" showEffect="fade">
+      <p-header>
+        {{folderTitle}}
+      </p-header>
+      <div class="max-h-400">
+        <table class="ecm-table  scrollable w-100">
+          <thead>
+            <th class="text-align-left">User/Group</th>
+            <th class="text-align-left">Access Level</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let security of folderSecurity; let isOdd=odd;
+	             let isEven=even" [class.even]="isEven">
+              <td>
+                <i *ngIf="security.accessType=='ALLOW'" class="material-icons primary-color v-m">done</i>
+                <i *ngIf="security.accessType=='DENY'" class="material-icons primary-deny v-m">clear</i>
+                <i *ngIf="security.granteeType=='USER'" class="material-icons primary-color v-m">person</i>
+                <i *ngIf="security.granteeType=='GROUP'" class="material-icons primary-color v-m">people</i>
+                <span (mouseover)="showPrivilages(security)" pTooltip="{{privilage}}" [tooltipStyleClass]="'tooltip'"
+                  tooltipPosition="bottom" class="m-l-md v-m">{{security?.displayName?security?.displayName : security.granteeName}}</span>
+              </td>
+              <td>{{security.accessLevel}}
+                <i *ngIf="security.permissionSource=='PARENT'"
+                  class="material-icons primary-color v-m pull-right">subdirectory_arrow_left</i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </p-dialog>
+  </div>
+  <div *ngIf="viewMoveTree">
+    <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="viewMoveTree" [style]="{ width: '600px', height: '400px' }">
+      <p-header>
+        Move To Folder
+      </p-header>
+      <div class="max-h-350">
+        <tree [folderPermission]="moveToFolderPermission" [clearSelectedDocs]="true" [changeView]="false"></tree>
+      </div>
+      <p-footer>
+        <button type="button" pButton (click)="moveConfirm()" label="Move"></button>
+        <button type="button" pButton (click)="viewMoveTree=false" label="Cancel"></button>
+      </p-footer>
+    </p-dialog>
+  </div>
+</div>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

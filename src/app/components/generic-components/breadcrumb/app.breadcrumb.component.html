@@ -1,0 +1,33 @@
+<div class="layout-breadcrumb">
+  <ul>
+    <li><a routerLink=""><i class="material-icons">home</i></a></li>
+    <li>/</li>
+    <ng-template ngFor let-item let-last="last" [ngForOf]="breadcrumbService.items">
+      <li>
+        <a [routerLink]="item.routerLink" *ngIf="item.routerLink">{{item.label}}</a>
+        <ng-container  title="item.label" *ngIf="!item.routerLink">{{item.label | truncate : 50 }}</ng-container>
+      </li>
+      <li *ngIf="!last">/</li>
+    </ng-template>
+  </ul>
+
+  <div class="layout-breadcrumb-options">
+    <span class="font-light"> {{ now | async | date:'EEEE, MMMM d, y, h:mm a' }}</span>
+  </div>
+</div>
+<div class="ui-g-12" *ngIf="isAdmin">
+   <div class="ui-g-12 ui-md-2 p-b-0 p-l-0 width-auto">
+    <p-menubar id="configMenu" *ngIf="isAdmin" [model]="megaItemsConfig"></p-menubar>
+   </div>
+   <div class="ui-g-12 ui-md-2 p-b-0 width-auto" >
+    <p-menubar id="tempMenu" *ngIf="isAdmin" [model]="megaItemsTemp"></p-menubar>
+   </div>
+   <div class="ui-g-12 ui-md-2 p-b-0 p-l-0 width-auto">
+    <p-menubar id="manageMenu" *ngIf="isAdmin" [model]="megaItemsManage"  ></p-menubar>
+   </div>
+  <div class="ui-g-12 ui-md-2 p-b-0 p-l-0 width-auto">
+    <p-menubar id="secMenu" *ngIf="isAdmin" [model]="megaItemsSec"  ></p-menubar>
+  </div>
+  </div>
+<div></div>
+<p-tabMenu  *ngIf="!isAdmin && isBrowseDocs" [model]="tabItems" ></p-tabMenu>

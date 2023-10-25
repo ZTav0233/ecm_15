@@ -1,0 +1,43 @@
+<p-tabView styleClass="tab-dialog" (onChange)="changeTab()" [activeIndex]="tabActiveIndex">
+  <div class="p-sm">
+    <p-tabPanel  header="Links" leftIcon="ui-icon-filter-none" [selected]="true">
+      <div class="max-h-350">
+        <div class="scrollable">
+          <table class="ecm-table" style="width: 500px;">
+            <tbody>
+              <tr>
+                <th *ngIf="!noLink" style="width:45%;" class="text-align-left">Linked Documents</th>
+                <th *ngIf="!noLink" class="text-align-right">Actions</th>
+              </tr>
+              <tr *ngFor="let doclink of linkedDocuments;let index=i;let isOdd=odd;
+                 let isEven=even" [class.even]="isEven" >
+                <td *ngIf="!noLink" style="width:80%;">{{doclink.desc}}</td>
+                <td *ngIf="!noLink" class="text-align-right">
+                  <button pButton type="button" icon="fa ui-icon-remove-red-eye" title="View Link"
+                    (click)="viewDoc(doclink,'link')"></button>
+                  <button pButton type="button" icon="fa ui-icon-remove" title="Remove Link"
+                    (click)="confirmRemoveLink(doclink)"></button>
+                </td>
+              </tr>
+              <td class="no-result text-align-center" *ngIf="noLink">No Links to show!</td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </p-tabPanel>
+
+  </div>
+  <div class="progress-bar">
+    <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+  </div>
+</p-tabView>
+<p-dialog [modal]="true" showEffect="fade" appendTo="body" [style]="{'max-width':'70%'}" [resizable]="false"
+  [(visible)]="viewer" [responsive]="true" (onHide)="closeViewPopUp()">
+  <p-header>
+    {{docTitle | truncate : 50}}
+  </p-header>
+  <iframe *ngIf="showIframe" class="col-sm-12" [class]="'docViewerModal'" scrolling="yes" [src]="attach_url"
+    frameborder="0"></iframe>
+</p-dialog>
+<p-confirmDialog appendTo="body" key="confirmRemoveLink" header="Confirmation" icon="fa fa-help-outline" width="425">
+</p-confirmDialog>

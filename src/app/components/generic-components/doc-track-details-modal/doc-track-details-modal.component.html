@@ -1,0 +1,42 @@
+<p-tabView styleClass="tab-dialog" (onChange)="changeTab()" [activeIndex]="tabActiveIndex">
+  <div class="p-sm">
+    <p-tabPanel [disabled]="docTrack && docTrack.length==0" header="Document Track" leftIcon="ui-icon-track-changes">
+      <div class="max-h-350">
+        <div class="scrollable">
+          <table class="ecm-table" style="width: 800px;">
+            <tbody>
+              <tr>
+                <th *ngIf="docTrack && docTrack.length>0" class="text-align-left" style="width:42%">Workflow Subject</th>
+                <th *ngIf="docTrack && docTrack.length>0" class="text-align-left" style="width:35%;">Sender</th>
+                <!--Creator-->
+                <th *ngIf="docTrack && docTrack.length>0" class="text-align-left" style="width:20%;">Sent Date</th>
+                <th *ngIf="docTrack && docTrack.length>0" class="text-align-right" style="width:3%;">Action</th>
+              </tr>
+              <tr *ngFor="let track of docTrack;let index=i;let isOdd=odd;
+                     let isEven=even" [class.even]="isEven">
+                <td *ngIf="docTrack && docTrack.length>0">{{track.subject}}</td>
+                <td *ngIf="docTrack && docTrack.length>0">{{track.creator}}</td>
+                <td *ngIf="docTrack && docTrack.length>0">{{track.createdDate | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                <td *ngIf="docTrack && docTrack.length>0" class="text-align-right">
+                  <button pButton type="button" icon="fa ui-icon-link" title="View Details"
+                    (click)="viewWorkItem(track)"></button>
+              </tr>
+              <td class="no-result text-align-center" *ngIf="(!docTrack || docTrack.length===0)">Loading...</td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </p-tabPanel>
+  </div>
+  <div class="progress-bar">
+    <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+  </div>
+</p-tabView>
+<p-dialog [modal]="true" showEffect="fade" appendTo="body" [style]="{'max-width':'70%'}" [resizable]="false"
+  [(visible)]="viewer" [responsive]="true" (onHide)="closeViewPopUp()">
+  <p-header>
+    {{docTitle | truncate : 50}}
+  </p-header>
+  <iframe *ngIf="showIframe" class="col-sm-12" [class]="'docViewerModal'" scrolling="yes" [src]="attach_url"
+    frameborder="0"></iframe>
+</p-dialog>

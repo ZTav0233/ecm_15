@@ -1,0 +1,103 @@
+<div class="layout-topbar">
+  <img alt="logo" src="assets/layout/images/logo-slim.png" class="mobile-logo" />
+  <a href="#" class="menu-btn" (click)="app.onMenuButtonClick($event)">
+    <i class="material-icons">&#xE5D2;</i>
+  </a>
+  <a href="#" class="topbar-menu-btn" (click)="app.onTopbarMobileMenuButtonClick($event)">
+    <i class="material-icons">&#xE853;</i>
+  </a>
+  <div class="layout-topbar-menu-wrapper">
+    <ul class="topbar-menu fadeInDown" [ngClass]="{'topbar-menu-active': app.topbarMenuActive}"
+      (click)="app.onTopbarMenuClick($event)">
+      <li #settings role="menuitem" class="pull-right">
+        <a href="javascript:void(0)" title="Settings" routerLink="/settings">
+          <i class="material-icons">settings_application</i>
+        </a>
+      </li>
+      <li #profile class="profile-item p-0" [ngClass]="{'active-topmenuitem': app.activeTopbarItem === profile}"
+        (click)="app.onTopbarRootItemClick($event, profile)">
+        <a href="#" class="default-cursor">
+          <span class="profile-image-wrapper">
+            <img src="assets/layout/images/avatar.png" />
+          </span>
+          <span class="topbar-item-name profile-name" *ngIf="user">{{user.fulName}}</span>
+        </a>
+      </li>
+      <!--<li #settings class="pull-right p-0" [ngClass]="{'active-topmenuitem': app.activeTopbarItem === settings}" (click)="app.onTopbarRootItemClick($event, settings)">-->
+      <!--<a href="#">-->
+      <!--<i class="material-icons">settings_application</i>-->
+      <!--</a>-->
+      <!--<ul class="fadeInDown">-->
+      <!--<li role="menuitem" routerLink="/settings">-->
+      <!--<a href="#">-->
+      <!--<i class="material-icons">settings_application</i>-->
+      <!--<span>Settings</span>-->
+      <!--</a>-->
+      <!--</li>-->
+      <!--</ul>-->
+      <!--</li>-->
+      <li #messages [ngClass]="{'active-topmenuitem':app.activeTopbarItem === messages}">
+        <a href="#" title="Doc Cart" (click)="showCartItems($event,messages)">
+          <i class="topbar-icon material-icons animated swing">shopping_cart</i>
+          <span class="topbar-badge animated rubberBand">{{documentService.cartItems.length}}</span>
+          <span class="topbar-item-name">Cart</span>
+        </a>
+        <ul class="fadeInDown max-h-400">
+          <app-document-cart [canRemoveLastItem]="true" [showHeading]="false" [cartItems]="documentService.cartItems">
+          </app-document-cart>
+        </ul>
+      </li>
+      <li style="margin-left:0%;" #filter [ngClass]="{'active-topmenuitem':app.activeTopbarItem === filter}"
+        (click)="app.onTopbarRootItemClick($event, filter)">
+        <a href="#" [ngClass]="{'disabled':isAdvanced}">
+          <i class="topbar-icon material-icons animated swing">expand_more</i>
+        </a>
+        <ul class="fadeInDown">
+          <li role="menuitem" (click)="setSearchOper('EXACT')" [ngClass]="{'selected':searchObj.oper==='EXACT'}">
+            <a href="#">
+              <span>Exact Match</span>
+            </a>
+          </li>
+          <li role="menuitem" (click)="setSearchOper('ANY')" [ngClass]="{'selected':searchObj.oper==='ANY'}">
+            <a href="#">
+              <span>Any of words</span>
+            </a>
+          </li>
+          <li role="menuitem" (click)="setSearchOper('ALL')" [ngClass]="{'selected':searchObj.oper==='ALL'}">
+            <a href="#">
+              <span>All of words</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="search-item">
+        <a class="clickable" title="Content Search and Advance Search">
+          <i *ngIf="isAdvanced" (click)="switchSearch($event)" class="topbar-icon material-icons">swap_vert</i>
+          <i *ngIf="!isAdvanced" (click)="switchSearch($event)" class="topbar-icon material-icons">swap_vert</i>
+          <span class="topbar-item-name">Advanced</span>
+        </a>
+        <span class="md-inputfield">
+          <input #searchQuery type="text" pInputText [(ngModel)]="searchObj.query" (keyup.enter)="search($event)"
+            [disabled]="isAdvanced" />
+          <label *ngIf="!isAdvanced">Content Search</label>
+          <label *ngIf="isAdvanced">Advanced Search</label>
+          <i class="topbar-icon material-icons clickable" [ngClass]="{'disabled-header-icon':isAdvanced}"
+            (click)="search($event)">search</i>
+        </span>
+      </li>
+      <li #launch role="menuitem" class="ui-margin-right" (click)="headerScreen('launch')">
+        <a href="javascript:void(0)" title="Launch">
+          <i class="material-icons">launch</i>
+        </a>
+      </li>
+      <li #adddoc role="menuitem" (click)="headerScreen('add-doc')">
+        <a href="javascript:void(0)" title="Add Document">
+          <i class="material-icons">add_box</i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

@@ -1,0 +1,25 @@
+<button pButton type="button" label="Export" (click)="exportToExcel();" class="pull-right m-b-sm"
+  [disabled]="!gridItemsToExport || gridItemsToExport.length==0"></button>
+<div *ngIf="teamDocs">
+  <!-- <p-table [showCurrentPageReport]="true" [totalCount]="teamDocs.length" (sendData)="getData($event,sidemenu)"
+    [emptyMessage]="emptyMessage" [tableData]="teamDocs" (refreshScreen)="refreshTable($event);"
+    [showDownloadIcon]="false" [showAddCartIcon]="false" [showInfoIcon]="true" [colHeaders]="colHeaders"
+    [itemsPerPage]="itemsPerPage" [activePage]="'teamshared'" [totalRecords]="teamDocs?teamDocs.length:0"
+    [rowExpandable]="false" [selectedRows]="selectedItem" (filteredGridItemsToExport)="getFilteredItems($event)">
+  </p-table> -->
+  <p-table [showCurrentPageReport]="true" [totalRecords]="teamDocs.length" (onRowSelect)="getData($event)"
+  [value]="teamDocs" (onPage)="refreshTable();"
+ 
+ [columns]="colHeaders" [rows]="itemsPerPage"  
+ (onFilter)="getFilteredItems($event)">
+</p-table>
+</div>
+<div [ngClass]="{'hidden':!selectedItem || selectedItem.length===0}">
+  <!-- <ngx-aside #sidemenu [showDefaultFooter]="false" [showDefaultHeader]="false" [showOverlay]="false">
+    <app-rightpanel (sendUpdate)="getTeamUpdated($event);" (sendFolders)="getBrowseUpdated($event);"
+      [currentScreen]="screen" (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>
+  </ngx-aside> -->
+</div>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

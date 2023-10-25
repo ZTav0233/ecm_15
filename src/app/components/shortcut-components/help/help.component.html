@@ -1,0 +1,28 @@
+<div>
+   <p-tabMenu  [model]="tabItems"  [activeItem]="activeTab"   ></p-tabMenu>
+</div>
+ <div *ngIf="activeTabName==='Online Manuals'"  class="ui-g-12 ui-md-12 p-0">
+  <p-table (refreshScreen)="refreshTable()" [totalRecords]="quickDocs ? quickDocs.length : 0"></p-table>
+
+     <!--<data-table *ngIf="activeTabName==='Training Videos'"  [showCount]="true"  (sendData)="getData($event,sidemenu);" [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable($event);"-->
+            <!--[tableData]="video" [colHeaders]="colHeaders" [showDownloadIcon]="false" [showAddCartIcon]="false"-->
+            <!--[showInfoIcon]="true" [itemsPerPage]="itemsPerPage" [rowExpandable]="false"></data-table>-->
+ </div>
+ <div *ngIf="activeTabName==='Training Videos'" class="ui-g-12 ui-md-12 p-0">
+   <p-tree #expandingTree [value]="videoList"
+    selectionMode="single" [(selection)]="selectedVideo"
+    (onNodeSelect)="nodeSelect($event.node)">
+       <ng-template let-node  pTemplate="default">
+         <span [ngClass]="{'text-bold':node.level && node.level==='1'}">{{node.label}}</span>
+    </ng-template>
+   </p-tree>
+  <!--<div class="video">-->
+    <!--<video controls (click)="toggleVideo()" #videoPlayer>-->
+        <!--<source src="{{videoSource}}" type="video/mp4" />-->
+        <!--Browser not supported-->
+    <!--</video>-->
+<!--</div>-->
+ </div>
+<div class="progress-bar">
+  <div  [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

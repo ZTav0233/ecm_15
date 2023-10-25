@@ -1,0 +1,10 @@
+<div *ngIf="!favFolders" class="no-favourites-text folder-path">
+  <i class="material-icons m-l-xxxl font-lg">error_outline</i><br><br><span class="font-sm"> No Favourite Folders</span>
+</div>
+<div>
+  <p-tree [value]="folderList" selectionMode="single" [(selection)]="selectedFolder" (onNodeExpand)="nodeExpand($event)"
+    (onNodeSelect)="nodeSelect($event)"></p-tree>
+</div>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

@@ -1,0 +1,47 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import 'material-icons/iconfont/material-icons.css';
+@import 'assets/css/custom.css';
+
+@import "primeng/resources/primeng.css";
+
+// .ui-dropdown label.ui-dropdown-label {
+//     height: 2.5em !important;
+//     background: #607D8B !important;
+//     color: white !important;
+//     font-weight: 600 !important;
+//     text-align: center !important;
+//     display: flex !important;
+//     align-items: center !important;
+//     justify-content: center !important;
+// }
+.example-css-class{
+    .ui-dropdown label.ui-dropdown-label {
+            height: 2.5em !important;
+            background: #607D8B !important;
+            color: white !important;
+            font-weight: 600 !important;
+            text-align: center !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+}
+.dateHeaderMemo{
+    .ui-widget-header{
+        color: black;
+    }
+}
+// .label23{
+//     ui-g-1{
+//         min-width:50px;
+//     }
+//   }
+
+.ui-accordion-header{
+    a:focus, a:hover {
+        color: #23527c;
+        text-decoration: none;
+    }
+}

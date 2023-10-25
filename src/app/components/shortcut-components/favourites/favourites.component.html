@@ -1,0 +1,22 @@
+<button pButton type="button" label="Export" (click)="exportToExcel();" class="pull-right m-b-sm"
+  [disabled]="!gridItemsToExport || gridItemsToExport.length==0"></button>
+<div *ngIf="favDocuments">
+    <!-- <p-table [showCount]="true" [totalCount]="favDocuments.length" (sendData)="getData($event,sidemenu);"
+    [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable($event);" [tableData]="favDocuments"
+    [activePage]="'favorites'" [colHeaders]="colHeaders" [showDownloadIcon]="false" [showAddCartIcon]="false"
+    [selectedRows]="selectedItem" [showInfoIcon]="true" [itemsPerPage]="itemsPerPage" [rowExpandable]="false"
+    [totalRecords]="favDocuments?favDocuments.length:0" (filteredGridItemsToExport)="getFilteredItems($event)">
+  </p-table> -->
+  <p-table  (sendData)="getData($event)"
+         (refreshScreen)="refreshTable()" [totalRecords]="favDocuments ? favDocuments.length : 0"
+         (filteredGridItemsToExport)="getFilteredItems($event)"></p-table>
+</div>
+<div [ngClass]="{'hidden':!selectedItem || selectedItem.length===0}">
+  <!-- <ngx-aside #sidemenu [showDefaultFooter]="false" [showDefaultHeader]="false" [showOverlay]="false">
+    <app-rightpanel (sendUpdate)="getFavUpdated($event);" (sendFolders)="getBrowseUpdated($event);"
+      [currentScreen]="screen" (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>
+  </ngx-aside> -->
+</div>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

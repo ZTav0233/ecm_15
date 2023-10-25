@@ -1,0 +1,91 @@
+<script src="../../../global.variables.ts"></script>
+<div class="document-cart scrollable">
+
+
+  <div class="text-align-center w-100 p-md" *ngIf="!enclosureCartItems || enclosureCartItems.length==0">
+    <label *ngIf="componentTitle === 'Document Cart'">
+      No Document In Cart
+    </label>
+    <label *ngIf="componentTitle !=='Document Cart'">
+      No Existing Enclosures
+    </label>
+  </div>
+  <table class="ecm-table layout-auto w-100" *ngIf="enclosureCartItems">
+    <thead *ngIf="showHeading">
+      <tr>
+        <th><i class="fa ui-icon-shopping-cart v-m"></i></th>
+        <th><span class="v-m">{{componentTitle}}</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let item of enclosureCartItems;let i=index;">
+        <tr *ngIf="item" [ngClass]="{'even':i%2===0}">
+          <!-- <td
+            *ngIf="(componentTitle==='Add From Cart' || componentTitle==='Document Cart') && componentTitle!=='Attachments'"
+            class="icon p-r-0">
+            <p-checkbox #check [name]="'test'" [(ngModel)]="selectedValues" [inputId]="item.id"
+              (onChange)="onCheckItems($event, item)" [value]="item"></p-checkbox>
+          </td> -->
+          <td class="icon p-r-0">
+            <span *ngIf="item.format">
+              <span class="v-m"></span>
+              <img src="assets/images/icons/file-pdf-o.png" *ngIf="item.format.indexOf('pdf') !== -1">
+              <img src="assets/images/icons/file-excel-o.png"
+                *ngIf="item.format.indexOf('sheet') !== -1 || item.format.indexOf('xls') !== -1 || item.format.indexOf('xlsx') !== -1">
+              <img src="assets/images/icons/file-image-o.png"
+                *ngIf="item.format.indexOf('image') !== -1 && item.format.indexOf('tiff') === -1 && item.format.indexOf('tif') === -1">
+              <img src="assets/images/icons/file-word-o.png" *ngIf="item.format.indexOf('word') !== -1">
+              <img src="assets/images/icons/file-msg-48.png" *ngIf="item.format.indexOf('vnd.ms-outlook') !== -1">
+              <img src="assets/images/icons/file-ppt-48.png"
+                *ngIf="item.format.indexOf('ppt') !== -1 || item.format.indexOf('pptx') !== -1">
+              <img src="assets/images/icons/file-tiff-48.png"
+                *ngIf="item.format.indexOf('tiff') !== -1 || item.format.indexOf('tif') !== -1">
+              <img src="assets/images/icons/file-text-o.png" *ngIf="item.format.indexOf('pdf') === -1 && item.format.indexOf('sheet') === -1
+                        && item.format.indexOf('xls') === -1 && item.format.indexOf('xlsx') === -1
+                        && item.format.indexOf('image') === -1  && item.format.indexOf('word') === -1
+                        && item.format.indexOf('vnd.ms-outlook') === -1 && item.format.indexOf('ppt') === -1 && item.format.indexOf('pptx') === -1
+                        && item.format.indexOf('tiff') === -1 && item.format.indexOf('tif') === -1">
+            </span>
+            <span *ngIf="!item.format">
+              <span class="v-m"></span>
+              <img src="assets/images/icons/file-text-o.png" class="icon">
+            </span>
+          </td>
+          <td>
+            <div>
+              <span *ngIf="!isItemSelectable" pTooltip="{{item.fileName}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                [tooltipStyleClass]="'tooltip-min-width m-t-xl'" tooltipPosition="left">{{item.fileName | truncate :
+                canRemoveLastItem ? 20 : 50}}</span>
+              <a *ngIf="isItemSelectable && item.fileName" href="javascript:" (click)="mOnItemSelect(item)"
+                pTooltip="{{item.fileName}}" [tooltipStyleClass]="'tooltip-min-width'"
+                tooltipPosition="left">{{item.fileName | truncate : 50}}</a>
+              <a *ngIf="isItemSelectable && item.docTitle" href="javascript:" (click)="mOnItemSelect(item)"
+                pTooltip="{{item.docTitle}}" [tooltipStyleClass]="'tooltip-min-width'"
+                tooltipPosition="left">{{item.docTitle | truncate : 50}}</a>
+            </div>
+          </td>
+          <td align="right">
+            <a class="p-0" href="javascript:">
+              <i *ngIf="isItemSelectable && (workflowType == 'Signature' || workflowType == 'Initial') && isItemSelected(item) && (item.format.indexOf('pdf') !== -1 || item.format.indexOf('word') !== -1)"
+                class="fa ui-icon-edit v-m" pTooltip="Mark/UnMark for Sign" [tooltipStyleClass]="'tooltip'" tooltipPosition="left"
+                [ngClass]="{'text-red': item.isSign == 1}" (click)="signIsClicked(item)"></i>
+              <i *ngIf="isItemSelectable && (workflowType == 'Signature' || workflowType == 'Initial') && componentTitle == 'Attachments' && (item.format.indexOf('pdf') !== -1 || item.format.indexOf('word') !== -1)"
+                class="fa ui-icon-edit v-m" pTooltip="Mark/UnMark for Sign" [tooltipStyleClass]="'tooltip'" tooltipPosition="left"
+                [ngClass]="{'text-red': item.isSign == 1}" (click)="signAttachmentIsClicked(item)"></i>
+              <i *ngIf="isItemSelectable" class="fa ui-icon-remove-red-eye v-m" pTooltip="Preview"
+                [tooltipStyleClass]="'tooltip'" tooltipPosition="left" (click)="showDocPreview(item)"></i>
+              <i [ngClass]="{'disabled':removeInProgress}" class="fa ui-icon-clear v-m" pTooltip="Remove"
+                [tooltipStyleClass]="'tooltip'" tooltipPosition="left" (click)="removeFromCart(item)"></i>
+              <i *ngIf="isFromDraft" [ngClass]="{'disabled':removeInProgress}" class="fa ui-icon-clear v-m"
+                pTooltip="Remove" [tooltipStyleClass]="'tooltip'" tooltipPosition="left"
+                (click)="removeFromExistingAttachement(item)"></i>
+            </a>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>
