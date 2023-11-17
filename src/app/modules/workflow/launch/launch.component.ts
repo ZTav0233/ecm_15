@@ -93,7 +93,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
   private activeIndex = 0;
   public bulkRole: any;
   public isDel: any;
-  private colHeaders = [
+  public colHeaders = [
     /*{field: 'creator', header: 'Created By'},
     {field: 'addOn', header: 'Added On'},
     {field: 'modOn', header: 'Modified On'},
