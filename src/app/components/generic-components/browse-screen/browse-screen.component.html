@@ -1,0 +1,47 @@
+<div class="ui-g ">
+  <div class="ui-g-3">
+    <p-tabView (onChange)="tabChange($event)">
+      <p-tabPanel header="Public Folders">
+        <div class="t-pane">
+          <tree [isPopUp]="true" [folderPermission]="folderPermission"></tree>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Favorite Folders">
+        <div class="t-pane">
+          <app-fav-fol-tree></app-fav-fol-tree>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+  <div class="ui-g-9">
+    <div class="ui-g-12 ui-md-12 p-0 p-l-sm p-r-sm with-tree">
+      <div class="ui-g-12 ui-md-6">
+        <span class="folder-path p-b-md">{{folderPath}}</span>
+      </div>
+      <div class="ui-g-12 ui-md-3">
+          <div class="ui-inputgroup">
+            <input id="filterFol" type="text"  pInputText placeholder="Filter"  (keyup.enter)="updateSearchInDatatable()">
+            <button pButton type="button" icon="ui-icon-search" title="Search documents in folder" (click)="updateSearchInDatatable()" class="remove-btn v-m"></button>
+            <button pButton type="button" icon="ui-icon-clear" title="Clear selection" (click)="clearFilterText()" class="remove-btn v-m"></button>
+        </div>
+        </div>
+      <div *ngIf="documentFolders" class="ui-g-12 p-r-0 p-t-0 ">
+        <data-table [showCount]="true" [totalCount]="documentFolders.length" [emptyMessage]="emptyMessage"
+          (sendData)="getData($event);" (refreshScreen)="refreshTable();" [selectedRows]="selectedItem"
+          [tableData]="documentFolders" [showDownloadIcon]="false" [activePage]="'browse'" [showAddCartIcon]="false"
+          [showInfoIcon]="true" [colHeaders]="colHeaders" [totalRecords]="documentFolders?documentFolders.length:0"
+          [itemsPerPage]="itemsPerPage" [showCheckBox]="true">
+        </data-table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="block_1 hline-bottom w-100"></div>
+<div class="pull-right p-t-xl">
+  <button type="button" pButton [disabled]="!selectedItem || selectedItem.length===0"
+    (click)="addToCartMulti(selectedItem);closeClick()" label="Done"></button>
+  <button type="button" pButton (click)="closeClick()" label="Cancel"></button>
+</div>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

@@ -1,0 +1,1426 @@
+<div class="ui-md-12 ui-g-12 p-0">
+  <div class="ui-md-12 ui-g-12 p-0">
+    <div class="ui-g-4 ui-md-4 ui-sm-12 p-l-0 p-t-0 p-b-xs">
+      <!-- <div class="ui-g-12 p-l-0 p-b-0 p-t-md p-r-0" style="height: calc(100vh - 82px); overflow: auto;"> -->
+      <div class="ui-g-12 p-l-0 p-b-0 p-t-md p-r-0">
+        <p-tabView (onChange)="step1TabChange($event)" styleClass="max-h-tab" [activeIndex]="tabActiveIndex">
+          <p-tabPanel header="Attachment">
+            <button (click)="openSearchDialog=true;openSearchDialogLoaded=true;" pButton type="button"
+              label="Search Existing Document"></button>
+            <button (click)="openNewDocDilaog=true;openNewDocDilaogLoaded=true;" pButton type="button"
+              label="Add New Document"></button>
+            <button (click)="openAddFromFolderDilaog=true;openAddFromFolderDilaogLoaded=true;" pButton type="button"
+              label="Add From Folder"></button>
+            <div class="row attachment">
+              <div class="ui-g-12 ui-sm-12 document-cart max-h-400 p-t-xl p-l-0 p-r-0">
+                <p-accordion>
+                  <p-accordionTab [selected]="true">
+                    <p-header>
+                      <div class="ui-g">
+                        <div class="ui-g-2 ui-sm-12 p-v-0"><i class="fa ui-icon-shopping-cart v-m"></i></div>
+                        <div class="ui-g-10 ui-sm-12 p-v-0">
+                          <span class="v-m doc-cart-label"
+                            *ngIf="launch.documents.cartItems && actionTypes!=='forward' && actionTypes!=='reply' && actionTypes!=='replyAll'">
+                            Document Cart ({{launch.documents.cartItems.length}})</span>
+                          <span class="custom-label">Select All</span>
+                          <button (click)="myFunction($event)" class="custom-button"
+                            style="background: transparent;border: none !important;">
+                            <p-checkbox [(ngModel)]="allSelectedValues" [ngModelOptions]="{standalone: true}"
+                              value="selectedAll" [disabled]="(launch.documents.cartItems &&  launch.documents.cartItems.length > 0)?false:true" 
+                              (ngModelChange)="isSelectedAll = !isSelectedAll;documentCartComponent.selectAll(isSelectedAll)"
+                              class="custom-button"></p-checkbox>
+                            <!-- <input type="checkbox" /> -->
+                          </button>
+                          <span class="v-m"
+                            *ngIf="launch.documents.cartItems && actionTypes ==='forward' || actionTypes ==='reply' || actionTypes ==='replyAll'">
+                            Add From Cart ({{launch.documents.cartItems.length}})</span>
+                        </div>
+                      </div>
+                    </p-header>
+                    <app-document-cart [showHeading]="false" [cartItems]="launch.documents.cartItems"
+                      [componentTitle]="actionTypes==='forward' || actionTypes==='reply' || actionTypes==='replyAll' ? 'Add From Cart': 'Document Cart'"
+                      [isSelectedAll]="isSelectedAll" [workflowType]="workflowType" (onItemSelect)="populateWorkflowForm($event)"
+                      (checkedItems)="assignCartItemsForLaunch($event,'Attachment');"
+                      (onItemRemoved)="onDocumentRemoved()" [isItemSelectable]="true"
+                      (onItemPreview)="showDocPreview($event)"></app-document-cart>
+                  </p-accordionTab>
+                </p-accordion>
+              </div>
+            </div>
+            <div *ngIf="launch.workflow.model.attachments"
+              class="ui-g-12 ui-sm-12 document-cart max-h-400 p-t-xl p-l-0 p-r-0">
+              <p-accordion>
+                <p-accordionTab [selected]="true">
+                  <p-header>
+                    <div class="ui-g">
+                      <div class="ui-g-2 ui-sm-12 p-v-0"><i class="fa ui-icon-shopping-cart v-m"></i></div>
+                      <div class="ui-g-10 ui-sm-12 p-v-0">
+                        <span class="v-m" *ngIf="launch.workflow.model.attachments && (actionTypes ==='edit'||actionTypes ==='draftMemo'||memoWorkitemId > 0)">
+                          Existing Attachments ({{launch.workflow.model.attachments.length}})</span>
+                      </div>
+                      <!-- <div><span class="v-m" > workflowType == ({{workflowType}})</span></div> -->
+                    </div>
+                  </p-header>
+                  <app-document-cart [showHeading]="false" [cartItems]="launch.workflow.model.attachments"
+                    [isFromDraft]="actionTypes ==='draftLaunch' || actionTypes ==='draftMemo' || isFromDraft" [componentTitle]="'Attachments'"
+                    [workflowType]="workflowType" (onItemSelect)="populateWorkflowForm($event)" 
+                    [isItemSelectable]="true" (onItemPreview)="showDocPreview($event)">
+                  </app-document-cart>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel header="Enclosures">
+            <button (click)="openSearchDialog=true;openSearchDialogLoaded=true;" pButton type="button"
+              label="Search Existing Document"></button>
+            <button (click)="openNewDocDilaog=true;openNewDocDilaogLoaded=true;" pButton type="button"
+              label="Add New Document"></button>
+            <button (click)="openAddFromFolderDilaog=true;openAddFromFolderDilaogLoaded=true;" pButton type="button"
+              label="Add From Folder"></button>
+            <div>
+              <div class="ui-g-12 ui-sm-12 document-cart max-h-400 p-t-xl p-l-0 p-r-0">
+                <p-accordion>
+                  <p-accordionTab [selected]="true">
+                    <p-header>
+                      <div class="ui-g">
+                        <div class="ui-g-2 ui-sm-12 p-v-0"><i class="ui-icon-ac-h fa ui-icon-filter-none"></i></div>
+                        <div class="ui-g-10 ui-sm-12 p-v-0">
+                          <span class="v-m doc-cart-label"
+                            *ngIf="launch.documents.enclosureCartItems && actionTypes!=='forward' && actionTypes!=='reply' && actionTypes!=='replyAll'">
+                            Enclosures ({{launch.documents.enclosureCartItems.length}})</span>
+                          <span class="v-m"
+                            *ngIf="launch.documents.enclosureCartItems && actionTypes ==='forward' || actionTypes ==='reply' || actionTypes ==='replyAll'">
+                            Add From Cart ({{launch.documents.enclosureCartItems.length}})</span>
+                        </div>
+                      </div>
+                    </p-header>
+                    <app-enclosure-document-cart [showHeading]="false"
+                      [enclosureCartItems]="launch.documents.enclosureCartItems"
+                      [componentTitle]="actionTypes==='forward' || actionTypes==='reply' || actionTypes==='replyAll' ? 'Add From Cart': 'Document Cart'"
+                      (onItemRemoved)="onDocumentRemoved()" [isItemSelectable]="true"
+                      (onItemPreview)="showDocPreview($event)">
+                    </app-enclosure-document-cart>
+                  </p-accordionTab>
+                </p-accordion>
+              </div>
+            </div>
+            <div *ngIf="launch.workflow.model.Enclosuer"
+              class="ui-g-12 ui-sm-12 document-cart max-h-400 p-t-xl p-l-0 p-r-0">
+              <p-accordion>
+                <p-accordionTab [selected]="true">
+                  <p-header>
+                    <div class="ui-g">
+                      <div class="ui-g-2 ui-sm-12 p-v-0"><i class="fa ui-icon-shopping-cart v-m"></i></div>
+                      <div class="ui-g-10 ui-sm-12 p-v-0">
+                        <span class="v-m" *ngIf="actionTypes ==='edit'||actionTypes ==='draftMemo'">
+                          Existing Enclosure ({{launch.workflow.model.Enclosuer.length}})</span>
+                      </div>
+                    </div>
+                  </p-header>
+                  <app-document-cart [showHeading]="false" [cartItems]="launch.workflow.model.Enclosuer"
+                    [isFromDraft]="actionTypes ==='draftLaunch'" [componentTitle]="'Attachments'"
+                    [workflowType]="workflowType" [isItemSelectable]="true" (onItemPreview)="showDocPreview($event)">
+                  </app-document-cart>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel header="Recipients">
+            <p-accordion [activeIndex]="selectedIndexAccordion" [multiple]="false" (onOpen)="onTabOpen($event);">
+              <p-accordionTab [selected]="true">
+                <p-header>
+                  <i class="ui-icon-ac-h fa ui-icon-filter-none" style="color: white"></i> Default List
+                </p-header>
+                <div class="ui-g">
+                  <div class="w-100">
+                    <div class="ui-g roleSearch-box">
+                      <div class="ui-g-12 ui-inputgroup">
+                        <span class="md-inputfield ">
+                          <input type="text" pInputText (input)="searchDFL(launch.recipients.search.defSearchquery)"
+                            placeholder="Search by name or mail" [(ngModel)]="launch.recipients.search.defSearchquery"
+                            [ngModelOptions]="{standalone: true}" />
+                          <i class="topbar-icon material-icons">search</i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-g-12 max-h-360">
+                    <div class="ui-g-12 ui-md-12 ui-sm-12 "
+                      *ngIf="launch.recipients.list.selectedUserList.lists && launch.recipients.list.selectedUserList.lists.length>0 ">
+                      <app-user [isNoFoundMessage]="true" [iconClass]="'fa ui-icon-view-list'" [showTooltip]="true"
+                        [showAddBtn]="false" [actionType]="launch.documents.existing.model.actionType"
+                        [showToBtn]="!letter" [showCcBtn]="!letter"
+                        [isUserRoleNotList]="true" [items]="launch.recipients.list.selectedUserList.lists"
+                        [field]="'name'" (addToThruList)="addToThruListFrom($event)"
+                        (addToFromList)="addToFromListFrom($event)" (addToRevList)="addToRevListFrom($event)"
+                        (addToToList)="addToToListFromList($event)" (addToCCList)="addToCCListFromList($event)"
+                        (existsInList)="existsInList($event)" (getRoleMembers)="getRoleMembers($event,'defaultList')"
+                        [isRowSelectable]="true">
+                      </app-user>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+              <p-accordionTab>
+                <p-header>
+                  <i class="ui-icon-ac-h fa ui-icon-star-border" style="color: white"></i> Favorite List
+                </p-header>
+                <div class="ui-g">
+                  <div class="w-100 ">
+                    <div class="ui-g roleSearch-box">
+                      <div class="ui-g-12 ui-inputgroup">
+                        <span class="md-inputfield ">
+                          <input type="text" pInputText (input)="searchFL(launch.recipients.search.favSearchquery)"
+                            placeholder="Search by name or mail" [(ngModel)]="launch.recipients.search.favSearchquery"
+                            [ngModelOptions]="{standalone: true}" />
+                          <i class="topbar-icon material-icons">search</i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-g-12 max-h-360">
+                    <div class="ui-g-12 ui-md-12 ui-sm-12 "
+                      *ngIf="launch.recipients.list.selectedUserList && launch.recipients.list.selectedUserList.users">
+                      <app-user [isNoFoundMessage]="true" [showAddBtn]="false"
+                        [actionType]="launch.documents.existing.model.actionType"
+                        [showToBtn]="!letter" [showCcBtn]="!letter"
+                        [items]="launch.recipients.list.selectedUserList.users" [field]="'name'"
+                        (addToToList)="addToToListFromList($event)" [isUserRoleNotList]="true"
+                        (addToCCList)="addToCCListFromList($event)" (addToThruList)="addToThruListFrom($event)"
+                        (addToFromList)="addToFromListFrom($event)" (addToRevList)="addToRevListFrom($event)"
+                        (existsInList)="existsInList($event)" (getRoleMembers)="getRoleMembers($event,'fav')">
+                      </app-user>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+              <p-accordionTab
+                [disabled]="launch.documents.existing.model.actionType==='Signature' || launch.documents.existing.model.actionType==='Initial'">
+                <p-header>
+                  <i class="ui-icon-ac-h fa ui-icon-apps" style="color: white"></i> Distribution List
+                </p-header>
+                <div class="ui-g">
+                  <div class="w-100">
+                    <div class="ui-g roleSearch-box">
+                      <div class="ui-g-12 ui-inputgroup">
+                        <span class="md-inputfield ">
+                          <input type="text" pInputText (input)="searchDL(launch.recipients.search.dlSearchquery)"
+                            placeholder="Search name" [(ngModel)]="launch.recipients.search.dlSearchquery"
+                            [ngModelOptions]="{standalone: true}" />
+                          <i class="topbar-icon material-icons">search</i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-g-12 max-h-360">
+                    <div class="ui-g-12 ui-md-12 ui-sm-12 "
+                      *ngIf="launch.recipients.list.selectedUserList.lists && launch.recipients.list.selectedUserList.lists.length>0 ">
+                      <app-user [isNoFoundMessage]="true" [iconClass]="'fa ui-icon-view-list'" [showTooltip]="true"
+                        [showAddBtn]="false" [actionType]="launch.documents.existing.model.actionType"
+                        [showToBtn]="!letter" [showCcBtn]="!letter"
+                        [items]="launch.recipients.list.selectedUserList.lists" [field]="'name'"
+                        (addToToList)="addListUsersToToList($event)" (addToCCList)="addListUsersToCCList($event)"
+                        (addToThruList)="addListUsersToThruList($event)"
+                        (addToFromList)="addListUsersToFromList($event)" (addToRevList)="addListUsersToRevList($event)"
+                        (existsInList)="existsInList($event)" (getRoleMembers)="getListUsersForTooltip($event)"
+                        (getListMembers)="getListUsers($event,'sublist')" [isRowSelectable]="true"></app-user>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+              <p-accordionTab>
+                <p-header>
+                  <i class="ui-icon-ac-h fa ui-icon-list" style="color: white"></i> Roles List
+                </p-header>
+                <div class="ui-g">
+                  <div class="ui-g-12">
+                    <div class="ui-g roleSearch-box">
+                      <div class="ui-g-3 ui-xl-2">
+                        <a class="hyperLink-black pull-left" (click)="showRoleTreeModel()">Role Tree</a>
+                      </div>
+                      <div class="ui-g-9 ui-xl-10 ui-inputgroup">
+                        <span class="md-inputfield ">
+                          <input type="text" pInputText (input)="searchRL(launch.recipients.search.roleSearchquery)"
+                            placeholder="Search by role" [(ngModel)]="launch.recipients.search.roleSearchquery"
+                            [ngModelOptions]="{standalone: true}" />
+                          <i class="topbar-icon material-icons">search</i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="split-pane-content-primary max-h-360 ">
+                      <div class="upper">
+                        <div class="ui-g">
+                          <div class="ui-g-12 p-b-0">
+                            <div class="ui-g-12 ui-md-12 ui-sm-12 p-b-0"
+                              *ngIf="launch.recipients.list.selectedUserList.lists && launch.recipients.list.selectedUserList.lists.length>0 &&
+                                          !(launch.documents.existing.model.actionType=='Signature' || launch.documents.existing.model.actionType=='Initial')">
+                              <app-user [isNoAlternateRows]="true" [isNoFoundMessage]="true"
+                                [iconClass]="'fa ui-icon-view-list'" [showTooltip]="true" [showAddBtn]="false"
+                                [showToBtn]="!letter" [showCcBtn]="!letter"
+                                [actionType]="launch.documents.existing.model.actionType"
+                                [items]="launch.recipients.list.selectedUserList.lists" [field]="'name'"
+                                (addToToList)="addListUsersToToListNew($event)"
+                                (addToCCList)="addListUsersToCCListNew($event)"
+                                (addToThruList)="addListUsersToThruListNew($event)"
+                                (addToFromList)="addListUsersToFromListNew($event)"
+                                (addToRevList)="addListUsersToRevListNew($event)" (existsInList)="existsInList($event)"
+                                (getRoleMembers)="getListUsersForTooltip($event)"
+                                (getListMembers)="getListUsers($event,'sublist')" [isRowSelectable]="true">
+                              </app-user>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ui-g">
+                          <div class="ui-g-12 p-t-0">
+                            <div class="ui-g-12 ui-md-12 ui-sm-12 p-t-0"
+                              *ngIf="launch.recipients.roles.roleTree && launch.recipients.roles.roleTree.length>0 ">
+                              <app-role-list [items]="launch.recipients.roles.roleTree"
+                                (existsInList)="existsInList($event)" [fromMemo]="true"
+                                (getRoleMembers)="getRoleMembers($event,'roleList')" (addToToList)="addToToList($event)"
+                                (addToCCList)="addToCCList($event)" (addToThruList)="addToThruList($event)"
+                                (addToFromList)="addToFromList($event)" (addToRevList)="addToRevList($event)"
+                                [actionType]="launch.documents.existing.model.actionType">
+                              </app-role-list>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+              <p-accordionTab header="Search Users">
+                <p-header>
+                  <i class="ui-icon-ac-h fa ui-icon-person" style="color: white"></i> Search Users
+                </p-header>
+                <div class="ui-g">
+                  <div class="ui-g-12">
+                    <div class="ui-g-12 ui-md-12">
+                      <form #searchUserForm="ngForm" (submit)="searchUsers('USER');" class="scrollable">
+                        <!--all search criteria-->
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label class="text-bold">Select Criteria</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <label class="text-bold">Search Text</label>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label>Name:</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <span class="md-inputfield">
+                              <input type="text" pInputText name="userName" [(ngModel)]="userSearchQueary.userName"
+                                [ngModelOptions]="{standalone: true}">
+                            </span>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label>Email:</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <span class="md-inputfield">
+                              <input type="text" pInputText name="mail" [(ngModel)]="userSearchQueary.mail"
+                                [ngModelOptions]="{standalone: true}">
+                            </span>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label>Designation:</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <span class="md-inputfield">
+                              <input type="text" pInputText name="title" [(ngModel)]="userSearchQueary.title"
+                                [ngModelOptions]="{standalone: true}">
+                            </span>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label>Phone:</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <span class="md-inputfield">
+                              <div class="ui-fluid">
+                                <p-spinner [(ngModel)]="userSearchQueary.phone" (keyup.enter)="searchUsers('USER')"
+                                  [ngModelOptions]="{standalone: true}" name="phone"    
+                                  class="no-spinners"></p-spinner>
+                              </div>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label>Org Code:</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <span class="md-inputfield">
+                              <input type="text" pInputText name="orgCode" [(ngModel)]="userSearchQueary.orgCode"
+                                [ngModelOptions]="{standalone: true}">
+                            </span>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label>KOC No:</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <span class="md-inputfield">
+                              <input type="text" pInputText [(ngModel)]="userSearchQueary.empNo" name="empNo"
+                                [ngModelOptions]="{standalone: true}">
+                            </span>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-10 p-l-0">
+                            <button pButton type="submit" label="Search" class="pull-right m-l-md"></button>
+                            <button pButton type="button"
+                              (click)="searchUserForm.reset();launch.recipients.search.result=[];" label="Clear"
+                              class="pull-right"></button>
+                          </div>
+                        </div>
+                      </form>
+                      <div class="ui-g-12 ui-md-12 fix-h-350"
+                        *ngIf='launch.recipients.search.result && launch.recipients.search.result.length > 0'>
+                        <app-user [showAddBtn]="false" [showToBtn]="!letter" [showCcBtn]="!letter"  [actionType]="launch.documents.existing.model.actionType"
+                          [items]="launch.recipients.search.result" [field]="'name'" (addToToList)="addToToList($event)"
+                          (addToThruList)="addToThruListFrom($event)" (addToFromList)="addToFromListFrom($event)"
+                          (addToRevList)="addToRevListFrom($event)" (addToCCList)="addToCCList($event)"
+                          (existsInList)="existsInList($event)"></app-user>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+    <div class="ui-g-8 ui-md-8 ui-sm-12 p-l-0 p-t-0 p-b-xs">
+      <div class="ui-g-12" [ngClass]="{'hide':actionTypes==='launch' && !isRelaunch}">
+        <span class="ui-info-label">The fields marked with red&nbsp;asterisk (</span>
+        <span class="ui-info-label_red">*</span>
+        <span class="ui-info-label">) are mandatory</span>
+        <!--div class="ui-info-label-div"></div>-->
+        <button pButton type="button" icon="ui-icon-arrow-back" title="Back" (click)="goBack()"
+          class="remove-btn pull-right"></button>
+      </div>
+
+
+      <div form-group>
+        <div class="ui-info-label-div">
+          <span class="ui-info-label">...</span>
+        </div>
+        <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class=" label23">
+          <label>Type :<span class="required">*</span></label>
+        </div>
+        <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class=" label23 ">
+
+          <p-dropdown class= "ecmText" [options]="type" [(ngModel)]="memoType" optionLabel="name"
+            (onChange)="storeValue($event)"></p-dropdown>
+        </div>
+        <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class=" label23">
+          <label>ECM No :<span class="required">*</span></label>
+        </div>
+        <div class=" label23 ">
+          <input [(ngModel)]="ECM_NO" type="text" pInputText class="ecmText" required
+            [ngModelOptions]="{standalone: true}" maxlength="20"/>
+        </div>
+        <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class=" label23">
+          <label>Language :<span class="required">*</span></label>
+        </div>
+        <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class=" label23">
+
+          <p-dropdown class= "langText" [options]="language" [(ngModel)]="memoLang" (onChange)="storeSelectedLanguage($event)"
+            optionLabel="name"></p-dropdown>
+        </div>
+        <div class=" label23">
+          <label>Priority:<span class="required">*</span></label>
+        </div>
+        <div class="label23">
+          <p-radioButton name="workflowPriority" value="2" label="Normal" [(ngModel)]="launch.workflow.model.priority"
+            [ngModelOptions]="{standalone: true}">
+          </p-radioButton>
+          <p-radioButton name="workflowPriority" value="3" label="High" [(ngModel)]="launch.workflow.model.priority"
+            [ngModelOptions]="{standalone: true}">
+          </p-radioButton>
+        </div>
+      </div>
+
+      <div class="ui-g-12" style="padding-top: 0px;">
+        <form [spellcheck]="false" style="height: 72vh; overflow: auto;" #myForm="ngForm">
+          <p-accordion (onOpen)="onMemoTabOpen($event)" [multiple]="true">
+            <p-accordionTab header="Recipients" [selected]="recipientTab">
+              <div class="ui-g form-group" *ngIf="(memo || fileNote || letter) && !Approver">
+                <div class="ui-g-1">
+                  <label>Reviewer:</label>
+                </div>
+                <div class="ui-g-11">
+                  <p-autoComplete [readonly]="true" (keydown)="keyDown($event)" pDroppable="Thru"
+                    styleClass="scrollautocompleteForMemo" (click)="selectRecipientsTab()"
+                    [(ngModel)]="launch.recipients.RevList" [ngModelOptions]="{standalone: true}"
+                    (onUnselect)="onRecipientRemoved($event)" [multiple]="true" [delay]="1000" field="fulName"
+                    name="RevList">
+                    <ng-template let-value pTemplate="selectedItem">
+                      <div pDraggable="to"   style="padding-right:18px"
+                        (mouseover)="value.orgCode?getRoleMembersIfRole(value):''" pTooltip="{{value.members}}"
+                        [tooltipStyleClass]="'tooltip-min-width'" [escape]="false" tooltipPosition="right">
+                        {{value.name}}
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+                  <button title="Add Action and Comments"
+                    [attr.disabled]="launch.recipients.RevList.length>0 ? null : 'disabled'"
+                    (click)="openTheDialog=true;openTheDialogLoaded=true;RecipientUserIconSelection('Reviewer')"
+                    type="button" class="btn glyphonButton">
+                    <span class="glyphicon glyphicon-tasks"></span>
+                  </button>
+                </div>
+              </div>
+              <div class="ui-g form-group" *ngIf="(memo || fileNote || letter) && Approver">
+                <div class="ui-g-1">
+                  <label>Reviewer:</label>
+                </div>
+                <div class="ui-g-11">
+                  <p-autoComplete [readonly]="true" (keydown)="keyDown($event)" pDroppable="Thru"
+                    styleClass="scrollautocompleteForMemo" (click)="selectRecipientsTab()"
+                    [(ngModel)]="launch.recipients.RevList" [ngModelOptions]="{standalone: true}"
+                    (onUnselect)="onRecipientRemoved($event)" [multiple]="true" [delay]="1000" field="fulName"
+                    name="RevList">
+                    <ng-template let-value pTemplate="selectedItem">
+                      <div pDraggable="to"   style="padding-right:18px"
+                        (mouseover)="value.orgCode?getRoleMembersIfRole(value):''" pTooltip="{{value.members}}"
+                        [tooltipStyleClass]="'tooltip-min-width'" [escape]="false" tooltipPosition="right">
+                        {{value.name}}
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+                  <button title="Add Action and Comments"
+                    [attr.disabled]="launch.recipients.RevList.length>0 ? null : 'disabled'"
+                    (click)="openTheDialog=true;openTheDialogLoaded=true;RecipientUserIconSelection('Reviewer')"
+                    type="button" class="btn glyphonButton">
+                    <span class="glyphicon glyphicon-tasks"></span>
+                  </button>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <!--style="margin-top: 5px;"-->
+                <div class="ui-g-1">
+                  <label>From:<span class="required">*</span></label>
+                </div>
+                <div class="ui-g-5">
+                  <p-autoComplete [readonly]="true" pDroppable="From" styleClass="scrollautocompleteForMemo"
+                    [(ngModel)]="launch.recipients.FromList" [ngModelOptions]="{standalone: true}" aria-required="true"
+                    (onUnselect)="onRecipientRemoved($event)" (click)="selectRecipientsTab()"
+                    (keydown)="keyDown($event)" (completeMethod)="searchRoles($event,'to')"
+                    [suggestions]="filteredRoles" [multiple]="true" [delay]="1000" field="fulName" name="FromList"
+                    >
+                    <ng-template let-value pTemplate="selectedItem">
+                      <div pDraggable="to"  style="padding-right:18px"
+                        (mouseover)="value.orgCode?getRoleMembersIfRole(value):''" pTooltip="{{value.members}}"
+                        [tooltipStyleClass]="'tooltip-min-width'" [escape]="false" tooltipPosition="right">
+                        {{value.name}}
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+
+                  <button title="Add Action and Comments"
+                    [attr.disabled]="this.launch.recipients.FromList.length>0 ? null : 'disabled'"
+                    (click)="openTheDialog=true;openTheDialogLoaded=true;RecipientUserIconSelection('FROM')"
+                    type="button" class="btn glyphonButton">
+                    <span class="glyphicon glyphicon-tasks"></span>
+                  </button>
+                </div>
+                <div class="ui-g-1">
+                  <label>From(Others):</label>
+                </div>
+                <div class="ui-g-5">
+                  <p-autoComplete [readonly]="true" pDroppable="From" styleClass="scrollautocompleteForMemo"
+                    [(ngModel)]="launch.recipients.SubFromList" [ngModelOptions]="{standalone: true}"
+                    (onUnselect)="onRecipientRemoved($event)" (click)="selectRecipientsTab()"
+                    (keydown)="keyDown($event)" (completeMethod)="searchRoles($event,'to')"
+                    [suggestions]="filteredRoles" [multiple]="true" [delay]="1000" field="fulName" name="SubFromList"
+                    >
+                    <ng-template let-value pTemplate="selectedItem">
+                      <div pDraggable="to" style="padding-right:18px"
+                        (mouseover)="value.orgCode?getRoleMembersIfRole(value):''" pTooltip="{{value.members}}"
+                        [tooltipStyleClass]="'tooltip-min-width'" [escape]="false" tooltipPosition="right">
+                        {{value.name}}
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+                  <button title="Add Action and Comments"
+                    [attr.disabled]="this.launch.recipients.SubFromList.length>0 ? null : 'disabled'"
+                    (click)="openTheDialog=true;openTheDialogLoaded=true;RecipientUserIconSelection('SUB-FROM')"
+                    type="button" class="btn glyphonButton">
+                    <span class="glyphicon glyphicon-tasks"></span>
+                  </button>
+                  <!-- <button [attr.disabled]="this.launch.recipients.SubFromList.length>0 ? null : 'disabled'"
+                    (click)="openTheDialog=true;openTheDialogLoaded=true;fromClicked()" type="button"
+                    class="btn glyphonButton">
+                    <span class="glyphicon glyphicon-user"></span>
+                  </button> -->
+                </div>
+              </div>
+              <div class="ui-g form-group" *ngIf="memo || fileNote || letter">
+                <div class="ui-g-1">
+                  <label>Thru:</label>
+                  <!--style="margin-top: -10px;"-->
+                  <!--<p-radioButton title="Select for eSign" name="workflowPriority" value="THRU" [(ngModel)]="signUser2"
+                    [ngModelOptions]="{standalone: true}"></p-radioButton> -->
+                  <!--<span *ngIf="actionTypes==='launch'|| actionTypes==='browseLaunch' || actionTypes==='draftLaunch'" class="required">*</span>-->
+                  <!-- [disabled]="launch.recipients.ThruList.length==0" -->
+                </div>
+                <div class="ui-g-11">
+                  <p-autoComplete id="toLaunch" (keydown)="keyDown($event)" [readonly]="true" pDroppable="Thru"
+                    styleClass="scrollautocompleteForMemo" (click)="selectRecipientsTab()"
+                    [(ngModel)]="launch.recipients.ThruList" [ngModelOptions]="{standalone: true}"
+                    (onUnselect)="onRecipientRemoved($event)" [multiple]="true" [delay]="1000" field="fulName"
+                    name="ThruList">
+                    <ng-template let-value pTemplate="selectedItem">
+                      <div pDraggable="to"  style="padding-right:18px"
+                        (mouseover)="value.orgCode?getRoleMembersIfRole(value):''" pTooltip="{{value.members}}"
+                        [tooltipStyleClass]="'tooltip-min-width'" [escape]="false" tooltipPosition="right">
+                        {{value.name}}
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+                  <button title="Add Action and Comments"
+                    [attr.disabled]="launch.recipients.ThruList.length>0  ? null : 'disabled'"
+                    (click)="openTheDialog=true;openTheDialogLoaded=true;RecipientUserIconSelection('THRU')"
+                    type="button" class="btn glyphonButton">
+                    <span class="glyphicon glyphicon-tasks"></span>
+                  </button>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-1" *ngIf="memoType.name!='Letter'">
+                  <label>TO:<span class="required">*</span></label>
+                  <!--<p-radioButton title="Select for eSign" name="workflowPriority" value="TO" [(ngModel)]="signUser2"
+                    [ngModelOptions]="{standalone: true}"></p-radioButton>
+                     this.launch.recipients.toList == 0-->
+                </div>
+                <div class="ui-g-11" *ngIf="memoType.name!='Letter'">
+                  <p-autoComplete id="toLaunch" (keydown)="keyDown($event)" [readonly]="true" pDroppable="To"
+                    styleClass="scrollautocompleteForMemo" (click)="selectRecipientsTab()"
+                    [(ngModel)]="launch.recipients.toList" [ngModelOptions]="{standalone: true}"
+                    (onUnselect)="onRecipientRemoved($event)" [multiple]="true" [delay]="1000" field="fulName"
+                    name="toList">
+                    <ng-template let-value pTemplate="selectedItem">
+                      <div pDraggable="to" style="padding-right:18px"
+                        (mouseover)="value.orgCode?getRoleMembersIfRole(value):''" pTooltip="{{value.members}}"
+                        [tooltipStyleClass]="'tooltip-min-width'" [escape]="false" tooltipPosition="right">
+                        {{value.name}}
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+                  <button title="Add Action and Comments"
+                    [attr.disabled]="launch.recipients.toList.length>0 ? null : 'disabled'"
+                    (click)="openTheDialog=true;openTheDialogLoaded=true;RecipientUserIconSelection('TO')" type="button"
+                    class="btn glyphonButton">
+                    <span class="glyphicon glyphicon-tasks"></span>
+                  </button>
+                </div>
+              </div>
+              <div class="ui-g form-group" *ngIf="memoType.name!='Letter'">
+                <div class="ui-g-1">
+                  <label>CC:</label>
+                  <!--<span *ngIf="actionTypes==='launch'|| actionTypes==='browseLaunch' || actionTypes==='draftLaunch'" class="required">*</span>-->
+
+                </div>
+                <div class="ui-g-11">
+                  <p-autoComplete id="toLaunch" (keydown)="keyDown($event)" [readonly]="true" pDroppable="CC"
+                    styleClass="scrollautocompleteForMemo" (click)="selectRecipientsTab()"
+                    [(ngModel)]="launch.recipients.ccList" [ngModelOptions]="{standalone: true}"
+                    (onUnselect)="onRecipientRemoved($event)" [multiple]="true" [delay]="1000" field="fulName"
+                    name="ccList">
+                    <ng-template let-value pTemplate="selectedItem">
+                      <div pDraggable="to" style="padding-right:18px"
+                        (mouseover)="value.orgCode?getRoleMembersIfRole(value):(value.appRole=='LIST'?getListMembersIfList(value):'')" pTooltip="{{value.members}}"
+                        [tooltipStyleClass]="'tooltip-min-width'" [escape]="false" tooltipPosition="right">
+                        {{value.name}}
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+                  <!-- <button [attr.disabled]="launch.recipients.ccList.length>0 ? null : 'disabled'"
+                    (click)="openTheDialog=true;openTheDialogLoaded=true;RecipientUserIconSelection('CC')" type="button"
+                    class="btn glyphonButton">
+                    <span class="glyphicon glyphicon-user"></span>
+                  </button> -->
+                </div>
+              </div>
+              <div class="ui-g form-group" *ngIf="memoType.name=='Letter'">
+                <div class="ui-g-1">
+                  <label>To:<span class="required">*</span></label>
+                </div>
+                <div class="ui-g-5">
+                  <input [(ngModel)]="To" [ngModelOptions]="{standalone: true}" type="text" pInputText
+                    class="mostRequired" required />
+                </div>
+                <div class="ui-g-0">
+                  <label>Designation(To):<span class="required">*</span></label>
+                </div>
+                <div class="ui-g-39">
+                  <input [(ngModel)]="designation" [ngModelOptions]="{standalone: true}" type="text" pInputText
+                    class="mostRequired" required />
+                </div>
+              </div>
+              <div class="ui-g form-group" *ngIf="memoType.name=='Letter'&& memoLang.name == 'Arabic'">
+                <div class="ui-g-1">
+                  <label>Suffix:</label>
+                </div>
+                <div class="ui-g-5">
+                  <input [(ngModel)]="suffix" [ngModelOptions]="{standalone: true}" type="text" 
+                    pInputText class="mostRequired" required />
+                </div>
+                <div class="ui-g-1">
+                  <label>Greeting:</label>
+                </div>
+                <div class="ui-g-5">
+                  <input [(ngModel)]="greeting" [ngModelOptions]="{standalone: true}" type="text" pInputText
+                    class="mostRequired" required />
+                </div>
+              </div>
+              <!--<div class="ui-g form-group " style="display:flex;" *ngIf="memoType.name=='Letter'">
+                <div class="ui-g-1 col-lg-4 " style="width:35% ; display: inline-flex;">
+                  <label>Designation(To):<span class="required">*</span></label>
+                  <input [(ngModel)]="designation" [ngModelOptions]="{standalone: true}" type="text" pInputText
+                    class="mostRequired" required />
+                </div>
+                <div class="ui-g-1 col-lg-4" style="width:30% ; display: inline-flex;">
+                  <label> Suffix:</label>
+                  <input style="margin-left: 18%;" [(ngModel)]="suffix" [ngModelOptions]="{standalone: true}"
+                    type="text" pInputText class="mostRequired" required />
+                </div>
+                
+                <div class="ui-g-1 col-lg-4" *ngIf="memoType.name=='Letter'&& memoLang.name == 'Arabic'"
+                  style="width:30% ; display: inline-flex;">
+                  <label> Suffix:</label>
+                  <input [(ngModel)]="suffix" [ngModelOptions]="{standalone: true}"
+                    type="text" pInputText class="mostRequired" required />
+                </div>
+                <div class="ui-g-1 col-lg-4" *ngIf="memoType.name=='Letter'&& memoLang.name == 'Arabic'"
+                  style="width:35% ; display: inline-flex;">
+                  <label> Greeting:</label>
+                  <input [(ngModel)]="greeting" [ngModelOptions]="{standalone: true}" type="text" pInputText
+                    class="mostRequired" required />
+                </div>
+
+              </div>-->
+              <div class="ui-g form-group" *ngIf="letter">
+                <div class="ui-g-1">
+                  <label>Address:<span class="required">*</span></label>
+                </div>
+                <div class="ui-g-11">
+                  <textarea [spellcheck]="true" class="text-area-resize-none bordered" [rows]="5" maxlength="500"
+                    [cols]="30" pInputTextarea [autoResize]="false" [(ngModel)]="address"
+                    [ngModelOptions]="{standalone: true}" name="actionTaken"></textarea>
+                </div>
+              </div>
+              <div class="ui-g form-group" *ngIf="memo || fileNote">
+                <div class="ui-g-1">
+                  <label>Need Sign:</label>
+                </div>
+                <div class="ui-g-11 ui-md-2">
+                  <p-radioButton title="No eSign" name="workflowPriority" value="" inputId="val1"
+                    [(ngModel)]="signUser2" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                  <label class="ui-radiobutton-label-memo">None</label>
+                </div>
+                <div class="ui-g-11 ui-md-2">
+                  <p-radioButton title="Select for eSign" name="workflowPriority" value="TO"
+                    [disabled]="enableToRadioButton" inputId="val2"
+                    [(ngModel)]="signUser2" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                  <label class="ui-radiobutton-label-memo" disabled="enableToRadioButton">To User/Role</label>
+                </div>
+                <div class="ui-g-11 ui-md-2">
+                  <p-radioButton title="Select for eSign" name="workflowPriority" value="THRU" inputId="val3"
+                    [disabled]="enableThruRadioButton"
+                    [(ngModel)]="signUser2" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                  <label class="ui-radiobutton-label-memo" disabled="enableThruRadioButton" >Thru User/Role</label>
+                </div>
+              </div>
+            </p-accordionTab>
+            <!-- .................................................................................................... -->
+            <p-accordionTab header="{{memo?'Memo Details':(fileNote?'File-Note Details':'Letter Details')}}" [selected]="!recipientTab">
+              <div class="ui-g form-group" style="padding-left: 0px; margin-top: 5px;" form-group>
+
+                <div *ngIf="memo || fileNote || letter" class="ui-g-1" style="padding-left: 12px;">
+                  <label>Date :<span class="required">*</span></label>
+                </div>
+                <div *ngIf="memo || fileNote || letter">
+                  <p-calendar name="date" [(ngModel)]="date" [ngModelOptions]="{standalone: true}" [showIcon]="true"
+                    class="datePicker dateHeaderMemo" inputId="icon" [showButtonBar]="true" selectionMode="single"
+                    dateFormat="dd-mm-yy" [monthNavigator]="true" [readonlyInput]="true" [yearNavigator]="true"
+                    yearRange="1900:2030" [required]="true" inputId="navigators"></p-calendar>
+                </div>
+
+                <div *ngIf="memo || fileNote || letter" class="ui-g-0" style="padding-left: 39px;">
+                  <label>Ref No. :<span class="required">*</span></label>
+                </div>
+                <div *ngIf="memo || fileNote || letter" class="ui-g-2 ui-xl-3 ui-lg-2">
+                  <input type="text" pInputText class="mostRequired" name="refNo"
+                    [(ngModel)]="launch.workflow.model.refNo" [ngModelOptions]="{standalone: true}" required  maxlength="40"/>
+                </div>
+                <div class="ui-g-0" style="padding-left: 20px;" *ngIf="memo || fileNote || letter">
+                  <label>OrgCode :<span class="required">*</span></label>
+                </div>
+                <div class="ui-g-2 ui-xl-3 ui-lg-2" *ngIf="memo || fileNote || letter">
+                  <p-autoComplete id="orgUnit" name="selectedorgCode" [suggestions]="suggestionsResults"
+                    (completeMethod)="search($event)" field="orgCode"
+                    [(ngModel)]="launch.workflow.model.selectedorgCode" [ngModelOptions]="{standalone: true}"
+                    (onSelect)="orgUnitSelected($event);" [size]="30" placeholder="Search OrgUnit" [minLength]="1"
+                    [appendTo]="'body'" [required]="true">
+                    <ng-template let-selectedorgCode pTemplate="item">
+                      <div class="ui-helper-clearfix">
+                        <span class="pull-left">{{selectedorgCode.desc}}</span>
+                        <span class="pull-right font-light">{{selectedorgCode.orgCode}}</span>
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+
+                  <i class="topbar-icon material-icons orgSearch">search</i>
+                </div>
+
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-1">
+                  <label>Subject:<span class="required">*</span></label>
+                </div>
+                <div class="ui-g-11">
+                  <!-- <span class="md-inputfield">
+                    <input type="text" maxlength="2000" pInputText name="workflowSubject"
+                      [(ngModel)]="launch.workflow.model.subject" [ngModelOptions]="{standalone: true}" required>
+                  </span> -->
+                  <textarea [spellcheck]="true" class="text-area-resize-none bordered" maxlength="2000" 
+                    [rows]="2" [cols]="30" pInputTextarea [autoResize]="false"
+                    [(ngModel)]="launch.workflow.model.subject" (change)="setMemoDocTitle()"
+                    [ngModelOptions]="{standalone: true}" name="workflowSubject" required></textarea>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-1">
+                  <label>Message:<span class="required">*</span></label>
+                </div>
+                <div *ngIf="memoLang.name!='Arabic'" class="ui-g-11 ui-fluid">
+                  <!--<ckeditor id='editor' [config]="englishConfigEditor" [data]="editorData" name="messages" 
+                    [(ngModel)]="launch.workflow.model.messages" [editor]="Editor" tagName="textarea" [required]="true">
+                  </ckeditor> -->
+                  <ckeditor [(ngModel)]="launch.workflow.model.messages" [ngModelOptions]="{standalone: true}"
+                    [config]="englishConfigEditor" tagName="textarea" [required]="true" [data]="editorData" 
+                    editorUrl="assets/js/memo/ckeditor/ckeditor.js"></ckeditor>
+                </div>
+                <div *ngIf="memoLang.name=='Arabic'" class="ui-g-11 ui-fluid">
+                 <!--  <ckeditor id='editor' [data]="editorData" [config]="config" name="messages"
+                    [(ngModel)]="launch.workflow.model.arMessages" [editor]="Editor" tagName="textarea" [required]="true">
+                  </ckeditor> -->
+                   <ckeditor [(ngModel)]="launch.workflow.model.arMessages" [ngModelOptions]="{standalone: true}"
+                    [config]="config" tagName="textarea" [required]="true" [data]="editorData" 
+                    editorUrl="assets/js/memo/ckeditor/ckeditor.js"></ckeditor>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-1">
+                  <label>Doc Title:<span class="required">*</span></label>
+                </div>
+                <div class="ui-g-11 ui-fluid">
+                  <input [(ngModel)]="memoDocTitle" [ngModelOptions]="{standalone: true}"
+                    class="form-control" name="memoDocTitle" maxlength="500" pInputText>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-folderpath">
+                  <label>Folder Path:<span class="required">*</span></label>
+                  <!-- <span class="required">*</span> -->
+                </div>
+                <div class="ui-g-10">
+                  <input [(ngModel)]="folderpath" disabled="disabled" [ngModelOptions]="{standalone: true}"
+                    class="form-control" name="folderpath" pInputText>
+                </div>
+                <div class="docButton">
+                  <button *ngIf="removeEnabled" pButton type="button" icon="ui-icon-close" title="Remove"
+                    (click)="removeFolderPath()"></button>
+                  <button *ngIf="!removeEnabled" pButton type="button" (click)="openTreeDialog()"
+                    icon="ui-icon-folder-open" title="Click to select folder"></button>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-1" >
+                  <label>For:</label>
+                  <span class="required">*</span>
+                </div>
+                <div class="ui-g-11 ui-fluid">
+                  <p-dropdown [options]="For" aria-required="true" [required]="true" [(ngModel)]="selectedFor"
+                    [ngModelOptions]="{standalone: true}" class="forDropdown" [style]="{'width':'100%'}"
+                    optionLabel="name">
+                  </p-dropdown>
+                </div>
+              </div>
+
+              <div class="ui-g form-group">
+                <div class="ui-g-6">
+
+                  <label>Remarks:</label>
+                </div>
+                <div class="ui-g-6">
+                  <label *ngIf="actionTypes !='reply' && actionTypes !='replyAll'">Instructions:</label>
+                </div>
+                <div class=" ui-g-6">
+
+                  <div>
+                    <textarea type="text" [spellcheck]="true" class="text-area-resize-none bordered" [rows]="4"
+                      maxlength="2000" [cols]="30" pInputTextarea [autoResize]="false"
+                      ng-model-options="{ updateOn: 'blur' }" [(ngModel)]="launch.workflow.model.remarks"
+                      [ngModelOptions]="{standalone: true}" name="remarks"></textarea>
+                    <span *ngIf="!launch.workflow.model.remarks">2000 Remaining</span>
+                    <span *ngIf="launch.workflow.model.remarks">{{2000-launch.workflow.model.remarks.length}}
+                      Remaining</span>
+                  </div>
+                </div>
+                <div class="ui-g-6">
+                  <div *ngIf="actionTypes !='reply' && actionTypes !='replyAll'">
+                    <textarea type="text" [spellcheck]="true" class="text-area-resize-none bordered" [rows]="4"
+                      maxlength="500" [cols]="30" pInputTextarea [autoResize]="false"
+                      ng-model-options="{ updateOn: 'blur' }" [(ngModel)]="launch.workflow.model.instructions"
+                      [ngModelOptions]="{standalone: true}" name="instructions"></textarea>
+                    <span *ngIf="!launch.workflow.model.instructions">500 Remaining</span>
+                    <span *ngIf="launch.workflow.model.instructions">{{500-launch.workflow.model.instructions.length}}
+                      Remaining</span>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12" style="padding: 0px !important;">
+                  <div class="ui-g-4" style="margin-bottom: 4px;">
+                    <div class="ui-g-8" style="padding:0px !important;">
+                      <p-checkbox id="deadLineCheckbox" [binary]="true" (onChange)="checkDeadlineCheckBox($event)"
+                        label="Enable Deadline" [ngModelOptions]="{standalone: true}"
+                        [(ngModel)]="launch.workflow.model.isDeadlineEnabled"></p-checkbox>
+                    </div>
+                  </div>
+                  <div *ngIf="launch.workflow.model.isDeadlineEnabled">
+                    <div class="ui-g-1 text-align-center" style="background-color: #FFFFCC; margin-bottom: 4px;">
+                      <i class="fa ui-icon-warning" style="font-size: 26px;color:#fcbc03"></i>
+                    </div>
+                    <div class="ui-g-6" style="background-color: #FFFFCC; margin-bottom: 4px;">
+                      <span class="m-0 text-bold-11">The Default Deadline is Five Business Days[Excluding Friday and
+                        Saturdays]</span>
+                      <p class="m-0 font-9">You may change the deadline duration to any date of your preference...</p>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="launch.workflow.model.isDeadlineEnabled" class="ui-g-1">
+                  <label>Deadline:</label>
+                </div>
+                <div *ngIf="launch.workflow.model.isDeadlineEnabled" class="ui-g-6">
+                  <p-calendar class="dateHeaderMemo" [minDate]="launch.currentDate" [showIcon]="true"
+                    [showButtonBar]="true" (onSelect)="selectDeadLine()" selectionMode="single"
+                    [(ngModel)]="launch.workflow.model.deadlineDate" [ngModelOptions]="{standalone: true}"
+                    name="deadlineDate" [monthNavigator]="true" [readonlyInput]="true" (onClearClick)="clearDeadline()"
+                    [yearNavigator]="true" yearRange="1900:2030">
+                  </p-calendar>
+                </div>
+                <div *ngIf="launch.workflow.model.isDeadlineEnabled" class="ui-g-5">
+                  <p-dropdown [options]="deadLineTimes" [(ngModel)]="deadLineTime" name="deadLineTime"
+                    [ngModelOptions]="{standalone: true}" [disabled]="!launch.workflow.model.deadlineDate">
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span (click)="onClick(item.disabled); clearReminderDate()"
+                        [ngStyle]="item.disabled? {'color': '#ccc', 'cursor': 'default'} : null">{{item.label}}</span>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div *ngIf="launch.workflow.model.isDeadlineEnabled" class="ui-g form-group">
+                <div class="ui-g-1">
+                  <label>Reminder:</label>
+                </div>
+                <div class="ui-g-6">
+                  <p-calendar class="dateHeaderMemo" [maxDate]="launch.workflow.model.deadlineDate"
+                    [minDate]="launch.currentDate" [showButtonBar]="true" selectionMode="single" [showIcon]="true"
+                    (onClearClick)="clearReminder()" [disabled]="!launch.workflow.model.deadlineDate"
+                    [(ngModel)]="launch.workflow.model.reminderDate" [ngModelOptions]="{standalone: true}"
+                    name="reminderDate" [monthNavigator]="true" [readonlyInput]="true" [yearNavigator]="true"
+                    yearRange="1900:2030" (onSelect)="selectReminder()">
+                  </p-calendar>
+                </div>
+                <div class="ui-g-5">
+                  <p-dropdown [options]="reminderTimes" [(ngModel)]="reminderTime" name="reminderTime"
+                    [ngModelOptions]="{standalone: true}"
+                    [disabled]="!launch.workflow.model.reminderDate || !launch.workflow.model.deadlineDate ">
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span (click)="onClick(item.disabled)"
+                        [ngStyle]="item.disabled? {'color': '#ccc', 'cursor': 'default'} : null">{{item.label}}</span>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </form>
+        <div class="ui-g-12" class="buttonGroups">
+          <div class="ui-g-12 ui-sm-12" style="text-align: center">
+            <button (click)="previewData()" pButton type="button"
+              [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0)||!folderpath||!date
+              ||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) 
+              ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)"
+              class="mr-1" label="Preview"></button> &nbsp;
+            <button (click)="navigateToDashboard()" *ngIf="Approver || Composer" pButton type="button" label="Cancel" title="Cancel and delete data"></button>&nbsp;
+            <button (click)="navigateToInboxForReview()" *ngIf="!Approver && !Composer" pButton type="button" label="Cancel" title="Cancel Edit"></button>&nbsp;
+            <button (click)="saveDraftData()"  pButton type="button" label="Save Draft" title="Save data for later"
+              [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0) ||!folderpath||!date||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)">
+            </button>&nbsp;
+            <button (click)="saveAsTemplate()" *ngIf="(!actionId && Composer)" pButton type="button" label="Save as Template" title="Save as Memo Template"
+              [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0) ||!folderpath||!date||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)">
+            </button>&nbsp;
+            <!--*ngIf="!actionId && (Approver || Composer)"-->
+            <button (click)="submitMemoForReview()" *ngIf="Approver && !Composer" pButton type="button"
+              label="Submit For Review" title="Send for review and comments"
+              [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0) ||!folderpath||launch.recipients.RevList.length == 0||!date||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) 
+              ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)"></button> &nbsp;
+            <button (click)="submitMemoForPreReview()" *ngIf="!Approver" pButton type="button"
+              label="Submit For Review" title="Send for initial review and comments"
+              [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0) ||!folderpath||launch.recipients.RevList.length == 0
+              ||!date||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject 
+              ||( memoLang.name=='English' && !launch.workflow.model.messages) ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) 
+              ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)"></button>&nbsp;
+            <button pButton (click)="sendforApprovalConfirmation()" *ngIf="!Approver" type="button" label="Send For Approval" title="Send for From User/Role Review & Approval"
+              [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0) ||!folderpath
+              ||!date||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject 
+              ||( memoLang.name=='English' && !launch.workflow.model.messages) ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) 
+              ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)"></button>&nbsp;
+            <button (click)="signAndSubmitMemo(1)" *ngIf="!Approver && !Composer" pButton type="button"
+              label="Initial & Send For Approval" title="Initial & Send For Approval"
+              [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0)||!folderpath||!date
+              ||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) 
+              ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)
+              ||(memoType.name=='Letter'&&!To)"></button>&nbsp;
+            <button (click)="signAndSubmitMemo(0)" *ngIf="Approver && !Composer" pButton type="button"
+              label="Sign & Submit" title="Sign and Submit"
+              [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0)||!folderpath||!date
+              ||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) 
+              ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)
+              ||(memoType.name=='Letter'&&!To)"></button>&nbsp;
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog [modal]="true" showEffect="fade" appendTo="body" [resizable]="false" [(visible)]="viewer"
+  (onHide)="closeViewPopUp()">
+  <iframe *ngIf="showIframe" class="dynamic-Iframe-size" [src]="attach_url" frameborder="0" allowfullscreen></iframe>
+</p-dialog>
+<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTree" width="800" height="450">
+  <p-header>
+    Select Folder Path
+  </p-header>
+  <div class="ui-tabview-panel folder-path-selection-model">
+    <!--<tree [folderPermission]="folderPermission" [changeView]="false"></tree>-->
+    <p-tree [value]="folderList" selectionMode="single" [(selection)]="selectedFolder"
+      (onNodeExpand)="nodeExpand($event)" (onNodeSelect)="nodeSelect($event)"></p-tree>
+  </div>
+  <div class="ui-g-12 ui-md-12"></div>
+  <span style="color: red;line-height: 5;"
+    *ngIf="folderPermission && folderPermission.folderSelected && folderPermission.permission">
+    User don't have permission to add document in selected folder
+  </span>
+  <button pButton type="button" label="Cancel" class="small-btn-right m-t-xl m-r-md m-b-md"
+    (click)="openTree=false"></button>
+  <button pButton type="button" label="OK" class="small-btn-right m-t-xl m-r-md m-b-md"
+    [disabled]="folderPermission && folderPermission.permission" (click)="selectFolder();openTree=false"></button>
+</p-dialog>
+<p-dialog [modal]="true" [(visible)]="eSignDialog"  [style]="{width: '250px',height:'120px'}"
+  (onHide)="canceleSign()">
+  <p-header>
+    <span>eSign In-Progress</span>
+  </p-header>
+  <p-footer>
+    <button type="button" class="pull-right" pButton [disabled]="isesignCancelDisabled" (click)="canceleSign()"
+      label="Cancel"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog [modal]="true" [(visible)]="submitMemoDialog" [style]="{width: '250px',height:'120px'}"
+  (onHide)="cancelMemoDialog()">
+  <p-header>
+    <span>Memo Submit In-Progress</span>
+  </p-header>
+  <p-footer>
+    <button type="button" class="pull-right" pButton (click)="cancelMemoDialog()"
+      label="Cancel"></button>
+  </p-footer>
+</p-dialog>
+<div *ngIf="openSearchDialogLoaded">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openSearchDialog" width="1300" height="600">
+    <p-header>
+      Search Existing Document
+    </p-header>
+    <p-accordion [multiple]="true" [(activeIndex)]="launch.documents.existing.activeAccordionIndices"
+      (onOpen)="onAccordionTabOpen($event)" (onClose)="onAccordionTabClose($event)">
+      <div class="ui-g max-h-490">
+        <div class="ui-g-12 p-t-0 p-b-0">
+          <div class="ui-g-12 ui-sm-12 p-l-0 p-r-sm">
+            <p-accordionTab header="Search Document" [selected]="true">
+              <div>
+                <app-search-document (updateSearchResultCopy)="updateSearchResultCopy($event)" [isLaunchSearch]="true"
+                  [showSavedSearches]="true"
+                  [dataTableComponentRef]="dataTableComponentRef" [data]="launch.documents.existing"
+                  [isSimpleSearch]="false" [screen]="'Launch'" [usage]="'popup'"></app-search-document>
+              </div>
+              <span class="white-text">a</span>
+            </p-accordionTab>
+            <p-accordionTab>
+              <p-header>
+                <span
+                  *ngIf="launch.documents.existing.searchResult && launch.documents.existing.searchResult.length===0">Search
+                  Result</span>
+                <span *ngIf="launch.documents.existing.searchResult && launch.documents.existing.searchResult.length>0">
+                  <!--Total {{launch.documents.existing.searchResult.length}} Records Found-->
+                  Total {{launch.documents.existing.totalResults}} Records Found
+                </span>
+              </p-header>
+              <div class="ui-g">
+                <div class="ui-g-12" *ngIf="launch.documents.existing.searchResult">
+                  <div class="ui-g-12">
+                    <!--fill-available-height-->
+                    <!--(sendSortPagination)="continueSearch($event)"-->
+                    <data-table [showCount]="true" [totalCount]="launch.documents.existing.totalResults"
+                      [tableData]="launch.documents.existing.searchResult" [colHeaders]="colHeaders"
+                      [itemsPerPage]="launch.documents.existing.pageSize?launch.documents.existing.pageSize:50"
+                      [rowExpandable]="false" [showInfoIcon]="true" [showAddCartIcon]="false" [showCheckBox]="true"
+                      (sendData)="selectedRowData($event)" [showDownloadIcon]="false" (addToCart)="addToCart($event)"
+                      [selectedRows]="searchResultDocsSelected"
+                      [totalRecords]="launch.documents.existing.searchResult?launch.documents.existing.totalResults:0"
+                      (download)="downloadDoc($event)" [lazy]="false" [emptyMessage]="emptyMessage"
+                      [activePage]="'launch'"></data-table>
+                  </div>
+                </div>
+              </div>
+            </p-accordionTab>
+          </div>
+        </div>
+      </div>
+    </p-accordion>
+    <p-footer>
+      <button pButton (click)="openSearchDialog=false;" type="button" label="Cancel"
+        class="pull-right footer-btn-blue m-l-md"></button>
+      <button [disabled]="searchResultDocsSelected && searchResultDocsSelected.length==0" pButton
+        (click)="openSearchDialog=false;addToCartMulti(searchResultDocsSelected); addToEncMulti(searchResultDocsSelected)"
+        type="button" label="Done" class="pull-right footer-btn-blue"></button>
+    </p-footer>
+  </p-dialog>
+</div>
+<div *ngIf="openAddFromFolderDilaogLoaded" class="text">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openAddFromFolderDilaog" [positionTop]="20"
+    [positionLeft]="0"  [style]="{width: pWidth}">
+    <p-header>
+      Add From Folder
+    </p-header>
+    <app-browse-screen [fromEnclosure]="addDocumentType" (refreshCart)="getDocumentCart()"
+      (onCancel)="openAddFromFolderDilaog=false;">
+    </app-browse-screen>
+  </p-dialog>
+</div>
+<div *ngIf="openTheDialogLoaded" class="text">
+  <p-dialog (onHide)="closeSelectedList()" appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTheDialog"
+    [positionTop]="20" [responsive]="true" [style]="{width: '700px',height:'600px'}">
+    <p-header>
+      Selected List
+    </p-header>
+    <p-accordion>
+      <p-accordionTab header="From (User/Role)" [selected]="from" [disabled]="true">
+        <table class="table" width="100%">
+          <thead bgcolor="#72A0C1" class="thead-light">
+            <tr>
+              <th scope="col" style="text-align:left" width="80%">Selected Recipients</th>
+              <th scope="col" style="text-align:end" width="20%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let field of launch.recipients.FromList; let i = index">
+              <th style="text-align:left" scope="row">{{field.fulName||field.name}}</th>
+              <td style="text-align:end;color:red">
+                <select [(ngModel)]="field.action" (ngModelChange)="onRecipientActionChange($event,i)">
+                  <option *ngFor="let item of fromReciActionType" [value]="item.name">
+                    {{item.name}}</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <textarea class="w-100" placeholder="" [(ngModel)]="fromWiRemarks" [maxlength]="maxChars">
+      </textarea>
+        <br />
+        <br>
+        <label class="nopadding clrlbl"> Characters Remaining: 0/{{maxChars}}</label>
+      </p-accordionTab>
+      <p-accordionTab header="From Others (User/Role)" [selected]="subFrom" [disabled]="true">
+        <table class="table" width="100%">
+          <thead bgcolor="#72A0C1" class="thead-light">
+            <tr>
+              <th scope="col" style="text-align:left" width="80%">Selected Recipients</th>
+              <th scope="col" style="text-align:end" width="20%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let field of launch.recipients.SubFromList; let i = index">
+              <th style="text-align:left" scope="row">{{field.fulName||field.name}}</th>
+              <td style="text-align:end;color:red">
+                <select [(ngModel)]="field.action" (ngModelChange)="onRecipientActionChange($event,i)">
+                  <option *ngFor="let item of fromReciActionType" [value]="item.name">
+                    {{item.name}}</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <textarea class="w-100" placeholder="" [(ngModel)]="sub_fromWiRemarks" [maxlength]="maxChars">
+      </textarea>
+        <br />
+        <br>
+        <label class="nopadding clrlbl"> Characters Remaining: 0/{{maxChars}}</label>
+      </p-accordionTab>
+      <p-accordionTab header="To (User/Role)" [selected]="to" [disabled]="true">
+        <table class="table" width="100%">
+          <thead bgcolor="#72A0C1" class="thead-light">
+            <tr>
+              <th scope="col" style="text-align:left" width="80%">Selected Recipients</th>
+              <th scope="col" style="text-align:end" width="20%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let field of launch.recipients.toList; let i = index">
+              <th style="text-align:left" scope="row">{{field.fulName||field.name}}</th>
+              <td style="text-align:end;color:red">
+                <select [(ngModel)]="field.action" (ngModelChange)="onRecipientActionChange($event,i)">
+                  <option *ngFor="let item of toReciActionType" [value]="item.name">
+                    {{item.name}}</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <textarea class="w-100" placeholder="" [(ngModel)]="toWiRemarks" [maxlength]="maxChars">
+  </textarea>
+        <br />
+        <br>
+        <label class="nopadding clrlbl"> Characters Remaining: 0/{{maxChars}}</label>
+      </p-accordionTab>
+      <!-- <p-accordionTab header="CC" [selected]="cc" [disabled]="true">
+        <table class="table">
+          <thead bgcolor="#72A0C1" class="thead-light">
+            <tr>
+              <th scope="col">Selected Recipients</th>
+              <th scope="col" style="text-align:end">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let field of launch.recipients.ccList; let i = index">
+              <th scope="row">{{field.fulName||field.name}}</th>
+              <td style="text-align:end;color:red">
+                <select [(ngModel)]="field.action" (ngModelChange)="onRecipientActionChange($event,i)">
+                  <option *ngFor="let item of recipientsActionType" [value]="item.name">
+                    {{item.name}}</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <textarea class="w-100" placeholder="" [(ngModel)]="ccWiRemarks" [maxlength]="maxChars">
+        </textarea>
+      </p-accordionTab> -->
+      <p-accordionTab header="Thru (User/Role)" [selected]="through" [disabled]="true">
+        <table class="table" width="100%">
+          <thead bgcolor="#72A0C1" class="thead-light">
+            <tr>
+              <th scope="col" style="text-align:left" width="80%">Selected Recipients</th>
+              <th scope="col" style="text-align:end" width="20%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let field of launch.recipients.ThruList; let i = index">
+              <th style="text-align:left" scope="row">{{field.fulName||field.name}}</th>
+              <td style="text-align:end;color:red">
+                <select [(ngModel)]="field.action" (ngModelChange)="onRecipientActionChange($event,i)">
+                  <option *ngFor="let item of thruReciActionType" [value]="item.name">
+                    {{item.name}}</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <textarea class="w-100" placeholder="" [(ngModel)]="throughWiRemarks" [maxlength]="maxChars"></textarea>
+        <br/>
+        <br>
+        <label class="nopadding clrlbl"> Characters Remaining: 0/{{maxChars}}</label>
+      </p-accordionTab>
+      <p-accordionTab header="Reviewer (User/Role)" [selected]="rev" [disabled]="true">
+        <table class="table" width="100%">
+          <thead bgcolor="#72A0C1" class="thead-light">
+            <tr>
+              <th scope="col" style="text-align:left" width="80%">Selected Recipients</th>
+              <th scope="col" style="text-align:end" width="20%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let field of launch.recipients.RevList; let i = index">
+              <th style="text-align:left" scope="row">{{field.fulName||field.name}}</th>
+              <td style="text-align:end;color:red">
+                <select [(ngModel)]="field.action" (ngModelChange)="onRecipientActionChange($event,i)">
+                  <option *ngFor="let item of revReciActionType" [value]="item.name">
+                    {{item.name}}</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <textarea class="w-100" placeholder="" [(ngModel)]="reviewerWiRemarks" [maxlength]="maxChars">
+  </textarea>
+        <br />
+        <br>
+        <label class="nopadding clrlbl"> Characters Remaining: 0/{{maxChars}}</label>
+      </p-accordionTab>
+    </p-accordion>
+    <div>
+      <button style="display: block; margin-left: auto; margin-top: 15vh; width: 20%; height: 40px;"
+        (click)="closeSelectedList();openTheDialogLoaded=false;openTheDialog=false;" pButton type="button" class="mr-1"
+        label="OK"></button> &nbsp;
+    </div>
+  </p-dialog>
+</div>
+<div *ngIf="openTheDialogPreview" class="text">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openThePreviewDialog" [positionTop]="20"
+    [responsive]="true"  [style]="{width: '900px',height:'800px'}">
+    <p-header>
+      Preview
+
+    </p-header>
+    <div style="display: flex;
+      justify-content: end;
+      margin-right: -4px;margin-top:-8px;margin-bottom:5px">
+      <button (click)="opneInNewTab()">
+        <span style="font-size: 17px;" class="glyphicon glyphicon-new-window"></span>
+      </button>
+    </div>
+    <iframe id="iframe" *ngIf="previewResponse != ''" [attr.src]="previewResponse" width="100%" height="650"> </iframe>
+  </p-dialog>
+</div>
+<div *ngIf="openConfirmationDialog" class="text">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTheConfirmationDialog" [responsive]="true"
+    [style]="{width: '400px',height:'200px'}">
+    <p-header>
+      Confirmation!
+
+    </p-header>
+    <p><span *ngIf="(!wiaAction || !wiaAction.id)">
+        Please confirm to go back.
+      </span>
+      <span *ngIf="(wiaAction && wiaAction.id)">
+        Please note that generated document will be deleted and workitem will be cancelled.
+      </span></p>
+    <div style="height: 40px;"></div>
+    <div style="margin-left: 20vh">
+      <button (click)="cancel()" pButton type="button" class="mr-1" label="Cancel"></button> &nbsp;
+      <button (click)="ok()" pButton type="button" class="mr-1" label="OK"></button> &nbsp;
+    </div>
+  </p-dialog>
+</div>
+<div *ngIf="openReviewerConfirmationDialog" class="text">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTheReviewerConfirmationDialog" [responsive]="true"
+    [style]="{width: '400px',height:'200px'}">
+    <p-header>
+      Confirmation!
+    </p-header>
+    <p><span *ngIf="(!wiaAction || !wiaAction.id)">
+        Please confirm to discard changes and go back to inbox.
+      </span></p>
+    <div style="height: 40px;"></div>
+    <div style="margin-left: 20vh">
+      <button (click)="cancelReviewer()" pButton type="button" class="mr-1" label="Cancel"></button> &nbsp;
+      <button (click)="navigateToInbox()" pButton type="button" class="mr-1" label="OK"></button> &nbsp;
+    </div>
+  </p-dialog>
+</div>
+<div *ngIf="openConfirmationActionDialog" class="text">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTheConfirmationActionDialog"
+    [responsive]="true"  [style]="{width: '400px',height:'200px'}">
+    <p-header>
+      Confirmation!
+    </p-header>
+    <p>Are you sure to continue with default recipient(s) actions?</p>
+    <div style="height: 40px;"></div>
+    <div style="margin-left: 20vh">
+      <button (click)="cancelAction()" pButton class="mr-1" label="Cancel"></button> &nbsp;
+      <button (click)="okAction()" pButton class="mr-1" label="Open"></button> &nbsp;
+    </div>
+  </p-dialog>
+</div>
+<div *ngIf="openInformationDialog" class="text">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTheInformationDialog"
+    [responsive]="true" [style]="{width: '400px',height:'200px'}">
+    <p-header>
+      Confirmation!
+    </p-header>
+    <p>Are you sure to skip the selected 'Reviewer' and route directly to 'From' recipient?</p>
+    <div style="height: 40px;"></div>
+    <div style="margin-left: 20vh">
+      <button  [disabled]=isInfoButtonClicked (click)="cancelInfoDialogClick()" pButton class="mr-1" label="Cancel"></button> &nbsp;
+      <button  [disabled]=isInfoButtonClicked (click)="okInfoDialogClick()" pButton class="mr-1" label="OK"></button> &nbsp;
+    </div>
+    <p-footer>
+      <div class="progress-bar">
+        <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+      </div>
+    </p-footer>
+  </p-dialog>
+</div>
+<div *ngIf="openNewDocDilaogLoaded">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openNewDocDilaog" width="1000">
+    <p-header>
+      Add New Document
+    </p-header>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-tabview-panel add-doc-container">
+          <app-add-document (onAddSuccess)="onDocumentAdded($event)" [screen]="'Launch'"
+            (onCancel)="openNewDocDilaog=false;" [launchScreenStep1TabIndex]="1"></app-add-document>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
+</div>
+<div *ngIf="showRoleTreeLoaded">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showRoleTree" width="700" height="540">
+    <p-header>
+      Role Tree
+    </p-header>
+    <div class="max-h-400">
+      <app-role-tree [data]="roleTreeData" (expandNode)="getSubOrgRoles($event.node)" [showAddToToBtn]="!letter"
+        [showAddToCCBtn]="!letter" [showAddChildBtn]="false" [fromMemo]="true" (showDeleteRole)="false"
+        (showEditRole)="false" (getRoleMembers)="getRoleMembersForTree($event)" [showRemoveItemBtn]="false"
+        [editRole]="false" [actionType]="launch.documents.existing.model.actionType"
+        (existsInList)="existsInList($event)" (addToToList)="addToToList($event)" (addToCCList)="addToCCList($event)"
+        (addToThruList)="addToThruList($event)" (addToFromList)="addToFromList($event)"
+        (addToRevList)="addToRevList($event)">
+      </app-role-tree>
+    </div>
+    <p-footer>
+      <button class="pull-right footer-btn-blue" pButton type="button" label="Done"
+        (click)="showRoleTree=false;"></button>
+    </p-footer>
+  </p-dialog>
+</div>
+<p-confirmDialog header="Forward Without New Attachments?" key="forwardConfirm"></p-confirmDialog>
+<p-confirmDialog header="Reply Without New Attachments?" key="replyConfirm"></p-confirmDialog>
+<p-confirmDialog header="Launch Without New Attachments?" key="launchConfirm"></p-confirmDialog>
+<p-confirmDialog header="Confirmation" key="confirmationDraft"></p-confirmDialog>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

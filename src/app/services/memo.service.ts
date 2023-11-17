@@ -19,15 +19,15 @@ export class MemoService {
     getValidateRoleMemberByCurrentUser(selectedRoleId) {
         const user = this.us.getCurrentUser();
         console.log(selectedRoleId,user.EmpNo)
-        const url = `${global.base_url}MemoService/validateRoleMemberbyUser?roleId=${selectedRoleId}&eNo=${user.EmpNo}`
+        const url = `${global.base_url}MemoService/validateRoleMemberbyUser?roleId=${ie11_polyfill(JSON.stringify(selectedRoleId))}&eNo=${ie11_polyfill(JSON.stringify(user.EmpNo))}&sysdatetime=${this.coreService.getSysTimeStamp()}`
         return this.http.get(url, { responseType: 'text' });
     }
-
+ 
     previewMemo(memoDetails: any): any {
         const url = `${global.base_url}MemoService/previewMemo`;
         return this.http.post(url, memoDetails, {responseType:"blob"});
     }
-    
+   
     createMemo(memoDetails: any): any {
         const url = `${global.base_url}MemoService/createMemo`;
         return this.http.post(url, memoDetails, { responseType: 'text' });
@@ -36,8 +36,16 @@ export class MemoService {
         const url = `${global.base_url}MemoService/replyMemo`;
         return this.http.post(url, memoDetails, { responseType: 'text' });
     }
+    forwardMemo(memoDetails: any): any {
+        const url = `${global.base_url}MemoService/forwardMemo`;
+        return this.http.post(url, memoDetails, { responseType: 'text' });
+    }
     saveMemo(memoDetails: any): any {
         const url = `${global.base_url}MemoService/saveMemo`;
+        return this.http.post(url, memoDetails, { responseType: 'text' });
+    }
+    saveMemoAsTemplate(memoDetails: any): any {
+        const url = `${global.base_url}MemoService/saveMemoAsTemplate`;
         return this.http.post(url, memoDetails, { responseType: 'text' });
     }
     submitMemo(memoDetails: any): any {
@@ -54,38 +62,44 @@ export class MemoService {
     }
     getMemoById(memoId:any){
         // console.log(typeof(memoId))
-        const url = `${global.base_url}MemoService/getMemoDetails?memoId=${memoId}`
+        const url = `${global.base_url}MemoService/getMemoDetails?memoId=${ie11_polyfill(memoId)}&sysdatetime=${this.coreService.getSysTimeStamp()}`
         return this.http.get(url);
     }
     getMemoRemarksById(memoId:any){
         console.log(memoId)
-        const url = `${global.base_url}MemoService/getMemoRemarks?mId=${memoId}`
+        const url = `${global.base_url}MemoService/getMemoRemarks?mId=${ie11_polyfill(memoId)}&sysdatetime=${this.coreService.getSysTimeStamp()}`
         return this.http.get(url);
     }
     cancelMemo(memoId: any): any {
-        const url = `${global.base_url}MemoService/cancelMemo?mId=${memoId}`
+        const url = `${global.base_url}MemoService/cancelMemo?mId=${ie11_polyfill(memoId)}&sysdatetime=${this.coreService.getSysTimeStamp()}`
         return this.http.get(url, { responseType: 'text' });
     }
     getOrgUnitbyOrgCode(orgCode:any){
-        const url = `${global.base_url}AdministrationService/getOrgUnitbyOrgCode?orgcode=${orgCode}`
+        const url = `${global.base_url}AdministrationService/getOrgUnitbyOrgCode?orgcode=${orgCode}&sysdatetime=${this.coreService.getSysTimeStamp()}`
         return this.http.get(url,);
     }
     getMemoLockStatus(mId:string,wId:String,rType:any,uType:any,uId:any){
         console.log("getMemoLockStatus" + mId,wId,rType,uType,uId)
         const user = this.us.getCurrentUser();
-        const url =`${global.base_url}MemoService/getMemoLockStatus?mId=${mId}&uId=${uId}&wId=${wId}&rType=${rType}&uType=${uType}`
+        const url =`${global.base_url}MemoService/getMemoLockStatus?mId=${ie11_polyfill(JSON.stringify(mId))}&uId=${ie11_polyfill(JSON.stringify(uId))}&wId=${ie11_polyfill(JSON.stringify(wId))}&rType=${ie11_polyfill(rType)}&uType=${ie11_polyfill(uType)}&sysdatetime=${this.coreService.getSysTimeStamp()}`
         return this.http.get(url);
     }
     unLockMemo(mId:string,wId:String,rType:any,uType:any,uId:any){
         console.log("unLockMemo" + mId,wId,rType,uType,uId)
         //const user = this.us.getCurrentUser();
-        const url = `${global.base_url}MemoService/unLockMemo?mId=${mId}&uId=${uId}&wId=${wId}&rType=${rType}&uType=${uType}`
+        const url = `${global.base_url}MemoService/unLockMemo?mId=${ie11_polyfill(JSON.stringify(mId))}&uId=${ie11_polyfill(JSON.stringify(uId))}&wId=${ie11_polyfill(JSON.stringify(wId))}&rType=${ie11_polyfill(rType)}&uType=${ie11_polyfill(uType)}&sysdatetime=${this.coreService.getSysTimeStamp()}`
+        return this.http.get(url, { responseType: 'text' });
+    }
+    updateMemoDate(mId:string,mDate:String){
+        console.log("updateMemoDate" + mId,mDate)
+        //const user = this.us.getCurrentUser();
+        const url = `${global.base_url}MemoService/updateMemoDate?mId=${ie11_polyfill(JSON.stringify(mId))}&mDate=${ie11_polyfill(mDate)}&sysdatetime=${this.coreService.getSysTimeStamp()}`
         return this.http.get(url, { responseType: 'text' });
     }
     lockMemo(mId:string,wId:String,rType:any,uType:any,uId:any){
         console.log("LockMemo" + mId,wId,rType,uType,uId)
         const user = this.us.getCurrentUser();
-        const url = `${global.base_url}MemoService/lockMemo?mId=${mId}&uId=${uId}&wId=${wId}&rType=${rType}&uType=${uType}`
+        const url = `${global.base_url}MemoService/lockMemo?mId=${ie11_polyfill(JSON.stringify(mId))}&uId=${ie11_polyfill(JSON.stringify(uId))}&wId=${ie11_polyfill(JSON.stringify(wId))}&rType=${ie11_polyfill(rType)}&uType=${ie11_polyfill(uType)}&sysdatetime=${this.coreService.getSysTimeStamp()}`
         return this.http.get(url, { responseType: 'text' });
     }
 }

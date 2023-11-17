@@ -1,0 +1,93 @@
+<div class="ui-g">
+  <div class="ui-g-12">
+    <form (ngSubmit)="searchDocument()" #searchForm="ngForm" class="form-center tabled-form">
+      <table>
+        <tbody>
+        <tr>
+
+          <td>
+            <label>Search Text:</label>
+          </td>
+          <td class="input-md">
+            <p-dropdown [options]="data.matchTypes" [(ngModel)]="data.model.contentSearch.oper" [autoWidth]="false"
+                        name="oper"></p-dropdown>
+          </td>
+          <td class="input-md">
+                    <span class="md-inputfield">
+                        <input type="text" pInputText [(ngModel)]="data.model.contentSearch.mvalues[0]" name="query">
+                    </span>
+          </td>
+
+        </tr>
+        <ng-container *ngIf="!isSimpleSearch">
+          <tr>
+            <td>
+              <label>Document Class:</label>
+            </td>
+            <td class="input-md">
+              <p-dropdown [options]="data.documentClasses" [(ngModel)]="data.model.selectedDocumentClass"
+                          [autoWidth]="false"
+                          name="matchType" (onChange)="switchDocumentClass()"></p-dropdown>
+            </td>
+          </tr>
+          <ng-container *ngIf="data.searchTemplate && data.searchTemplate.props">
+            <tr *ngFor="let prop of data.searchTemplate.props;let i=index">
+              <ng-container *ngIf="prop.hidden=='false'">
+                <ng-container *ngIf="prop.dtype=='DATE'" class="form-group">
+                  <td>
+                    <label>{{prop.desc}}:</label>
+                  </td>
+                  <td class="input-md">
+                    <p-calendar placeholder="From" dateFormat="dd-mm-yy" [monthNavigator]="true" [yearNavigator]="true"
+                                yearRange="1990:2030" [showIcon]="true" [(ngModel)]="prop.mvalues[0]" [readonlyInput]="true"
+                                [name]="prop.symName"></p-calendar>
+                  </td>
+                  <td class="input-md">
+                    <p-calendar placeholder="To" dateFormat="dd-mm-yy" [disabled]="!prop.mvalues[0]"
+                                [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true" [readonlyInput]="true"
+                                [(ngModel)]="prop.mvalues[1]" [name]="prop.symName+'2'"></p-calendar>
+                  </td>
+
+                </ng-container>
+                <ng-container *ngIf="prop.dtype=='STRING' && !prop.lookups" class="form-group">
+
+                  <td>
+                    <label>{{prop.desc}}:</label>
+                  </td>
+                  <td class="input-md">
+                          <span class="md-inputfield">
+                              <input type="text" pInputText [(ngModel)]="prop.mvalues[0]" name="{{'ab'+i}}">
+                          </span>
+                  </td>
+
+                </ng-container>
+                <ng-container *ngIf="prop.lookups && prop.lookups.length>0" class="form-group">
+
+                  <td>
+                    <label>{{prop.desc}}:</label>
+                  </td>
+                  <td class="input-md">
+                    <p-dropdown [options]="prop.lookups" placeholder="Select" [(ngModel)]="prop.mvalues[0]"
+                                [autoWidth]="false"
+                                name="{{prop.symName}}"></p-dropdown>
+                  </td>
+
+                </ng-container>
+              </ng-container>
+            </tr>
+          </ng-container>
+        </ng-container>
+
+        <tr>
+          <td colspan="9" align="right">
+            <button [disabled]="isSimpleSearch && data.model.contentSearch.mvalues[0].length<3" pButton type="submit"
+                    label="Search" class="pull-right" style="margin-bottom:10px;width:auto"></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>
+
+

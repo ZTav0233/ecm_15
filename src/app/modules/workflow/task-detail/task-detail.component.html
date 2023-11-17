@@ -1,0 +1,967 @@
+<div class="ui-g-12 p-0">
+  <div class="ui-g-10 p-l-0 p-t-0">
+    <label class="text-bold p-r-md v-m">{{workitem.subject | truncate : 50 }} </label>
+    <ng-container>
+      <ng-container
+        *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new') && ((workitem.isMemo==0) || (workitem.isMemo==1 && workitem.memoStepname==='DISTRIBUTE'))">
+        <button id="reply" pButton class="remove-btn v-m" type="button" icon="ui-icon-reply" title="Reply"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled || (workitem.isMemo==1 && workitem.memoStepname==='DISTRIBUTE')"
+          (click)="replyWorkitem(workitem);"></button>
+        <button *ngIf="workitem.actions!=='Signature' && workitem.actions!=='Initial'" id="reply-all" pButton
+          class="remove-btn v-m" type="button" icon="ui-icon-reply-all" title="Reply All"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled || (workitem.isMemo==1 && workitem.memoStepname==='DISTRIBUTE')"
+          (click)="replyAllWorkitem(workitem);"></button>
+        <button id="forward" pButton class="remove-btn v-m" type="button" icon="ui-icon-forward" title="Forward"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled" (click)="forwardWorkitem(workitem);"></button>
+        <button id="finish" pButton class="remove-btn v-m" type="button" icon="ui-icon-remove-circle-outline"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled" title="Finish"
+          (click)="finishWorkitem($event)"></button>
+      </ng-container>
+      <ng-container *ngIf="workitem.isMemo==1&&fromPage[0] === 'inbox'">
+        <button *ngIf="workitem.memoStepname=='APPROVER'" id="return" pButton class="remove-btn v-m" type="button"
+          icon="ui-icon-reply" title="Return" [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"
+          (click)="wiRemarksVisibleForReturn=true"></button>
+        <button
+          *ngIf="workitem.memoStepname=='REVIEWER'||workitem.memoStepname=='SUB-FROM'||workitem.memoStepname=='THRU'||workitem.memoStepname=='TO'"
+          id="return" pButton class="remove-btn v-m" type="button" icon="ui-icon-reply" title="Return"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"
+          (click)="wiRemarksVisibleForReturn=true"></button>
+        <button *ngIf="workitem.memoStepname!='DISTRIBUTE'" id="return" pButton class="remove-btn v-m" type="button"
+          icon="ui-icon-comment" title="Remarks" [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"
+          (click)="getMemoRemarksById()"></button>
+        <button *ngIf="workitem.memoStepname=='COMPOSER'||workitem.memoStepname=='APPROVER'" id="forward" pButton
+          class="remove-btn v-m" type="button" icon="ui-icon-edit" title="Edit Memo"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled" (click)="editMemo()"></button>
+        <button *ngIf="workitem.memoStepname=='APPROVER'" (click)="submitForReview()" id="forward" pButton
+          class="remove-btn v-m" type="button" icon="ui-icon-forward" title="Submit for Review"
+          [disabled]="isAllActionsDisabled||!memoReviewerExist"></button>
+        <button (click)="signAndSubmitMemo()" *ngIf="workitem.memoStepname=='APPROVER'" id="forward" pButton
+          class="remove-btn v-m" type="button" icon="ui-icon-near-me" title="Sign & Submit"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"></button>
+        <button (click)="submitForOthers()"
+          *ngIf="workitem.memoStepname=='REVIEWER'||workitem.memoStepname=='SUB-FROM'||workitem.memoStepname=='THRU'||workitem.memoStepname=='TO'"
+          id="forward" pButton class="remove-btn v-m" type="button" icon="ui-icon-near-me" title="Submit"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"></button>
+      </ng-container>
+      <ng-container
+        *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new' ||  (fromPage[0]==='archive' && !isTrack ))&&workitem.isMemo==0">
+        <button pButton class="remove-btn v-m" type="button"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"
+          icon="{{workitem.hasProgress ? 'ui-icon-hourglass-full' : 'ui-icon-hourglass-empty'}}" title="Work Progress"
+          (click)="getWorkitemProgress(workitem.workitemId)"></button>
+      </ng-container>
+      <ng-container *ngIf="fromPage[0]==='sent' || fromPage[0]==='actioned'">
+        <button id="recall" pButton class="remove-btn v-m" type="button" icon="ui-icon-replay" title="Recall"
+          (click)="recallWorkitemConfirmation($event);"
+          [disabled]="selectedWi.length<=0 || isRoleActive==='INACTIVE' || isAllActionsDisabled"></button>
+        <button
+          *ngIf="(workitem.isMemo==1 && workitem.memoStepname=='DISTRIBUTE') || !(workitem.actions === 'Signature' || workitem.actions === 'Initial')"
+          id="adduser" pButton class="remove-btn v-m" type="button" icon="ui-icon-person-add" title="Add User"
+          [disabled]="isAllRecalled || isRoleActive==='INACTIVE' || isAllActionsDisabled"
+          (click)="prepareAdduser(workitem);AddUserDialog=true"></button>
+        <button id="archive" pButton class="remove-btn v-m" type="button" icon="ui-icon-archive"
+          [disabled]="isAllRecalled  || isRoleActive==='INACTIVE' || isAllActionsDisabled" title="Archive"
+          (click)="archiveWorkflowConfirmation($event);"></button>
+      </ng-container>
+      <button *ngIf="workitem.isMemo==0" pButton class="remove-btn v-m" type="button" icon="ui-icon-near-me"
+        [disabled]="isAllRecalled || isRoleActive==='INACTIVE' || isAllActionsDisabled " title="Relaunch"
+        (click)="relaunchWorkItem(workitem);"></button>
+    </ng-container>
+    <ng-container *ngIf="workitem.isMemo==1&&fromPage[0] === 'inbox'&&isAllActionsDisabled">
+      <span style="color: darkred;font-weight: 500;"> Step is locked by another recipient! To take action, please try
+        again.</span>
+    </ng-container>
+  </div>
+  <div class="ui-g-2 p-0">
+    <!-- <div *ngIf="fromPage[0]==='sent' || (this.fromPage[0]==='archive' && isTrack) || fromPage[0]==='actioned'"
+      class="ui-g-10 colMultiselect p-b-0 m-b-sm">
+      <mat-select placeholder="Columns" [(ngModel)]="selectedColumns" (selectionChange)="columnSelectionChanged($event)"
+        multiple>
+        <mat-option *ngFor="let column of columns;" [value]="column.value">{{column.label}}</mat-option>
+      </mat-select>
+    </div> -->
+    <button id="back" pButton class="remove-btn v-m float-right" type="button" icon="ui-icon-arrow-back" title="Back"
+      (click)="previousPage(workitem);"></button>
+  </div>
+</div>
+<div class="ui-g-12 p-0">
+  <p-accordion [multiple]="true" styleClass="p-0">
+    <div class="ui-g">
+      <div *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new') || (this.fromPage[0]==='archive' && !isTrack)"
+        class="ui-g-12 p-0">
+        <p-accordionTab header="Recipients" [selected]="false">
+          <table class="ecm-table w-100">
+            <tbody>
+              <tr class="even">
+                <th class="text-align-left">To:</th>
+                <td>
+                  <p-autoComplete styleClass="readonly scrollautocomplete-max-h" [disabled]="true"
+                    [(ngModel)]="toRecipients" field="name" [multiple]="true">
+                    <ng-template let-value pTemplate="selectedItem">
+                      <span *ngIf="value.userType==='ROLE'" (mouseover)="getRoleMembers(value)"
+                        pTooltip="{{value.members}}" [tooltipStyleClass]="'tooltip-min-width'" tooltipPosition="bottom"
+                        class="p-r-xlg">{{value.name}}</span>
+                      <span *ngIf="value.userType==='USER'" class="p-r-xlg">{{value.name}}</span>
+                    </ng-template>
+                  </p-autoComplete>
+                </td>
+              </tr>
+              <tr class="odd">
+                <th class="text-align-left">Cc:</th>
+                <td>
+                  <p-autoComplete styleClass="readonly ui-widget-header-bg scrollautocomplete-max-h" [disabled]="true"
+                    [(ngModel)]="ccRecipients" field="name" [multiple]="true">
+                    <ng-template let-value pTemplate="selectedItem">
+                      <span *ngIf="value.userType==='ROLE'" (mouseover)="getRoleMembers(value)"
+                        pTooltip="{{value.members}}" [tooltipStyleClass]="'tooltip-min-width'" tooltipPosition="bottom"
+                        class="p-r-xlg">{{value.name}}</span>
+                      <span *ngIf="value.userType==='USER'" class="p-r-xlg">{{value.name}}</span>
+                    </ng-template>
+                  </p-autoComplete>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </p-accordionTab>
+      </div>
+      <div *ngIf="(fromPage[0] === 'inbox' ||fromPage[0]==='inbox-new') || (this.fromPage[0]==='archive' && !isTrack)"
+        class="ui-g-12 p-0 p-t-md">
+        <p-accordionTab header="Workitem Details" [selected]="true">
+          <table class="ecm-table w-100" id="workDetails">
+            <tbody>
+              <tr class="even">
+                <th class="text-align-left">Subject:</th>
+                <td colspan="3">{{workitem.subject}}</td>
+              </tr>
+              <tr>
+                <th class="text-align-left">Sender Name:</th>
+                <td>
+                  <ng-container *ngIf="workitem.senderRoleName">{{workitem.senderRoleName}}</ng-container>
+                  <ng-container *ngIf="!workitem.senderRoleName">{{workitem.senderName}}</ng-container>
+                </td>
+                <th *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new') || fromPage[0]==='archive'"
+                  class="text-align-left">Received On:</th>
+                <th *ngIf="fromPage[0]==='sent'" class="text-align-left">Sent On:</th>
+                <td>{{workitem.receivedDate | date : 'dd/MM/yyyy hh:mm a'}}</td>
+              </tr>
+              <tr class="even">
+                <th class="text-align-left">Type:</th>
+                <td>
+                  <span *ngIf="workitem.type && workitem.type.toLowerCase() === 'reply-cc'">CC</span>
+                  <span *ngIf="workitem.type && workitem.type.toLowerCase() === 'reply-to'">TO</span>
+                  <span *ngIf="!(workitem.type &&
+                                    (workitem.type.toLowerCase() === 'reply-to' ||
+                                    workitem.type.toLowerCase() === 'reply-cc'))">{{workitem.type}}
+                  </span>
+                </td>
+                <th class="text-align-left">Status:</th>
+                <td>{{workitem.status}}</td>
+              </tr>
+              <tr>
+                <th class="text-align-left">Originator:</th>
+                <td>{{workitem.wfCreatorName}}</td>
+                <th class="text-align-left">Priority:</th>
+                <td>{{workitem.priority}}</td>
+              </tr>
+              <!--<tr>-->
+              <!--<th class="text-align-left">Document From:</th>-->
+              <!--<td>{{workitem.docFrom}}</td>-->
+              <!--<th class="text-align-left">Document To:</th>-->
+              <!--<td>{{workitem.docTo}}</td>-->
+              <!--</tr>-->
+              <tr class="even">
+                <th class="text-align-left">Reminder:</th>
+                <td>{{workitem.reminder | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                <th class="text-align-left">Deadline:</th>
+                <td>{{workitem.deadline | date : 'dd/MM/yyyy hh:mm a'}}</td>
+              </tr>
+              <tr>
+                <th class="text-align-left">For:</th>
+                <td colspan="3">{{workitem.actions}}</td>
+              </tr>
+              <tr class="even">
+                <th class="text-align-left">Instructions:</th>
+                <td colspan="3">
+                  <div *ngIf="workitem.instructions" [innerHTML]="workitem.instructions | safeHtml"></div>
+                </td>
+              </tr>
+              <tr>
+                <th class="text-align-left">Remarks:</th>
+                <td colspan="3">{{workitem.wiRemarks}}</td>
+              </tr>
+              <tr *ngIf="memoReviewerExist">
+                <th class="text-align-left">Reviewer:</th>
+                <td colspan="3">{{memoReviewers}}</td>
+              </tr>
+              <tr *ngIf="!memoReviewerExist && workitem.isMemo==1">
+                <th class="text-align-left">Reviewer:</th>
+                <td colspan="3">No Reviewers Selected</td>
+              </tr>
+              <tr *ngIf="workitem.actionTaken && workitem.actionTaken!='Launch'" class="even">
+                <th class="text-align-left">Action Taken:</th>
+                <td colspan="3">{{workitem.actionTaken}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </p-accordionTab>
+      </div>
+      <div *ngIf="fromPage[0]==='sent' || (this.fromPage[0]==='archive' && isTrack) || this.fromPage[0]==='actioned'"
+        class="ui-g-12 p-0">
+        <p-accordionTab [selected]="true">
+          <p-header>
+            Track
+            <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh($event)"
+              class="remove-btn v-m pull-right no-box-shadow"></button>
+          </p-header>
+          <div class="max-h-300">
+            <!-- <p-dataTable [value]="workflowTrack" styleClass="scrollable" [(selection)]="selectedRows"
+              [responsive]="true" expandableRows="true" (onRowExpand)="showTrackWorkitem($event)"
+              [rowExpandMode]="'single'" sortMode="multiple" #dt>
+              <p-column styleClass="col-button">
+                <ng-template pTemplate="header">
+                  <p-checkbox name="all" [binary]="true" [(ngModel)]="checkAll" (onChange)="checkBoxChecked($event,'all')"
+                    [disabled]="checkAllDisabled"></p-checkbox>
+                </ng-template>
+                <ng-template let-row="rowData" pTemplate="body">
+                  <p-checkbox name="check" [binary]="true" [(ngModel)]="row.checked" [disabled]="!row.isWiSender"
+                    (onChange)="checkBoxChecked($event,'checked',row)"></p-checkbox>
+                </ng-template>
+              </p-column>
+              <p-column expander="true" styleClass="col-icon" [style]="{'width':'30px'}"
+                (onRowClick)="dt.toggleRow($event.data)"></p-column>
+              <p-column styleClass="col-icon" [style]="{'width':'75px'}">
+                <ng-template let-rowFlag="rowData" pTemplate="icons">
+                  <span *ngIf="rowFlag.status && rowFlag.status==='Pending(New)'"><img
+                      src="assets/images/icons/email-close.png" class="flag-img-dim"></span>
+                  <span *ngIf="rowFlag.status && rowFlag.status==='Pending(Read)'"><img
+                      src="assets/images/icons/email-read.png" class="flag-img-dim"></span>
+                  <span *ngIf="rowFlag.status && rowFlag.status==='Routed(Forward)'"><img
+                      src="assets/images/icons/email-forward.png" class="flag-img-dim"></span>
+                  <span *ngIf="rowFlag.status && rowFlag.status==='Routed(Reply)'"><img
+                      src="assets/images/icons/email-reply-all.png" class="flag-img-dim"></span>
+                  <span *ngIf="rowFlag.status && rowFlag.status==='Recalled'"><img
+                      src="assets/images/icons/email-delete.png" class="flag-img-dim"></span>
+                  <span *ngIf="rowFlag.status && rowFlag.status==='Recipient Finished'"><img
+                      src="assets/images/icons/envelope-check.png" class="flag-img-dim"></span>
+                  <span
+                    *ngIf="rowFlag.status && (rowFlag.status!='Pending(New)' && rowFlag.status!='Pending(Read)' && rowFlag.status!='Routed(Forward)'
+                  && rowFlag.status!='Routed(Reply)' && rowFlag.status!='Recalled' && rowFlag.status!='Recipient Finished')">
+                    <img src="assets/images/icons/email-read.png" class="flag-img-dim">
+                  </span>
+                  <span
+                    *ngIf="rowFlag.type && (rowFlag.type.toLowerCase()==='cc' || rowFlag.type.toLowerCase()==='reply-cc')">
+                    <img title="Type" src="assets/images/icons/cc.png" class="flag-img-dim">
+                  </span>
+                  <div class="display-inline-block">
+                    <i [style]="{'vertical-align':'sub'}" title="High Priority"
+                      [hidden]="!(rowFlag.priority && rowFlag.priority ===3)"
+                      class="fa ui-icon-priority-high text-red"></i>
+                  </div>
+                </ng-template>
+              </p-column>
+              <p-column *ngFor="let colHeader of trackColHeaders;" [hidden]="colHeader.hidden" [field]="colHeader.field"
+                [header]="colHeader.header" [sortable]="true" [sortField]="colHeader.sortField || colHeader.field">
+              </p-column>
+              <p-column styleClass="col-button">
+               
+                <ng-template let-row="rowData" pTemplate="body">
+                  <button pButton class="remove-btn v-m" type="button"
+                    icon="{{row.hasProgress ? 'ui-icon-hourglass-full' : 'ui-icon-hourglass-empty'}}"
+                    title="Work Progress" (click)="getWorkitemProgress(row.workitemId)"></button>
+                </ng-template>
+              </p-column>
+              <ng-template let-table pTemplate="rowexpansion">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                  <div class="ui-grid-row">
+                    <table *ngIf="trackWorkitemDetails" id="details" class="ecm-table inner-table w-100">
+                      <tbody>
+                        <tr class="even">
+                          <th class="text-align-left">Subject:</th>
+                          <td>{{trackWorkitemDetails.subject}}</td>
+                          <th class="text-align-left">Sent Date:</th>
+                          <td>{{trackWorkitemDetails.receivedDate | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                        </tr>
+                        <tr>
+                          <th class="text-align-left">Sender Name:</th>
+                          <td>
+                            <ng-container *ngIf="trackWorkitemDetails.senderName">{{trackWorkitemDetails.senderName}}
+                            </ng-container>
+                            <ng-container *ngIf="!trackWorkitemDetails.senderName">
+                              {{trackWorkitemDetails.senderRoleName}}
+                            </ng-container>
+                          </td>
+                          <th class="text-align-left">Priority:</th>
+                          <td>{{trackWorkitemDetails.priority}}</td>
+                        </tr>
+                        <tr class="even">
+                          <th class="text-align-left">Originator:</th>
+                          <td>{{trackWorkitemDetails.wfCreatorName}}</td>
+                          <th class="text-align-left">Status:</th>
+                          <td>{{trackWorkitemDetails.status}}</td>
+                        </tr>
+                        <tr>
+                          <th class="text-align-left">Reminder:</th>
+                          <td>{{trackWorkitemDetails.reminder | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                          <th class="text-align-left">Deadline:</th>
+                          <td>{{trackWorkitemDetails.deadline | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                        </tr>
+                        <tr class="even">
+                          <th class="text-align-left">For:</th>
+                          <td colspan="3">
+                            <div>{{trackWorkitemDetails.actions}}</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-align-left">Instructions:</th>
+                          <td colspan="3">
+                            <div *ngIf="trackWorkitemDetails.instructions"
+                              [innerHTML]="trackWorkitemDetails.instructions | safeHtml"></div>
+                          </td>
+                        </tr>
+                        <tr class="even">
+                          <th class="text-align-left">Remarks:</th>
+                          <td colspan="3">
+                            <div>{{trackWorkitemDetails.wiRemarks}}</div>
+                          </td>
+                        </tr>
+                        
+                        <tr *ngIf="trackWorkitemDetails.actionTaken && trackWorkitemDetails.actionTaken!='Launch'">
+                          <th class="text-align-left">Action Taken:</th>
+                          <td colspan="3">
+                            <div>{{trackWorkitemDetails.actionTaken}}</div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </ng-template>
+            </p-dataTable> -->
+            <p-table (onRowExpand)="showTrackWorkitem($event)" #idt [columns]="trackColHeaders" dataKey="workitemId"
+              expandableRows="true" styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [rowExpandMode]="'single'"
+              [value]="workflowTrack" [tableStyle]="{ 'min-width': '50rem' }" [(selection)]="selectedWi"
+              [responsive]="true" selectionMode="multiple">
+              <ng-template pTemplate="caption">
+                <p-multiSelect [options]="cols" [(ngModel)]="trackColHeaders" optionLabel="header"
+                    selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
+            </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th>
+                    <p-tableHeaderCheckbox 
+                      [disabled]="checkAllDisabled"></p-tableHeaderCheckbox>
+                  </th>
+                  <th style="width: 5rem"></th>
+                  <th style="width: 5rem"></th>
+                  <th [pSortableColumn]="col.header" *ngFor="let col of columns">
+                    {{ col.header }}<p-sortIcon [field]="col.header"></p-sortIcon>
+                  </th>
+                  <th style="width: 5rem"></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-columns="columns" let-expanded="expanded">
+                <tr>
+                  <td>
+                    <p-tableCheckbox [value]="rowData" 
+                      [disabled]="!rowData.isWiSender"
+                      (onChange)="checkBoxChecked($event,'checked',rowData)"></p-tableCheckbox>
+                  </td>
+                  <td>
+                    <button type="button" pButton pRipple [pRowToggler]="rowData"
+                      class="p-button-text p-button-rounded p-button-plain"
+                      [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                  </td>
+                  <td>
+                    <!-- <ng-template let-rowFlag="rowData" pTemplate="icons"> -->
+                    <span *ngIf="rowData.status && rowData.status==='Pending(New)'"><img
+                        src="assets/images/icons/email-close.png" class="flag-img-dim"></span>
+                    <span *ngIf="rowData.status && rowData.status==='Pending(Read)'"><img
+                        src="assets/images/icons/email-read.png" class="flag-img-dim"></span>
+                    <span *ngIf="rowData.status && rowData.status==='Routed(Forward)'"><img
+                        src="assets/images/icons/email-forward.png" class="flag-img-dim"></span>
+                    <span *ngIf="rowData.status && rowData.status==='Routed(Reply)'"><img
+                        src="assets/images/icons/email-reply-all.png" class="flag-img-dim"></span>
+                    <span *ngIf="rowData.status && rowData.status==='Recalled'"><img
+                        src="assets/images/icons/email-delete.png" class="flag-img-dim"></span>
+                    <span *ngIf="rowData.status && rowData.status==='Recipient Finished'"><img
+                        src="assets/images/icons/envelope-check.png" class="flag-img-dim"></span>
+                    <span
+                      *ngIf="rowData.status && (rowData.status!='Pending(New)' && rowData.status!='Pending(Read)' && rowData.status!='Routed(Forward)'
+                        && rowData.status!='Routed(Reply)' && rowData.status!='Recalled' && rowData.status!='Recipient Finished')">
+                      <img src="assets/images/icons/email-read.png" class="flag-img-dim">
+                    </span>
+                    <span
+                      *ngIf="rowData.type && (rowData.type.toLowerCase()==='cc' || rowData.type.toLowerCase()==='reply-cc')">
+                      <img title="Type" src="assets/images/icons/cc.png" class="flag-img-dim">
+                    </span>
+                    <div class="display-inline-block">
+                      <i [style]="{'vertical-align':'sub'}" title="High Priority"
+                        [hidden]="!(rowData.priority && rowData.priority ===3)"
+                        class="fa ui-icon-priority-high text-red"></i>
+                    </div>
+                    <!-- </ng-template> -->
+                  </td>
+                  <td *ngFor="let col of columns">
+                    {{ rowData[col.field] }}
+                  </td>
+                  <td>
+                    <button pButton class="remove-btn v-m" type="button"
+                      icon="{{rowData.hasProgress ? 'ui-icon-hourglass-full' : 'ui-icon-hourglass-empty'}}"
+                      title="Work Progress" (click)="getWorkitemProgress(rowData.workitemId)"></button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="rowexpansion" let-product>
+                <tr>
+                  <td colspan="10">
+                    <div class="ui-grid ui-grid-responsive ui-fluid">
+                      <div class="ui-grid-row">
+                        <table *ngIf="trackWorkitemDetails" id="details" class="ecm-table inner-table w-100">
+                          <tbody>
+                            <tr class="even">
+                              <th class="text-align-left">Subject:</th>
+                              <td>{{trackWorkitemDetails.subject}}</td>
+                              <th class="text-align-left">Sent Date:</th>
+                              <td>{{trackWorkitemDetails.receivedDate | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                            </tr>
+                            <tr>
+                              <th class="text-align-left">Sender Name:</th>
+                              <td>
+                                <ng-container
+                                  *ngIf="trackWorkitemDetails.senderName">{{trackWorkitemDetails.senderName}}
+                                </ng-container>
+                                <ng-container *ngIf="!trackWorkitemDetails.senderName">
+                                  {{trackWorkitemDetails.senderRoleName}}
+                                </ng-container>
+                              </td>
+                              <th class="text-align-left">Priority:</th>
+                              <td>{{trackWorkitemDetails.priority}}</td>
+                            </tr>
+                            <tr class="even">
+                              <th class="text-align-left">Originator:</th>
+                              <td>{{trackWorkitemDetails.wfCreatorName}}</td>
+                              <th class="text-align-left">Status:</th>
+                              <td>{{trackWorkitemDetails.status}}</td>
+                            </tr>
+                            <tr>
+                              <th class="text-align-left">Reminder:</th>
+                              <td>{{trackWorkitemDetails.reminder | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                              <th class="text-align-left">Deadline:</th>
+                              <td>{{trackWorkitemDetails.deadline | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                            </tr>
+                            <tr class="even">
+                              <th class="text-align-left">For:</th>
+                              <td colspan="3">
+                                <div>{{trackWorkitemDetails.actions}}</div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th class="text-align-left">Instructions:</th>
+                              <td colspan="3">
+                                <div *ngIf="trackWorkitemDetails.instructions"
+                                  [innerHTML]="trackWorkitemDetails.instructions | safeHtml"></div>
+                              </td>
+                            </tr>
+                            <tr class="even">
+                              <th class="text-align-left">Remarks:</th>
+                              <td colspan="3">
+                                <div>{{trackWorkitemDetails.wiRemarks}}</div>
+                              </td>
+                            </tr>
+
+                            <tr *ngIf="trackWorkitemDetails.actionTaken && trackWorkitemDetails.actionTaken!='Launch'">
+                              <th class="text-align-left">Action Taken:</th>
+                              <td colspan="3">
+                                <div>{{trackWorkitemDetails.actionTaken}}</div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </p-accordionTab>
+      </div>
+      <div class="ui-g-12 p-0 p-t-md">
+        <div class="ui-g-12 p-0">
+          <p-accordionTab header="Attachments" [selected]="true">
+            <div class="ui-md-5">
+              <table class="ecm-table w-100">
+                <thead>
+                  <th></th>
+                  <th class="text-align-left" width="70%">Attachment Name</th>
+                  <th class="text-align-left" width="30%">Actions</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let attachment of workitem.attachments;let i=index;let isOdd=odd;let isEven=even;"
+                    [class.even]="isEven">
+                    <td class="icon p-r-0">
+                      <span *ngIf="attachment.format">
+                        <span class="v-m"></span>
+                        <img src="assets/images/icons/file-pdf-o.png" *ngIf="attachment.format.indexOf('pdf')!==-1">
+                        <img src="assets/images/icons/file-excel-o.png"
+                          *ngIf="attachment.format.indexOf('sheet')!==-1 || attachment.format.indexOf('xls')!==-1 || attachment.format.indexOf('xlsx')!==-1">
+                        <img src="assets/images/icons/file-image-o.png"
+                          *ngIf="attachment.format.indexOf('image')!==-1 && attachment.format.indexOf('tiff')===-1 && attachment.format.indexOf('tif')===-1">
+                        <img src="assets/images/icons/file-word-o.png" *ngIf="attachment.format.indexOf('word')!==-1">
+                        <img src="assets/images/icons/file-msg-48.png"
+                          *ngIf="attachment.format.indexOf('vnd.ms-outlook')!==-1">
+                        <img src="assets/images/icons/file-ppt-48.png"
+                          *ngIf="attachment.format.indexOf('ppt')!==-1 || attachment.format.indexOf('pptx')!==-1">
+                        <img src="assets/images/icons/file-tiff-48.png"
+                          *ngIf="attachment.format.indexOf('tiff')!==-1 || attachment.format.indexOf('tif')!==-1">
+                        <img src="assets/images/icons/file-text-o.png" *ngIf="attachment.format.indexOf('pdf')===-1 && attachment.format.indexOf('sheet')===-1
+                                && attachment.format.indexOf('xls')===-1 && attachment.format.indexOf('xlsx')===-1
+                                && attachment.format.indexOf('image')===-1  && attachment.format.indexOf('word')===-1
+                                && attachment.format.indexOf('vnd.ms-outlook')===-1 && attachment.format.indexOf('ppt')===-1 && attachment.format.indexOf('pptx')===-1
+                                && attachment.format.indexOf('tiff')===-1 && attachment.format.indexOf('tif')===-1">
+                      </span>
+                      <span *ngIf="!attachment.format">
+                        <span class="v-m"></span>
+                        <img src="assets/images/icons/file-text-o.png" class="icon">
+                      </span>
+                    </td>
+                    <td>
+                      <a (click)="viewAttachmentLink(attachment)" [ngClass]="{'strike-text': i===strikeIndex }"
+                        class="hyperlink" title="Click To View">{{attachment.docTitle}}</a>
+                      <a class="p-0" href="javascript:">
+                        <i *ngIf="(workitem.actions === 'Signature' || workitem.actions === 'Initial') && (attachment.isSign && attachment.isSign == 1)"
+                          class="fa ui-icon-edit v-m text-red m-l-xs" pTooltip="Mark For Sign"
+                          [tooltipStyleClass]="'tooltip'"></i>
+                        <!-- <i *ngIf="attachment.isSign && attachment.isSign == 1" class="fa ui-icon-flag v-m text-red"
+                          pTooltip="Sign" [tooltipStyleClass]="'tooltip'"></i> -->
+                      </a>
+                    </td>
+                    <td class="actions">
+                      <button pButton
+                        *ngIf="workitem.actions === 'Signature' && (attachment.isSign && attachment.isSign == 1)"
+                        [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                        type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
+                        (click)="eSign(attachment);">
+                        <img src="assets/images/icons/edit.png" class="fa"></button>
+                      <button pButton
+                        *ngIf="workitem.actions === 'Initial' && (attachment.isSign && attachment.isSign == 1)"
+                        [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                        type="button" title="Initial" class="remove-btn v-m ui-button-icon-only"
+                        (click)="eSign(attachment);"> <img src="assets/images/icons/edit.png" class="fa"></button>
+                      <button pButton type="button" icon="ui-icon-get-app" title="Download" class="remove-btn v-m"
+                        [disabled]="isAllActionsDisabled" (click)="downloadDoc(attachment)"></button>
+                      <button pButton type="button" icon="ui-icon-info-outline" title="Info" class="remove-btn v-m"
+                        (click)="openDocInfo(attachment)"></button>
+                      <button pButton type="button" icon="ui-icon-edit" title="Edit Attachment" class="remove-btn v-m"
+                        [disabled]="(fromPage[0] === 'sent') || (this.fromPage[0] === 'archive') || isAllActionsDisabled||workitem.memoStepname == 'REVIEWER'||workitem.memoStepname == 'THRU'||workitem.memoStepname == 'TO'||workitem.memoStepname == 'SUB-FROM'"
+                        (click)="openEditDoc(attachment)"></button>
+                      <button
+                        *ngIf="(isesignverified || workitem.actions === 'Initial') && (fromPage[0] !== 'sent' && this.fromPage[0] !== 'archive')"
+                        pButton type="button" icon="ui-icon-check" title="Validate" class="remove-btn v-m"
+                        [disabled]="isAllActionsDisabled" (click)="openDocInValidate(attachment);"></button>
+                      <button *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new')" pButton type="button"
+                        [disabled]="isAllActionsDisabled" icon="ui-icon-folder" title="File-In Folder"
+                        class="remove-btn v-m" (click)="openSubTree(attachment);"></button>
+                      <!--<button pButton type="button" icon="ui-icon-colorize" title="Edit Properties" class="remove-btn v-m"-->
+                      <!--(click)="editProperties=true;openEditDoc(attachment)"></button>-->
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="ui-md-12">
+              <button *ngIf="displayIframe && !displayinfo && !editAttachment" pButton type="button"
+                icon="ui-icon-close" title="Close" class="remove-btn v-m" style="float: right"
+                (click)="closeViewer($event)"></button>
+              <div *ngIf="displayIframe" id="divmain"
+                [ngClass]="{'show': !displayinfo || !editAttachment ,'hide': displayinfo || editAttachment}">
+                <iframe style="width:99%;border: 1px solid;" height="500" [src]="current_url" scrolling="yes"
+                  id="attachmentFrame" frameborder="0"></iframe>
+              </div>
+            </div>
+          </p-accordionTab>
+        </div>
+
+      </div>
+      <div *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new') || (fromPage[0]==='archive' && !isTrack)"
+        class="ui-g-12 p-0 p-t-md">
+        <p-accordionTab header="Track" [selected]="false">
+          <div class="max-h-220">
+            <p-table (onRowExpand)="showTrackWorkitem($event)" #idt [columns]="trackColHeaders" dataKey="workitemId"
+              expandableRows="true" styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
+              [value]="workflowTrack" [tableStyle]="{ 'min-width': '50rem' }" [(selection)]="selectedRows" [rowExpandMode]="'single'"
+              [responsive]="true" selectionMode="multiple">
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th style="width: 5rem"></th>
+                  <th style="width: 5rem"></th>
+                  <th [pSortableColumn]="col.header" *ngFor="let col of columns">
+                    {{ col.header }}<p-sortIcon [field]="col.header"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-columns="columns" let-expanded="expanded">
+                <tr>
+                  <td>
+                    <button type="button" pButton pRipple [pRowToggler]="rowData"
+                      class="p-button-text p-button-rounded p-button-plain"
+                      [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                  </td>
+                  <td>
+                    <!-- <ng-template let-rowFlag="rowData" pTemplate="icons"> -->
+                      <span
+                        *ngIf="rowData.type && (rowData.type.toLowerCase()==='cc' || rowData.type.toLowerCase()==='reply-cc')">
+                        <img title="Type" src="assets/images/icons/cc.png" class="flag-img-dim">
+                      </span>
+                    <!-- </ng-template> -->
+                  </td>
+                  <td *ngFor="let col of columns">
+                    {{ rowData[col.field] }}
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="rowexpansion" let-product>
+                <tr>
+                  <td colspan="8">
+                    <div class="ui-grid ui-grid-responsive ui-fluid">
+                      <div class="ui-grid-row">
+                        <table *ngIf="trackWorkitemDetails" id="details" class="ecm-table inner-table w-100">
+                          <tbody>
+                            <tr class="even">
+                              <th class="text-align-left">Subject:</th>
+                              <td>{{trackWorkitemDetails.subject}}</td>
+                              <th class="text-align-left">Sent Date:</th>
+                              <td>{{trackWorkitemDetails.receivedDate | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                            </tr>
+                            <tr>
+                              <th class="text-align-left">Sender Name:</th>
+                              <td>
+                                <ng-container
+                                  *ngIf="trackWorkitemDetails.senderName">{{trackWorkitemDetails.senderName}}
+                                </ng-container>
+                                <ng-container *ngIf="!trackWorkitemDetails.senderName">
+                                  {{trackWorkitemDetails.senderRoleName}}
+                                </ng-container>
+                              </td>
+                              <th class="text-align-left">Priority:</th>
+                              <td>{{trackWorkitemDetails.priority}}</td>
+                            </tr>
+                            <tr class="even">
+                              <th class="text-align-left">Originator:</th>
+                              <td>{{trackWorkitemDetails.wfCreatorName}}</td>
+                              <th class="text-align-left">Status:</th>
+                              <td>{{trackWorkitemDetails.status}}</td>
+                            </tr>
+                            <tr>
+                              <th class="text-align-left">Reminder:</th>
+                              <td>{{trackWorkitemDetails.reminder | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                              <th class="text-align-left">Deadline:</th>
+                              <td>{{trackWorkitemDetails.deadline | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                            </tr>
+                            <tr class="even">
+                              <th class="text-align-left">For:</th>
+                              <td colspan="3">
+                                <div>{{trackWorkitemDetails.actions}}</div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th class="text-align-left">Instructions:</th>
+                              <td colspan="3">
+                                <div *ngIf="trackWorkitemDetails.instructions"
+                                  [innerHTML]="trackWorkitemDetails.instructions | safeHtml"></div>
+                              </td>
+                            </tr>
+                            <tr class="even">
+                              <th class="text-align-left">Remarks:</th>
+                              <td colspan="3">
+                                <div>{{trackWorkitemDetails.wiRemarks}}</div>
+                              </td>
+                            </tr>
+
+                            <tr *ngIf="trackWorkitemDetails.actionTaken && trackWorkitemDetails.actionTaken!='Launch'">
+                              <th class="text-align-left">Action Taken:</th>
+                              <td colspan="3">
+                                <div>{{trackWorkitemDetails.actionTaken}}</div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+            <!-- <p-dataTable [value]="workflowTrack" styleClass="scrollable" [(selection)]="selectedRows"
+              [responsive]="true" selectionMode="multiple" expandableRows="true"
+              (onRowExpand)="showTrackWorkitem($event)" [rowExpandMode]="'single'" sortMode="multiple" #idt>
+              <p-column expander="true" styleClass="col-icon" [style]="{'width':'44px'}"
+                (onRowClick)="idt.toggleRow($event.data)"></p-column>
+              <p-column styleClass="col-icon" [style]="{'width':'30px'}">
+                <ng-template let-rowFlag="rowData" pTemplate="icons">
+                  <span
+                    *ngIf="rowFlag.type && (rowFlag.type.toLowerCase()==='cc' || rowFlag.type.toLowerCase()==='reply-cc')">
+                    <img title="Type" src="assets/images/icons/cc.png" class="flag-img-dim">
+                  </span>
+                </ng-template>
+              </p-column>
+              <p-column *ngFor="let colHeader of trackColHeaders;" [hidden]="colHeader.hidden" [field]="colHeader.field"
+                [header]="colHeader.header" [sortable]="true" [sortField]="colHeader.sortField || colHeader.field">
+              </p-column>
+             
+              <ng-template let-table pTemplate="rowexpansion">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                  <div class="ui-grid-row">
+                    <table *ngIf="trackWorkitemDetails" id="details" class="ecm-table inner-table w-100">
+                      <tbody>
+                        <tr class="even">
+                          <th class="text-align-left">Subject:</th>
+                          <td>{{trackWorkitemDetails.subject}}</td>
+                          <th class="text-align-left">Sent Date:</th>
+                          <td>{{trackWorkitemDetails.receivedDate | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                        </tr>
+                        <tr>
+                          <th class="text-align-left">Sender Name:</th>
+                          <td>
+                            <ng-container *ngIf="trackWorkitemDetails.senderName">{{trackWorkitemDetails.senderName}}
+                            </ng-container>
+                            <ng-container *ngIf="!trackWorkitemDetails.senderName">
+                              {{trackWorkitemDetails.senderRoleName}}
+                            </ng-container>
+                          </td>
+                          <th class="text-align-left">Priority:</th>
+                          <td>{{trackWorkitemDetails.priority}}</td>
+                        </tr>
+                        <tr class="even">
+                          <th class="text-align-left">Originator:</th>
+                          <td>{{trackWorkitemDetails.wfCreatorName}}</td>
+                          <th class="text-align-left">Status:</th>
+                          <td>{{trackWorkitemDetails.status}}</td>
+                        </tr>
+                        <tr>
+                          <th class="text-align-left">Reminder:</th>
+                          <td>{{trackWorkitemDetails.reminder | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                          <th class="text-align-left">Deadline:</th>
+                          <td>{{trackWorkitemDetails.deadline | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                        </tr>
+                        <tr class="even">
+                          <th class="text-align-left">For:</th>
+                          <td colspan="3">
+                            <div>{{trackWorkitemDetails.actions}}</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-align-left">Instructions:</th>
+                          <td colspan="3">
+                            <div *ngIf="trackWorkitemDetails.instructions"
+                              [innerHTML]="trackWorkitemDetails.instructions | safeHtml"></div>
+                          </td>
+                        </tr>
+                        <tr class="even">
+                          <th class="text-align-left">Remarks:</th>
+                          <td colspan="3">
+                            <div>{{trackWorkitemDetails.wiRemarks}}</div>
+                          </td>
+                        </tr>
+                       
+                        <tr *ngIf="trackWorkitemDetails.actionTaken && trackWorkitemDetails.actionTaken!='Launch'">
+                          <th class="text-align-left">Action Taken:</th>
+                          <td colspan="3">
+                            <div>{{trackWorkitemDetails.actionTaken}}</div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </ng-template>
+            </p-dataTable> -->
+
+          </div>
+        </p-accordionTab>
+      </div>
+    </div>
+  </p-accordion>
+</div>
+<div #taskDetailDialog></div>
+<p-confirmDialog key="taskDetailConfirmation" [appendTo]="taskDetailDialog"></p-confirmDialog>
+<p-dialog [(visible)]="displayinfo" [modal]="true" [appendTo]="taskDetailDialog" height="500" (onHide)="closeModal()">
+  <p-header>
+    {{viewDocTitle}}
+  </p-header>
+  <!--For making doc details tab lazy-->
+  <!--[docVersion]="docVersion" [linkedDocuments]="linkedDocuments" [docHistory]="docHistory" [docTrack]="docTrack" [noLink]="noLink"-->
+  <app-doc-details-modal [docInfo]="docInfo" [docSysProp]="docSysProp" [docSecurity]="docSecurity"
+    [foldersFiledIn]="foldersFiledIn" [docTitle]="viewDocTitle">
+  </app-doc-details-modal>
+</p-dialog>
+<p-dialog [(visible)]="editAttachment" [modal]="true" [appendTo]="taskDetailDialog"
+  [style]="{ width: '800vw', height: '550px' }" (onHide)="closeEditAttModal()">
+  <p-header>
+    Edit Attachment
+  </p-header>
+  <app-update-document [docEditPropForm]="docEditPropForm" [docTemplateDetails]="docTemplateDetails"
+    [entryTemp]="entryTemp" [fileselected]="fileselected" [fileUploaded]="fileselected"
+    (fileChanged)="fileChanged($event)"></app-update-document>
+  <p-footer>
+    <div class="progress-bar">
+      <!-- <div [ngBusy]="{busy: busyModel, message: 'Loading...', backdrop: true}"></div> -->
+      <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+    </div>
+    <button pButton class="pull-right" type="button" label="Save" [disabled]="docEditPropForm.get('DocumentFrom') || docEditPropForm.get('DocumentTo') ?
+      !(docEditPropForm.valid && (docEditPropForm.dirty || fileselected || docEditPropForm.get('DocumentFrom').value || docEditPropForm.get('DocumentTo').value )) :
+      !(docEditPropForm.valid && (docEditPropForm.dirty || fileselected))"
+      (click)="fileselected ? updatedAttachment() : updateEdits()"></button>
+    <button pButton class="pull-right" type="submit" label="Cancel" (click)="cancel()"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog styleClass="without-footer" [(visible)]="AddUserDialog" [modal]="true" [appendTo]="taskDetailDialog"
+  (onHide)="closeAddUserModel()" [style]="{ width: '1100vw', height: '550px' }" [styleClass]="'max-h-488'"
+  [contentStyle]="{'overflow':'auto'}">
+  <p-header>
+    Add User
+  </p-header>
+  <app-recipients (prepareStepItems)="prepareStepItems()" [documentsData]="addUser.documents"
+    [currentScreen]="'addUser'" [recipientsData]="addUser.recipients" (searchRoleList)="searchRoleList()">
+  </app-recipients>
+  <p-footer>
+    <button pButton class="pull-right footer-btn-blue m-l-md" label="Cancel" (click)="cancelAddUserModel()"></button>
+    <button class="pull-right footer-btn-blue" pButton
+      [disabled]="!(addUser.recipients.toList.length > 0 || addUser.recipients.ccList.length > 0)" label="Add"
+      (click)="adduserWorkitem()">
+    </button>
+  </p-footer>
+</p-dialog>
+<p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
+  [(visible)]="displayProgress" [style]="{ width: '650vw', height: '550px' }" [contentStyle]="{'overflow':'auto'}">
+  <p-header>
+    <span>Work Progress</span>
+    <!--<span><button pButton type="button" icon="ui-icon-refresh" class="remove-btn v-m m-l-sm" (click)="getWorkitemProgress($event)"></button></span>-->
+  </p-header>
+  <app-document-status [workitemProgress]="workitemProgress" (onRemoveProgress)="removeWorkitemProgress($event)"
+    [showAddBtn]="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new')" (onAddProgress)="addWorkitemProgress($event)"
+    [progressObj]="progressObj">
+  </app-document-status>
+  <div class="progress-bar">
+    <!-- <div [ngBusy]="{busy: busyModel, message: 'Loading...', backdrop: true}"></div> -->
+    <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+  </div>
+</p-dialog>
+<p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
+  [(visible)]="remarksHistory" [style]="{ width: '850vw', height: '550px' }" [contentStyle]="{'overflow':'auto'}">
+  <p-header>
+    <span>Remarks History</span>
+  </p-header>
+  <table>
+    <tr>
+      <th>Recipient Type</th>
+      <th>Action</th>
+      <th>Display Name</th>
+      <th>Reply Comments</th>
+      <th>Status</th>
+    </tr>
+    <tr *ngFor="let remarks of remarksHistoryData">
+      <td>{{remarks.recipientType}}</td>
+      <td>{{remarks.action}}</td>
+      <td>{{remarks.displayName}}</td>
+      <td>{{remarks.replyComments}}</td>
+      <td>{{remarks.workitemStatus}}</td>
+    </tr>
+  </table>
+</p-dialog>
+<p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
+  [(visible)]="wiRemarksVisible" [style]="{ width: '650vw', height: '250px' }" [contentStyle]="{'overflow':'auto'}">
+  <p-header>
+    <span>Please add comments to proceed</span>
+  </p-header>
+  <textarea type="text" [(ngModel)]="wiActionForReviewer" [spellcheck]="true" class="text-area-resize-none bordered"
+    [rows]="5" maxlength="2000" [cols]="30" pInputTextarea [autoResize]="false"
+    ng-model-options="{ updateOn: 'blur' }"></textarea>
+  <p-footer>
+    <button type="button" [disabled]="!wiActionForReviewer" pButton label="Add" (click)="addWiAction()"></button>
+    <button type="button" pButton label="Cancel" (click)="wiRemarksVisible=false"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
+  [(visible)]="wiRemarksVisibleForReturn" [style]="{ width: '650vw', height: '250px' }"
+  [contentStyle]="{'overflow':'auto'}">
+  <p-header>
+    <span>Please add comments to proceed</span>
+  </p-header>
+  <textarea type="text" [(ngModel)]="wiActionForReviewer" [spellcheck]="true" class="text-area-resize-none bordered"
+    [rows]="5" maxlength="2000" [cols]="30" pInputTextarea [autoResize]="false"
+    ng-model-options="{ updateOn: 'blur' }"></textarea>
+  <p-footer>
+    <button type="button" [disabled]="!wiActionForReviewer" pButton label="Add"
+      (click)="addWiActionForReturn()"></button>
+    <button type="button" pButton label="Cancel" (click)="wiRemarksVisibleForReturn=false"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="eSignDialog"
+  [style]="{ width: '250vw', height: '120px' }" (onHide)="canceleSign()">
+  <p-header>
+    <span>{{workitem.actions === 'Signature' ? 'eSign' : 'Initial'}} In-Progress</span>
+  </p-header>
+  <p-footer>
+    <button type="button" class="pull-right" pButton [disabled]="isesignCancelDisabled" (click)="canceleSign()"
+      label="Cancel"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="showDelegationInactiveDialog"
+  [style]="{ width: '380vw', height: '160px' }" [closable]="false" [closeOnEscape]="false">
+  <p-header>
+    {{inactiveDialogMessage}}
+    <!--Delegated user access has ended.-->
+  </p-header>
+  <p>Application will refresh now.</p>
+  <p-footer>
+    <button pButton class="pull-right" type="button" label="OK" (click)="reloadApp()"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="showRecallInactiveDialog"
+  [style]="{ width: '380vw', height: '160px' }" [closable]="false" [closeOnEscape]="false">
+  <p-header>
+    <span *ngIf="!router.url.includes('sent')">Workitem has been Recalled</span>
+    <span *ngIf="router.url.includes('sent')">Sentitem has been Recalled</span>
+  </p-header>
+  <p>Application will refresh now.</p>
+  <p-footer>
+    <button pButton class="pull-right" type="button" label="Ok" (click)="reloadApp()"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showFileIn" [resizable]="false"
+  [style]="{ width: '600vw', height: '400px' }">
+  <p-header>
+    File-In Folder
+  </p-header>
+  <div class="fix-h-350">
+    <div class="scrollable">
+      <!--<tree [folderPermission]="folderPermission" [clearSelectedDocs]="true" [changeView]="false"></tree>-->
+      <p-tree [value]="addToFolderList" selectionMode="single" [(selection)]="selectedAddFolder"
+        (onNodeExpand)="nodeExpand($event)"></p-tree>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" [disabled]="!selectedAddFolder" pButton (click)="fileIn();showFileIn=false;"
+      label="Add"></button>
+    <button type="button" pButton label="Cancel" (click)="showFileIn=false;"></button>
+  </p-footer>
+</p-dialog>
+<div *ngIf="openConfirmationDialog" class="text">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTheConfirmationDialog" [responsive]="true"
+    [style]="{ width: '400vw', height: '200px' }">
+
+    <p>Please eSign memo attachment to submit and proceed.</p>
+    <div style="height: 50px;"></div>
+    <p-footer>
+      <div style="margin-left: 20vh">
+        <button (click)="cancelSignAndSubmit()" pButton label="Cancel"></button> &nbsp;
+        <button (click)="ok()" pButton class="mr-1" label="OK"></button> &nbsp;
+      </div>
+    </p-footer>
+  </p-dialog>
+</div>
+<div class="progress-bar">
+  <!-- <div [ngBusy]="{busy: busyModel, message: 'Loading...', backdrop: true}"></div> -->
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

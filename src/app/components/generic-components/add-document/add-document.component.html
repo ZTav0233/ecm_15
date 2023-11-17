@@ -1,0 +1,347 @@
+<div class="ui-g">
+  <div class="ui-g-12 ui-md-12 p-0 ">
+    <form  id="addDocMainPage" [formGroup]="newDocumentForm" (submit)="addDocument($event)" class="tabled-form ">
+      <div class="ui-g-8 ui-md-8 ui-sm-12 p-0">
+        <table class="m-l-md-percent" >
+          <tbody>
+            <tr>
+              <td>
+                <label class="boldTitle">Document Class:</label>
+              </td>
+              <td class="add-doc-main-input">
+                <p-dropdown id="entryTemplates" (onChange)="changeNewClass()" [options]="entryTemplate"
+                  [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedEntryTemplate" [filter]="true"
+                   [style]="{'width':'100%'}">
+                </p-dropdown>
+              </td>
+            </tr>
+            <tr *ngFor="let detail of newClassDetails.props;let i = index;">
+              <ng-container *ngIf="detail.hidden === 'false' || detail.hidden === 'FALSE'">
+                <td class="add-doc-main">
+                  <label class="boldTitle">{{detail.desc}}:<b
+                      *ngIf="detail.req === 'true' || detail.symName==='DocumentTitle'" style="color:red">*</b></label>
+                </td>
+                <td
+                  (click)="(!(excepClassNames && excepClassNames.indexOf(newClassDetails.name.toLowerCase())> -1)) && (detail.symName.toLowerCase()==='documentfrom' || detail.symName.toLowerCase()==='documentto') ? openListDialog(detail.symName):''"
+                  class="add-doc-main-input">
+                  <input
+                    *ngIf="!detail.lookups && detail.dtype=='STRING'  && detail.symName!='ECMNo' && !(detail.symName.toLowerCase()==='documentfrom' || detail.symName.toLowerCase()==='documentto')"
+                    [formControlName]="detail.symName" type="text" name="{{detail.symName}}" [maxlength]="detail.len"
+                    [title]="newDocumentForm.get(detail.symName).value?newDocumentForm.get(detail.symName).value:''"
+                    (keyup)="setDocName()" (keydown)="setDocName()" pInputText>
+                  <input readonly [disabled]="(!(excepClassNames && excepClassNames.indexOf(newClassDetails.name.toLowerCase())> -1) && (detail.symName.toLowerCase()==='documentfrom' || detail.symName.toLowerCase()==='documentto'))" id="placeholder{{detail.symName}}AddDoc"
+                    [placeholder]="(!(excepClassNames && excepClassNames.indexOf(newClassDetails.name.toLowerCase())> -1)) && (detail.symName.toLowerCase()==='documentfrom' || detail.symName.toLowerCase()==='documentto') ? 'Click Here To Select' :''"
+                    *ngIf="!detail.lookups && detail.dtype=='STRING'  && detail.symName!='ECMNo'&& (detail.symName.toLowerCase()==='documentfrom' || detail.symName.toLowerCase()==='documentto')"
+                    [formControlName]="detail.symName" type="text" name="{{detail.symName}}"
+                    [title]="newDocumentForm.get(detail.symName).value?newDocumentForm.get(detail.symName).value:''"
+                     pInputText>
+                  <input *ngIf="!detail.lookups && detail.dtype=='STRING' && detail.symName==='ECMNo'"
+                    [formControlName]="detail.symName" type="text" name="{{detail.symName}}" [maxlength]="15"
+                    [title]="newDocumentForm.get(detail.symName).value?newDocumentForm.get(detail.symName).value:''"
+                    pInputText> <!-- value="{{detail.mvalues[0]}}"-->
+                  <p-calendar id="calendar" *ngIf="!detail.lookups && detail.dtype=='DATE'" [showIcon]="true"
+                    [formControlName]="detail.symName" dateFormat="dd/mm/yy"
+                    [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [readonlyInput]="true"
+                    [appendTo]="'body'" [showButtonBar]="true"></p-calendar>
+                  <input *ngIf="!detail.lookups && (detail.dtype=='LONG' || detail.dtype=='INTEGER')"
+                    [formControlName]="detail.symName"   type="number"  name="{{detail.symName}}"
+                    [title]="newDocumentForm.get(detail.symName).value?newDocumentForm.get(detail.symName).value:''"
+                    (keypress)="isNumber($event)" pInputText>
+                  <p-dropdown *ngIf="detail.lookups" [options]="detail.lookups" placeholder="Select"  [filter]="true"
+                    filterBy="label,value.name" [formControlName]="detail.symName"                     (click)="onClickLookup(detail)" (onChange)="changeLookup($event,detail)" [style]="{'width':'100%'}"
+                   
+                    [title]="newDocumentForm.get(detail.symName).value?newDocumentForm.get(detail.symName).value:''">
+                  </p-dropdown>
+                </td>
+                <td>
+                  <span class="close"
+                    *ngIf="newDocumentForm.get(detail.symName).value && (!(excepClassNames && excepClassNames.indexOf(newClassDetails.name.toLowerCase())> -1)) && (detail.symName.toLowerCase()==='documentfrom' || detail.symName.toLowerCase()==='documentto')"
+                    (click)="clearDocToFrom(detail.symName)">&times;</span>
+                </td>
+              </ng-container>
+            </tr>
+            <tr>
+              <td>
+                <label [title]="folderpath">Folder Path:<b style="color:red">*</b></label>
+              </td>
+              <td class="input">
+                <input [title]="folderpath" [(ngModel)]="folderpath" disabled="disabled"
+                  [ngModelOptions]="{standalone: true}" name="folderpath" pInputText>
+              </td>
+              <td>
+                <button *ngIf="removeEnabled" pButton type="button" icon="ui-icon-close" title="Remove"
+                  (click)="removeFolderPath()"></button>
+                <button *ngIf="!removeEnabled" pButton type="button" (click)="openTreeDialog()"
+                  icon="ui-icon-folder-open"></button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="9" align="right">
+                <button pButton (click)="closeClick()" type="button" label="Cancel" class="m-t-sm"></button>
+                <button pButton type="submit"
+                  [disabled]="!newDocumentForm.valid || (!docFromScanner && !uploadedFiles) || !folderpath || !isFileSizeCorrect"
+                  label="Add Document"></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ui-g-4 ui-md-4 ui-fluid ui-sm-12 p-0">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <label class="boldTitle">Select File<b style="color:red">*</b></label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <!-- <p-fileUpload name="demo[]" (onSelect)="docUpload($event)"
+                  invalidFileTypeMessageDetail="Please select a file with valid format"
+                  invalidFileTypeMessageSummary="Unknown File Format," chooseLabel="Browse"
+                  maxFileSize = "800000000"
+                  [accept]="allowedExtensionsString" [showCancelButton]="false" [showUploadButton]="false"
+                  [customUpload]="true" [auto]="false" (uploadHandler)="docUpload($event)">
+                  <ng-template pTemplate="content">
+                    <p class="fileDrop">Drop Files Here</p>
+                  </ng-template>
+                  <ng-template let-file pTemplate="file">
+                    <div *ngIf="uploadedFiles && uploadedFiles.name" class="file-text-ellipsis"
+                      pTooltip="{{uploadedFiles.name}}" [tooltipStyleClass]="'tooltip-min-width-sm'"
+                      tooltipPosition="bottom">{{uploadedFiles.name}}</div>
+                  </ng-template>
+                </p-fileUpload> -->
+
+                <p-fileUpload name="demo[]" (onSelect)="docUpload($event)"
+                invalidFileTypeMessageDetail="Please select a file with valid format"
+                invalidFileTypeMessageSummary="Unknown File Format," chooseLabel="Browse"
+                [accept]="allowedExtensionsString" [showCancelButton]="false" [showUploadButton]="false"
+                [customUpload]="true" [auto]="false" (uploadHandler)="docUpload($event)">
+                <ng-template pTemplate="content">
+                  <p class="fileDrop">Drop Files Here</p>
+                </ng-template>
+                <ng-template let-file pTemplate="file">
+                  <div *ngIf="uploadedFiles && uploadedFiles.name" class="file-text-ellipsis"
+                    pTooltip="{{uploadedFiles.name}}" [tooltipStyleClass]="'tooltip-min-width-sm'"
+                    tooltipPosition="bottom">{{uploadedFiles.name}}</div>
+                </ng-template>
+              </p-fileUpload>
+
+                <p *ngIf="!isFileSizeCorrect" class="error">Maximum File size allowed limit!</p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="7" align="center">
+                <button pButton type="button" label="Scan" icon="ui-icon-scanner" (click)="loadDynamsoft()"></button>
+                <div class="ui-fileupload-content ui-widget-content ui-corner-bottom">
+                  <!-- [ngClass]="{'width-scanned': (screen!=='Launch' || screen!=='BrowseModel')}" -->
+                  <div *ngIf="docFromScanner">
+                    {{newDocumentForm.get('DocumentTitle').value?newDocumentForm.get('DocumentTitle').value:'Scanned_Document'}}.pdf
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+  <p-dialog appendTo="body" [(visible)]="displayScannerSettings" [modal]="true" showEffect="fade" width="850"
+    [resizable]="false">
+    <p-header>Scan Document</p-header>
+    <div id="wrapper">
+      <div id="demoContent">
+        <div id="dwtScanDemo">
+          <div id="DWTcontainer" class="container">
+            <div id="DWTcontainerTop">
+              <div id="divEdit">
+                <ul class="operateGrp">
+                  <li>
+                    <img src="assets/images/icons/ShowEditor.png" title="Show Image Editor" alt="Show Image Editor"
+                      id="btnEditor" (click)="btnShowImageEditor_onclick()" /> </li>
+                  <li>
+                    <img src="assets/images/icons/RotateLeft.png" title="Rotate Left" alt="Rotate Left" id="btnRotateL"
+                      (click)="btnRotateLeft_onclick()" /> </li>
+                  <li>
+                    <img src="assets/images/icons/RotateRight.png" title="Rotate Right" alt="Rotate Right"
+                      id="btnRotateR" (click)="btnRotateRight_onclick()" /> </li>
+                  <li>
+                    <img src="assets/images/icons/Rotate180.png" alt="Rotate 180" title="Rotate 180"
+                      (click)="btnRotate180_onclick()" /> </li>
+                  <li style="border-bottom: solid 1px #ccc;">
+                    <img src="assets/images/icons/RemoveSelectedImages.png" title="Remove Selected Images"
+                      alt="Remove Selected Images" id="DW_btnRemoveCurrentImage"
+                      (click)="btnRemoveCurrentImage_onclick();" />
+                  </li>
+                  <li>
+                    <img src="assets/images/icons/RemoveAllImages.png" title="Remove All Images" alt="Remove All Images"
+                      id="DW_btnRemoveAllImages" (click)="btnRemoveAllImages_onclick();" />
+                  </li>
+                </ul>
+              </div>
+              <div id="dwtcontrolContainer"></div>
+              <div id="btnGroupBtm" class="clearfix">
+                <div class='ct-lt'>Page:
+                  <input id='DW_btnFirstImage' (click)='btnFirstImage_onclick()' type='button' value=' |&lt; ' />&nbsp;
+                  <input id='DW_btnPreImage' (click)='btnPreImage_onclick()' type='button' value=' &lt; ' />&nbsp;&nbsp;
+                  <input type='text' size='2' id='DW_CurrentImage' readonly='readonly' /> /
+                  <input type='text' size='2' id='DW_TotalImage' readonly='readonly' />&nbsp;&nbsp;
+                  <input id='DW_btnNextImage' (click)='btnNextImage_onclick()' type='button' value=' &gt; ' />&nbsp;
+                  <input id='DW_btnLastImage' (click)='btnLastImage_onclick()' type='button' value=' &gt;| ' />
+                </div>
+                <div class='ct-rt'>Preview Mode:
+                  <select size='1' id='DW_PreviewMode' (change)='setlPreviewMode();'>
+                    <option value='0'>1X1</option>
+                    <option value='1'>2X2</option>
+                    <option value='2'>3X3</option>
+                    <option value='3'>4X4</option>
+                    <option value='4'>5X5</option>
+                  </select>
+                  <br />
+                </div>
+              </div>
+            </div>
+            <div id="ScanWrapper">
+              <div id="divScanner" class="divinput">
+                <ul class="PCollapse">
+                  <li>
+                    <div id="div_ScanImage" class="divTableStyle">
+                      <ul id="ulScaneImageHIDE">
+                        <li>
+                          <label for="source">
+                            <p>Select Source:</p>
+                          </label>
+                          <select size="1" id="source" style="position:relative;" (change)="source_onchange()">
+                            <option value=""></option>
+                          </select>
+                        </li>
+                        <li style="display:none;" id="pNoScanner">
+                          <a href="javascript: void(0)" class="ShowtblLoadImage" style="color:#fe8e14"
+                            id="aNoScanner">(No TWAIN compatible drivers detected)</a>
+                        </li>
+                        <li id="divProductDetail"></li>
+                        <li class="tc">
+                          <button id="btnScan" disabled="disabled" (click)="acquireImage()">Scan</button>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div style="padding: 5px 5px 5px;">
+                <label>
+                  <input type="checkbox" id="saveDownload" style="width: 15px;height: 15px;vertical-align: middle;" />
+                  Enable Save to Local
+                </label>
+              </div>
+              <div id="divUpload" class="divinput mt30 disable-div" style="position:relative">
+                <ul>
+                  <!-- <li class="toggle">Save Documents</li>-->
+                  <li>
+                    <p>File Name:</p>
+                    <input type="text" size="20" id="txt_fileName" />
+                  </li>
+                  <li style="padding-right:0;" id="divSaveAsFormat">
+                    <!-- <label for="imgTypebmp">
+                      <input type="radio" value="bmp" name="ImageType" id="imgTypebmp" /> BMP
+                    </label>-->
+                    <label for="imgTypejpeg">
+                      <input type="radio" value="jpg" name="ImageType" id="imgTypejpeg" /> JPEG
+                    </label>
+                    <label for="imgTypetiff">
+                      <input type="radio" value="tif" name="ImageType" id="imgTypetiff" /> TIFF
+                    </label>
+                    <label for="imgTypepdf">
+                      <input type="radio" value="pdf" name="ImageType" id="imgTypepdf" /> PDF
+                    </label>
+                  </li>
+                  <li id="divSaveAsMultiPage">
+                    <label for="MultiPageTIFF">
+                      <input type="checkbox" id="MultiPageTIFF" /> Multi-Page TIFF</label>
+                    <label for="MultiPagePDF">
+                      <input type="checkbox" id="MultiPagePDF" /> Multi-Page PDF</label>
+                  </li>
+                  <li id="divSaveAsLocal" style="text-align: center;">
+                    <input id="btnSave" class="btnOrg" type="button" value="Save to Local"
+                      (click)="saveUploadImage('local')" />
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <button class="pull-right footer-btn-blue" pButton type="button" label="Save to ECM  "
+        (click)="saveScannedImages();" [disabled]="!(DWObject && DWObject.HowManyImagesInBuffer > 0)"></button>
+    </p-footer>
+  </p-dialog>
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTree" width="800" height="450">
+    <p-header>
+      Select Folder Path
+    </p-header>
+    <div class="ui-tabview-panel folder-path-selection-model">
+      <!--<tree [folderPermission]="folderPermission" [changeView]="false"></tree>-->
+      <p-tree [value]="folderList" selectionMode="single" [(selection)]="selectedFolder"
+        (onNodeExpand)="nodeExpand($event)" (onNodeSelect)="nodeSelect($event)"></p-tree>
+    </div>
+    <div class="ui-g-12 ui-md-12"></div>
+    <span style="color: red;line-height: 5;"
+      *ngIf="folderPermission && folderPermission.folderSelected && folderPermission.permission">
+      User don't have permission to add document in selected folder
+    </span>
+    <button pButton type="button" label="Cancel" class="small-btn-right m-t-xl m-r-md m-b-md"
+      (click)="openTree=false"></button>
+    <button pButton type="button" label="OK" class="small-btn-right m-t-xl m-r-md m-b-md"
+      [disabled]="folderPermission && folderPermission.permission" (click)="selectFolder();openTree=false"></button>
+  </p-dialog>
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="folderPermissionWarning" width="300"
+    height="153">
+    <p-header>
+      Warning
+    </p-header>
+    <p>User don't have permission to add document in the selected folder.</p>
+    <p-footer>
+      <button pButton type="button" label="OK" class="pull-right" (click)="folderPermissionWarning=false"></button>
+    </p-footer>
+  </p-dialog>
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showDesignation" width="550" height="550">
+    <p-header> Select {{docToOrFrom}}</p-header>
+    <div class="ui-g-12 ui-md-12">
+      <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+        <!-- global filter -->
+        <div class="ui-g">
+          <div class="ui-g-10 p-0">
+            <table>
+              <tr>
+                <td><i class="fa fa-search v-m m-r-md"></i></td>
+                <td>
+                  <input #gb type="text" pInputText size="50" placeholder="Search Designation" style="color: #ffffff"
+                    class="v-m p-0">
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- <p-dataTable [style]="{'max-height':'450px','min-height':'450px'}" selectionMode="single" #dt [globalFilter]="gb"
+        [value]="designation" [lazy]="false" [rows]="10" [paginator]="true"
+        (onRowClick)="onSelectionChange($event.data,docToOrFrom);showDesignation=false" [totalRecords]="totalRecords"
+        [responsive]="true" (onLazyLoad)="loadLazy($event,dt)" [rowStyleClass]="getEmptyRow"
+        [selection]="selectedDesignation">
+        <p-column field="value" header=""></p-column>
+      </p-dataTable> -->
+      <!-- <p-table (onRowClick)="onSelectionChange($event,docToOrFrom);showDesignation=false" scrollHeight="450px" selectionMode="single" #dt [globalFilterFields]!="gb" [value]="designation" 
+      [lazy]="false" [rows]="10" [paginator]="true" (onLazyLoad)="loadLazy($event)" [selection]="selectedDesignation" [totalRecords]="totalRecords">
+      <p-columnFilter field="value" header=""></p-columnFilter>
+    </p-table> -->
+    </div>
+  </p-dialog>
+</div>
+<p-confirmDialog appendTo="body" key="addDocConfirmKey" header="Replace Confirmation"></p-confirmDialog>
+<!--<div #addDocDialog></div>
+<p-confirmDialog key="addDocConfirmKey" #addDocConfirmation [appendTo]="addDocDialog"></p-confirmDialog>-->
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

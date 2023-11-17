@@ -1,0 +1,157 @@
+<div class="ui-g-12 ui-md-9 p-t-0">
+  <p>Filter Workitem:</p>
+</div>
+<div *ngIf="filterCount.total!==-1" class="ui-g-12 ui-md-3 p-t-0 p-l-0">
+  <p>Filter Results Statistics:</p>
+</div>
+<form #filterForm="ngForm">
+  <div class="ui-g-12 ui-md-4 p-l-0 form-group">
+    <div class="ui-g-12 ui-md-4">Subject</div>
+    <div class="ui-g-12 ui-md-8">
+      <input type="text" name="subject" [(ngModel)]="filterQuery.subject" pInputText>
+    </div>
+    <div *ngIf="currentPage[0] !== 'archive'" class="ui-g-12 ui-md-4">Status</div>
+    <div *ngIf="currentPage[0] !== 'archive'" class="ui-g-12 ui-md-8">
+      <p-dropdown [options]="statusOptions" name="status" [(ngModel)]="filterQuery.status" 
+        [placeholder]="'Select'" (onChange)="statusChange($event)" ></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-4">Priority</div>
+    <div class="ui-g-12 ui-md-8">
+      <p-dropdown [options]="priority" name="priority" [(ngModel)]="filterQuery.priority"  [placeholder]="'Select'"></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-4">Remarks</div>
+    <div class="ui-g-12 ui-md-8">
+      <input type="text" name="comments" [(ngModel)]="filterQuery.comments" pInputText>
+    </div>
+    <div class="ui-g-12 ui-md-4">Type</div>
+    <div class="ui-g-12 ui-md-8">
+      <p-dropdown [options]="type" name="type" [(ngModel)]="filterQuery.type"  [placeholder]="'Select'"></p-dropdown>
+    </div>
+    <div class="ui-g-12 ui-md-4" *ngIf="currentPage[0] !== 'actioned'">Due Date</div>
+    <div class="ui-g-12 ui-md-8" *ngIf="currentPage[0] !== 'actioned'">
+      <p-calendar id="DueDate" name="deadline" placeholder="Date" [showIcon]="true" dateFormat="dd/mm/yy"
+        selectionMode="range" [(ngModel)]="selectedDeadline" [readonlyInput]="true" [appendTo]="'body'"
+        [disabled]="disableDuedate" [showButtonBar]="true" (onClearClick)="resetDueDatePicker()" [monthNavigator]="true"
+        [yearNavigator]="true" yearRange="1900:2030"></p-calendar>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-4 p-l-0 form-group">
+    <div *ngIf="activePage==='inbox' && currentPage[0] !== 'actioned'" class="ui-g-12 ui-md-4">Sender</div>
+    <div *ngIf="activePage==='sent' && currentPage[0] !== 'actioned'" class="ui-g-12 ui-md-4">Recipients</div>
+    <div class="ui-g-12 ui-md-8" *ngIf="currentPage[0] !== 'actioned'">
+      <p-multiSelect id="multiselect" name="sender" [options]="filterSenderoptions" [defaultLabel]="'Select'"
+        [displaySelectedLabel]="true" [style]="{minWidth:'100%'}" [(ngModel)]="senderName"
+        (onChange)="senderChange($event)" [appendTo]="'body'"></p-multiSelect>
+    </div>
+    <!--  <div class="ui-g-12 ui-md-4">Instructions</div>
+      <div class="ui-g-12 ui-md-8">
+      <input type="text" name="instructions" [(ngModel)]="filterQuery.instructions" pInputText>
+    </div>-->
+    <div class="ui-g-12 ui-md-4">ECM No</div>
+    <div class="ui-g-12 ui-md-8">
+      <input type="text" name="ecmNo" [(ngModel)]="filterQuery.ecmNo" pInputText>
+    </div>
+    <div *ngIf="activePage==='inbox'" class="ui-g-12 ui-md-4">Received Date</div>
+    <div *ngIf="activePage==='sent'" class="ui-g-12 ui-md-4">Sent Date</div>
+    <div class="ui-g-12 ui-md-8">
+      <!-- <p-calendar id="ReceivedDate" name="receivedDate" placeholder="Date" [showIcon]="true" dateFormat="dd/mm/yy" selectionMode="range"
+                [maxDate]="maxDate" [(ngModel)]="selectedReceivedDate" readonlyInput="true" [disabled]="disableReceivedAndDuedate"
+                [appendTo]="'body'" [showButtonBar]="true" (onClearClick)="resetReceivedDatePicker($event)"
+                [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030"></p-calendar>-->
+      <!--changed on 9th-Oct to enable sent and received date on overdue filter-->
+      <p-calendar id="ReceivedDate" name="receivedDate" placeholder="Date Range" [showIcon]="true" dateFormat="dd/mm/yy"
+        selectionMode="range" [maxDate]="maxDate" [(ngModel)]="selectedReceivedDate" [readonlyInput]="true"
+        [disabled]="disableReceivedDate" [appendTo]="'body'" [showButtonBar]="true"
+        (onClearClick)="resetReceivedDatePicker()" [readonlyInput]="true" [monthNavigator]="true" [yearNavigator]="true"
+        yearRange="1900:2030"></p-calendar>
+    </div>
+    <div class="ui-g-12 ui-md-4">Instructions</div>
+    <div class="ui-g-12 ui-md-8">
+      <input type="text" name="instructions" [(ngModel)]="filterQuery.instructions" pInputText>
+    </div>
+    <div class="ui-g-12 ui-md-4">For</div>
+    <div class="ui-g-12 ui-md-8">
+      <p-dropdown [options]="forOptions" name="for" [(ngModel)]="filterQuery.actions" 
+         [placeholder]="'Select'"></p-dropdown>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-1"></div>
+  <div class="ui-g-12 ui-md-2 p-l-0">
+    <ng-container *ngIf="filterCount.total!==-1">
+      <table class="ecm-table w-100">
+        <tbody>
+          <tr class="even">
+            <td *ngIf="currentPage[0]==='inbox'" class="text-align-left filter-category">Total Found:</td>
+            <td *ngIf="currentPage[0]==='sent' || currentPage[0]==='actioned' || currentPage[0]==='archive'"
+              class="text-align-left filter-category">Total Found:</td>
+            <td class="table-column">{{filterCount.total}}</td>
+          </tr>
+          <tr class="odd">
+            <td class="text-align-left filter-category">Current Page Total:</td>
+            <td class="table-column">{{filterCount.pageSize}}</td>
+          </tr>
+          <tr class="even" *ngIf="this.activePage === 'inbox'">
+            <td class="text-align-left">&nbsp;&nbsp;New:</td>
+            <td class="table-column">{{filterCount.new}}</td>
+          </tr>
+          <tr class="odd" *ngIf="this.activePage === 'inbox'">
+            <td class="text-align-left">&nbsp;&nbsp;Read:</td>
+            <td class="table-column">{{filterCount.read}}</td>
+          </tr>
+          <tr class="even" *ngIf="this.activePage === 'inbox'">
+            <td class="text-align-left filter-category">Category:</td>
+            <td class="table-column"></td>
+          </tr>
+          <tr class="odd" *ngIf="this.activePage === 'inbox'">
+            <td class="text-align-left">&nbsp;&nbsp;To:</td>
+            <td class="table-column">{{filterCount.to}}</td>
+          </tr>
+          <tr class="even" *ngIf="this.activePage === 'inbox'">
+            <td class="text-align-left">&nbsp;&nbsp;CC:</td>
+            <td class="table-column">{{filterCount.cc}}</td>
+          </tr>
+          <!--<tr class="odd" *ngIf="this.activePage === 'inbox'">-->
+          <!--<td class="text-align-left">&nbsp;&nbsp;Reply:</td>-->
+          <!--<td class="table-column">{{filterCount.reply}}</td>-->
+          <!--</tr>-->
+          <!--<tr class="even">-->
+          <!--<td class="text-align-left">&nbsp;&nbsp;Forward:</td>-->
+          <!--<td class="table-column">{{filterCount.forwarded}}</td>-->
+          <!--</tr>-->
+          <tr class="odd" *ngIf="this.activePage === 'inbox'">
+            <td class="text-align-left">&nbsp;&nbsp;Overdue:</td>
+            <td class="table-column">{{filterCount.overdue}}</td>
+          </tr>
+          <tr class="even" *ngIf="this.activePage === 'inbox'">
+            <td class="text-align-left">&nbsp;&nbsp;New Today:</td>
+            <td class="table-column">{{filterCount.newToday}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </div>
+  <div class="ui-g-12 ui-md-1"></div>
+  <div class="ui-g-12 ui-md-12 p-r-0 form-group">
+    <div class="ui-g-12 ui-md-6"></div>
+    <div class="ui-g-12 ui-md-2">
+      <button type="button" class="pull-right m-r-md" pButton label="Submit" (click)="filter()"
+        ></button>
+      <button class="pull-right m-r-s" type="button" pButton label="Clear" (click)="clearFilterResults()"
+        ></button>
+    </div>
+    <div class="ui-g-12 ui-md-3">
+      <!--<p-splitButton [styleClass]="'ecm-split-button pull-right save-to-excel-sb'" *ngIf="filterCount.total!==-1 && filterCount.total>0"
+                       label="Export Filtered Workitems" (onClick)="exportToPdf()"
+                       [model]="exportBtnItems"></p-splitButton>-->
+      <!--<button type="button" *ngIf="filterCount.total!==-1 && filterCount.total>0" pButton label="Export Filtered Workitems" class="pull-right" (click)="exportToExcel();"></button>-->
+    </div>
+    <!--<div *ngIf="!hasFilterResults" class="ui-g-12 ui-md-3"></div>-->
+    <!--<div class="ui-g-12 ui-md-1 p-r-0 p-t-lg">-->
+    <!--<button pButton class="remove-btn action-btn-sm" style="float: right;" type="button" icon="ui-icon-expand-less"-->
+    <!--title="Collapse" (click)="collapse($event);"></button>-->
+    <!--</div>-->
+  </div>
+</form>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

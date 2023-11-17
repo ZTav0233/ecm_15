@@ -25,7 +25,7 @@ export class ContentService {
   }
   clearCart():any{
     const user = this.us.getCurrentUser();
-    const url = `${global.base_url}ContentService/clearCart?empno=${user.EmpNo}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
+    const url = `${global.base_url}ContentService/clearCart?empno=${ie11_polyfill(JSON.stringify(user.EmpNo))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
     return this.http.get(url,{responseType:'text'});
   }
 
@@ -115,7 +115,7 @@ export class ContentService {
 
   addFolderToFavorites(folderId):any{
     const user = this.us.getCurrentUser();
-    const url = `${global.base_url}ContentService/addFolderToFavorites?empno=${user.EmpNo}&id=${folderId}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
+    const url = `${global.base_url}ContentService/addFolderToFavorites?empno=${ie11_polyfill(JSON.stringify(user.EmpNo))}&id=${ie11_polyfill(folderId)}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
     return this.http.get(url,{responseType:'text'});
   }
 
@@ -144,7 +144,7 @@ export class ContentService {
 
   getFavoriteFolders() {
     const user = this.us.getCurrentUser();
-    const url = `${global.base_url}ContentService/getFavoriteFolders?empno=${user.EmpNo}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
+    const url = `${global.base_url}ContentService/getFavoriteFolders?empno=${ie11_polyfill(JSON.stringify(user.EmpNo))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
     return this.http.get(url);
   }
 
@@ -156,7 +156,7 @@ export class ContentService {
 
   removeFolderFromFavorites(folderid):any{
     const user = this.us.getCurrentUser();
-    const url = `${global.base_url}ContentService/removeFolderFromFavorites?empno=${user.EmpNo}&id=${folderid}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
+    const url = `${global.base_url}ContentService/removeFolderFromFavorites?empno=${ie11_polyfill(JSON.stringify(user.EmpNo))}&id=${ie11_polyfill(folderid)}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
     return this.http.get(url,{responseType:'text'});
   }
 

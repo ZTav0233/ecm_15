@@ -1,0 +1,12 @@
+.container-gridview-options {
+  box-sizing: border-box;
+  padding: .5em;
+}
+
+.sub-container-gridview-options {
+  display: inline-block;
+}
+
+.sub-container-export-options {
+  display: inline-block;
+}

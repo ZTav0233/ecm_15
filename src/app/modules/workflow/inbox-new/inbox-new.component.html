@@ -1,0 +1,88 @@
+<div>
+  <mat-tab-group (selectedTabChange)="inboxTabChange($event.tab.textLabel,selectedTabIndex,true)"
+    [(selectedIndex)]="selectedTabIndex">
+    <mat-tab *ngFor="let tab of tabsList;let r=index;" label="{{tab.tabLabel}}">
+      <ng-template mat-tab-label>
+        {{tab.tabLabel }} <span class="badge m-l-sm ui-state-highlight" *ngIf="tab.tabCount > 0">{{tab.tabCount}}</span>
+      </ng-template>
+      <div class="ui-g-12 ui-md-2 p-b-0 p-l-0 width-auto">
+        <action-button (selectedAction)="actionButtonCallback($event,op)" (toggleFilter)="getFilterToggle($event)"
+          [activePage]="'inbox'" [actions]="actions" [disableAction]="inboxSelectedItem.length<=0"
+          [totalTableRecords]="totalRecords" [hasFilterRes]="advanceFilterShown" (clearFilter)="closeFilters($event)"
+          [userId]="tab.recordId"></action-button>
+        <p-overlayPanel [dismissable]="true" [style]="{'z-index':'999'}" #op>
+          <p-calendar (onSelect)="selectBeforeDate($event)" [(ngModel)]="beforeDate" [inline]="true"
+            [readonlyInput]="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030"></p-calendar>
+        </p-overlayPanel>
+      </div>
+      <div class="ui-g-12 ui-md-2 p-b-0">
+        <div class="ui-g-12 colMultiselect p-b-0 m-b-sm">
+          <mat-select placeholder="Columns" [(ngModel)]="selectedColumns"
+            (selectionChange)="columnSelectionChanged($event)" multiple>
+            <mat-option *ngFor="let column of columns;" [value]="column.value">{{column.label}}</mat-option>
+          </mat-select>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-4 p-r-0 p-l-0 pull-right">
+        <div class="container-export-options pull-right">
+          <p-menubar [model]="exportItemsList" styleClass="export-menuItem"></p-menubar>
+        </div>
+        <div class="ui-g-6 colMultiselect p-b-0 m-r-lg p-t-sm pull-right">
+          <div class="container-gridview-options">
+            <span>Grouped View</span>
+            <p-inputSwitch [(ngModel)]="userGridView" onLabel="" offLabel=""></p-inputSwitch>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-12 hide p-0 filter">
+        <app-filter (filterData)="searchInbox($event)" [filterQuery]="request" [activePage]="'inbox'"
+          [filterSenderoptions]="sendersListForFilter" [filterCount]="filterCount" [forOptions]="forOptions"
+          [searchFromDashboard]="dashboardSearchQuery[tab.recordId]" [id]="tab.recordId"
+          [filteredData]="inboxWorkitems.workitems" (clearFilter)="clearFilter()"></app-filter>
+      </div>
+      <div class="min-height-400">
+        <!-- <data-table *ngIf="userGridView === gridViewOptions.unGrouped.value" [defaultSortField]="'receivedDate2'"
+          [lazy]="true" [emptyMessage]="emptyMessage" [selectedRows]="inboxSelectedItem"
+          (sendSortPagination)="lazyLoadWorkItems($event)" [totalRecords]="totalRecords"
+          (refreshScreen)="refreshTable($event)" (sendData)="onSelectRow($event)" [showInfoIcon]="false"
+          [showDownloadIcon]="false" [showAddCartIcon]="false" [tableData]="inboxWorkitems.workitems"
+          [colHeaders]="colHeaders" [itemsPerPage]="itemsPerPage" [rowExpandable]="true" [activePage]="'inbox'"
+          [userType]="tab.tabType" [userId]="tab.recordId" (toggleProgressDialogue)="showProgressDialogue($event)"
+          [showProgressBtn]="true" [tabNameIdentifier]="tab.tabIdentifier"></data-table>
+        <data-table *ngIf="userGridView === gridViewOptions.grouped.value" [lazy]="true" [emptyMessage]="emptyMessage"
+          [selectedRows]="inboxSelectedItem" [rowGroupMode]="'subheader'" [groupField]="'recordGroupName'"
+          [defaultSortField]="'receivedDate2'" (sendSortPagination)="lazyLoadWorkItems($event)"
+          [totalRecords]="totalRecords" (refreshScreen)="refreshTable($event)" (sendData)="onSelectRow($event)"
+          [showInfoIcon]="false" [showDownloadIcon]="false" [showAddCartIcon]="false"
+          [tableData]="inboxWorkitems.workitems" [colHeaders]="colHeaders" [itemsPerPage]="itemsPerPage"
+          [rowExpandable]="true" [activePage]="'inbox'" [userType]="tab.tabType" [userId]="tab.recordId"
+          (toggleProgressDialogue)="showProgressDialogue($event)" [showProgressBtn]="true"
+          [tabNameIdentifier]="tab.tabIdentifier"></data-table> -->
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  <p-confirmDialog></p-confirmDialog>
+  <p-dialog styleClass="p-0" [styleClass]="'max-h-488'" appendTo="body" [modal]="true" showEffect="fade"
+    [(visible)]="displayProgressDialog"  [style]="{ width: '650vw', height: '550px' }" [contentStyle]="{'overflow':'auto'}"
+    (onHide)="hideProgressDialog()">
+    <p-header>
+      Work Progress
+    </p-header>
+    <app-document-status [workitemProgress]="progressDialogWorkItem.progress"
+      (onRemoveProgress)="removeWorkitemProgress($event)" (onAddProgress)="addWorkitemProgress($event)">
+    </app-document-status>
+  </p-dialog>
+  <p-dialog [modal]="true" showEffect="fade" [(visible)]="showDelegationInactiveDialog" [style]="{ width: '380vw', height: '148px' }"
+    (onHide)="reloadApp()">
+    <p-header>
+      Delegated user access has ended.
+    </p-header>
+    <p>Application will refresh now.</p>
+    <p-footer>
+      <button pButton class="pull-right" type="button" label="OK" (click)="reloadApp()"></button>
+    </p-footer>
+  </p-dialog>
+</div>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

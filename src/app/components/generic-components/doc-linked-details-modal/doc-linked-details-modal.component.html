@@ -9,7 +9,7 @@
                 <th *ngIf="!noLink" style="width:45%;" class="text-align-left">Linked Documents</th>
                 <th *ngIf="!noLink" class="text-align-right">Actions</th>
               </tr>
-              <tr *ngFor="let doclink of linkedDocuments;let index=i;let isOdd=odd;
+              <tr *ngFor="let doclink of linkedDocuments;let isOdd=odd;
                  let isEven=even" [class.even]="isEven" >
                 <td *ngIf="!noLink" style="width:80%;">{{doclink.desc}}</td>
                 <td *ngIf="!noLink" class="text-align-right">

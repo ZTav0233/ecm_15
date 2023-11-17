@@ -1,0 +1,811 @@
+<div class="ui-md-12 ui-g-12 p-0" (click)="onMouseClick($event)">
+  <div class="ui-md-12 ui-g-12 p-0">
+    <div class="ui-g-4 ui-md-4 ui-sm-12 p-l-0 p-t-0 p-b-xs">
+      <!-- <div class="ui-g-12 p-l-0 p-b-0 p-t-md p-r-0" style="height: calc(100vh - 82px); overflow: auto;"> -->
+      <div class="ui-g-12 p-l-0 p-b-0 p-t-md p-r-0">
+        <p-tabView (onChange)="step1TabChange($event)" styleClass="max-h-tab" [activeIndex]="tabActiveIndex">
+          <p-tabPanel header="Attachment">
+            <p-dropdown (onChange)="selectedOption()" [options]="browsingOptions" optionLabel="name"
+              (click)="dropDownHideShow?hideDropdown(false): hideDropdown(true)" class="example-css-class "
+              id="dropdown" [placeholder]='"Attach From ECM/File System"' [(ngModel)]="selectedOptionForDocument">
+            </p-dropdown>
+
+            <button pButton type="button" (click)="generateNew()" label="Generate New Memo & Circulate"></button>
+            <!-- <button (click)="openAddFromFolderDilaog=true;openAddFromFolderDilaogLoaded=true;" pButton type="button"
+              label="Add From Folder"></button> -->
+            <!-- <div (click)="hhhshsh()" *ngIf="dropDownHideShow" style="height:95px"></div> -->
+            <div class="row attachment">
+              <div class="ui-g-12 ui-sm-12 document-cart max-h-400 pt-xl p-l-0 p-r-0" id="up">
+                <p-accordion>
+                  <p-accordionTab [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" [selected]="true">
+                    <p-header>
+                      <div class="ui-g">
+                        <div class="ui-g-2 ui-sm-12 p-v-0"><i class="fa ui-icon-shopping-cart v-m"></i></div>
+                        <div class="ui-g-10 ui-sm-12 p-v-0">
+                          <span class="v-m doc-cart-label"
+                            *ngIf="launch.documents.cartItems && actionTypes!=='forward' && actionTypes!=='reply' && actionTypes!=='replyAll'">
+                            Document Cart ({{launch.documents.cartItems.length}})</span>
+                          <span class="custom-label">Select All</span>
+                          <button (click)="myFunction($event)" class="custom-button"
+                            style="background: transparent;border: none !important;">
+                            <p-checkbox [(ngModel)]="allSelectedValues" value="selectedAll"
+                              (ngModelChange)="isSelectedAll = !isSelectedAll;documentCartComponent.selectAll(isSelectedAll)"
+                              class="custom-button"></p-checkbox>
+                          </button>
+                          <span class="v-m"
+                            *ngIf="launch.documents.cartItems && actionTypes ==='forward' || actionTypes ==='reply' || actionTypes ==='replyAll'">
+                            Add From Cart ({{launch.documents.cartItems.length}})</span>
+                        </div>
+                      </div>
+                    </p-header>
+                    <app-document-cart [showHeading]="false" [cartItems]="launch.documents.cartItems"
+                      [componentTitle]="actionTypes==='forward' || actionTypes==='reply' || actionTypes==='replyAll' ? 'Add From Cart': 'Document Cart'"
+                      [isSelectedAll]="isSelectedAll" [workflowType]="workflowType"
+                      (onItemSelect)="populateWorkflowForm($event)"
+                      (checkedItems)="assignCartItemsForLaunch($event);populateWorkflowForm($event)"
+                      (onItemRemoved)="onDocumentRemoved()" [isItemSelectable]="true"
+                      (onItemPreview)="showDocPreview($event)"></app-document-cart>
+                  </p-accordionTab>
+                </p-accordion>
+              </div>
+            </div>
+            <div *ngIf="launch.workflow.model.attachments"
+              class="ui-g-12 ui-sm-12 document-cart max-h-400 p-t-xl p-l-0 p-r-0">
+              <p-accordion>
+                <p-accordionTab [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" [selected]="true">
+                  <p-header>
+                    <div class="ui-g">
+                      <div class="ui-g-2 ui-sm-12 p-v-0"><i class="fa ui-icon-shopping-cart v-m"></i></div>
+                      <div class="ui-g-10 ui-sm-12 p-v-0">
+                        <span class="v-m"
+                          *ngIf="launch.workflow.model.attachments && actionTypes ==='forward' || actionTypes ==='reply'
+                         || actionTypes ==='replyAll' || actionTypes ==='reLaunch' || actionTypes ==='launch' || actionTypes ==='draftLaunch'">
+                          Existing Attachments ({{launch.workflow.model.attachments.length}})</span>
+                      </div>
+                    </div>
+                  </p-header>
+                  <app-document-cart [showHeading]="false" [cartItems]="launch.workflow.model.attachments"
+                    [isFromDraft]="actionTypes ==='draftLaunch'" [componentTitle]="'Attachments'"
+                    [workflowType]="workflowType" [isItemSelectable]="true" (onItemPreview)="showDocPreview($event)">
+                  </app-document-cart>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel header="Recipients">
+            <p-accordion  [activeIndex]="selectedIndexAccordion" [multiple]="false" (onOpen)="onTabOpen($event);">
+              <p-accordionTab [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" [selected]="true">
+                <p-header>
+                  <i class="ui-icon-ac-h fa ui-icon-filter-none" style="color: white"></i> Default List
+                </p-header>
+                <div class="ui-g">
+                  <div class="w-100">
+                    <div class="ui-g roleSearch-box">
+                      <div class="ui-g-12 ui-inputgroup">
+                        <span class="md-inputfield ">
+                          <input type="text" pInputText (input)="searchDFL(launch.recipients.search.defSearchquery)"
+                            placeholder="Search by name or mail"
+                            [(ngModel)]="launch.recipients.search.defSearchquery" />
+                          <i class="topbar-icon material-icons">search</i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-g-12 max-h-360">
+                    <div class="ui-g-12 ui-md-12 ui-sm-12 "
+                      *ngIf="launch.recipients.list.selectedUserList.lists && launch.recipients.list.selectedUserList.lists.length>0 ">
+                      <app-user-list [isNoFoundMessage]="true" [iconClass]="'fa ui-icon-view-list'" [showTooltip]="true"
+                        [showAddBtn]="false" [actionType]="launch.documents.existing.model.actionType"
+                        [isUserRoleNotList]="true" [items]="launch.recipients.list.selectedUserList.lists"
+                        [field]="'name'" (addToToList)="addListUsersToToList($event,true)"
+                        (addToCCList)="addListUsersToCCList($event,true)" (existsInList)="existsInList($event)"
+                        (getRoleMembers)="getRoleMembers($event,'defaultList')" [isRowSelectable]="true">
+                      </app-user-list>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+              <p-accordionTab>
+                <p-header>
+                  <i class="ui-icon-ac-h fa ui-icon-star-border" style="color: white"></i> Favorite List
+                </p-header>
+                <div class="ui-g">
+                  <div class="w-100 ">
+                    <div class="ui-g roleSearch-box">
+                      <div class="ui-g-12 ui-inputgroup">
+                        <span class="md-inputfield ">
+                          <input type="text" pInputText (input)="searchFL(launch.recipients.search.favSearchquery)"
+                            placeholder="Search by name or mail"
+                            [(ngModel)]="launch.recipients.search.favSearchquery" />
+                          <i class="topbar-icon material-icons">search</i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-g-12 max-h-360">
+                    <div class="ui-g-12 ui-md-12 ui-sm-12 "
+                      *ngIf="launch.recipients.list.selectedUserList && launch.recipients.list.selectedUserList.users">
+                      <app-user-list [isNoFoundMessage]="true" [showAddBtn]="false"
+                        [actionType]="launch.documents.existing.model.actionType"
+                        [items]="launch.recipients.list.selectedUserList.users" [field]="'name'"
+                        (addToToList)="addToToListFromList($event)" [isUserRoleNotList]="true"
+                        (addToCCList)="addToCCListFromList($event)" (existsInList)="existsInList($event)"
+                        (getRoleMembers)="getRoleMembers($event,'fav')">
+                      </app-user-list>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+              <p-accordionTab
+                [disabled]="launch.documents.existing.model.actionType==='Signature' || launch.documents.existing.model.actionType==='Initial'">
+                <p-header>
+                  <i class="ui-icon-ac-h fa ui-icon-apps" style="color: white"></i> Distribution List
+                </p-header>
+                <div class="ui-g">
+                  <div class="w-100">
+                    <div class="ui-g roleSearch-box">
+                      <div class="ui-g-12 ui-inputgroup">
+                        <span class="md-inputfield ">
+                          <input type="text" pInputText (input)="searchDL(launch.recipients.search.dlSearchquery)"
+                            placeholder="Search name" [(ngModel)]="launch.recipients.search.dlSearchquery" />
+                          <i class="topbar-icon material-icons">search</i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="ui-g-12 max-h-360">
+                    <div class="ui-g-12 ui-md-12 ui-sm-12 "
+                      *ngIf="launch.recipients.list.selectedUserList.lists && launch.recipients.list.selectedUserList.lists.length>0 ">
+                      <app-user-list [isNoFoundMessage]="true" [iconClass]="'fa ui-icon-view-list'" [showTooltip]="true"
+                        [showAddBtn]="false" [actionType]="launch.documents.existing.model.actionType"
+                        [items]="launch.recipients.list.selectedUserList.lists" [field]="'name'"
+                        (addToToList)="addListUsersToToList($event)" (addToCCList)="addListUsersToCCList($event)"
+                        (existsInList)="existsInListUserList($event)" (getRoleMembers)="getListUsersForTooltip($event)"
+                        (getListMembers)="getListUsers($event,'sublist')" [isRowSelectable]="true"></app-user-list>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+              <p-accordionTab>
+                <p-header>
+                  <i class="ui-icon-ac-h fa ui-icon-list" style="color: white"></i> Roles List
+                </p-header>
+                <div class="ui-g">
+                  <div class="ui-g-12">
+                    <div class="ui-g roleSearch-box">
+                      <div class="ui-g-3 ui-xl-2">
+                        <a class="hyperLink-black pull-left" (click)="showRoleTreeModel()">Role Tree</a>
+                      </div>
+                      <div class="ui-g-9 ui-xl-10 ui-inputgroup">
+                        <span class="md-inputfield ">
+                          <input type="text" pInputText (input)="searchRL(launch.recipients.search.roleSearchquery)"
+                            placeholder="Search by role" [(ngModel)]="launch.recipients.search.roleSearchquery" />
+                          <i class="topbar-icon material-icons">search</i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="split-pane-content-primary max-h-360 ">
+                      <div class="upper">
+                        <div class="ui-g">
+                          <div class="ui-g-12 p-b-0">
+                            <div class="ui-g-12 ui-md-12 ui-sm-12 p-b-0"
+                              *ngIf="launch.recipients.list.selectedUserList.lists && launch.recipients.list.selectedUserList.lists.length>0 &&
+                                          !(launch.documents.existing.model.actionType=='Signature' || launch.documents.existing.model.actionType=='Initial')">
+                              <app-user-list [isNoAlternateRows]="true" [isNoFoundMessage]="true"
+                                [iconClass]="'fa ui-icon-view-list'" [showTooltip]="true" [showAddBtn]="false"
+                                [actionType]="launch.documents.existing.model.actionType"
+                                [items]="launch.recipients.list.selectedUserList.lists" [field]="'name'"
+                                (addToToList)="addListUsersToToList($event)"
+                                (addToCCList)="addListUsersToCCList($event)"
+                                (existsInList)="existsInListUserList($event)"
+                                (getRoleMembers)="getListUsersForTooltip($event)"
+                                (getListMembers)="getListUsers($event,'sublist')" [isRowSelectable]="true">
+                              </app-user-list>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ui-g">
+                          <div class="ui-g-12 p-t-0">
+                            <div class="ui-g-12 ui-md-12 ui-sm-12 p-t-0"
+                              *ngIf="launch.recipients.roles.roleTree && launch.recipients.roles.roleTree.length>0 ">
+                              <app-role-list [items]="launch.recipients.roles.roleTree"
+                                (existsInList)="existsInList($event)"
+                                (getRoleMembers)="getRoleMembers($event,'roleList')" (addToToList)="addToToList($event)"
+                                (addToCCList)="addToCCList($event)"
+                                [actionType]="launch.documents.existing.model.actionType">
+                              </app-role-list>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+              <p-accordionTab header="Search Users">
+                <p-header>
+                  <i class="ui-icon-ac-h fa ui-icon-person" style="color: white"></i> Search Users
+                </p-header>
+                <div class="ui-g">
+                  <div class="ui-g-12">
+                    <div class="ui-g-12 ui-md-12">
+                      <form #searchUserForm="ngForm" (submit)="searchUsers('USER');" class="scrollable">
+                        <!--all search criteria-->
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label class="text-bold">Select Criteria</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <label class="text-bold">Search Text</label>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label>Name:</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <span class="md-inputfield">
+                              <input type="text" pInputText name="userName" [(ngModel)]="userSearchQueary.userName">
+                            </span>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label>Email:</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <span class="md-inputfield">
+                              <input type="text" pInputText name="mail" [(ngModel)]="userSearchQueary.mail">
+                            </span>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label>Designation:</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <span class="md-inputfield">
+                              <input type="text" pInputText name="title" [(ngModel)]="userSearchQueary.title">
+                            </span>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label>Phone:</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <span class="md-inputfield">
+                              <div class="ui-fluid">
+                                <p-spinner [(ngModel)]="userSearchQueary.phone" (keyup.enter)="searchUsers('USER')"
+                                  name="phone" class="no-spinners"></p-spinner>
+                              </div>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label>Org Code:</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <span class="md-inputfield">
+                              <input type="text" pInputText name="orgCode" [(ngModel)]="userSearchQueary.orgCode">
+                            </span>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-4">
+                            <label>KOC No:</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <span class="md-inputfield">
+                              <input type="text" pInputText [(ngModel)]="userSearchQueary.empNo" name="empNo">
+                            </span>
+                          </div>
+                        </div>
+                        <div class="ui-g form-group">
+                          <div class="ui-g-12 ui-md-10 p-l-0">
+                            <button pButton type="submit" label="Search" class="pull-right m-l-md"></button>
+                            <button pButton type="button"
+                              (click)="searchUserForm.reset();launch.recipients.search.result=[];" label="Clear"
+                              class="pull-right"></button>
+                          </div>
+                        </div>
+                      </form>
+                      <div class="ui-g-12 ui-md-12 fix-h-350"
+                        *ngIf='launch.recipients.search.result && launch.recipients.search.result.length > 0'>
+                        <app-user-list [showAddBtn]="false" [actionType]="launch.documents.existing.model.actionType"
+                          [items]="launch.recipients.search.result" [field]="'name'" (addToToList)="addToToList($event)"
+                          (addToCCList)="addToCCList($event)" (existsInList)="existsInList($event)"></app-user-list>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+    <div class="ui-g-8 ui-md-8 ui-sm-12 p-l-0 p-t-0 p-b-xs">
+      <div class="ui-g-12" [ngClass]="{'hide':actionTypes==='launch' && !isRelaunch}">
+        <button pButton type="button" icon="ui-icon-arrow-back" title="Back" (click)="goBack()"
+          class="remove-btn pull-right"></button>
+      </div>
+      <div class="ui-g-12" form-group>
+        <div class="ui-info-label-div">
+          <span class="ui-info-label">The fields marked with red&nbsp;asterisk (</span>
+          <span class="ui-info-label_red">*</span>
+          <span class="ui-info-label">) are mandatory</span>
+        </div>
+        <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class="ui-g-1">
+          <label>Type :</label>
+        </div>
+        <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class="ui-g-11 ui-xl-4 ui-lg-6">
+          <p-selectButton [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" (onChange)="onActionTypeChanged($event)" [options]="launch.documents.existing.actionTypes"
+            [(ngModel)]="launch.documents.existing.model.actionType" name="actionType"></p-selectButton>
+        </div>
+        <div class="ui-g-1">
+          <label>Priority:</label>
+        </div>
+        <div class="ui-g-6 ui-xl-6 ui-lg-4 prio">
+          <p-radioButton [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" name="workflowPriority" value="2" label="Normal" [(ngModel)]="launch.workflow.model.priority">
+          </p-radioButton>
+          <p-radioButton [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" name="workflowPriority" value="3" label="High" [(ngModel)]="launch.workflow.model.priority">
+          </p-radioButton>
+        </div>
+      </div>
+      <div class="ui-g-12" style="padding-top: 0px;">
+        <form [spellcheck]="false" style="height: 68vh; overflow: auto;">
+          <div class="ui-g form-group">
+            <div class="ui-g-1">
+              <label>Subject:<span class="required">*</span></label>
+            </div>
+            <div class="ui-g-11">
+              <span class="md-inputfield">
+                <input [disabled]="subjectDisabled" type="text" maxlength="2000" pInputText name="workflowSubject"
+                  [(ngModel)]="launch.workflow.model.subject" required>
+              </span>
+            </div>
+          </div>
+          <app-recipients (prepareStepItems)="prepareStepItems()" [documentsData]="launch.documents"
+            [actionType]="emitActionType" [searchType]="selectedType" [recipientsData]="launch.recipients"
+            (searchRoleList)="searchRoleList()" (toccFieldOnFocus)="selectRecipientsTab()"></app-recipients>
+          <div class="ui-g form-group">
+            <div class="ui-g-1">
+              <label>For:</label>
+              <!--<span *ngIf="actionTypes==='launch'|| actionTypes==='browseLaunch' || actionTypes==='draftLaunch'" class="required">*</span>-->
+              <span class="required">*</span>
+            </div>
+            <div class="ui-g-11 ui-fluid">
+              <p-multiSelect optionDisabled="true" [options]="launch.workflow.forOptions" [defaultLabel]="'Select'"
+                [displaySelectedLabel]="true" [(ngModel)]="launch.workflow.model.actions" name="workflowFor"
+                [maxSelectedLabels]="launch.workflow.forOptions?launch.workflow.forOptions.length:3"></p-multiSelect>
+            </div>
+          </div>
+          <div class="ui-g form-group">
+            <div class="ui-g-6">
+              <label
+                *ngIf="actionTypes !='reply' && actionTypes !='replyAll' &&
+              actionTypes !='draftLaunch' && actionTypes !='browseLaunch' && actionTypes !='reLaunch' && actionTypes !='launch'">Action
+                Taken::</label>
+              <label
+                *ngIf="actionTypes =='reply' || actionTypes =='replyAll' ||
+              actionTypes =='draftLaunch' || actionTypes =='browseLaunch' || actionTypes =='reLaunch' || actionTypes =='launch'">Remarks:</label>
+            </div>
+            <div class="ui-g-6">
+              <label *ngIf="actionTypes !='reply' && actionTypes !='replyAll'  || wiaAction?.isMemo==1">Instructions:</label>
+              <label *ngIf="wiaAction?.isMemo==0 && actionTypes =='reply' || actionTypes =='replyAll' && (actionTypes !='draftLaunch' &&
+              actionTypes !='browseLaunch' && actionTypes !='reLaunch' && actionTypes !='launch')">Action
+                Taken:</label>
+            </div>
+            <div class=" ui-g-6">
+              <div
+                *ngIf="actionTypes !='reply' && actionTypes !='replyAll' &&
+              actionTypes !='draftLaunch' && actionTypes !='browseLaunch' && actionTypes !='reLaunch' && actionTypes !='launch' ">
+                <textarea [spellcheck]="true" class="text-area-resize-none bordered" [rows]="5" maxlength="500"
+                  [cols]="30" pInputTextarea [autoResize]="false" [(ngModel)]="launch.workflow.model.actionTaken"
+                  name="actionTaken"></textarea>
+                <span *ngIf="!launch.workflow.model.actionTaken">500 Remaining</span>
+                <span *ngIf="launch.workflow.model.actionTaken">{{500-launch.workflow.model.actionTaken.length}}
+                  Remaining</span>
+              </div>
+              <div
+                *ngIf="actionTypes =='reply' || actionTypes =='replyAll' ||
+              actionTypes =='draftLaunch' || actionTypes =='browseLaunch' || actionTypes =='reLaunch' || actionTypes =='launch'">
+                <textarea type="text" [spellcheck]="true" class="text-area-resize-none bordered" [rows]="5"
+                  maxlength="2000" [cols]="30" pInputTextarea [autoResize]="false"
+                  ng-model-options="{ updateOn: 'blur' }" [(ngModel)]="launch.workflow.model.remarks"
+                  name="remarks"></textarea>
+                <span *ngIf="!launch.workflow.model.remarks">2000 Remaining</span>
+                <span *ngIf="launch.workflow.model.remarks">{{2000-launch.workflow.model.remarks.length}}
+                  Remaining</span>
+              </div>
+            </div>
+            <div class="ui-g-6">
+              <div *ngIf="(actionTypes !='reply' && actionTypes !='replyAll') || wiaAction?.isMemo==1">
+                <textarea type="text" [spellcheck]="true" class="text-area-resize-none bordered" [rows]="5"
+                  maxlength="500" [cols]="30" pInputTextarea [autoResize]="false"
+                  ng-model-options="{ updateOn: 'blur' }" [(ngModel)]="launch.workflow.model.instructions"
+                  name="instructions"></textarea>
+                <span *ngIf="!launch.workflow.model.instructions">500 Remaining</span>
+                <span *ngIf="launch.workflow.model.instructions">{{500-launch.workflow.model.instructions.length}}
+                  Remaining</span>
+              </div>
+              <div *ngIf=" wiaAction?.isMemo==0 &&(actionTypes =='reply' || actionTypes =='replyAll') && (actionTypes !='draftLaunch' &&
+              actionTypes !='browseLaunch' && actionTypes !='reLaunch' && actionTypes !='launch')">
+                <textarea [spellcheck]="true" class="text-area-resize-none bordered" [rows]="5" maxlength="500"
+                  [cols]="30" pInputTextarea [autoResize]="false" [(ngModel)]="launch.workflow.model.actionTaken"
+                  name="actionTaken"></textarea>
+                <span *ngIf="!launch.workflow.model.actionTaken">500 Remaining</span>
+                <span *ngIf="launch.workflow.model.actionTaken">{{500-launch.workflow.model.actionTaken.length}}
+                  Remaining</span>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g form-group">
+            <div class="ui-g-12" style="padding: 0px !important;">
+              <div class="ui-g-4" style="margin-bottom: 4px;">
+                <div class="ui-g-8" style="padding:0px !important;">
+                  <p-checkbox id="deadLineCheckbox" [binary]="true" (onChange)="checkDeadlineCheckBox($event)"
+                    label="Enable Deadline" [ngModelOptions]="{standalone: true}"
+                    [(ngModel)]="launch.workflow.model.isDeadlineEnabled"></p-checkbox>
+                </div>
+              </div>
+              <div *ngIf="launch.workflow.model.isDeadlineEnabled">
+                <div class="ui-g-1 text-align-center" style="background-color: #FFFFCC; margin-bottom: 4px;">
+                  <i class="fa ui-icon-warning" style="font-size: 26px;color:#fcbc03"></i>
+                </div>
+                <div class="ui-g-6" style="background-color: #FFFFCC; margin-bottom: 4px;">
+                  <span class="m-0 text-bold-11">The Default Deadline is Five Business Days[Excluding Friday and
+                    Saturdays]</span>
+                  <p class="m-0 font-9">You may change the deadline duration to any date of your preference...</p>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="launch.workflow.model.isDeadlineEnabled" class="ui-g-1">
+              <label>Deadline:</label>
+            </div>
+            <div *ngIf="launch.workflow.model.isDeadlineEnabled" class="ui-g-6">
+              <p-calendar class="dateHeaderMemo" [minDate]="launch.currentDate" [showIcon]="true" [showButtonBar]="true"
+                (onSelect)="selectDeadLine()" selectionMode="single" [(ngModel)]="launch.workflow.model.deadlineDate"
+                name="deadlineDate" dateFormat="dd-mm-yy" [monthNavigator]="true" [readonlyInput]="true"
+                (onClearClick)="clearDeadline()" [yearNavigator]="true" yearRange="1900:2030">
+              </p-calendar>
+            </div>
+            <div *ngIf="launch.workflow.model.isDeadlineEnabled" class="ui-g-5">
+              <p-dropdown [options]="deadLineTimes" [(ngModel)]="deadLineTime" name="deadLineTime"
+                [disabled]="!launch.workflow.model.deadlineDate">
+                <ng-template let-item pTemplate="selectedItem">
+                  <span (click)="onClick(item.disabled); clearReminderDate()"
+                    [ngStyle]="item.disabled? {'color': '#ccc', 'cursor': 'default'} : null">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div *ngIf="launch.workflow.model.isDeadlineEnabled" class="ui-g form-group">
+            <div class="ui-g-1">
+              <label>Reminder:</label>
+            </div>
+            <div class="ui-g-6">
+              <p-calendar class="dateHeaderMemo" [maxDate]="launch.workflow.model.deadlineDate" [minDate]="launch.currentDate"
+                [showButtonBar]="true" selectionMode="single" [showIcon]="true" (onClearClick)="clearReminder()"
+                [disabled]="!launch.workflow.model.deadlineDate" dateFormat="dd-mm-yy"
+                [(ngModel)]="launch.workflow.model.reminderDate" name="reminderDate" [monthNavigator]="true"
+                [readonlyInput]="true" [yearNavigator]="true" yearRange="1900:2030" (onSelect)="selectReminder()">
+              </p-calendar>
+            </div>
+            <div class="ui-g-5">
+              <p-dropdown [options]="reminderTimes" [(ngModel)]="reminderTime" name="reminderTime"
+                [disabled]="!launch.workflow.model.reminderDate || !launch.workflow.model.deadlineDate ">
+                <ng-template let-item pTemplate="selectedItem">
+                  <span (click)="onClick(item.disabled)"
+                    [ngStyle]="item.disabled? {'color': '#ccc', 'cursor': 'default'} : null">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+        </form>
+        <div class="ui-g-12">
+          <div class="ui-g-6 ui-sm-12" style="text-align: right">
+            <button pButton type="button" label="Cancel" (click)="navigateToDashboard()"></button>
+            <button
+              *ngIf="(actionTypes==='launch' && !isRelaunch) || actionTypes==='browseLaunch' || actionTypes==='draftLaunch'"
+              (click)="launchAsCurrentUser('normal',-1,true)" pButton type="button" label="Save Draft"
+              [disabled]="!launch.workflow.model.subject || launch.documents.existing.model.actionType === 'bulkLaunch' || !launch.workflow.model.actions || launch.workflow.model.actions.length==0">
+            </button>
+          </div>
+          <div id="launchBtn" class="ui-g-6 ui-sm-12" style="text-align: left">
+            <!--for Launch with default Tab not selected-->
+            <p-splitButton [styleClass]="'ecm-split-button'"
+              [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
+                          !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
+                          (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+                          (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
+                          (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
+                          (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
+                          (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && this.selectedCartItems && this.selectedCartItems.length==0)"
+              *ngIf="(!this.isDefaultTab || this.defaultTabId == 0) && (actionTypes==='launch' || actionTypes==='browseLaunch') && currentUser.roles && currentUser.roles.length>0 && currentUser.roles[0].status === 'ACTIVE'"
+              label="{{launch.documents.existing.model.actionType === 'bulkLaunch' ? 'Bulk Launch': 'Launch'}} (On behalf of {{currentUser.roles[0].name}})   "
+              (onClick)="launch.documents.existing.model.actionType === 'bulkLaunch' ? this.launchAsRole(currentUser.roles[0], 'bulk') : this.launchAsRole(currentUser.roles[0], 'normal')"
+              [model]="launch.launchBtnItems"></p-splitButton>
+            <p-splitButton [styleClass]="'ecm-split-button'"
+              [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
+                        !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
+                        (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+                        (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
+                        (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
+                        (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
+                        (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && this.selectedCartItems && this.selectedCartItems.length==0)"
+              *ngIf="(!this.isDefaultTab || this.defaultTabId == 0) && (actionTypes==='launch' || actionTypes==='browseLaunch') && (!currentUser.roles || currentUser.roles.length==0 || currentUser.roles[0].status === 'INACTIVE') && launch.launchBtnItems.length>0"
+              label="{{launch.documents.existing.model.actionType === 'bulkLaunch' ? 'Bulk Launch': 'Launch'}} (As {{currentUser.fulName}})   "
+              (onClick)="launchAsCurrentUser(launch.documents.existing.model.actionType === 'bulkLaunch' ? 'bulk' : 'normal', 0, false, '')"
+              [model]="launch.launchBtnItems"></p-splitButton>
+            <button pButton type="button"
+              [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
+                        !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
+                        (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+                        (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
+                        (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
+                        (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
+                        (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && this.selectedCartItems && this.selectedCartItems.length==0)"
+              *ngIf="(!this.isDefaultTab || this.defaultTabId == 0) && (actionTypes==='launch' || actionTypes==='browseLaunch') && (!currentUser.roles || currentUser.roles.length==0) && launch.launchBtnItems.length==0"
+              label="{{launch.documents.existing.model.actionType === 'bulkLaunch' ? 'Bulk Launch': 'Launch'}} (As {{currentUser.fulName}})   "
+              (click)="launchAsCurrentUser(launch.documents.existing.model.actionType === 'bulkLaunch' ? 'bulk' : 'normal', 0, false, '')"></button>
+            <!--for Launch with default Tab selected-->
+            <p-splitButton [styleClass]="'ecm-split-button'"
+              [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
+                          !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
+                          (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+                          (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
+                          (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
+                          (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
+                          (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && this.selectedCartItems && this.selectedCartItems.length==0)"
+              *ngIf="this.isDefaultTab && this.isDefaultTabRole && (actionTypes==='launch' || actionTypes==='browseLaunch') && currentUser.roles && currentUser.roles.length>0 && currentUser.roles[0].status === 'ACTIVE'"
+              label="{{launch.documents.existing.model.actionType === 'bulkLaunch' ? 'Bulk Launch': 'Launch'}} (On behalf of {{this.defaultTabName}})   "
+              (onClick)="launch.documents.existing.model.actionType === 'bulkLaunch' ? this.launchByRoleId(defaultTabId, 'bulk') : this.launchByRoleId(defaultTabId, 'normal')"
+              [model]="launch.launchBtnItems"></p-splitButton>
+            <p-splitButton [styleClass]="'ecm-split-button'"
+              [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
+                          !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
+                          (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+                          (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
+                          (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
+                          (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
+                          (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && this.selectedCartItems && this.selectedCartItems.length==0)"
+              *ngIf="this.isDefaultTab && !this.isDefaultTabRole && (actionTypes==='launch' || actionTypes==='browseLaunch') && currentUser.roles && currentUser.roles.length>0"
+              label="{{launch.documents.existing.model.actionType === 'bulkLaunch' ? 'Bulk Launch': 'Launch'}} (As {{currentUser.fulName}})   "
+              (onClick)="launchAsCurrentUser(launch.documents.existing.model.actionType === 'bulkLaunch' ? 'bulk' : 'normal', 0, false, '')"
+              [model]="launch.launchBtnItems"></p-splitButton>
+            <p-splitButton [styleClass]="'ecm-split-button'"
+              [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
+                      !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
+                      (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+                      (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
+                      (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
+                      (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
+                      (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && this.selectedCartItems && this.selectedCartItems.length==0)"
+              *ngIf="this.isDefaultTab && (actionTypes==='launch' || actionTypes==='browseLaunch') && (!currentUser.roles || currentUser.roles.length==0 || currentUser.roles[0].status === 'INACTIVE') && launch.launchBtnItems.length>0"
+              label="{{launch.documents.existing.model.actionType === 'bulkLaunch' ? 'Bulk Launch': 'Launch'}} (As {{currentUser.fulName}})   "
+              (onClick)="launchAsCurrentUser(launch.documents.existing.model.actionType === 'bulkLaunch' ? 'bulk' : 'normal', 0, false, '')"
+              [model]="launch.launchBtnItems"></p-splitButton>
+            <button pButton type="button"
+              [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
+                      !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
+                      (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+                      (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
+                      (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
+                      (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
+                      (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && this.selectedCartItems && this.selectedCartItems.length==0)"
+              *ngIf="this.isDefaultTab && (actionTypes==='launch' || actionTypes==='browseLaunch') && (!currentUser.roles || currentUser.roles.length==0) && launch.launchBtnItems.length==0"
+              label="{{launch.documents.existing.model.actionType === 'bulkLaunch' ? 'Bulk Launch': 'Launch'}} (As {{currentUser.fulName}})   "
+              (click)="launchAsCurrentUser(launch.documents.existing.model.actionType === 'bulkLaunch' ? 'bulk' : 'normal', 0, false, '')"></button>
+            <!--for draft-->
+            <p-splitButton [styleClass]="'ecm-split-button'"
+              [disabled]="launch.recipients.toList.length==0  || !launch.workflow.model.attachments || !launch.documents.cartItems  ||
+                        (launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0) || !launch.workflow.model.subject ||
+                        launch.workflow.model.subject.trim().length===0 ||
+                        (this.selectedCartItems && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||  
+                        (!this.selectedCartItems && !isRelaunch && launch.workflow.model.attachments.length==0) ||
+                        !launch.workflow.model.actions || launch.workflow.model.actions.length==0 || (launch.documents.existing.model.actionType === 'bulkLaunch' &&
+                        this.selectedCartItems && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=1)"
+              *ngIf="actionTypes==='draftLaunch' && currentUser.roles && currentUser.roles.length>0 && currentUser.roles[0].status === 'ACTIVE'"
+              label="{{launch.documents.existing.model.actionType === 'bulkLaunch' ? 'Bulk Launch': 'Launch'}} (On behalf of {{currentUser.roles[0].name}})   "
+              (onClick)="launch.documents.existing.model.actionType === 'bulkLaunch' ? launchAsRole(currentUser.roles[0],'bulk') : launchAsRole(currentUser.roles[0],'normal')"
+              [model]="launch.launchBtnItems"></p-splitButton>
+            <p-splitButton [styleClass]="'ecm-split-button'"
+              [disabled]="launch.recipients.toList.length==0  || !launch.workflow.model.attachments ||
+                       !launch.documents.cartItems || (launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0) ||
+                       ((this.selectedCartItems && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0) || 
+                       (!this.selectedCartItems && launch.workflow.model.attachments.length==0)) || 
+                       !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0
+                       || (launch.documents.existing.model.actionType === 'bulkLaunch' &&
+                       this.selectedCartItems && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=1)"
+              *ngIf="actionTypes==='draftLaunch' && (!currentUser.roles || currentUser.roles.length==0 || currentUser.roles[0].status === 'INACTIVE') && launch.launchBtnItems.length>0"
+              label="{{launch.documents.existing.model.actionType === 'bulkLaunch' ? 'Bulk Launch': 'Launch'}} (As {{currentUser.fulName}})   "
+              (onClick)="launchAsCurrentUser(launch.documents.existing.model.actionType === 'bulkLaunch' ? 'bulk' : 'normal', 0, false, '')"
+              [model]="launch.launchBtnItems"></p-splitButton>
+            <button pButton type="button"
+              [disabled]="launch.recipients.toList.length==0  || !launch.workflow.model.attachments || 
+                       !launch.documents.cartItems || (launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0) ||
+                       ((this.selectedCartItems && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 ) || 
+                       (!this.selectedCartItems && launch.workflow.model.attachments.length==0)) || 
+                       !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0
+                       || (launch.documents.existing.model.actionType === 'bulkLaunch' &&
+                       this.selectedCartItems && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=1)"
+              *ngIf="actionTypes==='draftLaunch' && (!currentUser.roles || currentUser.roles.length==0) && launch.launchBtnItems.length==0"
+              label="{{launch.documents.existing.model.actionType === 'bulkLaunch' ? 'Bulk Launch': 'Launch'}} (As {{currentUser.fulName}}   "
+              (click)="launchAsCurrentUser(launch.documents.existing.model.actionType === 'bulkLaunch' ? 'bulk' : 'normal', 0, false, '')"></button>
+            <!--for Workflow Actions-->
+            <button pButton type="button"
+              [disabled]="launch.recipients.toList.length==0  || !launch.workflow.model.subject || !launch.workflow.model.actions
+                    || launch.workflow.model.actions.length==0 || (launch.workflow.model.attachments.length==0
+                    && (launch.documents.existing.model.actionType === 'Signature' || launch.documents.existing.model.actionType === 'Initial'))"
+              *ngIf="actionTypes==='forward'" label="Forward"
+              (click)="wiaAction.recipientRoleName ? forwardAsRole(wiaAction.recipientRoleId) : forwardAsCurrentUser(wiaAction.recipientEMPNo,wiaAction.recipientName)"></button>
+            <button pButton type="button"
+              [disabled]="wiaAction?.isMemo==0
+                    ? (launch.recipients.toList.length==0  || !launch.workflow.model.subject || !launch.workflow.model.actions
+                    || launch.workflow.model.actions.length==0 || (launch.workflow.model.attachments.length==0 
+                    && (launch.documents.existing.model.actionType === 'Signature' || launch.documents.existing.model.actionType === 'Initial')))
+                    :!launch.workflow.model.remarks"
+              *ngIf="actionTypes==='reply'" label="Reply"
+              (click)="wiaAction.recipientRoleName ? replyAsRole(wiaAction.recipientRoleId) : replyAsCurrentUser(wiaAction.recipientEMPNo,wiaAction.recipientName)"></button>
+            <button pButton type="button"
+              [disabled]="launch.recipients.toList.length==0  || !launch.workflow.model.subject || !launch.workflow.model.actions
+                    || launch.workflow.model.actions.length==0 || (launch.workflow.model.attachments.length==0  && (this.selectedCartItems && this.selectedCartItems.length==0 )
+                    && (launch.documents.existing.model.actionType === 'Signature' || launch.documents.existing.model.actionType === 'Initial'))"
+              *ngIf="actionTypes==='replyAll'" label="Reply All"
+              (click)="wiaAction.recipientRoleName ? replyAllAsRole(wiaAction.recipientRoleId) : replyAllAsCurrentUser(wiaAction.recipientEMPNo,wiaAction.recipientName)"></button>
+            <span class="warning"
+              *ngIf="((launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
+            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) 
+            || (!this.selectedCartItems && !isRelaunch && actionTypes!=='forward' && actionTypes!=='reply' && actionTypes!=='replyAll') ||
+            (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
+            (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && this.selectedCartItems 
+            && this.selectedCartItems.length==0)) && (launch.documents.existing.model.actionType !== 'Signature' && launch.documents.existing.model.actionType !== 'Initial')">
+              <br /> &nbsp; Please select required attachment(s)..! </span>
+            <span class="warning"
+              *ngIf="((launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
+            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) 
+            || (!this.selectedCartItems && !isRelaunch && actionTypes!=='forward' && actionTypes!=='reply' && actionTypes!=='replyAll') ||
+            (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
+            (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && this.selectedCartItems 
+            && this.selectedCartItems.length==0)) && (launch.documents.existing.model.actionType === 'Signature' || launch.documents.existing.model.actionType === 'Initial')">
+              <br /> &nbsp; Please select required attachment(s) & mark for Sign..! </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog [modal]="true" showEffect="fade" appendTo="body" [resizable]="false" [(visible)]="viewer"
+  (onHide)="closeViewPopUp()">
+  <iframe *ngIf="showIframe" class="dynamic-Iframe-size" [src]="attach_url" frameborder="0" allowfullscreen></iframe>
+</p-dialog>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>
+<div *ngIf="openSearchDialogLoaded">
+  <p-dialog appendTo="body" [modal]="true" [(visible)]="openSearchDialog" [style]="{ width: '100vw',height:'100vh' }">
+    <p-header>
+      Search Existing Document
+    </p-header>
+    <p-accordion [multiple]="true" [(activeIndex)]="launch.documents.existing.activeAccordionIndices"
+      (onOpen)="onAccordionTabOpen($event)" (onClose)="onAccordionTabClose($event)">
+      <div class="ui-g">
+        <div class="ui-g-12 p-t-0 p-b-0">
+          <div class="ui-g-12 ui-sm-12 p-l-0 p-r-sm">
+            <p-accordionTab header="Search Document" [selected]="true">
+              <div>
+                <app-search-document (updateSearchResultCopy)="updateSearchResultCopy($event)" [isLaunchSearch]="true"
+                  [showSavedSearches]="true" 
+                  [dataTableComponentRef]="dataTableComponentRef" [data]="launch.documents.existing"
+                  [isSimpleSearch]="false" [screen]="'Launch'" [usage]="'popup'"></app-search-document>
+              </div>
+              <span class="white-text">a</span>
+            </p-accordionTab>
+            <p-accordionTab>
+              <p-header>
+                <span
+                  *ngIf="launch.documents.existing.searchResult && launch.documents.existing.searchResult.length===0">Search
+                  Result</span>
+                <span *ngIf="launch.documents.existing.searchResult && launch.documents.existing.searchResult.length>0">
+                  <!--Total {{launch.documents.existing.searchResult.length}} Records Found-->
+                  Total {{launch.documents.existing.totalResults}} Records Found
+                </span>
+              </p-header>
+              <div class="ui-g">
+                <div class="ui-g-12" *ngIf="launch.documents.existing.searchResult">
+                  <div class="ui-g-12">
+                    <!--fill-available-height-->
+                    <!--(sendSortPagination)="continueSearch($event)"-->
+                    <!-- <data-table [showCount]="true" [totalCount]="launch.documents.existing.totalResults"
+                      [tableData]="launch.documents.existing.searchResult" [colHeaders]="colHeaders"
+                      [itemsPerPage]="launch.documents.existing.pageSize?launch.documents.existing.pageSize:50"
+                      [rowExpandable]="false" [showInfoIcon]="true" [showAddCartIcon]="false" [showCheckBox]="true"
+                      (sendData)="selectedRowData($event)" [showDownloadIcon]="false" (addToCart)="addToCart($event)"
+                      [selectedRows]="searchResultDocsSelected"
+                      [totalRecords]="launch.documents.existing.searchResult?launch.documents.existing.totalResults:0"
+                      (download)="downloadDoc($event)" [lazy]="false" [emptyMessage]="emptyMessage"
+                      [activePage]="'launch'"></data-table> -->
+                  </div>
+                </div>
+              </div>
+            </p-accordionTab>
+          </div>
+        </div>
+      </div>
+    </p-accordion>
+    <p-footer>
+      <button pButton (click)="openSearchDialog=false;" type="button" label="Cancel"
+        class="pull-right footer-btn-blue m-l-md"></button>
+      <button [disabled]="searchResultDocsSelected && searchResultDocsSelected.length==0" pButton
+        (click)="openSearchDialog=false;addToCartMulti(searchResultDocsSelected);" type="button" label="Done"
+        class="pull-right footer-btn-blue"></button>
+    </p-footer>
+  </p-dialog>
+</div>
+<div *ngIf="openAddFromFolderDilaogLoaded" class="text">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openAddFromFolderDilaog" [positionTop]="20"
+    [positionLeft]="0" [style]="{ width: pWidth }">
+    <p-header>
+      Add From Folder
+    </p-header>
+    <app-browse-screen (refreshCart)="getDocumentCart()" (onCancel)="openAddFromFolderDilaog=false;">
+    </app-browse-screen>
+  </p-dialog>
+</div>
+<div *ngIf="openNewDocDilaogLoaded">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openNewDocDilaog" [style]="{ width: '70vw' }">
+    <p-header>
+      Add New Document
+    </p-header>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-tabview-panel add-doc-container">
+          <app-add-document (onAddSuccess)="onDocumentAdded($event)" [screen]="'Launch'"
+            (onCancel)="openNewDocDilaog=false;" [launchScreenStep1TabIndex]="1"></app-add-document>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
+</div>
+<div *ngIf="showRoleTreeLoaded">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showRoleTree" width="600" height="540">
+    <p-header>
+      Role Tree
+    </p-header>
+    <!--<div class="ui-g">
+      <button pButton type="button" label="Expand All" (click)="roleTreeExpanded($event)"></button>
+   &lt;!&ndash; <div class="ui-g-10 ui-inputgroup">&ndash;&gt;
+      <span class="md-inputfield ">
+        <input type="text" pInputText (input)="searchExpandedRoleTree(roleTreeData.roleTreeSearchquery)"
+               placeholder="Search by role" [(ngModel)]="roleTreeData.roleTreeSearchquery"/>
+        <i class="topbar-icon material-icons">search</i>
+      </span>
+    </div>-->
+    <div class="max-h-400">
+      <app-role-tree [data]="roleTreeData" (expandNode)="getSubOrgRoles($event.node)" [showAddToToBtn]="true"
+        [showAddToCCBtn]="true" [showAddChildBtn]="false" (showDeleteRole)="false" (showEditRole)="false"
+        (getRoleMembers)="getRoleMembersForTree($event)" [showRemoveItemBtn]="false" [editRole]="false"
+        [actionType]="launch.documents.existing.model.actionType" (existsInList)="existsInList($event)"
+        (addToToList)="addToToList($event)" (addToCCList)="addToCCList($event)">
+      </app-role-tree>
+      <!--<button  pButton (click)="openSearchDialog=false" type="button"-->
+      <!--label="Done" class="pull-right m-t-sm"-->
+      <!--&gt;</button>-->
+      <!--</div>-->
+    </div>
+    <!--<p *ngIf="roleTreeData.roles.roleTree">{{roleTreeData.roles.roleTree | json}}</p>-->
+    <p-footer>
+      <button class="pull-right footer-btn-blue" pButton type="button" label="Done"
+        (click)="showRoleTree=false;"></button>
+    </p-footer>
+  </p-dialog>
+</div>
+<p-confirmDialog header="Forward Without New Attachments?" key="forwardConfirm"></p-confirmDialog>
+<p-confirmDialog header="Reply Without New Attachments?" key="replyConfirm"></p-confirmDialog>
+<p-confirmDialog header="Launch Without New Attachments?" key="launchConfirm"></p-confirmDialog>
+<p-confirmDialog header="Confirmation" key="confirmationDraft"></p-confirmDialog>

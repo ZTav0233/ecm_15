@@ -15,7 +15,6 @@ import { SharedTreeModule } from '../../shared-modules/tree-module/tree.module';
 import { MatTabsModule } from '@angular/material/tabs'
 import { SharedHTMLPipeModule } from '../../shared-modules/safe-html-pipe/safe-html-pipe';
 import { NgChartsModule } from 'ng2-charts';
-import 'chartjs-plugin-datalabels';
 import { ShortcutsComponent } from "../../components/shortcut-components/shortcuts/shortcuts.component";
 import { HelpComponent } from "../../components/shortcut-components/help/help.component";
 import { CgBusyModule } from 'angular-busy2';

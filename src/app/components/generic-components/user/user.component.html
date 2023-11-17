@@ -1,0 +1,96 @@
+<div [ngClass]="{'hide-empty-message':!items}" class="user-list">
+  <div [hidden]="isNoFoundMessage">
+    <span class="pull-right" *ngIf="items && items.length>0">Found {{items.length}} Results</span>
+    <span class="pull-right" *ngIf="items && items.length===0">No Results Found</span>
+  </div>
+  <table class="ecm-table w-100">
+    <tbody>
+      <ng-container *ngFor="let item of items;let i=index">
+        <tr (mouseover)="mExistsInList(item)" class="item"
+          [ngClass]="{'even':i%2===0 && !isNoAlternateRows,'clickable':isRowSelectable}">
+          <td *ngIf="!isUserRoleNotList"><i [ngClass]="(item.appRole=='USER')?'fa ui-icon-person':iconClass"></i></td>
+          <td *ngIf="isUserRoleNotList"><i
+              [ngClass]="(item.appRole=='USER')?'fa ui-icon-person':'fa ui-icon-people'"></i>
+          </td>
+          <td>
+            <div class="w-100" *ngIf="!showTooltip">
+              <span *ngIf="!clickable">
+                <span *ngIf="item.name">{{item.name}}</span>
+                <span *ngIf="item.fulName && !item.name">{{item.fulName}}</span>
+              </span>
+              <a *ngIf="clickable" (click)="mGetListMembers(item)">
+                {{item.name}}
+              </a>
+            </div>
+            <div class="w-100" *ngIf="showTooltip" (mouseover)="mGetItemMembers(item)" [escape]="false"
+              pTooltip="{{item.members}}"
+              [tooltipStyleClass]="tooltipPosition==='bottom'?'tooltip-min-width-sm':'tooltip-min-width'"
+              [tooltipPosition]="tooltipPosition">
+              <span *ngIf="!clickable"> <span *ngIf="item.name">{{item.name}}</span>
+                <span *ngIf="item.fulName && !item.name">{{item.fulName}}</span>
+              </span>
+              <a *ngIf="clickable" (click)="mGetListMembers(item)">
+                {{item.name}}
+              </a>
+            </div>
+          </td>
+          <td align="right" class="action-btn-group">
+            <span class="action-btn-group-sm">
+              <button *ngIf="showToBtn" pButton type="button" label="To" class="v-m" (click)="mAddToToList(item)"
+                [disabled]="item.disabled || (clickable && (actionType==='Signature' || actionType==='Initial')) || (actionType==='Signature' && item.iseSignAllowed===0)
+                 || (actionType==='Initial' && item.isInitalAllowed===0)
+                      || (actionType==='Initial' && item.isInitialAllowed===0)
+                      || (actionType==='Initial' && item.isIntialAllowed===0)"
+              ></button>
+              <button *ngIf="showCcBtn" pButton type="button" label="CC" class="v-m" (click)="mAddToCCList(item)"
+                [disabled]="item.disabled || actionType==='Signature' || actionType==='Initial'"></button>
+              <button *ngIf="showThruBtn" pButton type="button" label="Thru" class="v-m" (click)="mAddToThruList(item)"
+                [disabled]="item.disabled || actionType==='Signature' || actionType==='Initial'"></button>
+              <button *ngIf="showReviewerBtn" pButton type="button" label="Rev" class="v-m" (click)="mAddToRevList(item)"
+                [disabled]="item.disabled || actionType==='Signature' || actionType==='Initial'"></button>
+              <button *ngIf="showFromBtn" pButton type="button" label="From" class="v-m" (click)="mAddToFromList(item)"
+                [disabled]="item.disabled || actionType==='Signature' || actionType==='Initial'"></button>
+              <button pButton type="button" icon="ui-icon-add" (click)="mAddToList(item)" class="remove-btn v-m "
+                *ngIf="showAddBtn" [disabled]="item.disabled"></button>
+              <button *ngIf="showSelectBtn" pButton type="button" label="Select" class="v-m"
+                (click)="mSelectToList(item)"></button>
+            </span>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+  <!--<p-dataGrid [value]="items" [styleClass]="'user-list'" >-->
+  <!--<ng-template let-item pTemplate="item">-->
+
+
+  <!--<div class="ui-g-12 item" (mouseover)="mExistsInList(item)">-->
+  <!--<div class="ui-g-2"><i class="fa ui-icon-people"></i></div>-->
+  <!--<div class="ui-g-10">-->
+  <!--<div class="ui-g-6 p-0" (mouseover)="mGetItemMembers(item)" pTooltip="{{item.members}}" [tooltipStyleClass]="'tooltip'"-->
+  <!--tooltipPosition="bottom">-->
+  <!--<span *ngIf="!clickable"> <span *ngIf="item.name">{{item.name}}</span>-->
+  <!--<span *ngIf="item.fulName && !item.name">{{item.fulName}}</span>-->
+  <!--</span>-->
+  <!--<a *ngIf="clickable" (click)="mGetListMembers(item)">-->
+  <!--{{item.name}}-->
+  <!--</a>-->
+
+  <!--</div>-->
+  <!--<div class="ui-g-6 p-0 action-btn-group-sm" >-->
+  <!--<button *ngIf="showToBtn" pButton type="button" label="To" class="v-m" (click)="mAddToToList(item)" [disabled]="item.disabled"></button>-->
+  <!--<button *ngIf="showCcBtn" pButton type="button" label="CC" class="v-m" (click)="mAddToCCList(item)"-->
+  <!--[disabled]="item.disabled || actionType!=='Default'" ></button>-->
+  <!--<button *ngIf="showAddBtn" pButton type="button" label="Add" class="v-m" (click)="mAddToList(item)"-->
+  <!--[disabled]="item.disabled" ></button>-->
+  <!--<button *ngIf="showSelectBtn" pButton type="button" label="Select" class="v-m" (click)="mSelectToList(item)"-->
+  <!--&gt;</button>-->
+  <!--</div>-->
+
+
+  <!--</div>-->
+  <!--</div>-->
+  <!--</ng-template>-->
+  <!--</p-dataGrid>-->
+</div>
+

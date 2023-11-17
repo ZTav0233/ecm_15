@@ -1,0 +1,41 @@
+.header {
+    padding:10px;
+    text-align: center;
+    background: rgb(0, 50, 100);
+    color: white;
+    font-size: 15px;
+    text-align: left;
+    font-family: 'Roboto', Arial, sans-serif;
+  }
+
+  :host ::ng-deep.ui-accordion-header{
+    height: 46px;
+    background-color:rgba(116, 177, 239, 1);
+    font-family: 'Roboto', Arial, sans-serif;
+
+  }
+
+ :host ::ng-deep.ui-accordion-header-text{
+    font-size: 17px;
+    font-family: 'Roboto', Arial, sans-serif;
+ }
+
+ :host ::ng-deep  .ui-accordion .ui-accordion-header.ui-state-active{
+  background-color: #607D8B;
+  font-family: 'Roboto', Arial, sans-serif;
+ }
+
+ :host ::ng-deep .ui-accordion .ui-accordion-header{
+  background-color :rgb(0, 50, 100) !important;
+  font-family: 'Roboto', Arial, sans-serif;
+ }
+
+ .thead{
+  background-color :rgb(0, 50, 100) !important;
+ }
+
+ .option{
+  background-color: #607D8B;
+  color: aqua;
+  font-family: OpenSans-Semibold, Arial, sans-serif, Verdana, Helvetica;
+ }

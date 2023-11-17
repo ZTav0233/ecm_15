@@ -1,0 +1,83 @@
+.div .ui-menu .ui-menu-dynamic .ui-widget .ui-widget-content .ui-corner-all .ui-helper-clearfix {
+  display: block;
+  visibility: visible;
+  top: -102px;
+  right: 0 !important;
+  z-index: 1003;
+  opacity: 1;
+  /* padding-right: 20px; */
+  min-width: 273px !important;
+}
+
+/* .ui-tabview-panels {
+  height: 78vh;
+  overflow: auto;
+} */
+:host ::ng-deep .example-css-class{
+  width: 14rem;
+  background-color: #607D8B;
+  margin-top: -2px;
+}
+
+:host ::ng-deep .example-css-class .ui-widget {
+  margin-top: -2px !important;
+}
+
+:host::ng-deep .example-css-class .ui-placeholder {
+  background: #607D8B;
+  box-shadow: 0 1px 2.5px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+  height: 2.5em;
+  padding: 8px 0.5em;
+  color: #ffffff;
+  min-width: 4em;
+  font-weight: bold !important;
+  border-radius: 2px !important;
+}
+
+:host ::ng-deep .example-css-class .ui-clickable {
+  color: #ffffff !important;
+  line-height: 2em;
+}
+
+
+.custom-label {
+  z-index: 777;
+  position: absolute !important;
+  right: 36px !important;
+  margin-top: 1px;
+}
+
+.custom-button {
+  z-index: 777;
+  position: absolute !important;
+  right: 3px !important;
+  margin-top: -2px !important;
+}
+
+
+:host ::ng-deep .typeDropdown .ui-dropdown {
+  border: 1px solid #bdbdbd !important;
+}
+
+:host ::ng-deep .languageDropdown .ui-dropdown {
+  border: 1px solid #bdbdbd !important;
+}
+
+.subjectOfWorkFlow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.example-css-class{
+  margin-right: 4px !important;
+}
+
+.attachment {
+  margin-right: -4px;
+  margin-left: -4px;
+}
+
+.prio{
+  margin-top: -15px;
+}

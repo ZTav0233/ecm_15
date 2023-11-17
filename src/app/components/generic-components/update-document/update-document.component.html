@@ -1,0 +1,124 @@
+<form [formGroup]="docEditPropForm" class="tabled-form">
+  <div class="ui-g-6 ui-md-7 ui-sm-12 p-0 fix-h-400">
+    <div class="scrollable">
+      <table class="w-100">
+        <tbody>
+          <tr>
+            <td>
+              <label>Properties:</label>
+            </td>
+          </tr>
+          <tr *ngFor="let info of docTemplateDetails.props;">
+            <ng-container *ngIf="info.hidden === 'false' || info.hidden === 'FALSE'">
+              <td>
+                <label>{{info.desc}}:<b *ngIf="info.req === 'true' || info.symName==='DocumentTitle'"
+                    style="color:red">*</b></label>
+              </td>
+              <td (click)="(!(excepClassNames && excepClassNames.indexOf(docTemplateDetails.name.toLowerCase())> -1))
+                && (info.symName.toLowerCase()==='documentfrom' || info.symName.toLowerCase()==='documentto')
+                ? openListDialog(info.symName):''" class="input">
+                <input id="placeholder{{info.symName}}UpdateDoc"
+                  [placeholder]="(!(excepClassNames && excepClassNames.indexOf(docTemplateDetails.name.toLowerCase())> -1)) &&
+                  (info.symName.toLowerCase()==='documentfrom' || info.symName.toLowerCase()==='documentto') ? 'Click Here To Select' :''"
+                  *ngIf="!info.lookups && info.dtype=='STRING' && info.symName!='ECMNo'" [maxlength]="info.len"
+                  [formControlName]="info.symName" class="form-control" type="text" name="{{info.symName}}"
+                  [title]="docEditPropForm.get(info.symName).value?docEditPropForm.get(info.symName).value:''"
+                  pInputText>
+                <input *ngIf="!info.lookups && info.dtype=='STRING' && info.symName==='ECMNo'" [maxlength]="15"
+                  [formControlName]="info.symName" class="form-control" type="text" name="{{info.symName}}" 
+                  [title]="docEditPropForm.get(info.symName).value?docEditPropForm.get(info.symName).value:''"
+                  pInputText>
+                <p-calendar id="calendar" *ngIf="!info.lookups && info.dtype=='DATE'" [showIcon]="true"
+                  [formControlName]="info.symName" class="form-control" dateFormat="dd/mm/yy" [readonlyInput]="true"
+                  [appendTo]="'body'" [showButtonBar]="true" [monthNavigator]="true" [yearNavigator]="true"
+                  yearRange="1900:2030"></p-calendar>
+                <input *ngIf="!info.lookups && info.dtype=='LONG'" [formControlName]="info.symName" class="form-control"
+                  type="number" name="{{info.symName}}"
+                  [title]="docEditPropForm.get(info.symName).value?docEditPropForm.get(info.symName).value:''"
+                  pInputText>
+                <p-dropdown *ngIf="info.lookups" [options]="info.lookups" placeholder="Select" [filter]="true"
+                  filterBy="label,value.name" [formControlName]="info.symName" class="form-control"
+                  (click)="onClickLookup(info)" [style]="{'width':'100%'}" 
+                  [title]="docEditPropForm.get(info.symName).value?docEditPropForm.get(info.symName).value:''">
+                </p-dropdown>
+              </td>
+              <td>
+                <span class="close" *ngIf="(!(excepClassNames && excepClassNames.indexOf(docTemplateDetails.name.toLowerCase())> -1))
+                  && (info.symName.toLowerCase()==='documentfrom' || info.symName.toLowerCase()==='documentto')"
+                  (click)="clearDocToFrom(info.symName)">&times;</span>
+              </td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="ui-g-6 ui-md-5 ui-fluid ui-sm-12 p-0">
+    <table class="w-90 pull-right">
+      <tbody>
+        <tr>
+          <td>
+            <label>Select File:</label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p-fileUpload class="updateDocFileSelect" name="demo[]" (onSelect)="onUpload($event)"
+              invalidFileTypeMessageDetail="Please select a file with valid format"
+              invalidFileTypeMessageSummary="File Format Not Accepted," chooseLabel="Browse"
+              [accept]="allowedExtensionsString" [showCancelButton]="false" [showUploadButton]="false">
+              <ng-template pTemplate="content">
+                <p class="fileDrop">Drop Files Here</p>
+              </ng-template>
+              <ng-template let-file pTemplate="file">
+                <div class="file-text-ellipsis" *ngIf="fileUploaded" pTooltip="{{file.name}}"
+                  [tooltipStyleClass]="'tooltip'" tooltipPosition="bottom">{{file.name}}
+                  <span style="display: inline-table">
+                    <button pButton type="button" icon="ui-icon-close" title="Remove" (click)="removeSelectedFile()"
+                      class="remove-btn v-m w-30"></button>
+                  </span>
+                </div>
+              </ng-template>
+            </p-fileUpload>
+            <p *ngIf="!isFileSizeCorrect" class="error">Maximum File size allowed 800 MB!</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</form>
+<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showDesignation" width="550" height="550">
+  <p-header> Select {{docToOrFrom}}</p-header>
+  <div class="ui-g-12 ui-md-12">
+    <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+      <!-- global filter -->
+      <div class="ui-g">
+        <div class="ui-g-10 p-0">
+          <table>
+            <tr>
+              <td><i class="fa fa-search v-m m-r-md"></i></td>
+              <td>
+                <input #gb type="text" pInputText size="50" placeholder="Search Designation" style="color: #ffffff"
+                  class="v-m p-0">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- <p-dataTable [style]="{'max-height':'450px','min-height':'450px'}" selectionMode="single" #dt [globalFilter]="gb"
+      [value]="designation" [lazy]="false" [rows]="10" [paginator]="true"
+      (onRowClick)="onSelectionChange($event.data,docToOrFrom);showDesignation=false" [totalRecords]="totalRecords"
+      [responsive]="true" (onLazyLoad)="loadLazy($event,dt)" [selection]="selectedDesignation"
+      [rowStyleClass]="getEmptyRow">
+      <p-column field="value" header=""></p-column>
+    </p-dataTable> -->
+    <!-- <p-table [style]="{'max-height':'450px','min-height':'450px'}" selectionMode="single" #dt [globalFilter]!="gb"
+      [value]="designation" [lazy]="false" [rows]="10" [paginator]="true"
+      (onRowClick)="onSelectionChange($event,docToOrFrom);showDesignation=false" [totalRecords]="totalRecords"
+      [responsive]="true" (onLazyLoad)="loadLazy($event,dt)" [selection]="selectedDesignation"
+      >
+      <p-columnFilter field="value" header=""></p-columnFilter>
+    </p-table> -->
+  </div>
+</p-dialog>

@@ -17,10 +17,16 @@ import { GrowlService } from "../../../services/growl.service";
 import { WorkitemDetails } from "../../../models/workflow/workitem-details.model";
 import { ContentService } from '../../../services/content.service';
 import * as _ from 'lodash';
-
+interface Column {
+  field: string;
+  header: string;
+  hidden:boolean;
+  sortField:string;
+}
 @Component({
   selector: 'data-table',
   templateUrl: './datatable.component.html',
+  styleUrls: ['./datatable.component.css']
 })
 
 export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
@@ -74,7 +80,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   viewDocTitle: any;
   headId: any;
   foldersFiledIn: any;
-  private attach_url: SafeResourceUrl;
+  public attach_url: SafeResourceUrl;
   // public selectedRows: any;
   public rowSelectionMode: string;
   public resizableColumns: boolean;
@@ -119,6 +125,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   filterInput: any;
   isFlag: boolean = false;
   displayBasic: boolean;
+  cols!: Column[];
   constructor(private ds: DocumentService, private sanitizer: DomSanitizer, public router: Router, private bs: BrowserEvents,
     private us: UserService, private coreService: CoreService,
     private ws: WorkflowService, private confirmationService: ConfirmationService, private contentService: ContentService,
@@ -151,7 +158,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
     this.groupField = this.rowGroupMode && this.groupField ? this.groupField : null;
   }
 
-  rowSelected(event: any, isCheck) {
+  rowSelected(event: any, isCheck?) {
     if (this.pageUrl.includes('help') && !isCheck) {
       window.open(this.ds.validateDocument(event.data.docId));
       return;
@@ -194,6 +201,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
   }
+ 
 
   assignSentitemWorkitem(data, selectedItem) {
     this.sentitemWorkitems = data;
@@ -228,8 +236,13 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
     this._setGoToPageOptions(this.itemsPerPage, this.totalRecords);
 
   }
+  
 
   ngOnInit() {
+    // console.log(this.activePage);
+    
+    this.cols=this.colHeaders
+    
     this.bs.setPageNoOnLoadMore.subscribe(d => {
       this.first = d;
     });
@@ -240,7 +253,6 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
     this.isDocTrack = false;
     this.islinked = false;
     this._setGoToPageOptions(this.itemsPerPage, this.totalRecords);
-    //console.log('tabNameIdentifier' , this.tabNameIdentifier)
     /*if (this.activePage === 'inbox' || this.activePage === 'sent') {
       if (this.ws.first) {
         this.first = this.ws.first;
@@ -277,44 +289,33 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
 
   assignDocInfoSelected(data, ds, user, cs) {
     if (data.length == 1) {
-      console.log("assignDocInfoSelected :: " + data[0]);
       if (data[0].islinked == true && this.islinked == false) {
 
         this.islinked = true;
-        //console.log(" this.islinked  :: "+  this.islinked );
         this.isDocTrack == false;
-        //console.log(this.docSysProp)
         // this.ds.getLinks(this.docSysProp[0].id).subscribe(result => {
         // this.linkedDocument = result
-        //console.log(result)
         this.openDocInfo(data[0], ds, user, cs);
 
         // }, err => {
-        //console.log("err : ", err)
         // });
 
       } else if (data[0].isDocTrack == true && this.isDocTrack == false) {
         this.isDocTrack = true;
-        //console.log(" this.isDocTrack  :: "+  this.isDocTrack );
         this.islinked == false;
         this.displayinfo = false;
-        //console.log(this.docSysProp)
         // this.ds.getLinks(this.docSysProp[0].id).subscribe(result => {
         // this.linkedDocument = result
-        //console.log(result)
         this.openDocInfo(data[0], ds, user, cs);
 
         // }, err => {
-        //console.log("err : ", err)
         // });
 
       } else {
         this.displayinfo = true;
-        //console.log(" this.displayinfo  :: "+  this.displayinfo );
         this.openDocInfo(data[0], ds, user, cs);
       }
     } else if (this.displayinfo === false) {
-      //console.log(" this.displayinfo condition :: "+  this.displayinfo );
       this.displayinfo = true;
       this.isDocTrack = false;
       this.islinked == false;
@@ -331,12 +332,15 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  checked() {
+  checked(event?:any) {
+    console.log(this.selectedRows);
+    
     this.selectedRows.map((row, index) => {
       if (row.hasOwnProperty('isDeleted') && row.isDeleted) {
         this.selectedRows.splice(index, 1);
       }
     });
+    
     this.sendData.emit(this.selectedRows);
     this.bs.docsSelected.emit(this.selectedRows);
   }
@@ -365,7 +369,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
 
   }
 
-  unchecked() {
+  unchecked(event:any) {
     this.sendData.emit(this.selectedRows);
     this.bs.docsSelected.emit(this.selectedRows);
   }
@@ -392,7 +396,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
               }
             });
           } else {
-            this.isValidNavigateToTaskDetails(event, from, subjects);
+            this.isValidNavigateToTaskDetails(subjects.sentitemId, from, subjects);
           }
         });
       } else {
@@ -407,7 +411,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
               }
             });
           } else {
-            this.isValidNavigateToTaskDetails(event, from, subjects);
+            this.isValidNavigateToTaskDetails(subjects.workitemId, from, subjects);
           }
         });
       }
@@ -442,6 +446,8 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
           if (this.activePage === 'draft') {
             this.viewDraftItem(subjects);
           } else {
+            // console.log("elseeeeeeeeeeeeeeeeeee>>>>>>>>");
+            
             if (!!this.ws.delegateId) {
               this.us.validateDelegation(this.ws.delegateId).subscribe(res => {
                 if (res === 'INACTIVE') {
@@ -456,6 +462,8 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
               });
             } else {
               //this.router.navigateByUrl(`${this.pageUrl}/taskdetail/${subjects.workitemId}`);
+              // console.log(this.pageUrl,subjects.workitemId,this.userType);
+              
               this.router.navigate([this.pageUrl + '/taskdetail', {
                 wiId: subjects.workitemId,
                 type: this.userType
@@ -468,7 +476,6 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
               if (res === 'INACTIVE') {
                 this.showDelegationInactiveDialog = true;
               } else {
-                //this.router.navigateByUrl(`${this.pageUrl}/taskdetail/${subjects.workitemId}`);
                 this.router.navigate([this.pageUrl + '/taskdetail', {
                   wiId: subjects.workitemId,
                   type: this.userType
@@ -476,9 +483,8 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
               }
             });
           } else {
-            //this.router.navigateByUrl(`${this.pageUrl}/taskdetail/${event.data.workitemId}`);
             this.router.navigate([this.pageUrl + '/taskdetail', {
-              wiId: event.data.workitemId,
+              wiId: event,
               type: this.userType
             }]);
           }
@@ -490,7 +496,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  openSentWorkitem(workflowId, sentitemId, senderId) {
+  openSentWorkitem(workflowId, sentitemId?, senderId?) {
     if (this.pageUrl.indexOf('workflow') !== -1) {
       if (!!this.ws.delegateId) {
         this.us.validateDelegation(this.ws.delegateId).subscribe(res => {
@@ -518,7 +524,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  openDocInfo(doc, ds, user, cs) {
+  openDocInfo(doc, ds?, user?, cs?) {
     this.docInfo = [];
     /*let subscription = this.ds.getDocument(doc.id)
       .subscribe(data => this.assignDocInfo(data));
@@ -563,7 +569,6 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   assignDocInfo(data, cs) {
-    //console.log("assignDocInfo:: " + data);
     this.docSysProp = [];
     this.busy = true;
     data.document.props.map(p => {
@@ -583,11 +588,9 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
       this.ds.getLinks(this.docSysProp[0].id).subscribe(result => {
         this.linkedDocument = result;
         this.busy = false;
-        //console.log("Doc Link Data :: " + result);
         // this.openDocInfo(data[0], ds, user, cs);
       }, err => {
         this.busy = false;
-        console.log("err : ", err)
       });
     }
 
@@ -598,10 +601,8 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
         this.docTrack = result;
         this.busy = false;
         //this.assignDocumentWorkflowHistory(result);
-        //console.log("Doc History Data :: " + result);
       }, err => {
         this.busy = false;
-        console.log("err : ", err)
       });
     }
 

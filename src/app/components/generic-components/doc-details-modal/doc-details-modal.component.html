@@ -5,7 +5,7 @@
         <div class="scrollable">
           <table class="ecm-table   w-100">
             <tbody>
-              <tr *ngFor="let info of docInfo; let index=i;let isOdd=odd;
+              <tr *ngFor="let info of docInfo;let isOdd=odd;
                    let isEven=even" [class.even]="isEven" [ngClass]="{'hidden': info.hidden=='true'}">
                 <th class="text-align-left" style="width:26%">{{info.desc}}</th>
                 <td *ngIf="info.desc==='Document Title'" class="table-column">{{info.mvalues[0]}}</td>
@@ -82,7 +82,7 @@
               <th class="text-align-left">Actions</th>
             </thead>
             <tbody>
-              <ng-container *ngFor="let version of docVersion; let index=i;let isOdd=odd;
+              <ng-container *ngFor="let version of docVersion;let isOdd=odd;
                let isEven=even">
                 <tr [class.even]="isEven">
                   <td><a href="javascript:">
@@ -136,7 +136,7 @@
                 </tr>
                 <tr [ngClass]="{'hide':selectedVersion.id!==version.id ,'show':selectedVersion===version.id}">
                   <td colspan="9">
-                    <p-dataTable [value]="selectedVersion.props">
+                    <!-- <p-dataTable [value]="selectedVersion.props">
                       <p-column field="prop">
                         <ng-template let-col let-property="rowData" let-ri="rowIndex" pTemplate="body">
 
@@ -148,7 +148,21 @@
                           <span>{{property[col.field]}}</span>
                         </ng-template>
                       </p-column>
-                    </p-dataTable>
+                    </p-dataTable> -->
+                    <p-table [value]="selectedVersion.props">
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th>Property</th>
+                          <th>Value</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template let-property pTemplate="body">
+                        <tr>
+                          <td><span class="text-bold">{{property.prop}}</span></td>
+                          <td><span>{{property.value}}</span></td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
                   </td>
                 </tr>
               </ng-container>
@@ -166,7 +180,7 @@
               <th class="text-align-left">Access Level</th>
             </thead>
             <tbody>
-              <tr *ngFor="let security of docSecurity; let index=i;let isOdd=odd;
+              <tr *ngFor="let security of docSecurity;let isOdd=odd;
                  let isEven=even" [class.even]="isEven">
                 <td>
                   <i *ngIf="security.accessType=='ALLOW'" class="material-icons primary-color v-m">done</i>
@@ -196,7 +210,7 @@
                 <th *ngIf="!noLink" style="width:45%;" class="text-align-left">Linked Documents</th>
                 <th *ngIf="!noLink" class="text-align-left">Actions</th>
               </tr>
-              <tr *ngFor="let doclink of linkedDocuments;let index=i;let isOdd=odd;
+              <tr *ngFor="let doclink of linkedDocuments;let isOdd=odd;
                  let isEven=even" [class.even]="isEven">
                 <td *ngIf="!noLink">{{doclink.desc}}</td>
                 <td *ngIf="!noLink">
@@ -217,8 +231,7 @@
         <div class="ui-g-12 p-0">
           <button pButton type="button" label="Export" (click)="exportDocHistoryToExcel();" class="pull-right m-b-sm"
             [disabled]="!docHistory || docHistory.length==0"></button>
-          <p-dropdown [options]="docVersions" name="versions" [(ngModel)]="selectedVersionVal" [autoWidth]="false"
-            autoDisplayFirst="false" [placeholder]="'Select'" class="pull-right m-5 w-10" (onChange)="changeVersion()"></p-dropdown>
+          <p-dropdown [options]="docVersions" name="versions" [(ngModel)]="selectedVersionVal"  [placeholder]="'Select'" class="pull-right m-5 w-10" (onChange)="changeVersion()"></p-dropdown>
         </div>
       </div>
       <div class="ui-g" *ngIf="!docHistory || docHistory.length===0">
@@ -235,7 +248,7 @@
                 <tr>
                   <td><i class="fa fa-search v-m m-r-md"></i></td>
                   <td>
-                    <input #gbHistory type="text" pInputText size="50" value="filterInput" [ngModel]="filterInput"
+                    <input #gbHistory type="text" pInputText size="50" value="filterInput" 
                       style="color: #ffffff" class="v-m p-0">
                   </td>
                   <td class="pull-right w-100">
@@ -253,28 +266,30 @@
           </div>
         </div>
         <!--<div class="scrollable">-->
-        <p-dataTable [value]="docHistory" [sortMode]="'single'" [rows]="10" [globalFilter]="gbHistory"
+        <!-- <p-dataTable [value]="docHistory" [sortMode]="'single'" [rows]="10" [globalFilter]="gbHistory"
           [paginator]="true">
           <p-column [sortField]="'desc'" [sortable]="true" field="desc" header="Description"></p-column>
           <p-column [sortField]="'user'" [sortable]="true" field="user" header="User"></p-column>
           <p-column [sortField]="'timestamp2'" [sortable]="true" field="timestamp" header="Date"></p-column>
-        </p-dataTable>
-        <!--<table class="ecm-table    w-100" *ngIf="docHistory && docHistory.length>0">-->
-        <!--<tbody>-->
-        <!--<tr>-->
-        <!--<th class="text-align-left">Description</th>-->
-        <!--<th class="text-align-left">User</th>-->
-        <!--<th class="text-align-left">Date</th>-->
-        <!--</tr>-->
-        <!--<tr *ngFor="let history of docHistory;let index=i;let isOdd=odd;-->
-        <!--let isEven=even" [class.even]="isEven">-->
-        <!--<td>{{history.desc}}</td>-->
-        <!--<td>{{history.user}}</td>-->
-        <!--<td>{{history.timestamp}}</td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-        <!--</table>-->
-        <!--</div>-->
+        </p-dataTable> -->
+        <!-- <p-table [value]="docHistory" [sortMode]="'single'" [rows]="10" [globalFilterFields]!="gbHistory" [paginator]="true">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="desc">Description</th>
+              <th pSortableColumn="user">User</th>
+              <th pSortableColumn="timestamp2">Date</th>
+            </tr>
+          </ng-template>
+          <ng-template let-rowData pTemplate="body">
+            <tr>
+              <td>{{rowData.desc}}</td>
+              <td>{{rowData.user}}</td>
+              <td>{{rowData.timestamp}}</td>
+            </tr>
+          </ng-template>
+        </p-table> -->
+        
+        
       </div>
     </p-tabPanel>
     <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Folders Filed In" leftIcon="ui-icon-folder">
@@ -304,21 +319,7 @@
       </div> 
       <div class="max-h-350">
         <div class="scrollable">
-         <!--  <table class="ecm-table w-100" *ngIf="docTrack && docTrack.length>0">
-            <tbody>
-              <tr>
-                <th class="text-align-left">Workflow Subject</th>
-                <th class="text-align-left">Sender</th>
-                <th class="text-align-left">Sent Date</th>
-              </tr>
-              <tr *ngFor="let track of docTrack;let index=i;let isOdd=odd;
-                     let isEven=even" [class.even]="isEven">
-                <td>{{track.subject}}</td>
-                <td>{{track.creator}}</td>
-                <td>{{track.createdDate | date : 'dd/MM/yyyy hh:mm a'}}</td>
-              </tr>
-            </tbody>
-          </table> -->
+        
           <table class="ecm-table" style="width: 800px;" *ngIf="docTrack && docTrack.length>0">
             <tbody>
               <tr>
@@ -328,7 +329,7 @@
                 <th *ngIf="docTrack && docTrack.length>0" class="text-align-left" style="width:20%;">Sent Date</th>
                 <th *ngIf="docTrack && docTrack.length>0" class="text-align-right" style="width:3%;">Action</th>
               </tr>
-              <tr *ngFor="let track of docTrack;let index=i;let isOdd=odd;
+              <tr *ngFor="let track of docTrack;let isOdd=odd;
                      let isEven=even" [class.even]="isEven">
                 <td *ngIf="docTrack && docTrack.length>0">{{track.subject}}</td>
                 <td *ngIf="docTrack && docTrack.length>0">{{track.creator}}</td>

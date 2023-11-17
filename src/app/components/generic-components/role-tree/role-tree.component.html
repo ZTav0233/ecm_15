@@ -1,0 +1,50 @@
+<div  [class]="noLeaves? 'tree-no-leaf' :''" >
+  <p-tree [value]="data.roles.roleTree" selectionMode="single"
+          (onNodeExpand)="mExpandNode($event)"
+          [styleClass]="'role-tree'" (onNodeSelect)="mSelectNode($event)">
+    <ng-template let-node pTemplate="default">
+      <table class="ecm-table w-100 p-0 item" (mouseover)="mExistsInList(node.data)">
+         <tr  (mouseover)="mGetRoleMembers(node.data)" [escape]="false" pTooltip="{{node.data.members}}"  positionStyle="fixed"
+              [tooltipStyleClass]="'tooltip-min-width'"
+            tooltipPosition="right">
+          <td ><span class="v-m m-l-lg" *ngIf="node.label">{{node.label}}
+            {{activeTab==='roleList'&& node.data.type==='1'?'['+node.data.orgCode+']':' '}}
+            {{activeTab==='orgUnitList'?'['+node.data.orgCode+']':' '}}
+          </span>
+            <span class="v-m" *ngIf="!node.label && node.data">{{node.data.empNo}}</span>
+          </td>
+          <td align="right" class="action-btn-group">
+            <span class="action-btn-group-sm">
+              <button *ngIf="showAddToToBtn"  pButton type="button" label="To" class="v-m" (click)="mAddToToList(node.data)"
+                      [disabled]="node.data.disabled || (actionType==='Signature' && node.data.iseSignAllowed===0) ||
+                       (actionType==='Initial' && node.data.isInitalAllowed===0) ||
+                      (actionType==='Initial' && node.data.isInitialAllowed===0) ||
+                      (actionType==='Initial' && node.data.isIntialAllowed===0)"
+                      [ngClass]="{'hide-Important':!node.data.orgCode}"></button>
+              <button *ngIf="showAddToCCBtn" pButton type="button" label="CC" class="v-m" (click)="mAddToCCList(node.data)"
+                      [disabled]="node.data.disabled || actionType==='Signature' || actionType==='Initial' || !node.data.orgCode"
+                      [ngClass]="{'hide-Important':!node.data.orgCode}"></button>
+              <button *ngIf="fromMemo" pButton type="button" label="Thru" class="v-m" (click)="mAddToThruList(node.data)"
+                      [disabled]="node.data.disabled || actionType==='Signature' || actionType==='Initial' || !node.data.orgCode"
+                      [ngClass]="{'hide-Important':!node.data.orgCode}"></button>
+              <button *ngIf="fromMemo" pButton type="button" label="Rev" class="v-m" (click)="mAddToRevList(node.data)"
+                      [disabled]="node.data.disabled || actionType==='Signature' || actionType==='Initial' || !node.data.orgCode"
+                      [ngClass]="{'hide-Important':!node.data.orgCode}"></button>
+              <button *ngIf="fromMemo" pButton type="button" label="From" class="v-m" (click)="mAddToFromList(node.data)"
+                      [disabled]="node.data.disabled || actionType==='Signature' || actionType==='Initial' || !node.data.orgCode"
+                      [ngClass]="{'hide-Important':!node.data.orgCode}"></button>
+              <button *ngIf="editRole && !node.leaf" pButton type="button" icon="ui-icon-edit" title="Edit" class="remove-btn v-m"
+                      (click)="editRoleitem(node.data)"></button>
+              <button *ngIf="(editRole && !node.leaf)" pButton type="button" icon="ui-icon-block" title="Deactivate" class="remove-btn v-m"
+                      (click)="deleteRole(node.data)"></button>
+              <button pButton type="button" icon="ui-icon-remove" (click)="mRemoveItem(node)" title="Remove"
+                      class="remove-btn v-m" *ngIf="showRemoveItemBtn && node.leaf" title="Remove"></button>
+              <button pButton type="button" icon="ui-icon-add" (click)="mAddChildren(node)" class="remove-btn v-m pull-right"
+                      *ngIf="showAddChildBtn" [disabled]="node.data.disabled || !node.data.orgCode"></button>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </ng-template>
+  </p-tree>
+</div>

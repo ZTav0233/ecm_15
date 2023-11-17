@@ -128,7 +128,7 @@
                     baseChart [type]="'pie'"
                     [datasets]="dashboardStatistics[this.currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].overDue.chartData"
                     [labels]="dueChartLabels" [options]="chartOptions"   
-                    (chartClick)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'deadline','overDue',dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType)">
+                    (chartClick)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'deadline','overDue',dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType,'Due')">
                   </canvas>
                 </ng-container>
                 <ng-container
@@ -138,7 +138,7 @@
                     baseChart [type]="'pie'"
                     [datasets]="dashboardStatistics[this.currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].dueToday.chartData"
                     [labels]="dueChartLabels" [options]="chartOptions"   
-                    (chartClick)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'deadline','dueToday',dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType)">
+                    (chartClick)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'deadline','dueToday',dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType,'Due')">
                   </canvas>
                 </ng-container>
               </div>
@@ -313,8 +313,6 @@
                       </ng-container>
                     </div>
                     <div class="task-box-footer">
-                      <!--<div class="row" style="min-height:35px;">-->
-                      <!--</div>-->
                       <div class="pull-left">
                         <p-selectButton [options]="dueWorkitemTypes"
                           (click)="changeActiveWorkitemView(dashboardStatistics[role.id].deadline.selectedWorkitemType,role.id)"

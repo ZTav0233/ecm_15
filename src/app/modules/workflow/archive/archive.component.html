@@ -1,0 +1,336 @@
+<div class="ui-g">
+  <!--  <div class="ui-g-11"></div>
+    <div class="ui-g-1 pull-right colMultiselect">
+      <mat-select placeholder="View" [(ngModel)]="tabCategory" (change)="archiveViewChanged($event)">
+        <mat-option [value]="'all'">View All</mat-option>
+        <mat-option [value]="'inbox'">View Inbox</mat-option>
+        <mat-option [value]="'sent'">View Sent</mat-option>
+      </mat-select>
+    </div>-->
+  <div class="ui-g-12 p-0">
+    <mat-tab-group (selectedTabChange)="archiveGridTabChange($event.tab.textLabel,selectedTabIndex, false, true)"
+      [(selectedIndex)]="selectedTabIndex" [@.disabled]="true">
+      <ng-container *ngFor="let tab of tabsList;let r=index;">
+        <!-- Inbox Grid -->
+        <mat-tab label="{{tab.tabLabel}}" *ngIf="user && tabCategory!=='sent' && tab.gridType === 'inbox'">
+          <!-- Label -->
+          <ng-template mat-tab-label>
+            <i *ngIf="tab.status==='INACTIVE'" class="material-icons">flash_off</i> {{tab.tabLabel}}
+            <span class="badge m-l-sm ui-state-highlight" *ngIf="tab.tabCount > 0">{{tab.tabCount}}</span>
+          </ng-template>
+          <!-- Actions -->
+          <div class="ui-g-12 ui-md-1  p-b-0 p-l-0 width-auto" style="display: flex;">
+            <action-button (selectedAction)="getInboxSelectedAction($event, 'inbox')" (toggleFilter)="getFilterToggle($event)"
+              [activePage]="'archive'" [actions]="actions" [disableAction]="archiveSelectedItem.length<=0"
+              [selectedItemLength]="archiveSelectedItem.length"  [tabStatus]="tab.status"
+              [disableFilter]="tab.quickFilterText!=''" [totalTableRecords]="tab.totalRecords"
+              [hasFilterRes]="archiveSelectedItem" (clearFilter)="resetAndCloseFilters()" [userId]="tab.recordId"
+              [activeTab]="'inbox'"></action-button>
+              
+          </div>
+          <!-- Columns -->
+          <div class="ui-g-12 ui-md-2 p-b-0">
+            <div class="ui-g-12 colMultiselect p-b-0 m-b-sm">
+              <mat-select #matMultiSelectInbox placeholder="Columns" [(ngModel)]="inboxSelectedColumns"
+                (selectionChange)="columnSelectionChanged($event, false)" multiple>
+                <div (mouseleave)="matMultiSelectInbox.close()">
+                  <mat-option *ngFor="let column of columns" [value]="column.value">{{column.label}}</mat-option>
+                </div>
+              </mat-select>
+            </div>
+          </div>
+          <!-- Export and Grouping Switch -->
+          <div class="ui-g-12 ui-md-4 p-r-0 p-l-0 pull-right container-export-options">
+            <div class="sub-container-export-options pull-right">
+              <p-menubar [model]="archiveTieredItems" styleClass="export-menuItem"></p-menubar>
+            </div>
+            <div class="colMultiselect p-b-0 m-r-lg p-t-sm pull-right container-gridview-options">
+              <div class="sub-container-gridview-options">
+                <span>{{gridViewOptions.grouped.text}}</span>
+                <p-inputSwitch [(ngModel)]="userGridView" (onChange)="setDefaultSort()" onLabel="" offLabel="">
+                </p-inputSwitch>
+              </div>
+            </div>
+          </div>
+          <!-- Filter -->
+          <div class="ui-g-12 ui-md-12 hide p-0 filter">
+            <app-filter (filterData)="getArchives(null,true)" [filterQuery]="request" [activePage]="'inbox'"
+              [filterSenderoptions]="sender" [filterCount]="filterCount" [forOptions]="forOptions"
+              [filteredData]="archiveWorkitems.workitems" [id]="tab.recordId" [disableFilter]="tab.quickFilterText!=''"
+              (clearFilter)="clearFilter()"></app-filter>
+          </div>
+          <!-- Grid -->
+          <div class="min-height-400">
+            <data-table *ngIf="userGridView === gridViewOptions.unGrouped.value" [defaultSortField]="tab.sortField"
+              [sortOrder]="tab.sortDirection" (sendData)="getData($event)" [totalRecords]="tab.totalRecords"
+              [emptyMessage]="emptyMessage" [selectedRows]="archiveSelectedItem"
+              [workflowFilter]="request && request.exportFilter || advanceFilterShown" [activePage]="'inbox'"
+              [userType]="tab.tabType" [userId]="tab.recordId" [showInfoIcon]="false"
+              (sendSortPagination)="assignSortNotPaginationInfo($event)" [showDownloadIcon]="false"
+              [showAddCartIcon]="false" [tableData]="archiveWorkitems.workitems" [colHeaders]="colHeaders"
+              (refreshScreen)="refreshTable()" [itemsPerPage]="itemsPerPage" [rowExpandable]="true"
+              (toggleProgressDialogue)="showProgressDialogue($event)" [lazy]="lazy" [showProgressBtn]="true"
+              [isSelectedRoleInActive]="tab.status ==='INACTIVE'" [tabNameIdentifier]="tab.tabIdentifier"></data-table>
+            <data-table *ngIf="userGridView === gridViewOptions.grouped.value" [rowGroupMode]="'subheader'"
+              [groupField]="'recordGroupName'" [expandedRowsGroups]="expandedRowsGroups"
+              [expandedRowsGroupsSubTotal]="expandedRowsGroupsSubTotal" [defaultSortField]="tab.sortField"
+              [sortOrder]="tab.sortDirection" (sendData)="getData($event)" [totalRecords]="tab.totalRecords"
+              [emptyMessage]="emptyMessage" [selectedRows]="archiveSelectedItem"
+              [workflowFilter]="request && request.exportFilter || advanceFilterShown" [activePage]="'inbox'"
+              [userType]="tab.tabType" [userId]="tab.recordId" [showInfoIcon]="false"
+              (sendSortPagination)="assignSortNotPaginationInfo($event)" [showDownloadIcon]="false"
+              [showAddCartIcon]="false" [tableData]="archiveWorkitems.workitems" [colHeaders]="colHeaders"
+              (refreshScreen)="refreshTable()" [itemsPerPage]="itemsPerPage" [rowExpandable]="true"
+              (toggleProgressDialogue)="showProgressDialogue($event)" [lazy]="lazy" [showProgressBtn]="true"
+              [isSelectedRoleInActive]="tab.status ==='INACTIVE'" [tabNameIdentifier]="tab.tabIdentifier"></data-table>
+          </div>
+        </mat-tab>
+        <!-- Outbox Grid -->
+        <mat-tab label="{{tab.tabLabel}}" *ngIf="user && tabCategory!=='inbox' && tab.gridType === 'sent'">
+          <!-- Label -->
+          <ng-template mat-tab-label>
+            <i *ngIf="tab.status==='INACTIVE'" class="material-icons">flash_off</i>{{tab.tabLabel}}
+            <span class="badge m-l-sm ui-state-highlight" *ngIf="tab.tabCount > 0">{{tab.tabCount}}</span>
+          </ng-template>
+          <!-- Actions -->
+          <div class="ui-g-12 ui-md-1  p-b-0 p-l-0 width-auto" style="display: flex;">
+            <action-button (selectedAction)="getOutboxSelectedAction($event, 'outbox')" (toggleFilter)="getFilterToggle($event)"
+              [activePage]="'archive'" [actions]="actions" [disableAction]="archiveSelectedItem.length <= 0"
+              [selectedItemLength]="archiveSelectedItem.length" [tabStatus]="tab.status"
+              [disableFilter]="tab.quickFilterText!=''" [totalTableRecords]="tab.totalRecords"
+              [hasFilterRes]="advanceFilterShown" (clearFilter)="resetAndCloseFilters()" [userId]="tab.recordId"
+              [activeTab]="'sent'"></action-button>
+              <!-- <span class="btnposition">
+                <button pButton class="remove-btn v-m" type="button" icon="ui-icon-near-me"
+              [disabled]="isAllRecalled || isRoleActive==='INACTIVE' || isAllActionsDisabled " title="Relaunch"
+              (click)="relaunchWorkItem(this.archiveSelectedItem[0]);"></button>
+              </span> -->
+          </div>
+          <!-- Columns -->
+          <div class="ui-g-12 ui-md-2 p-b-0">
+            <div class="ui-g-12 colMultiselect p-b-0 m-b-sm">
+              <mat-select #matMultiSelectSent placeholder="Columns" [(ngModel)]="sentSelectedColumns"
+                (selectionChange)="columnSelectionChanged($event, true)" multiple>
+                <div (mouseleave)="matMultiSelectSent.close()">
+                  <mat-option *ngFor="let column of sentColumns" [value]="column.value">{{column.label}}</mat-option>
+                </div>
+              </mat-select>
+            </div>
+          </div>
+          <!-- Export and Grouping Switch -->
+          <div class="ui-g-12 ui-md-4 p-r-0 p-l-0 pull-right container-export-options">
+            <div class="sub-container-export-options pull-right">
+              <p-menubar [model]="archiveTieredItems" styleClass="export-menuItem"></p-menubar>
+            </div>
+            <div class="colMultiselect p-b-0 m-r-lg p-t-sm pull-right container-gridview-options">
+              <div class="sub-container-gridview-options">
+                <span>{{gridViewOptions.grouped.text}}</span>
+                <p-inputSwitch [(ngModel)]="userGridView" (onChange)="setDefaultSort()" onLabel="" offLabel="">
+                </p-inputSwitch>
+              </div>
+            </div>
+          </div>
+          <!-- Filter -->
+          <div class="ui-g-12 ui-md-12 hide p-0 filter">
+            <app-filter (filterData)="getArchives(null,true)" [filterQuery]="request" [activePage]="'sent'"
+              [filterSenderoptions]="recipients" [filterCount]="filterCount" [forOptions]="forOptions"
+              [filteredData]="archiveWorkitems.workitems" [id]="tab.recordId" (clearFilter)="clearFilter()">
+            </app-filter>
+          </div>
+          <!-- Grid -->
+          <div class="min-height-400" [ngClass]="{'max-h-265':advanceFilterShown}">
+            <data-table *ngIf="userGridView === gridViewOptions.unGrouped.value" [defaultSortField]="tab.sortField"
+              [sortOrder]="tab.sortDirection" (sendData)="getData($event)" [totalRecords]="tab.totalRecords"
+              [emptyMessage]="emptyMessage" [workflowFilter]="request && request.exportFilter || advanceFilterShown"
+              [activePage]="'sent'" [showInfoIcon]="false" (sendSortPagination)="assignSortNotPaginationInfo($event)"
+              (toggleTrackSentitem)="showTrackSentitem($event,'USER')" [showDownloadIcon]="false"
+              [showAddCartIcon]="false" [tableData]="archiveWorkitems.workitems" [colHeaders]="sentColHeaders"
+              [userType]="tab.tabType" [userId]="tab.recordId" [selectedRows]="archiveSelectedItem"
+              [isSelectedRoleInActive]="tab.status ==='INACTIVE'" (refreshScreen)="refreshTable()"
+              [itemsPerPage]="itemsPerPage" [rowExpandable]="false" [lazy]="lazy"
+              [tabNameIdentifier]="tab.tabIdentifier"></data-table>
+            <data-table *ngIf="userGridView === gridViewOptions.grouped.value" [rowGroupMode]="'subheader'"
+              [groupField]="'recordGroupName'" [expandedRowsGroups]="expandedRowsGroups"
+              [expandedRowsGroupsSubTotal]="expandedRowsGroupsSubTotal" [defaultSortField]="tab.sortField"
+              [sortOrder]="tab.sortDirection" (sendData)="getData($event)" [totalRecords]="tab.totalRecords"
+              [emptyMessage]="emptyMessage" [workflowFilter]="request && request.exportFilter || advanceFilterShown"
+              [activePage]="'sent'" [showInfoIcon]="false" (sendSortPagination)="assignSortNotPaginationInfo($event)"
+              (toggleTrackSentitem)="showTrackSentitem($event,'USER')" [showDownloadIcon]="false"
+              [showAddCartIcon]="false" [tableData]="archiveWorkitems.workitems" [colHeaders]="sentColHeaders"
+              [userType]="tab.tabType" [userId]="tab.recordId" [selectedRows]="archiveSelectedItem"
+              [isSelectedRoleInActive]="tab.status ==='INACTIVE'" (refreshScreen)="refreshTable()"
+              [itemsPerPage]="itemsPerPage" [rowExpandable]="false" [lazy]="lazy"
+              [tabNameIdentifier]="tab.tabIdentifier"></data-table>
+          </div>
+
+        </mat-tab>
+      </ng-container>
+    </mat-tab-group>
+  </div>
+</div>
+
+<div #archiveDialog></div>
+<p-confirmDialog key="archiveConfirmation" #inboxConfirmation [appendTo]="archiveDialog"></p-confirmDialog>
+
+<div *ngIf="showTrack">
+  <p-dialog [modal]="true" #showTrackDialog [appendTo]="archiveDialog" [resizable]="false" [(visible)]="showTrack"
+     [style]="{ width: '1000px', height: '520px' }">
+    <p-header>
+      Track Preview
+    </p-header>
+    <div class="max-h-400">
+      <!-- <p-table [value]="workitemHistory" styleClass="scrollable" expandableRows="false"
+        (onRowExpand)="showTrackWorkitem($event)" [rowExpandMode]="'single'" [responsive]="true" sortMode="multiple">
+        <p-column *ngFor="let colHeader of trackColHeaders;" [hidden]="colHeader.hidden" field="{{colHeader.field}}"
+          header="{{colHeader.header}}" [sortable]="true"
+          [sortField]="colHeader.sortField?colHeader.sortField:colHeader.field"></p-column>
+        <ng-template let-table pTemplate="rowexpansion">
+          <div class="ui-grid ui-grid-responsive ui-fluid">
+            <div class="ui-grid-row">
+              <table *ngIf="trackWorkitemDetails" id="trackDetails" class="ecm-table inner-table w-100">
+                <tbody>
+                  <tr>
+                    <th class="text-align-left">Subject:</th>
+                    <td>{{trackWorkitemDetails.subject}}</td>
+                    <th class="text-align-left">Sender Name:</th>
+                    <td>
+                      <ng-container *ngIf="trackWorkitemDetails.senderName">{{trackWorkitemDetails.senderName}}
+                      </ng-container>
+                      <ng-container *ngIf="!trackWorkitemDetails.senderName">{{trackWorkitemDetails.senderRoleName}}
+                      </ng-container>
+                    </td>
+                  </tr>
+                  <tr class="even">
+                    <th class="text-align-left">Status:</th>
+                    <td>{{trackWorkitemDetails.status}}</td>
+                    <th class="text-align-left">Type:</th>
+                    <td>{{trackWorkitemDetails.type}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-align-left">Received Date:</th>
+                    <td>{{trackWorkitemDetails.receivedDate | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                    <th class="text-align-left">Due date:</th>
+                    <td>{{trackWorkitemDetails.deadline | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                  </tr>
+                  <tr class="even">
+                    <th class="text-align-left">Reminder:</th>
+                    <td>{{trackWorkitemDetails.reminder | date : 'dd/MM/yyyy hh:mm a'}}</td>
+                    <th class="text-align-left">Priority:</th>
+                    <td>{{trackWorkitemDetails.priority}}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-align-left">For:</th>
+                    <td colspan="3">
+                      <div class="text-ellipsis">{{trackWorkitemDetails.actions}}</div>
+                    </td>
+                  </tr>
+                  <tr class="even">
+                    <th class="text-align-left">Instructions:</th>
+                    <td colspan="3">
+                      <div class="text-ellipsis">{{trackWorkitemDetails.instructions}}</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="text-align-left">Remarks:</th>
+                    <td colspan="3">
+                      <div class="text-ellipsis">{{trackWorkitemDetails.wiRemarks}}</div>
+                    </td>
+                  </tr>
+                  <tr class="even">
+                    <th class="text-align-left">Action Taken:</th>
+                    <td colspan="3">
+                      <div class="text-ellipsis">{{trackWorkitemDetails.actionTaken}}</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="text-align-left">Keywords:</th>
+                    <td colspan="3">
+                      <div class="text-ellipsis">{{trackWorkitemDetails.Keywords}}</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </ng-template>
+      </p-dataTable> -->
+      <p-table [value]="workitemHistory" [scrollable]="true" scrollHeight="600px" [resizableColumns]="true" styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pResizableColumn *ngFor="let col of trackColHeaders">{{col.header}}</th>
+                <!-- <th pResizableColumn>Country</th>
+                <th pResizableColumn>Company</th>
+                <th pResizableColumn>Representative</th> -->
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+            <tr>
+                <td>{{customer.recipientName}}</td>
+                <td>{{customer.senderName}}</td>
+                <td>{{customer.sentOn}}</td>
+                <td>{{customer.actionUser}}</td>
+                <td>{{customer.status}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    </div>
+    <div class="progress-bar">
+      <!-- <div [ngBusy]="{busy: busyModal, message: 'Loading...', backdrop: true}"></div> -->
+      <!-- <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div> -->
+    </div>
+  </p-dialog>
+</div>
+
+<p-dialog #delegationMsgDialog [closable]="false" [closeOnEscape]="false" [appendTo]="archiveDialog" [modal]="true"
+  [(visible)]="showDelegationInactiveDialog"  [style]="{ width: '148vw', height: '380px' }">
+  <p-header>
+    Delegated user access has ended.
+  </p-header>
+  <p>Application will refresh now.</p>
+  <p-footer>
+    <button pButton class="pull-right" type="button" label="OK" (click)="reloadApp()"></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [appendTo]="archiveDialog" [modal]="true"
+  [(visible)]="coreService.displayProgress"  [style]="{ width: '650vw', height: '550px' }" [contentStyle]="{'overflow':'auto'}"
+  (onHide)="hideDisplayProgress()" #progressDialog>
+  <p-header>
+    Work Progress
+  </p-header>
+  <app-document-status [workitemProgress]="selectedWorkitem.progress" [showAddBtn]="false"
+    (onRemoveProgress)="removeWorkitemProgress($event)" (onAddProgress)="addWorkitemProgress($event)"
+    [progressObj]="progressObj">
+  </app-document-status>
+</p-dialog>
+
+<p-dialog [modal]="true" [(visible)]="showRecallInactiveDialog" [style]="{ width: '380px', height: '160px' }" [closable]="false"
+  [closeOnEscape]="false">
+  <p-header>
+    <span>Workitem has been Recalled</span>
+  </p-header>
+  <p>Application will refresh now.</p>
+  <p-footer>
+    <button pButton class="pull-right" type="button" label="Ok" (click)="reloadApp()"></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [closable]="false" [closeOnEscape]="false" [modal]="true" [(visible)]="showOperationNotPossible"
+   [style]="{ width: '380px', height: '148px' }">
+  <p-header>
+  </p-header>
+  <div>
+    <p>{{messageDenyAction}}</p>
+  </div>
+  <p-footer>
+    <button pButton class="pull-right" type="button" label="Close" (click)="showOperationNotPossible=false"></button>
+  </p-footer>
+</p-dialog>
+
+<!-- <div class="progress-bar">
+  <div [ngBusy]="{busy: busyModel, message: '', backdrop: true}"></div>
+</div> -->
+<div class="progress-bar">
+  <!-- <div [ngBusy]="{busy: busyProgress, message: '', backdrop: true}"></div> -->
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

@@ -1,0 +1,37 @@
+<div [ngClass]="{'hide-empty-message':!items}" class="user-list">
+  <table class="ecm-table w-100">
+    <tbody>
+      <ng-container *ngFor="let item of items">
+        <tr (mouseover)="mExistsInList(item.data)" class="item">
+          <td><i class="fa ui-icon-people"></i></td>
+          <td>
+            <div class="w-100" (mouseover)="mGetItemMembers(item.data)" [escape]="false"
+              pTooltip="{{item.data.members}}" [tooltipStyleClass]="'tooltip-min-width'" tooltipPosition="right">
+              <span *ngIf="item.label">{{item.label}}</span>
+              <span *ngIf="!item.label && item.data && item.data.name">{{item.data.name}}</span>
+            </div>
+          </td>
+          <td align="right" class="action-btn-group">
+            <span class="action-btn-group-sm">
+              <button *ngIf="showToBtn" pButton type="button" label="To" class="v-m" (click)="mAddToToList(item.data)" [disabled]="item.data.disabled || (actionType==='Signature' && item.data.iseSignAllowed == 0)
+                  || (actionType==='Initial' && item.data.isInitalAllowed == 0) ||
+                  (actionType==='Initial' && item.data.isInitialAllowed == 0) ||
+                   (actionType==='Initial' && item.data.isIntialAllowed == 0)"></button>
+              <button *ngIf="showCcBtn" pButton type="button" label="CC" class="v-m" (click)="mAddToCCList(item.data)"
+                [disabled]="item.data.disabled || actionType==='Signature' || actionType==='Initial'"></button>
+              <button *ngIf="showThruBtn&&fromMemo" pButton type="button" label="Thru" class="v-m"
+                (click)="mAddToThruList(item.data)"
+                [disabled]="item.data.disabled || actionType==='Signature' || actionType==='Initial'"></button>
+              <button *ngIf="showReviewerBtn&&fromMemo" pButton type="button" label="Rev" class="v-m"
+                (click)="mAddToRevList(item.data)"
+                [disabled]="item.data.disabled || actionType==='Signature' || actionType==='Initial'"></button>
+              <button *ngIf="showFromBtn&&fromMemo" pButton type="button" label="From" class="v-m"
+                (click)="mAddToFromList(item.data)"
+                [disabled]="item.data.disabled || actionType==='Signature' || actionType==='Initial'"></button>
+            </span>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,357 @@
+<div *ngIf="currentScreen === 'addUser'" class="w-100">
+    <div class="ui-g-12 min-height-400">
+      <div class="ui-g-6 ui-md-6 ui-sm-6" style="height: 55vh; overflow: auto;">
+        <!--<p-tabView >-->
+        <!--<p-tabPanel header="">-->
+        <p-accordion [activeIndex]="selectedIndexAccordion" [multiple]="false" (onOpen)="onTabOpen($event);">
+          <p-accordionTab [selected]="true">
+            <p-header>
+              <i class="ui-icon-ac-h fa ui-icon-filter-none" style="color: white"></i> Default List
+            </p-header>
+            <div class="ui-g">
+              <div class="w-100">
+                <div class="ui-g roleSearch-box">
+                  <div class="ui-g-12 ui-inputgroup">
+                    <span class="md-inputfield ">
+                      <input type="text" pInputText (input)="searchDFL(recipientsData.search.defSearchquery)"
+                        placeholder="Search by name or mail" [(ngModel)]="recipientsData.search.defSearchquery" />
+                      <i class="topbar-icon material-icons">search</i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-g-12 max-h-360">
+                <div class="ui-g-12 ui-md-12 ui-sm-12 "
+                  *ngIf="recipientsData.list.selectedUserList.lists && recipientsData.list.selectedUserList.lists.length>0 ">
+                  <app-user-list [isNoFoundMessage]="true" [iconClass]="'fa ui-icon-view-list'" [showTooltip]="true"
+                    [showAddBtn]="false" [actionType]="documentsData.existing.model.actionType" [isUserRoleNotList]="true"
+                    [items]="recipientsData.list.selectedUserList.lists" [field]="'name'"
+                    (addToToList)="addListUsersToToList($event,true)" (addToCCList)="addListUsersToCCList($event,true)"
+                    (existsInList)="existsInList($event)" (getRoleMembers)="getRoleMembers($event,'defaultList')"
+                    [isRowSelectable]="true"></app-user-list>
+                </div>
+              </div>
+            </div>
+          </p-accordionTab>
+          <p-accordionTab>
+            <p-header>
+              <i class="ui-icon-ac-h fa ui-icon-star-border" style="color: white"></i> Favorite List
+            </p-header>
+            <div class="ui-g">
+              <div class="w-100">
+                <div class="ui-g roleSearch-box">
+                  <div class="ui-g-12 ui-inputgroup">
+                    <span class="md-inputfield ">
+                      <input type="text" pInputText (input)="searchFL(recipientsData.search.favSearchquery)"
+                        placeholder="Search by name or mail" [(ngModel)]="recipientsData.search.favSearchquery" />
+                      <i class="topbar-icon material-icons">search</i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-g-12 max-h-360">
+                <div class="ui-g-12 ui-md-12 ui-sm-12 "
+                  *ngIf="recipientsData.list.selectedUserList && recipientsData.list.selectedUserList.users">
+                  <app-user-list [isNoFoundMessage]="true" [showAddBtn]="false"
+                    [actionType]="documentsData.existing.model.actionType"
+                    [items]="recipientsData.list.selectedUserList.users" [field]="'name'"
+                    (addToToList)="addToToListFromList($event)" [isUserRoleNotList]="true"
+                    (addToCCList)="addToCCListFromList($event)" (existsInList)="existsInList($event)"
+                    (getRoleMembers)="getRoleMembers($event,'fav')"></app-user-list>
+                </div>
+              </div>
+            </div>
+          </p-accordionTab>
+          <p-accordionTab>
+            <p-header>
+              <i class="ui-icon-ac-h fa ui-icon-apps" style="color: white"></i> Distribution List
+            </p-header>
+            <div class="ui-g">
+              <div class="w-100">
+                <div class="ui-g roleSearch-box">
+                  <div class="ui-g-12 ui-inputgroup">
+                    <span class="md-inputfield ">
+                      <input type="text" pInputText (input)="searchDL(recipientsData.search.dlSearchquery)"
+                        placeholder="Search name" [(ngModel)]="recipientsData.search.dlSearchquery" />
+                      <i class="topbar-icon material-icons">search</i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-g-12 max-h-360">
+                <div class="ui-g-12 ui-md-12 ui-sm-12 "
+                  *ngIf="recipientsData.list.selectedUserList.lists && recipientsData.list.selectedUserList.lists.length>0 ">
+                  <app-user-list [isNoFoundMessage]="true" [iconClass]="'fa ui-icon-view-list'" [showTooltip]="true"
+                    [showAddBtn]="false" [actionType]="documentsData.existing.model.actionType"
+                    [items]="recipientsData.list.selectedUserList.lists" [field]="'name'"
+                    (addToToList)="addListUsersToToList($event)" (addToCCList)="addListUsersToCCList($event)"
+                    (existsInList)="existsInListUserList($event)" (getRoleMembers)="getListUsersForTooltip($event)"
+                    (getListMembers)="getListUsers($event,'sublist')" [isRowSelectable]="true"></app-user-list>
+                </div>
+              </div>
+            </div>
+          </p-accordionTab>
+          <p-accordionTab>
+            <p-header>
+              <i class="ui-icon-ac-h fa ui-icon-list" style="color: white"></i> Roles List
+            </p-header>
+            <div class="ui-g">
+              <div class="ui-g-12">
+                <div class="ui-g roleSearch-box">
+                  <div class="ui-g-2">
+                    <span class="hyperLink pull-left" (click)="showRoleTreeModel()">Role Tree</span>
+                  </div>
+                  <div class="ui-g-10 ui-inputgroup">
+                    <span class="md-inputfield ">
+                      <input type="text" pInputText (input)="searchRL(recipientsData.search.roleSearchquery)"
+                        placeholder="Search by role" [(ngModel)]="recipientsData.search.roleSearchquery" />
+                      <i class="topbar-icon material-icons">search</i>
+                    </span>
+                  </div>
+                </div>
+                <div class="split-pane-content-primary max-h-360 ">
+                  <div class="upper">
+                    <div class="ui-g">
+                      <div class="ui-g-12 p-b-0">
+                        <div class="ui-g-12 ui-md-12 ui-sm-12 p-b-0"
+                          *ngIf="recipientsData.list.selectedUserList.lists && recipientsData.list.selectedUserList.lists.length > 0 ">
+                          <app-user-list [isNoAlternateRows]="true" [isNoFoundMessage]="true"
+                            [iconClass]="'fa ui-icon-view-list'" [showTooltip]="true" [showAddBtn]="false"
+                            [actionType]="documentsData.existing.model.actionType"
+                            [items]="recipientsData.list.selectedUserList.lists" [field]="'name'"
+                            (addToToList)="addListUsersToToList($event)" (addToCCList)="addListUsersToCCList($event)"
+                            (existsInList)="existsInListUserList($event)"
+                            (getRoleMembers)="getListUsersForTooltip($event)"
+                            (getListMembers)="getListUsers($event,'sublist')" [isRowSelectable]="true"></app-user-list>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui-g">
+                      <div class="ui-g-12 p-t-0">
+                        <div class="ui-g-12 ui-md-12 ui-sm-12 p-t-0"
+                          *ngIf="recipientsData.roles.roleTree && recipientsData.roles.roleTree.length>0 ">
+                          <app-role-list [items]="recipientsData.roles.roleTree" (existsInList)="existsInList($event)"
+                            (getRoleMembers)="getRoleMembers($event,'roleList')" (addToToList)="addToToList($event)"
+                            (addToCCList)="addToCCList($event)" [actionType]="documentsData.existing.model.actionType">
+                          </app-role-list>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-accordionTab>
+          <p-accordionTab header="Search Users">
+            <p-header>
+              <i class="ui-icon-ac-h fa ui-icon-person" style="color: white"></i> Search Users
+            </p-header>
+            <div class="ui-g">
+              <div class="ui-g-12">
+                <div class="ui-g-12 ui-md-12">
+                  <form #searchUserForm="ngForm" (submit)="searchUsers();" class="scrollable">
+                    <!--all search criteria-->
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-4">
+                        <label class="text-bold">Select Criteria</label>
+                      </div>
+                      <div class="ui-g-12 ui-md-6">
+                        <label class="text-bold">Search Text</label>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-4">
+                        <label>Name:</label>
+                      </div>
+                      <div class="ui-g-12 ui-md-6">
+                        <span class="md-inputfield">
+                          <input type="text" pInputText name="userName" [(ngModel)]="userSearchQueary.userName">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-4">
+                        <label>Email:</label>
+                      </div>
+                      <div class="ui-g-12 ui-md-6">
+                        <span class="md-inputfield">
+                          <input type="text" pInputText name="mail" [(ngModel)]="userSearchQueary.mail">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-4">
+                        <label>Designation:</label>
+                      </div>
+                      <div class="ui-g-12 ui-md-6">
+                        <span class="md-inputfield">
+                          <input type="text" pInputText name="title" [(ngModel)]="userSearchQueary.title">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-4">
+                        <label>Phone:</label>
+                      </div>
+                      <div class="ui-g-12 ui-md-6">
+                        <span class="md-inputfield">
+                          <div class="ui-fluid">
+                            <p-spinner [(ngModel)]="userSearchQueary.phone" (keyup.enter)="searchUsers()"
+                              name="phone"  class="no-spinners"></p-spinner>
+                          </div>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-4">
+                        <label>Org Code:</label>
+                      </div>
+                      <div class="ui-g-12 ui-md-6">
+                        <span class="md-inputfield">
+                          <input type="text" pInputText name="orgCode" [(ngModel)]="userSearchQueary.orgCode">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-4">
+                        <label>KOC No:</label>
+                      </div>
+                      <div class="ui-g-12 ui-md-6">
+                        <span class="md-inputfield">
+                          <input type="text" pInputText [(ngModel)]="userSearchQueary.empNo" name="empNo">
+                        </span>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-10 p-l-0">
+                        <button pButton type="submit" label="Search" class="pull-right m-l-md"></button>
+                        <button pButton type="button" (click)="searchUserForm.reset();" label="Clear"
+                          class="pull-right"></button>
+                      </div>
+                    </div>
+                  </form>
+                  <div class="ui-g-12 ui-md-12 fix-h-350">
+                    <app-user-list [showAddBtn]="false" [actionType]="documentsData.existing.model.actionType"
+                      [items]="recipientsData.search.result" [field]="'name'" (addToToList)="addToToList($event)"
+                      (addToCCList)="addToCCList($event)" (existsInList)="existsInList($event)"></app-user-list>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+        <!--</p-tabPanel>-->
+        <!--</p-tabView>-->
+      </div>
+      <div class="ui-g-6 ui-md-6 ui-sm-6">
+        <form>
+          <div class="ui-g form-group ">
+            <div class="ui-g-12 ui-md-1">
+              <label>To:</label>
+            </div>
+            <div class="ui-g-12 ui-md-11  ">
+              <p-autoComplete id="toLaunch" [readonly]="true" pDroppable="cc" styleClass="scrollautocomplete" (onDrop)="assignDropItem($event,'to')"
+                [(ngModel)]="recipientsData.toList" (onUnselect)="onRecipientRemoved()"
+                (completeMethod)="searchRoles($event,'to')" [suggestions]="filteredRoles" [multiple]="true"
+                (keydown)="keyDown($event)" field="fulName" name="toList" (onSelect)="selectSuggestion($event,'to')"
+                [delay]="1000">
+                <ng-template let-value pTemplate="selectedItem">
+                  <div pDraggable="to" (onDragStart)="assignDragItem(value)" style="padding-right:18px">{{value.name}}
+                  </div>
+                </ng-template>
+              </p-autoComplete>
+            </div>
+          </div>
+          <div class="ui-g form-group">
+            <div class="ui-g-12 ui-md-1">
+              <label>CC:</label>
+            </div>
+            <div class="ui-g-12 ui-md-11  ">
+              <p-autoComplete id="ccLaunch" [readonly]="true" pDroppable="to" styleClass="scrollautocomplete" (onDrop)="assignDropItem($event,'cc')"
+                [disabled]="documentsData.existing.model.actionType==='Signature' || documentsData.existing.model.actionType==='Initial'"
+                [(ngModel)]="recipientsData.ccList" (onUnselect)="onRecipientRemoved()"  [delay]="1000"
+                (completeMethod)="searchRoles($event,'cc')" [suggestions]="filteredRoles" [multiple]="true"
+                (keydown)="keyDown($event)" field="fulName" name="ccList" (onSelect)="selectSuggestion($event,'cc')">
+                <ng-template let-value pTemplate="selectedItem">
+                  <span pDraggable="cc" (onDragStart)="assignDragItem(value)" (onDragEnd)="assignDragEnd()"
+                    style="padding-right:18px">{{value.name}}</span>
+                </ng-template>
+              </p-autoComplete>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="currentScreen!=='addUser'" class="w-100">
+    <div class="ui-g form-group ">
+      <div class="ui-g-1">
+        <label>To:</label><span class="required">*</span>
+      </div>
+      <div class="ui-g-11">
+        <p-autoComplete id="toLaunch" [readonly]="true" pDroppable="cc" styleClass="scrollautocompleteForMemo" (onDrop)="assignDropItem($event,'to')"
+          [(ngModel)]="recipientsData.toList" (onUnselect)="onRecipientRemoved($event)"
+          (completeMethod)="searchRoles($event,'to')" [suggestions]="filteredRoles" [multiple]="true"
+          (keydown)="keyDown($event)" [delay]="1000" field="fulName" name="toList"
+          (onSelect)="selectSuggestion($event,'to')"  (onFocus)="toCcFieldOnFocus($event)">
+          <ng-template let-value pTemplate="selectedItem">
+            <div pDraggable="to" (onDragStart)="assignDragItem(value)" style="padding-right:18px" (mouseover)="value.orgCode?getRoleMembersIfRole(value):''"
+                 pTooltip="{{value.members}}" [tooltipStyleClass]="'tooltip-min-width'" [escape]="false" 
+                 tooltipPosition="right"
+            >{{value.name}}</div>
+          </ng-template>  
+        </p-autoComplete>
+        <button type="button" class="btn glyphonButton" (click)="msendToMessage()">
+          <span class="glyphicon glyphicon-user"></span>
+        </button>
+        
+      </div>
+    </div>
+    <div>
+      <div class="ui-g form-group">
+        <div class="ui-g-1">
+          <label>CC:</label>
+        </div>
+        <div class="ui-g-11">
+          <p-autoComplete id="ccLaunch" [readonly]="true" pDroppable="to" styleClass="scrollautocompleteForMemo" (onDrop)="assignDropItem($event,'cc')"
+            [disabled]="documentsData.existing.model.actionType==='Signature' || documentsData.existing.model.actionType==='Initial'"
+            [(ngModel)]="recipientsData.ccList" (onUnselect)="onRecipientRemoved()"  [delay]="1000"
+            (completeMethod)="searchRoles($event,'cc')" [suggestions]="filteredRoles" [multiple]="true"
+            (keydown)="keyDown($event)" field="fulName" name="ccList" (onSelect)="selectSuggestion($event,'cc')"
+            (onFocus)="toCcFieldOnFocus($event)" >
+            <ng-template let-value pTemplate="selectedItem">
+              <span pDraggable="cc" (onDragStart)="assignDragItem(value)" (onDragEnd)="assignDragEnd()"
+                    (mouseover)="value.orgCode?getRoleMembersIfRole(value):''" [escape]="false"
+                    pTooltip="{{value.members}}" [tooltipStyleClass]="'tooltip-min-width'"
+                    tooltipPosition="right"
+                style="padding-right:18px">{{value.name}}</span>
+            </ng-template>
+          </p-autoComplete>
+          <button type="button" class="btn glyphonButton">
+            <span class="glyphicon glyphicon-user"></span>
+          </button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="progress-bar">
+    <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+  </div>
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showRoleTree" width="600" height="510">
+    <p-header>
+      Role Tree
+    </p-header>
+    <div class="max-h-400">
+      <app-role-tree [data]="roleTreeData" (expandNode)="getSubOrgRoles($event.node)" [showAddToToBtn]="true"
+        [showAddToCCBtn]="true" [showAddChildBtn]="false" (showDeleteRole)="false" (showEditRole)="false" (getRoleMembers)="getRoleMembersForTree($event)"
+        [showRemoveItemBtn]="false" [editRole]="false" (existsInList)="existsInList($event)"
+        (addToToList)="addToToList($event)" (addToCCList)="addToCCList($event)">
+      </app-role-tree>
+    </div>
+    <p-footer>
+      <button class="pull-right footer-btn-blue" pButton type="button" label="Done"
+        (click)="showRoleTree=false;"></button>
+    </p-footer>
+  </p-dialog>
+  

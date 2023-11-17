@@ -34,7 +34,7 @@ export class AppBreadcrumbComponent implements OnDestroy {
   );
 
   constructor(public breadcrumbService: BreadcrumbService, public us: UserService, private router: Router) {
-    console.log(breadcrumbService.items);
+    // console.log(breadcrumbService.items);
     
     this.integration_url = global.integration_url;
     this.entry_app_url = global.entry_app_url;

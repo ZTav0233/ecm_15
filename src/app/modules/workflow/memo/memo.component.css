@@ -1,0 +1,105 @@
+.div .ui-menu .ui-menu-dynamic .ui-widget .ui-widget-content .ui-corner-all .ui-helper-clearfix {
+  display: block;
+  visibility: visible;
+  top: -102px;
+  right: 0 !important;
+  z-index: 1003;
+  opacity: 1;
+  /* padding-right: 20px; */
+  min-width: 273px !important;
+}
+
+/* .ui-tabview-panels {
+    height: 78vh;
+    overflow: auto;
+  } */
+
+.custom-label {
+  z-index: 777;
+  position: absolute !important;
+  right: 36px !important;
+  margin-top: 1px;
+}
+
+.custom-button {
+  z-index: 777;
+  position: absolute !important;
+  right: 3px !important;
+  margin-top: -2px !important;
+}
+
+:host ::ng-deep.ck-editor__editable {
+  height: 100px !important;
+}
+
+.glyphonButton {
+  display: block;
+  margin-left: auto;
+  margin-top: -36px;
+}
+
+/* .glyphonButton {
+  display: flex;
+  justify-content: right;
+  margin-top: -18px;
+  padding-right: 10px;
+} */
+
+.attachment {
+  margin-right: -4px;
+  margin-left: -4px;
+}
+
+.prio {
+  margin-top: -16px;
+}
+
+.listHeader {
+  font-weight: 800;
+  font-size: 25px;
+  color: black;
+}
+
+:host ::ng-deep .datePicker .ui-inputtext {
+  margin-right: 125px;
+
+}
+
+.buttonGroups {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.orgSearch {
+  display: block;
+  margin-left: auto;
+  margin-top: -17px;
+}
+
+.ecmText {
+  width: 149PX;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 300px !important;
+}
+
+.label23 {
+  min-width: 50px;
+  float: left;
+  display: flex;
+  /* justify-content: space-between; */
+  margin-right: 20px
+}
+
+.docButton {
+  display: flex;
+  align-items: center;
+  font-size: x-large;
+  margin-top: -10px;
+}
+
+
+.ui-radiobutton-label-memo {
+  padding: 2px 20px 2px 15px;
+}

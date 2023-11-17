@@ -24,7 +24,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public pieChartOptions: ChartOptions<'pie'> = {
     responsive: false,
   };
-  // public pieChartLabels = [ [ 'Download', 'Sales' ], [ 'In', 'Store', 'Sales' ], 'Mail Sales' ];
   public pieChartDatasets:any = [ {
     data: [ 20, 17, 3 ]
   } ];
@@ -122,7 +121,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let pageClickRefresh = localStorage.getItem('pageRefresh');
 
 
-    //console.log('Dash'+pageClickRefresh);
     if (sentSelectedUserTab) {
       this.workflowService.sentSelectedUserTab = sentSelectedUserTab;
       localStorage.removeItem('sentSelectedUserTab');
@@ -162,25 +160,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getUserSetting();
         this.dashboardStatistics[this.currentUser.EmpNo] = {
           today: {
-            all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: true },
-            to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: false },
-            cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: false },
+            all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: true },
+            to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
+            cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
             selectedType: 'all'
           },
           total: {
-            all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: true },
-            to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: false },
-            cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: false },
+            all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: true },
+            to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
+            cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
             selectedType: 'all'
           },
           deadline: {
             inbox: {
-              dueToday: { read: 0, unread: 0, total: 0, chartData: [0, 0], active: true },
-              overDue: { read: 0, unread: 0, total: 0, chartData: [0, 0], active: false },
+              dueToday: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: true },
+              overDue: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: false },
               active: true
             }, sent: {
-              dueToday: { read: 0, unread: 0, total: 0, chartData: [0, 0], active: true },
-              overDue: { read: 0, unread: 0, total: 0, chartData: [0, 0], active: false },
+              dueToday: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: true },
+              overDue: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: false },
               active: false
             },
             selectedType: 'dueToday', selectedWorkitemType: 'inbox'
@@ -190,25 +188,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.currentUser.roles.map((role, index) => {
             this.dashboardStatistics[role.id] = {
               today: {
-                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: true },
-                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: false },
-                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: false },
+                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: true },
+                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
+                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
                 selectedType: 'all'
               },
               total: {
-                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: true },
-                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: false },
-                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: false },
+                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: true },
+                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
+                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
                 selectedType: 'all'
               },
               deadline: {
                 inbox: {
-                  dueToday: { read: 0, unread: 0, total: 0, chartData: [0, 0], active: true },
-                  overDue: { read: 0, unread: 0, total: 0, chartData: [0, 0], active: false },
+                  dueToday: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: true },
+                  overDue: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: false },
                   active: true
                 }, sent: {
-                  dueToday: { read: 0, unread: 0, total: 0, chartData: [0, 0], active: true },
-                  overDue: { read: 0, unread: 0, total: 0, chartData: [0, 0], active: false },
+                  dueToday: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: true },
+                  overDue: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: false },
                   active: false
                 },
                 selectedType: 'dueToday', selectedWorkitemType: 'inbox'
@@ -220,25 +218,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.currentUser.delegated.map((del, index) => {
             this.dashboardStatistics[del.userId] = {
               today: {
-                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: true },
-                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: false },
-                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: false },
+                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: true },
+                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
+                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
                 selectedType: 'all'
               },
               total: {
-                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: true },
-                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: false },
-                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [0, 0, 0], active: false },
+                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: true },
+                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
+                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
                 selectedType: 'all'
               },
               deadline: {
                 inbox: {
-                  dueToday: { read: 0, unread: 0, total: 0, chartData: [0, 0], active: true },
-                  overDue: { read: 0, unread: 0, total: 0, chartData: [0, 0], active: false },
+                  dueToday: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: true },
+                  overDue: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: false },
                   active: true
                 }, sent: {
-                  dueToday: { read: 0, unread: 0, total: 0, chartData: [0, 0], active: true },
-                  overDue: { read: 0, unread: 0, total: 0, chartData: [0, 0], active: false },
+                  dueToday: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: true },
+                  overDue: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: false },
                   active: false
                 },
                 selectedType: 'dueToday', selectedWorkitemType: 'inbox'
@@ -253,8 +251,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         } else {
          this.getUserStat(this.currentUser.EmpNo);
         }
-        // this.selectedTabIndex = 0;
-        // this.getUserStat(this.currentUser.EmpNo);
         this.ns.getNews(this.currentUser.EmpNo).subscribe(res => {
           this.newsItems = res;
         });
@@ -288,7 +284,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else if (this.currentUser.roles) {
       if (this.currentUser.roles.length > 0) {
         for (let i = 0; i < this.currentUser.roles.length; i++) {
-          console.log(this.currentUser.roles[i].id == selectedTab);
           if (this.currentUser.roles[i].id == selectedTab) {
             this.selectedTabIndex = i + 1
             break;
@@ -296,8 +291,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           if (i == this.currentUser.roles.length - 1) {
             if (this.currentUser.delegated && this.currentUser.delegated.length > 0) {
               for (let j = 0; j < this.currentUser.delegated.length; j++) {
-                console.log(this.currentUser.delegated[j].id == selectedTab);
-
                 if (this.currentUser.delegated[j].id == selectedTab) {
                   this.selectedTabIndex = (this.currentUser.roles.length + 1) + j;
                 }
@@ -310,8 +303,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else {
         if (this.currentUser.delegated && this.currentUser.delegated.length > 0) {
           for (let j = 0; j < this.currentUser.delegated.length; j++) {
-            console.log(this.currentUser.delegated[j].id == selectedTab);
-
             if (this.currentUser.delegated[j].id == selectedTab) {
               this.selectedTabIndex = (this.currentUser.roles.length + 1) + j;
             }
@@ -333,7 +324,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (this.userSetting[i].val == '' && this.user.roles.length > 0) {
           this.selectedTabIndex =  1;
         } else if(this.userSetting[i].val != ''){
-          console.log(this.userSetting[i].val)
           this.activateSelectedTab(Number(this.userSetting[i].val))
         } else if (this.user) {
           this.selectedTabIndex = 0
@@ -392,6 +382,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   changeActiveView(type?: any, id?, view?, selectedWorkitemType?) {
+    // console.log(type, id, view, selectedWorkitemType,"type, id, view, selectedWorkitemType");
+    
     if (type === 'dueToday' || type === 'overDue') {
       this.changeDeadlineToInactiveView(id, view);
     } else {
@@ -432,6 +424,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   changeActiveWorkitemView(type: any, id) {
+    // console.log(type,id,"type,id");
+    // console.log(this.dashboardStatistics[this.currentUser.EmpNo].deadline[this.dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].overDue.chartData);
+    // console.log(this.dashboardStatistics[this.currentUser.EmpNo].deadline[this.dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].dueToday.active);
+    
+    
+    
     this.dashboardStatistics[id].deadline.inbox.active = false;
     this.dashboardStatistics[id].deadline.sent.active = false;
     switch (type) {
@@ -444,16 +442,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSelect(event?: any, userType?: any, userName?: any, id?: any, day?: any, WIType?: any, dueWorkitemTypes?) {
+  onSelect(event?: any, userType?: any, userName?: any, id?: any, day?: any, WIType?: any, dueWorkitemTypes?,type?) {
+    // console.log(event);
+    
+    
     let label;
-    if (event.active.length > 0) {
-      const chart = event.active[0]._chart;
-      const activePoints = chart.getElementAtEvent(event.event);
-      if (activePoints.length > 0) {
-        const clickedElementIndex = activePoints[0]._index;
-        label = chart.data.labels[clickedElementIndex];
-        console.log(label)
-      }
+    if (event.active && event.active.length > 0&&type=='Due') {
+      const chartElement = event.active[0];
+      label = this.dueChartLabels[chartElement.index];
+      console.log(`Selected Label: ${label}`);
+    }else{
+      const chartElement = event.active[0];
+      label = this.chartLabels[chartElement.index];
+      console.log(`Selected Label: ${label}`);
     }
     if (WIType !== undefined && userType !== undefined
       && userName !== undefined && id !== undefined
@@ -489,12 +490,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getUserStat(id) {
     this.getWorkitemStatistics(id, 'USER', 'today');
     this.getWorkitemStatistics(id, 'USER', 'total');
-    /*this.getWorkitemStatistics(id, 'USER', 'today', 'all');
-    this.getWorkitemStatistics(id, 'USER', 'today', 'to');
-    this.getWorkitemStatistics(id, 'USER', 'today', 'cc');
-    this.getWorkitemStatistics(id, 'USER', 'total', 'all');
-    this.getWorkitemStatistics(id, 'USER', 'total', 'to');
-    this.getWorkitemStatistics(id, 'USER', 'total', 'cc');*/
     this.getWorkitemDeadlineStatistics(id, 'USER', 'inbox', 'overDue');
     this.getWorkitemDeadlineStatistics(id, 'USER', 'inbox', 'dueToday');
     this.getWorkitemDeadlineStatistics(id, 'USER', 'sent', 'overDue');
@@ -504,12 +499,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getDelegateStat(id) {
     this.getWorkitemStatistics(id, 'USER', 'today');
     this.getWorkitemStatistics(id, 'USER', 'total');
-    /*this.getWorkitemStatistics(id, 'USER', 'today', 'all');
-    this.getWorkitemStatistics(id, 'USER', 'today', 'to');
-    this.getWorkitemStatistics(id, 'USER', 'today', 'cc');
-    this.getWorkitemStatistics(id, 'USER', 'total', 'all');
-    this.getWorkitemStatistics(id, 'USER', 'total', 'to');
-    this.getWorkitemStatistics(id, 'USER', 'total', 'cc');*/
     this.getWorkitemDeadlineStatistics(id, 'USER', 'inbox', 'overDue');
     this.getWorkitemDeadlineStatistics(id, 'USER', 'inbox', 'dueToday');
     this.getWorkitemDeadlineStatistics(id, 'USER', 'sent', 'overDue');
@@ -519,12 +508,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getRoleStat(id) {
     this.getWorkitemStatistics(id, 'ROLE', 'today');
     this.getWorkitemStatistics(id, 'ROLE', 'total');
-    /*this.getWorkitemStatistics(id, 'ROLE', 'today', 'all');
-    this.getWorkitemStatistics(id, 'ROLE', 'today', 'to');
-    this.getWorkitemStatistics(id, 'ROLE', 'today', 'cc');
-    this.getWorkitemStatistics(id, 'ROLE', 'total', 'all');
-    this.getWorkitemStatistics(id, 'ROLE', 'total', 'to');
-    this.getWorkitemStatistics(id, 'ROLE', 'total', 'cc');*/
     this.getWorkitemDeadlineStatistics(id, 'ROLE', 'inbox', 'overDue');
     this.getWorkitemDeadlineStatistics(id, 'ROLE', 'inbox', 'dueToday');
     this.getWorkitemDeadlineStatistics(id, 'ROLE', 'sent', 'overDue');
@@ -537,60 +520,63 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.workflowService.getWorkitemStats(id, userType, view.toUpperCase(), '', 'inbox').subscribe(data => {
       this.busy = false;
       data.map((stat, i) => {
-        this.dashboardStatistics[id][view][itemTypeList[i]].chartData = [];
+        this.dashboardStatistics[id][view][itemTypeList[i]].chartData[0].data = [];
         this.dashboardStatistics[id][view][itemTypeList[i]].unread = stat.unread;
         this.dashboardStatistics[id][view][itemTypeList[i]].actioned = stat.reply;
         this.dashboardStatistics[id][view][itemTypeList[i]].read = stat.read;
         this.dashboardStatistics[id][view][itemTypeList[i]].total = stat.total;
-        // this.dashboardStatistics[id][view][itemTypeList[i]].chartData = [stat.read, stat.reply];
         if (stat.read > 0) {
-          this.dashboardStatistics[id][view][itemTypeList[i]].chartData.push(stat.read);
+          this.dashboardStatistics[id][view][itemTypeList[i]].chartData[0].data.push(stat.read);
         } else {
-          this.dashboardStatistics[id][view][itemTypeList[i]].chartData.push('');
+          this.dashboardStatistics[id][view][itemTypeList[i]].chartData[0].data.push('');
         }
         if (stat.reply > 0 || stat.forward > 0) {
           let actioned = stat.reply + stat.forward;
-          this.dashboardStatistics[id][view][itemTypeList[i]].chartData.push(actioned);
+          this.dashboardStatistics[id][view][itemTypeList[i]].chartData[0].data.push(actioned);
         } else {
-          this.dashboardStatistics[id][view][itemTypeList[i]].chartData.push('');
+          this.dashboardStatistics[id][view][itemTypeList[i]].chartData[0].data.push('');
         }
         if (stat.unread > 0) {
-          this.dashboardStatistics[id][view][itemTypeList[i]].chartData.push(stat.unread);
+          this.dashboardStatistics[id][view][itemTypeList[i]].chartData[0].data.push(stat.unread);
         } else {
-          this.dashboardStatistics[id][view][itemTypeList[i]].chartData.push('');
+          this.dashboardStatistics[id][view][itemTypeList[i]].chartData[0].data.push('');
         }
       });
+      
     }, Error => {
       this.busy = false;
     });
   }
 
   getWorkitemDeadlineStatistics(id, userType, workitemType, itemType) {
+    // console.log(id, userType, workitemType, itemType);
+    
     this.busy = true;
     this.workflowService.getWorkitemStats(id, userType, 'DEADLINE', itemType, workitemType).subscribe(data => {
+      // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",data[0].read);
+      
       this.busy = false;
       if (data && data[0]) {
-        this.dashboardStatistics[id].deadline[workitemType][itemType].chartData = [];
+        this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data = [];
         this.dashboardStatistics[id].deadline[workitemType][itemType].read = data[0].read;
         this.dashboardStatistics[id].deadline[workitemType][itemType].unread = data[0].unread;
         this.dashboardStatistics[id].deadline[workitemType][itemType].total = data[0].total;
-        
-        
-        // this.dashboardStatistics[id].deadline[workitemType][itemType].chartData = [data[0].read, data[0].unread];
         if (data[0].read > 0) {
-          this.dashboardStatistics[id].deadline[workitemType][itemType].chartData.push(data[0].read);
+          if (workitemType=='inbox') {
+            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data.push(data[0].read);
+            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[1].data.push(0);
+          }else{
+            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data.push(data[0].read);
+          }
         } else {
           this.dashboardStatistics[id].deadline[workitemType][itemType].chartData.push('');
         }
         if (data[0].unread > 0) {
-          this.dashboardStatistics[id].deadline[workitemType][itemType].chartData.push(data[0].unread);
+          this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data.push(data[0].unread);
         } else {
           this.dashboardStatistics[id].deadline[workitemType][itemType].chartData.push('');
-        }
-        // this.dashboardStatistics[this.currentUser?.EmpNo].total.all.chartData
-        console.log(this.dashboardStatistics[this.currentUser?.EmpNo].total);
-        console.log(this.pieChartDatasets);
-        // this.pieChartDatasets.data =  this.dashboardStatistics[this.currentUser?.EmpNo].total.all.chartData
+        }        
+        // console.log(this.dashboardStatistics);
         
       }
     }, Error => {

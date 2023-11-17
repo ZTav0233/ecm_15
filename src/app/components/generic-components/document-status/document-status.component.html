@@ -1,0 +1,43 @@
+<div class="dashboard">
+  <div class="ui-g-12 chat p-0">
+    <ul class="chat-messages">
+       <ng-container *ngIf="workitemProgress && workitemProgress.length>0">
+        <ng-container *ngFor="let item of workitemProgress">
+          <li class="message-from" *ngIf="!item.from">
+            <p class="m-0">{{item.createdBy}}, {{item.createdDate | date:'dd-MMM-yyyy hh:mm a'}}</p>
+            <span class="message">{{item.message}}</span>
+          </li>
+          <li class="message-own" *ngIf="item.from">
+            <p class="m-0 w-100 text-align-right">{{item.createdBy}}, {{item.createdDate | date:'dd-MMM-yyyy hh:mm a'}}</p>
+            <span class="pull-right text-align-right">
+              <span class="message text-align-left">{{item.message}}</span>
+                <button pButton type="button" icon="ui-icon-close" class="remove-btn v-m m-l-sm" (click)="removeProgress(item.id)"></button>
+            </span>
+          </li>
+        </ng-container>
+       </ng-container>
+      <ng-container *ngIf="workitemProgress && workitemProgress.length===0">
+         <li class="message-from">
+            <span class="message">No Progress Added</span>
+         </li>
+      </ng-container>
+    </ul>
+    <form (submit)="addProgress()" #addForm="ngForm" *ngIf="addFormVisible">
+      <div class="ui-g">
+        <div class="ui-g-12 p-l-lg p-r-lg p-b-lg">
+          <textarea [rows]="4" maxlength="200" pInputTextarea [autoResize]="false" placeholder=" Enter Comment "
+              required [(ngModel)]="progressObj.message" name="comment"
+              class="p-0 text-area-resize-none bordered"></textarea>
+          <span *ngIf="!progressObj.message">200 Remaining</span>
+          <span *ngIf="progressObj.message">{{200-progressObj.message.length}} Remaining</span>
+        </div>
+      </div>
+      <button pButton type="submit" label="Submit " class="remove-btn v-m m-l-lg m-b-lg"
+              [disabled]="!addForm.valid"></button>
+      <button pButton type="button" label="Cancel" class="remove-btn v-m m-l-lg m-b-lg"
+              (click)="closeAddForm()"></button>
+    </form>
+    <button pButton type="button" label="Add" (click)="addFormVisible=true" *ngIf="!addFormVisible && showAddBtn"
+            class="remove-btn v-m m-l-lg m-b-lg"></button>
+  </div>
+</div>

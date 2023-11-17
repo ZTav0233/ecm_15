@@ -1,0 +1,145 @@
+
+<p-accordion>
+    <p-accordionTab header="From (Role)" [selected]="from" [disabled]="true">
+          <table class="table">
+            <thead bgcolor="#72A0C1" class="thead-light">
+              <tr>
+                <th scope="col">Selected Recipients</th>
+                <th scope="col" style="text-align:end">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let field of restitemList">
+                <th scope="row">{{field.fulName}}</th>
+                <td style="text-align:end;color:red"><select>
+                    <option class="option" value="Initial">Initial</option>
+                    <option class="option" value="Signature">Signature</option>
+                    <option class="option" value="Signature">Comments</option>
+                    <option class="option" value="Signature"></option>
+                 </select></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <textarea class="w-100"
+          placeholder=""
+          [(ngModel)]="role"
+          [maxlength]="maxChars">
+        </textarea>
+        <br/>
+        <br>
+        <label class="nopadding clrlbl"> Characters Remaining: {{role.length}}/{{maxChars}}</label>
+        <!-- <label class="nopadding clrlbl"> {{role.length}} Characters Remaining</label> -->
+    </p-accordionTab>
+    <p-accordionTab header="Reviewer" [selected]="rev" [disabled]="true">
+      <table class="table">
+        <thead bgcolor="#72A0C1" class="thead-light">
+          <tr>
+            <th scope="col">Selected Recipients</th>
+            <th scope="col" style="text-align:end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let field of revItemList">
+            <th scope="row">{{field.fulName}}</th>
+            <td style="text-align:end;color:red"><select>
+                <option class="option" value="Initial">Initial</option>
+                <option class="option" value="Signature">Signature</option>
+                <option class="option" value="Signature">Comments</option>
+                <option class="option" value="Signature"></option>
+             </select></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <textarea class="w-100"
+      placeholder=""
+      [(ngModel)]="role"
+      [maxlength]="maxChars">
+    </textarea>
+    <br/>
+    <br>
+    <label class="nopadding clrlbl"> Characters Remaining: {{role.length}}/{{maxChars}}</label>
+    </p-accordionTab>
+    <p-accordionTab header="Through" [selected]="through" [disabled]="true">
+      <table class="table">
+        <thead bgcolor="#72A0C1" class="thead-light">
+          <tr>
+            <th scope="col">Selected Recipients</th>
+            <th scope="col" style="text-align:end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let field of thruItemList">
+            <th scope="row">{{field.fulName}}</th>
+            <td style="text-align:end;color:red"><select>
+                <option class="option" value="Initial">Initial</option>
+                <option class="option" value="Signature">Signature</option>
+                <option class="option" value="Signature">Comments</option>
+                <option class="option" value="Signature"></option>
+             </select></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <textarea class="w-100"
+      placeholder=""
+      [(ngModel)]="role"
+      [maxlength]="maxChars">
+    </textarea>
+    <br/>
+    <br>
+    <label class="nopadding clrlbl"> Characters Remaining: {{role.length}}/{{maxChars}}</label>
+    </p-accordionTab>
+    <p-accordionTab header="To (Role)" [selected]="to" [disabled]="true">
+      <table class="table">
+        <thead bgcolor="#72A0C1" class="thead-light">
+          <tr>
+            <th scope="col">Selected Recipients</th>
+            <th scope="col" style="text-align:end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let field of toItemList">
+            <th scope="row">{{field.fulName}}</th>
+            <td style="text-align:end;color:red"><select>
+                <option class="option" value="Initial">Initial</option>
+                <option class="option" value="Signature">Signature</option>
+                <option class="option" value="Signature">Comments</option>
+                <option class="option" value="Signature"></option>
+             </select></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <textarea class="w-100"
+      placeholder=""
+      [(ngModel)]="role"
+      [maxlength]="maxChars">
+    </textarea>
+    <br/>
+    <br>
+    <label class="nopadding clrlbl"> Characters Remaining: {{role.length}}/{{maxChars}}</label>
+    </p-accordionTab>
+    <p-accordionTab header="CC" [selected]="cc" [disabled]="true">
+        <table class="table">
+            <thead bgcolor="#72A0C1" class="thead-light">
+              <tr>
+                <th scope="col">Selected Recipients</th>
+                <th scope="col" style="text-align:end">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td style="text-align:end;color:red"><select>
+                    <option class="option" value="Initial">Initial</option>
+                    <option class="option" value="Signature">Signature</option>
+                    <option class="option" value="Signature">Comments</option>
+                    <option class="option" value="Signature"></option>
+                 </select></td>
+              </tr>
+            </tbody>
+          </table>
+    </p-accordionTab>
+</p-accordion>
