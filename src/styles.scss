@@ -46,4 +46,22 @@
         text-decoration: none;
     }
 }
+.treeHeight .p-tree.p-component{
+    height: 100%;
+  }
 
+  .aside-panel{
+    width: 300px;
+    height: 100vh;
+    padding: 0;
+    background: #455A64;
+    position: fixed;
+    display: flex;
+    align-items: stretch;
+    max-width: 50%;
+    z-index: 2;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+  }

@@ -1,0 +1,15 @@
+.boldTitle {
+  font-weight: 500;
+}
+
+.card-w-title-no-margin-top {
+  margin-top: 0px;
+}
+
+input {
+  width: 100%;
+}
+
+.ui-input-fullwidth {
+  width: 100%;
+}

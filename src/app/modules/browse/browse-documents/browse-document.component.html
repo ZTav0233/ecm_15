@@ -1,0 +1,74 @@
+<!-- <vertical-split-pane primary-component-minsize="300" secondary-component-minsize="1080" local-storage-key="split-pane"
+  primary-component-initialratio="0.2"> -->
+  <div style="display: flex;">
+    <div style="width: 20%; height: auto;">
+        <tree [folderPermission]="folderPermission"></tree>
+    </div>
+    <div style="width: 80%; height: auto;">
+      <div >
+        <div class="ui-g-12 ui-md-12 p-0 p-l-sm p-r-sm with-tree">
+          <div class="ui-g-12 ui-md-2 p-t-0">
+            <button pButton type="button" [disabled]="folderPath==='/ECMRootFolder/Public Folders/'" label="Add Document"
+              (click)="addDocTrigger();" class="pull-left"></button>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <span class="folder-path p-b-md">{{folderPath}}</span>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <div class="ui-inputgroup">
+              <input id="filterFol" type="text"  pInputText placeholder="Filter"  (keyup.enter)="updateSearchInDatatable()" (keyup)="filterTextChanged($event)">
+              <button pButton type="button" icon="ui-icon-search" title="Search documents in folder" (click)="updateSearchInDatatable()" class="remove-btn v-m"></button>
+              <button pButton type="button" icon="ui-icon-clear" title="Clear selection" (click)="clearFilterText()" class="remove-btn v-m"></button>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-1 p-t-0 p-r-0">
+            <button pButton type="button" label="Export" (click)="exportToExcel();" class="pull-right"
+              [disabled]="!gridItemsToExport || gridItemsToExport.length==0"></button>
+          </div>
+          <div *ngIf="documentFolders" class="ui-g-12 p-r-0 p-t-0">
+            <data-table [showCount]="true" [totalCount]="documentFolders.length" [emptyMessage]="emptyMessage"
+              (sendData)="getData($event,sideMenu);" (refreshScreen)="refreshTable();" [tableData]="documentFolders"
+              [showDownloadIcon]="false" [activePage]="'browse'" [showAddCartIcon]="false" [showInfoIcon]="true"
+              [colHeaders]="colHeaders" [totalRecords]="documentFolders?documentFolders.length:0"
+              [itemsPerPage]="itemsPerPage" [selectedRows]="selectedItem"
+              (filteredGridItemsToExport)="getFilteredItems($event)">
+            </data-table>
+            <div [ngClass]="{'hidden':!selectedItem || selectedItem.length===0}">
+              <!-- <aside-menu #sidemenu side="right" width="300px" isBackdrop="false" sideMode="slide">
+                <app-rightpanel (sendFolders)="getBrowseUpdated($event);" [currentScreen]="screen"
+                  (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>
+              </aside-menu> -->
+              <div #sidemenu class="aside-panel">
+                <app-rightpanel (sendFolders)="getBrowseUpdated($event);" [currentScreen]="screen"
+                (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>
+              </div>
+              <!-- <ngx-aside #sidemenu [showDefaultFooter]="false" [showDefaultHeader]="false" [showOverlay]="false">
+                <app-rightpanel (sendFolders)="getBrowseUpdated($event);" [currentScreen]="screen"
+                  (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>
+              </ngx-aside> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+<!-- </vertical-split-pane> -->
+<div *ngIf="openDocVisible">
+  <p-dialog [(visible)]="openDocVisible" [modal]="true" [style]="{ width: '1000px' }" refreshScreen="fade" [resizable]="false">
+    <p-header>
+      Add Document
+    </p-header>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="ui-tabview-panel add-doc-container">
+          <app-add-document (onCancel)="openDocVisible=false;" [assignedPath]="assignedPath" [assignedId]="assignedId"
+            (onAddSuccess)="onDocumentAdded()" [screen]="'BrowseModel'"></app-add-document>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
+</div>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

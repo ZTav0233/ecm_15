@@ -239,7 +239,9 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   
 
   ngOnInit() {
-    // console.log(this.activePage);
+    console.log(this.activePage);
+    console.log(this.showInfoIcon);
+    
     
     this.cols=this.colHeaders
     

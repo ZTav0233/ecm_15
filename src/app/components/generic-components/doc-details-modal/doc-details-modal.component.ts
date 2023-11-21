@@ -158,6 +158,8 @@ export class DocDetailsModalComponent implements OnInit, OnDestroy {
         this.busy = false;
       });
     }
+    console.log(this.selectedVersion);
+    
   }
 
   showPrivilages(data) {

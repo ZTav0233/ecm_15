@@ -273,23 +273,18 @@ export class DocumentService {
   }
  
   downloadThisDoc(id: any): any {
-
+    console.log("downloadThisDoc");
+    
+    // const url = `${global.base_url}DocumentService/downloadThisDocument?id=${id}`;
+    // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    // const options = {
+    //   responseType: 'blob' as 'blob', // Set responseType to 'blob' explicitly
+    //   headers,
+    // };
+    // return this.http.get(url, options);
+    let options = new HttpHeaders();
     const url = `${global.base_url}DocumentService/downloadThisDocument?id=${id}`;
-
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-    const options = {
-
-      responseType: 'blob' as 'blob', // Set responseType to 'blob' explicitly
-
-      headers,
-
-    };
-
-
-
-    return this.http.get(url, options);
-
+    return this.http.post(url, options);
   }
  
   downloadThisDocument(id: any): any {

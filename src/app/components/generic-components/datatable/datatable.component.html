@@ -309,7 +309,7 @@
     </ng-template>
     <ng-template pTemplate="header" let-columns>
       <tr>
-        <th style="width: 5%" *ngIf="activePage!='draft'">
+        <th style="width: 5%">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
         <th *ngIf="activePage==='inbox' && !reportPage" style="width: 5rem"></th>
@@ -317,23 +317,24 @@
         <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="flag" style="width: 20%">
           Flag <p-sortIcon field="flag"></p-sortIcon>
         </th>
-        <th pSortableColumn="subject" style="width: 20%">
+        <th *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" pSortableColumn="subject" style="width: 20%">
           Subject <p-sortIcon field="subject"></p-sortIcon>
+        </th>
+        <th *ngIf="showInfoIcon" pSortableColumn="name" style="width: 20%">
+          Title <p-sortIcon field="name"></p-sortIcon>
         </th>
         <th *ngFor="let col of columns" [pSortableColumn]="col.header" style="width: 20%">
           {{col.header}} <p-sortIcon [field]="col.header"></p-sortIcon>
         </th>
         <th *ngIf="activePage==='sent'" style="width: 20%">
         </th>
-        <th *ngIf="showProgressBtn && activePage==='inbox'" style="width: 20%">
-        </th>
-        <th *ngIf="activePage==='draft'" style="width: 20%">
-        </th>
+        <th *ngIf="showProgressBtn && activePage==='inbox'" style="width: 20%"></th>
+        <th *ngIf="showInfoIcon" style="width: 20%"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
       <tr [pSelectableRow]="product" [pSelectableRowIndex]="rowIndex">
-        <td *ngIf="activePage!='draft'">
+        <td>
           <p-tableCheckbox [value]="product"></p-tableCheckbox>
         </td>
         <td *ngIf="activePage==='inbox' && !reportPage">
@@ -357,7 +358,8 @@
                   [src]="product.isFlag ? 'assets/images/icons/flag.png' : 'assets/images/icons/unflag.png'"
                   class="flag-img-dim">
       </td>
-        <td (click)="goToTaskDetails($event,'hyperlink',product)">{{ product.subject }}</td>
+        <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" (click)="goToTaskDetails($event,'hyperlink',product)">{{ product.subject }}</td>
+        <td *ngIf="showInfoIcon"> {{ product.name }}</td>
         <td *ngFor="let col of columns">{{ product[col.field] }}</td>
         <td *ngIf="activePage==='sent'">
           <button pButton type="button" icon="ui-icon-timeline" title="Track Preview"
@@ -367,13 +369,10 @@
           <button pButton type="button" icon="{{product.hasProgress ? 'ui-icon-hourglass-full' : 'ui-icon-hourglass-empty'}}"
           title="Work Progress" (click)="mToggleProgressDialogue(product.workitemId)" class="remove-btn v-m"></button>
         </td>
-        <td *ngIf="activePage==='draft'">
-            <button *ngIf="activePage==='draft'" pButton type="button" icon="ui-icon-remove-red-eye" title="View" (click)="viewDraftItem(product)"
-              class="remove-btn v-m"></button>
-            <button pButton type="button" *ngIf="activePage === 'draft'" icon="ui-icon-remove" title="Remove"
-              (click)="removeDraft(product)" class="remove-btn v-m"></button>
-            <button *ngIf="showProgressBtn" pButton type="button" icon="{{product.hasProgress ? 'ui-icon-hourglass-full' : 'ui-icon-hourglass-empty'}}"
-              title="Work Progress" (click)="mToggleProgressDialogue(product.workitemId)" class="remove-btn v-m"></button>
+        <td *ngIf="showInfoIcon">
+          <button pButton type="button" *ngIf="showInfoIcon" icon="ui-icon-info-outline" title="Info"
+            (click)="openDocInfo(product);displayinfo=true;" class="remove-btn v-m"
+            [disabled]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch') && product.isDeleted"></button>
         </td>
       </tr>
     </ng-template>

@@ -1,0 +1,14 @@
+<div *ngIf="editAttachment">
+  <app-update-document [docEditPropForm]="docEditPropForm" [docTemplateDetails]="docTemplateDetails"
+    [entryTemp]="entryTemp" [fileselected]="fileselected" [fileUploaded]="fileselected"
+    (fileChanged)="fileChanged($event)"></app-update-document>
+  <div class="progress-bar">
+    <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+  </div>
+  <div class="ui-g-12 ui-md-12">
+    <button pButton class="pull-right" type="button" label="Save"
+      [disabled]="!(docEditPropForm.valid && (docEditPropForm.dirty || fileselected || !isFileSizeCorrect))"
+      (click)="fileselected ? updatedDocument(): updateProperty()"></button>
+    <button pButton class="pull-right" type="submit" label="Cancel" (click)="cancel()"></button>
+  </div>
+</div>

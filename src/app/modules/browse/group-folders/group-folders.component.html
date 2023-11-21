@@ -1,0 +1,29 @@
+<div class="ui-g-12 ui-md-2 p-0 file-tree">
+  <div class="file-tree">
+    <p-tree [contextMenu]="cm" [value]="folderList" [loading]="loading"
+      (onNodeContextMenuSelect)="onContextMenu($event)" selectionMode="single" [(selection)]="selectedFolder"
+      (onNodeExpand)="nodeExpand($event)" (onNodeSelect)="nodeSelect($event)"></p-tree>
+    <!--<p-contextMenu #cm [model]="cmItems"></p-contextMenu>-->
+    <div *ngIf="!favFolders" class="no-favourites-text folder-path">
+      <i class="material-icons m-l-xxxl font-lg">error_outline</i><br><br><span class="font-sm"> No Group Folders</span>
+    </div>
+  </div>
+</div>
+<div class="ui-g-10 ui-md-10 ui-sm-12 p-0 p-b-md p-r-sm p-l-md ui-md-10">
+  <span>{{folderPath}}</span>
+</div>
+<div class="ui-g-10 ui-sm-12 p-0 p-r-sm p-l-md ui-md-10">
+  <data-table (sendData)="getData($event,sidemenu);" (refreshScreen)="refreshTable($event);"
+    [emptyMessage]="emptyMessage" [showDownloadIcon]="false" [showAddCartIcon]="false" [tableData]="documentFolders"
+    [showInfoIcon]="true" [colHeaders]="colHeaders" [itemsPerPage]="itemsPerPage" [selectedRows]="selectedItem">
+  </data-table>
+</div>
+<div [ngClass]="{'hidden':!selectedItem || selectedItem.length===0}">
+  <ngx-aside #sidemenu [showDefaultFooter]="false" [showDefaultHeader]="false" [showOverlay]="false">
+    <app-rightpanel (sendFolders)="getBrowseUpdated($event);" [currentScreen]="screen"
+      (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>
+  </ngx-aside>
+</div>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>
