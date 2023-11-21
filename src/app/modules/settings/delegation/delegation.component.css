@@ -1,0 +1,44 @@
+.userResultsBox > ul {
+  list-style: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 8px;
+}
+
+.userResultsBox > ul > li {
+  cursor: pointer;
+  padding: 5px;
+  background-color: #fff;
+  border: 1px solid #afafaf;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  font-size: 16px;
+  transition: 0.2s all ease-in-out;
+}
+
+.recipients {
+  overflow-y: auto;
+  max-height: 50px;
+  background: #f3f3f3;
+  padding: 10px 15px;
+  border-top: 1px solid #bbb;
+  box-shadow: inset 0 0 3px 0 rgba(170, 170, 170, 0.52);
+  border-radius: 3px;
+  min-height: 48px;
+  padding-bottom: 0;
+  margin-bottom: 15px;
+  min-height: 40px;
+  min-width: 40%;
+}
+
+.recipients > .selectedUsers {
+  padding: 3px 6px;
+  font-size: 14px;
+  border-radius: 4px;
+  margin-right: 5px;
+  display: inline-block;
+  margin-bottom: 0px;
+}
+.caption-container {
+  text-align: center;
+}

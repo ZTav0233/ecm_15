@@ -1,0 +1,273 @@
+<div class="ui-g">
+  <div class="ui-g-6 ui-md-6">
+    <div class="ui-g-12 ui-md-12 p-0">
+      <div class="ui-g form-group">
+        <div class="ui-g-12 ui-md-3">
+          <label>Selected User:</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-autoComplete [(ngModel)]="userSelected" [multiple]="true" field="fulName" name="fulName"
+            (onUnselect)="unSelected($event)" styleClass="readonly" [disabled]="true"></p-autoComplete>
+        </div>
+      </div>
+      <div class="ui-g form-group">
+        <div class="ui-g-12 ui-md-3">
+          <label>Date Range:</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <p-checkbox id="checkbox" [binary]="true" (onChange)="checkChange($event)" label="Unlimited"
+            [(ngModel)]="isUnlimited"></p-checkbox>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <p-calendar [readonlyInput]="true" id="From" dateFormat="dd-mm-yy" [minDate]="today" [disabled]="fromDate && fromDate<today"
+            (onSelect)="changeFrom($event)" [showIcon]="true" [(ngModel)]="fromDate" placeholder="Active From"
+            [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showButtonBar]="true"
+            (onClearClick)="clearFromDate()" [maxDate]="maxFromDate"></p-calendar>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <p-calendar [readonlyInput]="true" id="To" dateFormat="dd-mm-yy" [minDate]="minTo"
+            [disabled]="isUnlimited || !isFromDateSelected" (onSelect)="changeTo($event)" [showIcon]="true"
+            [(ngModel)]="toDate" placeholder="Expire On" [monthNavigator]="true" [yearNavigator]="true"
+            yearRange="1900:2030" [showButtonBar]="true" (onClearClick)="clearExpireDate()"></p-calendar>
+        </div>
+      </div>
+      <div *ngIf="user.roles.length>0" class="ui-g form-group">
+        <div class="ui-g-12 ui-md-3">
+          <label for="role">Select Role to Delegate</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="role" [options]="roles" [disabled]="editEnabled"
+            [(ngModel)]="selectedRole" name="role" (onChange)="onSelectionChange($event)">
+          </p-dropdown>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <i *ngIf="isCurrentRoleInactive" title="The selected role is inactive"
+            class="material-icons deadline-red ">flash_off</i>
+        </div>
+      </div>
+      <div class="ui-md-11">
+        <div *ngIf="user.roles.length>0" class="right-button">
+          <button *ngIf="!editEnabled" pButton type="button"
+            (click)="addDelegationRole()" label="Add Delegation" class="blue-btn"></button>
+          <button *ngIf="editEnabled" pButton type="button" (click)="addDelegationRole()" label="Save Delegation"
+            class="blue-btn"></button>
+        </div>
+        <div *ngIf="user.roles.length===0" class="right-button">
+          <button *ngIf="!editEnabled" pButton type="button" (click)="addDelegationUser()" label="Add Delegation"
+            class="blue-btn"></button>
+          <button *ngIf="editEnabled" pButton type="button" (click)="addDelegationUser()" label="Save Delegation"
+            class="blue-btn"></button>
+        </div>
+        <button *ngIf="editEnabled" pButton type="button" (click)="cancel()" label="Cancel"
+          class="left-button m-r-md"></button>
+      </div>
+    </div>
+    <div *ngIf="user.roles.length>0" class="ui-g-12 ui-md-12 ui-sm-12 p-t-md">
+      <!-- <p-dataTable #dt selectionMode="single" [emptyMessage]="emptyMessage" [value]="delegatedRoles" (onRowClick)="showRoleMembers($event.data);dt.toggleRow($event.data)"
+        [(selection)]="selectedRows" (onRowExpand)="showRoleMembers($event.data);" [rowExpandMode]="'single'"
+        [expandableRows]="true" [expandedRows]="expandedItems" [expandedIcon]="'fa fa-fw ui-icon-people-outline'" [collapsedIcon]="'fa fa-fw ui-icon-people-outline'">
+        <p-header>
+          Delegated Users
+        </p-header>
+        <p-column  [expander]="true" styleClass="col-icon" [style]="{'width':'44px'}"
+          (onRowClick)="dt.toggleRow($event.data)"></p-column>
+        <p-column field="roleName" header="Role Name"></p-column> -->
+        <!-- row expansion -->
+        <!-- <ng-template let-table pTemplate="rowexpansion">
+          <div class="ui-grid ui-grid-responsive ui-fluid">
+            <div class="ui-grid-row">
+              <table *ngIf="table.members" id="rolemembers" class="ecm-table">
+                <thead>
+                  <th class="text-align-left">#</th>
+                  <th class="text-align-left">Role Members</th>
+                  <th class="text-align-left">Active From</th>
+                  <th class="text-align-left">Expire On</th>
+                  <th class="text-align-left"></th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let member of table.members; let i=index;let isEven=even" [class.even]="isEven">
+                    <td>{{i+1}}</td>
+                    <td>{{member.name}}</td>
+                    <td>{{member.fromDate}}</td>
+                    <td>{{member.toDate}}</td>
+                    <td>
+                      <button pButton type="button" icon="ui-icon-edit" title="Edit" class="remove-btn"
+                        (click)="editDelegationRole(member,true)" [disabled]="member.empNo===user.EmpNo"></button>
+                      <button pButton type="button" icon="ui-icon-clear" title="Remove"
+                        [disabled]="member.empNo===user.EmpNo" class="remove-btn" (click)="confirm(member)"></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </ng-template>
+      </p-dataTable> -->
+    </div>
+    <div *ngIf="user.roles.length===0" class="ui-g-12 ui-md-12 ui-sm-12 p-t-md">
+      <!-- <p-dataTable selectionMode="single" [emptyMessage]="emptyMessage" [value]="delegatedUsers">
+        <p-header>
+          Delegated Users
+        </p-header>
+        <p-column *ngFor="let col of colHeaderUsers" [field]="col.field" [header]="col.header"></p-column>
+        <p-column styleClass="col-button">
+          <ng-template let-deluser="rowData" pTemplate="body">
+            <button pButton type="button" icon="ui-icon-edit" title="Edit" class="remove-btn"
+              (click)="editDelegationUser(deluser)" [disabled]="deluser.delegateId===user.EmpNo"></button>
+            <button pButton type="button" icon="ui-icon-clear" title="Remove"
+              [disabled]="deluser.delegateId===user.EmpNo" class="remove-btn" (click)="confirm(deluser)"></button>
+          </ng-template>
+        </p-column>
+      </p-dataTable> -->
+      <p-table selectionMode="single"  [value]="delegatedUsers" [styleClass]="'p-datatable-sm p-datatable-striped p-datatable-gridlines'">
+        <ng-template pTemplate="caption"> 
+          <div class="caption-container">
+          Delegated Users
+        </div> 
+      </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Name</th>
+            <th>Active From</th>
+            <th>Expire On</th>
+            <th></th>
+            <!-- <th styleClass="col-button"></th> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-deluser>
+          <tr>
+            <td *ngFor="let col of colHeaderUsers">{{ deluser[col.field] }}</td>
+            <td>
+              <button pButton type="button" icon="pi pi-pencil" title="Edit" class="remove-btn"
+                (click)="editDelegationUser(deluser)" [disabled]="deluser.delegateId===user.EmpNo"></button>
+              <button pButton type="button" icon="pi pi-times" title="Remove"
+                [disabled]="deluser.delegateId===user.EmpNo" class="remove-btn" (click)="confirm(deluser)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      
+    </div>
+  </div>
+  <div class="ui-g-6 ui-md-6 p-0">
+    <div class="form-group">
+      <div class="ui-g-6 ui-md-6 p-l-0 p-r-0">
+        <div class="ui-g-12 ui-md-12">
+          <span class="text-bold">Search Users</span>
+        </div>
+        <div class="ui-g-12 ui-md-12">
+          <div class="searchBox">
+            
+            <!--all search criteria-->
+            <form #searchUserForm="ngForm" (submit)="searchUsers()">
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-6">
+                  <label class="text-bold">Select Criteria</label>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <label class="text-bold">Search Text</label>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-4">
+                  <label>Name:</label>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText name="userName" [(ngModel)]="searchQueary.userName"
+                      [disabled]="editEnabled">
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-4">
+                  <label>Email:</label>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText name="mail" [(ngModel)]="searchQueary.mail" [disabled]="editEnabled">
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-4">
+                  <label>Designation:</label>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText name="title" [(ngModel)]="searchQueary.title"
+                      [disabled]="editEnabled">
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-4">
+                  <label>Phone:</label>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  <span class="md-inputfield">
+                    <div class="ui-fluid">
+                      <p-spinner [(ngModel)]="searchQueary.phone" name="phone" (keyup.enter)="searchUsers()"
+                         class="no-spinners" [disabled]="editEnabled"></p-spinner>
+                    </div>
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-4">
+                  <label>Org Code:</label>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText name="orgCode" [(ngModel)]="searchQueary.orgCode"
+                      [disabled]="editEnabled">
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-4">
+                  <label>KOC No:</label>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText [(ngModel)]="searchQueary.empNo" name="empNo"
+                      [disabled]="editEnabled">
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-12 p-l-0">
+                  <button pButton type="submit" label="Search" class="pull-right m-l-md"
+                    [disabled]="editEnabled"></button>
+                  <button pButton type="button" (click)="searchUserForm.reset();clearResult();" label="Clear"
+                    class="pull-right" [disabled]="editEnabled"></button>
+                </div>
+              </div>
+            </form>
+            <div style="clear:both"></div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="searchStarted" class="ui-g-6 ui-md-6 ">
+        <div class="ui-g-12 ui-md-12 max-h-450">
+          <app-user-list [items]="SelectedUserList" [field]="'name'" (addSelectToList)="selectUser($event)"
+            [showSelectBtn]="true" [showAddBtn]="false" [showToBtn]="false" [showCcBtn]="false"></app-user-list>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-confirmDialog header="Remove Delegation?" key="removeDelKey" icon="ui-icon-supervisor-account" width="425" #cd>
+  <p-footer>
+    <button type="button" pButton icon="ui-icon-close" label="No" (click)="cd.reject()"></button>
+    <button type="button" pButton icon="ui-icon-check" label="Yes" (click)="cd.accept()"></button>
+  </p-footer>
+</p-confirmDialog>
+<p-confirmDialog header="Info" key="userDelExistKey" icon="ui-icon-supervisor-account" width="425" #existinfo>
+  <p-footer>
+    <button type="button" pButton icon="ui-icon-check" label="Ok" (click)="existinfo.accept()"></button>
+  </p-footer>
+</p-confirmDialog>
+<div class="progress-bar" style="position: static !important;" >
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

@@ -1,0 +1,101 @@
+<div class="ui-g">
+  <div class="ui-g-12 ">
+    <form #userPrefsForm="ngForm" (ngSubmit)="updateGeneralSetting()">
+      <div class="ui-g form-group">
+        <div class="ui-g-12 ui-md-2">
+          <label>Page Size</label>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <p-dropdown [options]="pageSize" [(ngModel)]="defaultNo"  name="defaultNo"
+            [placeholder]="'Select'" ></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g form-group">
+        <div class="ui-g-12 ui-md-2">
+          <label>Default Class</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <p-dropdown (onChange)="changeClass()" [options]="templates" [(ngModel)]="selectedTemplate"
+             name="selectedTemplate" [placeholder]="'Select'" ></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g form-group">
+        <div class="ui-g-12 ui-md-2">
+          <label>For</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <p-dropdown [options]="actions" [(ngModel)]="selectedActions"  name="selectedActions"
+            [placeholder]="'Select'" ></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g form-group">
+        <div class="ui-g-12 ui-md-2">
+          <label>Show Inactive Role</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <p-dropdown (onChange)="changeShowInactiveRole()" [options]="showInactiveRole" [(ngModel)]="selShowInactiveRole"  name="selShowInactiveRole"
+            ></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g form-group">
+        <div class="ui-g-12 ui-md-2">
+          <label>Default Tab</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <p-dropdown [options]="defaultTab" [(ngModel)]="selectedTab"  name="selectedTab"
+            [placeholder]="'Select'" ></p-dropdown>
+        </div>
+      </div>
+      <div class="ui-g form-group">
+        <div class="ui-g-12 ui-md-2">
+          <label>Default Folder Path</label>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <input [(ngModel)]="folderpath" disabled="disabled" pInputText class="form-control" 
+          [ngModelOptions]="{standalone: true}" name="folderpath" placeholder="Select a folder path">
+        </div>
+        <div class="ui-g form-group docButton">
+          <button *ngIf="removeEnabled" pButton type="button" icon="ui-icon-close" title="Remove"
+            (click)="removeFolderPath()"></button>
+          <button *ngIf="!removeEnabled" pButton type="button" (click)="openTreeDialog()"
+            icon="ui-icon-folder-open" title="Click to select folder"></button>
+        </div>
+      </div>
+      
+      <div class="ui-g form-group">
+        <div class="ui-g-12 ui-md-2">
+        </div>
+        <div *ngIf="userPrefsForm.dirty && !isFolderChanged" class="ui-g-12 ui-md-2 ">
+          <button pButton type="submit" label="Update Changes" class="blue-btn pull-right"
+            [disabled]="!userPrefsForm.form.dirty"></button>
+        </div>
+        <div *ngIf="!userPrefsForm.dirty || isFolderChanged" class="ui-g-12 ui-md-2 ">
+          <button pButton type="submit" label="Update Changes" class="blue-btn pull-right"
+            [disabled]="!isFolderChanged"></button>
+        </div>
+        
+      </div>
+    </form>
+  </div>
+</div>
+<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTree" width="800" height="450">
+  <p-header>
+    Select Folder Path
+  </p-header>
+  <div class="ui-tabview-panel folder-path-selection-model">
+    <p-tree [value]="folderList" selectionMode="single" [(selection)]="selectedFolder"
+      (onNodeExpand)="nodeExpand($event)" (onNodeSelect)="nodeSelect($event)"></p-tree>
+  </div>
+  <div class="ui-g-12 ui-md-12"></div>
+  <span style="color: red;line-height: 5;"
+    *ngIf="folderPermission && folderPermission.folderSelected && folderPermission.permission">
+    User don't have permission to add document in selected folder
+  </span>
+  <button pButton type="button" label="Cancel" class="small-btn-right m-t-xl m-r-md m-b-md"
+    (click)="openTree=false"></button>
+  <button pButton type="button" label="OK" class="small-btn-right m-t-xl m-r-md m-b-md"
+    [disabled]="folderPermission && folderPermission.permission" (click)="selectFolder();openTree=false"></button>
+</p-dialog>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

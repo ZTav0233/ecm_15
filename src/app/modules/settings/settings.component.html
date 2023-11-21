@@ -1,0 +1,11 @@
+<p-tabView styleClass="m-h-100" (onChange)="tabChange($event)" [activeIndex]="activeTab">
+  <p-tabPanel header="General" leftIcon="ui-icon-settings">
+    <app-general></app-general>
+  </p-tabPanel>
+  <p-tabPanel header="List" leftIcon="ui-icon-list">
+    <app-list></app-list>
+  </p-tabPanel>
+  <p-tabPanel header="Out Of Office" leftIcon="ui-icon-directions-walk">
+    <app-delegation></app-delegation>
+  </p-tabPanel>
+</p-tabView>
