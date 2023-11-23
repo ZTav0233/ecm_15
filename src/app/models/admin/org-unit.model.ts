@@ -11,4 +11,5 @@ export class OrgUnit {
   offset: any;
   count: any;
   headUserName: any;
+  status:any
 }

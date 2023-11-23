@@ -1,0 +1,123 @@
+<div class="ui-g h-100">
+  <div class="ui-g-12  p-0 h-100">
+    <div class="ui-g">
+      <div class="ui-g-4 ui-md-5 ui-sm-4 p-0 p-r-md">
+        <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" selectionMode="single" [scrollable]="true"
+          scrollHeight="450px" [(selection)]="selectedEntryTemplate" [value]="entryTemp"
+          (onRowClick)="showTemplateMapping($event.data)" [globalFilter]="gb">
+          <p-header>
+            <table>
+              <tr>
+                <td><i class="fa fa-search v-m m-r-md"></i></td>
+                <td>
+                  <input #gb type="text" pInputText size="50" placeholder="Filter Text" style="color: #ffffff"
+                    class="v-m p-0">
+                </td>
+              </tr>
+            </table>
+            Entry Templates
+          </p-header>
+          <p-column [sortable]="true" field="symName" header="Name">
+            <ng-template let-entryTemplate="rowData" pTemplate="symName">
+              <td>
+               <span *ngIf="entryTemplate.name">{{entryTemplate.name}}</span>
+                <span *ngIf="!(entryTemplate.name)">{{entryTemplate.symName}}</span>
+              </td>
+              <td class="p-0 pull-right" *ngIf="deleteETView">
+                <button pButton type="button" icon="ui-icon-delete" title="Delete"
+                  (click)="confirmDeleteET(entryTemplate)" class="remove-btn v-m"></button>
+              </td>
+            </ng-template>
+          </p-column>
+        </p-dataTable> -->
+        <p-table [value]="entryTemp" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+         [tableStyle]="{ 'min-width': '20rem' }">
+        <ng-template  pTemplate="caption"> <div style="text-align: center;">
+          Entry Template
+        </div></ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="text-align: center;" pResizableColumn pSortableColumn="symName">Name<p-sortIcon field="symName"></p-sortIcon></th>
+            <th *ngIf="deleteETView"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td (click)="showTemplateMapping(product)">
+              <span *ngIf="product.name">{{product.name}}</span>
+              <span *ngIf="!(product.name)">{{product.symName}}</span>  
+            </td>
+            <td *ngIf="deleteETView">
+              <button pButton type="button" icon="ui-icon-delete" title="Delete"
+              (click)="confirmDeleteET(product)" class="remove-btn v-m"></button>
+              <!-- </ng-template> -->
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      </div>
+      <div class="ui-g-7 ui-md-7 ui-sm-7 p-0">
+        <div class="ui-g-4 ui-md-4 ui-sm-4">
+          <p-autoComplete [(ngModel)]="selectedorgCode" [suggestions]="orgCodes"
+            [disabled]="selectedEntryTemplate && selectedEntryTemplate.name!=='Correspondence'" [forceSelection]="true" 
+            (completeMethod)="getOrgCodes($event)" field="desc" [size]="30" placeholder="Search OrgUnit" [minLength]="1"
+            appendTo="body" [multiple]="false">
+            <ng-template let-selectedorgCode pTemplate="item">
+              <div class="ui-helper-clearfix">
+                <span class="pull-left">{{selectedorgCode.desc}}</span>
+                <span class="pull-right font-light">{{selectedorgCode.orgCode}}</span>
+              </div>
+            </ng-template>
+          </p-autoComplete>
+        </div>
+        <div class="ui-g-2 ui-md-2 ui-sm-2">
+          <p-checkbox [(ngModel)]="isvisible" (onChange)="checkInvisible($event)" label="Visible" [binary]="true">
+          </p-checkbox>
+        </div>
+        <div class="ui-g-6 ui-md-6 ui-sm-6">
+          <button [disabled]="!selectedorgCode" pButton type="button" label="Map" (click)="mapEntryTemplate()"></button>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Delete Mode
+          <p-inputSwitch [(ngModel)]="deleteETView" onLabel="" offLabel=""></p-inputSwitch>
+          <button class="m-b-sm pull-right" pButton type="button" label="Export" (click)="exportToExcel();"
+            [disabled]="!entryTemp || entryTemp.length==0"></button>
+        </div>
+        <div class="ui-g-7 ui-md-12 ui-sm-7 fix-h-450">
+          <div *ngIf="mappedList" class="roleSearch-box border-grey">
+            <div class="ui-inputgroup">
+              <span class="md-inputfield">
+                <input type="text" pInputText (input)="searchMappedOrg($event)" placeholder="Filter"
+                  [(ngModel)]="searchOrgText" />
+                <i class="topbar-icon material-icons">search</i>
+              </span>
+            </div>
+          </div>
+          <p-scroller *ngIf="mappedList && mappedList.length>0" styleClass="max-h-800" [items]="mappedList"
+             [lazy]="true">
+            <ng-template let-value pTemplate="selectedItem">
+              <div class="ui-g form-group">
+                <div class="ui-g-12">
+                  <div class="ui-g-10">
+                    <span class="p-r-xlg">{{value.desc}}({{value.orgCode}})</span>
+                  </div>
+                  <div class="ui-g-2">
+                    <button pButton type="button" icon="ui-icon-clear" title="Remove" (click)="confirm(value)"
+                      class="remove-btn v-m"></button>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </p-scroller>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-confirmDialog header="Remove Mapping?" key="removeMapping" icon="ui-icon-help" width="425" #cd>
+  <p-footer>
+    <button type="button" pButton icon="ui-icon-close" label="No" (click)="cd.reject()"></button>
+    <button type="button" pButton icon="ui-icon-check" label="Yes" (click)="cd.accept()"></button>
+  </p-footer>
+</p-confirmDialog>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

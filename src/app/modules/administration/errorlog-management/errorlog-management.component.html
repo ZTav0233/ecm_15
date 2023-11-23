@@ -1,0 +1,150 @@
+<div class="ui-g-12 ui-md-12 p-t-0 p-r-0">
+    <button pButton type="button" label="Export" (click)="exportToExcel();"
+            class="pull-right" [disabled]="!errorLogs"></button>
+    <div class="ui-g-12 ui-md-2">
+          <p-calendar [readonlyInput]="true" id="From" dateFormat="dd-mm-yy" (onClearClick)="clearFromDate()"
+            (onSelect)="changeFrom($event)" [showIcon]="true" [(ngModel)]="fromDate" placeholder="From Date"
+                      [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showButtonBar]="true" [maxDate]="maxFromDate"></p-calendar></div>
+  <div class="ui-g-12 ui-md-1">
+       <p-dropdown [options]="fromTimes" [(ngModel)]="fromTime" name="fromTime"
+                          [disabled]="!fromDate " >
+                <ng-template let-item pTemplate="selectedItem">
+                  <span (click)="clearToDate();onClick(item.disabled)"
+                        [ngStyle]="item.disabled? {'color': '#ccc', 'cursor': 'default'} : null">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
+    </div>
+   <div class="ui-g-12 ui-md-2">
+          <p-calendar [readonlyInput]="true" id="To" dateFormat="dd-mm-yy" [minDate]="fromDate"
+            [disabled]="!fromDate" (onSelect)="changeTo($event)" [showIcon]="true" (onClearClick)="clearToDate()"
+            [(ngModel)]="toDate" placeholder="To Date" [monthNavigator]="true" [yearNavigator]="true"
+            yearRange="1900:2030" [showButtonBar]="true" ></p-calendar></div>
+  <div class="ui-g-12 ui-md-1">
+      <p-dropdown [options]="toTimes" [(ngModel)]="toTime" name="toTime"
+                          [disabled]="!fromDate || !toDate">
+                <ng-template let-item pTemplate="selectedItem">
+                  <span (click)="onClick(item.disabled); "
+                        [ngStyle]="item.disabled? {'color': '#ccc', 'cursor': 'default'} : null">{{item.label}}</span>
+                </ng-template>
+              </p-dropdown>
+   </div>
+  <div class="ui-g-12 ui-md-3">
+      <button [disabled]="!fromDate || !toDate" pButton type="button" icon="ui-icon-search" title="Filter" (click)="updateSearchInDatatable()" class="remove-btn v-m"></button>
+      <button [disabled]="!fromDate || !toDate" pButton type="button" icon="ui-icon-clear" title="Clear selection" (click)="clearFilterText()" class="remove-btn v-m"></button>
+  </div>
+  </div>
+<div class="ui-g-12  p-0 h-100">
+
+    <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+    <!-- global filter -->
+    <div class="ui-g">
+      <div class="ui-g-12 p-0">
+        <table>
+          <tr>
+            <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
+            <td style="width: 98%">
+              <input #gb type="text" pInputText size="50"
+                     placeholder="Filter Text" style="color: #ffffff; width: 30%;"
+                     class="v-m p-0">
+            </td>
+            <td>
+              <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
+                      class="remove-btn v-m no-box-shadow"></button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-12 p-0 max-h-600">
+    <!-- <p-dataTable   [resizableColumns]="true"  [reorderableColumns]="true"  [value]="errorLogs" [rows]="itemsPerPage" [paginator]="true" [responsive]="true" [globalFilter]="gb">
+      <p-column  *ngFor="let col of colHeaders" [hidden]="col.hidden" [field]="col.field" [header]="col.header"
+                  [sortable]="true" [sortField]="col.sortField?col.sortField:col.field"></p-column>
+      <p-column styleClass="col-button">
+         <ng-template let-dat="rowData" let-i="rowIndex" pTemplate="body">
+            <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="viewErrors(dat)"
+                    class="remove-btn v-m"></button>
+         </ng-template>
+      </p-column>
+    </p-dataTable> -->
+    <p-table [value]="errorLogs" [resizableColumns]="true" [paginator]="true"
+    [rows]="10"
+      styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"  [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="caption"> Header </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="id">Id<p-sortIcon field="id"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="type">Error Type<p-sortIcon field="type"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="summary">Summary<p-sortIcon field="summary"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="timeStamp">Log Date<p-sortIcon field="timeStamp"></p-sortIcon></th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product let-i="rowIndex">
+        <tr>
+          <td>{{ product.id }}</td>
+          <td>{{ product.type }}</td>
+          <td>{{ product.summary }}</td>
+          <td>{{ product.timeStamp2 }}</td>
+          
+          <td>
+            <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="viewErrors(product)"
+            class="remove-btn v-m"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+ <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openDetails" width="600" height="450">
+    <p-header>
+      Log Details
+    </p-header>
+    <div class="ui-tabview-panel folder-path-selection-model">
+      <span>{{details}}</span>
+    </div>
+  </p-dialog>
+
+<p-dialog *ngIf="allerrors" [modal]="true" showEffect="fade" [(visible)]="viewerror" width="600">
+  <p-header>
+   {{allerrors.type}}
+  </p-header>
+
+   <table class="ecm-table  w-100">
+        <tbody>
+        <tr class="even">
+          <th style="width:26%" class="text-align-left">Id:</th>
+          <td>{{allerrors.id}}</td>
+        </tr>
+        <tr>
+        <tr class="odd">
+          <th style="width:26%" class="text-align-left">Error Type:</th>
+          <td> {{allerrors.type}}</td>
+        </tr>
+        <tr class="even">
+          <th style="width:26%" class="text-align-left">Summary:</th>
+          <td>{{allerrors.summary}}</td>
+        </tr>
+        <tr class="odd">
+          <th style="width:26%" class="text-align-left">Log Date:</th>
+          <td>{{allerrors.timeStamp}}</td>
+        </tr>
+        <tr class="even">
+          <th style="width:26%" class="text-align-left">Context:</th>
+          <td>{{allerrors.context}}</td>
+        </tr>
+        <tr class="odd">
+          <th style="width:26%" class="text-align-left">Server Name:</th>
+          <td>{{allerrors.servername}}</td>
+        </tr>
+
+        <tr class="even">
+          <th style="width:26%" class="text-align-left">App Name:</th>
+          <td>{{allerrors.appname}}</td>
+        </tr>
+        </tbody>
+      </table>
+</p-dialog>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

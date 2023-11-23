@@ -1,0 +1,254 @@
+<div style="display: flex;">
+  <div class="ui-g">
+    <p-tabView (onChange)="tabChange($event)">
+      <p-tabPanel header="OrgUnit Tree" leftIcon="ui-icon-list">
+        <div *ngIf="activeTab===0">
+          <div class="ui-g">
+            <div class="ui-g-12 roleSearch-box">
+              <div class="ui-inputgroup">
+                <span class="md-inputfield ">
+                  <input type="text" pInputText (input)="searchOrgUnitTree()" placeholder="Search Directorate"
+                    [(ngModel)]="orgTreeData.roles.model.query" />
+                  <i class="topbar-icon material-icons">search</i>
+                </span>
+              </div>
+            </div>
+            <div class="fix-h-565 ui-g-12 border-none p-0">
+              <app-role-tree [data]="orgTreeData" (expandNode)="getSubOrgUnit($event.node)"
+                (selectNode)="addMember($event.node)" (removeItem)="removeMember($event)" [showAddToToBtn]="false"
+                [showAddToCCBtn]="false" [showAddChildBtn]="false" [showRemoveItemBtn]="false" [editRole]="true"
+                (getRoleMembers)="getRoleMembersForTooltip($event)" [activeTab]="'orgUnitList'"
+                (showEditRole)="editOrgUnitForm.reset();editOrgUnitItem($event,true);"
+                (showDeleteRole)="deactivateOrgUnit($event)">
+              </app-role-tree>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Deactivated OrgUnit" leftIcon="ui-icon-people-outline">
+        <div class="ui-g">
+          <div class="ui-g-12 roleSearch-box">
+            <div class="ui-inputgroup">
+              <span class="md-inputfield ">
+                <input type="text" pInputText (input)="searchInActiveRole()" placeholder="Search Deactivated Units"
+                  [(ngModel)]="inActiveQuery" />
+                <i class="topbar-icon material-icons">search</i>
+              </span>
+            </div>
+          </div>
+          <div class="max-h-500 ui-g-12 border-none p-0">
+            <!-- <p-dataTable selectionMode="single" [value]="inActiveOrgUnits">
+                          <p-column [sortable]="true" [style]="{width: '60%'}" field="desc" header="Unit"></p-column>
+                          <p-column [sortable]="true" [style]="{width: '22%'}" field="type" header="Type"></p-column>
+                          <p-column [style]="{width: '18%'}" header="Action" styleClass="col-button">
+                            <ng-template let-rowdat="rowData" let-i="rowIndex" pTemplate="body">
+                              <button pButton type="button" icon="ui-icon-edit" title="Edit"
+                                (click)="editOrgUnitItem(rowdat,true)" class="remove-btn v-m pull-right"></button>
+                              <button pButton type="button" icon="ui-icon-check" title="Activate"
+                                (click)="activateOrgUnit(rowdat)" class="remove-btn v-m pull-right"></button>
+                              <button pButton type="button" icon="ui-icon-info-outline" title="Info"
+                                (click)="getOrgUnitInfo(rowdat);showOrgUnitInfo=true"
+                                class="remove-btn v-m pull-right"></button>
+                            </ng-template>
+                          </p-column>
+                        </p-dataTable> -->
+            <p-table [value]="inActiveOrgUnits" [resizableColumns]="true"
+              styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+              [tableStyle]="{ 'min-width': '50rem' }">
+              <ng-template pTemplate="caption"> Header </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="text-align: center;" pResizableColumn pSortableColumn="desc">Unit<p-sortIcon
+                      field="desc"></p-sortIcon></th>
+                  <th style="text-align: center;" pResizableColumn pSortableColumn="Type">Type<p-sortIcon
+                      field="Type"></p-sortIcon></th>
+                  <th>Action</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-product let-i="rowIndex">
+                <tr>
+                  <td>{{ product.desc }}</td>
+                  <td>{{ product.Type }}</td>
+
+                  <td>
+                    <button pButton type="button" icon="ui-icon-edit" title="Edit"
+                      (click)="editOrgUnitItem(product,true)" class="remove-btn v-m pull-right"></button>
+                    <button pButton type="button" icon="ui-icon-check" title="Activate"
+                      (click)="activateOrgUnit(product)" class="remove-btn v-m pull-right"></button>
+                    <button pButton type="button" icon="ui-icon-info-outline" title="Info"
+                      (click)="getOrgUnitInfo(product);showOrgUnitInfo=true" class="remove-btn v-m pull-right"></button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+
+    <div class="split-pane-content-secondary ">
+      <div class="lower">
+        <div class=" p-t-0 p-r-0 p-b-0">
+          <form #editOrgUnitForm="ngForm">
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-1"></div>
+              <div class="ui-g-12 ui-md-11">
+                <label class="pull-left text-bold">
+                  <span>{{editMode?'Edit Organization Unit':'Add Organization Unit'}}</span>
+                </label>
+              </div>
+            </div>
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-1"></div>
+              <div class="ui-g-12 ui-md-2">
+                <label for="type">Type:<b style="color:red">*</b></label>
+              </div>
+              <div class="ui-g-12 ui-md-7">
+                <p-dropdown id="type" name="type" [placeholder]="'Select'" [options]="orgUnitData.orgUnit.type"
+                  [(ngModel)]="editOrgUnit.type" [required]="true" (onChange)="typeChanged($event)"
+                  [disabled]="disableTypeEdit"></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-1"></div>
+              <div class="ui-g-12 ui-md-2">
+                <label for="name">Name:<b style="color:red">*</b></label>
+              </div>
+              <div class="ui-g-12 ui-md-7">
+                <input (blur)="!editMode?completeName():''" pInputText type="text" id="name" name="name"
+                  [(ngModel)]="editOrgUnit.desc" maxlength="200" [required]="true">
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <i *ngIf="isNameExist && !editMode" title="Name already exist"
+                  class="material-icons deadline-red ">error_outline</i>
+              </div>
+            </div>
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-1"></div>
+              <div class="ui-g-12 ui-md-2">
+                <label for="orgUnit">OrgCode:<b style="color:red">*</b></label>
+              </div>
+              <div class="ui-g-12 ui-md-7">
+                <p-inputMask [mask]="'aa99'" (onComplete)="!editMode?completeOrgCode():''" [placeholder]="'AA99'"
+                  slotChar="" id="orgUnit" name="orgUnit" [(ngModel)]="editOrgUnit.orgCode"
+                  [required]="true"></p-inputMask>
+                <div class="ui-g-12 ui-md-1">
+                  <i *ngIf="isOrgCodeExist && !editMode" title="OrgCode Already Exist"
+                    class="material-icons deadline-red ">error_outline</i>
+                </div>
+
+              </div>
+            </div>
+            <div
+              *ngIf="!(editOrgUnit.type && (editOrgUnit.type.toLowerCase() === 'directorate' || editOrgUnit.type === 'DIR'))"
+              class="ui-g form-group">
+              <div class="ui-g-12 ui-md-1"></div>
+              <div class="ui-g-12 ui-md-2">
+                <label for="parentRoleListDropdown">Parent:<b style="color:red">*</b></label>
+              </div>
+              <div class="ui-g-12 ui-md-7">
+                <p-dropdown id="parentRoleListDropdown" name="parentRoleList" [placeholder]="'Select'"
+                  [options]="orgUnitData.orgUnit.model.parentRoleList" [(ngModel)]="editOrgUnit.parent" [filter]="true"
+                  [required]="true"></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-1"></div>
+              <div class="ui-g-12 ui-md-2">
+                <label for="head">Head:<b style="color:red">*</b></label>
+              </div>
+              <div class="ui-g-12 ui-md-7">
+                <p-autoComplete id="head" [(ngModel)]="orgUnitData.orgUnit.model.userSearchText"
+                  [suggestions]="orgUnitData.orgUnit.model.searchSuggestions" [forceSelection]="true"
+                  (completeMethod)="searchUsers($event,'userName')" (onSelect)="usersSelected($event)" field="fulName"
+                  [size]="30" [ngModelOptions]="{standalone: true}" placeholder="Search UserName" [minLength]="3"
+                  appendTo="body" [multiple]="false" filterBy="label,value.orgCode">
+                  <ng-template let-selectedUser pTemplate="item">
+                    <div class="ui-helper-clearfix">
+                      <span class="pull-left">{{selectedUser.fulName}}</span>
+                      <span class="pull-right font-light">{{selectedUser.KocId}}</span>
+                    </div>
+                  </ng-template>
+                </p-autoComplete>
+              </div>
+            </div>
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-1"></div>
+              <div class="ui-g-12 ui-md-2">
+                <label for="headRoleId">Head Role:</label>
+              </div>
+              <div class="ui-g-12 ui-md-7">
+                <p-dropdown id="headRoleId" name="headRoleId" [placeholder]="'Select'"
+                  [options]="this.orgUnitData.orgUnit.model.UserRoles" [(ngModel)]="editOrgUnit.headRoleId">
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-4"></div>
+              <div class="ui-g-12 ui-md-7">
+                <button *ngIf="!editMode" pButton class="pull-right" type="submit" label="Submit"
+                  [disabled]="!(editOrgUnitForm.form.valid && orgUnitData.orgUnit.model.userSearchText && editOrgUnit.headEmpNo>0) || isNameExist || isOrgCodeExist"
+                  (click)="saveOrgUnit()"></button>
+                <button *ngIf="editMode" pButton class="pull-right" type="submit" label="Save"
+                  [disabled]="!(editOrgUnitForm.form.valid )" (click)="saveOrgUnit()"></button>
+                <button pButton class="pull-right m-r-md" type="button" label="Reset"
+                  (click)="closeModel();editOrgUnitForm.reset()"></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- </vertical-split-pane>  -->
+  </div>
+  <p-confirmDialog header="Remove User?" #cd key="removeRoleUserConfirmation">
+    <p-footer>
+      <button type="button" pButton icon="ui-icon-check" label="Yes" (click)="cd.accept()"></button>
+      <button type="button" pButton icon="ui-icon-close" label="No" (click)="cd.reject()"></button>
+    </p-footer>
+  </p-confirmDialog>
+</div>
+<p-dialog [modal]="true" showEffect="fade" [(visible)]="showOrgUnitInfo" [style]="{width: '600px'}">
+  <p-header>
+    Info
+  </p-header>
+  <table class="ecm-table  w-100">
+    <tbody>
+      <tr class="even">
+        <th style="width:30%" class="text-align-left">Name:</th>
+        <td>{{orgUnitInfo.desc}}</td>
+      </tr>
+      <tr class="odd">
+        <th style="width:30%" class="text-align-left">Type:</th>
+        <td>{{orgUnitInfo.type}}
+        </td>
+      </tr>
+      <!-- <tr class="even">
+      <th style="width:30%" class="text-align-left">Status:</th>
+      <td>{{orgUnitInfo.status}}</td>
+    </tr> -->
+      <tr class="odd">
+        <th style="width:30%" class="text-align-left">Organization Unit:</th>
+        <td> {{orgUnitInfo.orgCode}}</td>
+      </tr>
+      <tr class="even">
+        <th style="width:30%" class="text-align-left">Head User:</th>
+        <td>{{orgUnitInfo.headUserName}}</td>
+      </tr>
+      <tr *ngIf="orgUnitInfo.type && orgUnitInfo.type.toLowerCase()!='directorate'" class="odd">
+        <th style="width:30%" class="text-align-left">Parent
+          {{orgUnitInfo.type.toLowerCase()==='group'?'Directorate':'Group'}}:</th>
+        <td>{{parentOrgUnitInfo.desc}} [{{parentOrgUnitInfo.status}}]</td>
+      </tr>
+    </tbody>
+  </table>
+</p-dialog>
+<p-confirmDialog appendTo="body" key="confirmKey" header="Confirm Deactivation?" acceptLabel="OK" rejectLabel="Cancel">
+</p-confirmDialog>
+<p-confirmDialog appendTo="body" key="confirmKeyWarning" header="Inactive Parent" rejectLabel="OK" rejectIcon="">
+</p-confirmDialog>
+<p-confirmDialog appendTo="body" key="confirmKeyAddRole" rejectLabel="Cancel" [icon]="null" acceptLabel="OK"
+  header="Existing Roles" icon="fa fa-help-outline"></p-confirmDialog>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

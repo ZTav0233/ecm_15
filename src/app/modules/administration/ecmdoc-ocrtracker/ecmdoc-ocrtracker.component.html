@@ -1,0 +1,143 @@
+<!--<div class="ui-g-12 ui-md-12 p-t-0 p-r-0">-->
+  <!--<button pButton type="button" label="Export" (click)="exportToExcel();" class="pull-right"-->
+    <!--[disabled]="!ecmDocOcrList"></button>-->
+<!--</div>-->
+<div class="ui-g-12  p-0 h-100">
+  <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+    <!-- global filter -->
+    <div class="ui-g">
+      <div class="ui-g-12 p-0">
+        <table>
+          <tr>
+            <td style="width: 2%;"><i class="fa fa-search v-m m-r-md"></i></td>
+            <td style="width: 98%;">
+              <input #gb type="text" pInputText size="50" placeholder="Filter Text" style="color: #ffffff; width: 30%;"
+                class="v-m p-0">
+            </td>
+            <td>
+              <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="callOCRDetails()"
+                class="remove-btn v-m no-box-shadow"></button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-12  p-0 max-h-600">
+    <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [value]="ecmDocOcrList"
+       [globalFilter]="gb">
+      <p-column [sortable]="true" field="docId" header="Document Id"></p-column>
+      <p-column [sortable]="true" field="batchId" header="Batch Id"></p-column>
+      <p-column [sortable]="true" field="stepName" header="Step Name"></p-column>
+      <p-column [sortable]="true" sortField="createDate" field="createDate2" header="Created Date"></p-column>
+      <p-column [sortable]="true" sortField="modifyDate" field="modifyDate2" header="Modified Date"></p-column>
+      <p-column [sortable]="true" field="statusDesc" header="Status Description"></p-column>
+      <p-column styleClass="col-button" [style]="{'width':'60px'}">
+        <ng-template let-rowdat="rowData" let-i="rowIndex" pTemplate="body">
+          <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="assignOcrRow(rowdat);viewocr=true;"
+            class="remove-btn v-m"></button>
+          <button pButton type="button" (click)="assignOcrRow(rowdat);justificationDialog=true;" icon="ui-icon-edit" title="Override"
+            class="remove-btn v-m"></button>
+        </ng-template>
+      </p-column>
+    </p-dataTable> -->
+    <p-table [value]="ecmDocOcrList"
+    styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
+    [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="caption"> Header </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="docId">Document Id<p-sortIcon field="docId"></p-sortIcon></th>
+        <th pSortableColumn="batchId">Batch Id<p-sortIcon field="batchId"></p-sortIcon></th>
+        <th pSortableColumn="stepName">Step Name<p-sortIcon field="stepName"></p-sortIcon></th>
+        <th pSortableColumn="createDate2">Created Date<p-sortIcon field="createDate2"></p-sortIcon></th>
+        <th pSortableColumn="modifyDate2">Modified Date<p-sortIcon field="modifyDate2"></p-sortIcon></th>
+        <th pSortableColumn="statusDesc">Status Description<p-sortIcon field="statusDesc"></p-sortIcon></th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>{{ product.docId }}</td>
+        <td>{{ product.batchId }}</td>
+        <td>{{ product.stepName }}</td>
+        <td>{{ product.createDate2 }}</td>
+        <td>{{ product.modifyDate2 }}</td>
+        <td>{{ product.statusDesc }}</td>
+        <td>
+          <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="assignOcrRow(product);"
+            class="remove-btn v-m"></button>
+          <button pButton type="button" (click)="assignOcrRow(product);justificationDialog=true;" icon="ui-icon-edit" title="Override"
+            class="remove-btn v-m"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  </div>
+</div>
+<div>
+  <p-dialog [modal]="true" showEffect="fade" [(visible)]="justificationDialog" (onHide)="cancelJustificationDialog()">
+  <p-header>
+    <span>Justification</span>
+  </p-header>
+  <form #addUser="ngForm">
+    <div class="ui-g-12 ui-md-12">
+      <textarea class="text-area-resize-none bordered" [rows]="3" maxlength="300" [cols]="30" pInputTextarea
+        [autoResize]="false" [(ngModel)]="justificationMsg" name="justification" required></textarea>
+      <span *ngIf="!justificationMsg">300 Remaining</span>
+      <span *ngIf="justificationMsg">{{300-justificationMsg.length}} Remaining</span>
+    </div>
+  </form>
+  <p-footer>
+    <button type="button" class="pull-right" pButton [disabled]="!justificationMsg" (click)="addJustification()"
+      label="OK"></button>
+    <button type="button" class="pull-right" pButton (click)="cancelJustificationDialog()" label="Cancel"></button>
+  </p-footer>
+</p-dialog>
+</div>
+<p-dialog *ngIf="selectedRow"  [modal]="true" showEffect="fade" [style]="{width: '600px'}">
+  <table class="ecm-table  w-100">
+    <tbody>
+      <tr class="even">
+        <th style="width:26%" class="text-align-left">Document Id:</th>
+        <td>{{selectedRow.docId}}</td>
+      </tr>
+      <tr>
+      <tr class="odd">
+        <th style="width:26%" class="text-align-left">Batch Id:</th>
+        <td> {{selectedRow.batchId}}</td>
+      </tr>
+      <tr class="even">
+        <th style="width:26%" class="text-align-left">Step Name:</th>
+        <td>{{selectedRow.stepName}}</td>
+      </tr>
+      <tr class="odd">
+        <th style="width:26%" class="text-align-left">Created Date:</th>
+        <td>{{selectedRow.createDate}}</td>
+      </tr>
+      <tr class="even">
+        <th style="width:26%" class="text-align-left">Modified Date:</th>
+        <td>{{selectedRow.modifyDate}}</td>
+      </tr>
+      <tr class="odd">
+        <th style="width:26%" class="text-align-left">Status Description:</th>
+        <td>{{selectedRow.statusDesc}}</td>
+      </tr>
+      <tr class="even">
+        <th style="width:26%" class="text-align-left">Error Description:</th>
+        <td>{{selectedRow.errorDesc}}</td>
+      </tr>
+      <tr class="odd">
+        <th style="width:26%" class="text-align-left">Justification:</th>
+        <td>{{selectedRow.justification}}</td>
+      </tr>
+    <tr class="even">
+        <th style="width:26%" class="text-align-left">Overriden By:</th>
+        <td>{{selectedRow.overridenBy}}</td>
+      </tr>
+    </tbody>
+  </table>
+</p-dialog>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

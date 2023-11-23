@@ -1,0 +1,16 @@
+<div>
+  <p-tree [value]="data.roles.roleTree" selectionMode="single" [(selection)]="roleTreeSelection"
+          (onNodeExpand)="mExpandNode($event)"
+          [styleClass]="'role-tree '" (onNodeSelect)="mSelectNode($event)">
+    <ng-template let-node pTemplate="default">
+      <table class="ecm-table w-100 p-0 item">
+         <tr [escape]="false" pTooltip="{{node.data.members}}" [tooltipStyleClass]="'tooltip'"
+            tooltipPosition="bottom" >
+          <td ><span class="v-m" *ngIf="node.label">{{node.label}}</span>
+            <span class="v-m" *ngIf="!node.label && node.data">{{node.data.empNo}}</span>
+          </td>
+        </tr>
+      </table>
+    </ng-template>
+  </p-tree>
+</div>

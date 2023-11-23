@@ -1,0 +1,233 @@
+<div class="ui-g h-100">
+  <div class="ui-g-12  p-0">
+    <div class="ui-g">
+      <div class="ui-g-12 p-0">
+        <div class="ui-g-4  ui-sm-12 p-0">
+          <p-panel>
+            <p-header>
+              <!--Organization Unit-->
+              <div class="search-box">
+                <span>
+                  Select Organization Unit To Map
+                </span>
+                <div class="m-l-lg">
+                  <div class="ui-inputgroup">
+                    <span class="md-inputfield ">
+                      <!--<input type="text" pInputText (input)="searchRole()"-->
+                      <!--placeholder="Search OrgCode" [(ngModel)]="roleData.roles.model.query"/>-->
+                      <p-autoComplete id="orgUnit" [suggestions]="suggestionsResults" (completeMethod)="search($event)"
+                        field="desc" (onSelect)="orgUnitSelected($event);" [size]="30" placeholder="Search OrgUnit"
+                        [minLength]="1" [forceSelection]="true" [appendTo]="'body'" [required]="true">
+                        <ng-template let-selectedorgCode pTemplate="item">
+                          <div class="ui-helper-clearfix">
+                             <span class="pull-left">{{selectedorgCode.desc}}</span>
+                            <span class="pull-right font-light">{{selectedorgCode.orgCode}}</span>
+                          </div>
+                        </ng-template>
+                      </p-autoComplete>
+                      <i class="topbar-icon material-icons">search</i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </p-header>
+            <div class="ui-g">
+              <div class="fix-h-612 ui-g-12 border-none p-0">
+                <!--<app-role-tree [data]="roleData" (expandNode)="expandNode($event)"-->
+                <!--(selectNode)="manageMapping($event)"-->
+                <!--[showAddToToBtn]="false" [showAddToCCBtn]="false">-->
+                <!--</app-role-tree>-->
+                <table class="ecm-table w-100" *ngIf="selectedOrgUnit">
+                  <tbody>
+                    <tr class="even">
+                      <td class="text-align-left">Description:</td>
+                      <td class="table-column">{{selectedOrgUnit.desc}}</td>
+                    </tr>
+                    <tr class="odd">
+                      <td class="text-align-left">OrgCode:</td>
+                      <td class="table-column">{{selectedOrgUnit.orgCode}}</td>
+                    </tr>
+                    <tr class="even">
+                      <td class="text-align-left">Team:</td>
+                      <td class="table-column">{{selectedOrgUnit.type}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </p-panel>
+          <p-panel *ngIf="roleData.roles.selectedRole">
+            <p-header>
+              Add Access Policy Mapping To {{roleData.roles.selectedRole.data.headRoleName}} (
+              {{roleData.roles.selectedRole.data.orgCode}} )
+            </p-header>
+            <div class="ui-g">
+              <div class="ui-g-12 ui-md-12 ui-sm-12 p-0">
+                <form #entrytemplateMapping="ngForm" (ngSubmit)="addMapping()">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-3  p-l-0">
+                      <label>Entry Template:</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-9">
+                      <p-dropdown [options]="roleData.roles.entryTemplates" [filter]="true"
+                        [(ngModel)]="roleData.roles.model.selectedEntryTemplate" 
+                        name="entryTemplates" [required]="true" 
+                        [placeholder]="'Select Entry Template'"></p-dropdown>
+                    </div>
+                  </div>
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-3  p-l-0">
+                      <label>Access Policy:</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-9">
+                      <p-dropdown [options]="roleData.roles.accessPolicies" [filter]="true"
+                        [(ngModel)]="roleData.roles.model.selectedAccessPolicy" 
+                        name="accessPolicies" [required]="true" 
+                        [placeholder]="'Select Access Policy'"></p-dropdown>
+                    </div>
+                  </div>
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-12 p-r-0">
+                      <button pButton type="submit" [disabled]="!entrytemplateMapping.form.valid" label="Map"
+                        class="pull-right"></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </p-panel>
+        </div>
+        <div class="ui-g-8 ui-sm-12 p-0 p-l-md" *ngIf="roleData.roles.selectedRole">
+          <!--<p-panel>
+            <p-header>
+              Add Access Policy Mapping To {{roleData.roles.selectedRole.data.headRoleName}} (
+              {{roleData.roles.selectedRole.data.orgCode}} )
+            </p-header>
+            <div class="ui-g">
+              <div class="ui-g-12 ui-md-12 ui-sm-12 p-0">
+                <form #entrytemplateMapping="ngForm" (ngSubmit)="addMapping()">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-2  p-l-0">
+                      <label>Entry Template:</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
+                      <p-dropdown [options]="roleData.roles.entryTemplates" [filter]="true"
+                                  [(ngModel)]="roleData.roles.model.selectedEntryTemplate"  
+                                  name="entryTemplates" [required]="true"  
+                                  [placeholder]="'Select Entry Template'"></p-dropdown>
+                    </div>
+                  </div>
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-2  p-l-0">
+                      <label>Access Policy:</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
+                      <p-dropdown [options]="roleData.roles.accessPolicies" [filter]="true"
+                                  [(ngModel)]="roleData.roles.model.selectedAccessPolicy"  
+                                  name="accessPolicies" [required]="true"  
+                                  [placeholder]="'Select Access Policy'"></p-dropdown>
+                    </div>
+                  </div>
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-7 p-r-0">
+                      <button pButton type="submit" [disabled]="!entrytemplateMapping.form.valid" label="Map"
+                              class="pull-right"></button>
+                    </div>
+                  </div>
+                </form>
+              </div>-->
+          <div class="ui-g-12 p-0">
+            <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+              <!-- global filter -->
+              <div class="ui-g">
+                <div class="ui-g-12 p-0">
+                  <table>
+                    <tr>
+                      <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
+                      <td style="width: 98%">
+                        <input #gb type="text" pInputText size="50" placeholder="Filter Text"
+                          style="color: #ffffff; width: 30%;" class="v-m p-0" >
+                      </td>
+                      <td>
+                        <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
+                          class="remove-btn v-m no-box-shadow"></button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g">
+              <div class="ui-g-12 ui-md-12 ui-sm-12 p-0">
+                <!-- <p-dataTable [value]="roleData.roles.accessPolicyMappings" [rows]="15" [paginator]="true"
+                  [reorderableColumns]="true" [resizableColumns]="true" [globalFilter]="gb">
+                  <p-column field="id" header="Id" sortable="true">
+                    <ng-template let-col let-mapping="rowData" let-ri="rowIndex" pTemplate="body">
+                      <span>{{mapping[col.field]}}</span>
+                    </ng-template>
+                  </p-column>
+                  <p-column field="etName" header="Entry Template" sortable="true">
+                    <ng-template let-col let-mapping="rowData" let-ri="rowIndex" pTemplate="body">
+                      <span>{{mapping[col.field]}}</span>
+                    </ng-template>
+                  </p-column>
+                  <p-column field="apname" header="Access Policy" sortable="true">
+                    <ng-template let-col let-mapping="rowData" let-ri="rowIndex" pTemplate="body">
+                      <span>{{mapping[col.field]}}</span>
+                    </ng-template>
+                  </p-column>
+                  <p-column header="Action" styleClass="text-align-center">
+                    
+                    <ng-template let-col let-mapping="rowData" let-ri="rowIndex" pTemplate="body">
+                      <span>
+                        <button pButton type="button" icon="ui-icon-remove" title="Remove Permission"
+                          (click)="removeMappingConfirm(mapping)" class="remove-btn v-m"></button>
+                      </span>
+                    </ng-template>
+                  </p-column>
+                </p-dataTable> -->
+                  <p-table [value]="roleData.roles.accessPolicyMappings" [resizableColumns]="true"  styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+          [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="caption"> Header </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="text-align: center;" pResizableColumn pSortableColumn="id">Id<p-sortIcon field="id"></p-sortIcon></th>
+              <th style="text-align: center;" pResizableColumn pSortableColumn="etName">Entry Template <p-sortIcon field="etName"></p-sortIcon></th>
+              <th style="text-align: center;" pResizableColumn pSortableColumn="apname">Access Policy<p-sortIcon field="apname"></p-sortIcon></th>
+              <th style="text-align: center;">Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr>
+              <td>{{ product.id }}</td>
+              <td>{{ product.etName }}</td>
+              <td>{{ product.apname }}</td>
+              <td>
+                  <button pButton type="button" icon="ui-icon-remove" title="Remove Permission"
+                  (click)="removeMappingConfirm(product)" class="remove-btn v-m"></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-confirmDialog header="Remove Mapping?" #cd key="removeMappingConfirmation">
+  <p-footer>
+    <button type="button" pButton icon="ui-icon-check" label="Yes" (click)="cd.accept()"></button>
+    <button type="button" pButton icon="ui-icon-close" label="No" (click)="cd.reject()"></button>
+  </p-footer>
+</p-confirmDialog>
+<p-confirmDialog header="Info" #cd2 key="deleteEntryTemplateConfirm">
+  <p-footer>
+    <button type="button" pButton icon="ui-icon-check" label="Ok" (click)="cd.accept()"></button>
+  </p-footer>
+</p-confirmDialog>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

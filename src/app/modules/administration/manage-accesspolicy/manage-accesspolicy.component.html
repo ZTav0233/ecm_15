@@ -1,0 +1,321 @@
+<div class="ui-g h-100">
+  <div class="ui-g-8 ui-md-8 p-0 p-b-sm">
+    <!--<form #filterAP="ngForm" (submit)="filterAP()">-->
+    <div class="ui-g form-group">
+      <div class="ui-g-12 ui-md-2">
+        <label>Search Type:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-radioButton name="username" value="U" label="User" [(ngModel)]="selectedType"
+          (onClick)="radioButtonClick('U')"></p-radioButton>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-radioButton name="groupname" value="G" label="Group" [(ngModel)]="selectedType"
+          (onClick)="radioButtonClick('G')"></p-radioButton>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-radioButton name="usergroupname" value="UG" label="User in group" [(ngModel)]="selectedType"
+          (onClick)="radioButtonClick('UG')"></p-radioButton>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-radioButton name="groupgroupname" value="GG" label="Group in group" [(ngModel)]="selectedType"
+          (onClick)="radioButtonClick('GG')"></p-radioButton>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-radioButton name="none" value="None" label="None" [(ngModel)]="selectedType"
+          (onClick)="radioButtonClick('None')"></p-radioButton>
+      </div>
+    </div>
+    <div class="ui-g form-group">
+      <div class="ui-g-12 ui-md-2">
+        <label>Search Text:</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <p-autoComplete [disabled]="selectedType==='None'" [(ngModel)]="searchUserOrGroup" name="userorgroup"
+          [suggestions]="results" [minLength]="3" (onSelect)="searchSelected($event)" (completeMethod)="search($event)"
+          field="name" name="name"></p-autoComplete>
+      </div>
+    </div>
+    <div class="ui-g form-group">
+      <div class="ui-g-12 ui-md-2">
+        <label>Access Type:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-dropdown [disabled]="selectedType==='None'" [(ngModel)]="selectedAccessType" name="accesstype"
+          [options]="accessType"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <label>Access Level:</label>
+      </div>
+      <div class="ui-g-12 ui-md-2">
+        <p-dropdown [disabled]="selectedType==='None'" [(ngModel)]="selectedAccessLevel" name="accesslevel"
+          [options]="accessLevels"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-g-7 ui-md-8 ">
+      <div class="pull-right">
+        <button [disabled]="selectedType==='None'" pButton type="button" label="Clear" (click)="clearSelection()"
+          class="blue-btn"></button>
+        <button *ngIf="selectedType==='None'" pButton type="button" label="Find" (click)="filterAP()"
+          class="blue-btn"></button>
+        <button *ngIf="selectedType==='U' || selectedType==='G'" pButton type="button" label="Find" (click)="filterAP()"
+          [disabled]="!results || !searchUserOrGroup" class="blue-btn"></button>
+        <button *ngIf="(selectedType==='UG' || selectedType==='GG') && !selectedGroup" pButton type="button"
+          label="Search Groups" (click)="getGroupResults()" [disabled]="!results || !searchUserOrGroup "
+          class="blue-btn"></button>
+        <button *ngIf="(selectedType==='UG' || selectedType==='GG') && selectedGroup " pButton type="button"
+          label="Find" (click)="filterAP()" [disabled]="!results || !searchUserOrGroup  " class="blue-btn"></button>
+      </div>
+    </div>
+    <!--</form>-->
+  </div>
+  <div class="ui-g-4 ui-md-4 p-0 p-b-sm">
+    <div *ngIf="(selectedType ==='UG' || selectedType ==='GG') && searchUserOrGroup" class="ui-g-12 ui-md-12">
+      <p-listbox [options]="groupList" [(ngModel)]="selectedGroup" [listStyle]="{'max-height':'150px'}">
+        <p-header>
+          Select Group
+        </p-header>
+      </p-listbox>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-12 p-t-0 p-r-0 p-l-0">
+    <!--<button pButton type="button" [disabled]="disableAddNewPermission || searchText" label="Add More Policy"-->
+    <!--class="m-r-lg" (click)="addNewPolicy()"></button>-->
+    <button *ngIf="selectedType!=='None'" pButton type="button" [disabled]="!selectedAp || selectedAp.length==0"
+      label="Remove" (click)="removePolicyAfterFilter(selectedAp)"></button>
+    <button *ngIf="selectedType!=='None'" pButton type="button" [disabled]="!selectedAp || selectedAp.length==0"
+      label="Update" (click)="updatePolicyAfterFilter(selectedAp);"></button>
+    <button *ngIf="selectedType ==='None'" pButton type="button" [disabled]="!selectedAp || selectedAp.length==0"
+      label="Add" (click)="addPolicyAfterFilter(selectedAp);updateMultipleDialog=true;"></button>
+    <button pButton type="button" [disabled]="!accessPolicies || accessPolicies.length===0" label="Export"
+      (click)="exportToExcel();" class="pull-right"></button>
+  </div>
+  <div class="ui-g-12  p-0 h-100">
+    <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+      <!-- global filter -->
+      <div class="ui-g">
+        <div class="ui-g-12 p-0">
+          <table>
+            <tr>
+              <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
+              <td style="width: 98%">
+                <input #gb type="text" pInputText size="50" placeholder="Filter Text" style="color: #ffffff; width: 30%"
+                  class="v-m p-0" [(ngModel)]="searchText">
+              </td>
+              <td>
+                <button pButton type="button" icon="ui-icon-autorenew" [hidden]="true" title="Refresh"
+                  (click)="refreshPolicyAfterSearch()" class="remove-btn v-m no-box-shadow"></button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g">
+      <div class="ui-g-12 p-0">
+        <!-- <p-dataTable [value]="accessPolicies" [(selection)]="selectedAp" [reorderableColumns]="true"
+          [resizableColumns]="true" [rows]="pageSize" [paginator]="true" [globalFilter]="gb"
+          [headerCheckboxToggleAllPages]="true">
+          <p-column selectionMode="multiple"></p-column>
+          <p-column field="id" header="Id" sortable="true">
+            <ng-template let-col let-policy="rowData" let-ri="rowIndex" pTemplate="body">
+              <span>{{policy[col.field]}}</span>
+            </ng-template>
+          </p-column>
+          <p-column field="name" header="Name" sortable="true">
+            <ng-template let-col let-policy="rowData" let-ri="rowIndex" pTemplate="body">
+              <span *ngIf="!policy.isNew">{{policy[col.field]}}</span>
+              <span *ngIf="policy.isNew"><input type="text" pInputText placeholder="Name" [(ngModel)]="policy.name">
+              </span>
+            </ng-template>
+          </p-column>
+          <p-column field="orgCode" header="Org Code" sortable="true">
+            <ng-template let-col let-policy="rowData" let-ri="rowIndex" pTemplate="body">
+              <span *ngIf="!policy.isNew">{{policy[col.field]}}</span>
+              <span *ngIf="policy.isNew">
+                <p-autoComplete [(ngModel)]="policy.orgCode" [suggestions]="orgCodes"
+                  (completeMethod)="getOrgCodes($event)" field="orgCode" [size]="30" placeholder="Search Grantee"
+                  [minLength]="1" appendTo="body" (onSelect)="onOrgCodeSelect($event,policy)" [forceSelection]="true">
+                </p-autoComplete>
+              </span>
+            </ng-template>
+          </p-column>
+          <p-column field="type" header="Access Policy Type" sortable="true">
+            <ng-template let-col let-policy="rowData" let-ri="rowIndex" pTemplate="body">
+              <span>{{policy[col.field]}}</span>
+            </ng-template>
+          </p-column>
+          <p-column field="modifiedBy" header="Modified By" sortable="true">
+            <ng-template let-col let-policy="rowData" let-ri="rowIndex" pTemplate="body">
+              <span>{{policy[col.field]}}</span>
+            </ng-template>
+          </p-column>
+          <p-column field="modifiedDate" header="Modified Date" sortable="true" sortField="modifiedDate2">
+            <ng-template let-col let-policy="rowData" let-ri="rowIndex" pTemplate="body">
+              <span>{{policy[col.field]}}</span>
+            </ng-template>
+          </p-column>
+          <p-column styleClass="text-align-center" [style]="{'width':'60px'}">
+            <ng-template let-col let-policy="rowData" let-ri="rowIndex" pTemplate="body">
+              <span><button pButton type="button" icon="ui-icon-edit" title="Edit" (click)="edit(policy)"
+                  class="remove-btn v-m" *ngIf="!policy.isNew"></button>
+                <button pButton type="button" icon="ui-icon-info-outline" title="Info"
+                  (click)="viewAccesspolicy(policy)" class="remove-btn v-m"></button>
+                <button pButton type="button" icon="ui-icon-add" title="Edit" (click)="edit(policy)"
+                  class="remove-btn v-m" *ngIf="policy.isNew"
+                  [disabled]="!policy.name || !policy.orgCode ||  !policy.orgCode.id"></button>
+                <button pButton type="button" icon="ui-icon-remove" title="Remove" (click)="removePolicy(policy)"
+                  class="remove-btn v-m" *ngIf="policy.isNew"></button></span>
+            </ng-template>
+          </p-column>
+        </p-dataTable> -->
+        <p-table [value]="accessPolicies" [resizableColumns]="true"  [resizableColumns]="true" [rows]="pageSize" [paginator]="true" [(selection)]="selectedAp" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+        [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="caption">Header</ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 4rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+            <th pResizableColumn pSortableColumn="id">Id<p-sortIcon field="id"></p-sortIcon></th>
+            <th pResizableColumn pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
+            <th pResizableColumn pSortableColumn="orgCode">Org Code<p-sortIcon field="orgCode"></p-sortIcon></th>
+            <th pResizableColumn pSortableColumn="type">Access Policy Type<p-sortIcon field="type"></p-sortIcon></th>
+            <th pResizableColumn pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
+            <th pResizableColumn pSortableColumn="modifiedDate">Modified Date<p-sortIcon field="modifiedDate"></p-sortIcon></th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="product"></p-tableCheckbox>
+          </td>
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.orgCode }}</td>
+            <td>{{ product.type }}</td>
+            <td>{{ product.modifiedBy }}</td>
+            <td>{{ product.modifiedDate }}</td>
+            <td>
+              <span><button pButton type="button" icon="ui-icon-edit" title="Edit" (click)="edit(product)"
+                class="remove-btn v-m" *ngIf="!product.isNew"></button>
+              <button pButton type="button" icon="ui-icon-info-outline" title="Info"
+                (click)="viewAccesspolicy(product)" class="remove-btn v-m"></button>
+              <button pButton type="button" icon="ui-icon-add" title="Edit" (click)="edit(product)"
+                class="remove-btn v-m" *ngIf="product.isNew"
+                [disabled]="!product.name || !product.orgCode ||  !product.orgCode.id"></button>
+              <button pButton type="button" icon="ui-icon-remove" title="Remove" (click)="removePolicy(product)"
+                class="remove-btn v-m" *ngIf="product.isNew"></button></span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      </div>
+    </div>
+    <div>
+      <p-dialog header="Modify Access Policy - [{{selectedPolicy.name}}]" [style]="{width: '700px'}" [modal]="true"
+        showEffect="fade" *ngIf="showPermissionDialogue" [(visible)]="showPermissionDialogue" (onHide)="isButtonSaveDisabled=true;">
+        <app-edit-ap-permission [selectedPolicy]="selectedPolicy" [screen]="'manageAP'"
+          [newPermissions]="newPermissions" (addNP)="addNewPermission()" (addP)="addPermission($event)"
+          (getGS)="getGranteesSuggestion($event)" (pc)="permissionChanged($event)"
+          (removeNP)="removeNewPermission($event)" (removeP)="removePermission($event)"  (isSaveDisabled)="isSaveButtonDisabled($event)"
+          (accessTC)="accessTypeChanged($event)"></app-edit-ap-permission>
+        <p-footer>
+          <button type="button" pButton [disabled]="isButtonSaveDisabled" (click)="savePermissions(false);" label="Save"></button>
+          <button type="button" pButton (click)="showPermissionDialogue=false;" label="Cancel"></button>
+        </p-footer>
+      </p-dialog>
+    </div>
+  </div>
+</div>
+<p-dialog *ngIf="allpolicy" [modal]="true" showEffect="fade" [(visible)]="viewpolicy" [style]="{width: '600px'}">
+  <p-header>
+    {{allpolicy.name}}
+  </p-header>
+  <p-tabView styleClass="tab-dialog">
+    <div class="p-sm">
+      <p-tabPanel header="Access Policy Info" leftIcon="ui-icon-security">
+        <table class="ecm-table  w-100">
+          <tbody>
+            <tr class="even">
+              <th style="width:26%" class="text-align-left">Id</th>
+              <td>{{allpolicy.id}}</td>
+            </tr>
+            <tr>
+            <tr class="odd">
+              <th style="width:26%" class="text-align-left">Object Id:</th>
+              <td>{{allpolicy.objectId}}</td>
+            </tr>
+            <tr class="even">
+              <th style="width:26%" class="text-align-left">Name:</th>
+              <td>{{allpolicy.name}}</td>
+            </tr>
+            <tr class="odd">
+              <th style="width:26%" class="text-align-left">Access Policy Type:</th>
+              <td>{{allpolicy.type}}</td>
+            </tr>
+            <tr class="even">
+              <th style="width:26%" class="text-align-left">Org Code:</th>
+              <td>{{allpolicy.orgCode}}</td>
+            </tr>
+            <tr class="odd">
+              <th style="width:26%" class="text-align-left">Organization:</th>
+              <td>{{allpolicy.orgName}}</td>
+            </tr>
+            <tr class="even">
+              <th style="width:26%" class="text-align-left">Created By:</th>
+              <td>{{allpolicy.createdBy}}</td>
+            </tr>
+            <tr class="odd">
+              <th style="width:26%" class="text-align-left">Created Date:</th>
+              <td>{{allpolicy.createdDate}}</td>
+            </tr>
+            <tr class="even">
+              <th style="width:26%" class="text-align-left">Modified By:</th>
+              <td>{{allpolicy.modifiedBy}}</td>
+            </tr>
+            <tr class="odd">
+              <th style="width:26%" class="text-align-left">Modified Date:</th>
+              <td>{{allpolicy.modifiedDate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </p-tabPanel>
+      <p-tabPanel header="Mapped Entry Template" leftIcon="ui-icon-input">
+        <table class="ecm-table  w-100">
+          <thead>
+            <th>#</th>
+            <th class="text-align-left">Entry Template Name</th>
+            <th class="text-align-left">Entry Template Id</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let mapping of mappedAccessPolicy; let i=index; let isOdd=odd; let isEven=even;"
+              [class.even]="isEven">
+              <th style="font-weight: 500;">{{i + 1}}</th>
+              <th class="text-align-left" style="width:35%;font-weight: 500;">{{mapping.etName}}</th>
+              <td class="table-column">{{mapping.etId}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </p-tabPanel>
+    </div>
+  </p-tabView>
+</p-dialog>
+<div>
+  <p-dialog header="Modify permission of selected access policies" [style]="{width: '700px'}" [modal]="true" showEffect="fade"
+    [(visible)]="updateMultipleDialog">
+    <app-edit-ap-permission [selectedPolicy]="selectedPolicy" [screen]="'manageAP'" [newPermissions]="newPermissions"
+      (addNP)="addNewPermission()" (addP)="addPermission($event)" (getGS)="getGranteesSuggestion($event)"  (isSaveDisabled)="isSaveButtonDisabled($event)"
+      (pc)="permissionChanged($event)" (removeNP)="removeNewPermission($event)" (removeP)="removePermission($event)"
+      (accessTC)="accessTypeChanged($event)"></app-edit-ap-permission>
+    <p-footer>
+      <button type="button" [disabled]="isButtonSaveDisabled" pButton (click)="savePermissions(true)" label="Save"></button>
+      <button type="button" pButton (click)="updateMultipleDialog=false;" label="Cancel"></button>
+    </p-footer>
+  </p-dialog>
+</div>
+<p-confirmDialog key="confirmRemoveAP"></p-confirmDialog>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

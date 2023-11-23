@@ -1,0 +1,412 @@
+<div class="ui-g-12  ui-sm-12 p-0 p-b-md">
+  <button pButton type="button" label="Add" (click)="prepareAddRole()"></button>
+  <button pButton class="pull-right" type="button" label="Export" (click)="exportToExcel();"></button>
+</div>
+<div style="margin-top: 80px; display: flex;">
+  <div >
+    <p-tabView (onChange)="tabChange($event)" [(activeIndex)]="activeTab">
+      <p-tabPanel header="Role Tree" leftIcon="ui-icon-list">
+        <div *ngIf="activeTab===0">
+          <div class="ui-g">
+            <div class="ui-g-12 roleSearch-box">
+              <div class="ui-inputgroup">
+                <span class="md-inputfield ">
+                  <input type="text" pInputText (input)="searchRoleTree()" placeholder="Search Directorate"
+                    [(ngModel)]="roleTreeData.roles.model.query" />
+                  <i class="topbar-icon material-icons">search</i>
+                </span>
+              </div>
+            </div>
+            <div class="fix-h-565 ui-g-12 border-none p-0">
+              <app-role-tree [data]="roleTreeData" (expandNode)="getSubOrgRoles($event.node)"
+                (selectNode)="addMember($event.node)" (removeItem)="removeMember($event)" [showAddToToBtn]="false"
+                [showAddToCCBtn]="false" [showAddChildBtn]="false" [showRemoveItemBtn]="true" [editRole]="true"
+                (getRoleMembers)="getRoleMembersForTooltip($event)" (showEditRole)="editTreeRoleItem($event)"
+                (showDeleteRole)="deactivateRole($event)">
+              </app-role-tree>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Role List" leftIcon="ui-icon-people">
+        <div class="ui-g">
+          <div class="ui-g-12 roleSearch-box">
+            <div class="ui-inputgroup">
+              <p-dropdown [options]="roleData.roles.roleSearchOption" name="roleSearchOption"
+                [(ngModel)]="roleData.roles.model.roleSearchType" [placeholder]="'Select'"
+                (onChange)="searchRoleTypeChanged($event)" id="searchRoleType"></p-dropdown>
+              <span *ngIf="roleData.roles.model.roleSearchType==='User'" class="md-inputfield">
+  
+                <p-autoComplete [(ngModel)]="roleData.roles.model.userSearchText"
+                  [suggestions]="roleData.roles.searchSuggestions" (completeMethod)="searchUsers($event)"
+                  (onSelect)="usersSelected($event);" (onClear)="searchCleared($event)" field="fulName" [size]="30"
+                  placeholder="Search User" appendTo="body" [multiple]="false" [delay]="500" id="roleMgmt">
+                </p-autoComplete>
+              </span>
+              <span *ngIf="roleData.roles.model.roleSearchType==='Role'" class="md-inputfield">
+                <input type="text" pInputText (input)="searchRole()" placeholder="Search Role"
+                  [(ngModel)]="roleData.roles.model.query" />
+                <i class="topbar-icon material-icons">search</i>
+              </span>
+            </div>
+          </div>
+          <div class="fix-h-565 ui-g-12 border-none p-0">
+            <app-role-tree [data]="roleData" (expandNode)="expandNode($event)" (selectNode)="addMember($event.node)"
+              (removeItem)="removeMember($event)" [showAddToToBtn]="false" [showAddToCCBtn]="false"
+              [showAddChildBtn]="false" [showRemoveItemBtn]="true" [editRole]="true" [activeTab]="'roleList'"
+              (showEditRole)="editRoleItem($event)" (showDeleteRole)="deactivateRole($event)">
+            </app-role-tree>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Deactivated Roles" leftIcon="ui-icon-people-outline">
+        <div class="ui-g">
+          <div class="ui-g-12 roleSearch-box">
+            <div class="ui-inputgroup">
+              <span class="md-inputfield ">
+                <input type="text" pInputText (input)="searchDeactRole()" placeholder="Search Deactivated Roles"
+                  [(ngModel)]="deactQuery" />
+                <i class="topbar-icon material-icons">search</i>
+              </span>
+            </div>
+          </div>
+  
+          <div class="max-h-500 ui-g-12 border-none p-0">
+  
+            <p-table [value]="deactRoles" [resizableColumns]="true"
+              styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+              [tableStyle]="{ 'min-width': '50rem' }">
+              <ng-template pTemplate="caption"> Header </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="text-align: center;" pResizableColumn pSortableColumn="name">Role<p-sortIcon
+                      field="name"></p-sortIcon></th>
+                  <th style="text-align: center;" pResizableColumn pSortableColumn="typeText">Type<p-sortIcon
+                      field="typeText"></p-sortIcon></th>
+                  <th></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-product let-i="rowIndex">
+                <tr>
+                  <td>{{ product.name }}</td>
+                  <td>{{ product.typeText }}</td>
+                  <td>
+                    <button pButton type="button" icon="ui-icon-delete" title="Delete" (click)="deleteRole(product)"
+                      class="remove-btn v-m pull-right"></button>
+                    <button pButton type="button" icon="ui-icon-edit" title="Edit" (click)="editRoleItem(product)"
+                      class="remove-btn v-m pull-right"></button>
+                    <button pButton type="button" icon="ui-icon-check" title="Activate" (click)="activateRole(product)"
+                      class="remove-btn v-m pull-right"></button>
+                    <button pButton type="button" icon="ui-icon-info-outline" title="Info"
+                      (click)="infoRole(product);showInfoDialog=true;" class="remove-btn v-m pull-right"></button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+  <div class="split-pane-content-secondary" style="margin-top: 140px;">
+    <div class="lower">
+      <div class=" p-t-0 p-r-0 p-b-0"
+        *ngIf="(roleData.roles.selectedRole && activeTab===0) || (roleTreeData.roles.selectedRole && activeTab===1)">
+        <p-panel>
+          <p-header>
+            Add User To <span *ngIf="activeTab===0">{{roleData.roles.selectedRole.data.headRoleName}}<span
+                *ngIf="roleData.roles.selectedRole.data.type==1">({{roleData.roles.selectedRole.data.orgCode}})</span></span>
+            <span *ngIf="activeTab===1">{{roleTreeData.roles.selectedRole.data.name}}<span
+                *ngIf="roleTreeData.roles.selectedRole.data.type==1">({{roleTreeData.roles.selectedRole.data.orgCode}})</span></span>
+          </p-header>
+          <div class="ui-g">
+            <div class="ui-g-6 fix-h-400  ui-sm-12 p-t-0 p-l-0 p-b-0">
+              <form #searchUserForm="ngForm" (submit)="searchUsersList()">
+                <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-md-6">
+                    <label class="text-bold">Select Criteria</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <label class="text-bold">Search Text</label>
+                  </div>
+                </div>
+                <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-md-4">
+                    <label>Name:</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                    <span class="md-inputfield">
+                      <input type="text" pInputText name="userName" [(ngModel)]="searchQueary.userName">
+                    </span>
+                  </div>
+                </div>
+                <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-md-4">
+                    <label>Email:</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                    <span class="md-inputfield">
+                      <input type="text" pInputText name="mail" [(ngModel)]="searchQueary.mail">
+                    </span>
+                  </div>
+                </div>
+                <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-md-4">
+                    <label>Designation:</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                    <span class="md-inputfield">
+                      <input type="text" pInputText name="title" [(ngModel)]="searchQueary.title">
+                    </span>
+                  </div>
+                </div>
+                <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-md-4">
+                    <label>Phone:</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                    <span class="md-inputfield">
+                      <div class="ui-fluid">
+                        <p-spinner [(ngModel)]="searchQueary.phone" name="phone" (keyup.enter)="searchUsersList()"
+                          class="no-spinners">
+                        </p-spinner>
+                      </div>
+                    </span>
+                  </div>
+                </div>
+                <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-md-4">
+                    <label>Org Code:</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                    <span class="md-inputfield">
+                      <input type="text" pInputText name="orgCode" [(ngModel)]="searchQueary.orgCode">
+                    </span>
+                  </div>
+                </div>
+                <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-md-4">
+                    <label>KOC No:</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                    <span class="md-inputfield">
+                      <input type="text" pInputText [(ngModel)]="searchQueary.empNo" name="empNo">
+                    </span>
+                  </div>
+                </div>
+                <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-md-12 p-l-0">
+                    <button pButton type="submit" label="Search" class="pull-right m-l-md"></button>
+                    <button pButton type="button" (click)="searchUserForm.reset();roleData.roles.result=[];" label="Clear"
+                      class="pull-right"></button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="ui-g-6 fix-h-400 ui-sm-12 p-0">
+              <app-user-list [showAddBtn]="true" [showCcBtn]="false" [showToBtn]="false" [showTooltip]="false"
+                [items]="roleData.roles.result" [field]="'name'" (addToList)="addToList($event)"
+                (existsInList)="existsInList($event)" (getRoleMembers)="getRoleMembers($event)"></app-user-list>
+            </div>
+          </div>
+        </p-panel>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-confirmDialog header="Remove User?" #cd key="removeRoleUserConfirmation">
+  <p-footer>
+    <button type="button" pButton icon="ui-icon-check" label="Yes" (click)="cd.accept()"></button>
+    <button type="button" pButton icon="ui-icon-close" label="No" (click)="cd.reject()"></button>
+  </p-footer>
+</p-confirmDialog>
+
+<p-dialog [modal]="true" showEffect="fade" [(visible)]="showEditRole" [style]="{width: '600px',height:'480px'}"
+  (onHide)="closeModel();editRoleForm.reset()">
+  <p-header *ngIf="!editMode">
+    Add
+  </p-header>
+  <p-header *ngIf="editMode">
+    Edit
+  </p-header>
+  <div class="ui-g-12 ui-md-1"></div>
+  <div class="ui-g-12 ui-md-11 fix-h-350">
+    <div class="scrollable">
+      <form (ngSubmit)="saveRole()" #editRoleForm="ngForm">
+        <div *ngIf="!editMode" class="ui-g form-group" [ngClass]="{'hide-Important':!editRoleWithOrg && editMode}">
+          <div class="ui-g-12 ui-md-4">
+            <label for="type">Type:<b style="color:red">*</b></label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-dropdown id="type" name="type" [placeholder]="'Select'" [options]="roleData.roles.type"
+              [(ngModel)]="editRole.type" [filter]="true" [required]="true"
+              (onChange)="typeChanged($event)"></p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label for="name">Name:<b style="color:red">*</b></label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input pInputText type="text" id="name" name="name" [(ngModel)]="editRole.name" maxlength="70"
+              [required]="true">
+          </div>
+        </div>
+        <div *ngIf="!(editRole.type && editRole.type>1)" class="ui-g form-group"
+          [ngClass]="{'hide-Important':!editRoleWithOrg && editMode}">
+          <div class="ui-g-12 ui-md-4">
+            <label for="orgUnit">Organization Unit:<b style="color:red">*</b></label>
+          </div>
+          <div *ngIf="roleData.roles.selectedOrgCodeType" class="ui-g-12 ui-md-4">
+            <p-autoComplete id="orgUnit" [(ngModel)]="editRole.orgCode" [suggestions]="suggestionsResults"
+              (completeMethod)="search($event)" name="OrgCode" [size]="30" placeholder="Search OrgCode" [minLength]="1"
+              [appendTo]="'body'" [required]="true"></p-autoComplete>
+          </div>
+          <div *ngIf="!roleData.roles.selectedOrgCodeType" class="ui-g-12 ui-md-4">
+            <input pInputText type="text" id="orgUnitText" name="orgUnit" [(ngModel)]="editRole.orgCode" maxlength="70"
+              [required]="true">
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <p-inputSwitch [ngModelOptions]="{standalone: true}" [(ngModel)]="roleData.roles.selectedOrgCodeType"
+              (onChange)="orgCodeTypeChanged($event)"></p-inputSwitch>
+            <label *ngIf="roleData.roles.selectedOrgCodeType" class="pull-right"
+              title="Search Existing orgCode">Existing</label>
+            <label *ngIf="!roleData.roles.selectedOrgCodeType" class="pull-right" title="Enter New orgCode">New</label>
+          </div>
+        </div>
+        <div *ngIf="!(editRole.type && editRole.type>1)" class="ui-g form-group"
+          [ngClass]="{'hide-Important':!editRoleWithOrg && editMode}">
+          <div class="ui-g-12 ui-md-4">
+            <label for="adGroup">Active Directory Group:<b style="color:red">*</b></label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-autoComplete id="adGroup" name="adGroup" [(ngModel)]="editRole.adGroup"
+              [suggestions]="granteesSuggestion" (completeMethod)="getGranteesSuggestion($event)" [size]="30"
+              placeholder="Search adGroup" [minLength]="1" appendTo="body" [forceSelection]="true" [required]="true">
+            </p-autoComplete>
+          </div>
+        </div>
+        <div *ngIf="editRole.type && editRole.type==1" class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label for="parentRoleListDropdown">Parent Directorate<b style="color:red">*</b></label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-dropdown id="parentDirListDropdown" name="parentDirList" [placeholder]="'Select'"
+              [options]="roleData.roles.parentDirList" [(ngModel)]="editRole.directorate" [filter]="true"
+              [required]="true" (onChange)="onDirChange($event)"></p-dropdown>
+          </div>
+        </div>
+        <div *ngIf="!(editRole.type && editRole.type>2)" class="ui-g form-group"
+          [ngClass]="{'hide-Important':editRole.type==3 && editMode}">
+          <div class="ui-g-12 ui-md-4">
+            <label for="parentRoleListDropdown">Parent
+              <span *ngIf="editRole.type && editRole.type==1">Group</span>
+              <span *ngIf="editRole.type && editRole.type==2">Directorate</span>
+              <span *ngIf="editRole.type && editRole.type==3">Role</span>
+              <b style="color:red">*</b></label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-dropdown id="parentRoleListDropdown" name="parentRoleList" [placeholder]="'Select'"
+              [options]="roleData.roles.parentRoleList" [(ngModel)]="editRole.parentRole" [filter]="true"
+              [required]="true"></p-dropdown>
+          </div>
+        </div>
+        <div *ngIf="!(editRole.type && editRole.type>1)" class="ui-g form-group"
+          [ngClass]="{'hide-Important':!editRoleWithOrg && editMode}">
+          <div class="ui-g-12 ui-md-4">
+            <label for="eEignAllowed">eSign Allowed:</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-dropdown id="eEignAllowed" name="eEignAllowed" [placeholder]="'Select'" [options]="options"
+              [(ngModel)]="editRole.iseSignAllowed" [appendTo]="'body'">
+            </p-dropdown>
+          </div>
+        </div>
+        <div *ngIf="!(editRole.type && editRole.type>1)" class="ui-g form-group"
+          [ngClass]="{'hide-Important':!editRoleWithOrg && editMode}">
+          <div class="ui-g-12 ui-md-4">
+            <label for="initialAllowed">Initial Allowed:</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-dropdown id="initialAllowed" name="initialAllowed" [placeholder]="'Select'" [options]="options"
+              [(ngModel)]="editRole.isInitalAllowed" [appendTo]="'body'">
+            </p-dropdown>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="progress-bar">
+    <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+  </div>
+  <p-footer>
+    <button *ngIf="!editMode" pButton class="pull-right" type="submit" label="Submit"
+      [disabled]="!editRoleForm.form.valid" (click)="saveRole()"></button>
+    <button *ngIf="editMode" pButton class="pull-right" type="submit" label="Save"
+      [disabled]="!editRoleForm.form.dirty || !editRoleForm.form.valid" (click)="saveRole()"></button>
+    <button pButton class="pull-right" type="button" label="Cancel"
+      (click)="closeModel();editRoleForm.reset()"></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)]="showInfoDialog" [modal]="true" showEffect="fade" [style]="{width: '600px'}">
+  <p-header>
+    Info
+  </p-header>
+  <table class="ecm-table  w-100">
+    <tbody>
+      <tr class="even">
+        <th style="width:30%" class="text-align-left">Name:</th>
+        <td>{{roleInfo.name}}</td>
+      </tr>
+      <tr class="odd">
+        <th style="width:30%" class="text-align-left">Type:</th>
+        <td>
+          <span *ngIf="roleInfo.type && roleInfo.type==3">Directorate</span>
+          <span *ngIf="roleInfo.type && roleInfo.type==2">Group</span>
+          <span *ngIf="roleInfo.type && roleInfo.type==1">Role</span>
+        </td>
+      </tr>
+      <tr class="even">
+        <th style="width:30%" class="text-align-left">Status:</th>
+        <td>{{roleInfo.status}}</td>
+      </tr>
+      <tr *ngIf="roleInfo.type && roleInfo.type==1" class="odd">
+        <th style="width:30%" class="text-align-left">Organization Unit:</th>
+        <td> {{roleInfo.orgCode}}</td>
+      </tr>
+      <tr *ngIf="roleInfo.type && roleInfo.type==1" class="even">
+        <th style="width:30%" class="text-align-left">Active Directory Group:</th>
+        <td>{{roleInfo.adGroup}}</td>
+      </tr>
+      <tr *ngIf="roleInfo.type && roleInfo.type==1" class="odd">
+        <th style="width:30%" class="text-align-left">Parent Directorate:</th>
+        <td>{{roleInfo.directorate}} [{{roleInfo.pDirStatus}}]</td>
+      </tr>
+      <tr *ngIf="roleInfo.type && (roleInfo.type==1 || roleInfo.type==2)"
+        [ngClass]="{'odd':roleInfo.type==2, 'even':roleInfo.type==1}">
+        <th style="width:30%" class="text-align-left">Parent {{roleInfo.type==2?'Directorate':'Group'}}:</th>
+        <td>{{roleInfo.parentRole}} [{{roleInfo.type==2?roleInfo.pDirStatus:roleInfo.pRoleStatus}}]</td>
+      </tr>
+      <tr *ngIf="roleInfo.type && roleInfo.type==1" class="odd">
+        <th style="width:30%" class="text-align-left">eSign Allowed:</th>
+        <td>{{roleInfo.iseSignAllowed && roleInfo.iseSignAllowed>0?'Yes':'No'}}</td>
+      </tr>
+      <tr *ngIf="roleInfo.type && roleInfo.type==1" class="even">
+        <th style="width:30%" class="text-align-left">Initial Allowed:</th>
+        <td>{{roleInfo.isInitalAllowed && roleInfo.isInitalAllowed>0?'Yes':'No'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</p-dialog>
+
+<p-confirmDialog appendTo="body" key="confirmKey" header="Confirm Deactivation?" acceptLabel="OK" rejectLabel="Cancel">
+</p-confirmDialog>
+<p-confirmDialog appendTo="body" key="confirmKeyWarning" header="Inactive Parent" rejectLabel="OK" rejectIcon="">
+</p-confirmDialog>
+<p-confirmDialog appendTo="body" key="confirmKeyAddRole" rejectLabel="Cancel" [icon]="null" acceptLabel="OK"
+  header="Existing Roles" icon="fa fa-help-outline"></p-confirmDialog>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

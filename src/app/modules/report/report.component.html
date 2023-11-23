@@ -1,0 +1,512 @@
+<!-- <div class="ui-g-12 p-0">
+  <p-accordion [multiple]="true" styleClass="p-0" (onOpen)="onTabOpen($event)" [activeIndex]="activeIndex">
+    <div class="ui-g">
+      <div class="ui-g-12 p-0">
+        <p-accordionTab header="Report Criteria" [selected]="true">
+          <div class="ui-g-12 p-l-0 p-r-0">
+            <vertical-split-pane primary-component-minsize="500" secondary-component-minsize="520"
+              local-storage-key="split-pane" primary-component-initialratio="0.2">
+              <div class="split-pane-content-primary ">
+                <div class="upper">
+                  <div class="fix-h-326">
+                    <app-reports-role-tree [data]="report" (expandNode)="onNodeExpanded($event)"
+                      (selectNode)="roleSelected($event)" [roleTreeSelection]="report.options.selectedNode">
+                    </app-reports-role-tree>
+                  </div>
+                </div>
+              </div>
+              <div class="split-pane-content-secondary ">
+                <div class="lower">
+                  <form #searchReportForm="ngForm" (ngSubmit)="getReport()">
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-1 p-r-0"></div>
+                      <div class="ui-g-12 ui-md-3 p-l-0">
+                        <label>Report Type:<b style="color:red">*</b></label>
+                      </div>
+                      <div class="ui-g-12 ui-md-7">
+                        <p-dropdown [options]="report.options.reportType" [(ngModel)]="report.search.reportType"
+                          [autoWidth]="false" name="reportType" [required]="true" autoDisplayFirst="false"
+                          [placeholder]="'Select'" (onChange)="reportTypeChanged($event)"></p-dropdown>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-1 p-r-0"></div>
+                      <div class="ui-g-12 ui-md-3 p-l-0">
+                        <label>Category:<b style="color:red">*</b></label>
+                      </div>
+                      <div class="ui-g-12 ui-md-7">
+                        <p-dropdown [options]="report.options.category[report.search.reportType]"
+                          [(ngModel)]="report.search.category" [autoWidth]="false" name="category" [required]="true"
+                          autoDisplayFirst="false" [placeholder]="'Select'"
+                          [disabled]="report.search.reportType==='all'"></p-dropdown>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-1 p-r-0"></div>
+                      <div class="ui-g-12 ui-md-3 p-l-0">
+                        <label>Exclude Operators:</label>
+                      </div>
+                      <div class="ui-g-12 ui-md-7">
+                        <p-checkbox name="excludeOperators" [(ngModel)]="report.search.excludeOperators" binary="true"
+                          [disabled]="report.search.reportType==='workflow' || report.search.reportType==='eSignDoc'">
+                        </p-checkbox>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-1 p-r-0"></div>
+                      <div class="ui-g-12 ui-md-3 p-l-0">
+                        <label>Date:<b style="color:red">*</b></label>
+                      </div>
+                      <div class="ui-g-12 ui-md-7">
+                        <div class="ui-g-12 ui-md-3 p-0 line-height-sm" title="Shows one day(yesterday's) report only">
+                          <label>Daily:&nbsp;&nbsp;</label>
+                          <p-checkbox name="daily" [(ngModel)]="report.search.dailyChecked" binary="true"
+                            (onChange)="checkedChanged($event)"></p-checkbox>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 p-0">
+                          <p-calendar id="fromDate" name="fromDate" placeholder="From" [showIcon]="true"
+                            dateFormat="dd/mm/yy" selectionMode="single" [readonlyInput]="true" [minDate]="fromDateMin"
+                            [(ngModel)]="report.search.fromDate" [disabled]="report.search.dailyChecked" yearRange="2017:2030"
+                            [maxDate]="report.search.toDate?report.search.toDate:today" [showButtonBar]="true"
+                            (onSelect)="fromDateSelected($event)" (onClearClick)="resetFromDatePicker($event)"
+                            [monthNavigator]="true" [yearNavigator]="true"  required="true">
+                          </p-calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-1"></div>
+                        <div class="ui-g-12 ui-md-4 p-0">
+                          <p-calendar id="toDate" name="toDate" placeholder="To" [showIcon]="true" dateFormat="dd/mm/yy" yearRange="2017:2030"
+                            selectionMode="single" [readonlyInput]="true" [(ngModel)]="report.search.toDate" (onFocus)="onFocusToDate()"
+                            [disabled]="report.search.dailyChecked" [minDate]="report.search.minDate" [maxDate]="maxToDateValue"
+                            [showButtonBar]="true" (onClearClick)="resetToDatePicker($event)" [monthNavigator]="true"
+                            [yearNavigator]="true"  required="true"></p-calendar>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-1 p-r-0"></div>
+                      <div class="ui-g-12 ui-md-3 p-l-0">
+                        <label>Search User:<b style="color:red" *ngIf="!report.search.dirSelected">*</b></label>
+                      </div>
+                      <div class="ui-g-12 ui-md-2">
+                        <p-dropdown [options]="report.options.searchType" name="searchType"
+                          [(ngModel)]="report.search.searchType" [autoWidth]="false" [appendTo]="'body'"
+                          autoDisplayFirst="false" [placeholder]="'Search Type'"
+                          (onChange)="onSearchTypeChanged($event)"></p-dropdown>
+                      </div>
+                      <div class="ui-g-12 ui-md-4">
+                        <p-autoComplete [(ngModel)]="report.search.userSearchText"
+                          [suggestions]="report.search.searchSuggestions" [ngModelOptions]="{standalone: true}"
+                          [disabled]="!report.search.searchType" (onBlur)="onBlurUser()"
+                          (completeMethod)="searchUsers($event)" (onClear)="enterUserName()"
+                          (onSelect)="usersSelected($event);" field="fulName" [size]="30" placeholder="Search Text"
+                          appendTo="body" [multiple]="false" [dropdownMode]="true" [delay]="1000" [minLength]="3"
+                          [forceSelection]="true" [emptyMessage]="'No User Found'">
+                          <ng-template let-selectedUser pTemplate="item">
+                            <div class="ui-helper-clearfix">
+                              <span class="pull-left">{{selectedUser.fulName}}</span>
+                              <span class="pull-right font-light">{{selectedUser.KocId}}</span>
+                            </div>
+                          </ng-template>
+                        </p-autoComplete>
+                      </div>
+                      <div class="ui-g-12 ui-md-1">
+                        <button pButton type="button" icon="ui-icon-clear" title="Clear" (click)="clearUserSelection()"
+                          [disabled]="!report.search.userSearchText" class="remove-btn v-m m-t-sm pull-right"></button>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-7 p-l-0">
+                      </div>
+                      <div class="ui-g-12 ui-md-5">
+                        <label>OR</label>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-1 p-r-0"></div>
+                      <div class="ui-g-12 ui-md-3 p-l-0">
+                        <label>Directorate:</label>
+                      </div>
+                      <div class="ui-g-12 ui-md-6">
+                        <p-dropdown  [options]="report.options.dirList" [(ngModel)]="report.search.dirSelected"
+                          [ngModelOptions]="{standalone: true}" autoDisplayFirst="false"
+                          [placeholder]="(report.options.dirList && report.options.dirList.length===0)?'No Directorate Found':'Select'"
+                          [autoWidth]="false" name="dirList" [filter]="true" filterBy="label,value.orgCode"
+                          (onChange)="onDirChange($event)" [title]="report.search.dirSelected
+                          && report.search.dirSelected.desc.length>=55?report.search.dirSelected.desc:''"
+                          [disabled]="(report.search.userSearchText) || (report.options.dirList && report.options.dirList.length===0)
+                                        || (!(user.isReportAdmin==='Y') && (report.options.supervisorTreeLastNode
+                                        && (report.options.supervisorTreeLastNode.data.type === 'DIR'
+                                        || report.options.supervisorTreeLastNode.data.type.toLowerCase() === 'directorate'
+                                        || report.options.supervisorTreeLastNode.data.type.toLowerCase() === 'group'
+                                        || report.options.supervisorTreeLastNode.data.type.toLowerCase() === 'team')))">
+                          <ng-template let-item pTemplate="selectedItem">
+                             <span>{{item.value.desc}}</span>
+                        </ng-template>
+                        </p-dropdown>
+                      </div>
+                      <div class="ui-g-12 ui-md-1">
+                        <button pButton type="button" icon="ui-icon-clear" title="Clear" (click)="clearDirSelection()"
+                          [disabled]="(report.search.userSearchText) || !report.search.dirSelected
+                                        || (!(user.isReportAdmin==='Y') && (report.options.supervisorTreeLastNode
+                                        && (report.options.supervisorTreeLastNode.data.type === 'DIR'
+                                        || report.options.supervisorTreeLastNode.data.type.toLowerCase() === 'directorate'
+                                        || report.options.supervisorTreeLastNode.data.type.toLowerCase() === 'group'
+                                        || report.options.supervisorTreeLastNode.data.type.toLowerCase() === 'team')))"
+                          class="remove-btn v-m m-t-sm pull-right"></button>
+                      </div>
+                      <div class="ui-g-12 ui-md-1 p-r-0"></div>
+                      <div class="ui-g-12 ui-md-1 p-r-0"></div>
+                      <div class="ui-g-12 ui-md-3 p-l-0">
+                        <label>Group:</label>
+                      </div>
+                      <div class="ui-g-12 ui-md-6">
+                        <p-dropdown class="drop-group"
+                          [options]="report.options.groupList" [(ngModel)]="report.search.groupSelected"
+                          [ngModelOptions]="{standalone: true}" autoDisplayFirst="false"
+                                    [placeholder]="((report.options.groupList && report.options.groupList.length===0) && report.search.dirSelected)?'No Group Found':'Select'"
+                                    [title]="report.search.groupSelected && report.search.groupSelected.desc.length>=55
+                                    ?report.search.groupSelected.desc:''"
+                          [autoWidth]="false" name="groupList" [filter]="true" filterBy="label,value.orgCode"
+                          (onChange)="onGroupChange($event)" [disabled]="(report.search.userSearchText)
+                           || (report.options.groupList && report.options.groupList.length===0)
+                                        || (!(user.isReportAdmin==='Y') && (report.options.supervisorTreeLastNode
+                                        && (report.options.supervisorTreeLastNode.data.type.toLowerCase() === 'group'
+                                        || report.options.supervisorTreeLastNode.data.type.toLowerCase() === 'team')))
+                                        || !report.search.dirSelected">
+                            <ng-template  let-item pTemplate="selectedItem">
+                            <span >{{item.value.desc}}</span>
+                        </ng-template>
+                        </p-dropdown>
+                      </div>
+                      <div class="ui-g-12 ui-md-1">
+                        <button pButton type="button" icon="ui-icon-clear" title="Clear" (click)="clearGroupSelection()"
+                          [disabled]="(report.search.userSearchText) || !report.search.groupSelected ||
+                                    (!(user.isReportAdmin==='Y') && (report.options.supervisorTreeLastNode
+                                    && (report.options.supervisorTreeLastNode.data.type.toLowerCase() === 'group'
+                                    || report.options.supervisorTreeLastNode.data.type.toLowerCase() === 'team')))"
+                          class="remove-btn v-m m-t-sm pull-right"></button>
+                      </div>
+                      <ng-container>
+                        <div class="ui-g-12 ui-md-1 p-r-0"></div>
+                        <div class="ui-g-12 ui-md-1 p-r-0"></div>
+                        <div class="ui-g-12 ui-md-3 p-l-0">
+                          <label>Team:</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                          <p-dropdown [options]="report.options.teamList" [(ngModel)]="report.search.teamSelected"
+                            [ngModelOptions]="{standalone: true}" autoDisplayFirst="false"
+                            [placeholder]="((report.options.teamList && report.options.teamList.length===0) && report.search.groupSelected)?'No Team Found':'Select'"
+                            [autoWidth]="false" name="teamList" [filter]="true" filterBy="label,value.orgCode"
+                            [title]="report.search.teamSelected && report.search.teamSelected.desc.length>=55
+                            ?report.search.teamSelected.desc:''"
+                            (onChange)="onTeamChange($event)" [disabled]="(report.search.userSearchText)
+                             || (report.options.teamList && report.options.teamList.length===0)
+                                          || (!(user.isReportAdmin==='Y') && (report.options.supervisorTreeLastNode
+                                          && report.options.supervisorTreeLastNode.data.type.toLowerCase() === 'team'))
+                                          || !(report.search.dirSelected && report.search.groupSelected)">
+                              <ng-template let-item pTemplate="selectedItem">
+                            <span>{{item.value.desc}}</span>
+                        </ng-template>
+                          </p-dropdown>
+                        </div>
+                        <div class="ui-g-12 ui-md-1">
+                          <button pButton type="button" icon="ui-icon-clear" title="Clear"
+                            (click)="clearTeamSelection()" [disabled]="(report.search.userSearchText)
+                            || !report.search.teamSelected ||
+                                      (!(user.isReportAdmin==='Y') && (report.options.supervisorTreeLastNode
+                                      && report.options.supervisorTreeLastNode.data.type.toLowerCase() === 'team'))"
+                            class="remove-btn v-m m-t-sm pull-right"></button>
+                        </div>
+                      </ng-container>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-1 p-r-0"></div>
+                      <div class="ui-g-12 ui-md-3 p-l-0">
+                        <label>Role:</label>
+                      </div>
+                      <div class="ui-g-12 ui-md-6">
+                        <p-dropdown [options]="report.options.roleList" [(ngModel)]="report.search.roleSearchText"
+                          [title]="report.search.roleSearchText && report.search.roleSearchText.desc.length>=55
+                          ?report.search.roleSearchText.desc:''"
+                          [ngModelOptions]="{standalone: true}" autoDisplayFirst="false"
+                          [placeholder]="((report.options.roleList && report.options.roleList.length===0) && (report.search.groupSelected ||
+                          report.search.dirSelected || report.search.teamSelected))?'No Role Found':'Select'"
+                          [autoWidth]="false" name="roleList" [filter]="true" filterBy="label,value.orgCode"
+                          (onChange)="searchRoleSelected($event.value)" [disabled]="report.search.reportType !== 'workflow' || (report.search.userSearchText) ||
+                          (report.options.roleList && report.options.roleList.length===0)||
+                                       (user.isReportAdmin==='Y' && !(report.search.dirSelected ))">
+                          <ng-template let-item pTemplate="selectedItem">
+                            <span>{{item.value.desc}}</span>
+                        </ng-template>
+                        </p-dropdown>
+                      </div>
+                      <div class="ui-g-12 ui-md-1">
+                        <button pButton type="button" icon="ui-icon-clear" title="Clear" (click)="clearRoleSelection()"
+                          [disabled]="!report.search.roleSearchText || report.search.userSearchText " class="remove-btn v-m m-t-sm pull-right"></button>
+                      </div>
+                    </div>
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-1 p-r-0"></div>
+                      <div class="ui-g-12 ui-md-10 p-r-0">
+                        <button pButton type="submit" label="Search" class="pull-right" [disabled]="!(searchReportForm.form.valid &&
+                                                ((searchQuery.EmpNo>0 && report.search.userSearchText && report.search.searchSuggestions
+                                                  && report.search.searchSuggestions.length>0) ||
+                                                (searchQuery.EmpNo>0 && report.search.roleSearchText) ||
+                                                (report.search.orgUnitSelected != '' && report.search.orgUnitSelected != null &&
+                                                report.search.orgUnitSelected != undefined && report.search.orgUnitSearchText) ||
+                                                (report.search.dirSelected )))"></button>
+                        <button pButton type="reset" label="Clear"
+                          (click)="searchReportForm.reset();clearSearchobject();" class="pull-right m-r-md"></button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </vertical-split-pane>
+          </div>
+        </p-accordionTab>
+      </div>
+      <div class="ui-g-12 p-0 p-t-md">
+        <p-accordionTab header="Report Data">
+          <p-header>
+            Report Data
+            <span *ngIf="eSignData && eSignDocData && eSignDocData.length>0" class="pull-right">Total Results:
+              {{eSignDocData.length}}</span>
+          </p-header>
+          <div *ngIf="reportChartData && !allData" class="ui-g-12 p-l-0 p-r-0">
+            <div class="ui-g-12 ui-md-1 p-0 white-text">a</div>
+            <div class="ui-g-12 ui-md-10 p-0 reportTitle">
+              <p class="m-7">{{(chartOptions.title.text).replace('Chart','')}}</p>
+            </div>
+            <div class="ui-g-12 ui-md-1 p-0" style="line-height: 2;">
+              <p-splitButton [styleClass]="'ecm-split-button2 pull-right save-to-excel-sb'" label="Export"
+                (onClick)="exportToPdf()" [disabled]="!(reportCount && reportCount.length>0)" [model]="exportBtnItems">
+              </p-splitButton>
+            </div>
+            <div class="ui-g-12 ui-md-12 p-r-0 p-l-0 p-b-0">
+              <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+                <div class="ui-g">
+                  <div class="ui-g-12 p-0">
+                    <table>
+                      <tr>
+                        <td><i class="fa fa-search v-m m-r-md"></i></td>
+                        <td>
+                          <input #gbf type="text" pInputText size="50" placeholder="Filter Text" style="color: #ffffff"
+                            class="v-m p-0">
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <p-dataTable [value]="reportCount" [reorderableColumns]="true" [resizableColumns]="true" [rows]="pageSize"
+                [paginator]="true" [globalFilter]="gbf" [rowStyleClass]="textAlignCenter">
+                <p-column [sortable]="true" header="Sl.No" [style]="{'width':'4%'}">
+                  <ng-template let-col let-row="rowData" let-i="rowIndex" pTemplate="body">{{i+1}}</ng-template>
+                </p-column>
+                <p-column *ngFor="let colHeader of colHeaders" field="{{colHeader.field}}" header="{{colHeader.header}}"
+                  [sortable]="true" [sortField]="colHeader.sortField?colHeader.sortField:colHeader.field">
+                </p-column>
+                <p-column field="count" header="Count" [sortable]="true" [style]="{'width':'7%'}"></p-column>
+                <ng-template pTemplate="paginatorRight">
+                  <table class="pull-right">
+                    <tbody>
+                      <tr style="line-height: 1.5;">
+                        <td style="width: 36%;">Total:</td>
+                        <td>
+                          {{report.options.chartTotal?report.options.chartTotal:0}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-template>
+              </p-dataTable>
+            </div>
+          </div>
+          <div *ngIf="eSignData" class="ui-g-12 p-l-0 p-r-0">
+            <div class="ui-g-12 ui-md-1 p-0 white-text">a</div>
+            <div class="ui-g-12 ui-md-10 p-0 reportTitle">
+              <p class="m-7">eSign Documents</p>
+            </div>
+            <div class="ui-g-12 ui-md-1 p-0">
+              <p-splitButton [styleClass]="'ecm-split-button2 pull-right save-to-excel-sb'" label="Export"
+                (onClick)="exportToPdf()" [model]="exportBtnItems"
+                [disabled]="!(eSignDocData && eSignDocData.length>0)"></p-splitButton>
+            </div>
+            <div class="ui-g-12 ui-md-12 p-r-0 p-l-0">
+              <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+                <div class="ui-g">
+                  <div class="ui-g-12 p-0">
+                    <table>
+                      <tr>
+                        <td><i class="fa fa-search v-m m-r-md"></i></td>
+                        <td>
+                          <input #gb type="text" pInputText size="50" placeholder="Filter Text" style="color: #ffffff"
+                            class="v-m p-0">
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <p-dataTable [value]="eSignDocData" [reorderableColumns]="true" [resizableColumns]="true"
+                [rows]="pageSize" [paginator]="true" [globalFilter]="gb" [rowGroupMode]="'subheader'"
+                [groupField]="'recordGroupName'" [sortableRowGroup]="true" expandableRowGroups="true"
+                [expandedRowsGroups]="expandedRowsGroups">
+                <ng-template pTemplate="rowgroupheader" let-rowData>
+                  <span [innerHTML]="rowData.recordGroupName | safeHtml"></span>
+                </ng-template>
+                <p-column *ngFor="let colHeader of colHeadersESign" field="{{colHeader.field}}"
+                  header="{{colHeader.header}}" [sortable]="true"
+                  [sortField]="colHeader.sortField?colHeader.sortField:colHeader.field">
+                </p-column>
+              </p-dataTable>
+            </div>
+          </div>
+          <div *ngIf="memoData" class="ui-g-12 p-l-0 p-r-0">
+            <div class="ui-g-12 ui-md-1 p-0 white-text">a</div>
+            <div class="ui-g-12 ui-md-10 p-0 reportTitle">
+              <p class="m-7">Easy Memo Details</p>
+            </div>
+            <div class="ui-g-12 ui-md-1 p-0">
+              <p-splitButton [styleClass]="'ecm-split-button2 pull-right save-to-excel-sb'" label="Export"
+                (onClick)="exportToPdf()" [model]="exportBtnItems"
+                [disabled]="!(memoDocData && memoDocData.length>0)"></p-splitButton>
+            </div>
+            <div class="ui-g-12 ui-md-12 p-r-0 p-l-0">
+              <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+                <div class="ui-g">
+                  <div class="ui-g-12 p-0">
+                    <table>
+                      <tr>
+                        <td><i class="fa fa-search v-m m-r-md"></i></td>
+                        <td>
+                          <input #gb type="text" pInputText size="50" placeholder="Filter Text" style="color: #ffffff"
+                            class="v-m p-0">
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <p-dataTable [value]="memoDocData" [reorderableColumns]="true" [resizableColumns]="true"
+                [rows]="pageSize" [paginator]="true" [globalFilter]="gb" [rowGroupMode]="'subheader'"
+                [groupField]="'recordGroupName'" [sortableRowGroup]="true" expandableRowGroups="true"
+                [expandedRowsGroups]="expandedRowsGroups">
+                <ng-template pTemplate="rowgroupheader" let-rowData>
+                  <span [innerHTML]="rowData.recordGroupName | safeHtml"></span>
+                </ng-template>
+                <p-column *ngFor="let colHeader of colHeadersMemo" field="{{colHeader.field}}"
+                  header="{{colHeader.header}}" [sortable]="true"
+                  [sortField]="colHeader.sortField?colHeader.sortField:colHeader.field">
+                </p-column>
+              </p-dataTable>
+            </div>
+          </div>
+          <div *ngIf="allData" class="ui-g-12 p-l-0 p-r-0">
+            <div class="ui-g-12 ui-md-1 p-0 white-text">a</div>
+            <div class="ui-g-12 ui-md-10 p-0 reportTitle">
+              <p class="m-7">All Report</p>
+            </div>
+            <div class="ui-g-12 ui-md-1 p-0">
+              <p-splitButton [styleClass]="'ecm-split-button2 pull-right save-to-excel-sb'" label="Export"
+                (onClick)="exportToPdf()" [model]="exportBtnItems" [disabled]="!(reportCount && reportCount.length>0)">
+              </p-splitButton>
+            </div>
+            <div class="ui-g-12 ui-md-12 p-r-0 p-l-0 p-b-0">
+              <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+                <div class="ui-g">
+                  <div class="ui-g-12 p-0">
+                    <table>
+                      <tr>
+                        <td><i class="fa fa-search v-m m-r-md"></i></td>
+                        <td>
+                          <input #allgbf type="text" pInputText size="50" placeholder="Filter Text"
+                            style="color: #ffffff" class="v-m p-0">
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <p-dataTable [value]="reportCount" [reorderableColumns]="true" [resizableColumns]="true" [rows]="pageSize"
+                [paginator]="true" [globalFilter]="allgbf" [rowStyleClass]="textAlignCenter" id="allReport">
+                <p-headerColumnGroup>
+                  <p-row>
+                    <p-column header="" colspan="2"></p-column>
+                    <p-column header="Workflow" colspan="2"></p-column>
+                    <p-column header="Documents" colspan="2"></p-column>
+                  </p-row>
+                  <p-row>
+                    <p-column header="Sl.No" [style]="{'width':'4%'}"></p-column>
+                    <ng-container *ngIf="searchQuery.type == 'User'">
+                      <p-column field="orgTeamName" header="Team Name" [style]="{'width':'68%'}" [sortable]="true">
+                      </p-column>
+                    </ng-container>
+                    <ng-container *ngIf="searchQuery.type != 'User'">
+                      <p-column field="orgTeamName"
+                        header="{{(searchQuery.type && searchQuery.type.toLowerCase() === 'directorate')?'Group Name':'Team Name'}}"
+                        [style]="{'width':'68%'}" [sortable]="true"></p-column>
+                    </ng-container>
+                    <p-column field="inboxCount" header="Received" [sortable]="true" [style]="{'width':'7%'}">
+                    </p-column>
+                    <p-column field="sentCount" header="Sent" [sortable]="true" [style]="{'width':'7%'}"></p-column>
+                    <p-column field="docCount" header="Created" [sortable]="true" [style]="{'width':'7%'}"></p-column>
+                    <p-column field="eSignCount" header="eSign" [sortable]="true" [style]="{'width':'7%'}"></p-column>
+                  </p-row>
+                </p-headerColumnGroup>
+                <p-column [sortable]="true" header="Sl.No">
+                  <ng-template let-col let-row="rowData" let-i="rowIndex" pTemplate="body">{{i+1}}</ng-template>
+                </p-column>
+                <p-column *ngFor="let colHeader of allReportColHeaders" field="{{colHeader.field}}"
+                  header="{{colHeader.header}}" [sortable]="true"
+                  [sortField]="colHeader.sortField?colHeader.sortField:colHeader.field">
+                </p-column>
+                <ng-template pTemplate="paginatorRight">
+                  <table class="pull-right">
+                    <tbody>
+                      <tr style="line-height: 1.5;">
+                        <td style="float:right;">Total:</td>
+                        <td style="width: 18%">{{report.options.allTotal.receivedCount}}</td>
+                        <td style="width: 14%">{{report.options.allTotal.sentCount}}</td>
+                        <td style="width: 18%">{{report.options.allTotal.docCount}}</td>
+                        <td style="width: 13%">{{report.options.allTotal.eSignCount}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-template>
+              </p-dataTable>
+            </div>
+          </div>
+        </p-accordionTab>
+      </div>
+      <div class="ui-g-12 p-0 p-t-md">
+        <p-accordionTab header="Report Graph" [disabled]="eSignData || memoData">
+          <p-header>
+            Report Chart
+          </p-header>
+          <div *ngIf="reportChartData" class="ui-g-12 p-l-0 p-r-0">
+            <div class="ui-g-12 ui-md-1"></div>
+            <div class="ui-g-12 ui-md-10">
+              <p class="reportTitle m-t-0">{{(chartOptions.title.text)}}</p>
+              <canvas style="background: #f5f5f5" *ngIf="reportChartData" baseChart [chartType]="chartType"
+                [options]="chartOptions" [datasets]="report.options.chartPages[currentPage].chartData"
+                [labels]="report.options.chartPages[currentPage].chartLabels" [legend]="chartLegend"
+                [colors]="report.options.chartPages[currentPage].chartColors">
+              </canvas>
+              <button id="Next" pButton class="remove-btn v-m pull-right" type="button" icon="ui-icon-navigate-next"
+                title="Next" [disabled]="currentPage>=report.options.chartPageCount" (click)="loadNext()"></button>
+              <button id="Previous" pButton class="remove-btn v-m pull-right p-r-md m-r-md" type="button"
+                icon="ui-icon-navigate-before" title="Previous" [disabled]="currentPage===0"
+                (click)="loadPrevious()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1"></div>
+          </div>
+        </p-accordionTab>
+      </div>
+    </div>
+  </p-accordion>
+</div>
+<div class="progress-bar" style="position: static !important;">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div> -->

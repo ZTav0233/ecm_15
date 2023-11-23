@@ -1,0 +1,667 @@
+<p-tabView styleClass="m-h-100" [activeIndex]="indexTab" (onChange)="changeTabType($event)">
+  <p-tabPanel header="New Operation" leftIcon="ui-icon-playlist-add">
+    <div class="ui-g">
+      <div class="ui-g-12 ui-md-12 p-0 m-l-lg">
+        <div class="ui-g-6 ui-md-6 ui-sm-10 p-0">
+          <p-selectButton [options]="formTypes" [(ngModel)]="selectedType" (onChange)="handleChange($event.value)">
+          </p-selectButton>
+          <div *ngIf="isNotQuery">
+            <div class="ui-g form-group p-t-xl">
+              <div class="ui-g-12 ui-md-3 ">
+                <label>Operation Name- Description:</label>
+                <span class="required">*</span>
+              </div>
+              <div class="ui-g-12 ui-md-8 ui-inputgroup">
+                <input type="text" maxlength="250" pInputText [(ngModel)]="secPostObj.desc" name="desc" required>
+              </div>
+            </div>
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-3">
+                <label>Document Class:</label>
+                <span class="required">*</span>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="docClass" (onChange)="changeNewClass($event)" [options]="docClass"
+                  [ngModelOptions]="{standalone: true}" [(ngModel)]="secPostObj.selectedClass" [filter]="true"
+                  [style]="{'width':'100%'}">
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-3">
+                <label>Entry Template:</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="entryTemplates"
+                  [disabled]="!secPostObj.selectedClass || secPostObj.selectedClass.docClassId ===''"
+                  [options]="entryTemplate" [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="secPostObj.selectedEntryTemplate" [filter]="true" [style]="{'width':'100%'}">
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-3">
+                <label>Folder Path:</label>
+              </div>
+              <div class="ui-g-12 ui-md-8 ui-inputgroup">
+                <input id="path" class="form-control" type="text" disabled [ngModel]="secPostObj.selectedFolder.path"
+                  [title]="secPostObj.selectedFolder.path" pInputText>
+                <button *ngIf="removeEnabled" pButton type="button" icon="ui-icon-close" title="Close"
+                  (click)="removeFolderPath()"></button>
+                <button *ngIf="!removeEnabled" pButton type="button" (click)="openTreeDialog()"
+                  icon="ui-icon-folder-open"></button>
+              </div>
+            </div>
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-3 ">
+                <label>Include Subfolders:</label>
+              </div>
+              <div class="ui-g-12 ui-md-8 ui-inputgroup">
+                <p-checkbox [disabled]="!secPostObj.selectedFolder.id"
+                  [(ngModel)]="secPostObj.selectedFolder.isSubFolders" [binary]="true"></p-checkbox>
+              </div>
+            </div>
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-3">
+                <label>Org Code:</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="orgCode" [(ngModel)]="secPostObj.selectedOrgCode" [filter]="true"
+                  [style]="{'width':'100%'}" [ngModelOptions]="{standalone: true}" [options]="orgCodeList"
+                  (onSelect)="orgUnitSelected($event);">
+                </p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-3">
+                <label>Created Date:</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <p-calendar id="createdFrom" [readonlyInput]="true" [showButtonBar]="true" [yearNavigator]="true"
+                  [monthNavigator]="true" yearRange="1900:2030" [(ngModel)]="secPostObj.createdFrom"
+                  class="form-control" dateFormat="dd/mm/yy" [maxDate]="today" [showIcon]="true"></p-calendar>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <p-calendar id="createdTo" [yearNavigator]="true" yearRange="1900:2030"
+                  [(ngModel)]="secPostObj.createdTo" [readonlyInput]="true" [showButtonBar]="true"
+                  [monthNavigator]="true" [minDate]="secPostObj.createdFrom" class="form-control"
+                  [disabled]="!secPostObj.createdFrom" [maxDate]="today" dateFormat="dd-mm-yy"
+                  [showIcon]="true"></p-calendar>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!isNotQuery" class="ui-g form-group p-b-xl p-t-xl">
+            <div class="ui-g-12 ui-md-3 ">
+              <label>Operation Name- Description:</label>
+              <span class="required">*</span>
+            </div>
+            <div class="ui-g-12 ui-md-8 ui-inputgroup">
+              <input type="text" maxlength="250" pInputText [(ngModel)]="secPostObj.desc" name="desc" required>
+            </div>
+          </div>
+          <div *ngIf="!isNotQuery" class="ui-g form-group">
+            <div class="ui-g-12 ui-md-3 ">
+              <label>Query:</label>
+              <span class="required">*</span>
+            </div>
+            <div class="ui-g-12 ui-md-8 ui-inputgroup">
+              <textarea [spellcheck]="true" class="text-area-resize-none bordered" [rows]="6" [cols]="30" pInputTextarea
+                [autoResize]="false" [(ngModel)]="secPostObj.query" name="query"></textarea>
+            </div>
+          </div>
+          <div class="ui-g form-group">
+            <div class="ui-g-12 ui-md-11">
+              <div *ngIf="selectedType==='query'" class="pull-right">
+                <button pButton [disabled]="((!secPostObj.query || !secPostObj.desc) && selectedType==='query')"
+                  (click)="startOperation('COUNT')" label=" Start Count"></button>
+                <button pButton
+                  [disabled]="((!secPostObj.query || !secPostObj.desc || noParticipants) && selectedType==='query')"
+                  (click)="startOperation('UPDATE')" label="Start Update"></button>
+                <button pButton
+                  [disabled]="((!secPostObj.query || !secPostObj.desc || noParticipants) && selectedType==='query')"
+                  (click)="startOperation('SAVE')" label="Save"></button>
+              </div>
+              <div *ngIf="selectedType==='criteria'" class="pull-right">
+                <button pButton
+                  [disabled]="(selectedType==='criteria' && (!secPostObj.desc  || !secPostObj.selectedClass.docClassSymName))"
+                  (click)="startOperation('COUNT')" label=" Start Count"></button>
+                <!--!secPostObj.selectedClass.docClassSymName-->
+                <button pButton
+                  [disabled]="(selectedType==='criteria' && (!secPostObj.desc || !secPostObj.selectedClass.docClassSymName  ||  noParticipants))"
+                  (click)="startOperation('UPDATE')" label="Start Update"></button>
+                <button pButton
+                  [disabled]="(selectedType==='criteria' && (!secPostObj.desc || !secPostObj.selectedClass.docClassSymName  ||  noParticipants))"
+                  (click)="startOperation('SAVE')" label="Save"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-6 ui-md-6 ui-sm-12 p-0">
+          <!-- <p-dataTable [reorderableColumns]="true" [resizableColumns]="true"
+            [emptyMessage]="'click add button to add new participant'" [value]="secPostObj.participants"
+            [rows]="itemsPerPage">
+            <p-header>Add Participant</p-header>
+            <p-column header="Participants">
+              <ng-template let-col let-participant="rowData" let-ri="rowIndex" pTemplate="body">
+                <div class="ui-g">
+                  <div class="ui-g-12 p-0">
+                    <div class="ui-g-9 p-l-0 p-t-0 p-b-0">
+                      <p-autoComplete [(ngModel)]="participant.granteeName"
+                        [suggestions]="participant.granteesSuggestion" [delay]="1000" (onBlur)="validateParticipants(participant)" (onSelect)="validateParticipants()"
+                        (completeMethod)="getGranteesSuggestion($event,participant)" field="name" [size]="30"
+                        placeholder="Search User/Group" [minLength]="1" appendTo="body" [forceSelection]="true">
+                      </p-autoComplete>
+                    </div>
+                    <div class="ui-g-3 p-r-0">
+                      <p-dropdown [options]="types" [(ngModel)]="participant.type"  
+                        name="granteeType{{ri}}" appendTo="body"  ></p-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </p-column>
+            <p-column header="Action">
+              <ng-template let-col let-participant="rowData" let-ri="rowIndex" pTemplate="body">
+                <p-dropdown [options]="actions" [(ngModel)]="participant.action"  
+                  (onChange)="onAccessTypeChange(participant,roles)" name="accessType{{ri}}" appendTo="body">
+                </p-dropdown>
+              </ng-template>
+            </p-column>
+            <p-column header="Role">
+              <ng-template let-col let-participant="rowData" let-ri="rowIndex" pTemplate="body">
+                <div class="ui-g-12 ui-md-12">
+                  <div class="ui-g-10 ui-md-10">
+                <p-dropdown [options]="participant.action==='REMOVE' ||
+                  participant.action ==='DENY' ? []:roles" [(ngModel)]="participant.role" [disabled]="participant.action==='REMOVE' ||
+                  participant.action ==='DENY'"   name="accessLevels{{ri}}" appendTo="body">
+                </p-dropdown>
+                  </div>
+                  <div class="ui-g-2 ui-md-2">
+                <button pButton type="button" icon="ui-icon-info-outline"   class="remove-btn v-m"
+                   (click)="showPermissionDetails(participant.role);displayPermissionDetails=true;"></button>
+                  </div>
+                </div>
+              </ng-template>
+            </p-column>
+            <p-column>
+              <ng-template let-dat="rowData" let-i="rowIndex" pTemplate="body">
+                <button pButton type="button" icon="ui-icon-remove" title="Remove" (click)="removeNewPermission(dat);validateParticipants()"
+                  class="remove-btn v-m"></button>
+              </ng-template>
+            </p-column>
+          </p-dataTable> -->
+          <p-table [value]="secPostObj.participants" [resizableColumns]="true"
+            styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+            [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="caption"> Add Participants </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="text-align: center;" pResizableColumn>Participant</th>
+                <th style="text-align: center;" pResizableColumn>Action</th>
+                <th style="text-align: center;" pResizableColumn>Role</th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-i="rowIndex">
+              <tr>
+                <td>
+                  <div class="ui-g-12 p-0">
+                    <div class="ui-g-9 p-l-0 p-t-0 p-b-0">
+                      <p-autoComplete [(ngModel)]="product.granteeName" [suggestions]="product.granteesSuggestion"
+                        [delay]="1000" (onBlur)="validateParticipants()" (onSelect)="validateParticipants()"
+                        (completeMethod)="getGranteesSuggestion($event,product)" field="name" [size]="30"
+                        placeholder="Search User/Group" [minLength]="1" appendTo="body" [forceSelection]="true">
+                      </p-autoComplete>
+                    </div>
+                    <div class="ui-g-3 p-r-0">
+                      <p-dropdown [options]="types" [(ngModel)]="product.type" name="granteeType{{i}}"
+                        appendTo="body"></p-dropdown>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <p-dropdown [options]="actions" [(ngModel)]="product.action"
+                    (onChange)="onAccessTypeChange(product,roles)" name="accessType{{i}}" appendTo="body">
+                  </p-dropdown>
+                </td>
+                <td>
+
+                  <div class="ui-g-12 ui-md-12">
+                    <div class="ui-g-10 ui-md-10">
+                      <p-dropdown [options]="product.action==='REMOVE' ||
+                    product.action ==='DENY' ? []:roles" [(ngModel)]="product.role" [disabled]="product.action==='REMOVE' ||
+                    product.action ==='DENY'" name="accessLevels{{i}}" appendTo="body">
+                      </p-dropdown>
+                    </div>
+                    <div class="ui-g-2 ui-md-2">
+                      <button pButton type="button" icon="ui-icon-info-outline" class="remove-btn v-m"
+                        (click)="showPermissionDetails(product.role);displayPermissionDetails=true;"></button>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <button pButton type="button" icon="ui-icon-remove" title="Remove"
+                    (click)="removeNewPermission(product);validateParticipants()" class="remove-btn v-m"></button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <div class="ui-g form-group">
+            <div class="ui-g-12 ui-md-12">
+              <div class="pull-left">
+                <button pButton (click)="addParticipants()" label="Add"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Operations" leftIcon="ui-icon-list">
+    <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+      <!-- global filter -->
+      <div class="ui-g">
+        <div class="ui-g-12 p-0">
+          <table>
+            <tr>
+              <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
+              <td style="width: 98%">
+                <input #gb type="text" pInputText size="50" placeholder="Filter Text"
+                  style="color: #ffffff; width: 30%;" class="v-m p-0">
+              </td>
+              <td>
+                <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="getOperationTable()"
+                  class="remove-btn v-m no-box-shadow"></button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- <p-dataTable #dt [value]="operationsTable" [globalFilter]="gb" [rows]="25" [paginator]="true">
+      <p-column [sortable]="true" field="description" header="Operation Name - Description:"></p-column>
+      <p-column [sortable]="true" field="type" header="Type"></p-column>
+      <p-column [sortable]="true" field="startTime2" sortField="startTime"   header="Start Time"></p-column>
+      <p-column [sortable]="true" field="status" header="Status"  >
+      </p-column>
+      <p-column field="details" header="Details" styleClass="col-button">
+        <ng-template let-dat="rowData" pTemplate let-i="rowIndex" type="default">
+          <button pButton type="button" icon="ui-icon-open-in-new" title="open details" class="remove-btn v-m"
+            (click)="openDetails=true;getSelectedOperation(dat);"></button>
+        </ng-template>
+      </p-column>
+      <p-column field="logging " header="Logging " styleClass="col-button">
+        <ng-template let-dat="rowData" let-i="rowIndex" pTemplate="body">
+          <button pButton type="button" icon="ui-icon-info-outline" title="Log"  class="remove-btn v-m"
+            (click)="dat.type.toLowerCase() ==='update'? openLoggingUpdate=true:openLoggingCount=true;showLoggingInfo(dat);"></button>
+        </ng-template>
+      </p-column>
+      <p-column filterField="action"  field="action" header="Action">
+        <ng-template let-dat="rowData" let-i="rowIndex" pTemplate="body">
+          <div  *ngIf="!((dat.type==='COUNT' &&  dat.status==='RUNNING') || (dat.type==='UPDATE'  &&  dat.status==='FINISHED')) || dat.status==='SAVED'" class="m-l-xxxl p-b-sm">
+          <button  [disabled]="dat.type==='COUNT' && dat.status==='FINISHED'  && !dat.enableUpdate"
+                  pButton type="button" [icon]="test(dat)" [title]="dat.action"
+            class="remove-btn v-m" (click)="onPauseOrResume(dat)"> </button>
+          <span class="text-bold"> {{dat.action}}</span>
+          </div>
+          <div *ngIf="(dat.status==='SAVED' || dat.status==='FINISHED' || dat.status==='PAUSED' || dat.status==='FAILED')"  class="m-l-xxxl">
+          <button  pButton type="button" [icon]="'ui-icon-remove'" [title]="'REMOVE'"
+            class="remove-btn v-m" (click)="removeOperCount(dat)"> </button>
+          <span class="text-bold"> REMOVE</span>
+            </div>
+        </ng-template>
+      </p-column>
+      <p-column [sortable]="true" field="actionBy" header="Added By "></p-column>
+      <p-column [sortable]="true" field="modifiedBy" header="Modified By "></p-column>
+      <p-column field="refresh " header="Refresh" styleClass="col-button">
+        <ng-template let-dat="rowData" let-i="rowIndex" pTemplate="body">
+          <button pButton type="button" icon="ui-icon-refresh" title="refresh" (click)="refreshOp(dat)"
+            class="remove-btn v-m"></button>
+        </ng-template>
+      </p-column>
+    </p-dataTable> -->
+    <p-table [value]="operationsTable" [resizableColumns]="true" [paginator]="true" [rows]="10"
+      styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="caption"> Header </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="description">Operation Name -
+            Description<p-sortIcon field="description"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="type">Type<p-sortIcon
+              field="type"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="startTime">Start Time<p-sortIcon
+              field="startTime"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="status">Status<p-sortIcon
+              field="status"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn>Details</th>
+          <th style="text-align: center;" pResizableColumn>Logging</th>
+          <th style="text-align: center;" pResizableColumn>Action</th>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="actionBy">Added By<p-sortIcon
+              field="actionBy"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="modifiedBy">Modified By<p-sortIcon
+              field="modifiedBy"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn>Refresh</th>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product let-i="rowIndex">
+        <tr>
+          <td>{{ product.description }}</td>
+          <td>{{ product.type }}</td>
+          <td>{{ product.startTime2 }}</td>
+          <td>{{ product.status }}</td>
+          <td>
+            <button pButton type="button" icon="ui-icon-open-in-new" title="open details" class="remove-btn v-m"
+              (click)="openDetails=true;getSelectedOperation(product);"></button>
+          </td>
+          <td>
+            <button pButton type="button" icon="ui-icon-info-outline" title="Log" class="remove-btn v-m"
+              (click)="product.type.toLowerCase() ==='update'? openLoggingUpdate=true:openLoggingCount=true;showLoggingInfo(product);"></button>
+          </td>
+          <td>
+            <div
+              *ngIf="!((product.type==='COUNT' &&  product.status==='RUNNING') || (product.type==='UPDATE'  &&  product.status==='FINISHED')) || product.status==='SAVED'"
+              class="m-l-xxxl p-b-sm">
+              <button [disabled]="product.type==='COUNT' && product.status==='FINISHED'  && !product.enableUpdate"
+                pButton type="button" [icon]="test(product)" [title]="product.action" class="remove-btn v-m"
+                (click)="onPauseOrResume(product)"> </button>
+              <span class="text-bold"> {{product.action}}</span>
+            </div>
+            <div
+              *ngIf="(product.status==='SAVED' || product.status==='FINISHED' || product.status==='PAUSED' || product.status==='FAILED')"
+              class="m-l-xxxl">
+              <button pButton type="button" [icon]="'ui-icon-remove'" [title]="'REMOVE'" class="remove-btn v-m"
+                (click)="removeOperCount(product)"> </button>
+              <span class="text-bold"> REMOVE</span>
+            </div>
+          </td>
+          <td>{{product.actionBy}}</td>
+          <td>{{product.modifiedBy}}</td>
+          <td>
+            <button pButton type="button" icon="ui-icon-refresh" title="refresh" (click)="refreshOp(product)"
+              class="remove-btn v-m"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-tabPanel>
+</p-tabView>
+<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTree" width="800" height="450">
+  <p-header>
+    Select Folder Path
+  </p-header>
+  <div class="ui-tabview-panel folder-path-selection-model">
+    <p-tree [value]="folderList" selectionMode="single" sele (onNodeExpand)="nodeExpand($event)"
+      [(selection)]="secPostObj.selectedFolder" (onNodeSelect)="nodeSelect($event)"></p-tree>
+  </div>
+  <button pButton type="button" label="Cancel" class="small-btn-right m-t-xl m-r-md m-b-md"
+    (click)="openTree=false;secPostObj.selectedFolder={id:'',path:'',isSubFolders:false}"></button>
+  <button pButton type="button" label="OK" class="small-btn-right m-t-xl m-r-md m-b-md"
+    [disabled]="!secPostObj.selectedFolder.id || secPostObj.selectedFolder.id===''"
+    (click)="openTree=false;removeEnabled=true"></button>
+</p-dialog>
+<p-dialog appendTo="body" [modal]="true" (onHide)="closeLog(gbLogging)" [(visible)]="openLoggingUpdate"
+  showEffect="fade" width="800" height="450">
+  <p-header>
+    Update Log
+  </p-header>
+  <button *ngIf="currentOperation && currentOperation.type==='UPDATE' && currentOperation.status === 'FINISHED'" pButton
+    type="button" label="Run Failed Documents" (click)="runFailedDocs();" class="m-t-xl m-r-md m-b-md"></button>
+  <p-checkbox id="checkbox" [binary]="true" (onChange)="checkChange()" label="Show Failed Documents"
+    [(ngModel)]="showFailedDoc" class="p-xs"></p-checkbox>
+  <div class="ui-tabview-panel folder-path-selection-model p-t-lg">
+    <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+      <!-- global filter -->
+      <div class="ui-g">
+        <div class="ui-g-12 p-0">
+          <table>
+            <tr>
+              <td style="width: 2%;"><i class="fa fa-search v-m m-r-md"></i></td>
+              <td style="width: 98%;">
+                <input #gbLogging type="text" pInputText size="50" placeholder="Filter Text" (keyup)="filterLog($event)"
+                  style="color: #ffffff; width: 30%;" class="v-m p-0">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- <p-dataTable #dt1  [lazy]="true" [value]="loggingTable.logData"
+      [globalFilter]="gbLogging" [paginator]="true"  [totalRecords]="loggingTable.totalCount"
+       [rows]="rowsLogTable?rowsLogTable:100"   (onPage)="onPaging(currentOperation,$event)">
+      <p-column field="docId" header="DocID" >
+        <ng-template let-dat="rowData" let-ri="rowIndex" pTemplate="body">
+        <span (click)="openDocDetails(dat)" class="hyperLink">{{dat.docId}}</span>
+      </ng-template></p-column>
+      <p-column  field="action" header="Action" ></p-column>
+      <p-column  field="status" header="Status"></p-column>
+       <p-column header="Details" styleClass="text-align-center">
+       <ng-template let-col let-dat="rowData" let-ri="rowIndex" pTemplate="body">
+     <span *ngIf="dat.details"><button pButton type="button" icon="ui-icon-error-outline" title="View Details"
+       (click)="showUpdateLogDetails=true;showLogDetails(dat.details);" class="remove-btn v-m"></button></span>
+     <span *ngIf="!dat.details">
+       -
+     </span>
+     </ng-template>
+       </p-column>
+    </p-dataTable> -->
+    <p-table [value]="loggingTable.logData" [resizableColumns]="true" [lazy]="true" [paginator]="true"
+      [totalRecords]="loggingTable.totalCount" [rows]="rowsLogTable?rowsLogTable:100"
+      styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="caption"> Header </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="text-align: center;" pResizableColumn>DocID</th>
+          <th style="text-align: center;" pResizableColumn>Action</th>
+          <th style="text-align: center;" pResizableColumn>Status</th>
+          <th style="text-align: center;" pResizableColumn>Details</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product let-i="rowIndex">
+        <tr>
+          <td>
+            <span (click)="openDocDetails(product)" class="hyperLink">{{product.docId}}</span>
+          </td>
+          <td>{{ product.action }}</td>
+          <td>{{ product.status }}</td>
+          <td>
+            <span *ngIf="product.details"><button pButton type="button" icon="ui-icon-error-outline"
+                title="View Details" (click)="showUpdateLogDetails=true;showLogDetails(product.details);"
+                class="remove-btn v-m"></button></span>
+            <span *ngIf="!product.details">
+              -
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <div class="progress-bar">
+      <div [cgBusy]=busyLogFilter [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog appendTo="body" [modal]="true" [(visible)]="openLoggingCount" showEffect="fade" width="200" height="200">
+  <p-header>
+    Count
+  </p-header>
+  <div *ngIf="currentOperation" class="ui-g form-group">
+    <div class="ui-g-12 ui-md-6">
+      <span style="font-size: 30px;margin-left: 70%"
+        class="text-bold">{{currentOperation.currentCount?currentOperation.currentCount:0}}</span>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog appendTo="body" [modal]="true" [(visible)]="showUpdateLogDetails" showEffect="fade" width="800" height="500">
+  <p-header>
+    Logging Details
+  </p-header>
+  <div class="max-h-400">
+    <span>{{selectedLogDetails}}</span>
+  </div>
+
+</p-dialog>
+<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openDetails" width="900" height="600">
+  <p-header>
+    Details
+  </p-header>
+  <div *ngIf="selectedOperation" class="ui-g-12 ui-md-12 p-0 m-l-lg">
+    <div class="ui-g-10 ui-md-10 ui-sm-10 p-0">
+      <div *ngIf="selectedOperation.description" class="ui-g form-group">
+        <div class="ui-g-12 ui-md-4">
+          <label class="text-bold">Operation Name - Description:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <span> {{selectedOperation.description}}</span>
+        </div>
+      </div>
+      <div *ngIf="selectedOperation.operationInput.docClassSymName" class="ui-g form-group">
+        <div class="ui-g-12 ui-md-4">
+          <label class="text-bold">Document Class:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <span> {{selectedOperation.operationInput.docClassSymName}}</span>
+        </div>
+      </div>
+      <div
+        *ngIf="selectedOperation.operationInput.docClassSymName && selectedOperation.operationInput.entryTemplateName"
+        class="ui-g form-group">
+        <div class="ui-g-12 ui-md-4">
+          <label class="text-bold">Entry Template:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <span> {{selectedOperation.operationInput.entryTemplateName}}</span>
+        </div>
+      </div>
+      <div
+        *ngIf="selectedOperation.operationInput.docClassSymName && !selectedOperation.operationInput.entryTemplateName"
+        class="ui-g form-group">
+        <div class="ui-g-12 ui-md-4">
+          <label class="text-bold">Entry Template:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <span> ALL</span>
+        </div>
+      </div>
+      <div *ngIf="selectedOperation.operationInput.folderPath" class="ui-g form-group">
+        <div class="ui-g-12 ui-md-4">
+          <label class="text-bold">Folder Path:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <span> {{selectedOperation.operationInput.folderPath}}</span>
+        </div>
+      </div>
+      <div *ngIf="selectedOperation.operationInput.subFoldersIncluded" class="ui-g form-group">
+        <div class="ui-g-12 ui-md-4">
+          <label class="text-bold">Subfolders Included:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <i
+            [ngClass]="(selectedOperation.operationInput.subFoldersIncluded)?'fa ui-icon-check':'fa ui-icon-close'"></i>
+          <!--<span> {{selectedOperation.operationInput.subFoldersIncluded}}</span>-->
+        </div>
+      </div>
+      <div *ngIf="selectedOperation.operationInput.orgCode" class="ui-g form-group">
+        <div class="ui-g-12 ui-md-4">
+          <label class="text-bold">Org Code:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <span> {{selectedOperation.operationInput.orgCode}}</span>
+        </div>
+      </div>
+      <div *ngIf="selectedOperation.operationInput.createdFrom" class="ui-g form-group">
+        <div class="ui-g-12 ui-md-4">
+          <label class="text-bold">Created From:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <span> {{selectedOperation.operationInput.createdFrom}}</span>
+        </div>
+      </div>
+      <div *ngIf="selectedOperation.operationInput.createdTo" class="ui-g form-group">
+        <div class="ui-g-12 ui-md-4">
+          <label class="text-bold">Created To:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <span> {{selectedOperation.operationInput.createdTo}}</span>
+        </div>
+      </div>
+      <div class="ui-g form-group">
+        <div class="ui-g-12 ui-md-4">
+          <label class="text-bold">Current Count:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <span *ngIf="selectedOperation.totalCount"> {{selectedOperation.totalCount}}</span>
+          <span *ngIf="!selectedOperation.totalCount"> 0 </span>
+        </div>
+      </div>
+      <div *ngIf="selectedOperation.operationInput.query && !selectedOperation.operationInput.docClassSymName"
+        class="ui-g form-group">
+        <div class="ui-g-12 ui-md-4">
+          <label class="text-bold">Query:</label>
+        </div>
+        <div class="ui-g-12 ui-md-6 parent-div-scroll">
+          <span> {{selectedOperation.operationInput.query}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-11 ui-md-11 ui-sm-11 p-0">
+      <!-- <p-dataTable #dt2 [value]="selectedOperation.operationInput.participants" [paginator]="true" [rows]="5">
+        <p-header>
+          Participants
+        </p-header>
+        <p-column field="name" header="Name"></p-column>
+        <p-column field="type" header="Type"></p-column>
+        <p-column field="action" header="Action"></p-column>
+        <p-column field="role" header="Role"></p-column>
+      </p-dataTable> -->
+      <p-table [value]="selectedOperation.operationInput.participants" [resizableColumns]="true" [lazy]="true"
+        [paginator]="true" [rows]="5" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+        [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="caption"> Participants</ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="text-align: center;" pResizableColumn>Name</th>
+            <th style="text-align: center;" pResizableColumn>Type</th>
+            <th style="text-align: center;" pResizableColumn>Action</th>
+            <th style="text-align: center;" pResizableColumn>Role</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-i="rowIndex">
+          <tr>
+            <td>{{product.name}}</td>
+            <td>{{ product.type }}</td>
+            <td>{{ product.action }}</td>
+            <td>{{ product.role }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</p-dialog>
+<div *ngIf="displayinfo">
+  <p-dialog styleClass="p-0" [modal]="true" [appendTo]="'body'" [resizable]="false" [(visible)]="displayinfo"
+    #infoDialog [style]="{'max-width':'70%','height':'600px'}" [contentStyle]="{'overflow':'visible'}"
+    (onHide)="closeModal()">
+    <p-header>
+      {{viewDocTitle | truncate : 50}}
+    </p-header>
+    <app-doc-details-modal [docInfo]="docInfo" [docSysProp]="docSysProp" [docSecurity]="docSecurity"
+      [foldersFiledIn]="foldersFiledIn" [docTitle]="viewDocTitle">
+    </app-doc-details-modal>
+  </p-dialog>
+</div>
+<p-confirmDialog header="Remove Operation?" key="removeOp"></p-confirmDialog>
+<p-confirmDialog header="Update Operation?" key="updateOp"></p-confirmDialog>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>
+<p-dialog appendTo="body" [modal]="true" showEffect="fade" width="500" height="300" [resizable]="false"
+  [(visible)]="displayPermissionDetails">
+  <p-header>
+    {{selectedPermission}}
+  </p-header>
+  <div class="max-h-200">
+    <span>{{permissionDetails}}</span>
+  </div>
+</p-dialog>
+
+<!--style="'width:300px;height:400px;overflow:scroll'"-->

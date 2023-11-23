@@ -1,0 +1,344 @@
+<div class="h-100">
+  <div class="ui-g">
+    <div class="ui-g-12 ui-md-12 p-0 p-b-md">
+      <button pButton type="button" label="New Integration" (click)="showIntegration = true;"></button>
+      <button pButton type="button" label="Export" (click)="exportToExcel();" class="pull-right"
+        [disabled]="!integrations"></button>
+    </div>
+
+    <div class="ui-g-12 p-0">
+      <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+        <!-- global filter -->
+        <div class="ui-g">
+          <div class="ui-g-12 p-0">
+            <table>
+              <tr>
+                <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
+                <td style="width: 98%">
+                  <input #gb type="text" pInputText size="50" placeholder="Filter Text"
+                    style="color: #ffffff; width: 30%;" class="v-m p-0">
+                </td>
+                <td>
+                  <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
+                    class="remove-btn v-m no-box-shadow"></button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- <p-dataTable   [resizableColumns]="true" [reorderableColumns]="true" [value]="integrations" [rows]="itemsPerPage"
+                   [paginator]="true" [responsive]="true" [globalFilter]="gb" selectionMode="single">
+        <p-column *ngFor="let col of colHeaders" [hidden]="col.hidden" [field]="col.field" [header]="col.header"
+                  [sortable]="true" [sortField]="col.sortField?col.sortField:col.field"></p-column>
+        <p-column [style]="{'width':'10%'}" styleClass="col-button">
+          <ng-template let-r="rowData" pTemplate="body">
+            <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="viewIntegration(r)"
+                    class="remove-btn v-m"></button>
+            <button pButton type="button" icon="ui-icon-edit" title="Edit" (click)="modifyIntegration(r);"
+                    class="remove-btn v-m"></button>
+            <button pButton type="button" icon="ui-icon-delete" title="Delete" (click)="confirmDeleteIntegration(r)"
+                    class="remove-btn v-m"></button>
+          </ng-template>
+        </p-column>
+      </p-dataTable> -->
+      <p-table [value]="integrations" [resizableColumns]="true"  styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+        [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="caption"> Header </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th pResizableColumn pSortableColumn="appId">Integration Name<p-sortIcon field="appId"></p-sortIcon></th>
+            <th pResizableColumn pSortableColumn="description">Description<p-sortIcon field="description"></p-sortIcon></th>
+            <th pResizableColumn pSortableColumn="coordinator">Integration Coordinator<p-sortIcon field="coordinator"></p-sortIcon></th>
+            <th pResizableColumn pSortableColumn="etName">Entry Template Name<p-sortIcon field="etName"></p-sortIcon></th>
+            <th pResizableColumn pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
+            <th pResizableColumn pSortableColumn="modifiedDate">Modified Date<p-sortIcon field="modifiedDate"></p-sortIcon></th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>{{ product.appId }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.coordinator }}</td>
+            <td>{{ product.etName }}</td>
+            <td>{{ product.modifiedBy }}</td>
+            <td>{{ product.modifiedDate }}</td>
+            <td>
+              <!-- <ng-template let-r="rowData" pTemplate="body"> -->
+              <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="viewIntegration(product)"
+                class="remove-btn v-m"></button>
+              <button pButton type="button" icon="ui-icon-edit" title="Edit" (click)="modifyIntegration(product);"
+                class="remove-btn v-m"></button>
+              <button pButton type="button" icon="ui-icon-delete" title="Delete"
+                (click)="confirmDeleteIntegration(product)" class="remove-btn v-m"></button>
+              <!-- </ng-template> -->
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+<p-confirmDialog key="confirmDI"></p-confirmDialog>
+
+<p-dialog [modal]="true" showEffect="fade" [(visible)]="showIntegration" [style]="{width: '600px'}"
+  (onHide)="closeModel();integrationForm.reset()">
+  <p-header *ngIf="!editMode">
+    New Integration
+  </p-header>
+  <p-header *ngIf="editMode">
+    Edit Integration
+  </p-header>
+  <div class="ui-g-12 ui-md-1"></div>
+  <div class="ui-g-12 ui-md-11 fix-h-450">
+    <div class="scrollable">
+      <form (ngSubmit)="newIntegration()" #integrationForm="ngForm">
+        <div class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label for="appId">Integration Name:<b style="color:red">*</b></label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input pInputText type="text" id="appId" name="appId" [disabled]="editMode" [(ngModel)]="integration.appId"
+              maxlength="20" style="text-transform:uppercase" [required]="true">
+          </div>
+        </div>
+        <div class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label for="coordinator">Integration Coordinator:<b style="color:red">*</b></label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input pInputText type="text" id="coordinator" name="coordinator" [(ngModel)]="integration.coordinator"
+              required>
+          </div>
+        </div>
+        <div class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label for="description">Description:<b style="color:red">*</b></label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input pInputText type="text" id="description" name="description" [(ngModel)]="integration.description"
+              required>
+          </div>
+        </div>
+        <div *ngIf="!editMode" class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label for="orgUnit">Organization Unit:<b style="color:red">*</b></label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-autoComplete id="orgUnit" [disabled]="editMode" [(ngModel)]="integration.orgUnit"
+              [suggestions]="suggestionsResults" (completeMethod)="search($event)" field="label" name="orgUnit"
+              (onSelect)="orgUnitSelected($event);" [size]="30" placeholder="Search Organization Unit" [minLength]="1"
+              [appendTo]="'body'" [required]="true" [forceSelection]="true"></p-autoComplete>
+          </div>
+        </div>
+        <div *ngIf="!editMode" class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label for="entryTemp">Entry Template:<b style="color:red">*</b></label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-dropdown id="entryTemp" name="entryTemp" [placeholder]="'Select'" [disabled]="!orgSelected || editMode"
+              [options]="entryTemplates" [(ngModel)]="integration.entryTemp"
+              (onChange)="changeTemplateSelection($event)" [filter]="true" [required]="true"></p-dropdown>
+          </div>
+        </div>
+        <div *ngIf="editMode && temp " class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label>Entry Template Name</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input [disabled]="true" pInputText type="text" name="etname" [(ngModel)]="temp.name" required>
+          </div>
+        </div>
+        <div *ngIf="editMode && temp " class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label>Entry Template Id</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <input [disabled]="true" pInputText type="text" name="etid" [(ngModel)]="temp.id" required>
+          </div>
+        </div>
+        <div class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label for="param1">Param 1:</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-dropdown id="param1" name="param1" [placeholder]="'Select'"
+              [disabled]="integration.entryTemp? false:true" [options]="params" [(ngModel)]="integration.param1"
+              [filter]="true">
+              <ng-template let-item pTemplate="selectedItem">
+                <span [ngClass]="{'text-red': item.isSysProp===true}">{{item.label}}</span>
+              </ng-template>
+
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label for="param2">Param 2:</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-dropdown id="param2" name="param2" [placeholder]="'Select'"
+              [disabled]="integration.entryTemp? false:true" [options]="params" [(ngModel)]="integration.param2"
+              [filter]="true">
+              <ng-template let-item pTemplate="selectedItem">
+                <span [ngClass]="{'text-red': item.isSysProp===true}">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label for="param3">Param 3:</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-dropdown id="param3" name="param3" [placeholder]="'Select'"
+              [disabled]="integration.entryTemp? false:true" [options]="params" [(ngModel)]="integration.param3"
+              [filter]="true">
+              <ng-template let-item pTemplate="selectedItem">
+                <span [ngClass]="{'text-red': item.isSysProp===true}">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label for="param4">Param 4:</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-dropdown id="param4" name="param4" [placeholder]="'Select'"
+              [disabled]="integration.entryTemp? false:true" [options]="params" [(ngModel)]="integration.param4"
+              [filter]="true">
+              <ng-template let-item pTemplate="selectedItem">
+                <span [ngClass]="{'text-red': item.isSysProp===true}">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label for="param5">Param 5:</label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-dropdown id="param5" name="param5" [placeholder]="'Select'"
+              [disabled]="integration.entryTemp? false:true" [options]="params" [(ngModel)]="integration.param5"
+              [filter]="true">
+              <ng-template let-item pTemplate="selectedItem">
+                <span [ngClass]="{'text-red': item.isSysProp===true}">{{item.label}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g form-group">
+          <div class="ui-g-12 ui-md-4">
+            <label for="type">Type:<b style="color:red">*</b></label>
+          </div>
+          <div class="ui-g-12 ui-md-7">
+            <p-dropdown id="type" name="type" [placeholder]="'Select'" [options]="types" [(ngModel)]="integration.type"
+              [required]="true"></p-dropdown>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="progress-bar">
+    <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+  </div>
+  <p-footer>
+    <button *ngIf="!editMode" pButton class="pull-right" type="submit" label="Submit"
+      [disabled]="!integrationForm.form.valid" (click)="newIntegration()"></button>
+    <button *ngIf="editMode" pButton class="pull-right" type="submit" label="Save"
+      [disabled]="!(integrationForm.form.dirty && integrationForm.form.valid)" (click)="newIntegration()"></button>
+    <button pButton class="pull-right" type="button" label="Cancel" (click)="showIntegration=false;"></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [modal]="true" showEffect="fade" [(visible)]="viewIntigrationParams" [style]="{width: '600px'}">
+  <p-header>
+    {{integrationParams.appId}}
+  </p-header>
+  <div class="ui-g-12 ui-md-1 p-t-0"></div>
+  <div class="ui-g-12 ui-md-10 p-t-0">
+    <div *ngIf="temp " class="ui-g form-group">
+      <div class="ui-g-12 ui-md-4">
+        <label>Entry Template Name</label>
+      </div>
+      <div class="ui-g-12 ui-md-7">
+        <input [disabled]="true" pInputText type="text" name="etname" [(ngModel)]="temp.name" required>
+      </div>
+    </div>
+    <div *ngIf="temp " class="ui-g form-group">
+      <div class="ui-g-12 ui-md-4">
+        <label>Entry Template Id</label>
+      </div>
+      <div class="ui-g-12 ui-md-7">
+        <input [disabled]="true" pInputText type="text" name="etid" [(ngModel)]="temp.id" required>
+      </div>
+    </div>
+    <div class="ui-g form-group">
+      <div class="ui-g-12 ui-md-4">
+        <label for="param1">Param 1:</label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <input pInputText type="text" id="params1" name="params1" [(ngModel)]="integrationParams.param1" readonly>
+      </div>
+    </div>
+    <div class="ui-g form-group">
+      <div class="ui-g-12 ui-md-4">
+        <label for="param2">Param 2:</label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <input pInputText type="text" id="params2" name="params2" [(ngModel)]="integrationParams.param2" readonly>
+      </div>
+    </div>
+    <div class="ui-g form-group">
+      <div class="ui-g-12 ui-md-4">
+        <label for="param3">Param 3:</label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <input pInputText type="text" id="params3" name="params3" [(ngModel)]="integrationParams.param3" readonly>
+      </div>
+    </div>
+    <div class="ui-g form-group">
+      <div class="ui-g-12 ui-md-4">
+        <label for="param4">Param 4:</label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <input pInputText type="text" id="params4" name="params4" [(ngModel)]="integrationParams.param4" readonly>
+      </div>
+    </div>
+    <div class="ui-g form-group">
+      <div class="ui-g-12 ui-md-4">
+        <label for="param5">Param 5:</label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <input pInputText type="text" id="params5" name="params5" [(ngModel)]="integrationParams.param5" readonly>
+      </div>
+    </div>
+    <div class="ui-g form-group">
+      <div class="ui-g-12 ui-md-4">
+        <label for="type">Type:</label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <input pInputText type="text" id="Ptype" name="Ptype" [(ngModel)]="integrationParams.type" readonly>
+      </div>
+    </div>
+    <div class="ui-g form-group">
+      <div class="ui-g-12 ui-md-4">
+        <label for="type">Created By:</label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <label>{{integrationParams.createdBy}}</label>
+      </div>
+    </div>
+    <div class="ui-g form-group">
+      <div class="ui-g-12 ui-md-4">
+        <label>Created Date:</label>
+      </div>
+      <div class="ui-g-12 ui-md-8">
+        <label>{{integrationParams.createdDate}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-1"></div>
+</p-dialog>

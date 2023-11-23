@@ -1,0 +1,252 @@
+<div class="ui-g-12 p-0">
+  <p-accordion [activeIndex]="0" (onOpen)="onTabOpen($event)">
+    <p-accordionTab header="System" [selected]="true">
+      <div class="ui-g-12 p-l-0 p-r-0">
+        <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+          <!-- global filter -->
+          <div class="ui-g">
+            <div class="ui-g-12 p-0">
+              <table>
+                <tr>
+                  <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
+                  <td style="width: 98%">
+                    <input #gb type="text" pInputText size="50" placeholder="Filter Text"
+                      style="color: #ffffff; width: 30%;" class="v-m p-0">
+                  </td>
+                  <td>
+                    <button pButton type="button" icon="ui-icon-autorenew" title="Refresh"
+                      (click)="refreshConfig('SYSTEM')" class="remove-btn v-m no-box-shadow"></button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [value]="configurationList['SYSTEM']"
+              [rows]="itemsPerPage" [paginator]="true" [responsive]="true" [globalFilter]="gb">
+              <p-column *ngFor="let colHeader of colHeaders" [sortable]="true" [field]="colHeader.field"
+                [header]="colHeader.header" [hidden]="colHeader.hidden" [style]="{'max-width': '500px','overflow-wrap': 'break-word'}"
+                [sortField]="colHeader.sortField?colHeader.sortField:colHeader.field"></p-column>
+              <p-column styleClass="col-button">
+                <ng-template let-r="rowData" pTemplate="body">
+                  <button pButton type="button" icon="ui-icon-edit" title="Edit"
+                    (click)="prepareEdit(r,'SYSTEM');showEditKeyValue=true;" class="remove-btn v-m"></button>
+                </ng-template>
+              </p-column>
+            </p-dataTable> -->
+        <p-table [value]="configurationList['SYSTEM']"
+          styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
+          [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="caption"> Header </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="keyName">Key Name<p-sortIcon field="keyName"></p-sortIcon></th>
+              <th pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
+              <th pSortableColumn="keyDesc">Description<p-sortIcon field="keyDesc"></p-sortIcon></th>
+              <th pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
+              <th pSortableColumn="modifiedDate">Modified Date<p-sortIcon field="modifiedDate"></p-sortIcon></th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr>
+              <td>{{ product.keyName }}</td>
+              <td>{{ product.value }}</td>
+              <td>{{ product.keyDesc }}</td>
+              <td>{{ product.modifiedBy }}</td>
+              <td>{{ product.modifiedDate }}</td>
+              <td>
+                <!-- <ng-template let-r="rowData" pTemplate="body"> -->
+                <button pButton type="button" icon="ui-icon-edit" title="Edit"
+                  (click)="prepareEdit(product,'SYSTEM');showEditKeyValue=true;" class="remove-btn v-m"></button>
+                <!-- </ng-template> -->
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+      </div>
+    </p-accordionTab>
+
+    <p-accordionTab header="App" [selected]="false">
+      <div class="ui-g-12 p-l-0 p-r-0">
+        <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+          <!-- global filter -->
+          <div class="ui-g">
+            <div class="ui-g-12 p-0">
+              <table>
+                <tr>
+                  <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
+                  <td style="width: 98%">
+                    <input #gb2 type="text" pInputText size="50" placeholder="Filter Text"
+                      style="color: #ffffff; width: 30%" class="v-m p-0">
+                  </td>
+                  <td>
+                    <button pButton type="button" icon="ui-icon-autorenew" title="Refresh"
+                      (click)="refreshConfig('APP')" class="remove-btn"></button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [value]="configurationList['APP']"
+              [rows]="itemsPerPage" [paginator]="true" [responsive]="true" [globalFilter]="gb2">
+              <p-column *ngFor="let colHeader of colHeaders" [sortable]="true" field="{{colHeader.field}}"
+                header="{{colHeader.header}}" [hidden]="colHeader.hidden" [style]="{'max-width': '500px','overflow-wrap': 'break-word'}"
+                [sortField]="colHeader.sortField?colHeader.sortField:colHeader.field"></p-column>
+              <p-column styleClass="col-button">
+                <ng-template let-r="rowData" pTemplate="body">
+                  <button pButton type="button" icon="ui-icon-edit" title="Edit"
+                    (click)="prepareEdit(r,'APP');showEditKeyValue=true;" class="remove-btn v-m"></button>
+                </ng-template>
+              </p-column>
+            </p-dataTable> -->
+        <p-table [value]="configurationList['APP']"
+          styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
+          [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="caption"> Header </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="keyName">Key Name<p-sortIcon field="keyName"></p-sortIcon></th>
+              <th pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
+              <th pSortableColumn="keyDesc">Description<p-sortIcon field="keyDesc"></p-sortIcon></th>
+              <th pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
+              <th pSortableColumn="modifiedDate">Modified Date<p-sortIcon field="modifiedDate"></p-sortIcon></th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr>
+              <td>{{ product.keyName }}</td>
+              <td>{{ product.value }}</td>
+              <td>{{ product.keyDesc }}</td>
+              <td>{{ product.modifiedBy }}</td>
+              <td>{{ product.modifiedDate }}</td>
+              <td>
+                <!-- <ng-template let-r="rowData" pTemplate="body"> -->
+                <button pButton type="button" icon="ui-icon-edit" title="Edit"
+                  (click)="prepareEdit(product,'SYSTEM');showEditKeyValue=true;" class="remove-btn v-m"></button>
+                <!-- </ng-template> -->
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab header="Log" [selected]="false">
+      <div class="ui-g-12 p-l-0 p-r-0">
+        <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+          <!-- global filter -->
+          <div class="ui-g">
+            <div class="ui-g-12 p-0">
+              <table>
+                <tr>
+                  <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
+                  <td style="width: 98%">
+                    <input #gb3 type="text" pInputText size="50" placeholder="Filter Text"
+                      style="color: #ffffff; width: 30%;" class="v-m p-0">
+                  </td>
+                  <td>
+                    <button pButton type="button" icon="ui-icon-autorenew" title="Refresh"
+                      (click)="refreshConfig('LOG')" class="remove-btn"></button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [value]="configurationList['LOG']"
+              [rows]="itemsPerPage" [paginator]="true" [responsive]="true" [globalFilter]="gb3">
+              <p-column *ngFor="let colHeader of colHeaders" [sortable]="true" field="{{colHeader.field}}"
+                header="{{colHeader.header}}" [hidden]="colHeader.hidden" [style]="{'max-width': '500px','overflow-wrap': 'break-word'}"
+                [sortField]="colHeader.sortField?colHeader.sortField:colHeader.field"></p-column>
+              <p-column styleClass="col-button">
+                <ng-template let-r="rowData" pTemplate="body">
+                  <button pButton type="button" icon="ui-icon-edit" title="Edit"
+                    (click)="prepareEdit(r,'LOG');showEditKeyValue=true;" class="remove-btn v-m"></button>
+                </ng-template>
+              </p-column>
+            </p-dataTable> -->
+        <p-table [value]="configurationList['LOG']"
+          styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
+          [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="caption"> Header </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="keyName">Key Name<p-sortIcon field="keyName"></p-sortIcon></th>
+              <th pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
+              <th pSortableColumn="keyDesc">Description<p-sortIcon field="keyDesc"></p-sortIcon></th>
+              <th pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
+              <th pSortableColumn="modifiedDate">Modified Date<p-sortIcon field="modifiedDate"></p-sortIcon></th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr>
+              <td>{{ product.keyName }}</td>
+              <td>{{ product.value }}</td>
+              <td>{{ product.keyDesc }}</td>
+              <td>{{ product.modifiedBy }}</td>
+              <td>{{ product.modifiedDate }}</td>
+              <td>
+                <!-- <ng-template let-r="rowData" pTemplate="body"> -->
+                <button pButton type="button" icon="ui-icon-edit" title="Edit"
+                  (click)="prepareEdit(product,'SYSTEM');showEditKeyValue=true;" class="remove-btn v-m"></button>
+                <!-- </ng-template> -->
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+</div>
+<p-dialog [(visible)]="showEditKeyValue" [modal]="true" showEffect="fade" [style]="{width: '600px'}"
+  (onHide)="configuration.reset()">
+  <p-header>
+    {{updatedRow.name}}
+  </p-header>
+  <div class="ui-g-12 ui-md-12"
+    [ngClass]="{'fix-h-270':updatedRow.name==='DEFAULTSEARCH' || updatedRow.name==='DEFAULTTEMPLATE' || updatedRow.name==='LOGLEVEL'}">
+    <form (ngSubmit)="saveValue()" #configuration="ngForm">
+      <div class="ui-g form-group">
+        <div class="ui-g-12 ui-md-3">
+          <label *ngIf="updatedRow.name ==='LOGRETENTION'">Value(in days):<b style="color:red">*</b></label>
+          <label *ngIf="updatedRow.name !=='LOGRETENTION'">Value:<b style="color:red">*</b></label>
+        </div>
+        <div class="ui-g-12 ui-md-9">
+          <ng-container
+            *ngIf="updatedRow.name!='DEFAULTSEARCH' && updatedRow.name!='DEFAULTTEMPLATE' && updatedRow.name!='LOGLEVEL'">
+            <input id="value" type="text" pInputText [(ngModel)]="updatedRow.value" name="value" required>
+          </ng-container>
+          <ng-container *ngIf="updatedRow.name==='DEFAULTSEARCH' || updatedRow.name==='DEFAULTTEMPLATE'">
+            <p-dropdown id="entryTemp" name="entryTemp" [placeholder]="'Select'" [options]="entryTemplates"
+              [(ngModel)]="updatedRow.value" [filter]="true" [required]="true"></p-dropdown>
+          </ng-container>
+          <ng-container *ngIf="updatedRow.name==='LOGLEVEL'">
+            <p-dropdown id="logLevel" name="logLevel" [placeholder]="'Select'" [options]="logLevelOptions"
+              [(ngModel)]="updatedRow.value" [filter]="true" [required]="true"></p-dropdown>
+          </ng-container>
+        </div>
+      </div>
+      <div class="ui-g form-group">
+        <div class="ui-g-12 ui-md-3">
+          <label>Description:</label>
+        </div>
+        <div class="ui-g-12 ui-md-9">
+          <input id="desc" type="text" pInputText [(ngModel)]="updatedRow.desc" name="desc">
+        </div>
+      </div>
+    </form>
+  </div>
+  <p-footer>
+    <button pButton class="pull-right" type="submit" label="Save"
+      [disabled]="!configuration.form.dirty || !configuration.form.valid" (click)="saveValue()"></button>
+    <button pButton class="pull-right" type="button" label="Cancel"
+      (click)="showEditKeyValue=false;configuration.reset()"></button>
+  </p-footer>
+</p-dialog>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

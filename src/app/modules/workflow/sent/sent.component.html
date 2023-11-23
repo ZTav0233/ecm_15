@@ -91,7 +91,7 @@
 
   <p-confirmDialog #sentConfirmation key="sentitemConfirmation" [appendTo]="sentDialog"></p-confirmDialog>
 
-  <!--<p-dialog styleClass="p-0" [styleClass]="'max-h-488'" appendTo="body" modal="modal" showEffect="fade"
+  <!--<p-dialog styleClass="p-0" [styleClass]="'max-h-488'" appendTo="body" [modal]="true" showEffect="fade"
             [(visible)]="displayProgress"
             [height]="550" [width]="650" [contentStyle]="{'overflow':'auto'}"
             (onHide)="hideDisplayProgress()">
