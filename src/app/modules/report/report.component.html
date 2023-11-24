@@ -1,11 +1,11 @@
-<!-- <div class="ui-g-12 p-0">
+<div class="ui-g-12 p-0">
   <p-accordion [multiple]="true" styleClass="p-0" (onOpen)="onTabOpen($event)" [activeIndex]="activeIndex">
     <div class="ui-g">
       <div class="ui-g-12 p-0">
         <p-accordionTab header="Report Criteria" [selected]="true">
           <div class="ui-g-12 p-l-0 p-r-0">
-            <vertical-split-pane primary-component-minsize="500" secondary-component-minsize="520"
-              local-storage-key="split-pane" primary-component-initialratio="0.2">
+            <!-- <vertical-split-pane primary-component-minsize="500" secondary-component-minsize="520"
+              local-storage-key="split-pane" primary-component-initialratio="0.2"> -->
               <div class="split-pane-content-primary ">
                 <div class="upper">
                   <div class="fix-h-326">
@@ -25,7 +25,7 @@
                       </div>
                       <div class="ui-g-12 ui-md-7">
                         <p-dropdown [options]="report.options.reportType" [(ngModel)]="report.search.reportType"
-                          [autoWidth]="false" name="reportType" [required]="true" autoDisplayFirst="false"
+                          name="reportType" [required]="true" 
                           [placeholder]="'Select'" (onChange)="reportTypeChanged($event)"></p-dropdown>
                       </div>
                     </div>
@@ -36,8 +36,8 @@
                       </div>
                       <div class="ui-g-12 ui-md-7">
                         <p-dropdown [options]="report.options.category[report.search.reportType]"
-                          [(ngModel)]="report.search.category" [autoWidth]="false" name="category" [required]="true"
-                          autoDisplayFirst="false" [placeholder]="'Select'"
+                          [(ngModel)]="report.search.category"  name="category" [required]="true"
+                          [placeholder]="'Select'"
                           [disabled]="report.search.reportType==='all'"></p-dropdown>
                       </div>
                     </div>
@@ -47,7 +47,7 @@
                         <label>Exclude Operators:</label>
                       </div>
                       <div class="ui-g-12 ui-md-7">
-                        <p-checkbox name="excludeOperators" [(ngModel)]="report.search.excludeOperators" binary="true"
+                        <p-checkbox name="excludeOperators" [(ngModel)]="report.search.excludeOperators" [binary]="true"
                           [disabled]="report.search.reportType==='workflow' || report.search.reportType==='eSignDoc'">
                         </p-checkbox>
                       </div>
@@ -60,7 +60,7 @@
                       <div class="ui-g-12 ui-md-7">
                         <div class="ui-g-12 ui-md-3 p-0 line-height-sm" title="Shows one day(yesterday's) report only">
                           <label>Daily:&nbsp;&nbsp;</label>
-                          <p-checkbox name="daily" [(ngModel)]="report.search.dailyChecked" binary="true"
+                          <p-checkbox name="daily" [(ngModel)]="report.search.dailyChecked" [binary]="true"
                             (onChange)="checkedChanged($event)"></p-checkbox>
                         </div>
                         <div class="ui-g-12 ui-md-4 p-0">
@@ -69,7 +69,7 @@
                             [(ngModel)]="report.search.fromDate" [disabled]="report.search.dailyChecked" yearRange="2017:2030"
                             [maxDate]="report.search.toDate?report.search.toDate:today" [showButtonBar]="true"
                             (onSelect)="fromDateSelected($event)" (onClearClick)="resetFromDatePicker($event)"
-                            [monthNavigator]="true" [yearNavigator]="true"  required="true">
+                            [monthNavigator]="true" [yearNavigator]="true"  >
                           </p-calendar>
                         </div>
                         <div class="ui-g-12 ui-md-1"></div>
@@ -78,7 +78,7 @@
                             selectionMode="single" [readonlyInput]="true" [(ngModel)]="report.search.toDate" (onFocus)="onFocusToDate()"
                             [disabled]="report.search.dailyChecked" [minDate]="report.search.minDate" [maxDate]="maxToDateValue"
                             [showButtonBar]="true" (onClearClick)="resetToDatePicker($event)" [monthNavigator]="true"
-                            [yearNavigator]="true"  required="true"></p-calendar>
+                            [yearNavigator]="true"  ></p-calendar>
                         </div>
                       </div>
                     </div>
@@ -89,8 +89,8 @@
                       </div>
                       <div class="ui-g-12 ui-md-2">
                         <p-dropdown [options]="report.options.searchType" name="searchType"
-                          [(ngModel)]="report.search.searchType" [autoWidth]="false" [appendTo]="'body'"
-                          autoDisplayFirst="false" [placeholder]="'Search Type'"
+                          [(ngModel)]="report.search.searchType"  [appendTo]="'body'"
+                           [placeholder]="'Search Type'"
                           (onChange)="onSearchTypeChanged($event)"></p-dropdown>
                       </div>
                       <div class="ui-g-12 ui-md-4">
@@ -99,7 +99,7 @@
                           [disabled]="!report.search.searchType" (onBlur)="onBlurUser()"
                           (completeMethod)="searchUsers($event)" (onClear)="enterUserName()"
                           (onSelect)="usersSelected($event);" field="fulName" [size]="30" placeholder="Search Text"
-                          appendTo="body" [multiple]="false" [dropdownMode]="true" [delay]="1000" [minLength]="3"
+                          appendTo="body" [multiple]="false"  [delay]="1000" [minLength]="3"
                           [forceSelection]="true" [emptyMessage]="'No User Found'">
                           <ng-template let-selectedUser pTemplate="item">
                             <div class="ui-helper-clearfix">
@@ -128,9 +128,9 @@
                       </div>
                       <div class="ui-g-12 ui-md-6">
                         <p-dropdown  [options]="report.options.dirList" [(ngModel)]="report.search.dirSelected"
-                          [ngModelOptions]="{standalone: true}" autoDisplayFirst="false"
+                          [ngModelOptions]="{standalone: true}" 
                           [placeholder]="(report.options.dirList && report.options.dirList.length===0)?'No Directorate Found':'Select'"
-                          [autoWidth]="false" name="dirList" [filter]="true" filterBy="label,value.orgCode"
+                           name="dirList" [filter]="true" filterBy="label,value.orgCode"
                           (onChange)="onDirChange($event)" [title]="report.search.dirSelected
                           && report.search.dirSelected.desc.length>=55?report.search.dirSelected.desc:''"
                           [disabled]="(report.search.userSearchText) || (report.options.dirList && report.options.dirList.length===0)
@@ -162,11 +162,11 @@
                       <div class="ui-g-12 ui-md-6">
                         <p-dropdown class="drop-group"
                           [options]="report.options.groupList" [(ngModel)]="report.search.groupSelected"
-                          [ngModelOptions]="{standalone: true}" autoDisplayFirst="false"
+                          [ngModelOptions]="{standalone: true}" 
                                     [placeholder]="((report.options.groupList && report.options.groupList.length===0) && report.search.dirSelected)?'No Group Found':'Select'"
                                     [title]="report.search.groupSelected && report.search.groupSelected.desc.length>=55
                                     ?report.search.groupSelected.desc:''"
-                          [autoWidth]="false" name="groupList" [filter]="true" filterBy="label,value.orgCode"
+                           name="groupList" [filter]="true" filterBy="label,value.orgCode"
                           (onChange)="onGroupChange($event)" [disabled]="(report.search.userSearchText)
                            || (report.options.groupList && report.options.groupList.length===0)
                                         || (!(user.isReportAdmin==='Y') && (report.options.supervisorTreeLastNode
@@ -194,9 +194,9 @@
                         </div>
                         <div class="ui-g-12 ui-md-6">
                           <p-dropdown [options]="report.options.teamList" [(ngModel)]="report.search.teamSelected"
-                            [ngModelOptions]="{standalone: true}" autoDisplayFirst="false"
+                            [ngModelOptions]="{standalone: true}" 
                             [placeholder]="((report.options.teamList && report.options.teamList.length===0) && report.search.groupSelected)?'No Team Found':'Select'"
-                            [autoWidth]="false" name="teamList" [filter]="true" filterBy="label,value.orgCode"
+                             name="teamList" [filter]="true" filterBy="label,value.orgCode"
                             [title]="report.search.teamSelected && report.search.teamSelected.desc.length>=55
                             ?report.search.teamSelected.desc:''"
                             (onChange)="onTeamChange($event)" [disabled]="(report.search.userSearchText)
@@ -228,10 +228,10 @@
                         <p-dropdown [options]="report.options.roleList" [(ngModel)]="report.search.roleSearchText"
                           [title]="report.search.roleSearchText && report.search.roleSearchText.desc.length>=55
                           ?report.search.roleSearchText.desc:''"
-                          [ngModelOptions]="{standalone: true}" autoDisplayFirst="false"
+                          [ngModelOptions]="{standalone: true}" 
                           [placeholder]="((report.options.roleList && report.options.roleList.length===0) && (report.search.groupSelected ||
                           report.search.dirSelected || report.search.teamSelected))?'No Role Found':'Select'"
-                          [autoWidth]="false" name="roleList" [filter]="true" filterBy="label,value.orgCode"
+                           name="roleList" [filter]="true" filterBy="label,value.orgCode"
                           (onChange)="searchRoleSelected($event.value)" [disabled]="report.search.reportType !== 'workflow' || (report.search.userSearchText) ||
                           (report.options.roleList && report.options.roleList.length===0)||
                                        (user.isReportAdmin==='Y' && !(report.search.dirSelected ))">
@@ -262,7 +262,7 @@
                   </form>
                 </div>
               </div>
-            </vertical-split-pane>
+            <!-- </vertical-split-pane> -->
           </div>
         </p-accordionTab>
       </div>
@@ -299,7 +299,7 @@
                   </div>
                 </div>
               </div>
-              <p-dataTable [value]="reportCount" [reorderableColumns]="true" [resizableColumns]="true" [rows]="pageSize"
+              <!-- <p-dataTable [value]="reportCount" [reorderableColumns]="true" [resizableColumns]="true" [rows]="pageSize"
                 [paginator]="true" [globalFilter]="gbf" [rowStyleClass]="textAlignCenter">
                 <p-column [sortable]="true" header="Sl.No" [style]="{'width':'4%'}">
                   <ng-template let-col let-row="rowData" let-i="rowIndex" pTemplate="body">{{i+1}}</ng-template>
@@ -320,7 +320,7 @@
                     </tbody>
                   </table>
                 </ng-template>
-              </p-dataTable>
+              </p-dataTable> -->
             </div>
           </div>
           <div *ngIf="eSignData" class="ui-g-12 p-l-0 p-r-0">
@@ -349,7 +349,7 @@
                   </div>
                 </div>
               </div>
-              <p-dataTable [value]="eSignDocData" [reorderableColumns]="true" [resizableColumns]="true"
+              <!-- <p-dataTable [value]="eSignDocData" [reorderableColumns]="true" [resizableColumns]="true"
                 [rows]="pageSize" [paginator]="true" [globalFilter]="gb" [rowGroupMode]="'subheader'"
                 [groupField]="'recordGroupName'" [sortableRowGroup]="true" expandableRowGroups="true"
                 [expandedRowsGroups]="expandedRowsGroups">
@@ -360,7 +360,7 @@
                   header="{{colHeader.header}}" [sortable]="true"
                   [sortField]="colHeader.sortField?colHeader.sortField:colHeader.field">
                 </p-column>
-              </p-dataTable>
+              </p-dataTable> -->
             </div>
           </div>
           <div *ngIf="memoData" class="ui-g-12 p-l-0 p-r-0">
@@ -389,7 +389,7 @@
                   </div>
                 </div>
               </div>
-              <p-dataTable [value]="memoDocData" [reorderableColumns]="true" [resizableColumns]="true"
+              <!-- <p-dataTable [value]="memoDocData" [reorderableColumns]="true" [resizableColumns]="true"
                 [rows]="pageSize" [paginator]="true" [globalFilter]="gb" [rowGroupMode]="'subheader'"
                 [groupField]="'recordGroupName'" [sortableRowGroup]="true" expandableRowGroups="true"
                 [expandedRowsGroups]="expandedRowsGroups">
@@ -400,7 +400,7 @@
                   header="{{colHeader.header}}" [sortable]="true"
                   [sortField]="colHeader.sortField?colHeader.sortField:colHeader.field">
                 </p-column>
-              </p-dataTable>
+              </p-dataTable> -->
             </div>
           </div>
           <div *ngIf="allData" class="ui-g-12 p-l-0 p-r-0">
@@ -429,7 +429,7 @@
                   </div>
                 </div>
               </div>
-              <p-dataTable [value]="reportCount" [reorderableColumns]="true" [resizableColumns]="true" [rows]="pageSize"
+              <!-- <p-dataTable [value]="reportCount" [reorderableColumns]="true" [resizableColumns]="true" [rows]="pageSize"
                 [paginator]="true" [globalFilter]="allgbf" [rowStyleClass]="textAlignCenter" id="allReport">
                 <p-headerColumnGroup>
                   <p-row>
@@ -475,7 +475,7 @@
                     </tbody>
                   </table>
                 </ng-template>
-              </p-dataTable>
+              </p-dataTable> -->
             </div>
           </div>
         </p-accordionTab>
@@ -489,10 +489,10 @@
             <div class="ui-g-12 ui-md-1"></div>
             <div class="ui-g-12 ui-md-10">
               <p class="reportTitle m-t-0">{{(chartOptions.title.text)}}</p>
-              <canvas style="background: #f5f5f5" *ngIf="reportChartData" baseChart [chartType]="chartType"
+              <canvas style="background: #f5f5f5" *ngIf="reportChartData" baseChart [type]="'bar'"
                 [options]="chartOptions" [datasets]="report.options.chartPages[currentPage].chartData"
                 [labels]="report.options.chartPages[currentPage].chartLabels" [legend]="chartLegend"
-                [colors]="report.options.chartPages[currentPage].chartColors">
+                >
               </canvas>
               <button id="Next" pButton class="remove-btn v-m pull-right" type="button" icon="ui-icon-navigate-next"
                 title="Next" [disabled]="currentPage>=report.options.chartPageCount" (click)="loadNext()"></button>
@@ -509,4 +509,4 @@
 </div>
 <div class="progress-bar" style="position: static !important;">
   <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
-</div> -->
+</div>
