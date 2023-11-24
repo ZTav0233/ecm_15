@@ -304,8 +304,12 @@
     [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)" 
     [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt  [paginator]="true">
     <ng-template pTemplate="caption">
-      <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
-          selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
+      <div style="display: flex;">
+        <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
+        selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
+        <p-columnFilter type="text" field="subject"></p-columnFilter>
+      </div>
+     
     </ng-template>
     <ng-template pTemplate="header" let-columns>
       <tr>

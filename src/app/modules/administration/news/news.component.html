@@ -16,13 +16,14 @@
           </div>
           <div class="ui-g-12 ui-md-3">
             <p-calendar name="From" id="From" [readonlyInput]="true" [showButtonBar]="true" dateFormat="dd/mm/yy"
-              [showIcon]="true" [(ngModel)]="active" placeholder="Active From" [minDate]="today" [maxDate]="expire?expire:''" [monthNavigator]="true"
-              [yearNavigator]="true" yearRange="1900:2030"></p-calendar>
+              [showIcon]="true" [(ngModel)]="active" placeholder="Active From" [minDate]="today"
+              [maxDate]="expire?expire:''" [monthNavigator]="true" [yearNavigator]="true"
+              yearRange="1900:2030"></p-calendar>
           </div>
           <div class="ui-g-12 ui-md-3">
             <p-calendar name="To" id="To" [readonlyInput]="true" [showButtonBar]="true" dateFormat="dd/mm/yy"
-              [minDate]="active" [disabled]="!active" [showIcon]="true" [(ngModel)]="expire" placeholder="Expire On" [monthNavigator]="true"
-              [yearNavigator]="true" yearRange="1900:2030"></p-calendar>
+              [minDate]="active" [disabled]="!active" [showIcon]="true" [(ngModel)]="expire" placeholder="Expire On"
+              [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030"></p-calendar>
           </div>
         </div>
         <div class="ui-g form-group">
@@ -30,11 +31,11 @@
             <label>News</label>
           </div>
           <div class="ui-g-12 ui-md-6">
-            <p-editor [(ngModel)]="news" [style]="{'height':'120px'}" name="news">
+            <!-- <p-editor [(ngModel)]="news" [style]="{'height':'120px'}" name="news">
               <p-header>
                 <span class="ql-formats">
                   <select class="ql-font" title="Font" aria-label="Font"></select>
-                  <!--<select class="ql-size"></select>-->
+                 
                   <button class="ql-bold" title="Bold" aria-label="Bold"></button>
                   <button class="ql-italic" title="Italic" aria-label="Italic"></button>
                   <button class="ql-underline" title="Underline" aria-label="Underline"></button>
@@ -44,9 +45,9 @@
                   <button class="ql-link" title="Insert Link" aria-label="Insert Link"></button>
                 </span>
               </p-header>
-            </p-editor>
-            <!--<textarea [rows]="3" [cols]="20" pInputTextarea autoResize="autoResize"-->
-            <!--[(ngModel)]="news" name="news"></textarea>-->
+            </p-editor> -->
+
+            <p-editor name="news" [(ngModel)]="news" [style]="{ height: '120px' }"></p-editor>
           </div>
         </div>
         <div class="ui-g-7 ui-md-7 ">
@@ -84,7 +85,7 @@
           </div>
         </div>
       </div>
-      <div>
+      <div style="padding-bottom: 20px;">
         <!-- <p-dataTable [reorderableColumns]="true" [resizableColumns]="true" [emptyMessage]="emptyMessage"
           [value]="newsList" [globalFilter]="gb" [rows]="itemsPerPage">
           <p-column [sortable]="true" field="subject" header="Subject"></p-column>
@@ -109,37 +110,41 @@
           </p-column>
         </p-dataTable> -->
         <p-table [value]="newsList" [resizableColumns]="true"
-      styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"  [tableStyle]="{ 'min-width': '50rem' }">
-      <ng-template pTemplate="caption"> Header </ng-template>
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="text-align: center;" pResizableColumn pSortableColumn="subject">Subject<p-sortIcon field="subject"></p-sortIcon></th>
-          <th style="text-align: center;" pResizableColumn >News</th>
-          <th style="text-align: center;" pResizableColumn pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
-          <th style="text-align: center;" pResizableColumn pSortableColumn="activeDate">Active From<p-sortIcon field="activeDate"></p-sortIcon></th>
-          <th style="text-align: center;" pResizableColumn pSortableColumn="expiryDate">Expire On<p-sortIcon field="expiryDate"></p-sortIcon></th>
-          <th></th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-product let-i="rowIndex">
-        <tr>
-          <td>{{ product.subject }}</td>
-          <td><span class="announcement-msg" [innerHTML]="product.message | safeHtml"></span></td>
-          <td>{{ product.modifiedBy }}</td>
-          <td>{{ product.activeDate2 }}</td>
-          <td>{{ product.expiryDate2 }}</td>
-          
-          <td>
-            <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="viewAllNews(product)"
-                class="remove-btn v-m"></button>
-              <button pButton type="button" (click)="editNews(product)" icon="ui-icon-edit" title="Edit"
-                class="remove-btn v-m"></button>
-              <button pButton type="button" icon="ui-icon-delete" title="Remove" (click)="confirm(product)"
-                class="remove-btn v-m"></button>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+          styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="caption"> Header </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="text-align: center;" pResizableColumn pSortableColumn="subject">Subject<p-sortIcon
+                  field="subject"></p-sortIcon></th>
+              <th style="text-align: center;" pResizableColumn>News</th>
+              <th style="text-align: center;" pResizableColumn pSortableColumn="modifiedBy">Modified By<p-sortIcon
+                  field="modifiedBy"></p-sortIcon></th>
+              <th style="text-align: center;" pResizableColumn pSortableColumn="activeDate">Active From<p-sortIcon
+                  field="activeDate"></p-sortIcon></th>
+              <th style="text-align: center;" pResizableColumn pSortableColumn="expiryDate">Expire On<p-sortIcon
+                  field="expiryDate"></p-sortIcon></th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product let-i="rowIndex">
+            <tr>
+              <td>{{ product.subject }}</td>
+              <td><span class="announcement-msg" [innerHTML]="product.message | safeHtml"></span></td>
+              <td>{{ product.modifiedBy }}</td>
+              <td>{{ product.activeDate2 }}</td>
+              <td>{{ product.expiryDate2 }}</td>
+
+              <td>
+                <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="viewAllNews(product)"
+                  class="remove-btn v-m"></button>
+                <button pButton type="button" (click)="editNews(product)" icon="ui-icon-edit" title="Edit"
+                  class="remove-btn v-m"></button>
+                <button pButton type="button" icon="ui-icon-delete" title="Remove" (click)="confirm(product)"
+                  class="remove-btn v-m"></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
       </div>
     </div>
   </div>

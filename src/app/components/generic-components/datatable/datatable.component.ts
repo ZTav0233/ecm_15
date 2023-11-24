@@ -16,6 +16,7 @@ import { CoreService } from "../../../services/core.service";
 import { GrowlService } from "../../../services/growl.service";
 import { WorkitemDetails } from "../../../models/workflow/workitem-details.model";
 import { ContentService } from '../../../services/content.service';
+import { Table } from 'primeng/table';
 import * as _ from 'lodash';
 interface Column {
   field: string;
@@ -30,6 +31,7 @@ interface Column {
 })
 
 export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
+  @ViewChild('dt') dataTable!: Table;
   @Input() public tableData: any[];
   @Input() public colHeaders: any[];
   @Input() public showInfoIcon: any;
@@ -690,7 +692,9 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
 
   refresh(table?) {
     this.goToPage = 1;
-    //table.reset();
+    console.log(this.dataTable);
+    
+    this.dataTable.reset();
     if (!table) {
       table = this.rowGroupMode ? this.groupedTableRef : this.unGroupedTableRef;
     }
@@ -709,6 +713,8 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onLazyLoad(event, fromTabName) {
+    console.log(event,fromTabName);
+    
     let activeTabName = '';
     // if request coming from page with tab, get active tabName by active page
     if (this.fromPage === 'inbox' || this.fromPage === 'inbox-new') {

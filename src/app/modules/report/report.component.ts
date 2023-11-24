@@ -3,15 +3,15 @@ import { BreadcrumbService } from "../../services/breadcrumb.service";
 import { UserService } from "../../services/user.service";
 import { User } from "../../models/user/user.model";
 import { CoreService } from "../../services/core.service";
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ReportService } from "../../services/report.service";
-import {Dropdown, DropdownModule, MenuItem} from "primeng/primeng";
+import { MenuItem} from "primeng/api";
 import { saveAs } from 'file-saver';
 import { AdminService } from "../../services/admin.service";
-import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import * as _ from "lodash";
 import { GrowlService } from "../../services/growl.service";
 import * as moment from 'moment';
+import { BaseChartDirective } from 'ng2-charts';
 @Component({
   selector: 'app-report-component',
   templateUrl: './report.component.html'
@@ -1039,16 +1039,16 @@ export class ReportComponent implements OnInit, OnDestroy {
         ];
       }
       this.busy = true;
-      this.rs.getOrgMemoItems(this.searchQuery).subscribe(res => {
-        this.busy = false;
-        this.assignMemoDate(res);
-        this.reportCount = [];
-        this.activeIndex = [1];
-        this.memoData = true;
-        this.searchQuery.memoData = res;
-      }, err => {
-        this.busy = false;
-      });
+      // this.rs.getOrgMemoItems(this.searchQuery).subscribe(res => {
+      //   this.busy = false;
+      //   this.assignMemoDate(res);
+      //   this.reportCount = [];
+      //   this.activeIndex = [1];
+      //   this.memoData = true;
+      //   this.searchQuery.memoData = res;
+      // }, err => {
+      //   this.busy = false;
+      // });
     } else if (this.report.search.reportType === 'all') {
       this.chartOptions = this.allChartOptions;
       this.chartOptions.title.text = "All Report Chart";

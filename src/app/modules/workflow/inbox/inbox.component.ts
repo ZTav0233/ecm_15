@@ -394,17 +394,19 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   assignSortNotPaginationInfo(data) {
+    console.log(data,'data');
+    
     if (this.user) {
       if (!data || !data.rows) {
         return;
       }
       this.request.pageNo = Math.ceil(data.first / data.rows) + 1;
-      if (data && data.globalFilter && data.globalFilter.trim() && data.globalFilter.trim().length > 2) {
-        this._filterRecords(data.globalFilter.trim(), data.sortField, data.sortOrder, (inboxWorkitems) => {
+      if (data && data.filters.subject?.value && data.filters.subject?.value.trim() && data.filters.subject?.value.trim().length > 2) {
+        this._filterRecords(data.filters.subject?.value.trim(), data.sortField, data.sortOrder, (inboxWorkitems) => {
           this.inboxWorkitems.workitems = inboxWorkitems;
         });
         return;
-      } else if (data && data.globalFilter && data.globalFilter.trim() && data.globalFilter.trim().length <= 2) {
+      } else if (data && data.filters.subject?.value && data.filters.subject?.value.trim() && data.filters.subject?.value.trim().length <= 2) {
         this.growlService.showGrowl({
           severity: 'info',
           summary: 'Message', detail: "Please enter more than 2 characters to filter"

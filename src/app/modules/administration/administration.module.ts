@@ -69,6 +69,7 @@ import { TableModule } from 'primeng/table';
 import { InputMaskModule } from 'primeng/inputmask';
 import { RouterModule } from '@angular/router';
 import { AdministrationRoutingModule } from './administration-routing.modules';
+import { EditorModule } from 'primeng/editor';
 @NgModule({
   declarations: [
     AdministrationComponent, ConfigurationsComponent, AccesspolicyComponent,
@@ -103,7 +104,7 @@ import { AdministrationRoutingModule } from './administration-routing.modules';
     SharedRoleTreeModule,
     SharedUserListModule, MessagesModule,
     SharedEditApPermissionModule, ReactiveFormsModule, TreeModule, ProgressBarModule,
-    SharedDetailsModalModule,ListboxModule,TableModule,InputMaskModule
+    SharedDetailsModalModule,ListboxModule,TableModule,InputMaskModule,EditorModule
     // , SpinnerModule,  DataScrollerModule,
   ],
   providers: [
