@@ -4,7 +4,8 @@
       <div class="ui-g">
         <div class="ui-g-6 ui-md-6 ui-sm-6 p-0 p-r-sm">
           <div class="ui-g-12 ui-md-12 p-0">
-            <button pButton type="button" label="Add Lookup" (click)="addEditLookup(undefined);showEditLookup=true;" class="m-b-md"></button>
+            <button pButton type="button" label="Add Lookup" (click)="addEditLookup(undefined);showEditLookup=true;"
+              class="m-b-md"></button>
             <button pButton type="button" label="Export" (click)="exportToExcel();"
               [disabled]="!lookupList || lookupList.length==0"></button>
           </div>
@@ -15,11 +16,11 @@
                 <div class="ui-g-12 p-0">
                   <table>
                     <tr>
-                      <td style="width: 2%;"><i class="fa fa-search v-m m-r-md"></i></td>
+                      <!-- <td style="width: 2%;"><i class="fa fa-search v-m m-r-md"></i></td>
                       <td style="width: 98%;">
                         <input #gb type="text" pInputText size="50" placeholder="Filter Text"
                           style="color: #ffffff; width: 30%;" [(ngModel)]="query" class="v-m p-0" name="query">
-                      </td>
+                      </td> -->
                       <td>
                         <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refreshtable()"
                           class="remove-btn v-m no-box-shadow"></button>
@@ -45,28 +46,43 @@
               </p-column>
 
             </p-dataTable> -->
-            <p-table [value]="lookupList" [resizableColumns]="true"  styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [tableStyle]="{ 'min-width': '50rem' }">
-        <ng-template pTemplate="caption"> Header </ng-template>
-        <ng-template pTemplate="header">
-          <tr>
-            <th style="text-align: center;" pResizableColumn pSortableColumn="id">Id<p-sortIcon field="id"></p-sortIcon></th>
-            <th style="text-align: center;" pResizableColumn pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
-            <th></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product>
-          <tr>
-            <td>{{ product.id }}</td>
-            <td>{{ product.name }}</td>
-            <td>
-              <button pButton type="button" (click)="addEditLookup(product);showEditLookup=true;" icon="ui-icon-edit" title="Edit"
-              class="remove-btn v-m"></button>
-            <button pButton type="button" icon="ui-icon-delete" title="Delete"
-              (click)="confirmdeleteLookup(product)" class="remove-btn v-m"></button>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+            <p-table [value]="lookupList" [resizableColumns]="true" #dt1
+            [globalFilterFields]="['id', 'name']"
+              styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+              [tableStyle]="{ 'min-width': '50rem' }">
+              <ng-template pTemplate="caption"> 
+                <span class="p-input-icon-left ml-auto">
+                  <i class="pi pi-search"></i>
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="applyFilterGlobal($event, 'contains')"
+                    placeholder="Search keyword"
+                  />
+                </span>  
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="text-align: center;" pResizableColumn pSortableColumn="id">Id<p-sortIcon
+                      field="id"></p-sortIcon></th>
+                  <th style="text-align: center;" pResizableColumn pSortableColumn="name">Name<p-sortIcon
+                      field="name"></p-sortIcon></th>
+                  <th></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-product>
+                <tr>
+                  <td>{{ product.id }}</td>
+                  <td>{{ product.name }}</td>
+                  <td>
+                    <button pButton type="button" (click)="addEditLookup(product);showEditLookup=true;"
+                      icon="ui-icon-edit" title="Edit" class="remove-btn v-m"></button>
+                    <button pButton type="button" icon="ui-icon-delete" title="Delete"
+                      (click)="confirmdeleteLookup(product)" class="remove-btn v-m"></button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
           </div>
         </div>
         <div class="ui-g-6 ui-md-6 ui-sm-6 p-t-0 p-l-0 p-r-0">
@@ -97,12 +113,12 @@
                           </span>
                         </div>
                       </td>
-                      <td style="width: 2%;"><i class="fa fa-search v-m m-r-md"></i></td>
-                      <td style="width: 98%;">
+                      <!-- <td style="width: 2%;"><i class="fa fa-search v-m m-r-md"></i></td> -->
+                      <!-- <td style="width: 98%;">
                         <input #gbval type="text" pInputText size="50" placeholder="Filter Text"
                           style="color: #ffffff; width: 30%;" [(ngModel)]="queryValue" class="v-m p-0"
                           name="queryValue">
-                      </td>
+                      </td> -->
                       <td>
                         <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
                           class="remove-btn"></button>
@@ -128,29 +144,40 @@
               </p-column>
 
             </p-dataTable> -->
-            <p-table [value]="lookupValues" [resizableColumns]="true"  styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-        [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
-        <ng-template pTemplate="caption"> Header </ng-template>
-        <ng-template pTemplate="header">
-          <tr>
-            <th pResizableColumn pSortableColumn="label">Label<p-sortIcon field="label"></p-sortIcon></th>
-            <th pResizableColumn pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
-            <th></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product let-i="rowIndex">
-          <tr>
-            <td>{{ product.label }}</td>
-            <td>{{ product.value }}</td>
-            <td>
-              <button pButton type="button" (click)="showEdit=true;clickInput(product,i)" icon="ui-icon-edit"
-                    title="Edit" class="remove-btn v-m"></button>
-                  <button pButton type="button" icon="ui-icon-delete" title="Delete"
-                    (click)="confirmdeleteLookupValue(product)" class="remove-btn v-m"></button>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+            <p-table [value]="lookupValues" [resizableColumns]="true" #dt2 [globalFilterFields]="['label', 'value']"
+              styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
+              [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
+              <ng-template pTemplate="caption"> 
+                <span class="p-input-icon-left ml-auto">
+                  <i class="pi pi-search"></i>
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="applyFilterGlobal2($event, 'contains')"
+                    placeholder="Search keyword"
+                  />
+                </span>  
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pResizableColumn pSortableColumn="label">Label<p-sortIcon field="label"></p-sortIcon></th>
+                  <th pResizableColumn pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
+                  <th></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-product let-i="rowIndex">
+                <tr>
+                  <td>{{ product.label }}</td>
+                  <td>{{ product.value }}</td>
+                  <td>
+                    <button pButton type="button" (click)="showEdit=true;clickInput(product,i)" icon="ui-icon-edit"
+                      title="Edit" class="remove-btn v-m"></button>
+                    <button pButton type="button" icon="ui-icon-delete" title="Delete"
+                      (click)="confirmdeleteLookupValue(product)" class="remove-btn v-m"></button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
           </div>
         </div>
       </div>
@@ -203,7 +230,8 @@
   </div>
   <p-footer>
     <button (click)="showEditLookup=false" pButton type="button" label="Cancel"></button>
-    <button [disabled]="!lookup.name" pButton type="submit" label="Save" (click)="saveLookup();showEditLookup=false"></button>
+    <button [disabled]="!lookup.name" pButton type="submit" label="Save"
+      (click)="saveLookup();showEditLookup=false"></button>
   </p-footer>
 </p-dialog>
 <div class="progress-bar">

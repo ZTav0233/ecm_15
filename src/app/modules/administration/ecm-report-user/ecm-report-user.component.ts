@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
 import { UserService } from '../../../services/user.service';
 import { GrowlService } from '../../../services/growl.service';
@@ -6,6 +6,7 @@ import { CoreService } from '../../../services/core.service';
 import { User } from '../../../models/user/user.model';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import * as _ from "lodash";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-ecm-report-user',
@@ -13,6 +14,7 @@ import * as _ from "lodash";
   styleUrls: ['./ecm-report-user.component.css']
 })
 export class EcmReportUserComponent implements OnInit {
+  @ViewChild('dt1') dataTable!: Table;
   ecmUserList: User[];
   colHeaders: any[];
   itemsPerPage: any = 15;
@@ -79,6 +81,12 @@ export class EcmReportUserComponent implements OnInit {
     }, err => {
       this.busy = false;
     });
+  }
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
   }
   editReportAdmin(row, i) {
     let dat = _.find(this.ecmUserList, function (r) {

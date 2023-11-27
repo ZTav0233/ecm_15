@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
 import { AdminService } from '../../../services/admin.service';
 import { CoreService } from '../../../services/core.service';
 import { UserService } from "../../../services/user.service";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-ecm-admin-logs',
@@ -10,6 +11,7 @@ import { UserService } from "../../../services/user.service";
   styleUrls: ['./ecm-admin-logs.component.css']
 })
 export class EcmAdminLogsComponent implements OnInit {
+  @ViewChild('dt1') dataTable!: Table;
   public adminLogs: any = [];
   public itemsPerPage: any = 15;
   public colHeaders: any[] = [];
@@ -43,7 +45,12 @@ export class EcmAdminLogsComponent implements OnInit {
       this.busy = false
     });
   }
-
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
   viewErrors(data) {
     this.allLogs = data;
     this.viewLogs = true;

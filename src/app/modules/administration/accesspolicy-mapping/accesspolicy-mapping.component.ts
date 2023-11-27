@@ -1,5 +1,5 @@
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { GrowlService } from '../../../services/growl.service';
 import { ConfirmationService } from 'primeng/api';
@@ -7,6 +7,7 @@ import { ContentService } from '../../../services/content.service';
 import { AccessPolicyService } from '../../../services/access-policy.service';
 import { CoreService } from '../../../services/core.service';
 import { AdminService } from "../../../services/admin.service";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-accesspolicy-mapping',
@@ -14,6 +15,7 @@ import { AdminService } from "../../../services/admin.service";
   styleUrls: ['./accesspolicy-mapping.component.css']
 })
 export class AccessPolicyMappingComponent implements OnInit, OnDestroy {
+  @ViewChild('dt1') dataTable!: Table;
   public roleData: any = { roles: { model: {} } };
   roleTreeExpandedIcon = 'ui-icon-people-outline';
   roleTreeCollapsedIcon = 'ui-icon-people';
@@ -44,7 +46,12 @@ export class AccessPolicyMappingComponent implements OnInit, OnDestroy {
   refresh() {
     this.getAccessPolicyMappings(this.tempOrgId);
   }
-
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
   // isValidET(){
   //   console.log(this.roleData.roles.model.selectedEntryTemplate);
   //   this.contentService.getEntryTemplate(this.roleData.roles.model.selectedEntryTemplate.id).subscribe(val => this.responseValidEt(val),err=>{

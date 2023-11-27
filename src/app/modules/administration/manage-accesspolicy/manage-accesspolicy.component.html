@@ -97,11 +97,11 @@
         <div class="ui-g-12 p-0">
           <table>
             <tr>
-              <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
+              <!-- <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
               <td style="width: 98%">
                 <input #gb type="text" pInputText size="50" placeholder="Filter Text" style="color: #ffffff; width: 30%"
                   class="v-m p-0" [(ngModel)]="searchText">
-              </td>
+              </td> -->
               <td>
                 <button pButton type="button" icon="ui-icon-autorenew" [hidden]="true" title="Refresh"
                   (click)="refreshPolicyAfterSearch()" class="remove-btn v-m no-box-shadow"></button>
@@ -170,8 +170,20 @@
           </p-column>
         </p-dataTable> -->
         <p-table [value]="accessPolicies" [resizableColumns]="true"  [resizableColumns]="true" [rows]="pageSize" [paginator]="true" [(selection)]="selectedAp" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-        [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
-        <ng-template pTemplate="caption">Header</ng-template>
+        [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+        #dt1
+        [globalFilterFields]="['id', 'name', 'orgCode', 'type','modifiedBy','modifiedDate']">
+        <ng-template pTemplate="caption">
+          <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              (input)="applyFilterGlobal($event, 'contains')"
+              placeholder="Search keyword"
+            />
+          </span>
+        </ng-template>
         <ng-template pTemplate="header">
           <tr>
             <th style="width: 4rem">

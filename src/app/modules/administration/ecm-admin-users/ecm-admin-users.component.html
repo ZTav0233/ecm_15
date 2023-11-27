@@ -9,11 +9,11 @@
       <div class="ui-g-12 p-0">
         <table>
           <tr>
-            <td style="width: 2%;"><i class="fa fa-search v-m m-r-md"></i></td>
+            <!-- <td style="width: 2%;"><i class="fa fa-search v-m m-r-md"></i></td>
             <td style="width: 98%;">
               <input #gb type="text" pInputText size="50" placeholder="Filter Text" style="color: #ffffff; width: 30%;"
                 class="v-m p-0">
-            </td>
+            </td> -->
             <td>
               <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
                 class="remove-btn v-m no-box-shadow"></button>
@@ -35,10 +35,21 @@
         </ng-template>
       </p-column>
     </p-dataTable> -->
-    <p-table [value]="ecmAdminUserList" [resizableColumns]="true"
+    <p-table [value]="ecmAdminUserList" [resizableColumns]="true"  #dt1
+    [globalFilterFields]="['id', 'userName', 'fulName', 'KocId','orgCode', 'createdBy', 'createdDate', 'justification','mail']"
       styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
       [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
-      <ng-template pTemplate="caption"> Header </ng-template>
+      <ng-template pTemplate="caption"> 
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            (input)="applyFilterGlobal($event, 'contains')"
+            placeholder="Search keyword"
+          />
+        </span>  
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
           <th style="text-align: center;" pResizableColumn pSortableColumn="id">Id<p-sortIcon field="id"></p-sortIcon></th>

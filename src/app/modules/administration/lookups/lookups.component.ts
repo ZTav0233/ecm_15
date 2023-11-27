@@ -2,7 +2,7 @@ import { Lookup } from '../../../models/admin/lookup.model';
 import { LookupValue } from '../../../models/admin/lookupvalue.model';
 import { AdminService } from '../../../services/admin.service';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { GrowlService } from '../../../services/growl.service';
 import { CoreService } from '../../../services/core.service';
 import { ConfirmationService } from 'primeng/api';
@@ -10,6 +10,7 @@ import * as global from '../../../global.variables';
 import { UserService } from '../../../services/user.service';
 import { saveAs } from 'file-saver';
 import * as _ from "lodash";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-lookups',
@@ -17,6 +18,8 @@ import * as _ from "lodash";
   styleUrls: ['./lookups.component.css']
 })
 export class LookupsComponent implements OnInit, OnDestroy {
+  @ViewChild('dt1') dataTable!: Table;
+  @ViewChild('dt2') dataTable2!: Table;
   public lookupList = [];
   lookupValues: any[];
   headerTitleLookup: any;
@@ -47,6 +50,18 @@ export class LookupsComponent implements OnInit, OnDestroy {
 
   refreshtable() {
     this.refreshLookupTable();
+  }
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
+  applyFilterGlobal2($event, stringVal) {
+    this.dataTable2.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
   }
 
   ngOnInit() {

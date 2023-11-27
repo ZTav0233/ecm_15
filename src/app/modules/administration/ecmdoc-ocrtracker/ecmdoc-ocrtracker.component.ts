@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {AdminService} from "../../../services/admin.service";
 import {CoreService} from "../../../services/core.service";
 import {BreadcrumbService} from "../../../services/breadcrumb.service";
 import {GrowlService} from "../../../services/growl.service";
 import * as moment from 'moment';
+import { Table } from 'primeng/table';
 @Component({
   selector: 'app-ecmdoc-ocrtracker',
   templateUrl: './ecmdoc-ocrtracker.component.html',
   styleUrls: ['./ecmdoc-ocrtracker.component.css']
 })
 export class EcmdocOcrtrackerComponent implements OnInit {
+  @ViewChild('dt1') dataTable!: Table;
  busy: boolean;
  ecmDocOcrList:any;
  selectedRow:any;
@@ -23,6 +25,12 @@ export class EcmdocOcrtrackerComponent implements OnInit {
       { label: 'Admin' },
       { label: 'ECM-OCR Tracker' }
     ]);
+  }
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
   }
   callOCRDetails(){
     this.busy = true;

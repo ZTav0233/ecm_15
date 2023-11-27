@@ -8,11 +8,11 @@
             <div class="ui-g-12 p-0">
               <table>
                 <tr>
-                  <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
+                  <!-- <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
                   <td style="width: 98%">
                     <input #gb type="text" pInputText size="50" placeholder="Filter Text"
                       style="color: #ffffff; width: 30%;" class="v-m p-0">
-                  </td>
+                  </td> -->
                   <td>
                     <button pButton type="button" icon="ui-icon-autorenew" title="Refresh"
                       (click)="refreshConfig('SYSTEM')" class="remove-btn v-m no-box-shadow"></button>
@@ -34,13 +34,27 @@
                 </ng-template>
               </p-column>
             </p-dataTable> -->
-        <p-table [value]="configurationList['SYSTEM']"
+        <p-table [value]="configurationList['SYSTEM']" #dt
           styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
-          [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
-          <ng-template pTemplate="caption"> Header </ng-template>
+          [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }" [globalFilterFields]="['keyName', 'country.name', 'representative.name', 'status']">
+          <ng-template pTemplate="caption"> 
+              <span class="p-input-icon-left ml-auto">
+              <i class="pi pi-search"></i>
+              <input
+                pInputText
+                type="text"
+                (input)="applyFilterGlobal($event, 'contains')"
+                placeholder="Search keyword"
+              />
+            </span>
+          </ng-template>
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="keyName">Key Name<p-sortIcon field="keyName"></p-sortIcon></th>
+              <th >Key Name <p-columnFilter
+                type="text"
+                field="keyName"
+                display="menu"
+              ></p-columnFilter></th>
               <th pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
               <th pSortableColumn="keyDesc">Description<p-sortIcon field="keyDesc"></p-sortIcon></th>
               <th pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
@@ -76,11 +90,11 @@
             <div class="ui-g-12 p-0">
               <table>
                 <tr>
-                  <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
+                  <!-- <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
                   <td style="width: 98%">
                     <input #gb2 type="text" pInputText size="50" placeholder="Filter Text"
                       style="color: #ffffff; width: 30%" class="v-m p-0">
-                  </td>
+                  </td> -->
                   <td>
                     <button pButton type="button" icon="ui-icon-autorenew" title="Refresh"
                       (click)="refreshConfig('APP')" class="remove-btn"></button>
@@ -102,13 +116,27 @@
                 </ng-template>
               </p-column>
             </p-dataTable> -->
-        <p-table [value]="configurationList['APP']"
+        <p-table [value]="configurationList['APP']" #dt1
           styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
-          [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
-          <ng-template pTemplate="caption"> Header </ng-template>
+          [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }" [globalFilterFields]="['keyName', 'country.name', 'representative.name', 'status']">
+          <ng-template pTemplate="caption">
+            <span class="p-input-icon-left ml-auto">
+              <i class="pi pi-search"></i>
+              <input
+                pInputText
+                type="text"
+                (input)="applyFilterGlobal1($event, 'contains')"
+                placeholder="Search keyword"
+              />
+            </span>
+          </ng-template>
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="keyName">Key Name<p-sortIcon field="keyName"></p-sortIcon></th>
+              <th>Key Name<p-columnFilter
+                type="text"
+                field="name"
+                display="menu"
+              ></p-columnFilter></th>
               <th pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
               <th pSortableColumn="keyDesc">Description<p-sortIcon field="keyDesc"></p-sortIcon></th>
               <th pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
@@ -142,11 +170,11 @@
             <div class="ui-g-12 p-0">
               <table>
                 <tr>
-                  <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
+                  <!-- <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
                   <td style="width: 98%">
                     <input #gb3 type="text" pInputText size="50" placeholder="Filter Text"
                       style="color: #ffffff; width: 30%;" class="v-m p-0">
-                  </td>
+                  </td> -->
                   <td>
                     <button pButton type="button" icon="ui-icon-autorenew" title="Refresh"
                       (click)="refreshConfig('LOG')" class="remove-btn"></button>
@@ -168,13 +196,27 @@
                 </ng-template>
               </p-column>
             </p-dataTable> -->
-        <p-table [value]="configurationList['LOG']"
+        <p-table [value]="configurationList['LOG']" #dt2 [globalFilterFields]="['keyName', 'country.name', 'representative.name', 'status']"
           styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
           [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
-          <ng-template pTemplate="caption"> Header </ng-template>
+          <ng-template pTemplate="caption">  
+            <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              (input)="applyFilterGlobal2($event, 'contains')"
+              placeholder="Search keyword"
+            />
+          </span> 
+        </ng-template>
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="keyName">Key Name<p-sortIcon field="keyName"></p-sortIcon></th>
+              <th >Key Name <p-columnFilter
+                type="text"
+                field="keyName"
+                display="menu"
+              ></p-columnFilter></th>
               <th pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
               <th pSortableColumn="keyDesc">Description<p-sortIcon field="keyDesc"></p-sortIcon></th>
               <th pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>

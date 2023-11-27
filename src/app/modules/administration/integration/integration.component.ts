@@ -10,6 +10,7 @@ import { User } from "../../../models/user/user.model";
 import { UserService } from "../../../services/user.service";
 import * as global from '../../../global.variables';
 import * as _ from "lodash";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-integration',
@@ -17,6 +18,7 @@ import * as _ from "lodash";
   styleUrls: ['./integration.component.css']
 })
 export class IntegrationComponent implements OnInit, OnDestroy {
+  @ViewChild('dt') dataTable!: Table;
   private subscriptions: Subscription[] = [];
   public integrations: any[] = [];
   public colHeaders: any[] = [];
@@ -96,6 +98,14 @@ export class IntegrationComponent implements OnInit, OnDestroy {
     ]);
     this.getIntegrations();
     this.types = [{ label: 'Single', value: 'SINGLE' }, { label: 'Multiple', value: 'MULTIPLE' }];
+  }
+  applyFilterGlobal($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value);
+
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
   }
 
   assignPagination(val) {

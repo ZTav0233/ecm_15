@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AdminService } from '../../../services/admin.service';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,7 @@ import { ConfirmationService,} from 'primeng/api';
 import { CoreService } from "../../../services/core.service";
 import { UserService } from "../../../services/user.service";
 import * as _ from "lodash";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-lookupmapping',
@@ -15,6 +16,7 @@ import * as _ from "lodash";
   styleUrls: ['./lookupmapping.component.css']
 })
 export class LookupmappingComponent implements OnInit, OnDestroy {
+  @ViewChild('dt1') dataTable!: Table;
   private subscription: Subscription[] = [];
   public lookupMappingList: any[];
   public colHeaders: any[] = [];
@@ -46,7 +48,12 @@ export class LookupmappingComponent implements OnInit, OnDestroy {
     private growlService: GrowlService, private breadcrumbService: BreadcrumbService,
     private confirmationService: ConfirmationService, private coreService: CoreService) {
   }
-
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
   refresh() {
     if (this.selectedTemplate) {
       this.searchLookupMapping();

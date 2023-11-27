@@ -30,14 +30,28 @@
             </ng-template>
           </p-column>
         </p-dataTable> -->
-        <p-table [value]="entryTemp" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
+        <p-table [value]="entryTemp" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"  #dt1 [globalFilterFields]="['name', 'symName']"
          [tableStyle]="{ 'min-width': '20rem' }">
-        <ng-template  pTemplate="caption"> <div style="text-align: center;">
+        <ng-template  pTemplate="caption"> 
+          <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              (input)="applyFilterGlobal($event, 'contains')"
+              placeholder="Search keyword"
+            />
+          </span>
+          <div style="text-align: center;">
           Entry Template
         </div></ng-template>
         <ng-template pTemplate="header">
           <tr>
-            <th style="text-align: center;" pResizableColumn pSortableColumn="symName">Name<p-sortIcon field="symName"></p-sortIcon></th>
+            <th style="text-align: center;" pResizableColumn >Name <p-columnFilter
+              type="text"
+              field="name"
+              display="menu"
+            ></p-columnFilter></th>
             <th *ngIf="deleteETView"></th>
           </tr>
         </ng-template>

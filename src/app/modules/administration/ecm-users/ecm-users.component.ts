@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user/user.model';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
@@ -7,6 +7,7 @@ import { SelectItem } from 'primeng/api';
 import { GrowlService } from '../../../services/growl.service';
 import { saveAs } from 'file-saver';
 import * as _ from "lodash";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-ecm-users',
@@ -14,6 +15,7 @@ import * as _ from "lodash";
   styleUrls: ['./ecm-users.component.css']
 })
 export class EcmUsersComponent implements OnInit, OnDestroy {
+  @ViewChild('dt1') dataTable!: Table;
   ecmUserList: User[];
   colHeaders: any[];
   itemsPerPage: any = 15;
@@ -37,6 +39,12 @@ export class EcmUsersComponent implements OnInit, OnDestroy {
 
   trackByFn(index, item) {
     return item.id; // or item.id
+  }
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
   }
 
   refresh() {

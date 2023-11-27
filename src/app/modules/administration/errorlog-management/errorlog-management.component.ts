@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
 import { AdminService } from '../../../services/admin.service';
 import { CoreService } from '../../../services/core.service';
@@ -6,6 +6,7 @@ import { UserService } from "../../../services/user.service";
 import * as global from "../../../global.variables";
 import * as _ from "lodash";
 import * as moment from 'moment';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-errorlog-management',
@@ -13,6 +14,7 @@ import * as moment from 'moment';
   styleUrls: ['./errorlog-management.component.css']
 })
 export class ErrorlogManagementComponent implements OnInit {
+  @ViewChild('dt1') dataTable!: Table;
   public errorLogs: any = [];
   public itemsPerPage: any = 15;
   public colHeaders: any[] = [];
@@ -64,7 +66,12 @@ export class ErrorlogManagementComponent implements OnInit {
       this.fromTimes[i].disabled = false;
     }
   }
-
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
 
   trackByFn(index, item) {
     return item.field; // or item.id

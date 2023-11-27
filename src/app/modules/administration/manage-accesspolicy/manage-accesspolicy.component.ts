@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CoreService } from "../../../services/core.service";
 import { AccesspolicyComponent } from "../accesspolicy/accesspolicy.component";
 import { User } from "../../../models/user/user.model";
@@ -9,6 +9,7 @@ import { GrowlService } from "../../../services/growl.service";
 import { AccessPolicyService } from "../../../services/access-policy.service";
 import { BreadcrumbService } from "../../../services/breadcrumb.service";
 import * as _ from "lodash";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-manage-accesspolicy',
@@ -16,6 +17,7 @@ import * as _ from "lodash";
   styleUrls: ['./manage-accesspolicy.component.css']
 })
 export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
+  @ViewChild('dt1') dataTable!: Table;
   accessPolicies: any[];
   accessPoliciesTemp: any[];
   showPermissionDialogue = false;
@@ -84,7 +86,12 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
   refresh() {
     //this.getAllPermissions();
   }
-
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
   getGroupResults() {
     if (this.selectedType === 'UG') {
       this.adminService.getLDAPGroups(this.searchUserOrGroup.login, 'USER').subscribe(data => this.assignGroupList(data))

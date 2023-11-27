@@ -1,11 +1,12 @@
 import { AdminService } from '../../../services/admin.service';
 import { ContentService } from '../../../services/content.service';
 import { GrowlService } from '../../../services/growl.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
 import { CoreService } from '../../../services/core.service';
 import { saveAs } from 'file-saver';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-entrytemplate-mapping',
@@ -13,6 +14,7 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./entrytemplate-mapping.component.css']
 })
 export class EntrytemplateMappingComponent implements OnInit {
+  @ViewChild('dt1') dataTable!: Table;
   entryTemp: any;
   selectedEntryTemplate: any;
   public orgCodes: any[];
@@ -47,7 +49,12 @@ export class EntrytemplateMappingComponent implements OnInit {
       { label: 'Entry Template Mapping' }
     ]);
   }
-
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
   getAnyOrg() {
     this.adminService.searchOrgUnits('Any').subscribe(res => {
       this.selectedorgCode = res[0];

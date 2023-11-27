@@ -71,11 +71,11 @@
           <div class="ui-g-12 p-0">
             <table>
               <tr>
-                <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
+                <!-- <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
                 <td style="width: 98%">
                   <input #gb type="text" pInputText size="50" placeholder="Filter Text"
                     style="color: #ffffff; width: 30%;" class="v-m p-0">
-                </td>
+                </td> -->
                 <td>
                   <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
                     class="remove-btn v-m no-box-shadow"></button>
@@ -109,9 +109,20 @@
             </ng-template>
           </p-column>
         </p-dataTable> -->
-        <p-table [value]="newsList" [resizableColumns]="true"
+        <p-table [value]="newsList" [resizableColumns]="true" #dt1
+        [globalFilterFields]="['subject','modifiedBy', 'activeDate2', 'expiryDate2']"
           styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [tableStyle]="{ 'min-width': '50rem' }">
-          <ng-template pTemplate="caption"> Header </ng-template>
+          <ng-template pTemplate="caption"> 
+            <span class="p-input-icon-left ml-auto">
+              <i class="pi pi-search"></i>
+              <input
+                pInputText
+                type="text"
+                (input)="applyFilterGlobal($event, 'contains')"
+                placeholder="Search keyword"
+              />
+            </span>  
+          </ng-template>
           <ng-template pTemplate="header">
             <tr>
               <th style="text-align: center;" pResizableColumn pSortableColumn="subject">Subject<p-sortIcon

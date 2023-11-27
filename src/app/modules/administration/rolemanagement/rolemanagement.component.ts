@@ -1,5 +1,5 @@
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { GrowlService } from '../../../services/growl.service';
 import { ConfirmationService, SelectItem } from 'primeng/api';
@@ -10,6 +10,7 @@ import { RoleInfo } from "../../../models/user/role.model";
 import { consoleTestResultHandler } from "tslint/lib/test";
 import { saveAs } from 'file-saver';
 import * as _ from "lodash";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-rolemanagement',
@@ -17,6 +18,7 @@ import * as _ from "lodash";
   styleUrls: ['./rolemanagement.component.css']
 })
 export class RolemanagementComponent implements OnInit, OnDestroy {
+  @ViewChild('dt1') dataTable!: Table;
   public roleData: any = { roles: { model: {} } };
   public roleTreeData: any = { roles: { model: {} } };
   roleTreeExpandedIcon = 'ui-icon-people-outline';
@@ -81,6 +83,12 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
     this.getInactiveRoles();
     this.getOrgRole();
     this.getRoles();
+  }
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
   }
 
   assignInactiveRoles(data) {

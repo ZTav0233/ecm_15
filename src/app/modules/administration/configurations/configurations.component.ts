@@ -1,5 +1,5 @@
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ConfigurationService } from '../../../services/configuration.service';
 import { GrowlService } from '../../../services/growl.service';
@@ -8,6 +8,7 @@ import { UserService } from "../../../services/user.service";
 import { User } from "../../../models/user/user.model";
 import { ContentService } from "../../../services/content.service";
 import * as _ from "lodash";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-configurations',
@@ -15,6 +16,9 @@ import * as _ from "lodash";
   styleUrls: ['./configurations.component.css']
 })
 export class ConfigurationsComponent implements OnInit, OnDestroy {
+  @ViewChild('dt') dataTable!: Table;
+  @ViewChild('dt1') dataTable1!: Table;
+  @ViewChild('dt2') dataTable2!: Table;
   private subscriptions: Subscription[] = [];
   public configurationList: any[] = [];
   public updatedRow: any = {};
@@ -64,6 +68,27 @@ export class ConfigurationsComponent implements OnInit, OnDestroy {
       { label: 'Admin' },
       { label: 'Configurations' }
     ]);
+  }
+  applyFilterGlobal($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value);
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
+  applyFilterGlobal1($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value);
+    this.dataTable1.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
+  applyFilterGlobal2($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value);
+    this.dataTable2.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
   }
 
   assignPagination(val) {

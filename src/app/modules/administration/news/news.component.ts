@@ -1,6 +1,6 @@
 import { NewsModel } from '../../../models/admin/news.model';
 import { NewsService } from '../../../services/news.service';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import * as global from '../../../global.variables';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
 import { CoreService } from '../../../services/core.service';
@@ -10,6 +10,7 @@ import { ConfirmationService } from 'primeng/api';
 import { User } from "../../../models/user/user.model";
 import { UserService } from "../../../services/user.service";
 import * as _ from "lodash";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-news',
@@ -18,6 +19,7 @@ import * as _ from "lodash";
   encapsulation: ViewEncapsulation.None,
 })
 export class NewsComponent implements OnInit {
+  @ViewChild('dt1') dataTable!: Table;
   public newsModel = new NewsModel();
   public newsList: any;
   isCreate = true;
@@ -72,7 +74,12 @@ export class NewsComponent implements OnInit {
       this.busy = false;
     });
   }
-
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
   assignPagination(val) {
     if (val !== undefined) {
       val.map((d, i) => {

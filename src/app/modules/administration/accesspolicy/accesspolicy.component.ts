@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { AccessPolicyService } from '../../../services/access-policy.service';
 import { AdminService } from '../../../services/admin.service';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
@@ -9,6 +9,7 @@ import { UserService } from "../../../services/user.service";
 import { ConfirmationService } from "primeng/api";
 import * as _ from "lodash";
 import apply = Reflect.apply;
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-accesspolicy',
@@ -16,6 +17,7 @@ import apply = Reflect.apply;
   styleUrls: ['./accesspolicy.component.css']
 })
 export class AccesspolicyComponent implements OnInit, OnDestroy {
+  @ViewChild('dt1') dataTable!: Table;
   accessPolicies: any[];
   showPermissionDialogue = false;
   selectedPolicy: any = {};
@@ -111,6 +113,12 @@ export class AccesspolicyComponent implements OnInit, OnDestroy {
       { label: 'Access Policies' }
     ]);
 
+  }
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
   }
 
   assignPagination(val) {

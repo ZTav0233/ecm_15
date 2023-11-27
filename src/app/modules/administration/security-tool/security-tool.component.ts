@@ -15,12 +15,14 @@ import * as moment from 'moment';
 import { interval } from 'rxjs';
 import {DocumentService} from "../../../services/document.service";
 import {DocDetailsModalComponent} from "../../../components/generic-components/doc-details-modal/doc-details-modal.component";
+import { Table } from 'primeng/table';
 @Component({
   selector: 'app-security-tool',
   templateUrl: './security-tool.component.html',
   styleUrls: ['./security-tool.component.css']
 })
 export class SecurityToolComponent implements OnInit {
+  @ViewChild('dt1') dataTable!: Table;
   public openTree = false;
   public roles = [{ label: 'Full Control', value: 'Full Control' },
   { label: 'Owner', value: 'Owner' },
@@ -145,6 +147,12 @@ export class SecurityToolComponent implements OnInit {
       { label: 'Admin' },
       { label: 'Security Update Tool' }
     ]);
+  }
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
   }
   getOrgCodeList(){
     this.orgCodeList=[];

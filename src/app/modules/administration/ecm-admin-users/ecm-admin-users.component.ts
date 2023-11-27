@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from "../../../models/user/user.model";
 import { UserService } from "../../../services/user.service";
 import { CoreService } from "../../../services/core.service";
@@ -6,6 +6,7 @@ import { BreadcrumbService } from "../../../services/breadcrumb.service";
 import { GrowlService } from "../../../services/growl.service";
 import { ConfirmationService } from "primeng/api";
 import { AdminUser } from "../../../models/user/adminUser";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-ecm-admin-users',
@@ -13,6 +14,7 @@ import { AdminUser } from "../../../models/user/adminUser";
   styleUrls: ['./ecm-admin-users.component.css']
 })
 export class EcmAdminUsersComponent implements OnInit {
+  @ViewChild('dt1') dataTable!: Table;
   ecmAdminUserList: User[];
   private subscriptions: any[] = [];
   colHeaders: any[];
@@ -81,7 +83,12 @@ export class EcmAdminUsersComponent implements OnInit {
       { label: 'ECM Administrators' }
     ]);
   }
-
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
   assignPagination(val) {
     if (val !== undefined) {
       val.map((d, i) => {

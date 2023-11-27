@@ -73,10 +73,21 @@
   
           <div class="max-h-500 ui-g-12 border-none p-0">
   
-            <p-table [value]="deactRoles" [resizableColumns]="true"
+            <p-table [value]="deactRoles" [resizableColumns]="true" #dt1
+            [globalFilterFields]="['name', 'typeText']"
               styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
               [tableStyle]="{ 'min-width': '50rem' }">
-              <ng-template pTemplate="caption"> Header </ng-template>
+              <ng-template pTemplate="caption"> 
+                <span class="p-input-icon-left ml-auto">
+                  <i class="pi pi-search"></i>
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="applyFilterGlobal($event, 'contains')"
+                    placeholder="Search keyword"
+                  />
+                </span>  
+              </ng-template>
               <ng-template pTemplate="header">
                 <tr>
                   <th style="text-align: center;" pResizableColumn pSortableColumn="name">Role<p-sortIcon
