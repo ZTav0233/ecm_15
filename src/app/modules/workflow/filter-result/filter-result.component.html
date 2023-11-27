@@ -9,14 +9,6 @@
       [monthNavigator]="true"  [yearNavigator]="true" yearRange="1900:2030" [inline]="true"></p-calendar>
   </p-overlayPanel>
 </div>
-<div class="ui-g-12 ui-md-2 p-b-0">
-  <div class="ui-g-12 colMultiselect p-b-0 m-b-sm">
-    <mat-select placeholder="Columns" [(ngModel)]="selectedColumns" (selectionChange)="columnSelectionChanged($event)"
-      multiple>
-      <mat-option *ngFor="let column of columns" [value]="column.value">{{column.label}}</mat-option>
-    </mat-select>
-  </div>
-</div>
 <div class="ui-g-12 ui-md-4 p-r-0 p-l-0 pull-right container-export-options">
   <div class="sub-container-export-options pull-right">
     <p-menubar [model]="sentTieredItems" styleClass="export-menuItem"></p-menubar>

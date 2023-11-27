@@ -466,13 +466,15 @@ export class FilterResultComponent implements OnInit, OnDestroy {
   }
 
   assignSortNotPaginationInfo(data) {
+    console.log(data);
+    
     if (this.user) {
       if (!data || !data.rows) {
         return;
       }
       this.request.pageNo = Math.ceil(data.first / data.rows) + 1;
-      if (data && data.globalFilter && data.globalFilter.trim()) {
-        this._filterRecords(data.globalFilter.trim(), data.sortField, data.sortOrder, (sentWorkitems) => {
+      if (data && data.filters.subject.value && data.filters.subject.value.trim()) {
+        this._filterRecords(data.filters.subject.value.trim(), data.sortField, data.sortOrder, (sentWorkitems) => {
           this.sentWorkitems.workitems = sentWorkitems;
         });
         return;

@@ -1249,12 +1249,14 @@ export class ArchiveComponent implements OnInit, OnDestroy {
   }
 
   assignSortNotPaginationInfo(data) {
+    console.log(data);
+    
     if (!data || !data.rows) {
       return;
     }
     this.request.pageNo = Math.ceil(data.first / data.rows) + 1;
-    if (data && data.globalFilter && data.globalFilter.trim()) {
-      this._filterRecords(data.globalFilter.trim(), data.sortField, data.sortOrder, (archiveWorkitems) => {
+    if (data && data.filters.subject?.value && data.filters.subject?.value.trim()) {
+      this._filterRecords(data.filters.subject?.value.trim(), data.sortField, data.sortOrder, (archiveWorkitems) => {
         this.archiveWorkitems.workitems = archiveWorkitems;
       });
       return;

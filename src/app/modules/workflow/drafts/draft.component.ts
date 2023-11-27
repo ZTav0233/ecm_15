@@ -119,11 +119,15 @@ export class DraftComponent implements OnInit, OnDestroy {
       item.draftDate2 = this.coreService.getTimestampFromDate(item.draftDate, null, '/');
     });
     this.draftWorkitems = data;
+    console.log(this.draftWorkitems);
+    
     this.defaultSortField = 'draftDate2';
   }
 
 
   getData(data: any) {
+    console.log(data);
+    
     this.selectedItem = data;
     if (this.selectedItem) {
       if (this.selectedItem.length > 0) {
@@ -179,6 +183,8 @@ export class DraftComponent implements OnInit, OnDestroy {
   }
 
   viewDraft(event) {
+    console.log(event);
+    
     if (event.memo) {
       this.router.navigate(['/workflow/memo', 'draftMemo', { id: event.draftId }]);
     } else {

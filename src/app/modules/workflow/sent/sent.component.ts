@@ -641,18 +641,20 @@ export class SentComponent implements OnInit, OnDestroy {
   }
 
   assignSortNotPaginationInfo(data) {
+    console.log(data);
+    
     if (this.user) {
       if (!data || !data.rows) {
         return;
       }
       this.request.pageNo = Math.ceil(data.first / data.rows) + 1;
-      if (data && data.globalFilter && data.globalFilter.trim() && data.globalFilter.trim().length > 2) {
-        // this.sentWorkitems.workitems = this._filterRecords(data.globalFilter.trim(), data.sortField, data.sortOrder);
-        this._filterRecords(data.globalFilter.trim(), data.sortField, data.sortOrder, (sentWorkitems) => {
+      if (data && data.filters.subject.value && data.filters.subject.value.trim() && data.filters.subject.value.trim().length > 2) {
+        // this.sentWorkitems.workitems = this._filterRecords(data.filters.subject.value.trim(), data.sortField, data.sortOrder);
+        this._filterRecords(data.filters.subject.value.trim(), data.sortField, data.sortOrder, (sentWorkitems) => {
           this.sentWorkitems.workitems = sentWorkitems;
         });
         return;
-      } else if (data && data.globalFilter && data.globalFilter.trim() && data.globalFilter.trim().length <= 2) {
+      } else if (data && data.filters.subject.value && data.filters.subject.value.trim() && data.filters.subject.value.trim().length <= 2) {
         this.growlService.showGrowl({
           severity: 'info',
           summary: 'Message', detail: "Please enter more than 2 characters to filter"

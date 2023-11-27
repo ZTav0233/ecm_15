@@ -174,6 +174,11 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
   }
+  applyFilterGlobal($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value,stringVal);
+    
+    this.dataTable.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+  }
 
   mToggleProgressDialogue(workitemId, $event?) {
     this.toggleProgressDialogue.emit(workitemId);
@@ -243,6 +248,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     console.log(this.activePage);
     console.log(this.showInfoIcon);
+    console.log(this.colHeaders);
     
     
     this.cols=this.colHeaders
@@ -713,7 +719,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onLazyLoad(event, fromTabName) {
-    console.log(event,fromTabName);
+    // console.log(event,fromTabName);
     
     let activeTabName = '';
     // if request coming from page with tab, get active tabName by active page

@@ -2,7 +2,7 @@
   <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
     <!-- global filter -->
     <div class="ui-g">
-      <div class="ui-g-6 p-0">
+      <!-- <div class="ui-g-6 p-0">
         <table>
           <tr>
             <td><i class="fa fa-search v-m m-r-md"></i></td>
@@ -17,10 +17,10 @@
             </td>
           </tr>
         </table>
-      </div>
+      </div> -->
       <div class="ui-g-6 p-0">
         <div class="pull-right" style="padding-left: 10px;">
-          <button 
+          <button
             [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
             pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
             class="remove-btn v-m no-box-shadow"></button>
@@ -296,349 +296,375 @@
      
     </p-table>  -->
     <p-table [columns]="colHeaders" [resizableColumns]="true" columnResizeMode="expand" dataKey="workitemId"
-    (onHeaderCheckboxToggle)="checked()" (onRowSelect)="checked($event)" (onRowUnselect)="unchecked($event)"
-    (onRowClick)="rowSelected($event)" (onFilter)="onFiltering($event)" selectionMode="multiple" [lazy]="true" [totalRecords]="totalRecords" expandableRows="true"
-    [value]="tableData" styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [tableStyle]="{ 'min-width': '40rem' }"    
-    [(selection)]="selectedRows" (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
-    [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
-    [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)" 
-    [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt  [paginator]="true">
-    <ng-template pTemplate="caption">
-      <div style="display: flex;">
-        <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
-        selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
-        <p-columnFilter type="text" field="subject"></p-columnFilter>
-      </div>
-     
-    </ng-template>
-    <ng-template pTemplate="header" let-columns>
-      <tr>
-        <th style="width: 5%">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-        </th>
-        <th *ngIf="activePage==='inbox' && !reportPage" style="width: 5rem"></th>
-        <th *ngIf="activePage==='inbox' && !reportPage" style="width: 10rem"></th>
-        <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="flag" style="width: 20%">
-          Flag <p-sortIcon field="flag"></p-sortIcon>
-        </th>
-        <th *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" pSortableColumn="subject" style="width: 20%">
-          Subject <p-sortIcon field="subject"></p-sortIcon>
-        </th>
-        <th *ngIf="showInfoIcon" pSortableColumn="name" style="width: 20%">
-          Title <p-sortIcon field="name"></p-sortIcon>
-        </th>
-        <th *ngFor="let col of columns" [pSortableColumn]="col.header" style="width: 20%">
-          {{col.header}} <p-sortIcon [field]="col.header"></p-sortIcon>
-        </th>
-        <th *ngIf="activePage==='sent'" style="width: 20%">
-        </th>
-        <th *ngIf="showProgressBtn && activePage==='inbox'" style="width: 20%"></th>
-        <th *ngIf="showInfoIcon" style="width: 20%"></th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
-      <tr [pSelectableRow]="product" [pSelectableRowIndex]="rowIndex">
-        <td>
-          <p-tableCheckbox [value]="product"></p-tableCheckbox>
-        </td>
-        <td *ngIf="activePage==='inbox' && !reportPage">
-          <button type="button" pButton pRipple [pRowToggler]="product" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-        </td>
-      <td *ngIf="activePage==='inbox' && !reportPage">
-        <div class="icons ">
-          <div class="display-inline-block">
-            <i title="High Priority" [hidden]="!(product.priority && product.priority.toLowerCase() === 'high')"
-              class="fa ui-icon-priority-high text-red"></i>
-          </div>
-          <div class="display-inline-block">
-            <img title="Type" src="assets/images/icons/cc.png"
-              [hidden]="!(product.type && (product.type.toLowerCase()==='cc' || product.type.toLowerCase()==='reply-cc'))"
-              class="flag-img-dim">
-          </div>
+      (onHeaderCheckboxToggle)="checked()" (onRowSelect)="checked($event)" (onRowUnselect)="unchecked($event)"
+      (onRowClick)="rowSelected($event)" (onFilter)="onFiltering($event)" selectionMode="multiple" [lazy]="true"
+      [totalRecords]="totalRecords" expandableRows="true" [value]="tableData"
+      styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [tableStyle]="{ 'min-width': '40rem' }"
+      [(selection)]="selectedRows" (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
+      [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
+      [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
+      [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt [paginator]="true"
+      [globalFilterFields]="['subject']">
+      <ng-template pTemplate="caption" *ngIf="activePage!='draft'">
+        <div style="display: flex;" >
+          <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
+            selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
+            placeholder="Choose Columns"></p-multiSelect>
+          <p-columnFilter type="text" field="subject"></p-columnFilter>
+          <!-- <span class="p-input-icon-left ml-auto">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+              placeholder="Search keyword" />
+          </span> -->
         </div>
-      </td>
-      <td *ngIf="activePage==='inbox' && !reportPage">
-                  <img title="Type"
-                  [src]="product.isFlag ? 'assets/images/icons/flag.png' : 'assets/images/icons/unflag.png'"
+
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="width: 5%" *ngIf="activePage!='draft'">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th *ngIf="activePage==='inbox' && !reportPage" style="width: 5rem"></th>
+          <th *ngIf="activePage==='inbox' && !reportPage" style="width: 10rem"></th>
+          <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="flag" style="width: 20%">
+            Flag <p-sortIcon field="flag"></p-sortIcon>
+          </th>
+          <th *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" pSortableColumn="subject"
+            style="width: 20%">
+            Subject <p-sortIcon field="subject"></p-sortIcon>
+          </th>
+          <th *ngIf="showInfoIcon" pSortableColumn="name" style="width: 20%">
+            Title <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.header" style="width: 20%">
+            {{col.header}} <p-sortIcon [field]="col.header"></p-sortIcon>
+          </th>
+          <th *ngIf="activePage==='sent'" style="width: 20%">
+          </th>
+          <th *ngIf="showProgressBtn && activePage==='inbox'" style="width: 20%"></th>
+          <th *ngIf="showInfoIcon" style="width: 20%"></th>
+          <th *ngIf="activePage==='draft'" style="width: 20%"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
+        <tr [pSelectableRow]="product" [pSelectableRowIndex]="rowIndex">
+          <td *ngIf="activePage!='draft'">
+            <p-tableCheckbox [value]="product"></p-tableCheckbox>
+          </td>
+          <td *ngIf="activePage==='inbox' && !reportPage">
+            <button type="button" pButton pRipple [pRowToggler]="product"
+              class="p-button-text p-button-rounded p-button-plain"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+          </td>
+          <td *ngIf="activePage==='inbox' && !reportPage">
+            <div class="icons ">
+              <div class="display-inline-block">
+                <i title="High Priority" [hidden]="!(product.priority && product.priority.toLowerCase() === 'high')"
+                  class="fa ui-icon-priority-high text-red"></i>
+              </div>
+              <div class="display-inline-block">
+                <img title="Type" src="assets/images/icons/cc.png"
+                  [hidden]="!(product.type && (product.type.toLowerCase()==='cc' || product.type.toLowerCase()==='reply-cc'))"
                   class="flag-img-dim">
-      </td>
-        <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" (click)="goToTaskDetails($event,'hyperlink',product)">{{ product.subject }}</td>
-        <td *ngIf="showInfoIcon"> {{ product.name }}</td>
-        <td *ngFor="let col of columns">{{ product[col.field] }}</td>
-        <td *ngIf="activePage==='sent'">
-          <button pButton type="button" icon="ui-icon-timeline" title="Track Preview"
-          (click)="previewTrackSentitem(product.workflowId)" class="remove-btn v-m"></button>
-        </td>
-        <td *ngIf="showProgressBtn && activePage==='inbox'">
-          <button pButton type="button" icon="{{product.hasProgress ? 'ui-icon-hourglass-full' : 'ui-icon-hourglass-empty'}}"
-          title="Work Progress" (click)="mToggleProgressDialogue(product.workitemId)" class="remove-btn v-m"></button>
-        </td>
-        <td *ngIf="showInfoIcon">
-          <button pButton type="button" *ngIf="showInfoIcon" icon="ui-icon-info-outline" title="Info"
-            (click)="openDocInfo(product);displayinfo=true;" class="remove-btn v-m"
-            [disabled]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch') && product.isDeleted"></button>
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="rowexpansion" let-table>
-      <tr>
-        <td colspan="15">
-      <div class="ui-grid ui-grid-responsive ui-fluid">
-        <div class="ui-grid-row" *ngIf="activePage === 'inbox'">
-          <table id="details" class="ecm-table  inner-table w-100">
-            <tbody>
-              <tr class="even label-width">
-                <td>Subject:</td>
-                <td>{{table.subject}}</td>
-                <td>Received Date:</td>
-                <td>{{table.receivedDate}}</td>
-              </tr>
-              <tr class="label-width">
-                <td>Sender Name:</td>
-                <td>{{table.senderName}}</td>
-                <td>Priority:</td>
-                <td>{{table.priority}}</td>
-              </tr>
-              <tr class="even label-width">
-                <td>Originator:</td>
-                <td>{{table.wfCreatorName}}</td>
-                <td>Status:</td>
-                <td>{{table.status}}</td>
-              </tr>
-              <tr class="label-width">
-                <td>Reminder:</td>
-                <td>{{table.reminder}}</td>
-                <td>Deadline:</td>
-                <td>{{table.deadline}}</td>
-              </tr>
-              <tr class="even label-width">
-                <td>For:</td>
-                <td colspan="3">
-                  <div>{{table.actions}}</div>
-                </td>
-              </tr>
-              <tr class="label-width">
-                <td>Instructions:</td>
-                <td colspan="3">
-                  <div *ngIf="table.instructions" [innerHTML]="table.instructions"></div>
-                </td>
-              </tr>
-              <tr class="even label-width">
-                <td>Remarks:</td>
-                <td colspan="3">{{table.comments}}</td>
-              </tr>
-              <tr class="label-width" *ngIf="table.actionTaken && table.actionTaken!='Launch'">
-                <td>Action Taken:</td>
-                <td colspan="3">{{table.actionTaken}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <ng-container *ngIf="activePage === 'sent'">
-          <table id="sentWorkitemdetails" class="ecm-table ">
-            <thead>
-              <th>#</th>
-              <th>Recipient</th>
-              <th>Subject</th>
-              <th>Sent On</th>
-              <th>Type</th>
-              <th>Status</th>
-              <th [ngClass]="{'hide' : reportPage}">Action</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let workitem of sentitemWorkitems;let i=index;let isOdd=odd;let isEven=even;"
-                [class.even]="isEven" (click)="openSentWorkitem(workitem.workitemId)" role="button">
-                <td>{{i + 1}}</td>
-                <td>{{workitem.recipientName}}</td>
-                <td>{{workitem.subject}}</td>
-                <td>{{workitem.receivedDate}}</td>
-                <td>{{workitem.type}}</td>
-                <td>{{workitem.status}}</td>
-                <td [ngClass]="{'hide' : reportPage}" (click)="mToggleProgressDialogue(workitem.workitemId,$event)">
-                  <button pButton type="button" icon="ui-icon-hourglass-empty" title="Work Progress"
-                    class="remove-btn v-m"></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </ng-container>
-      </div>
-      </td>
-      </tr>
-  </ng-template>
-  </p-table>
+              </div>
+            </div>
+          </td>
+          <td *ngIf="activePage==='inbox' && !reportPage">
+            <img title="Type" [src]="product.isFlag ? 'assets/images/icons/flag.png' : 'assets/images/icons/unflag.png'"
+              class="flag-img-dim">
+          </td>
+          <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'"
+            (click)="goToTaskDetails($event,'hyperlink',product)">{{ product.subject }}</td>
+          <td *ngIf="showInfoIcon"> {{ product.name }}</td>
+          <td *ngFor="let col of columns">{{ product[col.field] }}</td>
+          <td *ngIf="activePage==='sent'">
+            <button pButton type="button" icon="ui-icon-timeline" title="Track Preview"
+              (click)="previewTrackSentitem(product.workflowId)" class="remove-btn v-m"></button>
+          </td>
+          <td *ngIf="showProgressBtn && activePage==='inbox'">
+            <button pButton type="button"
+              icon="{{product.hasProgress ? 'ui-icon-hourglass-full' : 'ui-icon-hourglass-empty'}}"
+              title="Work Progress" (click)="mToggleProgressDialogue(product.workitemId)"
+              class="remove-btn v-m"></button>
+          </td>
+          <td *ngIf="showInfoIcon">
+            <button pButton type="button" *ngIf="showInfoIcon" icon="ui-icon-info-outline" title="Info"
+              (click)="openDocInfo(product);displayinfo=true;" class="remove-btn v-m"
+              [disabled]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch') && product.isDeleted"></button>
+          </td>
+          <td *ngIf="activePage==='draft'" >
+            <button pButton type="button" icon="ui-icon-remove-red-eye" title="View" (click)="viewDraftItem(product)"
+            class="remove-btn v-m"></button>
+          <button pButton type="button" *ngIf="activePage === 'draft'" icon="ui-icon-remove" title="Remove"
+            (click)="removeDraft(product)" class="remove-btn v-m"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-table>
+        <tr>
+          <td colspan="15">
+            <div class="ui-grid ui-grid-responsive ui-fluid">
+              <div class="ui-grid-row" *ngIf="activePage === 'inbox'">
+                <table id="details" class="ecm-table  inner-table w-100">
+                  <tbody>
+                    <tr class="even label-width">
+                      <td>Subject:</td>
+                      <td>{{table.subject}}</td>
+                      <td>Received Date:</td>
+                      <td>{{table.receivedDate}}</td>
+                    </tr>
+                    <tr class="label-width">
+                      <td>Sender Name:</td>
+                      <td>{{table.senderName}}</td>
+                      <td>Priority:</td>
+                      <td>{{table.priority}}</td>
+                    </tr>
+                    <tr class="even label-width">
+                      <td>Originator:</td>
+                      <td>{{table.wfCreatorName}}</td>
+                      <td>Status:</td>
+                      <td>{{table.status}}</td>
+                    </tr>
+                    <tr class="label-width">
+                      <td>Reminder:</td>
+                      <td>{{table.reminder}}</td>
+                      <td>Deadline:</td>
+                      <td>{{table.deadline}}</td>
+                    </tr>
+                    <tr class="even label-width">
+                      <td>For:</td>
+                      <td colspan="3">
+                        <div>{{table.actions}}</div>
+                      </td>
+                    </tr>
+                    <tr class="label-width">
+                      <td>Instructions:</td>
+                      <td colspan="3">
+                        <div *ngIf="table.instructions" [innerHTML]="table.instructions"></div>
+                      </td>
+                    </tr>
+                    <tr class="even label-width">
+                      <td>Remarks:</td>
+                      <td colspan="3">{{table.comments}}</td>
+                    </tr>
+                    <tr class="label-width" *ngIf="table.actionTaken && table.actionTaken!='Launch'">
+                      <td>Action Taken:</td>
+                      <td colspan="3">{{table.actionTaken}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <ng-container *ngIf="activePage === 'sent'">
+                <table id="sentWorkitemdetails" class="ecm-table ">
+                  <thead>
+                    <th>#</th>
+                    <th>Recipient</th>
+                    <th>Subject</th>
+                    <th>Sent On</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th [ngClass]="{'hide' : reportPage}">Action</th>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let workitem of sentitemWorkitems;let i=index;let isOdd=odd;let isEven=even;"
+                      [class.even]="isEven" (click)="openSentWorkitem(workitem.workitemId)" role="button">
+                      <td>{{i + 1}}</td>
+                      <td>{{workitem.recipientName}}</td>
+                      <td>{{workitem.subject}}</td>
+                      <td>{{workitem.receivedDate}}</td>
+                      <td>{{workitem.type}}</td>
+                      <td>{{workitem.status}}</td>
+                      <td [ngClass]="{'hide' : reportPage}"
+                        (click)="mToggleProgressDialogue(workitem.workitemId,$event)">
+                        <button pButton type="button" icon="ui-icon-hourglass-empty" title="Work Progress"
+                          class="remove-btn v-m"></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ng-container>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
   <!-- Grouped -->
   <div class="data-table-scroll" *ngIf="rowGroupMode">
     <p-table [columns]="colHeaders" [resizableColumns]="true" columnResizeMode="expand" dataKey="workitemId"
-    (onHeaderCheckboxToggle)="checked()" (onRowSelect)="checked($event)" (onRowUnselect)="unchecked($event)"
-    (onRowClick)="rowSelected($event)" (onFilter)="onFiltering($event)" selectionMode="multiple" [lazy]="true" [totalRecords]="totalRecords" expandableRows="true"
-    [value]="tableData" styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [tableStyle]="{ 'min-width': '40rem' }"    
-    [(selection)]="selectedRows" (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
-    [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
-    [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)" 
-    [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt  [paginator]="true">
-    <ng-template pTemplate="caption">
-      <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
-          selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"></p-multiSelect>
-    </ng-template>
-    <ng-template pTemplate="header" let-columns>
-      <tr>
-        <th style="width: 5%">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-        </th>
-        <th *ngIf="activePage==='inbox' && !reportPage" style="width: 5rem"></th>
-        <th *ngIf="activePage==='inbox' && !reportPage" style="width: 10rem"></th>
-        <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="flag" style="width: 20%">
-          Flag <p-sortIcon field="flag"></p-sortIcon>
-        </th>
-        <th pSortableColumn="subject" style="width: 20%">
-          Subject <p-sortIcon field="subject"></p-sortIcon>
-        </th>
-        <th *ngFor="let col of columns" [pSortableColumn]="col.header" style="width: 20%">
-          {{col.header}} <p-sortIcon [field]="col.header"></p-sortIcon>
-        </th>
-        <th *ngIf="activePage==='sent'" style="width: 20%">
-        </th>
-        <th *ngIf="showProgressBtn && activePage==='inbox'" style="width: 20%">
-        </th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
-      <tr [pSelectableRow]="product" [pSelectableRowIndex]="rowIndex">
-        <td>
-          <p-tableCheckbox [value]="product"></p-tableCheckbox>
-        </td>
-        <td *ngIf="activePage==='inbox' && !reportPage">
-          <button type="button" pButton pRipple [pRowToggler]="product" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-        </td>
-      <td *ngIf="activePage==='inbox' && !reportPage">
-        <div class="icons ">
-          <div class="display-inline-block">
-            <i title="High Priority" [hidden]="!(product.priority && product.priority.toLowerCase() === 'high')"
-              class="fa ui-icon-priority-high text-red"></i>
-          </div>
-          <div class="display-inline-block">
-            <img title="Type" src="assets/images/icons/cc.png"
-              [hidden]="!(product.type && (product.type.toLowerCase()==='cc' || product.type.toLowerCase()==='reply-cc'))"
-              class="flag-img-dim">
-          </div>
-        </div>
-      </td>
-      <td *ngIf="activePage==='inbox' && !reportPage">
-                  <img title="Type"
-                  [src]="product.isFlag ? 'assets/images/icons/flag.png' : 'assets/images/icons/unflag.png'"
+      (onHeaderCheckboxToggle)="checked()" (onRowSelect)="checked($event)" (onRowUnselect)="unchecked($event)"
+      (onRowClick)="rowSelected($event)" (onFilter)="onFiltering($event)" selectionMode="multiple" [lazy]="true"
+      [totalRecords]="totalRecords" expandableRows="true" [value]="tableData"
+      styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [tableStyle]="{ 'min-width': '40rem' }"
+      [(selection)]="selectedRows" (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
+      [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
+      [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
+      [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt [paginator]="true">
+      <ng-template pTemplate="caption">
+        <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
+          selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
+          placeholder="Choose Columns"></p-multiSelect>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="width: 5%">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th *ngIf="activePage==='inbox' && !reportPage" style="width: 5rem"></th>
+          <th *ngIf="activePage==='inbox' && !reportPage" style="width: 10rem"></th>
+          <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="flag" style="width: 20%">
+            Flag <p-sortIcon field="flag"></p-sortIcon>
+          </th>
+          <th pSortableColumn="subject" style="width: 20%">
+            Subject <p-sortIcon field="subject"></p-sortIcon>
+          </th>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.header" style="width: 20%">
+            {{col.header}} <p-sortIcon [field]="col.header"></p-sortIcon>
+          </th>
+          <th *ngIf="activePage==='sent'" style="width: 20%">
+          </th>
+          <th *ngIf="showProgressBtn && activePage==='inbox'" style="width: 20%">
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
+        <tr [pSelectableRow]="product" [pSelectableRowIndex]="rowIndex">
+          <td>
+            <p-tableCheckbox [value]="product"></p-tableCheckbox>
+          </td>
+          <td *ngIf="activePage==='inbox' && !reportPage">
+            <button type="button" pButton pRipple [pRowToggler]="product"
+              class="p-button-text p-button-rounded p-button-plain"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+          </td>
+          <td *ngIf="activePage==='inbox' && !reportPage">
+            <div class="icons ">
+              <div class="display-inline-block">
+                <i title="High Priority" [hidden]="!(product.priority && product.priority.toLowerCase() === 'high')"
+                  class="fa ui-icon-priority-high text-red"></i>
+              </div>
+              <div class="display-inline-block">
+                <img title="Type" src="assets/images/icons/cc.png"
+                  [hidden]="!(product.type && (product.type.toLowerCase()==='cc' || product.type.toLowerCase()==='reply-cc'))"
                   class="flag-img-dim">
-      </td>
-        <td (click)="goToTaskDetails($event,'hyperlink',product)">{{ product.subject }}</td>
-        <td *ngFor="let col of columns">{{ product[col.field] }}</td>
-        <td *ngIf="activePage==='sent'">
-          <button pButton type="button" icon="ui-icon-timeline" title="Track Preview"
-          (click)="previewTrackSentitem(product.workflowId)" class="remove-btn v-m"></button>
-        </td>
-        <td *ngIf="showProgressBtn && activePage==='inbox'">
-          <button pButton type="button" icon="{{product.hasProgress ? 'ui-icon-hourglass-full' : 'ui-icon-hourglass-empty'}}"
-          title="Work Progress" (click)="mToggleProgressDialogue(product.workitemId)" class="remove-btn v-m"></button>
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="rowexpansion" let-table>
-      <tr>
-        <td colspan="15">
-      <div class="ui-grid ui-grid-responsive ui-fluid">
-        <div class="ui-grid-row" *ngIf="activePage === 'inbox'">
-          <table id="details" class="ecm-table  inner-table w-100">
-            <tbody>
-              <tr class="even label-width">
-                <td>Subject:</td>
-                <td>{{table.subject}}</td>
-                <td>Received Date:</td>
-                <td>{{table.receivedDate}}</td>
-              </tr>
-              <tr class="label-width">
-                <td>Sender Name:</td>
-                <td>{{table.senderName}}</td>
-                <td>Priority:</td>
-                <td>{{table.priority}}</td>
-              </tr>
-              <tr class="even label-width">
-                <td>Originator:</td>
-                <td>{{table.wfCreatorName}}</td>
-                <td>Status:</td>
-                <td>{{table.status}}</td>
-              </tr>
-              <tr class="label-width">
-                <td>Reminder:</td>
-                <td>{{table.reminder}}</td>
-                <td>Deadline:</td>
-                <td>{{table.deadline}}</td>
-              </tr>
-              <tr class="even label-width">
-                <td>For:</td>
-                <td colspan="3">
-                  <div>{{table.actions}}</div>
-                </td>
-              </tr>
-              <tr class="label-width">
-                <td>Instructions:</td>
-                <td colspan="3">
-                  <div *ngIf="table.instructions" [innerHTML]="table.instructions"></div>
-                </td>
-              </tr>
-              <tr class="even label-width">
-                <td>Remarks:</td>
-                <td colspan="3">{{table.comments}}</td>
-              </tr>
-              <tr class="label-width" *ngIf="table.actionTaken && table.actionTaken!='Launch'">
-                <td>Action Taken:</td>
-                <td colspan="3">{{table.actionTaken}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <ng-container *ngIf="activePage === 'sent'">
-          <table id="sentWorkitemdetails" class="ecm-table ">
-            <thead>
-              <th>#</th>
-              <th>Recipient</th>
-              <th>Subject</th>
-              <th>Sent On</th>
-              <th>Type</th>
-              <th>Status</th>
-              <th [ngClass]="{'hide' : reportPage}">Action</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let workitem of sentitemWorkitems;let i=index;let isOdd=odd;let isEven=even;"
-                [class.even]="isEven" (click)="openSentWorkitem(workitem.workitemId)" role="button">
-                <td>{{i + 1}}</td>
-                <td>{{workitem.recipientName}}</td>
-                <td>{{workitem.subject}}</td>
-                <td>{{workitem.receivedDate}}</td>
-                <td>{{workitem.type}}</td>
-                <td>{{workitem.status}}</td>
-                <td [ngClass]="{'hide' : reportPage}" (click)="mToggleProgressDialogue(workitem.workitemId,$event)">
-                  <button pButton type="button" icon="ui-icon-hourglass-empty" title="Work Progress"
-                    class="remove-btn v-m"></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </ng-container>
-      </div>
-      </td>
-      </tr>
-  </ng-template>
-  </p-table>
+              </div>
+            </div>
+          </td>
+          <td *ngIf="activePage==='inbox' && !reportPage">
+            <img title="Type" [src]="product.isFlag ? 'assets/images/icons/flag.png' : 'assets/images/icons/unflag.png'"
+              class="flag-img-dim">
+          </td>
+          <td (click)="goToTaskDetails($event,'hyperlink',product)">{{ product.subject }}</td>
+          <td *ngFor="let col of columns">{{ product[col.field] }}</td>
+          <td *ngIf="activePage==='sent'">
+            <button pButton type="button" icon="ui-icon-timeline" title="Track Preview"
+              (click)="previewTrackSentitem(product.workflowId)" class="remove-btn v-m"></button>
+          </td>
+          <td *ngIf="showProgressBtn && activePage==='inbox'">
+            <button pButton type="button"
+              icon="{{product.hasProgress ? 'ui-icon-hourglass-full' : 'ui-icon-hourglass-empty'}}"
+              title="Work Progress" (click)="mToggleProgressDialogue(product.workitemId)"
+              class="remove-btn v-m"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-table>
+        <tr>
+          <td colspan="15">
+            <div class="ui-grid ui-grid-responsive ui-fluid">
+              <div class="ui-grid-row" *ngIf="activePage === 'inbox'">
+                <table id="details" class="ecm-table  inner-table w-100">
+                  <tbody>
+                    <tr class="even label-width">
+                      <td>Subject:</td>
+                      <td>{{table.subject}}</td>
+                      <td>Received Date:</td>
+                      <td>{{table.receivedDate}}</td>
+                    </tr>
+                    <tr class="label-width">
+                      <td>Sender Name:</td>
+                      <td>{{table.senderName}}</td>
+                      <td>Priority:</td>
+                      <td>{{table.priority}}</td>
+                    </tr>
+                    <tr class="even label-width">
+                      <td>Originator:</td>
+                      <td>{{table.wfCreatorName}}</td>
+                      <td>Status:</td>
+                      <td>{{table.status}}</td>
+                    </tr>
+                    <tr class="label-width">
+                      <td>Reminder:</td>
+                      <td>{{table.reminder}}</td>
+                      <td>Deadline:</td>
+                      <td>{{table.deadline}}</td>
+                    </tr>
+                    <tr class="even label-width">
+                      <td>For:</td>
+                      <td colspan="3">
+                        <div>{{table.actions}}</div>
+                      </td>
+                    </tr>
+                    <tr class="label-width">
+                      <td>Instructions:</td>
+                      <td colspan="3">
+                        <div *ngIf="table.instructions" [innerHTML]="table.instructions"></div>
+                      </td>
+                    </tr>
+                    <tr class="even label-width">
+                      <td>Remarks:</td>
+                      <td colspan="3">{{table.comments}}</td>
+                    </tr>
+                    <tr class="label-width" *ngIf="table.actionTaken && table.actionTaken!='Launch'">
+                      <td>Action Taken:</td>
+                      <td colspan="3">{{table.actionTaken}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <ng-container *ngIf="activePage === 'sent'">
+                <table id="sentWorkitemdetails" class="ecm-table ">
+                  <thead>
+                    <th>#</th>
+                    <th>Recipient</th>
+                    <th>Subject</th>
+                    <th>Sent On</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th [ngClass]="{'hide' : reportPage}">Action</th>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let workitem of sentitemWorkitems;let i=index;let isOdd=odd;let isEven=even;"
+                      [class.even]="isEven" (click)="openSentWorkitem(workitem.workitemId)" role="button">
+                      <td>{{i + 1}}</td>
+                      <td>{{workitem.recipientName}}</td>
+                      <td>{{workitem.subject}}</td>
+                      <td>{{workitem.receivedDate}}</td>
+                      <td>{{workitem.type}}</td>
+                      <td>{{workitem.status}}</td>
+                      <td [ngClass]="{'hide' : reportPage}"
+                        (click)="mToggleProgressDialogue(workitem.workitemId,$event)">
+                        <button pButton type="button" icon="ui-icon-hourglass-empty" title="Work Progress"
+                          class="remove-btn v-m"></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ng-container>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
   <div *ngIf="displayinfo">
     <p-dialog styleClass="p-0" [modal]="true" [appendTo]="'body'" [resizable]="false" [(visible)]="displayinfo"
-      #infoDialog [style]="{height: '500px' }" [contentStyle]="{'overflow':'visible'}"
-      (onHide)="closeModal()">
+      #infoDialog [style]="{height: '500px' }" [contentStyle]="{'overflow':'visible'}" (onHide)="closeModal()">
       <p-header>
         {{viewDocTitle}}
       </p-header>
       <!--For making doc details tab lazy-->
-     
+
       <app-doc-details-modal [docInfo]="docInfo" [docSysProp]="docSysProp" [docSecurity]="docSecurity"
         [foldersFiledIn]="foldersFiledIn" [docTitle]="viewDocTitle">
       </app-doc-details-modal>
@@ -646,13 +672,12 @@
   </div>
   <div *ngIf="islinked">
     <p-dialog styleClass="p-0" [modal]="true" [appendTo]="'body'" [resizable]="false" [(visible)]="islinked"
-      #infoLinkedDialog [style]="{height: '300px' }"
-      [contentStyle]="{'overflow':'visible'}" (onHide)="closeModal()">
+      #infoLinkedDialog [style]="{height: '300px' }" [contentStyle]="{'overflow':'visible'}" (onHide)="closeModal()">
       <p-header>
         {{viewDocTitle }}
       </p-header>
       <!--For making doc details tab lazy-->
-    
+
       <app-doc-linked-details-modal [docInfo]="docInfo" [docSysProp]="docSysProp" [docSecurity]="docSecurity"
         [linkedDocument]="linkedDocument" [foldersFiledIn]="foldersFiledIn" [docTitle]="viewDocTitle">
       </app-doc-linked-details-modal>
@@ -660,8 +685,7 @@
   </div>
   <div *ngIf="isDocTrack">
     <p-dialog styleClass="p-0" [modal]="true" [appendTo]="'body'" [resizable]="false" [(visible)]="isDocTrack"
-      #infoTrackDialog  [style]="{height: '300px' }"
-      [contentStyle]="{'overflow':'visible'}" (onHide)="closeModal()">
+      #infoTrackDialog [style]="{height: '300px' }" [contentStyle]="{'overflow':'visible'}" (onHide)="closeModal()">
       <p-header>
         {{viewDocTitle }}
       </p-header>
@@ -702,14 +726,14 @@
   <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
 </div>
 <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="displayBasic" [responsive]="true"
-     [style]="{ width: '400px', height: '200px' }">
-    <p-header>
-      Confirmation
-    </p-header>
-    <p>Are you sure that you want to remove this draft item?</p>
-    <div style="height: 40px;"></div>
-    <div style="margin-left: 20vh">
-      <button (click)="cancel()" pButton type="button" class="mr-1" label="Cancel"></button> &nbsp;
-      <button (click)="ok()" pButton type="button" class="mr-1" label="OK"></button> &nbsp;
-    </div>
-  </p-dialog>
+  [style]="{ width: '400px', height: '200px' }">
+  <p-header>
+    Confirmation
+  </p-header>
+  <p>Are you sure that you want to remove this draft item?</p>
+  <div style="height: 40px;"></div>
+  <div style="margin-left: 20vh">
+    <button (click)="cancel()" pButton type="button" class="mr-1" label="Cancel"></button> &nbsp;
+    <button (click)="ok()" pButton type="button" class="mr-1" label="OK"></button> &nbsp;
+  </div>
+</p-dialog>
