@@ -103,7 +103,7 @@
                   class="v-m p-0" [(ngModel)]="searchText">
               </td> -->
               <td>
-                <button pButton type="button" icon="ui-icon-autorenew" [hidden]="true" title="Refresh"
+                <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" [hidden]="true" title="Refresh"
                   (click)="refreshPolicyAfterSearch()" class="remove-btn v-m no-box-shadow"></button>
               </td>
             </tr>
@@ -157,14 +157,14 @@
           </p-column>
           <p-column styleClass="text-align-center" [style]="{'width':'60px'}">
             <ng-template let-col let-policy="rowData" let-ri="rowIndex" pTemplate="body">
-              <span><button pButton type="button" icon="ui-icon-edit" title="Edit" (click)="edit(policy)"
+              <span><button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit" (click)="edit(policy)"
                   class="remove-btn v-m" *ngIf="!policy.isNew"></button>
-                <button pButton type="button" icon="ui-icon-info-outline" title="Info"
+                <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info"
                   (click)="viewAccesspolicy(policy)" class="remove-btn v-m"></button>
-                <button pButton type="button" icon="ui-icon-add" title="Edit" (click)="edit(policy)"
+                <button pButton type="button" icon="fa fa-fw ui-icon-add" title="Edit" (click)="edit(policy)"
                   class="remove-btn v-m" *ngIf="policy.isNew"
                   [disabled]="!policy.name || !policy.orgCode ||  !policy.orgCode.id"></button>
-                <button pButton type="button" icon="ui-icon-remove" title="Remove" (click)="removePolicy(policy)"
+                <button pButton type="button" icon="fa fa-fw ui-icon-remove" title="Remove" (click)="removePolicy(policy)"
                   class="remove-btn v-m" *ngIf="policy.isNew"></button></span>
             </ng-template>
           </p-column>
@@ -210,14 +210,14 @@
             <td>{{ product.modifiedBy }}</td>
             <td>{{ product.modifiedDate }}</td>
             <td>
-              <span><button pButton type="button" icon="ui-icon-edit" title="Edit" (click)="edit(product)"
+              <span><button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit" (click)="edit(product)"
                 class="remove-btn v-m" *ngIf="!product.isNew"></button>
-              <button pButton type="button" icon="ui-icon-info-outline" title="Info"
+              <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info"
                 (click)="viewAccesspolicy(product)" class="remove-btn v-m"></button>
-              <button pButton type="button" icon="ui-icon-add" title="Edit" (click)="edit(product)"
+              <button pButton type="button" icon="fa fa-fw ui-icon-add" title="Edit" (click)="edit(product)"
                 class="remove-btn v-m" *ngIf="product.isNew"
                 [disabled]="!product.name || !product.orgCode ||  !product.orgCode.id"></button>
-              <button pButton type="button" icon="ui-icon-remove" title="Remove" (click)="removePolicy(product)"
+              <button pButton type="button" icon="fa fa-fw ui-icon-remove" title="Remove" (click)="removePolicy(product)"
                 class="remove-btn v-m" *ngIf="product.isNew"></button></span>
             </td>
           </tr>
@@ -247,7 +247,7 @@
   </p-header>
   <p-tabView styleClass="tab-dialog">
     <div class="p-sm">
-      <p-tabPanel header="Access Policy Info" leftIcon="ui-icon-security">
+      <p-tabPanel header="Access Policy Info" leftIcon="fa fa-fw ui-icon-security">
         <table class="ecm-table  w-100">
           <tbody>
             <tr class="even">
@@ -294,7 +294,7 @@
           </tbody>
         </table>
       </p-tabPanel>
-      <p-tabPanel header="Mapped Entry Template" leftIcon="ui-icon-input">
+      <p-tabPanel header="Mapped Entry Template" leftIcon="fa fa-fw ui-icon-input">
         <table class="ecm-table  w-100">
           <thead>
             <th>#</th>

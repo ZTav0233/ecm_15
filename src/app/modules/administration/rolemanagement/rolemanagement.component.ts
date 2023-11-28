@@ -21,9 +21,9 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
   @ViewChild('dt1') dataTable!: Table;
   public roleData: any = { roles: { model: {} } };
   public roleTreeData: any = { roles: { model: {} } };
-  roleTreeExpandedIcon = 'ui-icon-people-outline';
-  roleTreeCollapsedIcon = 'ui-icon-people';
-  userIcon = 'ui-icon-person';
+  roleTreeExpandedIcon = 'fa fa-fw ui-icon-people-outline';
+  roleTreeCollapsedIcon = 'fa fa-fw ui-icon-people';
+  userIcon = 'fa fa-fw ui-icon-person';
   private subscriptions: any[] = [];
   public showEditRole = false;
   public editMode = false;

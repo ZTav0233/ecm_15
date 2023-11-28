@@ -16,7 +16,7 @@
                 class="v-m p-0">
             </td> -->
             <td>
-              <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
+              <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"
                 class="remove-btn v-m no-box-shadow"></button>
             </td>
           </tr>
@@ -37,9 +37,9 @@
       <p-column [sortable]="true" field="isReportAdmin" header="Report Admin"></p-column>
       <p-column styleClass="col-button" [style]="{'width':'60px'}">
         <ng-template let-dat="rowData" let-i="rowIndex" pTemplate="body">
-          <button pButton type="button" (click)="editReportAdmin(dat,i);editReportUserDialog=true;" icon="ui-icon-edit" title="Edit"
+          <button pButton type="button" (click)="editReportAdmin(dat,i);editReportUserDialog=true;" icon="fa fa-fw ui-icon-edit" title="Edit"
             class="remove-btn v-m"></button>
-          <button pButton type="button" icon="ui-icon-delete" title="Remove" (click)="confirm(dat)"
+          <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Remove" (click)="confirm(dat)"
             class="remove-btn v-m"></button>
         </ng-template>
       </p-column>
@@ -77,9 +77,9 @@
           <td>{{ product.KocId }}</td>
           <td>{{ product.isReportAdmin }}</td>
           <td>
-            <button pButton type="button" (click)="editReportAdmin(product,i);editReportUserDialog=true;" icon="ui-icon-edit" title="Edit"
+            <button pButton type="button" (click)="editReportAdmin(product,i);editReportUserDialog=true;" icon="fa fa-fw ui-icon-edit" title="Edit"
             class="remove-btn v-m"></button>
-          <button pButton type="button" icon="ui-icon-delete" title="Remove" (click)="confirm(product)"
+          <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Remove" (click)="confirm(product)"
             class="remove-btn v-m"></button>
           </td>
         </tr>

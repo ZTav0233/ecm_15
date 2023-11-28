@@ -132,7 +132,9 @@ body {
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'liga';
 }
-
+.ui-icon-record-voice-over::before{
+    content: "record_voice_over";
+}
 .ui-icon-reply:before {
     content: "reply";
 }
@@ -279,4 +281,58 @@ body {
 }
 .ui-icon-delete::before{
     content: "delete";
+}
+.ui-icon-account-circle::before{
+    content: "account_circle";
+}
+.ui-icon-build::before{
+    content: "build";
+}
+.ui-icon-vertical-align-center::before{
+    content: "vertical_align_center";
+}
+.ui-icon-compare::before{
+    content: "compare";
+}
+.ui-icon-input::before{
+    content: "input";
+}
+.ui-icon-security::before{
+    content: "security";
+}
+.ui-icon-beenhere::before{
+    content: "beenhere";
+}
+.ui-icon-verified-user::before{
+    content: "verified_user";
+}
+.ui-icon-arrow-drop-down-circle::before{
+    content: "arrow_drop_down_circle";
+}
+.ui-icon-swap-horiz::before{
+    content: "swap_horiz";
+}
+.ui-icon-supervisor-account::before{
+    content: "supervisor_account";
+}
+.ui-icon-people-outline::before{
+    content: "people_outline";
+}
+.ui-icon-contacts::before{
+    content: "contacts";
+}
+.ui-icon-view-stream::before{
+    content: "view_stream";
+}
+.ui-icon-account-balance::before{
+    content: "account_balance";
+}
+.ui-icon-event-busy::before{
+    content: "event_busy";
+}
+.ui-icon-assignment-ind::before{
+    content: "assignment_ind";
+}
+.ui-icon-assignment-late::before{
+    content: "assignment_late";
 }

@@ -4,7 +4,7 @@
       <ng-container *ngIf="list.id == '1'">
         <p-accordionTab (click)="showSubList($event,list.id,i)" [selected]="true">
           <p-header>
-            <i class="fa ui-icon-view-list ui-icon-ac-h"></i>
+            <i class="fa fa fa-fw ui-icon-view-list fa fa-fw ui-icon-ac-h"></i>
             {{list.name}}
           </p-header>
           <div class="ui-g-12 roleSearch-box">
@@ -20,7 +20,7 @@
             <tr *ngFor="let lst of distList.lists;let j = index;" class="item"
               [ngClass]="{'even':j%2===0 && j!==selectedIndex,'highlighted':j===selectedIndex}">
               <td>
-                <i [ngClass]="{'highlighted':j===selectedIndex}" class="fa ui-icon-view-list"></i>
+                <i [ngClass]="{'highlighted':j===selectedIndex}" class="fa fa fa-fw ui-icon-view-list"></i>
               </td>
               <td [class.highlighted]="lst.id === selectedId">
                 <span role="button" href="javascript:void(0)" (click)="showUsers($event,lst.id,lst.name,j,lst);">
@@ -29,7 +29,7 @@
               </td>
               <td align="right" class="action-btn-group">
                 <span class="action-btn-group-sm p-r-lg">
-                  <button pButton type="button" icon="ui-icon-delete" title="Remove"
+                  <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Remove"
                     (click)="confirmRemoveLink($event,lst,user.EmpNo)"></button>
                 </span>
               </td>
@@ -64,15 +64,15 @@
           <div class="ui-g form-group">
             <div class="ui-g-12">
               <div class="ui-g-10">
-                <i *ngIf="value.appRole==='ROLE'" class="fa ui-icon-people"></i>
-                <i *ngIf="value.appRole==='USER'" class="fa ui-icon-person"></i>
+                <i *ngIf="value.appRole==='ROLE'" class="fa fa fa-fw ui-icon-people"></i>
+                <i *ngIf="value.appRole==='USER'" class="fa fa fa-fw ui-icon-person"></i>
                 <span *ngIf="value.appRole==='ROLE'" [escape]="false" (mouseover)="getRoleMembers(value)"
                   pTooltip="{{value.members}}" [tooltipStyleClass]="'tooltip'" tooltipPosition="bottom"
                   class="p-r-xlg">{{value.fulName}}</span>
                 <span *ngIf="value.appRole==='USER'" class="p-r-xlg">{{value.fulName}}</span>
               </div>
               <div class="ui-g-2">
-                <button pButton type="button" icon="ui-icon-clear" title="Remove" (click)="onRemove(value)"
+                <button pButton type="button" icon="fa fa-fw ui-icon-clear" title="Remove" (click)="onRemove(value)"
                   class="remove-btn v-m"></button>
               </div>
             </div>
@@ -236,15 +236,15 @@
         <div class="ui-g form-group">
           <div class="ui-g-12">
             <div class="ui-g-10">
-              <i *ngIf="value.appRole==='ROLE'" class="fa ui-icon-people"></i>
-              <i *ngIf="value.appRole==='USER'" class="fa ui-icon-person"></i>
+              <i *ngIf="value.appRole==='ROLE'" class="fa fa fa-fw ui-icon-people"></i>
+              <i *ngIf="value.appRole==='USER'" class="fa fa fa-fw ui-icon-person"></i>
               <span *ngIf="value.appRole==='ROLE'" [escape]="false" (mouseover)="getRoleMembers(value)"
                 pTooltip="{{value.members}}" [tooltipStyleClass]="'tooltip'" tooltipPosition="bottom"
                 class="p-r-xlg">{{value.fulName}}</span>
               <span *ngIf="value.appRole==='USER'" class="p-r-xlg">{{value.fulName}}</span>
             </div>
             <div class="ui-g-2">
-              <button pButton type="button" icon="ui-icon-clear" title="Remove" (click)="onRemove(value)"
+              <button pButton type="button" icon="fa fa-fw ui-icon-clear" title="Remove" (click)="onRemove(value)"
                 class="remove-btn v-m"></button>
             </div>
           </div>

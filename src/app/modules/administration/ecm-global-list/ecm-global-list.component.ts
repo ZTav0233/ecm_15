@@ -38,8 +38,8 @@ export class EcmGlobalListComponent implements OnInit {
   public showRoleList = false;
   private tmpRoleTree: any[];
   public roleData: any = {roles: {model: {}}};
-  roleTreeExpandedIcon = 'ui-icon-people-outline';
-  roleTreeCollapsedIcon = 'ui-icon-people';
+  roleTreeExpandedIcon = 'fa fa-fw ui-icon-people-outline';
+  roleTreeCollapsedIcon = 'fa fa-fw ui-icon-people';
   isGlobal = true;
   userOrRole: any;
   isSaveDisabled = true;

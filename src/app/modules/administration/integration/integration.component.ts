@@ -304,7 +304,7 @@ export class IntegrationComponent implements OnInit, OnDestroy {
       message: 'Are you sure that you want to Delete ' + row.appId + '?',
       header: 'Delete Confirmation',
       key: 'confirmDI',
-      icon: 'ui-icon-help',
+      icon: 'fa fa-fw ui-icon-help',
       accept: () => {
         this.deleteIntegration(row);
       },

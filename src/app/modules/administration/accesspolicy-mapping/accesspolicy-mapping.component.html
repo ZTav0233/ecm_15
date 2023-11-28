@@ -149,7 +149,7 @@
                           style="color: #ffffff; width: 30%;" class="v-m p-0" >
                       </td> -->
                       <td>
-                        <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"
                           class="remove-btn v-m no-box-shadow"></button>
                       </td>
                     </tr>
@@ -180,7 +180,7 @@
                     
                     <ng-template let-col let-mapping="rowData" let-ri="rowIndex" pTemplate="body">
                       <span>
-                        <button pButton type="button" icon="ui-icon-remove" title="Remove Permission"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-remove" title="Remove Permission"
                           (click)="removeMappingConfirm(mapping)" class="remove-btn v-m"></button>
                       </span>
                     </ng-template>
@@ -214,7 +214,7 @@
               <td>{{ product.etName }}</td>
               <td>{{ product.apname }}</td>
               <td>
-                  <button pButton type="button" icon="ui-icon-remove" title="Remove Permission"
+                  <button pButton type="button" icon="fa fa-fw ui-icon-remove" title="Remove Permission"
                   (click)="removeMappingConfirm(product)" class="remove-btn v-m"></button>
               </td>
             </tr>
@@ -230,13 +230,13 @@
 </div>
 <p-confirmDialog header="Remove Mapping?" #cd key="removeMappingConfirmation">
   <p-footer>
-    <button type="button" pButton icon="ui-icon-check" label="Yes" (click)="cd.accept()"></button>
-    <button type="button" pButton icon="ui-icon-close" label="No" (click)="cd.reject()"></button>
+    <button type="button" pButton icon="fa fa-fw ui-icon-check" label="Yes" (click)="cd.accept()"></button>
+    <button type="button" pButton icon="fa fa-fw ui-icon-close" label="No" (click)="cd.reject()"></button>
   </p-footer>
 </p-confirmDialog>
 <p-confirmDialog header="Info" #cd2 key="deleteEntryTemplateConfirm">
   <p-footer>
-    <button type="button" pButton icon="ui-icon-check" label="Ok" (click)="cd.accept()"></button>
+    <button type="button" pButton icon="fa fa-fw ui-icon-check" label="Ok" (click)="cd.accept()"></button>
   </p-footer>
 </p-confirmDialog>
 <div class="progress-bar">

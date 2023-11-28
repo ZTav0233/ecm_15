@@ -5,7 +5,7 @@
 <div style="margin-top: 80px; display: flex;">
   <div >
     <p-tabView (onChange)="tabChange($event)" [(activeIndex)]="activeTab">
-      <p-tabPanel header="Role Tree" leftIcon="ui-icon-list">
+      <p-tabPanel header="Role Tree" leftIcon="fa fa-fw ui-icon-list">
         <div *ngIf="activeTab===0">
           <div class="ui-g">
             <div class="ui-g-12 roleSearch-box">
@@ -28,7 +28,7 @@
           </div>
         </div>
       </p-tabPanel>
-      <p-tabPanel header="Role List" leftIcon="ui-icon-people">
+      <p-tabPanel header="Role List" leftIcon="fa fa-fw ui-icon-people">
         <div class="ui-g">
           <div class="ui-g-12 roleSearch-box">
             <div class="ui-inputgroup">
@@ -59,7 +59,7 @@
           </div>
         </div>
       </p-tabPanel>
-      <p-tabPanel header="Deactivated Roles" leftIcon="ui-icon-people-outline">
+      <p-tabPanel header="Deactivated Roles" leftIcon="fa fa-fw ui-icon-people-outline">
         <div class="ui-g">
           <div class="ui-g-12 roleSearch-box">
             <div class="ui-inputgroup">
@@ -102,13 +102,13 @@
                   <td>{{ product.name }}</td>
                   <td>{{ product.typeText }}</td>
                   <td>
-                    <button pButton type="button" icon="ui-icon-delete" title="Delete" (click)="deleteRole(product)"
+                    <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete" (click)="deleteRole(product)"
                       class="remove-btn v-m pull-right"></button>
-                    <button pButton type="button" icon="ui-icon-edit" title="Edit" (click)="editRoleItem(product)"
+                    <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit" (click)="editRoleItem(product)"
                       class="remove-btn v-m pull-right"></button>
-                    <button pButton type="button" icon="ui-icon-check" title="Activate" (click)="activateRole(product)"
+                    <button pButton type="button" icon="fa fa-fw ui-icon-check" title="Activate" (click)="activateRole(product)"
                       class="remove-btn v-m pull-right"></button>
-                    <button pButton type="button" icon="ui-icon-info-outline" title="Info"
+                    <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info"
                       (click)="infoRole(product);showInfoDialog=true;" class="remove-btn v-m pull-right"></button>
                   </td>
                 </tr>
@@ -228,8 +228,8 @@
 
 <p-confirmDialog header="Remove User?" #cd key="removeRoleUserConfirmation">
   <p-footer>
-    <button type="button" pButton icon="ui-icon-check" label="Yes" (click)="cd.accept()"></button>
-    <button type="button" pButton icon="ui-icon-close" label="No" (click)="cd.reject()"></button>
+    <button type="button" pButton icon="fa fa-fw ui-icon-check" label="Yes" (click)="cd.accept()"></button>
+    <button type="button" pButton icon="fa fa-fw ui-icon-close" label="No" (click)="cd.reject()"></button>
   </p-footer>
 </p-confirmDialog>
 

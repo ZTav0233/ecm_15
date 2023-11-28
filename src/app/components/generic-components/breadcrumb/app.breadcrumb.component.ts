@@ -60,12 +60,7 @@ export class AppBreadcrumbComponent implements OnDestroy {
       this.isAdmin = false;
       this.isBrowseDocs = true;
       this.tabItems = [];
-      // this.tabItems = [
-      //   {label: 'Favourite Docs', icon: 'ui-icon-local-activity', routerLink: ['/favourites']},
-      //   {label: 'Recents', icon: 'ui-icon-restore', routerLink: ['/recents']},
-      //   {label: 'Team Shared Docs', icon: 'ui-icon-group', routerLink: ['/teamshared']},
-      //
-      // ]
+      
     }
     else if (this.router.url.includes('/shortcuts')) {
       this.tabItems = [];
@@ -86,72 +81,72 @@ export class AppBreadcrumbComponent implements OnDestroy {
       this.isAdmin = true;
       this.isBrowseDocs = false;
       this.megaItemsConfig = [{
-        label: 'Configuration', icon: 'ui-icon-account-circle',
+        label: 'Configuration', icon: 'fa fa-fw ui-icon-account-circle',
         items: [
-          {label: 'Configuration', icon: 'ui-icon-build', routerLink: ['/administration/configurations']},
+          {label: 'Configuration', icon: 'fa fa-fw ui-icon-build', routerLink: ['/administration/configurations']},
           {
             label: 'Integration',
-            icon: 'ui-icon-vertical-align-center',
+            icon: 'fa fa-fw ui-icon-vertical-align-center',
             routerLink: ['/administration/integration']
           }]
       }];
       this.megaItemsSec = [{
-        label: 'Security Update Tool', icon: 'ui-icon-account-circle',
+        label: 'Security Update Tool', icon: 'fa fa-fw ui-icon-account-circle',
         items: [
-          {label: 'Legacy Exception Doc - Security Tool', icon: 'ui-icon-compare', routerLink: ['/administration/security-tool']},
+          {label: 'Legacy Exception Doc - Security Tool', icon: 'fa fa-fw ui-icon-compare', routerLink: ['/administration/security-tool']},
           ]
       }];
 
       this.megaItemsTemp = [{
-        label: 'Template and Security', icon: 'ui-icon-account-circle',
+        label: 'Template and Security', icon: 'fa fa-fw ui-icon-account-circle',
         items: [
           {
             label: 'Entry Template Mapping',
-            icon: 'ui-icon-input',
+            icon: 'fa fa-fw ui-icon-input',
             routerLink: ['/administration/entry-template-mapping']
           },
-          {label: 'Access Policies', icon: 'ui-icon-security', routerLink: ['/administration/access-policies']},
+          {label: 'Access Policies', icon: 'fa fa-fw ui-icon-security', routerLink: ['/administration/access-policies']},
           {
             label: 'Access Policy Mapping',
-            icon: 'ui-icon-beenhere',
+            icon: 'fa fa-fw ui-icon-beenhere',
             routerLink: ['/administration/access-policy-mapping']
           },
-          {label: 'Manage Access Policy', icon: 'ui-icon-verified-user', routerLink: ['/administration/manage-accesspolicy']},
-          {label: 'Lookup', icon: 'ui-icon-arrow-drop-down-circle', routerLink: ['/administration/lookups']},
-          {label: 'Lookup Mapping', icon: 'ui-icon-swap-horiz', routerLink: ['/administration/lookup-mapping']},
+          {label: 'Manage Access Policy', icon: 'fa fa-fw ui-icon-verified-user', routerLink: ['/administration/manage-accesspolicy']},
+          {label: 'Lookup', icon: 'fa fa-fw ui-icon-arrow-drop-down-circle', routerLink: ['/administration/lookups']},
+          {label: 'Lookup Mapping', icon: 'fa fa-fw ui-icon-swap-horiz', routerLink: ['/administration/lookup-mapping']},
         ]
       }];
 
       this.megaItemsManage = [{
-        label: 'Management', icon: 'ui-icon-account-circle',
+        label: 'Management', icon: 'fa fa-fw ui-icon-account-circle',
         items: [
           {
             label: 'Role Management',
-            icon: 'ui-icon-supervisor-account',
+            icon: 'fa fa-fw ui-icon-supervisor-account',
             routerLink: ['/administration/role-management']
           },
-          {label: 'ECM Users', icon: 'ui-icon-people-outline', routerLink: ['/administration/ecm-users']},
-          {label: 'ECM Report Users', icon: 'ui-icon-contacts', routerLink: ['/administration/ecm-report-user']},
-          {label: 'ECM Global List', icon: 'ui-icon-view-stream', routerLink: ['/administration/ecm-global-list']},
+          {label: 'ECM Users', icon: 'fa fa-fw ui-icon-people-outline', routerLink: ['/administration/ecm-users']},
+          {label: 'ECM Report Users', icon: 'fa fa-fw ui-icon-contacts', routerLink: ['/administration/ecm-report-user']},
+          {label: 'ECM Global List', icon: 'fa fa-fw ui-icon-view-stream', routerLink: ['/administration/ecm-global-list']},
           {
             label: 'ECM Administrators',
-            icon: 'ui-icon-account-circle',
+            icon: 'fa fa-fw ui-icon-account-circle',
             routerLink: ['/administration/ecm-admin-user']
           },
-          {label: 'News', icon: 'ui-icon-record-voice-over', routerLink: ['/administration/news']},
+          {label: 'News', icon: 'fa fa-fw ui-icon-record-voice-over', routerLink: ['/administration/news']},
           {
             label: 'ECM Error Logs',
-            icon: 'ui-icon-assignment-late',
+            icon: 'fa fa-fw ui-icon-assignment-late',
             routerLink: ['/administration/errorlog-management']
           },
-          {label: 'ECM Admin Logs', icon: 'ui-icon-assignment-ind', routerLink: ['/administration/ecm-admin-logs']},
+          {label: 'ECM Admin Logs', icon: 'fa fa-fw ui-icon-assignment-ind', routerLink: ['/administration/ecm-admin-logs']},
           {
             label: 'ECM Exclude Operator',
-            icon: 'ui-icon-event-busy',
+            icon: 'fa fa-fw ui-icon-event-busy',
             routerLink: ['/administration/ecm-exclude-users']
           },
-          {label: 'ECM Org Unit Management', icon: 'ui-icon-account-balance', routerLink: ['/administration/orgunit-management']},
-           // {label: 'ECM Document OCR Tracker', icon: 'ui-icon-settings-overscan', routerLink: ['/administration/ecmdoc-track']}
+          {label: 'ECM Org Unit Management', icon: 'fa fa-fw ui-icon-account-balance', routerLink: ['/administration/orgunit-management']},
+           // {label: 'ECM Document OCR Tracker', icon: 'fa fa-fw ui-icon-settings-overscan', routerLink: ['/administration/ecmdoc-track']}
         ]
       }];
     }

@@ -17,8 +17,8 @@ import { Table } from 'primeng/table';
 export class AccessPolicyMappingComponent implements OnInit, OnDestroy {
   @ViewChild('dt1') dataTable!: Table;
   public roleData: any = { roles: { model: {} } };
-  roleTreeExpandedIcon = 'ui-icon-people-outline';
-  roleTreeCollapsedIcon = 'ui-icon-people';
+  roleTreeExpandedIcon = 'fa fa-fw ui-icon-people-outline';
+  roleTreeCollapsedIcon = 'fa fa-fw ui-icon-people';
   private subscriptions: any[] = [];
   private currentUser: any;
   private tmpRoleTree: any[];

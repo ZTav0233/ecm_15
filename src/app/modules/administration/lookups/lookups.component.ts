@@ -37,8 +37,8 @@ export class LookupsComponent implements OnInit, OnDestroy {
   emptyMessage: any;
   private subscriptions: any[] = [];
   private roleData: any = { roles: { model: {} } };
-  roleTreeExpandedIcon = 'ui-icon-people-outline';
-  roleTreeCollapsedIcon = 'ui-icon-people';
+  roleTreeExpandedIcon = 'fa fa-fw ui-icon-people-outline';
+  roleTreeCollapsedIcon = 'fa fa-fw ui-icon-people';
   public suggestionsResults: any[] = [];
   public selectedOrgUnit: any;
   orgName: any;
@@ -288,7 +288,7 @@ export class LookupsComponent implements OnInit, OnDestroy {
       message: 'Are you sure that you want to Delete?',
       header: 'Delete Confirmation',
       key: 'confirmLookup',
-      icon: 'ui-icon-help',
+      icon: 'fa fa-fw ui-icon-help',
       accept: () => {
         this.deleteLookupValue(rowdat);
       },
@@ -302,7 +302,7 @@ export class LookupsComponent implements OnInit, OnDestroy {
       message: 'Are you sure that you want to Delete this Lookup?',
       header: 'Delete Confirmation',
       key: 'confirmLookup',
-      icon: 'ui-icon-help',
+      icon: 'fa fa-fw ui-icon-help',
       accept: () => {
         this.deleteLookup(rowdat);
       },

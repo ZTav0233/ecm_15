@@ -15,7 +15,7 @@
                 class="v-m p-0">
             </td> -->
             <td>
-              <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
+              <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"
                 class="remove-btn v-m no-box-shadow"></button>
             </td>
           </tr>
@@ -38,9 +38,9 @@
       <p-column [sortable]="true" field="status" header="Status"></p-column>
       <p-column styleClass="col-button" [style]="{'width':'60px'}">
         <ng-template let-rowdat="rowData" let-i="rowIndex" pTemplate="body">
-          <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="viewUsers(rowdat)"
+          <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info" (click)="viewUsers(rowdat)"
             class="remove-btn v-m"></button>
-          <button pButton type="button" (click)="editUser(rowdat,i);showUserInfo=true;" icon="ui-icon-edit" title="Edit"
+          <button pButton type="button" (click)="editUser(rowdat,i);showUserInfo=true;" icon="fa fa-fw ui-icon-edit" title="Edit"
             class="remove-btn v-m"></button>
         </ng-template>
       </p-column>
@@ -88,9 +88,9 @@
           <td>{{ product.initialAllowed }}</td>
           <td>{{ product.status }}</td>
           <td>
-            <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="viewUsers(product)"
+            <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info" (click)="viewUsers(product)"
               class="remove-btn v-m"></button>
-            <button pButton type="button" (click)="editUser(product,i);showUserInfo=true;" icon="ui-icon-edit"
+            <button pButton type="button" (click)="editUser(product,i);showUserInfo=true;" icon="fa fa-fw ui-icon-edit"
               title="Edit" class="remove-btn v-m"></button>
           </td>
         </tr>

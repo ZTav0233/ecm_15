@@ -15,7 +15,7 @@
                 class="v-m p-0">
             </td> -->
             <td>
-              <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
+              <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"
                 class="remove-btn v-m no-box-shadow"></button>
             </td>
           </tr>
@@ -30,7 +30,7 @@
         [sortField]="col.sortField?col.sortField:col.field"></p-column>
       <p-column styleClass="col-button">
         <ng-template let-rowdat="rowData" let-i="rowIndex" pTemplate="body">
-          <button pButton type="button" (click)="removeAdminUser(rowdat,i)" icon="ui-icon-remove" title="Remove"
+          <button pButton type="button" (click)="removeAdminUser(rowdat,i)" icon="fa fa-fw ui-icon-remove" title="Remove"
             [disabled]="rowdat.EmpNo && user.EmpNo ? rowdat.EmpNo===user.EmpNo:false" class="remove-btn v-m"></button>
         </ng-template>
       </p-column>
@@ -76,7 +76,7 @@
           <td>{{ product.justification }}</td>
           <td>{{ product.mail }}</td>
           <td>
-            <button pButton type="button" (click)="removeAdminUser(product)" icon="ui-icon-remove" title="Remove"
+            <button pButton type="button" (click)="removeAdminUser(product)" icon="fa fa-fw ui-icon-remove" title="Remove"
             [disabled]="product.EmpNo && user.EmpNo ? product.EmpNo===user.EmpNo:false" class="remove-btn v-m"></button>
           </td>
         </tr>

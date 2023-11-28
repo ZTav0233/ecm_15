@@ -391,7 +391,7 @@ export class LookupmappingComponent implements OnInit, OnDestroy {
       message: 'Are you sure that you want to Delete?',
       header: 'Delete Confirmation',
       key: 'confirmLM',
-      icon: 'ui-icon-help',
+      icon: 'fa fa-fw ui-icon-help',
       accept: () => {
         this.deleteLookupMapping(row);
       },

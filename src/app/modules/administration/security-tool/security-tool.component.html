@@ -1,5 +1,5 @@
 <p-tabView styleClass="m-h-100" [activeIndex]="indexTab" (onChange)="changeTabType($event)">
-  <p-tabPanel header="New Operation" leftIcon="ui-icon-playlist-add">
+  <p-tabPanel header="New Operation" leftIcon="fa fa-fw ui-icon-playlist-add">
     <div class="ui-g">
       <div class="ui-g-12 ui-md-12 p-0 m-l-lg">
         <div class="ui-g-6 ui-md-6 ui-sm-10 p-0">
@@ -46,10 +46,10 @@
               <div class="ui-g-12 ui-md-8 ui-inputgroup">
                 <input id="path" class="form-control" type="text" disabled [ngModel]="secPostObj.selectedFolder.path"
                   [title]="secPostObj.selectedFolder.path" pInputText>
-                <button *ngIf="removeEnabled" pButton type="button" icon="ui-icon-close" title="Close"
+                <button *ngIf="removeEnabled" pButton type="button" icon="fa fa-fw ui-icon-close" title="Close"
                   (click)="removeFolderPath()"></button>
                 <button *ngIf="!removeEnabled" pButton type="button" (click)="openTreeDialog()"
-                  icon="ui-icon-folder-open"></button>
+                  icon="fa fa-fw ui-icon-folder-open"></button>
               </div>
             </div>
             <div class="ui-g form-group">
@@ -177,7 +177,7 @@
                 </p-dropdown>
                   </div>
                   <div class="ui-g-2 ui-md-2">
-                <button pButton type="button" icon="ui-icon-info-outline"   class="remove-btn v-m"
+                <button pButton type="button" icon="fa fa-fw ui-icon-info-outline"   class="remove-btn v-m"
                    (click)="showPermissionDetails(participant.role);displayPermissionDetails=true;"></button>
                   </div>
                 </div>
@@ -185,7 +185,7 @@
             </p-column>
             <p-column>
               <ng-template let-dat="rowData" let-i="rowIndex" pTemplate="body">
-                <button pButton type="button" icon="ui-icon-remove" title="Remove" (click)="removeNewPermission(dat);validateParticipants()"
+                <button pButton type="button" icon="fa fa-fw ui-icon-remove" title="Remove" (click)="removeNewPermission(dat);validateParticipants()"
                   class="remove-btn v-m"></button>
               </ng-template>
             </p-column>
@@ -234,13 +234,13 @@
                       </p-dropdown>
                     </div>
                     <div class="ui-g-2 ui-md-2">
-                      <button pButton type="button" icon="ui-icon-info-outline" class="remove-btn v-m"
+                      <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" class="remove-btn v-m"
                         (click)="showPermissionDetails(product.role);displayPermissionDetails=true;"></button>
                     </div>
                   </div>
                 </td>
                 <td>
-                  <button pButton type="button" icon="ui-icon-remove" title="Remove"
+                  <button pButton type="button" icon="fa fa-fw ui-icon-remove" title="Remove"
                     (click)="removeNewPermission(product);validateParticipants()" class="remove-btn v-m"></button>
                 </td>
               </tr>
@@ -257,7 +257,7 @@
       </div>
     </div>
   </p-tabPanel>
-  <p-tabPanel header="Operations" leftIcon="ui-icon-list">
+  <p-tabPanel header="Operations" leftIcon="fa fa-fw ui-icon-list">
     <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
       <!-- global filter -->
       <div class="ui-g">
@@ -270,7 +270,7 @@
                   style="color: #ffffff; width: 30%;" class="v-m p-0">
               </td> -->
               <td>
-                <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="getOperationTable()"
+                <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="getOperationTable()"
                   class="remove-btn v-m no-box-shadow"></button>
               </td>
             </tr>
@@ -286,13 +286,13 @@
       </p-column>
       <p-column field="details" header="Details" styleClass="col-button">
         <ng-template let-dat="rowData" pTemplate let-i="rowIndex" type="default">
-          <button pButton type="button" icon="ui-icon-open-in-new" title="open details" class="remove-btn v-m"
+          <button pButton type="button" icon="fa fa-fw ui-icon-open-in-new" title="open details" class="remove-btn v-m"
             (click)="openDetails=true;getSelectedOperation(dat);"></button>
         </ng-template>
       </p-column>
       <p-column field="logging " header="Logging " styleClass="col-button">
         <ng-template let-dat="rowData" let-i="rowIndex" pTemplate="body">
-          <button pButton type="button" icon="ui-icon-info-outline" title="Log"  class="remove-btn v-m"
+          <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Log"  class="remove-btn v-m"
             (click)="dat.type.toLowerCase() ==='update'? openLoggingUpdate=true:openLoggingCount=true;showLoggingInfo(dat);"></button>
         </ng-template>
       </p-column>
@@ -305,7 +305,7 @@
           <span class="text-bold"> {{dat.action}}</span>
           </div>
           <div *ngIf="(dat.status==='SAVED' || dat.status==='FINISHED' || dat.status==='PAUSED' || dat.status==='FAILED')"  class="m-l-xxxl">
-          <button  pButton type="button" [icon]="'ui-icon-remove'" [title]="'REMOVE'"
+          <button  pButton type="button" [icon]="'fa fa-fw ui-icon-remove'" [title]="'REMOVE'"
             class="remove-btn v-m" (click)="removeOperCount(dat)"> </button>
           <span class="text-bold"> REMOVE</span>
             </div>
@@ -315,7 +315,7 @@
       <p-column [sortable]="true" field="modifiedBy" header="Modified By "></p-column>
       <p-column field="refresh " header="Refresh" styleClass="col-button">
         <ng-template let-dat="rowData" let-i="rowIndex" pTemplate="body">
-          <button pButton type="button" icon="ui-icon-refresh" title="refresh" (click)="refreshOp(dat)"
+          <button pButton type="button" icon="fa fa-fw ui-icon-refresh" title="refresh" (click)="refreshOp(dat)"
             class="remove-btn v-m"></button>
         </ng-template>
       </p-column>
@@ -362,11 +362,11 @@
           <td>{{ product.startTime2 }}</td>
           <td>{{ product.status }}</td>
           <td>
-            <button pButton type="button" icon="ui-icon-open-in-new" title="open details" class="remove-btn v-m"
+            <button pButton type="button" icon="fa fa-fw ui-icon-open-in-new" title="open details" class="remove-btn v-m"
               (click)="openDetails=true;getSelectedOperation(product);"></button>
           </td>
           <td>
-            <button pButton type="button" icon="ui-icon-info-outline" title="Log" class="remove-btn v-m"
+            <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Log" class="remove-btn v-m"
               (click)="product.type.toLowerCase() ==='update'? openLoggingUpdate=true:openLoggingCount=true;showLoggingInfo(product);"></button>
           </td>
           <td>
@@ -381,7 +381,7 @@
             <div
               *ngIf="(product.status==='SAVED' || product.status==='FINISHED' || product.status==='PAUSED' || product.status==='FAILED')"
               class="m-l-xxxl">
-              <button pButton type="button" [icon]="'ui-icon-remove'" [title]="'REMOVE'" class="remove-btn v-m"
+              <button pButton type="button" [icon]="'fa fa-fw ui-icon-remove'" [title]="'REMOVE'" class="remove-btn v-m"
                 (click)="removeOperCount(product)"> </button>
               <span class="text-bold"> REMOVE</span>
             </div>
@@ -389,7 +389,7 @@
           <td>{{product.actionBy}}</td>
           <td>{{product.modifiedBy}}</td>
           <td>
-            <button pButton type="button" icon="ui-icon-refresh" title="refresh" (click)="refreshOp(product)"
+            <button pButton type="button" icon="fa fa-fw ui-icon-refresh" title="refresh" (click)="refreshOp(product)"
               class="remove-btn v-m"></button>
           </td>
         </tr>
@@ -448,7 +448,7 @@
       <p-column  field="status" header="Status"></p-column>
        <p-column header="Details" styleClass="text-align-center">
        <ng-template let-col let-dat="rowData" let-ri="rowIndex" pTemplate="body">
-     <span *ngIf="dat.details"><button pButton type="button" icon="ui-icon-error-outline" title="View Details"
+     <span *ngIf="dat.details"><button pButton type="button" icon="fa fa-fw ui-icon-error-outline" title="View Details"
        (click)="showUpdateLogDetails=true;showLogDetails(dat.details);" class="remove-btn v-m"></button></span>
      <span *ngIf="!dat.details">
        -
@@ -476,7 +476,7 @@
           <td>{{ product.action }}</td>
           <td>{{ product.status }}</td>
           <td>
-            <span *ngIf="product.details"><button pButton type="button" icon="ui-icon-error-outline"
+            <span *ngIf="product.details"><button pButton type="button" icon="fa fa-fw ui-icon-error-outline"
                 title="View Details" (click)="showUpdateLogDetails=true;showLogDetails(product.details);"
                 class="remove-btn v-m"></button></span>
             <span *ngIf="!product.details">
@@ -567,7 +567,7 @@
         </div>
         <div class="ui-g-12 ui-md-6">
           <i
-            [ngClass]="(selectedOperation.operationInput.subFoldersIncluded)?'fa ui-icon-check':'fa ui-icon-close'"></i>
+            [ngClass]="(selectedOperation.operationInput.subFoldersIncluded)?'fa fa fa-fw ui-icon-check':'fa fa fa-fw ui-icon-close'"></i>
           <!--<span> {{selectedOperation.operationInput.subFoldersIncluded}}</span>-->
         </div>
       </div>

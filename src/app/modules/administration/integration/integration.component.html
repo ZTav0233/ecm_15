@@ -19,7 +19,7 @@
                     style="color: #ffffff; width: 30%;" class="v-m p-0">
                 </td> -->
                 <td>
-                  <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
+                  <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"
                     class="remove-btn v-m no-box-shadow"></button>
                 </td>
               </tr>
@@ -33,11 +33,11 @@
                   [sortable]="true" [sortField]="col.sortField?col.sortField:col.field"></p-column>
         <p-column [style]="{'width':'10%'}" styleClass="col-button">
           <ng-template let-r="rowData" pTemplate="body">
-            <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="viewIntegration(r)"
+            <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info" (click)="viewIntegration(r)"
                     class="remove-btn v-m"></button>
-            <button pButton type="button" icon="ui-icon-edit" title="Edit" (click)="modifyIntegration(r);"
+            <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit" (click)="modifyIntegration(r);"
                     class="remove-btn v-m"></button>
-            <button pButton type="button" icon="ui-icon-delete" title="Delete" (click)="confirmDeleteIntegration(r)"
+            <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete" (click)="confirmDeleteIntegration(r)"
                     class="remove-btn v-m"></button>
           </ng-template>
         </p-column>
@@ -76,11 +76,11 @@
             <td>{{ product.modifiedDate }}</td>
             <td>
               <!-- <ng-template let-r="rowData" pTemplate="body"> -->
-              <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="viewIntegration(product)"
+              <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info" (click)="viewIntegration(product)"
                 class="remove-btn v-m"></button>
-              <button pButton type="button" icon="ui-icon-edit" title="Edit" (click)="modifyIntegration(product);"
+              <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit" (click)="modifyIntegration(product);"
                 class="remove-btn v-m"></button>
-              <button pButton type="button" icon="ui-icon-delete" title="Delete"
+              <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete"
                 (click)="confirmDeleteIntegration(product)" class="remove-btn v-m"></button>
               <!-- </ng-template> -->
             </td>

@@ -17,8 +17,8 @@ import {delay} from "rxjs-compat/operator/delay";
 export class EcmOrgUnitManagementComponent implements OnInit, OnDestroy {
   public orgUnitData: any = { orgUnit: { model: {} } };
   public orgTreeData: any = { roles: { model: {} } };
-  roleTreeExpandedIcon = 'ui-icon-people-outline';
-  roleTreeCollapsedIcon = 'ui-icon-people';
+  roleTreeExpandedIcon = 'fa fa-fw ui-icon-people-outline';
+  roleTreeCollapsedIcon = 'fa fa-fw ui-icon-people';
   private subscriptions: any[] = [];
   public editMode = false;
   public editOrgUnit = new OrgUnit();

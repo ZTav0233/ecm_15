@@ -15,7 +15,7 @@
                 class="v-m p-0">
             </td> -->
             <td>
-              <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="callOCRDetails()"
+              <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="callOCRDetails()"
                 class="remove-btn v-m no-box-shadow"></button>
             </td>
           </tr>
@@ -34,9 +34,9 @@
       <p-column [sortable]="true" field="statusDesc" header="Status Description"></p-column>
       <p-column styleClass="col-button" [style]="{'width':'60px'}">
         <ng-template let-rowdat="rowData" let-i="rowIndex" pTemplate="body">
-          <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="assignOcrRow(rowdat);viewocr=true;"
+          <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info" (click)="assignOcrRow(rowdat);viewocr=true;"
             class="remove-btn v-m"></button>
-          <button pButton type="button" (click)="assignOcrRow(rowdat);justificationDialog=true;" icon="ui-icon-edit" title="Override"
+          <button pButton type="button" (click)="assignOcrRow(rowdat);justificationDialog=true;" icon="fa fa-fw ui-icon-edit" title="Override"
             class="remove-btn v-m"></button>
         </ng-template>
       </p-column>
@@ -76,9 +76,9 @@
         <td>{{ product.modifyDate2 }}</td>
         <td>{{ product.statusDesc }}</td>
         <td>
-          <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="assignOcrRow(product);"
+          <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info" (click)="assignOcrRow(product);"
             class="remove-btn v-m"></button>
-          <button pButton type="button" (click)="assignOcrRow(product);justificationDialog=true;" icon="ui-icon-edit" title="Override"
+          <button pButton type="button" (click)="assignOcrRow(product);justificationDialog=true;" icon="fa fa-fw ui-icon-edit" title="Override"
             class="remove-btn v-m"></button>
         </td>
       </tr>

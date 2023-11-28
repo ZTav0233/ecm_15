@@ -15,7 +15,7 @@
                 class="v-m p-0">
             </td> -->
             <td>
-              <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
+              <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"
                 class="remove-btn v-m no-box-shadow"></button>
             </td>
           </tr>
@@ -35,7 +35,7 @@
       <p-column styleClass="col-button">
        
         <ng-template let-dat="rowData" let-i="rowIndex" pTemplate="body">
-          <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="viewErrors(dat)"
+          <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info" (click)="viewErrors(dat)"
             class="remove-btn v-m"></button>
           
         </ng-template>
@@ -73,7 +73,7 @@
           <td>{{ product.timeStamp }}</td>
           
           <td>
-            <button pButton type="button" icon="ui-icon-info-outline" title="Info" (click)="viewErrors(product)"
+            <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info" (click)="viewErrors(product)"
             class="remove-btn v-m"></button>
           </td>
         </tr>

@@ -22,7 +22,7 @@
                           style="color: #ffffff; width: 30%;" [(ngModel)]="query" class="v-m p-0" name="query">
                       </td> -->
                       <td>
-                        <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refreshtable()"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refreshtable()"
                           class="remove-btn v-m no-box-shadow"></button>
                       </td>
                     </tr>
@@ -38,9 +38,9 @@
               <p-column [sortable]="true" [style]="{width: '60%'}" field="name" header="Name"></p-column>
               <p-column [style]="{width: '20%'}" styleClass="col-button">
                 <ng-template let-rowdat="rowData" let-i="rowIndex" pTemplate="body">
-                  <button pButton type="button" (click)="addEditLookup(rowdat);showEditLookup=true;" icon="ui-icon-edit" title="Edit"
+                  <button pButton type="button" (click)="addEditLookup(rowdat);showEditLookup=true;" icon="fa fa-fw ui-icon-edit" title="Edit"
                     class="remove-btn v-m"></button>
-                  <button pButton type="button" icon="ui-icon-delete" title="Delete"
+                  <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete"
                     (click)="confirmdeleteLookup(rowdat)" class="remove-btn v-m"></button>
                 </ng-template>
               </p-column>
@@ -76,8 +76,8 @@
                   <td>{{ product.name }}</td>
                   <td>
                     <button pButton type="button" (click)="addEditLookup(product);showEditLookup=true;"
-                      icon="ui-icon-edit" title="Edit" class="remove-btn v-m"></button>
-                    <button pButton type="button" icon="ui-icon-delete" title="Delete"
+                      icon="fa fa-fw ui-icon-edit" title="Edit" class="remove-btn v-m"></button>
+                    <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete"
                       (click)="confirmdeleteLookup(product)" class="remove-btn v-m"></button>
                   </td>
                 </tr>
@@ -120,7 +120,7 @@
                           name="queryValue">
                       </td> -->
                       <td>
-                        <button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"
                           class="remove-btn"></button>
                       </td>
                     </tr>
@@ -136,9 +136,9 @@
               <p-column [sortable]="true" [style]="{width: '45%'}" field="value" header="Value"></p-column>
               <p-column [style]="{width: '10%'}" styleClass="col-button">
                 <ng-template let-rowdat="rowData" let-i="rowIndex" pTemplate="body">
-                  <button pButton type="button" (click)="showEdit=true;clickInput(rowdat,i)" icon="ui-icon-edit"
+                  <button pButton type="button" (click)="showEdit=true;clickInput(rowdat,i)" icon="fa fa-fw ui-icon-edit"
                     title="Edit" class="remove-btn v-m"></button>
-                  <button pButton type="button" icon="ui-icon-delete" title="Delete"
+                  <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete"
                     (click)="confirmdeleteLookupValue(rowdat)" class="remove-btn v-m"></button>
                 </ng-template>
               </p-column>
@@ -170,9 +170,9 @@
                   <td>{{ product.label }}</td>
                   <td>{{ product.value }}</td>
                   <td>
-                    <button pButton type="button" (click)="showEdit=true;clickInput(product,i)" icon="ui-icon-edit"
+                    <button pButton type="button" (click)="showEdit=true;clickInput(product,i)" icon="fa fa-fw ui-icon-edit"
                       title="Edit" class="remove-btn v-m"></button>
-                    <button pButton type="button" icon="ui-icon-delete" title="Delete"
+                    <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete"
                       (click)="confirmdeleteLookupValue(product)" class="remove-btn v-m"></button>
                   </td>
                 </tr>

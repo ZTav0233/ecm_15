@@ -1,7 +1,7 @@
 <div style="display: flex;">
   <div class="ui-g">
     <p-tabView (onChange)="tabChange($event)">
-      <p-tabPanel header="OrgUnit Tree" leftIcon="ui-icon-list">
+      <p-tabPanel header="OrgUnit Tree" leftIcon="fa fa-fw ui-icon-list">
         <div *ngIf="activeTab===0">
           <div class="ui-g">
             <div class="ui-g-12 roleSearch-box">
@@ -25,7 +25,7 @@
           </div>
         </div>
       </p-tabPanel>
-      <p-tabPanel header="Deactivated OrgUnit" leftIcon="ui-icon-people-outline">
+      <p-tabPanel header="Deactivated OrgUnit" leftIcon="fa fa-fw ui-icon-people-outline">
         <div class="ui-g">
           <div class="ui-g-12 roleSearch-box">
             <div class="ui-inputgroup">
@@ -42,11 +42,11 @@
                           <p-column [sortable]="true" [style]="{width: '22%'}" field="type" header="Type"></p-column>
                           <p-column [style]="{width: '18%'}" header="Action" styleClass="col-button">
                             <ng-template let-rowdat="rowData" let-i="rowIndex" pTemplate="body">
-                              <button pButton type="button" icon="ui-icon-edit" title="Edit"
+                              <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit"
                                 (click)="editOrgUnitItem(rowdat,true)" class="remove-btn v-m pull-right"></button>
-                              <button pButton type="button" icon="ui-icon-check" title="Activate"
+                              <button pButton type="button" icon="fa fa-fw ui-icon-check" title="Activate"
                                 (click)="activateOrgUnit(rowdat)" class="remove-btn v-m pull-right"></button>
-                              <button pButton type="button" icon="ui-icon-info-outline" title="Info"
+                              <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info"
                                 (click)="getOrgUnitInfo(rowdat);showOrgUnitInfo=true"
                                 class="remove-btn v-m pull-right"></button>
                             </ng-template>
@@ -71,11 +71,11 @@
                   <td>{{ product.Type }}</td>
 
                   <td>
-                    <button pButton type="button" icon="ui-icon-edit" title="Edit"
+                    <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit"
                       (click)="editOrgUnitItem(product,true)" class="remove-btn v-m pull-right"></button>
-                    <button pButton type="button" icon="ui-icon-check" title="Activate"
+                    <button pButton type="button" icon="fa fa-fw ui-icon-check" title="Activate"
                       (click)="activateOrgUnit(product)" class="remove-btn v-m pull-right"></button>
-                    <button pButton type="button" icon="ui-icon-info-outline" title="Info"
+                    <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info"
                       (click)="getOrgUnitInfo(product);showOrgUnitInfo=true" class="remove-btn v-m pull-right"></button>
                   </td>
                 </tr>
@@ -203,8 +203,8 @@
   </div>
   <p-confirmDialog header="Remove User?" #cd key="removeRoleUserConfirmation">
     <p-footer>
-      <button type="button" pButton icon="ui-icon-check" label="Yes" (click)="cd.accept()"></button>
-      <button type="button" pButton icon="ui-icon-close" label="No" (click)="cd.reject()"></button>
+      <button type="button" pButton icon="fa fa-fw ui-icon-check" label="Yes" (click)="cd.accept()"></button>
+      <button type="button" pButton icon="fa fa-fw ui-icon-close" label="No" (click)="cd.reject()"></button>
     </p-footer>
   </p-confirmDialog>
 </div>
