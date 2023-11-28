@@ -78,7 +78,7 @@ import { WorkflowRoutingModule } from './workflow-routing.module';
 // import { SharedRecipientsMemoModule } from '../../shared-modules/recipients-memo/recipients-memo.module';
 import { TableModule } from 'primeng/table';
 import { SharedDataTableModule } from 'src/app/shared-modules/data-table/data-table.module';
-
+import {MatIconModule} from '@angular/material/icon'
 @NgModule({
   declarations: [
     WorkflowComponent,
@@ -147,7 +147,8 @@ import { SharedDataTableModule } from 'src/app/shared-modules/data-table/data-ta
     SharedRoleListModule,
     CKEditorModule,
     TableModule,
-    SharedDataTableModule
+    SharedDataTableModule,
+    MatIconModule
   ],
   providers: [
     DataService,

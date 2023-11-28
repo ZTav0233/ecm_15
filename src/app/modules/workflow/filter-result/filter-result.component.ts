@@ -74,16 +74,16 @@ export class FilterResultComponent implements OnInit, OnDestroy {
   public sender: SelectItem[] = [];
   public sentTieredItems: any[] = [{
     label: 'Export',
-    icon: 'ui-icon-assignment-returned',
+    icon: 'fa fa-fw ui-icon-assignment-returned',
     disabled: false,
     items: [{
       label: 'PDF',
-      icon: 'ui-icon-description', command: (event) => {
+      icon: 'fa fa-fw ui-icon-description', command: (event) => {
         this.exportActioned('pdf');
       }
     }, {
       label: 'Excel',
-      icon: 'ui-icon-assignment', command: (event) => {
+      icon: 'fa fa-fw ui-icon-assignment', command: (event) => {
         this.exportActioned('excel');
       }
     }

@@ -49,7 +49,7 @@ interface Column {
   styleUrls: ['./task-detail.component.css'],
 })
 export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
-  private currentUser = new User();
+  public currentUser = new User();
   pdfSrc: Object;
   private pageUrl: any;
   public workitem: any;

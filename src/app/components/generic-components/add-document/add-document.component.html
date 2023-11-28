@@ -69,10 +69,10 @@
                   [ngModelOptions]="{standalone: true}" name="folderpath" pInputText>
               </td>
               <td>
-                <button *ngIf="removeEnabled" pButton type="button" icon="ui-icon-close" title="Remove"
+                <button *ngIf="removeEnabled" pButton type="button" icon="fa fa-fw ui-icon-close" title="Remove"
                   (click)="removeFolderPath()"></button>
                 <button *ngIf="!removeEnabled" pButton type="button" (click)="openTreeDialog()"
-                  icon="ui-icon-folder-open"></button>
+                  icon="fa fa-fw ui-icon-folder-open"></button>
               </td>
             </tr>
             <tr>

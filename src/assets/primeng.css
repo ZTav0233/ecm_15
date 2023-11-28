@@ -1103,7 +1103,7 @@ button.ui-button::-moz-focus-inner {
 .ui-colorpicker-panel .ui-colorpicker-color {
      width: 150px;
      height: 150px;
-     background: transparent url("./images/color.png") no-repeat left top; 
+     /* background: transparent url("./images/color.png") no-repeat left top;  */
 }
 
 .ui-colorpicker-panel .ui-colorpicker-color-handle {

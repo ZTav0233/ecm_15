@@ -20,10 +20,7 @@
       </div> -->
       <div class="ui-g-6 p-0">
         <div class="pull-right" style="padding-left: 10px;">
-          <button
-            [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
-            pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="refresh()"
-            class="remove-btn v-m no-box-shadow"></button>
+          
         </div>
         <div *ngIf="showCount && totalCount===1" class="pull-right m-5">
           Found {{totalCount}} Item
@@ -306,16 +303,16 @@
       [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt [paginator]="true"
       [globalFilterFields]="['subject']">
       <ng-template pTemplate="caption" *ngIf="activePage!='draft'">
-        <div style="display: flex;" >
+        <div style="display: flex; justify-content: space-between;" >
           <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
             selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
             placeholder="Choose Columns"></p-multiSelect>
           <p-columnFilter type="text" field="subject"></p-columnFilter>
-          <!-- <span class="p-input-icon-left ml-auto">
-            <i class="pi pi-search"></i>
-            <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
-              placeholder="Search keyword" />
-          </span> -->
+          <button
+            [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
+            pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"
+            ></button>
+          
         </div>
 
       </ng-template>
@@ -378,24 +375,24 @@
           <td *ngIf="showInfoIcon"> {{ product.name }}</td>
           <td *ngFor="let col of columns">{{ product[col.field] }}</td>
           <td *ngIf="activePage==='sent'">
-            <button pButton type="button" icon="ui-icon-timeline" title="Track Preview"
+            <button pButton type="button" icon="fa fa-fw ui-icon-timeline" title="Track Preview"
               (click)="previewTrackSentitem(product.workflowId)" class="remove-btn v-m"></button>
           </td>
           <td *ngIf="showProgressBtn && activePage==='inbox'">
             <button pButton type="button"
-              icon="{{product.hasProgress ? 'ui-icon-hourglass-full' : 'ui-icon-hourglass-empty'}}"
+              icon="{{product.hasProgress ? 'fa fa-fw ui-icon-hourglass-full' : 'fa fa-fw ui-icon-hourglass-empty'}}"
               title="Work Progress" (click)="mToggleProgressDialogue(product.workitemId)"
               class="remove-btn v-m"></button>
           </td>
           <td *ngIf="showInfoIcon">
-            <button pButton type="button" *ngIf="showInfoIcon" icon="ui-icon-info-outline" title="Info"
+            <button pButton type="button" *ngIf="showInfoIcon" icon="fa fa-fw ui-icon-info-outline" title="Info"
               (click)="openDocInfo(product);displayinfo=true;" class="remove-btn v-m"
               [disabled]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch') && product.isDeleted"></button>
           </td>
           <td *ngIf="activePage==='draft'" >
-            <button pButton type="button" icon="ui-icon-remove-red-eye" title="View" (click)="viewDraftItem(product)"
+            <button pButton type="button" icon="fa fa-fw ui-icon-remove-red-eye" title="View" (click)="viewDraftItem(product)"
             class="remove-btn v-m"></button>
-          <button pButton type="button" *ngIf="activePage === 'draft'" icon="ui-icon-remove" title="Remove"
+          <button pButton type="button" *ngIf="activePage === 'draft'" icon="fa fa-fw ui-icon-remove" title="Remove"
             (click)="removeDraft(product)" class="remove-btn v-m"></button>
           </td>
         </tr>
@@ -476,7 +473,7 @@
                       <td>{{workitem.status}}</td>
                       <td [ngClass]="{'hide' : reportPage}"
                         (click)="mToggleProgressDialogue(workitem.workitemId,$event)">
-                        <button pButton type="button" icon="ui-icon-hourglass-empty" title="Work Progress"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-hourglass-empty" title="Work Progress"
                           class="remove-btn v-m"></button>
                       </td>
                     </tr>
@@ -557,12 +554,12 @@
           <td (click)="goToTaskDetails($event,'hyperlink',product)">{{ product.subject }}</td>
           <td *ngFor="let col of columns">{{ product[col.field] }}</td>
           <td *ngIf="activePage==='sent'">
-            <button pButton type="button" icon="ui-icon-timeline" title="Track Preview"
+            <button pButton type="button" icon="fa fa-fw ui-icon-timeline" title="Track Preview"
               (click)="previewTrackSentitem(product.workflowId)" class="remove-btn v-m"></button>
           </td>
           <td *ngIf="showProgressBtn && activePage==='inbox'">
             <button pButton type="button"
-              icon="{{product.hasProgress ? 'ui-icon-hourglass-full' : 'ui-icon-hourglass-empty'}}"
+              icon="{{product.hasProgress ? 'fa fa-fw ui-icon-hourglass-full' : 'fa fa-fw ui-icon-hourglass-empty'}}"
               title="Work Progress" (click)="mToggleProgressDialogue(product.workitemId)"
               class="remove-btn v-m"></button>
           </td>
@@ -644,7 +641,7 @@
                       <td>{{workitem.status}}</td>
                       <td [ngClass]="{'hide' : reportPage}"
                         (click)="mToggleProgressDialogue(workitem.workitemId,$event)">
-                        <button pButton type="button" icon="ui-icon-hourglass-empty" title="Work Progress"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-hourglass-empty" title="Work Progress"
                           class="remove-btn v-m"></button>
                       </td>
                     </tr>
