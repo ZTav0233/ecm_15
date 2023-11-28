@@ -55,10 +55,10 @@
           [ngModelOptions]="{standalone: true}" name="folderpath" placeholder="Select a folder path">
         </div>
         <div class="ui-g form-group docButton">
-          <button *ngIf="removeEnabled" pButton type="button" icon="ui-icon-close" title="Remove"
+          <button *ngIf="removeEnabled" pButton type="button" icon="fa fa-fw ui-icon-close" title="Remove"
             (click)="removeFolderPath()"></button>
           <button *ngIf="!removeEnabled" pButton type="button" (click)="openTreeDialog()"
-            icon="ui-icon-folder-open" title="Click to select folder"></button>
+            icon="fa fa-fw ui-icon-folder-open" title="Click to select folder"></button>
         </div>
       </div>
       

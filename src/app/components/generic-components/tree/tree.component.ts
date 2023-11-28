@@ -98,8 +98,8 @@ export class TreeComponent implements OnInit {
     localStorage.setItem('folderIdForMove', folder.node.data.id);
     if (folder.node.level === '1') {
       this.cmItems = [
-        { label: 'Add To Favorites', icon: 'ui-icon-star', command: (event) => this.addFolderFav(this.selectedFolder) },
-        { label: 'View Security', icon: 'ui-icon-https', command: (event) => this.viewSecurities(this.selectedFolder) }
+        { label: 'Add To Favorites', icon: 'fa fa-fw ui-icon-star', command: (event) => this.addFolderFav(this.selectedFolder) },
+        { label: 'View Security', icon: 'fa fa-fw ui-icon-https', command: (event) => this.viewSecurities(this.selectedFolder) }
       ];
     }
     else {
@@ -108,13 +108,13 @@ export class TreeComponent implements OnInit {
         isDisabled = !data;
 
         this.cmItems = [
-          { label: 'Add To Favorites', icon: 'ui-icon-star', command: (event) => this.addFolderFav(this.selectedFolder) },
+          { label: 'Add To Favorites', icon: 'fa fa-fw ui-icon-star', command: (event) => this.addFolderFav(this.selectedFolder) },
           // {
           //   label: 'Move To Folder',
           //   icon: 'ui-icon-open-in-browser', disabled: isDisabled,
           //   command: (event) => this.moveFolderToFolder(this.selectedFolder)
           // },
-          { label: 'View Security', icon: 'ui-icon-https', command: (event) => this.viewSecurities(this.selectedFolder) }
+          { label: 'View Security', icon: 'fa fa-fw ui-icon-https', command: (event) => this.viewSecurities(this.selectedFolder) }
         ];
       });
     }
@@ -177,8 +177,8 @@ export class TreeComponent implements OnInit {
             label: d.name,
             data: d,
             'level': '1',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder-shared',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder-shared',
             'children': [],
             'leaf': false
           });
@@ -188,8 +188,8 @@ export class TreeComponent implements OnInit {
             label: d.name,
             data: d,
             'level': '1',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder',
             'children': [],
             'leaf': false
           });
@@ -224,8 +224,8 @@ export class TreeComponent implements OnInit {
             label: d.name,
             data: d,
             'level': '2',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder-shared',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder-shared',
             'leaf': false
           });
         }
@@ -234,8 +234,8 @@ export class TreeComponent implements OnInit {
             label: d.name,
             data: d,
             'level': '2',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder',
             'leaf': false
           });
         }
@@ -334,8 +334,8 @@ export class TreeComponent implements OnInit {
               label: d.name,
               data: d,
               'level': '2',
-              'expandedIcon': 'ui-icon-folder-open',
-              'collapsedIcon': 'ui-icon-folder-shared',
+              'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+              'collapsedIcon': 'fa fa-fw ui-icon-folder-shared',
               'leaf': false
             });
           }
@@ -344,8 +344,8 @@ export class TreeComponent implements OnInit {
               label: d.name,
               data: d,
               'level': '2',
-              'expandedIcon': 'ui-icon-folder-open',
-              'collapsedIcon': 'ui-icon-folder',
+              'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+              'collapsedIcon': 'fa fa-fw ui-icon-folder',
               'leaf': false
             });
 

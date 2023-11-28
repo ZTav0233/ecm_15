@@ -120,18 +120,18 @@ export class ArchiveComponent implements OnInit, OnDestroy {
   public archiveTieredItems: any[] = [
     {
       label: 'Export',
-      icon: 'ui-icon-assignment-returned',
+      icon: 'fa fa-fw ui-icon-assignment-returned',
       disabled: false,
       items: [
         {
           label: 'PDF',
-          icon: 'ui-icon-description', command: (event) => {
+          icon: 'fa fa-fw ui-icon-description', command: (event) => {
             this.exportArchive('pdf');
           }
         },
         {
           label: 'Excel',
-          icon: 'ui-icon-assignment', command: (event) => {
+          icon: 'fa fa-fw ui-icon-assignment', command: (event) => {
             this.exportArchive('excel');
           }
         }
@@ -604,7 +604,7 @@ export class ArchiveComponent implements OnInit, OnDestroy {
       message: msg,
       header: 'Un-Archive Confirmation',
       key: 'archiveConfirmation',
-      icon: 'ui-icon-help',
+      icon: 'fa fa-fw ui-icon-help',
       accept: () => {
         if (this.archiveSelectedItem.length === 1) {
           this.ws.validateWorkitem(this.archiveSelectedItem[0].workitemId).subscribe(res1 => {

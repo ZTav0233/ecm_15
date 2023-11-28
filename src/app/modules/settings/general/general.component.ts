@@ -334,8 +334,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
               label: d.name,
               data: d,
               'level': '1',
-              'expandedIcon': 'ui-icon-folder-open',
-              'collapsedIcon': 'ui-icon-folder-shared',
+              'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+              'collapsedIcon': 'fa fa-fw ui-icon-folder-shared',
               'children': [],
               'leaf': false
             });
@@ -345,8 +345,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
               label: d.name,
               data: d,
               'level': '1',
-              'expandedIcon': 'ui-icon-folder-open',
-              'collapsedIcon': 'ui-icon-folder',
+              'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+              'collapsedIcon': 'fa fa-fw ui-icon-folder',
               'children': [],
               'leaf': false
             });
@@ -378,8 +378,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
             label: d.name,
             data: d,
             'level': '2',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder-shared',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder-shared',
             'leaf': false
           });
         }
@@ -388,8 +388,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
             label: d.name,
             data: d,
             'level': '2',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder',
             'leaf': false
           });
 
@@ -413,8 +413,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
             label: d.name,
             data: d,
             'level': '2',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder-shared',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder-shared',
             'leaf': false
           });
         }
@@ -423,8 +423,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
             label: d.name,
             data: d,
             'level': '2',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder',
             'leaf': false
           });
 

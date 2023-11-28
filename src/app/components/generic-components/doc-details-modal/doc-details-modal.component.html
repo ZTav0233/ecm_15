@@ -16,7 +16,7 @@
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="System Properties" leftIcon="ui-icon-personal-video">
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="System Properties" leftIcon="fa fa-fw ui-icon-personal-video">
       <table class="ecm-table  w-100">
         <tbody *ngFor="let sys of docSysProp;">
           <tr class="even">
@@ -67,7 +67,7 @@
         </tbody>
       </table>
     </p-tabPanel>
-    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Versions" leftIcon="ui-icon-date-range">
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Versions" leftIcon="fa fa-fw ui-icon-date-range">
       <div class="max-h-350">
         <div class="scrollable">
           <table class="ecm-table  w-100">
@@ -86,7 +86,7 @@
                let isEven=even">
                 <tr [class.even]="isEven">
                   <td><a href="javascript:">
-                      <button class="fa ui-icon-chevron-right" (click)="selectVersion(version)"></button>
+                      <i style="color: #757575;" class="fa fa-fw ui-icon-chevron-right" (click)="selectVersion(version)"></i>
                     </a></td>
                   <td class="icon">
                     <span *ngIf="version.format">
@@ -153,7 +153,7 @@
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Security" leftIcon="ui-icon-https">
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Security" leftIcon="fa fa-fw ui-icon-https">
       <div class="max-h-350">
         <div class="scrollable">
           <table class="ecm-table  w-100">
@@ -183,7 +183,7 @@
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Links" leftIcon="ui-icon-filter-none">
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Links" leftIcon="fa fa-fw ui-icon-filter-none">
       <div class="max-h-350">
         <div class="scrollable">
           <table class="ecm-table  w-100 ">
@@ -208,7 +208,7 @@
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="History" leftIcon="ui-icon-restore">
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="History" leftIcon="fa fa-fw ui-icon-restore">
       <div class="ui-g">
         <div class="ui-g-12 p-0">
           <button pButton type="button" label="Export" (click)="exportDocHistoryToExcel();" class="pull-right m-b-sm"
@@ -274,7 +274,7 @@
         
       </div>
     </p-tabPanel>
-    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Folders Filed In" leftIcon="ui-icon-folder">
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Folders Filed In" leftIcon="fa fa-fw ui-icon-folder">
       <div class="max-h-350">
         <div class="scrollable">
           <table class="ecm-table w-100">
@@ -293,7 +293,7 @@
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Document Track" leftIcon="ui-icon-track-changes">
+    <p-tabPanel [disabled]="docInfo && docInfo.length==0" header="Document Track" leftIcon="fa fa-fw ui-icon-track-changes">
       <div class="ui-g" *ngIf="!docTrack || docTrack.length===0">
         <div class="ui-g-12 p-0 text-align-center no-result">
           No document track found

@@ -121,8 +121,8 @@ export class MemoComponent implements OnInit, OnDestroy {
   //toolbar: 'MyToolbar',
   //toolbar_MyToolbar:"[ { name: 'document', items : [ 'NewPage','Preview' ] }, { name: 'clipboard', items : [ 'Cut','Copy','-','Undo','Redo' ] },{ name: 'editing', items : [ 'Find','Replace','-','SelectAll','-','Scayt' ] }, { name: 'insert', items : [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak' ] }, '/',{ name: 'styles', items : [ 'Styles','Format' ] }, { name: 'basicstyles', items : [ 'Bold','Italic','Strike','-','RemoveFormat' ] },{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote' ] },{ name: 'links', items : [ 'Link','Unlink','Anchor' ] },{ name: 'tools', items : [ 'Maximize' ] }]"
   public currentUser: User = new User();
-  roleTreeExpandedIcon = 'ui-icon-people-outline';
-  roleTreeCollapsedIcon = 'ui-icon-people';
+  roleTreeExpandedIcon = 'fa fa-fw ui-icon-people-outline';
+  roleTreeCollapsedIcon = 'fa fa-fw ui-icon-people';
   public launch: any = {
     routeParams: {},
     documents: {
@@ -5884,8 +5884,8 @@ export class MemoComponent implements OnInit, OnDestroy {
               label: d.name,
               data: d,
               'level': '1',
-              'expandedIcon': 'ui-icon-folder-open',
-              'collapsedIcon': 'ui-icon-folder-shared',
+              'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+              'collapsedIcon': 'fa fa-fw ui-icon-folder-shared',
               'children': [],
               'leaf': false
             });
@@ -5895,8 +5895,8 @@ export class MemoComponent implements OnInit, OnDestroy {
               label: d.name,
               data: d,
               'level': '1',
-              'expandedIcon': 'ui-icon-folder-open',
-              'collapsedIcon': 'ui-icon-folder',
+              'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+              'collapsedIcon': 'fa fa-fw ui-icon-folder',
               'children': [],
               'leaf': false
             });
@@ -5928,8 +5928,8 @@ export class MemoComponent implements OnInit, OnDestroy {
             label: d.name,
             data: d,
             'level': '2',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder-shared',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder-shared',
             'leaf': false
           });
         }
@@ -5938,8 +5938,8 @@ export class MemoComponent implements OnInit, OnDestroy {
             label: d.name,
             data: d,
             'level': '2',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder',
             'leaf': false
           });
 
@@ -5961,8 +5961,8 @@ export class MemoComponent implements OnInit, OnDestroy {
             label: d.name,
             data: d,
             'level': '2',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder-shared',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder-shared',
             'leaf': false
           });
         }
@@ -5971,8 +5971,8 @@ export class MemoComponent implements OnInit, OnDestroy {
             label: d.name,
             data: d,
             'level': '2',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder',
             'leaf': false
           });
 

@@ -98,18 +98,18 @@ export class SentComponent implements OnInit, OnDestroy {
   public sentTieredItems: any[] = [
     {
       label: 'Export',
-      icon: 'ui-icon-assignment-returned',
+      icon: 'fa fa-fw ui-icon-assignment-returned',
       disabled: false,
       items: [
         {
           label: 'PDF',
-          icon: 'ui-icon-description', command: (event) => {
+          icon: 'fa fa-fw ui-icon-description', command: (event) => {
             this.exportSent('pdf');
           }
         },
         {
           label: 'Excel',
-          icon: 'ui-icon-assignment', command: (event) => {
+          icon: 'fa fa-fw ui-icon-assignment', command: (event) => {
             this.exportSent('excel');
           }
         }
@@ -1019,7 +1019,7 @@ export class SentComponent implements OnInit, OnDestroy {
       message: msg,
       header: 'Archive Confirmation',
       key: 'sentitemConfirmation',
-      icon: 'ui-icon-help',
+      icon: 'fa fa-fw ui-icon-help',
       accept: () => {
         if (this.sentSelectedItem.length > 0) {
           let count = 0;

@@ -36,7 +36,7 @@
                   </td>
                   <td align="right" class="action-btn-group">
                     <span class="action-btn-group-sm p-r-lg">
-                      <button pButton type="button" icon="ui-icon-delete" title="Delete"
+                      <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete"
                         (click)="confirmRemoveDL($event,member,user.EmpNo)"></button>
                     </span>
                   </td>
@@ -85,7 +85,7 @@
                 </td>
                 <td align="right" class="action-btn-group">
                   <span class="action-btn-group-sm p-r-lg">
-                    <button *ngIf="lst.name!=='Add New List'" pButton type="button" icon="ui-icon-delete" title="Delete"
+                    <button *ngIf="lst.name!=='Add New List'" pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete"
                       (click)="confirmRemoveLink($event,lst,user.EmpNo)"></button>
 
                   </span>

@@ -548,8 +548,8 @@ export class SecurityToolComponent implements OnInit {
             label: d.name,
             data: d,
             'level': '1',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder-shared',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder-shared',
             'children': [],
             'leaf': false
           });
@@ -559,8 +559,8 @@ export class SecurityToolComponent implements OnInit {
             label: d.name,
             data: d,
             'level': '1',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder',
             'children': [],
             'leaf': false
           });
@@ -589,8 +589,8 @@ export class SecurityToolComponent implements OnInit {
             label: d.name,
             data: d,
             'level': '2',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder-shared',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder-shared',
             'leaf': false
           });
         }
@@ -599,8 +599,8 @@ export class SecurityToolComponent implements OnInit {
             label: d.name,
             data: d,
             'level': '2',
-            'expandedIcon': 'ui-icon-folder-open',
-            'collapsedIcon': 'ui-icon-folder',
+            'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+            'collapsedIcon': 'fa fa-fw ui-icon-folder',
             'leaf': false
           });
         }
@@ -684,19 +684,19 @@ export class SecurityToolComponent implements OnInit {
     let icon;
     if (dat.status === 'RUNNING' ) {
       // if (dat.type.toUpperCase() === 'UPDATE') {
-        icon = 'ui-icon-pause';
+        icon = 'fa fa-fw ui-icon-pause';
      // }
     }
     else if (dat.status === 'FINISHED') {
       if (dat.type.toUpperCase() === 'UPDATE') {
-        //icon = 'ui-icon-remove';
+        //icon = 'fa fa-fw ui-icon-remove';
       }
       else {
-        icon = 'ui-icon-update';
+        icon = 'fa fa-fw ui-icon-update';
       }
     }
     else if (dat.status === 'PAUSED' || dat.status === 'FAILED' || dat.status === 'SAVED') {
-      icon = 'ui-icon-play-arrow';
+      icon = 'fa fa-fw ui-icon-play-arrow';
     }
     return icon;
   }
