@@ -161,7 +161,9 @@ export class NewsComponent implements OnInit {
       //this.subscriptions.push(this.ns.getAllNews().subscribe(data=>this.assignNews(data)));
     }
   }
-
+  reset() {
+    this.dataTable.reset()
+  }
   confirm(event) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to remove?',
@@ -261,7 +263,7 @@ export class NewsComponent implements OnInit {
       array = Object.keys(d);
     });
     array.shift();
-    this.coreService.exportToExcel(this.newsList, 'News '+this.coreService.getDateTimeForExport()+'.xlsx', array);
+    this.coreService.exportToExcel(this.newsList, 'News ' + this.coreService.getDateTimeForExport() + '.xlsx', array);
     this.refresh();
   }
 

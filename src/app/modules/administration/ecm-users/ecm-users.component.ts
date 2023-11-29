@@ -28,7 +28,7 @@ export class EcmUsersComponent implements OnInit, OnDestroy {
   viewuser = false;
   public allusers: any;
   busy: boolean;
-  showUserInfo=false;
+  showUserInfo = false;
 
   constructor(
     private us: UserService,
@@ -127,7 +127,9 @@ export class EcmUsersComponent implements OnInit, OnDestroy {
       s.unsubscribe();
     });
   }
-
+  reset() {
+    this.dataTable.reset()
+  }
   editUser(row, i) {
     let dat = _.find(this.ecmUserList, function (r) {
       return r.id === row.id;
@@ -173,7 +175,7 @@ export class EcmUsersComponent implements OnInit, OnDestroy {
     this.us.exportUsers().subscribe(res => {
       this.busy = false;
       const file = new Blob([res], { type: 'application/vnd.ms-excel' });
-      const fileName = 'ECM_Users '+this.coreService.getDateTimeForExport()+'.xlsx';
+      const fileName = 'ECM_Users ' + this.coreService.getDateTimeForExport() + '.xlsx';
       saveAs(file, fileName);
     }, err => {
       this.busy = false;

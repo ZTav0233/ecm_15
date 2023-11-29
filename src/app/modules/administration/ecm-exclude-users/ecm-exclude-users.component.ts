@@ -219,7 +219,9 @@ export class EcmExcludeUsersComponent implements OnInit {
       this.busy = false;
     });
   }
-
+  reset() {
+    this.dataTable.reset()
+  }
   failureSave() {
     this.growlService.showGrowl({
       severity: 'error',
@@ -377,6 +379,6 @@ export class EcmExcludeUsersComponent implements OnInit {
     this.colHeaders.map(d => {
       array.push(d.field);
     });
-    this.coreService.exportToExcel(this.ecmExcludeUserList, 'ECM_Exclude_Operator '+this.coreService.getDateTimeForExport()+'.xlsx', array)
+    this.coreService.exportToExcel(this.ecmExcludeUserList, 'ECM_Exclude_Operator ' + this.coreService.getDateTimeForExport() + '.xlsx', array)
   }
 }

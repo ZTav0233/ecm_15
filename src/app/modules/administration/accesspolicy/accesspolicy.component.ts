@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AccessPolicyService } from '../../../services/access-policy.service';
 import { AdminService } from '../../../services/admin.service';
 import { BreadcrumbService } from '../../../services/breadcrumb.service';
@@ -49,9 +49,9 @@ export class AccesspolicyComponent implements OnInit, OnDestroy {
   isUserSelected = false;
   selectedRow = [];
   busy: boolean;
-  isButtonSaveDisabled=true;
-  selectedpolicyname:any;
-  selectedorgcode:any;
+  isButtonSaveDisabled = true;
+  selectedpolicyname: any;
+  selectedorgcode: any;
   constructor(private accessPolicyService: AccessPolicyService, private coreService: CoreService, private adminService: AdminService,
     private growlService: GrowlService, private breadcrumbService: BreadcrumbService, private us: UserService,
     private confirmationService: ConfirmationService) {
@@ -135,7 +135,7 @@ export class AccesspolicyComponent implements OnInit, OnDestroy {
     }
   }
 
-  rowStyleMapFn(row, index):any {
+  rowStyleMapFn(row, index): any {
     if (row.action === 'REMOVE') {
       return 'removed-row';
     }
@@ -189,7 +189,9 @@ export class AccesspolicyComponent implements OnInit, OnDestroy {
   getRowTrackBy = (index, item) => {
     return item.id;
   };
-
+  reset() {
+    this.dataTable.reset()
+  }
   edit(row) {
     let policy = _.find(this.accessPolicies, function (r) {
       return r.id === row.id;
@@ -211,8 +213,8 @@ export class AccesspolicyComponent implements OnInit, OnDestroy {
     }
 
     this.selectedPolicy = policy;
-    this.selectedpolicyname=policy.name;
-    this.selectedorgcode=policy.orgCode;
+    this.selectedpolicyname = policy.name;
+    this.selectedorgcode = policy.orgCode;
     this.newPermissions = [];
     this.selectedPolicy.permissions = [];
     if (policy.objectId) {
@@ -255,8 +257,8 @@ export class AccesspolicyComponent implements OnInit, OnDestroy {
   accessTypeChanged(permission) {
     permission.action = 'ADD';
   }
-   isSaveButtonDisabled(event){
-    this.isButtonSaveDisabled=event;
+  isSaveButtonDisabled(event) {
+    this.isButtonSaveDisabled = event;
   }
 
   permissionChanged(permission) {
@@ -282,14 +284,14 @@ export class AccesspolicyComponent implements OnInit, OnDestroy {
       }
       p.id = undefined;
     });
-     if(this.newPermissions && this.newPermissions.length>0){
-      let temp=[];
-     this.newPermissions.map((d,i)=>{
-       if(!(d.Isexist)){
-        temp.push(d);
-       }
-     });
-     this.newPermissions=[...temp];
+    if (this.newPermissions && this.newPermissions.length > 0) {
+      let temp = [];
+      this.newPermissions.map((d, i) => {
+        if (!(d.Isexist)) {
+          temp.push(d);
+        }
+      });
+      this.newPermissions = [...temp];
     }
     selectedPolicy.permissions = selectedPolicy.permissions.concat(newPermissions);
     if (this.newPermissions) {
@@ -347,7 +349,7 @@ export class AccesspolicyComponent implements OnInit, OnDestroy {
     permission.granteeName = undefined;
   }
 
-  rowStyle(data, index):any {
+  rowStyle(data, index): any {
     if (data.isNew) {
       return 'highlight'
     }
@@ -454,7 +456,7 @@ export class AccesspolicyComponent implements OnInit, OnDestroy {
     this.colHeaders.map(d => {
       array.push(d.field);
     });
-    this.coreService.exportToExcel(this.accessPolicies, 'Access_Policies '+this.coreService.getDateTimeForExport()+'.xlsx', array)
+    this.coreService.exportToExcel(this.accessPolicies, 'Access_Policies ' + this.coreService.getDateTimeForExport() + '.xlsx', array)
   }
 
   viewAccesspolicy(row) {

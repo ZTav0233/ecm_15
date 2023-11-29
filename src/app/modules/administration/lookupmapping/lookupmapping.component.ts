@@ -4,7 +4,7 @@ import { BreadcrumbService } from '../../../services/breadcrumb.service';
 import { Subscription } from 'rxjs';
 import { ContentService } from '../../../services/content.service';
 import { GrowlService } from '../../../services/growl.service';
-import { ConfirmationService,} from 'primeng/api';
+import { ConfirmationService, } from 'primeng/api';
 import { CoreService } from "../../../services/core.service";
 import { UserService } from "../../../services/user.service";
 import * as _ from "lodash";
@@ -180,7 +180,9 @@ export class LookupmappingComponent implements OnInit, OnDestroy {
   changeProp() {
     this.adminService.getLookupMappingByTemplate(this.lookupMapping.prop, this.lookupMapping.entryTemp.vsId).subscribe(data => this.isAlreadyMapped(data));
   }
-
+  reset() {
+    this.dataTable.reset()
+  }
   isAlreadyMapped(data) {
     let tempName;
     this.lookups.map(d => {
@@ -422,7 +424,7 @@ export class LookupmappingComponent implements OnInit, OnDestroy {
         array.push(d.field);
       }
     });
-    this.coreService.exportToExcel(this.lookupMappingList, 'Lookup_Mapping '+this.coreService.getDateTimeForExport()+'.xlsx', array)
+    this.coreService.exportToExcel(this.lookupMappingList, 'Lookup_Mapping ' + this.coreService.getDateTimeForExport() + '.xlsx', array)
   }
 
   searchOrg(event) {

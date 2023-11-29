@@ -99,6 +99,9 @@ export class IntegrationComponent implements OnInit, OnDestroy {
     this.getIntegrations();
     this.types = [{ label: 'Single', value: 'SINGLE' }, { label: 'Multiple', value: 'MULTIPLE' }];
   }
+  reset(){
+    this.dataTable.reset()
+  }
   applyFilterGlobal($event, stringVal) {
     console.log(($event.target as HTMLInputElement).value);
 

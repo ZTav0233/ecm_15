@@ -175,7 +175,9 @@ export class AccessPolicyMappingComponent implements OnInit, OnDestroy {
       this.busy = false;
     });
   }
-
+  reset() {
+    this.dataTable.reset()
+  }
   getRowTrackBy = (index, item) => {
     return item.id;
   };

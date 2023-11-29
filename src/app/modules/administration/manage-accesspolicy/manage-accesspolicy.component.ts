@@ -56,7 +56,7 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
   mappedAccessPolicy = [];
   searchText: any;
   busy: boolean;
-  isButtonSaveDisabled=true;
+  isButtonSaveDisabled = true;
   constructor(
     private accessPolicyService: AccessPolicyService,
     private coreService: CoreService,
@@ -203,7 +203,7 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
     }
   }
 
-  rowStyleMapFn(row, index):any {
+  rowStyleMapFn(row, index): any {
     if (row.action === 'REMOVE') {
       return 'removed-row';
     }
@@ -299,7 +299,9 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
   accessTypeChanged(permission) {
     permission.action = 'ADD';
   }
-
+  reset() {
+    this.dataTable.reset()
+  }
   permissionChanged(permission) {
     permission.action = 'ADD';
     permission.accessMask = this.accessLevelsMap[permission.accessLevel];
@@ -331,14 +333,14 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
       }
       p.id = undefined;
     });
-     if(this.newPermissions && this.newPermissions.length>0){
-      let temp=[];
-     this.newPermissions.map((d,i)=>{
-       if(!(d.Isexist)){
-        temp.push(d);
-       }
-     });
-     this.newPermissions=[...temp];
+    if (this.newPermissions && this.newPermissions.length > 0) {
+      let temp = [];
+      this.newPermissions.map((d, i) => {
+        if (!(d.Isexist)) {
+          temp.push(d);
+        }
+      });
+      this.newPermissions = [...temp];
     }
     selectedPolicy.permissions = selectedPolicy.permissions.concat(newPermissions);
     if (this.newPermissions) {
@@ -411,7 +413,7 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
     permission.granteeName = undefined;
   }
 
-  rowStyle(data, index):any {
+  rowStyle(data, index): any {
     if (data.isNew) {
       return 'highlight'
     }
@@ -427,8 +429,8 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
       accessType: 'ALLOW'
     }];
   }
-   isSaveButtonDisabled(event){
-    this.isButtonSaveDisabled=event;
+  isSaveButtonDisabled(event) {
+    this.isButtonSaveDisabled = event;
   }
 
   getGranteesSuggestion(event) {
@@ -688,7 +690,7 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
     this.colHeaders.map(d => {
       array.push(d.field);
     });
-    this.coreService.exportToExcel(this.accessPolicies, 'Access_Policies '+this.coreService.getDateTimeForExport()+'.xlsx', array)
+    this.coreService.exportToExcel(this.accessPolicies, 'Access_Policies ' + this.coreService.getDateTimeForExport() + '.xlsx', array)
   }
 
   viewAccesspolicy(row) {

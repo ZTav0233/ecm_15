@@ -32,7 +32,7 @@ export class EcmReportUserComponent implements OnInit {
   public isReportAdminEdit;
   public selectedUserForEdit;
   public isExcludeOperators;
-  editReportUserDialog=false;
+  editReportUserDialog = false;
   public searchQueary = {
     userName: undefined, mail: undefined, title: undefined, phone: undefined, orgCode: undefined,
     empNo: undefined, userType: undefined, filter: ''
@@ -191,6 +191,9 @@ export class EcmReportUserComponent implements OnInit {
       empNo: undefined, userType: undefined, filter: ''
     };
   }
+  reset() {
+    this.dataTable.reset()
+  }
 
   addUserSuccess(val, isEdit?) {
     if (val === 'User Exists') {
@@ -294,7 +297,7 @@ export class EcmReportUserComponent implements OnInit {
     this.colHeaders.map(d => {
       array.push(d.field);
     });
-    this.coreService.exportToExcel(this.ecmUserList, 'ECM_Report_Users '+this.coreService.getDateTimeForExport()+'.xlsx', array)
+    this.coreService.exportToExcel(this.ecmUserList, 'ECM_Report_Users ' + this.coreService.getDateTimeForExport() + '.xlsx', array)
   }
 
   ngOnDestroy() {

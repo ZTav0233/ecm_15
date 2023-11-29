@@ -87,7 +87,9 @@ export class EcmAdminLogsComponent implements OnInit {
   openInfoError(data) {
     this.adminService.getLogDetails(data.id).subscribe(data => this.assignDetails(data));
   }
-
+  reset() {
+    this.dataTable.reset()
+  }
   assignDetails(data) {
     this.details = data;
     this.openDetails = true;
@@ -113,7 +115,7 @@ export class EcmAdminLogsComponent implements OnInit {
       delete d.timeStamp2;
       array.push(d.field);
     });
-    this.coreService.exportToExcel(this.adminLogs, 'ErrorLogs '+this.coreService.getDateTimeForExport()+'.xlsx', array)
+    this.coreService.exportToExcel(this.adminLogs, 'ErrorLogs ' + this.coreService.getDateTimeForExport() + '.xlsx', array)
   }
 
   ngOnDestroy() {

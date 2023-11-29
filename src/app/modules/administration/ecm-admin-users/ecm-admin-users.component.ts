@@ -202,7 +202,9 @@ export class EcmAdminUsersComponent implements OnInit {
   getRowTrackBy = (index, item) => {
     return item.id;
   };
-
+  reset() {
+    this.dataTable.reset()
+  }
   getUsersForAdmin() {
     /*    const searchQueary = {
           'userName': undefined, 'title': undefined, 'mail': undefined,
@@ -348,6 +350,6 @@ export class EcmAdminUsersComponent implements OnInit {
     this.colHeaders.map(d => {
       array.push(d.field);
     });
-    this.coreService.exportToExcel(this.ecmAdminUserList, 'ECM_Admin_Users '+this.coreService.getDateTimeForExport()+'.xlsx', array)
+    this.coreService.exportToExcel(this.ecmAdminUserList, 'ECM_Admin_Users ' + this.coreService.getDateTimeForExport() + '.xlsx', array)
   }
 }

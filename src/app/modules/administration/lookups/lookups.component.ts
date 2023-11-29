@@ -43,7 +43,7 @@ export class LookupsComponent implements OnInit, OnDestroy {
   public selectedOrgUnit: any;
   orgName: any;
   currentUser: any;
-  showEditLookup=false;
+  showEditLookup = false;
   constructor(private as: AdminService, private userService: UserService, private confirmationService: ConfirmationService, private coreService: CoreService, private growlService: GrowlService, private breadcrumbService: BreadcrumbService) {
     this.lookupValues = [];
   }
@@ -219,7 +219,10 @@ export class LookupsComponent implements OnInit, OnDestroy {
     });
     this.showEdit = true;
   }
-
+  reset() {
+    this.dataTable.reset()
+    this.dataTable2.reset()
+  }
   clickInput(row, i) {
     let data = _.find(this.lookupValues, function (r) {
       return r.id === row.id;
@@ -468,7 +471,7 @@ export class LookupsComponent implements OnInit, OnDestroy {
     this.as.exportLookups().subscribe(res => {
       this.busy = false;
       const file = new Blob([res], { type: 'application/vnd.ms-excel' });
-      const fileName = 'Lookups '+this.coreService.getDateTimeForExport()+'.xlsx';
+      const fileName = 'Lookups ' + this.coreService.getDateTimeForExport() + '.xlsx';
       saveAs(file, fileName);
     }, err => {
       this.busy = false;

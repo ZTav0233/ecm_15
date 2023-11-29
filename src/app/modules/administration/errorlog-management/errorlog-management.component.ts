@@ -45,19 +45,19 @@ export class ErrorlogManagementComponent implements OnInit {
     this.fromTime = { id: 30, time: '07:00 AM' };
     this.toTime = { id: 30, time: '07:00 AM' };
   }
-   onClick(disabled: boolean) {
+  onClick(disabled: boolean) {
     if (disabled) {
       event.stopPropagation();
     }
   }
-   clearFromDate() {
+  clearFromDate() {
     this.fromDate = undefined;
-    this.maxFromDate= new Date("December 31, 2031");
+    this.maxFromDate = new Date("December 31, 2031");
   }
-   clearToDate(){
-    this.toDate=undefined;
+  clearToDate() {
+    this.toDate = undefined;
     //this.fromDate=undefined;
-    this.maxFromDate= new Date("December 31, 2031");
+    this.maxFromDate = new Date("December 31, 2031");
     this.enableToTime();
 
   }
@@ -76,14 +76,14 @@ export class ErrorlogManagementComponent implements OnInit {
   trackByFn(index, item) {
     return item.field; // or item.id
   }
-   changeFrom(event) {
-    if(this.fromDate && this.fromDate<this.today){
-       this.minTo = this.today;
+  changeFrom(event) {
+    if (this.fromDate && this.fromDate < this.today) {
+      this.minTo = this.today;
     }
-    else{
+    else {
       this.minTo = new Date(event);
     }
-   if (moment().format("MM-DD-YYYY") == moment(this.fromDate).format("MM-DD-YYYY")) {
+    if (moment().format("MM-DD-YYYY") == moment(this.fromDate).format("MM-DD-YYYY")) {
       this.enableFromTime();
       for (var i = 0; i < this.fromTimes.length; i++) {
         var hour = this.fromTimes[i].label.substring(0, 2);
@@ -130,7 +130,7 @@ export class ErrorlogManagementComponent implements OnInit {
           if (count == 4) {
             count++;
           } else {
-           // this.fromTimes[i].disabled = true;
+            // this.fromTimes[i].disabled = true;
           }
         } else {
           var hour = this.fromTimes[i].label.substring(0, 2);
@@ -164,14 +164,17 @@ export class ErrorlogManagementComponent implements OnInit {
     }
     this.enableToTime();
   }
+  reset() {
+    this.dataTable.reset()
+  }
   changeTo(event?) {
-     this.maxFromDate = new Date(event);
+    this.maxFromDate = new Date(event);
     // this.fromDate = undefined;
     //let fromdate=this.coreService.getFormattedDateString(this.fromDate, this.coreService.dateTimeFormats.DDMMYYYY, '/')+ " " + this.fromTime.time;
-     //fromdate=new Date(fromdate);
-     let hourfrom=this.fromTime.time.substring(0,2);
-     let minfrom=this.fromTime.time.substring(3,5);
-     let Afrom=this.fromTime.time.substring(6,8);
+    //fromdate=new Date(fromdate);
+    let hourfrom = this.fromTime.time.substring(0, 2);
+    let minfrom = this.fromTime.time.substring(3, 5);
+    let Afrom = this.fromTime.time.substring(6, 8);
     if (moment().format("MM-DD-YYYY") == moment(this.toDate).format("MM-DD-YYYY")) {
       for (var i = 0; i < this.toTimes.length; i++) {
         var hour = this.toTimes[i].label.substring(0, 2);
@@ -193,16 +196,16 @@ export class ErrorlogManagementComponent implements OnInit {
                 // this.toTimes[i + 1].disabled = true;
                 // this.toTimes[i + 2].disabled = true;
                 // this.toTimes[i + 3].disabled = true;
-                 break;
+                break;
               } else {
                 //this.toTimes[i].disabled = true;
               }
             } else {
-             // this.toTimes[i].disabled = true;  //imp
+              // this.toTimes[i].disabled = true;  //imp
             }
           }
         } else {
-        // this.toTimes[i].disabled = true;  //imp
+          // this.toTimes[i].disabled = true;  //imp
         }
       }
     } else {
@@ -225,13 +228,13 @@ export class ErrorlogManagementComponent implements OnInit {
       { label: 'Admin' },
       { label: 'ECM Error Logs' }
     ]);
-      this.busy = true;
-       this.adminService.getLogs().subscribe(data => {
-        this.busy = false;
-        this.assignLogs(data)
-      }, err => {
-        this.busy = false;
-      });
+    this.busy = true;
+    this.adminService.getLogs().subscribe(data => {
+      this.busy = false;
+      this.assignLogs(data)
+    }, err => {
+      this.busy = false;
+    });
   }
   viewErrors(data) {
     this.allerrors = data;
@@ -291,28 +294,28 @@ export class ErrorlogManagementComponent implements OnInit {
     this.colHeaders.map(d => {
       array.push(d.field);
     });
-    this.coreService.exportToExcel(this.errorLogs, 'ErrorLogs '+this.coreService.getDateTimeForExport()+'.xlsx', array)
+    this.coreService.exportToExcel(this.errorLogs, 'ErrorLogs ' + this.coreService.getDateTimeForExport() + '.xlsx', array)
   }
-  clearFilterText(){
-    this.fromDate=undefined;
-    this.toDate=undefined;
+  clearFilterText() {
+    this.fromDate = undefined;
+    this.toDate = undefined;
     this.maxFromDate = new Date("December 31, 2031");
     this.fromTime = { id: 30, time: '07:00 AM' };
     this.toTime = { id: 30, time: '07:00 AM' };
     this.refresh();
   }
-  updateSearchInDatatable(){
-    let fromdate=this.coreService.getFormattedDateString(this.fromDate, this.coreService.dateTimeFormats.DDMMYYYY, '/')+ " " + this.fromTime.time;
-    let todate=this.coreService.getFormattedDateString(this.toDate, this.coreService.dateTimeFormats.DDMMYYYY, '/') + " " + this.toTime.time;
+  updateSearchInDatatable() {
+    let fromdate = this.coreService.getFormattedDateString(this.fromDate, this.coreService.dateTimeFormats.DDMMYYYY, '/') + " " + this.fromTime.time;
+    let todate = this.coreService.getFormattedDateString(this.toDate, this.coreService.dateTimeFormats.DDMMYYYY, '/') + " " + this.toTime.time;
     this.busy = true;
-    this.adminService.getLogsForFilter(fromdate,todate).subscribe(data=>{
+    this.adminService.getLogsForFilter(fromdate, todate).subscribe(data => {
       data.map((d) => {
-      d.timeStamp2 = this.coreService.getTimestampFromDate(d.timeStamp, this.coreService.dateTimeFormats.DDMMYYYYHHmmss_SSS, '/');
-    }
-    );
-    this.errorLogs = data;
-    this.busy = false;
-    },err=>{
+        d.timeStamp2 = this.coreService.getTimestampFromDate(d.timeStamp, this.coreService.dateTimeFormats.DDMMYYYYHHmmss_SSS, '/');
+      }
+      );
+      this.errorLogs = data;
+      this.busy = false;
+    }, err => {
       this.busy = false;
     })
   }
@@ -321,8 +324,9 @@ export class ErrorlogManagementComponent implements OnInit {
     this.openDetails = false;
     this.viewerror = false;
   }
-   enableToTime() {
-     for (var i = 0; i < this.toTimes.length; i++) {
-       this.toTimes[i].disabled = false;
-}    }
-   }
+  enableToTime() {
+    for (var i = 0; i < this.toTimes.length; i++) {
+      this.toTimes[i].disabled = false;
+    }
+  }
+}

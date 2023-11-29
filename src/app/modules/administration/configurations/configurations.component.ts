@@ -69,6 +69,11 @@ export class ConfigurationsComponent implements OnInit, OnDestroy {
       { label: 'Configurations' }
     ]);
   }
+  reset(){
+    this.dataTable.reset()
+    this.dataTable1.reset()
+    this.dataTable2.reset()
+  }
   applyFilterGlobal($event, stringVal) {
     console.log(($event.target as HTMLInputElement).value);
     this.dataTable.filterGlobal(
