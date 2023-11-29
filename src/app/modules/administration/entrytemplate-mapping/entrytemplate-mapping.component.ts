@@ -67,14 +67,14 @@ export class EntrytemplateMappingComponent implements OnInit {
   };
 
   searchMappedOrg(event) {
-    //if(event.target.value.length>=1) {
-    this.mappedList = this.mappedListTemp.filter(e => {
-      if (e.desc && e.orgCode) {
-         e.desc.toUpperCase().indexOf(event.target.value.toString().toUpperCase()) !== -1 || e.orgCode.toUpperCase().indexOf(event.target.value.toUpperCase()) !== -1;
-      }
-    });
-    // }
+    const inputValue = event.target.value.toString().toUpperCase();
+  
+    this.mappedList = this.mappedListTemp.filter(e =>
+      e.desc && e.orgCode &&
+      (e.desc.toUpperCase().includes(inputValue) || e.orgCode.toUpperCase().includes(inputValue))
+    );
   }
+  
 
   assignEntrytemplate(data) {
     this.entryTemp = data;

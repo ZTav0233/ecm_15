@@ -34,7 +34,7 @@
          [tableStyle]="{ 'min-width': '20rem' }">
         <ng-template  pTemplate="caption"> 
           <span class="p-input-icon-left ml-auto">
-            <i class="pi pi-search"></i>
+            <!-- <!--<i class="pi pi-search"></i>--> 
             <input
               pInputText
               type="text"
@@ -101,11 +101,11 @@
               <span class="md-inputfield">
                 <input type="text" pInputText (input)="searchMappedOrg($event)" placeholder="Filter"
                   [(ngModel)]="searchOrgText" />
-                <i class="topbar-icon material-icons">search</i>
+                <!-- <i class="topbar-icon material-icons">search</i> -->
               </span>
             </div>
           </div>
-          <p-scroller *ngIf="mappedList && mappedList.length>0" styleClass="max-h-800" [items]="mappedList"
+          <p-scroller *ngIf="mappedList && mappedList.length>0" scrollHeight="400px" styleClass="border-1 surface-border" [style]="{'height': '200px'}" [items]="mappedList" [itemSize]="10"
              [lazy]="true">
             <ng-template let-value pTemplate="selectedItem">
               <div class="ui-g form-group">

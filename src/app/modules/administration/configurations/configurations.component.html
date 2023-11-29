@@ -1,18 +1,12 @@
 <div class="ui-g-12 p-0">
   <p-accordion [activeIndex]="0" (onOpen)="onTabOpen($event)">
     <p-accordionTab header="System" [selected]="true">
-      <div class="ui-g-12 p-l-0 p-r-0">
+      <!-- <div class="ui-g-12 p-l-0 p-r-0">
         <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
-          <!-- global filter -->
           <div class="ui-g">
             <div class="ui-g-12 p-0">
               <table>
                 <tr>
-                  <!-- <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
-                  <td style="width: 98%">
-                    <input #gb type="text" pInputText size="50" placeholder="Filter Text"
-                      style="color: #ffffff; width: 30%;" class="v-m p-0">
-                  </td> -->
                   <td>
                     <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh"
                       (click)="refreshConfig('SYSTEM')" class="remove-btn v-m no-box-shadow"></button>
@@ -21,7 +15,7 @@
               </table>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [value]="configurationList['SYSTEM']"
               [rows]="itemsPerPage" [paginator]="true" [responsive]="true" [globalFilter]="gb">
               <p-column *ngFor="let colHeader of colHeaders" [sortable]="true" [field]="colHeader.field"
@@ -36,10 +30,10 @@
             </p-dataTable> -->
         <p-table [value]="configurationList['SYSTEM']" #dt
           styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
-          [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }" [globalFilterFields]="['keyName', 'country.name', 'representative.name', 'status']">
+          [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }" [globalFilterFields]="['keyName', 'keyDesc', 'value', 'modifiedBy']">
           <ng-template pTemplate="caption"> 
               <span class="p-input-icon-left ml-auto">
-              <i class="pi pi-search"></i>
+              <!--<i class="pi pi-search"></i>--> 
               <input
                 pInputText
                 type="text"
@@ -70,31 +64,23 @@
               <td>{{ product.modifiedBy }}</td>
               <td>{{ product.modifiedDate }}</td>
               <td>
-                <!-- <ng-template let-r="rowData" pTemplate="body"> -->
                 <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit"
                   (click)="prepareEdit(product,'SYSTEM');showEditKeyValue=true;" class="remove-btn v-m"></button>
-                <!-- </ng-template> -->
               </td>
             </tr>
           </ng-template>
         </p-table>
 
-      </div>
+      <!-- </div> -->
     </p-accordionTab>
 
     <p-accordionTab header="App" [selected]="false">
-      <div class="ui-g-12 p-l-0 p-r-0">
+      <!-- <div class="ui-g-12 p-l-0 p-r-0">
         <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
-          <!-- global filter -->
           <div class="ui-g">
             <div class="ui-g-12 p-0">
               <table>
                 <tr>
-                  <!-- <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
-                  <td style="width: 98%">
-                    <input #gb2 type="text" pInputText size="50" placeholder="Filter Text"
-                      style="color: #ffffff; width: 30%" class="v-m p-0">
-                  </td> -->
                   <td>
                     <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh"
                       (click)="refreshConfig('APP')" class="remove-btn"></button>
@@ -103,7 +89,7 @@
               </table>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [value]="configurationList['APP']"
               [rows]="itemsPerPage" [paginator]="true" [responsive]="true" [globalFilter]="gb2">
               <p-column *ngFor="let colHeader of colHeaders" [sortable]="true" field="{{colHeader.field}}"
@@ -121,7 +107,7 @@
           [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }" [globalFilterFields]="['keyName', 'country.name', 'representative.name', 'status']">
           <ng-template pTemplate="caption">
             <span class="p-input-icon-left ml-auto">
-              <i class="pi pi-search"></i>
+              <!--<i class="pi pi-search"></i>--> 
               <input
                 pInputText
                 type="text"
@@ -160,21 +146,15 @@
             </tr>
           </ng-template>
         </p-table>
-      </div>
+      <!-- </div> -->
     </p-accordionTab>
     <p-accordionTab header="Log" [selected]="false">
-      <div class="ui-g-12 p-l-0 p-r-0">
+      <!-- <div class="ui-g-12 p-l-0 p-r-0">
         <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
-          <!-- global filter -->
           <div class="ui-g">
             <div class="ui-g-12 p-0">
               <table>
                 <tr>
-                  <!-- <td style="width: 2%"><i class="fa fa-search v-m m-r-md"></i></td>
-                  <td style="width: 98%">
-                    <input #gb3 type="text" pInputText size="50" placeholder="Filter Text"
-                      style="color: #ffffff; width: 30%;" class="v-m p-0">
-                  </td> -->
                   <td>
                     <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh"
                       (click)="refreshConfig('LOG')" class="remove-btn"></button>
@@ -183,7 +163,7 @@
               </table>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [value]="configurationList['LOG']"
               [rows]="itemsPerPage" [paginator]="true" [responsive]="true" [globalFilter]="gb3">
               <p-column *ngFor="let colHeader of colHeaders" [sortable]="true" field="{{colHeader.field}}"
@@ -201,7 +181,7 @@
           [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
           <ng-template pTemplate="caption">  
             <span class="p-input-icon-left ml-auto">
-            <i class="pi pi-search"></i>
+            <!--<i class="pi pi-search"></i>--> 
             <input
               pInputText
               type="text"
@@ -240,7 +220,7 @@
             </tr>
           </ng-template>
         </p-table>
-      </div>
+      <!-- </div> -->
     </p-accordionTab>
   </p-accordion>
 </div>

@@ -61,7 +61,7 @@
       </p-tabPanel>
       <p-tabPanel header="Deactivated Roles" leftIcon="fa fa-fw ui-icon-people-outline">
         <div class="ui-g">
-          <div class="ui-g-12 roleSearch-box">
+          <!-- <div class="ui-g-12 roleSearch-box">
             <div class="ui-inputgroup">
               <span class="md-inputfield ">
                 <input type="text" pInputText (input)="searchDeactRole()" placeholder="Search Deactivated Roles"
@@ -69,17 +69,17 @@
                 <i class="topbar-icon material-icons">search</i>
               </span>
             </div>
-          </div>
+          </div> -->
   
           <div class="max-h-500 ui-g-12 border-none p-0">
   
             <p-table [value]="deactRoles" [resizableColumns]="true" #dt1
             [globalFilterFields]="['name', 'typeText']"
               styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-              [tableStyle]="{ 'min-width': '50rem' }">
+              [tableStyle]="{ 'min-width': '25rem' }">
               <ng-template pTemplate="caption"> 
                 <span class="p-input-icon-left ml-auto">
-                  <i class="pi pi-search"></i>
+                  <!-- <!--<i class="pi pi-search"></i>--> 
                   <input
                     pInputText
                     type="text"
