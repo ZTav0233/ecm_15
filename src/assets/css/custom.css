@@ -291,9 +291,9 @@ input[type=text]::-ms-clear {
   background-color: #c4d9b8 !important;
 }
 
-.ui-inputtext,
-.ui-calendar,
-.ui-dropdown {
+.p-inputtext,
+.p-calendar,
+.p-dropdown {
   width: 100%;
   opacity: 1 !important;
 }
@@ -821,7 +821,7 @@ p-dialog .h-200 {
 }
 
 .colMultiselect {
-  height: 28px;
+  height: 43px;
   line-height: 0.8;
   border: 1px solid lightgray;
   border-radius: 3px;
@@ -1139,7 +1139,7 @@ body .ui-datepicker-buttonpane>button {
 }
 
 .p-t-sm {
-  padding-top: 5px !important;
+  padding-top: 11px !important;
 }
 
 .p-t-md {

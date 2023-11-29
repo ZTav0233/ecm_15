@@ -296,7 +296,7 @@
       (onHeaderCheckboxToggle)="checked()" (onRowSelect)="checked($event)" (onRowUnselect)="unchecked($event)"
       (onRowClick)="rowSelected($event)" (onFilter)="onFiltering($event)" selectionMode="multiple" [lazy]="true"
       [totalRecords]="totalRecords" expandableRows="true" [value]="tableData"
-      styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [tableStyle]="{ 'min-width': '40rem' }"
+      styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [tableStyle]="{ 'min-width': '40rem' }" responsiveLayout="stack" [breakpoint]="'960px'"
       [(selection)]="selectedRows" (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
       [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
       [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
@@ -308,7 +308,7 @@
             selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
             placeholder="Choose Columns"></p-multiSelect>
           <p-columnFilter type="text" field="subject"></p-columnFilter>
-          <button
+          <button class="autorenew"
             [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
             pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"
             ></button>
@@ -318,42 +318,41 @@
       </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th style="width: 5%" *ngIf="activePage!='draft'">
+          <th *ngIf="activePage!='draft'" style="width:17px;">
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
-          <th *ngIf="activePage==='inbox' && !reportPage" style="width: 5rem"></th>
-          <th *ngIf="activePage==='inbox' && !reportPage" style="width: 10rem"></th>
-          <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="flag" style="width: 20%">
+          <th *ngIf="activePage==='inbox' && !reportPage" style="width:29px;"></th>
+          <th *ngIf="activePage==='inbox' && !reportPage"  style="width: 30px;"></th>
+          <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="flag" style="width:55px;">
             Flag <p-sortIcon field="flag"></p-sortIcon>
           </th>
-          <th *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" pSortableColumn="subject"
-            style="width: 20%">
+          <th *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" pSortableColumn="subject" >
             Subject <p-sortIcon field="subject"></p-sortIcon>
           </th>
-          <th *ngIf="showInfoIcon" pSortableColumn="name" style="width: 20%">
+          <th *ngIf="showInfoIcon" pSortableColumn="name">
             Title <p-sortIcon field="name"></p-sortIcon>
           </th>
-          <th *ngFor="let col of columns" [pSortableColumn]="col.header" style="width: 20%">
+          <th *ngFor="let col of columns" [pSortableColumn]="col.header">
             {{col.header}} <p-sortIcon [field]="col.header"></p-sortIcon>
           </th>
-          <th *ngIf="activePage==='sent'" style="width: 20%">
+          <th *ngIf="activePage==='sent'">
           </th>
-          <th *ngIf="showProgressBtn && activePage==='inbox'" style="width: 20%"></th>
-          <th *ngIf="showInfoIcon" style="width: 20%"></th>
-          <th *ngIf="activePage==='draft'" style="width: 20%"></th>
+          <th *ngIf="showProgressBtn && activePage==='inbox'"></th>
+          <th *ngIf="showInfoIcon"></th>
+          <th *ngIf="activePage==='draft'"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
         <tr [pSelectableRow]="product" [pSelectableRowIndex]="rowIndex">
-          <td *ngIf="activePage!='draft'">
+          <td *ngIf="activePage!='draft'" style="width:17px;">
             <p-tableCheckbox [value]="product"></p-tableCheckbox>
           </td>
-          <td *ngIf="activePage==='inbox' && !reportPage">
+          <td *ngIf="activePage==='inbox' && !reportPage" style="width:29px;">
             <button type="button" pButton pRipple [pRowToggler]="product"
               class="p-button-text p-button-rounded p-button-plain"
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
           </td>
-          <td *ngIf="activePage==='inbox' && !reportPage">
+          <td *ngIf="activePage==='inbox' && !reportPage"  style="width: 30px;">
             <div class="icons ">
               <div class="display-inline-block">
                 <i title="High Priority" [hidden]="!(product.priority && product.priority.toLowerCase() === 'high')"
@@ -366,12 +365,12 @@
               </div>
             </div>
           </td>
-          <td *ngIf="activePage==='inbox' && !reportPage">
+          <td *ngIf="activePage==='inbox' && !reportPage" style="width:55px;">
             <img title="Type" [src]="product.isFlag ? 'assets/images/icons/flag.png' : 'assets/images/icons/unflag.png'"
               class="flag-img-dim">
           </td>
           <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'"
-            (click)="goToTaskDetails($event,'hyperlink',product)">{{ product.subject }}</td>
+            (click)="goToTaskDetails($event,'hyperlink',product)" >{{ product.subject }}</td>
           <td *ngIf="showInfoIcon"> {{ product.name }}</td>
           <td *ngFor="let col of columns">{{ product[col.field] }}</td>
           <td *ngIf="activePage==='sent'">
@@ -509,18 +508,18 @@
           </th>
           <th *ngIf="activePage==='inbox' && !reportPage" style="width: 5rem"></th>
           <th *ngIf="activePage==='inbox' && !reportPage" style="width: 10rem"></th>
-          <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="flag" style="width: 20%">
+          <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="flag">
             Flag <p-sortIcon field="flag"></p-sortIcon>
           </th>
-          <th pSortableColumn="subject" style="width: 20%">
+          <th pSortableColumn="subject">
             Subject <p-sortIcon field="subject"></p-sortIcon>
           </th>
-          <th *ngFor="let col of columns" [pSortableColumn]="col.header" style="width: 20%">
+          <th *ngFor="let col of columns" [pSortableColumn]="col.header">
             {{col.header}} <p-sortIcon [field]="col.header"></p-sortIcon>
           </th>
-          <th *ngIf="activePage==='sent'" style="width: 20%">
+          <th *ngIf="activePage==='sent'">
           </th>
-          <th *ngIf="showProgressBtn && activePage==='inbox'" style="width: 20%">
+          <th *ngIf="showProgressBtn && activePage==='inbox'">
           </th>
         </tr>
       </ng-template>

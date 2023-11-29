@@ -117,7 +117,7 @@ body {
     font-family: 'Material Icons';
     font-weight: normal;
     font-style: normal;
-    font-size: 1.5em;
+    font-size: 18px !important;
     display: inline-block;
     width: 1em;
     height: 1em;
@@ -131,6 +131,10 @@ body {
     text-rendering: optimizeLegibility;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'liga';
+}
+.p-button.p-button-icon-only{
+    height: 1.5rem !important;
+    width: 1.5rem !important;
 }
 .ui-icon-record-voice-over::before{
     content: "record_voice_over";
@@ -335,4 +339,16 @@ body {
 }
 .ui-icon-assignment-late::before{
     content: "assignment_late";
+}
+
+.p-datatable-resizable-table>.p-datatable-thead>tr>th, .p-datatable-resizable-table>.p-datatable-tfoot>tr>td, .p-datatable-resizable-table>.p-datatable-tbody>tr>td {
+    white-space: inherit !important;
+}
+
+.p-multiselect .p-multiselect-label{
+    padding: 4px 8px !important;
+}
+
+.p-inputtext{
+    padding: 4px 8px !important;
 }

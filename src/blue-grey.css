@@ -51,7 +51,7 @@
   
   .p-component {
     font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
-    font-size: 1rem;
+    font-size: 12.5px;
     font-weight: normal;
   }
   
@@ -73,7 +73,7 @@
   }
   
   .pi {
-    font-size: 1rem;
+    font-size: 0.7rem;
   }
   
   .p-link {
@@ -647,14 +647,14 @@
   }
   
   .p-checkbox {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
   }
   .p-checkbox .p-checkbox-box {
     border: 2px solid #757575;
     background: #ffffff;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     color: rgba(0, 0, 0, 0.87);
     border-radius: 4px;
     transition: background-color 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s, background-size 0.2s cubic-bezier(0.64, 0.09, 0.08, 1);
@@ -1053,7 +1053,7 @@
     width: auto;
   }
   .p-fluid .p-inputgroup .p-button.p-button-icon-only {
-    width: 2.75rem;
+    width: 1.5rem;
   }
   
   p-inputmask.ng-dirty.ng-invalid > .p-inputtext {
@@ -4989,14 +4989,14 @@
   }
   
   .p-menubar {
-    padding: 0.75rem;
+    padding: 0;
     background: transparent;
     color: rgba(0, 0, 0, 0.87);
     border: 1px solid #e5e5e5;
     border-radius: 4px;
   }
   .p-menubar .p-menuitem-link {
-    padding: 0.75rem 0.75rem;
+    padding: 0;
     color: rgba(0, 0, 0, 0.87);
     border-radius: 0;
     transition: none;
