@@ -198,7 +198,15 @@ body {
 .ui-icon-remove-red-eye:before {
     content: "remove_red_eye";
 }
-
+.ui-icon-add::before{
+    content: "add";
+}
+.ui-icon-star-border::before{
+    content: "star_border";
+}
+.ui-icon-view-list::before{
+    content: "view_list";
+}
 .ui-icon-remove::before {
     content: "remove";
 }
@@ -216,6 +224,9 @@ body {
 }
 .ui-icon-edit::before{
     content: "edit";
+}
+.ui-icon-block::before{
+    content: "block";
 }
 .ui-icon-folder::before{
     content: "folder";
@@ -261,6 +272,9 @@ body {
 }
 .ui-icon-personal-video::before{
     content: "personal_video";
+}
+.ui-icon-person::before{
+    content: "person";
 }
 .ui-icon-restore::before{
     content: "restore";
@@ -322,6 +336,9 @@ body {
 .ui-icon-people-outline::before{
     content: "people_outline";
 }
+.ui-icon-people::before{
+    content: "people";
+}
 .ui-icon-contacts::before{
     content: "contacts";
 }
@@ -340,7 +357,15 @@ body {
 .ui-icon-assignment-late::before{
     content: "assignment_late";
 }
-
+.ui-icon-settings::before{
+    content: "settings";
+}
+.ui-icon-list::before{
+    content: "list";
+}
+.ui-icon-directions-walk::before{
+    content: "directions_walk";
+}
 .p-datatable-resizable-table>.p-datatable-thead>tr>th, .p-datatable-resizable-table>.p-datatable-tfoot>tr>td, .p-datatable-resizable-table>.p-datatable-tbody>tr>td {
     white-space: inherit !important;
 }
@@ -351,4 +376,15 @@ body {
 
 .p-inputtext{
     padding: 4px 8px !important;
+}
+
+.p-datatable .p-sortable-column .p-sortable-column-icon {
+    width: 12.5px !important;
+    height: 12.5px !important;
+    margin-left: 2px !important;
+}
+
+body .p-datatable .p-datatable-thead>tr>th {
+    white-space: nowrap !important;
+    text-align: center !important;
 }

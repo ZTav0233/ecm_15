@@ -22,8 +22,8 @@ export class RecipientsMemoComponent implements OnDestroy {
   @Input() public searchType: any;
   public filteredRoles: any[];
   private subscriptions: Subscription[] = [];
-  roleTreeExpandedIcon = 'ui-icon-people-outline';
-  roleTreeCollapsedIcon = 'ui-icon-people';
+  roleTreeExpandedIcon = 'fa fa-fw ui-icon-people-outline';
+  roleTreeCollapsedIcon = 'fa fa-fw ui-icon-people';
   public dynamicCriteria: any[] = [];
   public criteria: any[];
   public userSearchQueary = {

@@ -44,8 +44,8 @@ export class ListComponent implements OnInit, OnDestroy {
   public selectedType = 'USER';
   public showRoleTree = false;
   public showRoleList = false;
-  roleTreeExpandedIcon = 'ui-icon-people-outline';
-  roleTreeCollapsedIcon = 'ui-icon-people';
+  roleTreeExpandedIcon = 'fa fa-fw ui-icon-people-outline';
+  roleTreeCollapsedIcon = 'fa fa-fw ui-icon-people';
   public roleData: any = { roles: { model: {} } };
   public dynamicCriteria: any[] = [];
   private tmpRoleTree: any[];

@@ -6,7 +6,7 @@
           [selected]="list.name==='Favourites'?isFavSelected:false">
           <p-header>
             <i class="ui-icon-ac-h fa"
-              [ngClass]="{'ui-icon-view-list':list.name !== 'Favourites','ui-icon-star-border':list.name==='Favourites'}"></i>
+              [ngClass]="{'fa fa-fw ui-icon-view-list':list.name !== 'Favourites','fa fa-fw ui-icon-star-border':list.name==='Favourites'}"></i>
             {{list.name==='Favourites'?'Favorites':list.name}}
           </p-header>
           <div class="w-100 ">
@@ -25,8 +25,8 @@
               <table class="ecm-table w-100" (click)="stopPro($event)">
                 <tr *ngFor="let member of listUsers;let j = index;" class="item" [ngClass]="{'even':j%2===0}">
                   <td>
-                    <i *ngIf="member.appRole ==='ROLE'" class="fa ui-icon-people"></i>
-                    <i *ngIf="member.appRole ==='USER'" class="fa ui-icon-person"></i>
+                    <i *ngIf="member.appRole ==='ROLE'" class="fa fa-fw ui-icon-people"></i>
+                    <i *ngIf="member.appRole ==='USER'" class="fa fa-fw ui-icon-person"></i>
                   </td>
                   <td>
                     <span (mouseover)="getRoleDLMembers(member,'defaultList')" [escape]="false"
@@ -49,7 +49,7 @@
       <ng-container *ngIf="list.id == '1'">
         <p-accordionTab (click)="showSubList($event,list.id,i)">
           <p-header>
-            <i class="fa ui-icon-view-list ui-icon-ac-h"></i>
+            <i class="fa fa-fw ui-icon-view-list ui-icon-ac-h"></i>
             {{list.name}}
           </p-header>
           <div class="w-100 ">
@@ -69,7 +69,7 @@
                 [ngClass]="{'even':j%2===0 && j!==selectedIndex,'highlighted':j===selectedIndex}">
                 <td>
                   <i *ngIf="lst.name!=='Add New List'" [ngClass]="{'highlighted':j===selectedIndex}"
-                    class="fa ui-icon-view-list"></i>
+                    class="fa fa-fw ui-icon-view-list"></i>
                   <i *ngIf="lst.name === 'Add New List'" [ngClass]="{'highlighted':j===selectedIndex}"
                     class="fa ui-icon-add"></i>
                 </td>
@@ -135,8 +135,8 @@
         <ng-template pTemplate="body" let-value let-ri="rowIndex">
           <tr>
             <td>
-              <i *ngIf="value.appRole==='ROLE'" class="fa ui-icon-people"></i>
-              <i *ngIf="value.appRole==='USER'" class="fa ui-icon-person"></i>
+              <i *ngIf="value.appRole==='ROLE'" class="fa fa-fw ui-icon-people"></i>
+              <i *ngIf="value.appRole==='USER'" class="fa fa-fw ui-icon-person"></i>
               <span *ngIf="value.appRole==='ROLE'" [escape]="false" (mouseover)="getRoleMembers(value)"
                 pTooltip="{{value.members}}" [tooltipStyleClass]="'tooltip-min-width'" tooltipPosition="bottom"
                 class="p-r-xlg">{{value.fulName}}</span>
@@ -308,27 +308,27 @@
   <div class="ui-g-12 ui-md-5 p-r-0 p-b-0 p-t-0">
     <label>List Name: </label>{{selectedParentList===0?'Favorites':listName}}
     <h4>Selected Users/Roles</h4>
-    <!-- <p-dataScroller *ngIf="listUsers && listUsers.length>0" styleClass="list-max-h-265" [value]="listUsers" [rows]="10"
+    <p-scroller *ngIf="listUsers && listUsers.length>0" [items]="listUsers" [itemSize]="10" scrollHeight="300px" styleClass="border-1 surface-border" [style]="{'height': '300px'}"
       [lazy]="true">
       <ng-template let-value pTemplate="selectedItem">
         <div class="ui-g form-group">
           <div class="ui-g-12">
             <div class="ui-g-10">
-              <i *ngIf="value.appRole==='ROLE'" class="fa ui-icon-people"></i>
-              <i *ngIf="value.appRole==='USER'" class="fa ui-icon-person"></i>
+              <i *ngIf="value.appRole==='ROLE'" class="fa fa-fw ui-icon-people"></i>
+              <i *ngIf="value.appRole==='USER'" class="fa fa-fw ui-icon-person"></i>
               <span *ngIf="value.appRole==='ROLE'" [escape]="false" (mouseover)="getRoleMembers(value)"
                 pTooltip="{{value.members}}" [tooltipStyleClass]="'tooltip-min-width'" tooltipPosition="bottom"
                 class="p-r-xlg">{{value.fulName}}</span>
               <span *ngIf="value.appRole==='USER'" class="p-r-xlg">{{value.fulName}}</span>
             </div>
             <div class="ui-g-2">
-              <button *ngIf="!value.isExisting" pButton type="button" icon="ui-icon-clear" title="Remove"
+              <button *ngIf="!value.isExisting" pButton type="button" icon="fa fa-fw ui-icon-clear" title="Remove"
                 (click)="onRemove(value)" class="remove-btn v-m"></button>
             </div>
           </div>
         </div>
       </ng-template>
-    </p-dataScroller> -->
+    </p-scroller>
   </div>
   <!-- </div> -->
   <div class="progress-bar">

@@ -33,13 +33,13 @@
               <button *ngIf="fromMemo" pButton type="button" label="From" class="v-m" (click)="mAddToFromList(node.data)"
                       [disabled]="node.data.disabled || actionType==='Signature' || actionType==='Initial' || !node.data.orgCode"
                       [ngClass]="{'hide-Important':!node.data.orgCode}"></button>
-              <button *ngIf="editRole && !node.leaf" pButton type="button" icon="ui-icon-edit" title="Edit" class="remove-btn v-m"
+              <button *ngIf="editRole && !node.leaf" pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit" class="remove-btn v-m"
                       (click)="editRoleitem(node.data)"></button>
-              <button *ngIf="(editRole && !node.leaf)" pButton type="button" icon="ui-icon-block" title="Deactivate" class="remove-btn v-m"
+              <button *ngIf="(editRole && !node.leaf)" pButton type="button" icon="fa fa-fw ui-icon-block" title="Deactivate" class="remove-btn v-m"
                       (click)="deleteRole(node.data)"></button>
-              <button pButton type="button" icon="ui-icon-remove" (click)="mRemoveItem(node)" title="Remove"
+              <button pButton type="button" icon="fa fa-fw ui-icon-remove" (click)="mRemoveItem(node)" title="Remove"
                       class="remove-btn v-m" *ngIf="showRemoveItemBtn && node.leaf" title="Remove"></button>
-              <button pButton type="button" icon="ui-icon-add" (click)="mAddChildren(node)" class="remove-btn v-m pull-right"
+              <button pButton type="button" icon="fa fa-fw ui-icon-add" (click)="mAddChildren(node)" class="remove-btn v-m pull-right"
                       *ngIf="showAddChildBtn" [disabled]="node.data.disabled || !node.data.orgCode"></button>
             </span>
           </td>

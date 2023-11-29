@@ -112,8 +112,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     recipients: { roles: {}, list: {}, search: { result: [] }, toList: [], ccList: [] },
     workflow: { model: {} }
   };
-  roleTreeExpandedIcon = 'ui-icon-people-outline';
-  roleTreeCollapsedIcon = 'ui-icon-people';
+  roleTreeExpandedIcon = 'fa fa-fw ui-icon-people-outline';
+  roleTreeCollapsedIcon = 'fa fa-fw ui-icon-people';
   public distList = { 'id': 1, 'empNo': 1002, 'name': 'Distribution List', lists: [] };
   public defaultList = { 'id': -1, 'empNo': 1002, 'name': 'Default List' };
   public globalList = { 'id': 1, 'empNo': 1002, 'name': 'Global List', lists: [] };

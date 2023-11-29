@@ -47,8 +47,8 @@ import { filter } from 'rxjs/operators';
 })
 export class LaunchComponent implements OnInit, OnDestroy {
   public currentUser: User = new User();
-  roleTreeExpandedIcon = 'ui-icon-people-outline';
-  roleTreeCollapsedIcon = 'ui-icon-people';
+  roleTreeExpandedIcon = 'fa fa-fw ui-icon-people-outline';
+  roleTreeCollapsedIcon = 'fa fa-fw ui-icon-people';
   dropDownHideShow: boolean = false;
   public launch: any = {
     routeParams: {},

@@ -48,8 +48,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   };
   public user = new User();
   subscriptions: Subscription[] = [];
-  roleTreeExpandedIcon = 'ui-icon-people-outline';
-  roleTreeCollapsedIcon = 'ui-icon-people';
+  roleTreeExpandedIcon = 'fa fa-fw ui-icon-people-outline';
+  roleTreeCollapsedIcon = 'fa fa-fw ui-icon-people';
   private tmpRoleTree = [];
   public reportCount: any[] = [];
   public chartOptions: any = {

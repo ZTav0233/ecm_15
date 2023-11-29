@@ -18,7 +18,7 @@ export class UserComponent implements OnDestroy {
   @Input() public showAddBtn = true;
   @Input() public showSelectBtn = false;
   @Input() public showTooltip = true;
-  @Input() public iconClass = "fa ui-icon-people";
+  @Input() public iconClass = "fa fa-fw  ui-icon-people";
   @Input() public isRowSelectable = false;
   @Input() public isNoFoundMessage = false;
   @Input() public isNoAlternateRows = false;
