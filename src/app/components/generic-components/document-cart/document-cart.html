@@ -50,20 +50,20 @@
             </span>
           </td>
           <td>
-            <div>
+            <div >
               <span *ngIf="!isItemSelectable" pTooltip="{{item.fileName}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                 [tooltipStyleClass]="'tooltip-min-width m-t-xl'" tooltipPosition="left">{{item.fileName | truncate :
                 canRemoveLastItem ? 20 : 50}}</span>
-              <a *ngIf="isItemSelectable && item.fileName" href="javascript:" (click)="mOnItemSelect(item)"
+              <a style="color: #607d8b;" *ngIf="isItemSelectable && item.fileName" href="javascript:" (click)="mOnItemSelect(item)"
                 pTooltip="{{item.fileName}}" [tooltipStyleClass]="'tooltip-min-width'"
                 tooltipPosition="left">{{item.fileName | truncate : 50}}</a>
-              <a *ngIf="isItemSelectable && item.docTitle" href="javascript:" (click)="mOnItemSelect(item)"
+              <a style="color: #607d8b;" *ngIf="isItemSelectable && item.docTitle" href="javascript:" (click)="mOnItemSelect(item)"
                 pTooltip="{{item.docTitle}}" [tooltipStyleClass]="'tooltip-min-width'"
                 tooltipPosition="left">{{item.docTitle | truncate : 50}}</a>
             </div>
           </td>
           <td align="right">
-            <a class="p-0" href="javascript:">
+            <a style="color: #607d8b;" class="p-0" href="javascript:">
               <i *ngIf="isItemSelectable && (workflowType == 'Signature' || workflowType == 'Initial') && isItemSelected(item) && (item.format.indexOf('pdf') !== -1 || item.format.indexOf('word') !== -1)"
                 class="fa ui-icon-edit v-m" pTooltip="Mark/UnMark for Sign" [tooltipStyleClass]="'tooltip'" tooltipPosition="left"
                 [ngClass]="{'text-red': item.isSign == 1}" (click)="signIsClicked(item)"></i>

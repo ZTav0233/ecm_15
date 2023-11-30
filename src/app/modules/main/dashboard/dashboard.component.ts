@@ -70,7 +70,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       fontColor: '#fff',
       fontFamily: '"Lucida Console", Monaco, monospace'
     },*/
+  
+      resposive:true,
+      maintainAspectRatio: false,
+   
     plugins: {
+     
       datalabels: {
         align: 'center',
         anchor: 'center',

@@ -28,10 +28,10 @@
         <div *ngIf="showCount && totalCount>1" class="pull-right m-5">
           Found {{totalCount}} Items
         </div>
-        <div *ngIf="router.url.includes('draft') && !(router.url.includes('draftLaunch')) && totalCount>1"
+        <!-- <div *ngIf="router.url.includes('draft') && !(router.url.includes('draftLaunch')) && totalCount>1"
           class="pull-right m-5">
           Total Items: {{totalCount}}
-        </div>
+        </div> -->
         <button style="width: 170px" [disabled]="isLoadButtonDisabled"
           *ngIf="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')" pButton
           (click)="loadMoreSearchData();" icon="load-more" type="button" label="Load More Results"
@@ -303,15 +303,22 @@
       [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
       [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt [paginator]="true"
       [globalFilterFields]="['subject']">
-      <ng-template pTemplate="caption" *ngIf="activePage!='draft'">
+      <ng-template pTemplate="caption">
         <div style="display: flex; justify-content: space-between;">
-          <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
-            selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
-            placeholder="Choose Columns"></p-multiSelect>
           <p-columnFilter type="text" field="subject"></p-columnFilter>
-          <button class="autorenew"
-            [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
-            pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"></button>
+          <div>
+            <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
+              selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
+              placeholder="Choose Columns"></p-multiSelect>
+            <div style="color: white;"
+              *ngIf="router.url.includes('draft') && !(router.url.includes('draftLaunch')) && totalCount>1"
+              class="pull-right m-5">
+              Total Items: {{totalCount}}
+            </div>
+            <button class="autorenew"
+              [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
+              pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"></button>
+          </div>
 
         </div>
 
@@ -501,13 +508,15 @@
       [globalFilterFields]="['subject']">
       <ng-template pTemplate="caption" *ngIf="activePage!='draft'">
         <div style="display: flex; justify-content: space-between;">
-          <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
-            selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
-            placeholder="Choose Columns"></p-multiSelect>
           <p-columnFilter type="text" field="subject"></p-columnFilter>
-          <button class="autorenew"
-            [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
-            pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"></button>
+          <div>
+            <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
+              selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
+              placeholder="Choose Columns"></p-multiSelect>
+            <button class="autorenew"
+              [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
+              pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"></button>
+          </div>
 
         </div>
 

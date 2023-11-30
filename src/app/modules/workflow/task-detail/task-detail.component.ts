@@ -1,6 +1,6 @@
 import {
   Component, OnInit, AfterViewInit,
-  OnDestroy, ViewChildren, QueryList
+  OnDestroy, ViewChildren, QueryList, ViewChild
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router'
@@ -38,6 +38,7 @@ import * as global from "../../../global.variables";
 import * as moment from 'moment';
 import { MemoService } from '../../../services/memo.service';
 import { ConfirmationService, Message, TreeNode } from 'primeng/api';
+import { Table } from 'primeng/table';
 interface Column {
   field: string;
   header: string;
@@ -49,6 +50,7 @@ interface Column {
   styleUrls: ['./task-detail.component.css'],
 })
 export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('idt') dataTable!: Table;
   public currentUser = new User();
   pdfSrc: Object;
   private pageUrl: any;
@@ -1086,7 +1088,9 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   //     summary: 'Failure', detail: this.errorJson
   //   });
   // }
-
+  reset(){
+    this.dataTable.reset()
+  }
   recallWorkitemConfirmation(event) {
     this.workflowService.validateSentItem(this.sentItemId).subscribe(res1 => {
       if (res1 === 'INACTIVE') {

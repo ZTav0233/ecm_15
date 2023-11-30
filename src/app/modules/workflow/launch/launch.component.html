@@ -73,7 +73,7 @@
             </div>
           </p-tabPanel>
           <p-tabPanel header="Recipients">
-            <p-accordion  [activeIndex]="selectedIndexAccordion" [multiple]="false" (onOpen)="onTabOpen($event);">
+            <p-accordion [activeIndex]="selectedIndexAccordion" [multiple]="false" (onOpen)="onTabOpen($event);">
               <p-accordionTab [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" [selected]="true">
                 <p-header>
                   <i class="ui-icon-ac-h fa ui-icon-filter-none" style="color: white"></i> Default List
@@ -139,7 +139,7 @@
               <p-accordionTab
                 [disabled]="launch.documents.existing.model.actionType==='Signature' || launch.documents.existing.model.actionType==='Initial'">
                 <p-header>
-                  <i class="ui-icon-ac-h fa ui-icon-apps" style="color: white"></i> Distribution List
+                  <i class="ui-icon-ac-h fa fa-fw ui-icon-apps" style="color: white"></i> Distribution List
                 </p-header>
                 <div class="ui-g">
                   <div class="w-100">
@@ -341,16 +341,19 @@
           <label>Type :</label>
         </div>
         <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class="ui-g-11 ui-xl-4 ui-lg-6">
-          <p-selectButton [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" (onChange)="onActionTypeChanged($event)" [options]="launch.documents.existing.actionTypes"
+          <p-selectButton [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'"
+            (onChange)="onActionTypeChanged($event)" [options]="launch.documents.existing.actionTypes"
             [(ngModel)]="launch.documents.existing.model.actionType" name="actionType"></p-selectButton>
         </div>
         <div class="ui-g-1">
           <label>Priority:</label>
         </div>
         <div class="ui-g-6 ui-xl-6 ui-lg-4 prio">
-          <p-radioButton [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" name="workflowPriority" value="2" label="Normal" [(ngModel)]="launch.workflow.model.priority">
+          <p-radioButton [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" name="workflowPriority"
+            value="2" label="Normal" [(ngModel)]="launch.workflow.model.priority">
           </p-radioButton>
-          <p-radioButton [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" name="workflowPriority" value="3" label="High" [(ngModel)]="launch.workflow.model.priority">
+          <p-radioButton [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" name="workflowPriority"
+            value="3" label="High" [(ngModel)]="launch.workflow.model.priority">
           </p-radioButton>
         </div>
       </div>
@@ -393,7 +396,8 @@
               actionTypes =='draftLaunch' || actionTypes =='browseLaunch' || actionTypes =='reLaunch' || actionTypes =='launch'">Remarks:</label>
             </div>
             <div class="ui-g-6">
-              <label *ngIf="actionTypes !='reply' && actionTypes !='replyAll'  || wiaAction?.isMemo==1">Instructions:</label>
+              <label
+                *ngIf="actionTypes !='reply' && actionTypes !='replyAll'  || wiaAction?.isMemo==1">Instructions:</label>
               <label *ngIf="wiaAction?.isMemo==0 && actionTypes =='reply' || actionTypes =='replyAll' && (actionTypes !='draftLaunch' &&
               actionTypes !='browseLaunch' && actionTypes !='reLaunch' && actionTypes !='launch')">Action
                 Taken:</label>
@@ -487,9 +491,9 @@
               <label>Reminder:</label>
             </div>
             <div class="ui-g-6">
-              <p-calendar class="dateHeaderMemo" [maxDate]="launch.workflow.model.deadlineDate" [minDate]="launch.currentDate"
-                [showButtonBar]="true" selectionMode="single" [showIcon]="true" (onClearClick)="clearReminder()"
-                [disabled]="!launch.workflow.model.deadlineDate" dateFormat="dd-mm-yy"
+              <p-calendar class="dateHeaderMemo" [maxDate]="launch.workflow.model.deadlineDate"
+                [minDate]="launch.currentDate" [showButtonBar]="true" selectionMode="single" [showIcon]="true"
+                (onClearClick)="clearReminder()" [disabled]="!launch.workflow.model.deadlineDate" dateFormat="dd-mm-yy"
                 [(ngModel)]="launch.workflow.model.reminderDate" name="reminderDate" [monthNavigator]="true"
                 [readonlyInput]="true" [yearNavigator]="true" yearRange="1900:2030" (onSelect)="selectReminder()">
               </p-calendar>
@@ -642,13 +646,11 @@
                     && (launch.documents.existing.model.actionType === 'Signature' || launch.documents.existing.model.actionType === 'Initial'))"
               *ngIf="actionTypes==='forward'" label="Forward"
               (click)="wiaAction.recipientRoleName ? forwardAsRole(wiaAction.recipientRoleId) : forwardAsCurrentUser(wiaAction.recipientEMPNo,wiaAction.recipientName)"></button>
-            <button pButton type="button"
-              [disabled]="wiaAction?.isMemo==0
+            <button pButton type="button" [disabled]="wiaAction?.isMemo==0
                     ? (launch.recipients.toList.length==0  || !launch.workflow.model.subject || !launch.workflow.model.actions
                     || launch.workflow.model.actions.length==0 || (launch.workflow.model.attachments.length==0 
                     && (launch.documents.existing.model.actionType === 'Signature' || launch.documents.existing.model.actionType === 'Initial')))
-                    :!launch.workflow.model.remarks"
-              *ngIf="actionTypes==='reply'" label="Reply"
+                    :!launch.workflow.model.remarks" *ngIf="actionTypes==='reply'" label="Reply"
               (click)="wiaAction.recipientRoleName ? replyAsRole(wiaAction.recipientRoleId) : replyAsCurrentUser(wiaAction.recipientEMPNo,wiaAction.recipientName)"></button>
             <button pButton type="button"
               [disabled]="launch.recipients.toList.length==0  || !launch.workflow.model.subject || !launch.workflow.model.actions
@@ -700,9 +702,9 @@
             <p-accordionTab header="Search Document" [selected]="true">
               <div>
                 <app-search-document (updateSearchResultCopy)="updateSearchResultCopy($event)" [isLaunchSearch]="true"
-                  [showSavedSearches]="true" 
-                  [dataTableComponentRef]="dataTableComponentRef" [data]="launch.documents.existing"
-                  [isSimpleSearch]="false" [screen]="'Launch'" [usage]="'popup'"></app-search-document>
+                  [showSavedSearches]="true" [dataTableComponentRef]="dataTableComponentRef"
+                  [data]="launch.documents.existing" [isSimpleSearch]="false" [screen]="'Launch'"
+                  [usage]="'popup'"></app-search-document>
               </div>
               <span class="white-text">a</span>
             </p-accordionTab>

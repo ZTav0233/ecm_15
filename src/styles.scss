@@ -133,6 +133,7 @@ body {
     font-feature-settings: 'liga';
 }
 .p-button.p-button-icon-only{
+    border-radius: 50% !important;
     height: 1.5rem !important;
     width: 1.5rem !important;
 }
@@ -141,6 +142,9 @@ body {
 }
 .ui-icon-reply:before {
     content: "reply";
+}
+.ui-icon-apps::before{
+    content:"apps"
 }
 
 .ui-icon-reply-all:before {
