@@ -5,7 +5,7 @@
         <p-accordionTab (click)="showListMembers($event,list.id,i)"
           [selected]="list.name==='Favourites'?isFavSelected:false">
           <p-header>
-            <i class="ui-icon-ac-h fa"
+            <i class="ui-icon-ac-h fa fa-fw"
               [ngClass]="{'fa fa-fw ui-icon-view-list':list.name !== 'Favourites','fa fa-fw ui-icon-star-border':list.name==='Favourites'}"></i>
             {{list.name==='Favourites'?'Favorites':list.name}}
           </p-header>

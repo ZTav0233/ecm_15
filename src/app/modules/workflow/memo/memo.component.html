@@ -147,7 +147,7 @@
                   <div class="ui-g-12 max-h-360">
                     <div class="ui-g-12 ui-md-12 ui-sm-12 "
                       *ngIf="launch.recipients.list.selectedUserList.lists && launch.recipients.list.selectedUserList.lists.length>0 ">
-                      <app-user [isNoFoundMessage]="true" [iconClass]="'fa ui-icon-view-list'" [showTooltip]="true"
+                      <app-user [isNoFoundMessage]="true" [iconClass]="'fa fa-fw ui-icon-view-list'" [showTooltip]="true"
                         [showAddBtn]="false" [actionType]="launch.documents.existing.model.actionType"
                         [showToBtn]="!letter" [showCcBtn]="!letter"
                         [isUserRoleNotList]="true" [items]="launch.recipients.list.selectedUserList.lists"
@@ -215,7 +215,7 @@
                   <div class="ui-g-12 max-h-360">
                     <div class="ui-g-12 ui-md-12 ui-sm-12 "
                       *ngIf="launch.recipients.list.selectedUserList.lists && launch.recipients.list.selectedUserList.lists.length>0 ">
-                      <app-user [isNoFoundMessage]="true" [iconClass]="'fa ui-icon-view-list'" [showTooltip]="true"
+                      <app-user [isNoFoundMessage]="true" [iconClass]="'fa fa-fw ui-icon-view-list'" [showTooltip]="true"
                         [showAddBtn]="false" [actionType]="launch.documents.existing.model.actionType"
                         [showToBtn]="!letter" [showCcBtn]="!letter"
                         [items]="launch.recipients.list.selectedUserList.lists" [field]="'name'"
@@ -255,7 +255,7 @@
                               *ngIf="launch.recipients.list.selectedUserList.lists && launch.recipients.list.selectedUserList.lists.length>0 &&
                                           !(launch.documents.existing.model.actionType=='Signature' || launch.documents.existing.model.actionType=='Initial')">
                               <app-user [isNoAlternateRows]="true" [isNoFoundMessage]="true"
-                                [iconClass]="'fa ui-icon-view-list'" [showTooltip]="true" [showAddBtn]="false"
+                                [iconClass]="'fa fa-fw ui-icon-view-list'" [showTooltip]="true" [showAddBtn]="false"
                                 [showToBtn]="!letter" [showCcBtn]="!letter"
                                 [actionType]="launch.documents.existing.model.actionType"
                                 [items]="launch.recipients.list.selectedUserList.lists" [field]="'name'"
