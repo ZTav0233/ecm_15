@@ -381,26 +381,6 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
     });
   }
 
-  // getETDefaultOrgCodeConfigValue(){
-  //   this.configService.getAppConfigurationValue('ET_DEFAULT_ORGCODE').subscribe(config => {
-  //     this.et_default_orgcode = JSON.parse(config)
-  //     console.log(this.et_default_orgcode)
-     
-  //   }, err => {
-  //     this.busy = false;
-  //   });
-  // }
-
-  // getETDefaultDateConfigValue(){
-  //   this.configService.getAppConfigurationValue('ET_DEFAULT_DATE').subscribe(config => {
-  //     this.et_default_date = JSON.parse(config)
-  //     console.log(this.et_default_orgcode)
-     
-  //   }, err => {
-  //     this.busy = false;
-  //   });
-  // }
-
 
   selectDefaultFolder(defaultFolderId) {
     this.cs.getFolderDetails(defaultFolderId).subscribe(data => this.getMainFolders(data, true));

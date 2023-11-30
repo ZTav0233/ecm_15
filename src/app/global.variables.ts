@@ -25,6 +25,9 @@ export let date_disable_action = '01/01/2005';
 export let search_page_size = 50;
 export let stop_word_message = {message:"The entered text is a stop word, please enter more words or change it"};
 export let et_dependent_lookup = "Test ET Dependent ChoiceList:ReferenceNo:DocType";
+export let et_adv_search = ["search all documents", "correspondence"];
+export let sign_xPos = '285';
+export let sign_yPos = '15';
 export let times = [
     { id: 1, label: '12:00 AM', value: { id: 1, time: '12:00 AM' }, disabled: false },
     { id: 2, label: '12:15 AM', value: { id: 2, time: '12:15 AM' }, disabled: false },
