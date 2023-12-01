@@ -40,6 +40,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public user = new User();
   public currentUser: any = {};
   public selectedTabIndex: number = 0;
+  public tabIndex: number = 0;
   public busy: boolean = true;
   private subscriptions: any[] = [];
   public dashboardStatistics: any = [];
@@ -150,7 +151,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       window.parent.postMessage(pageClickRefresh + ':AfterReload', '*');
     }
     else {
-      // this.selectedTabIndex = 0;
       this.breadcrumbService.setItems([
         { label: 'Dashboard' },
         // {label: 'Dashboard', routerLink: ['/']}
@@ -567,7 +567,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (data[0].read > 0) {
           if (workitemType=='inbox') {
             this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data.push(data[0].read);
-            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[1]?.data?.push(0);
+            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[1].data.push(0);
           }else{
             this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data.push(data[0].read);
           }
@@ -590,7 +590,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   tabChange(textLabel, index) {
     console.log("textLabel, index",textLabel, index);
     
-    this.currentUser = this.us.getCurrentUser();
+    // this.currentUser = this.us.getCurrentUser();
+    // console.log(this.currentUser);
+    
     this.selectedTabIndex = index;
     this.breadcrumbService.dashboardTabSelected = this.selectedTabIndex + '@' + textLabel;
     let type;
