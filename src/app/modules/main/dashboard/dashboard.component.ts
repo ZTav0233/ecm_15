@@ -251,8 +251,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
 
         if (this.currentUser.roles.length > 0) {
-        //this.tabChange(this.currentUser.roles[0].name, 1);
-        // this.selectedTabIndex = 1;
         } else {
          this.getUserStat(this.currentUser.EmpNo);
         }
@@ -569,7 +567,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (data[0].read > 0) {
           if (workitemType=='inbox') {
             this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data.push(data[0].read);
-            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[1].data.push(0);
+            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[1]?.data?.push(0);
           }else{
             this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data.push(data[0].read);
           }
@@ -590,6 +588,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   tabChange(textLabel, index) {
+    console.log("textLabel, index",textLabel, index);
+    
     this.currentUser = this.us.getCurrentUser();
     this.selectedTabIndex = index;
     this.breadcrumbService.dashboardTabSelected = this.selectedTabIndex + '@' + textLabel;

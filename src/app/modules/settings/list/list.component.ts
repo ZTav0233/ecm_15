@@ -10,6 +10,7 @@ import * as $ from 'jquery';
 import { CoreService } from "../../../services/core.service";
 import * as _ from "lodash";
 import { NavigationEnd, NavigationStart, Router } from "@angular/router";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-list',
@@ -17,6 +18,7 @@ import { NavigationEnd, NavigationStart, Router } from "@angular/router";
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit, OnDestroy {
+  @ViewChild('dt1') dataTable1!: Table;
   public user: User;
   private subscriptions: Subscription[] = [];
   public userList: any;
@@ -152,7 +154,13 @@ export class ListComponent implements OnInit, OnDestroy {
       this.busy = false;
     });
   }
-
+  applyFilterGlobal2($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value);
+    this.dataTable1.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
   showListMembers(event, listid, i) {
     // if(!this.isBtnDisabled ){
     //   alert('proceed without saving?');

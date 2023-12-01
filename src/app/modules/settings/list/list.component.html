@@ -125,12 +125,19 @@
           </ng-template>
         </p-column>
       </p-dataTable> -->
-      <p-table [value]="listUsers"
-        [styleClass]="'list-max-h-365 p-datatable-sm p-datatable-striped p-datatable-gridlines'" [responsive]="true">
+      <p-table [value]="listUsers" #dt1
+        [styleClass]="'list-max-h-365 p-datatable-sm p-datatable-striped p-datatable-gridlines'" 
+        [responsive]="true" [globalFilterFields]="['fulName']">
         <ng-template pTemplate="caption">
           <div class="flex align-items-center justify-content-center">
             Selected Users/Roles
           </div>
+          <input
+          pInputText
+          type="text"
+          (input)="applyFilterGlobal2($event, 'contains')"
+          placeholder="Search keyword"
+        />
         </ng-template>
         <ng-template pTemplate="body" let-value let-ri="rowIndex">
           <tr>
