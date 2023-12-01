@@ -109,18 +109,9 @@
           <div class="ui-g-12 ui-lg-4 p-r-0">
             <div class="task-box task-box-3 chart-card">
               <div class="task-box-header">
-                <!--<h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].overDue.active">Workitems Over Due: <span style="float: right;">-->
-                <!--{{dashboardStatistics[this.currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].overDue.total}} Workitems</span>-->
-                <!--</h4>-->
-                <!--<h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].dueToday.active">Workitems Due Today: <span style="float: right;">-->
-                <!--{{dashboardStatistics[this.currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].dueToday.total}} Workitems</span>-->
-                <!--</h4>-->
                 <h4 style="color:white" class="m-0">Workitems Due Today & Overdue</h4>
               </div>
               <div class="task-box-content">
-                <!--<ng-container *ngIf="dashboardStatistics[this.currentUser.EmpNo].deadline.all.total>0">-->
-                <!--<p-chart type="pie" [datasets]="dashboardStatistics[this.currentUser.EmpNo].deadline.all.chartData" role="button" (onDataSelect)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'deadline','')"></p-chart>-->
-                <!--</ng-container>-->
                 <ng-container
                   *ngIf="dashboardStatistics[this.currentUser.EmpNo].deadline[dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].overDue.total>0">
                   <canvas
@@ -143,8 +134,6 @@
                 </ng-container>
               </div>
               <div class="task-box-footer">
-                <!--<div class="row" style="min-height:35px;">-->
-                <!--</div>-->
                 <div class="pull-left">
                   <p-selectButton [options]="dueWorkitemTypes"
                     (click)="changeActiveWorkitemView(dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType,this.currentUser.EmpNo)"
@@ -279,18 +268,9 @@
                 <div class="ui-g-12 ui-lg-4 p-r-0">
                   <div class="task-box task-box-3 chart-card">
                     <div class="task-box-header">
-                      <!--<h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].overDue.active" >Workitems Over Due: <span style="float: right;">-->
-                      <!--{{dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].overDue.total}} Workitems</span>-->
-                      <!--</h4>-->
-                      <!--<h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].dueToday.active" >Workitems Due Today: <span style="float: right;">-->
-                      <!--{{dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].dueToday.total}} Workitems</span>-->
-                      <!--</h4>-->
                       <h4 style="color:white" class="m-0">Workitems Due Today & Overdue</h4>
                     </div>
                     <div class="task-box-content">
-                      <!--<ng-container *ngIf="dashboardStatistics[role.id].deadline.all.total>0">-->
-                      <!--<p-chart type="pie" [datasets]="dashboardStatistics[role.id].deadline.all.chartData" role="button" (onDataSelect)="onSelect($event,'Role',role.name,role.id,'deadline','')"></p-chart>-->
-                      <!--</ng-container>-->
                       <ng-container
                         *ngIf="dashboardStatistics[role.id].deadline[dashboardStatistics[role.id].deadline.selectedWorkitemType].overDue.total>0">
                         <canvas
@@ -449,19 +429,9 @@
                 <div class="ui-g-12 ui-lg-4 p-r-0">
                   <div class="task-box task-box-3 chart-card">
                     <div class="task-box-header">
-                      <!--<h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].overDue.active">Workitems Over Due: <span style="float: right;">-->
-                      <!--{{dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].overDue.total}} Workitems</span>-->
-                      <!--</h4>-->
-                      <!--<h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].dueToday.active">Workitems Due Today: <span style="float: right;">-->
-                      <!--{{dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].dueToday.total}} Workitems</span>-->
-                      <!--</h4>-->
                       <h4 style="color:white" class="m-0">Workitems Due Today & Overdue</h4>
                     </div>
                     <div class="task-box-content">
-                      <!--<ng-container *ngIf="dashboardStatistics[delegate.userId].deadline.all.total>0">-->
-                      <!--<p-chart type="pie" [datasets]="dashboardStatistics[delegate.userId].deadline.all.chartData" role="button" (onDataSelect)="onSelect($event,'Del',delegate.delName,delegate.userId,'deadline','')"></p-chart>-->
-                      <!--</ng-container>-->
-
                       <ng-container
                         *ngIf="dashboardStatistics[delegate.userId].deadline[dashboardStatistics[delegate.userId].deadline.selectedWorkitemType].overDue.total>0">
                         <canvas
@@ -484,8 +454,6 @@
                       </ng-container>
                     </div>
                     <div class="task-box-footer">
-                      <!--<div class="row" style="min-height:35px;">-->
-                      <!--</div>-->
                       <div class="pull-left">
                         <p-selectButton [options]="dueWorkitemTypes"
                           (click)="changeActiveWorkitemView(dashboardStatistics[delegate.userId].deadline.selectedWorkitemType,delegate.userId)"
