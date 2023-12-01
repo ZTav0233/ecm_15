@@ -4,8 +4,6 @@
       (click)="goToInbox(false)"></button>
   </div>
   <div class="ui-g-12 p-0">
-    
-    
     <mat-tab-group (selectedTabChange)="tabChange($event.tab.textLabel,selectedTabIndex)"
       [(selectedIndex)]="selectedTabIndex" [@.disabled]="true">
       <mat-tab label="{{currentUser.fulName}}">

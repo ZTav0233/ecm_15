@@ -16,7 +16,7 @@
             </div>
           </div>
         </div> -->
-      <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [value]="configurationList['SYSTEM']"
+        <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [value]="configurationList['SYSTEM']"
               [rows]="itemsPerPage" [paginator]="true" [responsive]="true" [globalFilter]="gb">
               <p-column *ngFor="let colHeader of colHeaders" [sortable]="true" [field]="colHeader.field"
                 [header]="colHeader.header" [hidden]="colHeader.hidden" [style]="{'max-width': '500px','overflow-wrap': 'break-word'}"
@@ -28,43 +28,50 @@
                 </ng-template>
               </p-column>
             </p-dataTable> -->
-      <p-table [value]="configurationList['SYSTEM']" #dt
-        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
-        [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
-        [globalFilterFields]="['keyName', 'keyDesc', 'value', 'modifiedBy']">
-        <ng-template pTemplate="caption">
-          <span class="p-input-icon-left ml-auto">
-            <!--<i class="pi pi-search"></i>-->
-            <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
-              placeholder="Search keyword" />
-          </span>
-          <button class="autorenew" pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh"
-            (click)="reset()"></button>
-        </ng-template>
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Key Name <p-columnFilter type="text" field="keyName" display="menu"></p-columnFilter></th>
-            <th pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
-            <th pSortableColumn="keyDesc">Description<p-sortIcon field="keyDesc"></p-sortIcon></th>
-            <th pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
-            <th pSortableColumn="modifiedDate">Modified Date<p-sortIcon field="modifiedDate"></p-sortIcon></th>
-            <th></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product>
-          <tr>
-            <td>{{ product.keyName }}</td>
-            <td>{{ product.value }}</td>
-            <td>{{ product.keyDesc }}</td>
-            <td>{{ product.modifiedBy }}</td>
-            <td>{{ product.modifiedDate }}</td>
-            <td>
-              <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit"
-                (click)="prepareEdit(product,'SYSTEM');showEditKeyValue=true;" class="remove-btn v-m"></button>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+        <p-table [value]="configurationList['SYSTEM']" #dt
+          styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
+          [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }" [globalFilterFields]="['keyName', 'keyDesc', 'value', 'modifiedBy']">
+          <ng-template pTemplate="caption"> 
+              <span class="p-input-icon-left ml-auto">
+              <!--<i class="pi pi-search"></i>--> 
+              <input
+                pInputText
+                type="text"
+                (input)="applyFilterGlobal($event, 'contains')"
+                placeholder="Search keyword"
+              />
+            </span>
+            <button class="autorenew"
+            pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="reset()"></button>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th >Key Name <p-columnFilter
+                type="text"
+                field="keyName"
+                display="menu"
+              ></p-columnFilter></th>
+              <th pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
+              <th pSortableColumn="keyDesc">Description<p-sortIcon field="keyDesc"></p-sortIcon></th>
+              <th pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
+              <th pSortableColumn="modifiedDate">Modified Date<p-sortIcon field="modifiedDate"></p-sortIcon></th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr>
+              <td>{{ product.keyName }}</td>
+              <td>{{ product.value }}</td>
+              <td>{{ product.keyDesc }}</td>
+              <td>{{ product.modifiedBy }}</td>
+              <td>{{ product.modifiedDate }}</td>
+              <td>
+                <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit"
+                  (click)="prepareEdit(product,'SYSTEM');showEditKeyValue=true;" class="remove-btn v-m"></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
 
       <!-- </div> -->
     </p-accordionTab>
@@ -85,7 +92,7 @@
             </div>
           </div>
         </div> -->
-      <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [value]="configurationList['APP']"
+        <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [value]="configurationList['APP']"
               [rows]="itemsPerPage" [paginator]="true" [responsive]="true" [globalFilter]="gb2">
               <p-column *ngFor="let colHeader of colHeaders" [sortable]="true" field="{{colHeader.field}}"
                 header="{{colHeader.header}}" [hidden]="colHeader.hidden" [style]="{'max-width': '500px','overflow-wrap': 'break-word'}"
@@ -97,45 +104,52 @@
                 </ng-template>
               </p-column>
             </p-dataTable> -->
-      <p-table [value]="configurationList['APP']" #dt1
-        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
-        [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
-        [globalFilterFields]="['keyName', 'country.name', 'representative.name', 'status']">
-        <ng-template pTemplate="caption">
-          <span class="p-input-icon-left ml-auto">
-            <!--<i class="pi pi-search"></i>-->
-            <input pInputText type="text" (input)="applyFilterGlobal1($event, 'contains')"
-              placeholder="Search keyword" />
-          </span>
-          <button class="autorenew" pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh"
-            (click)="reset()"></button>
-        </ng-template>
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Key Name<p-columnFilter type="text" field="name" display="menu"></p-columnFilter></th>
-            <th pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
-            <th pSortableColumn="keyDesc">Description<p-sortIcon field="keyDesc"></p-sortIcon></th>
-            <th pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
-            <th pSortableColumn="modifiedDate">Modified Date<p-sortIcon field="modifiedDate"></p-sortIcon></th>
-            <th></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product>
-          <tr>
-            <td>{{ product.keyName }}</td>
-            <td>{{ product.value }}</td>
-            <td>{{ product.keyDesc }}</td>
-            <td>{{ product.modifiedBy }}</td>
-            <td>{{ product.modifiedDate }}</td>
-            <td>
-              <!-- <ng-template let-r="rowData" pTemplate="body"> -->
-              <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit"
-                (click)="prepareEdit(product,'SYSTEM');showEditKeyValue=true;" class="remove-btn v-m"></button>
-              <!-- </ng-template> -->
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+        <p-table [value]="configurationList['APP']" #dt1
+          styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
+          [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }" [globalFilterFields]="['keyName', 'country.name', 'representative.name', 'status']">
+          <ng-template pTemplate="caption">
+            <span class="p-input-icon-left ml-auto">
+              <!--<i class="pi pi-search"></i>--> 
+              <input
+                pInputText
+                type="text"
+                (input)="applyFilterGlobal1($event, 'contains')"
+                placeholder="Search keyword"
+              />
+            </span>
+            <button class="autorenew"
+            pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="reset()"></button>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Key Name<p-columnFilter
+                type="text"
+                field="name"
+                display="menu"
+              ></p-columnFilter></th>
+              <th pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
+              <th pSortableColumn="keyDesc">Description<p-sortIcon field="keyDesc"></p-sortIcon></th>
+              <th pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
+              <th pSortableColumn="modifiedDate">Modified Date<p-sortIcon field="modifiedDate"></p-sortIcon></th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr>
+              <td>{{ product.keyName }}</td>
+              <td>{{ product.value }}</td>
+              <td>{{ product.keyDesc }}</td>
+              <td>{{ product.modifiedBy }}</td>
+              <td>{{ product.modifiedDate }}</td>
+              <td>
+                <!-- <ng-template let-r="rowData" pTemplate="body"> -->
+                <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit"
+                  (click)="prepareEdit(product,'SYSTEM');showEditKeyValue=true;" class="remove-btn v-m"></button>
+                <!-- </ng-template> -->
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
       <!-- </div> -->
     </p-accordionTab>
     <p-accordionTab header="Log" [selected]="false">
@@ -154,7 +168,7 @@
             </div>
           </div>
         </div> -->
-      <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [value]="configurationList['LOG']"
+        <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [value]="configurationList['LOG']"
               [rows]="itemsPerPage" [paginator]="true" [responsive]="true" [globalFilter]="gb3">
               <p-column *ngFor="let colHeader of colHeaders" [sortable]="true" field="{{colHeader.field}}"
                 header="{{colHeader.header}}" [hidden]="colHeader.hidden" [style]="{'max-width': '500px','overflow-wrap': 'break-word'}"
@@ -166,45 +180,52 @@
                 </ng-template>
               </p-column>
             </p-dataTable> -->
-      <p-table [value]="configurationList['LOG']" #dt2
-        [globalFilterFields]="['keyName', 'country.name', 'representative.name', 'status']"
-        styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
-        [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
-        <ng-template pTemplate="caption">
-          <span class="p-input-icon-left ml-auto">
-            <!--<i class="pi pi-search"></i>-->
-            <input pInputText type="text" (input)="applyFilterGlobal2($event, 'contains')"
-              placeholder="Search keyword" />
-          </span>
-          <button class="autorenew" pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh"
-            (click)="reset()"></button>
+        <p-table [value]="configurationList['LOG']" #dt2 [globalFilterFields]="['keyName', 'country.name', 'representative.name', 'status']"
+          styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
+          [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="caption">  
+            <span class="p-input-icon-left ml-auto">
+            <!--<i class="pi pi-search"></i>--> 
+            <input
+              pInputText
+              type="text"
+              (input)="applyFilterGlobal2($event, 'contains')"
+              placeholder="Search keyword"
+            />
+          </span> 
+          <button class="autorenew"
+            pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="reset()"></button>
         </ng-template>
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Key Name <p-columnFilter type="text" field="keyName" display="menu"></p-columnFilter></th>
-            <th pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
-            <th pSortableColumn="keyDesc">Description<p-sortIcon field="keyDesc"></p-sortIcon></th>
-            <th pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
-            <th pSortableColumn="modifiedDate">Modified Date<p-sortIcon field="modifiedDate"></p-sortIcon></th>
-            <th></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product>
-          <tr>
-            <td>{{ product.keyName }}</td>
-            <td>{{ product.value }}</td>
-            <td>{{ product.keyDesc }}</td>
-            <td>{{ product.modifiedBy }}</td>
-            <td>{{ product.modifiedDate }}</td>
-            <td>
-              <!-- <ng-template let-r="rowData" pTemplate="body"> -->
-              <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit"
-                (click)="prepareEdit(product,'SYSTEM');showEditKeyValue=true;" class="remove-btn v-m"></button>
-              <!-- </ng-template> -->
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+          <ng-template pTemplate="header">
+            <tr>
+              <th >Key Name <p-columnFilter
+                type="text"
+                field="keyName"
+                display="menu"
+              ></p-columnFilter></th>
+              <th pSortableColumn="value">Value<p-sortIcon field="value"></p-sortIcon></th>
+              <th pSortableColumn="keyDesc">Description<p-sortIcon field="keyDesc"></p-sortIcon></th>
+              <th pSortableColumn="modifiedBy">Modified By<p-sortIcon field="modifiedBy"></p-sortIcon></th>
+              <th pSortableColumn="modifiedDate">Modified Date<p-sortIcon field="modifiedDate"></p-sortIcon></th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr>
+              <td>{{ product.keyName }}</td>
+              <td>{{ product.value }}</td>
+              <td>{{ product.keyDesc }}</td>
+              <td>{{ product.modifiedBy }}</td>
+              <td>{{ product.modifiedDate }}</td>
+              <td>
+                <!-- <ng-template let-r="rowData" pTemplate="body"> -->
+                <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit"
+                  (click)="prepareEdit(product,'SYSTEM');showEditKeyValue=true;" class="remove-btn v-m"></button>
+                <!-- </ng-template> -->
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
       <!-- </div> -->
     </p-accordionTab>
   </p-accordion>

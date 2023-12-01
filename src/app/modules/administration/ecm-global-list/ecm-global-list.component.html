@@ -9,11 +9,11 @@
           </p-header>
           <div class="ui-g-12 roleSearch-box">
             <div class="ui-inputgroup">
-              <span class="md-inputfield " style="display: flex; width: 90%;">
+              <span class="md-inputfield ">
                 <input type="text" pInputText (input)="searchList()" (ngModelChange)="searchListName($event)"
                   placeholder="Search List" [(ngModel)]="distList.model.query" />
-                </span>
                 <i class="topbar-icon material-icons">search</i>
+              </span>
             </div>
           </div>
           <table class="ecm-table w-100">
@@ -29,7 +29,7 @@
               </td>
               <td align="right" class="action-btn-group">
                 <span class="action-btn-group-sm p-r-lg">
-                  <button style="padding: 3px;" pButton type="button" icon="fa fa-fw ui-icon-delete" title="Remove"
+                  <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Remove"
                     (click)="confirmRemoveLink($event,lst,user.EmpNo)"></button>
                 </span>
               </td>

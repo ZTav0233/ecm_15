@@ -15,31 +15,31 @@
           </td>
           <td align="right" class="action-btn-group">
             <span class="action-btn-group-sm">
-              <button style="padding: 3px;" *ngIf="showAddToToBtn"  pButton type="button" label="To" class="v-m" (click)="mAddToToList(node.data)"
+              <button *ngIf="showAddToToBtn"  pButton type="button" label="To" class="v-m" (click)="mAddToToList(node.data)"
                       [disabled]="node.data.disabled || (actionType==='Signature' && node.data.iseSignAllowed===0) ||
                        (actionType==='Initial' && node.data.isInitalAllowed===0) ||
                       (actionType==='Initial' && node.data.isInitialAllowed===0) ||
                       (actionType==='Initial' && node.data.isIntialAllowed===0)"
                       [ngClass]="{'hide-Important':!node.data.orgCode}"></button>
-              <button style="padding: 3px;" *ngIf="showAddToCCBtn" pButton type="button" label="CC" class="v-m" (click)="mAddToCCList(node.data)"
+              <button *ngIf="showAddToCCBtn" pButton type="button" label="CC" class="v-m" (click)="mAddToCCList(node.data)"
                       [disabled]="node.data.disabled || actionType==='Signature' || actionType==='Initial' || !node.data.orgCode"
                       [ngClass]="{'hide-Important':!node.data.orgCode}"></button>
-              <button style="padding: 3px;" *ngIf="fromMemo" pButton type="button" label="Thru" class="v-m" (click)="mAddToThruList(node.data)"
+              <button *ngIf="fromMemo" pButton type="button" label="Thru" class="v-m" (click)="mAddToThruList(node.data)"
                       [disabled]="node.data.disabled || actionType==='Signature' || actionType==='Initial' || !node.data.orgCode"
                       [ngClass]="{'hide-Important':!node.data.orgCode}"></button>
-              <button style="padding: 3px;" *ngIf="fromMemo" pButton type="button" label="Rev" class="v-m" (click)="mAddToRevList(node.data)"
+              <button *ngIf="fromMemo" pButton type="button" label="Rev" class="v-m" (click)="mAddToRevList(node.data)"
                       [disabled]="node.data.disabled || actionType==='Signature' || actionType==='Initial' || !node.data.orgCode"
                       [ngClass]="{'hide-Important':!node.data.orgCode}"></button>
-              <button style="padding: 3px;" *ngIf="fromMemo" pButton type="button" label="From" class="v-m" (click)="mAddToFromList(node.data)"
+              <button *ngIf="fromMemo" pButton type="button" label="From" class="v-m" (click)="mAddToFromList(node.data)"
                       [disabled]="node.data.disabled || actionType==='Signature' || actionType==='Initial' || !node.data.orgCode"
                       [ngClass]="{'hide-Important':!node.data.orgCode}"></button>
-              <button style="padding: 3px;" *ngIf="editRole && !node.leaf" pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit" class="remove-btn v-m"
+              <button *ngIf="editRole && !node.leaf" pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit" class="remove-btn v-m"
                       (click)="editRoleitem(node.data)"></button>
-              <button style="padding: 3px;" *ngIf="(editRole && !node.leaf)" pButton type="button" icon="fa fa-fw ui-icon-block" title="Deactivate" class="remove-btn v-m"
+              <button *ngIf="(editRole && !node.leaf)" pButton type="button" icon="fa fa-fw ui-icon-block" title="Deactivate" class="remove-btn v-m"
                       (click)="deleteRole(node.data)"></button>
-              <button style="padding: 3px;" pButton type="button" icon="fa fa-fw ui-icon-remove" (click)="mRemoveItem(node)" title="Remove"
+              <button pButton type="button" icon="fa fa-fw ui-icon-remove" (click)="mRemoveItem(node)" title="Remove"
                       class="remove-btn v-m" *ngIf="showRemoveItemBtn && node.leaf" title="Remove"></button>
-              <button style="padding: 3px;" pButton type="button" icon="fa fa-fw ui-icon-add" (click)="mAddChildren(node)" class="remove-btn v-m pull-right"
+              <button pButton type="button" icon="fa fa-fw ui-icon-add" (click)="mAddChildren(node)" class="remove-btn v-m pull-right"
                       *ngIf="showAddChildBtn" [disabled]="node.data.disabled || !node.data.orgCode"></button>
             </span>
           </td>
