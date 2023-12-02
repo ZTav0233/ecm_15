@@ -42,5 +42,3 @@ testem.log
 Thumbs.db
 src/app/global.variables.ts
 src/index.html
-src/index.html
-src/app/global.variables.ts
