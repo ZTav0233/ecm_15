@@ -897,7 +897,7 @@ p-chips.p-chips-clearable .p-chips-clear-icon {
 }
 
 .p-dropdown .p-dropdown-label.p-placeholder {
-  color: white;
+  /* color: white; */
   font-weight: 700;
 }
 
