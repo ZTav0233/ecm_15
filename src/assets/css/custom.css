@@ -68,6 +68,23 @@ input[type=text]::-ms-clear {
   margin-left: 5px;
 }
 
+.ui-state-active, body .ui-state-highlight {
+    background-color: #7CB342;
+    color: #ffffff !important;
+}
+
+.p-state-active,
+body .p-state-highlight {
+  background-color: #7CB342;
+  color: #ffffff !important;
+}
+
+.highlighted {
+  background-color: #7CB342;
+  color: white !important;
+  width: 100%;
+}
+
 .m-l-md {
   margin-left: 10px;
 }
@@ -1480,6 +1497,14 @@ body p-accordion .p-accordion .p-accordion-header>a {
   padding: 0.5em;
 }
 
+.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+    background: #7CB342 !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
 body p-paginator .p-paginator .p-paginator-prev,
 body p-paginator .p-paginator .p-paginator-first,
 body p-paginator .p-paginator .p-paginator-next,
@@ -2056,12 +2081,6 @@ body .p-splitbutton .p-menu {
   word-wrap: break-word;
 }
 
-.p-state-active,
-body .p-state-highlight {
-  background-color: #7CB342;
-  color: #ffffff !important;
-}
-
 #tempMenu .p-menu-child,
 #configMenu .p-menu-child,
 #manageMenu .p-menu-child {
@@ -2117,11 +2136,6 @@ body .p-state-highlight {
   overflow-y: scroll;
 }
 
-.highlighted {
-  background-color: #7CB342;
-  color: white !important;
-  width: 100%;
-}
 
 .max-h-150 {
   max-height: 150px;
