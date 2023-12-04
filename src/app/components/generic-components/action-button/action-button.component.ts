@@ -73,7 +73,7 @@ export class ActionButtonComponent implements OnInit, OnChanges {
         if (action === 'Finish') {
           this.tieredItems.push({
             label: 'Finish',
-            icon: 'pi pi-minus-circle', command: (event) => {
+            icon: 'fa fa-fw ui-icon-remove-circle', command: (event) => {
               this.selectedAction.emit('Finish');
             },
             disabled: this.disableAction || this.tabStatus == 'INACTIVE'
@@ -81,7 +81,7 @@ export class ActionButtonComponent implements OnInit, OnChanges {
         } else if (action === 'Finish Before') {
           this.tieredItems.push({
             label: 'Finish Before',
-            icon: 'pi pi-calendar', command: (event) => {
+            icon: 'fa fa-fw ui-icon-today', command: (event) => {
               this.selectedAction.emit('Finish Before');
             },
             disabled: this.totalTableRecords < 0  || this.tabStatus == 'INACTIVE'

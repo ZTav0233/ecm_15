@@ -370,6 +370,15 @@ body {
 .ui-icon-directions-walk::before{
     content: "directions_walk";
 }
+.ui-icon-shopping-cart::before{
+    content: "shopping_cart";
+}
+.ui-icon-remove-circle::before{
+    content: "remove_circle";
+}
+.ui-icon-today::before{
+    content: "today";
+}
 .p-datatable-resizable-table>.p-datatable-thead>tr>th, .p-datatable-resizable-table>.p-datatable-tfoot>tr>td, .p-datatable-resizable-table>.p-datatable-tbody>tr>td {
     white-space: inherit !important;
 }

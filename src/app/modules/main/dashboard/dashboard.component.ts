@@ -566,16 +566,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.dashboardStatistics[id].deadline[workitemType][itemType].total = data[0].total;
         if (data[0].read > 0) {
           if (workitemType=='inbox') {
-            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data.push(data[0].read);
-            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[1].data.push(0);
+            this.dashboardStatistics[id].deadline[workitemType][itemType]?.chartData[0]?.data?.push(data[0].read);
+            this.dashboardStatistics[id].deadline[workitemType][itemType]?.chartData[1]?.data?.push(0);
           }else{
-            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data.push(data[0].read);
+            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data?.push(data[0].read);
           }
         } else {
-          this.dashboardStatistics[id].deadline[workitemType][itemType].chartData.push('');
+          this.dashboardStatistics[id].deadline[workitemType][itemType].chartData?.push('');
         }
         if (data[0].unread > 0) {
-          this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data.push(data[0].unread);
+          this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0]?.data?.push(data[0].unread);
         } else {
           this.dashboardStatistics[id].deadline[workitemType][itemType].chartData.push('');
         }        

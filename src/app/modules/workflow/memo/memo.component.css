@@ -103,3 +103,9 @@
 .ui-radiobutton-label-memo {
   padding: 2px 20px 2px 15px;
 }
+
+.border-container{
+  border: solid rgba(0, 0, 0, 0.12);
+    border-width: 1px;
+    border-radius: 4px;
+}

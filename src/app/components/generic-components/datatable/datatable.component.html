@@ -300,22 +300,22 @@
       responsiveLayout="stack" [breakpoint]="'960px'" [(selection)]="selectedRows"
       (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
       [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
-      [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
+      [rows]="itemsPerPage"  [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
       [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt [paginator]="true"
       [globalFilterFields]="['subject']">
       <ng-template pTemplate="caption">
         <div style="display: flex; justify-content: space-between;">
           <p-columnFilter type="text" field="subject"></p-columnFilter>
-          <div>
+          <div style="display: flex;align-items: center;">
             <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
               selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
               placeholder="Choose Columns" style="margin-right: 45px"></p-multiSelect>
-            <div style="color: white;"
+            <!-- <div style="color: white;"
               *ngIf="router.url.includes('draft') && !(router.url.includes('draftLaunch')) && totalCount>1"
               class="pull-right m-5">
               Total Items: {{totalCount}}
-            </div>
-            <button class="autorenew"
+            </div> -->
+            <button class="autorenew" style="padding: 0;"
               [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
               pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"></button>
           </div>
@@ -503,17 +503,17 @@
       responsiveLayout="stack" [breakpoint]="'960px'" [(selection)]="selectedRows"
       (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
       [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
-      [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
+      [rows]="itemsPerPage"  [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
       [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt [paginator]="true"
       [globalFilterFields]="['subject']">
       <ng-template pTemplate="caption" *ngIf="activePage!='draft'">
         <div style="display: flex; justify-content: space-between;">
           <p-columnFilter type="text" field="subject"></p-columnFilter>
-          <div>
+          <div style="display: flex;align-items: center;">
             <p-multiSelect (onChange)="onChange($event)" [options]="colHeaders" [(ngModel)]="cols" optionLabel="header"
               selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
               placeholder="Choose Columns" style="margin-right: 45px"></p-multiSelect>
-            <button class="autorenew"
+            <button class="autorenew" style="padding: 0;"
               [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
               pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"></button>
           </div>
