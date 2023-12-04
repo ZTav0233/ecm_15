@@ -3,7 +3,7 @@
   <button pButton class="pull-right" type="button" label="Export" (click)="exportToExcel();"></button>
 </div>
 <div style="margin-top: 80px; display: flex;">
-  <div >
+  <div style=" border: solid rgba(0, 0, 0, 0.12); border-width: 1px;border-radius: 4px;">
     <p-tabView (onChange)="tabChange($event)" [(activeIndex)]="activeTab">
       <p-tabPanel header="Role Tree" leftIcon="fa fa-fw ui-icon-list">
         <div *ngIf="activeTab===0">
@@ -36,7 +36,7 @@
                 [(ngModel)]="roleData.roles.model.roleSearchType" [placeholder]="'Select'"
                 (onChange)="searchRoleTypeChanged($event)" id="searchRoleType"></p-dropdown>
               <span *ngIf="roleData.roles.model.roleSearchType==='User'" class="md-inputfield">
-  
+
                 <p-autoComplete [(ngModel)]="roleData.roles.model.userSearchText"
                   [suggestions]="roleData.roles.searchSuggestions" (completeMethod)="searchUsers($event)"
                   (onSelect)="usersSelected($event);" (onClear)="searchCleared($event)" field="fulName" [size]="30"
@@ -70,23 +70,18 @@
               </span>
             </div>
           </div> -->
-  
+
           <div class="max-h-500 ui-g-12 border-none p-0">
-  
-            <p-table [value]="deactRoles" [resizableColumns]="true" #dt1
-            [globalFilterFields]="['name', 'typeText']"
+
+            <p-table [value]="deactRoles" [resizableColumns]="true" #dt1 [globalFilterFields]="['name', 'typeText']"
               styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
               [tableStyle]="{ 'min-width': '25rem' }">
-              <ng-template pTemplate="caption"> 
+              <ng-template pTemplate="caption">
                 <span class="p-input-icon-left ml-auto">
-                  <!-- <!--<i class="pi pi-search"></i>--> 
-                  <input
-                    pInputText
-                    type="text"
-                    (input)="applyFilterGlobal($event, 'contains')"
-                    placeholder="Search keyword"
-                  />
-                </span>  
+                  <!-- <!--<i class="pi pi-search"></i>-->
+                  <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                    placeholder="Search keyword" />
+                </span>
               </ng-template>
               <ng-template pTemplate="header">
                 <tr>
@@ -102,12 +97,12 @@
                   <td>{{ product.name }}</td>
                   <td>{{ product.typeText }}</td>
                   <td>
-                    <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete" (click)="deleteRole(product)"
-                      class="remove-btn v-m pull-right"></button>
-                    <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit" (click)="editRoleItem(product)"
-                      class="remove-btn v-m pull-right"></button>
-                    <button pButton type="button" icon="fa fa-fw ui-icon-check" title="Activate" (click)="activateRole(product)"
-                      class="remove-btn v-m pull-right"></button>
+                    <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete"
+                      (click)="deleteRole(product)" class="remove-btn v-m pull-right"></button>
+                    <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit"
+                      (click)="editRoleItem(product)" class="remove-btn v-m pull-right"></button>
+                    <button pButton type="button" icon="fa fa-fw ui-icon-check" title="Activate"
+                      (click)="activateRole(product)" class="remove-btn v-m pull-right"></button>
                     <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info"
                       (click)="infoRole(product);showInfoDialog=true;" class="remove-btn v-m pull-right"></button>
                   </td>
@@ -119,7 +114,7 @@
       </p-tabPanel>
     </p-tabView>
   </div>
-  <div class="split-pane-content-secondary" style="margin-top: 140px;">
+  <div class="split-pane-content-secondary" style="width: 100%; margin: o 10px;">
     <div class="lower">
       <div class=" p-t-0 p-r-0 p-b-0"
         *ngIf="(roleData.roles.selectedRole && activeTab===0) || (roleTreeData.roles.selectedRole && activeTab===1)">
@@ -208,8 +203,8 @@
                 <div class="ui-g form-group">
                   <div class="ui-g-12 ui-md-12 p-l-0">
                     <button pButton type="submit" label="Search" class="pull-right m-l-md"></button>
-                    <button pButton type="button" (click)="searchUserForm.reset();roleData.roles.result=[];" label="Clear"
-                      class="pull-right"></button>
+                    <button pButton type="button" (click)="searchUserForm.reset();roleData.roles.result=[];"
+                      label="Clear" class="pull-right"></button>
                   </div>
                 </div>
               </form>
