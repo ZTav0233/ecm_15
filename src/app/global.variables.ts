@@ -1,13 +1,13 @@
 'use strict';
-export let base_url = 'http://mvcsecmtesticn.kockw.com:9082/ecmfnapp/resources/';
-export let report_url = 'http://mvcsecmtesticn.kockw.com:9082/ECMService/resources/';
-export let sectool_url = 'http://mvcsecmtesticn.kockw.com:9082/ECMService/resources/';
-export let integration_url = 'http://mvcsecmtesticn.kockw.com:9082/';
-export let winxt_url = 'http://mvcsecmtesticn.kockw.com:9082/navigator/bookmark.jsp?desktop=ECMICN&repositoryId=UAT';
-export let esign_url = 'http://mvcsecmtesticn.kockw.com:9082/icnesign/';
-export let esign_complete = 'http://mvcsecmtesticn.kockw.com:9082/icnesign/eSignatureComplete';
-export let esign_New_complete = 'http://mvcsecmtesticn.kockw.com:9082/ecmfnapp/resources/ESignService/completeNewSign?id=';//*/
+// export let base_url = 'http://mvcsecmtesticn:9082/ecmfnapp/resources/';
+export let base_url = 'http://ecmdemo1:9080/ECMService/resources/';
+// export let base_url = 'http://169.254.144.3:9080/ECMService/resources/'
+export let report_url = 'http://192.168.0.39:9080/ECMService/resources/';
+export let sectool_url = 'http://192.168.0.39:9080/ECMService/resources/';
+export let integration_url = 'http://mvcsecmtesticn:9082/';
 export let entry_app_url = 'https://ecmcap.kockw.com/ECMEntry/ECMEntry.application';
+export let winxt_url = 'http://192.168.0.39:9080/navigator/bookmark.jsp?desktop=ECM&repositoryId=ECM';
+export let esign_url = 'http://mvcsecmtesticn:9080/icnesign/';
 export let no_doc_found = 'No Documents Found';
 export let no_workitem_found = 'No Items Found';
 export let no_news = 'No News Found';
@@ -16,18 +16,15 @@ export let username = 'fatima';
 export let integ_prop = ['Id', 'Date Created'];
 export let fold = "Top Management";
 export let et_lookup = "HR PERSONAL ADMIN EMPLOYEE FILE";
-export let et_folder = "HR PERSONAL ADMIN EMPLOYEE FILE:{B47C7B49-BD07-459E-893E-746D8E57189A}@RECRUITMENT COMPLAINTS:{4F2CD70D-57EE-48D7-ACFE-DBAA05D2806B}@Medical Histo & Cyto Lab Records:{37A76BC7-16C4-4A2F-8223-74A67B54E43F}@Medical Blood Bank & Serology:{E447678A-7D7F-4786-85A3-9DB982ECF174}@PRI Publications:{25BE836A-4308-431C-8BB5-DC536F9367DF}";
-//export let et_folder = "HR PERSONAL ADMIN EMPLOYEE FILE:{D6C16B5D-3FB6-4F5E-8F04-BEA8C978EDD4}@RECRUITMENT COMPLAINTS:{4F2CD70D-57EE-48D7-ACFE-DBAA05D2806B}@Medical Histo & Cyto Lab Records:{7BCD2A55-3935-407C-8B1E-DCB3D526C3EE}@Medical Blood Bank & Serology:{8F28BFD3-99E0-454A-8F6C-6A33544E8D85}@PRI Publications:{905CE369-0100-CC8E-AEF0-5E6EFF4F3E84}";
+export let et_folder = "HR PERSONAL ADMIN EMPLOYEE FILE:{B47C7B49-BD07-459E-893E-746D8E57189A}@RECRUITMENT COMPLAINTS:{4F2CD70D-57EE-48D7-ACFE-DBAA05D2806B}";
 export let et_default_date = "BANK BOND";
-export let et_default_orgcode = "RECRUITMENT COMPLAINTS:AT41,OTS NK Document:NP21,OTS NK Drawing:NP21,HR Personal Admin Employee File:AH51";
-export let excep_class_names = ["ap contracts payments", "fuel requisition", "isg i and c tpi", "isg transport trip tickets"];
+export let et_default_orgcode = "RECRUITMENT COMPLAINTS:AT41,OTS NK Document:NP21,OTS NK Drawing:NP21";
+export let esign_complete = 'http://mvcsecmtesticn:9082/icnesign/eSignatureComplete';
+export let excep_class_names=["ap contracts payments","fuel requisition","isg i and c tpi","isg transport trip tickets"];
 export let date_disable_action = '01/01/2005';
 export let search_page_size = 50;
-export let stop_word_message = { message: "The entered text is a stop word, please enter more words or change it" };
-export let et_dependent_lookup = "HR S&SA Policy & Regulation:ProjectNo:InvoiceNo"; //"Test ET Dependent ChoiceList:ReferenceNo:DocType";
-export let et_adv_search = ["search all documents", "correspondence"];
-export let sign_xPos = '285';
-export let sign_yPos = '15';
+export let stop_word_message = {message:"The entered text is a stop word, please enter more words or change it"};
+export let et_dependent_lookup = "Test ET Dependent ChoiceList:ReferenceNo:DocType";
 export let times = [
     { id: 1, label: '12:00 AM', value: { id: 1, time: '12:00 AM' }, disabled: false },
     { id: 2, label: '12:15 AM', value: { id: 2, time: '12:15 AM' }, disabled: false },

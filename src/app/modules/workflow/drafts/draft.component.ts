@@ -26,7 +26,7 @@ export class DraftComponent implements OnInit, OnDestroy {
   public itemsPerPage: any = 10;
   public draftWorkitems: WorkitemSet[] = [];
   public columns: any[];
-  public selectedColumns: string[] = [];
+  public selectedColumns: any[] = [];
   public user = new User();
   public actions: string[] = [];
   public selectedAction: any;
@@ -150,17 +150,32 @@ export class DraftComponent implements OnInit, OnDestroy {
     }
   }
 
-  columnSelectionChanged(event: Event) {
-    for (const tableHead of this.colHeaders) {
-      tableHead.hidden = true;
-    }
-    for (const colunm of this.selectedColumns) {
+  columnSelectionChanged(event: any) {
+    if (event) {
+      this.selectedColumns=event
       for (const tableHead of this.colHeaders) {
-        if (tableHead.field === colunm) {
-          tableHead.hidden = false;
+        tableHead.hidden = true;
+      }
+      for (const colunm of this.selectedColumns) {
+        for (const tableHead of this.colHeaders) {
+          if (tableHead.field === colunm.field) {
+            tableHead.hidden = false;
+          }
+        }
+      }
+    } else {
+      for (const tableHead of this.colHeaders) {
+        tableHead.hidden = true;
+      }
+      for (const colunm of this.selectedColumns) {
+        for (const tableHead of this.colHeaders) {
+          if (tableHead.field === colunm) {
+            tableHead.hidden = false;
+          }
         }
       }
     }
+    
   }
 
   actionSelectionChanged(event) {

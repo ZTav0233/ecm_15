@@ -77,7 +77,7 @@ export class SentComponent implements OnInit, OnDestroy {
     { label: 'Workflow Created Date', value: 'createdOn' },
     { label: 'Deadline', value: 'deadline' }
   ];
-  public selectedColumns: string[] = [];
+  public selectedColumns: any[] = [];
   public actions: string[] = ['Archive', 'Archive Before', 'Add-User', 'Relaunch']; //'Recall' Removed for sentItem change
   selectedUser: any;
   userSetting = [];
@@ -583,17 +583,33 @@ export class SentComponent implements OnInit, OnDestroy {
   }
 
   columnSelectionChanged(event: any) {
-    for (const tableHead of this.colHeaders) {
-      tableHead.hidden = true;
-    }
-    for (const column of this.selectedColumns) {
+    if (event) {
+      this.selectedColumns=event
       for (const tableHead of this.colHeaders) {
-        if (tableHead.field === column) {
-          tableHead.hidden = false;
+        tableHead.hidden = true;
+      }
+      for (const column of this.selectedColumns) {
+        for (const tableHead of this.colHeaders) {
+          if (tableHead.field === column.field) {
+            tableHead.hidden = false;
+          }
         }
       }
+      this.updateGeneralSetting();
+    } else {
+      for (const tableHead of this.colHeaders) {
+        tableHead.hidden = true;
+      }
+      for (const column of this.selectedColumns) {
+        for (const tableHead of this.colHeaders) {
+          if (tableHead.field === column.field) {
+            tableHead.hidden = false;
+          }
+        }
+      }
+      this.updateGeneralSetting();
     }
-    this.updateGeneralSetting();
+    
 
     //  localStorage.setItem('sentSelectedColumns',JSON.stringify(this.selectedColumns))
   }

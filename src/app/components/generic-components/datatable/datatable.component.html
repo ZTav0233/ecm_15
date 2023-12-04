@@ -495,7 +495,7 @@
   </div>
   <!-- Grouped -->
   <div class="data-table-scroll" *ngIf="rowGroupMode">
-    <p-table [columns]="colHeaders" [resizableColumns]="true" columnResizeMode="expand" dataKey="workitemId"
+    <p-table [columns]="cols" [resizableColumns]="true" columnResizeMode="expand" dataKey="workitemId"
       (onHeaderCheckboxToggle)="checked()" (onRowSelect)="checked($event)" (onRowUnselect)="unchecked($event)"
       (onRowClick)="rowSelected($event)" (onFilter)="onFiltering($event)" selectionMode="multiple" [lazy]="true"
       [totalRecords]="totalRecords" expandableRows="true" [value]="tableData"
@@ -510,7 +510,7 @@
         <div style="display: flex; justify-content: space-between;">
           <p-columnFilter type="text" field="subject"></p-columnFilter>
           <div>
-            <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
+            <p-multiSelect (onChange)="onChange($event)" [options]="colHeaders" [(ngModel)]="cols" optionLabel="header"
               selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
               placeholder="Choose Columns" style="margin-right: 45px"></p-multiSelect>
             <button class="autorenew"

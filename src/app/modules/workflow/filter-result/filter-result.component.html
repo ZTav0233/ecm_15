@@ -35,7 +35,7 @@
     [showInfoIcon]="false" [showDownloadIcon]="false" [showAddCartIcon]="false" [tableData]="sentWorkitems.workitems"
     [colHeaders]="colHeaders" [itemsPerPage]="itemsPerPage" [rowExpandable]="false"
     (toggleTrackSentitem)="showTrackSentitem($event,request.userType)" [activePage]="'sent'"
-    (toggleProgressDialogue)="showProgressDialogue($event)"></data-table>
+    (toggleProgressDialogue)="showProgressDialogue($event)" (sendSelectedColumns)="columnSelectionChanged($event)"></data-table>
   <data-table *ngIf="userGridView === gridViewOptions.grouped.value" [defaultSortField]="defaultSortField"
     [rowGroupMode]="'subheader'" [groupField]="'recordGroupName'" [sortOrder]="defaultSortOrder"
     [expandedRowsGroups]="expandedRowsGroups" [expandedRowsGroupsSubTotal]="expandedRowsGroupsSubTotal"
@@ -46,7 +46,7 @@
     [showDownloadIcon]="false" [showAddCartIcon]="false" [tableData]="sentWorkitems.workitems" [colHeaders]="colHeaders"
     [itemsPerPage]="itemsPerPage" [rowExpandable]="false"
     (toggleTrackSentitem)="showTrackSentitem($event,request.userType)" [activePage]="'sent'"
-    (toggleProgressDialogue)="showProgressDialogue($event)"></data-table>
+    (toggleProgressDialogue)="showProgressDialogue($event)" (sendSelectedColumns)="columnSelectionChanged($event)"></data-table>
 </div>
 
 <div #filterResDialog></div>
