@@ -300,7 +300,7 @@
       responsiveLayout="stack" [breakpoint]="'960px'" [(selection)]="selectedRows"
       (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
       [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
-      [rows]="itemsPerPage"  [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
+      [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
       [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt [paginator]="true"
       [globalFilterFields]="['subject']">
       <ng-template pTemplate="caption">
@@ -503,7 +503,7 @@
       responsiveLayout="stack" [breakpoint]="'960px'" [(selection)]="selectedRows"
       (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
       [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
-      [rows]="itemsPerPage"  [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
+      [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
       [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt [paginator]="true"
       [globalFilterFields]="['subject']">
       <ng-template pTemplate="caption" *ngIf="activePage!='draft'">
