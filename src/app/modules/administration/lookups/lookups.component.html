@@ -9,27 +9,27 @@
             <button pButton type="button" label="Export" (click)="exportToExcel();"
               [disabled]="!lookupList || lookupList.length==0"></button>
           </div>
-          <div class="ui-g-12 ui-md-12 p-0">
-            <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+          <div class="ui-g-12 ui-md-12 p-0" style="margin-top: 4px;">
+            <!-- <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none"> -->
               <!-- global filter -->
-              <div class="ui-g">
+              <!-- <div class="ui-g">
                 <div class="ui-g-12 p-0">
                   <table>
-                    <tr>
+                    <tr> -->
                       <!-- <td style="width: 2%;"><i class="fa fa-search v-m m-r-md"></i></td>
                       <td style="width: 98%;">
                         <input #gb type="text" pInputText size="50" placeholder="Filter Text"
                           style="color: #ffffff; width: 30%;" [(ngModel)]="query" class="v-m p-0" name="query">
                       </td> -->
-                      <td>
+                      <!-- <td>
                         <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refreshtable()"
                           class="remove-btn v-m no-box-shadow"></button>
-                      </td>
-                    </tr>
+                      </td> -->
+                    <!-- </tr>
                   </table>
                 </div>
-              </div>
-            </div>
+              </div> -->
+            <!-- </div> -->
             <!-- <p-dataTable [reorderableColumns]="true" selectionMode="single" [scrollable]="true" scrollHeight="450px"
               [globalFilter]="gb" [(selection)]="selectedLookup" [value]="lookupList" (onFilter)="filterLookup()"
               (onRowClick)="showLookUpValues($event.data)" [rows]="10">
@@ -101,35 +101,35 @@
               <button pButton type="button" label="Add Lookup Values" (click)="showEdit=true;add()" class="m-b-md pull-right"></button>-->
           </div>
           <div class="ui-g-12 p-t-0 p-r-0">
-            <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+            <!-- <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none"> -->
               <!-- global filter -->
-              <div class="ui-g">
+              <!-- <div class="ui-g">
                 <div class="ui-g-12 p-0">
                   <table>
-                    <tr>
-                      <td>
+                    <tr> -->
+                      <!-- <td>
                         <div class="search-box ">
                           <span></span>
                           <span *ngIf="selectedLookup">
                             {{selectedLookup.name}}
                           </span>
                         </div>
-                      </td>
+                      </td> -->
                       <!-- <td style="width: 2%;"><i class="fa fa-search v-m m-r-md"></i></td> -->
                       <!-- <td style="width: 98%;">
                         <input #gbval type="text" pInputText size="50" placeholder="Filter Text"
                           style="color: #ffffff; width: 30%;" [(ngModel)]="queryValue" class="v-m p-0"
                           name="queryValue">
                       </td> -->
-                      <td>
+                      <!-- <td>
                         <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"
                           class="remove-btn"></button>
-                      </td>
-                    </tr>
+                      </td> -->
+                    <!-- </tr>
                   </table>
                 </div>
-              </div>
-            </div>
+              </div> -->
+            <!-- </div> -->
 
             <!-- <p-dataTable [resizableColumns]="true" [reorderableColumns]="true" [emptyMessage]="emptyMessage"
               scrollHeight="450px" [value]="lookupValues" [globalFilter]="gbval" [paginator]="true" [rows]="10"
@@ -150,6 +150,9 @@
               styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
               [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '30rem' }">
               <ng-template pTemplate="caption"> 
+                <span *ngIf="selectedLookup" style="color: white;">
+                  {{selectedLookup.name}}
+                </span>
                 <span class="p-input-icon-left ml-auto">
                   <!-- <!--<i class="pi pi-search"></i>--> 
                   <input

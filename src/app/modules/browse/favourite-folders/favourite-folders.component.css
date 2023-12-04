@@ -3,3 +3,6 @@
   float: right;
   margin-right: 10px;
 }
+:host ::ng-deep .p-tree-height .p-tree-selectable{
+  height: 100% !important;
+}
