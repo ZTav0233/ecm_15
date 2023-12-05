@@ -70,7 +70,7 @@
               [showAddCartIcon]="false" [tableData]="archiveWorkitems.workitems" [colHeaders]="colHeaders"
               (refreshScreen)="refreshTable()" [itemsPerPage]="itemsPerPage" [rowExpandable]="true"
               (toggleProgressDialogue)="showProgressDialogue($event)" [lazy]="lazy" [showProgressBtn]="true"
-              [isSelectedRoleInActive]="tab.status ==='INACTIVE'" [tabNameIdentifier]="tab.tabIdentifier"></data-table>
+              [isSelectedRoleInActive]="tab.status ==='INACTIVE'" [tabNameIdentifier]="tab.tabIdentifier" (sendSelectedColumns)="columnSelectionChanged($event,true)"></data-table>
             <data-table *ngIf="userGridView === gridViewOptions.grouped.value" [rowGroupMode]="'subheader'"
               [groupField]="'recordGroupName'" [expandedRowsGroups]="expandedRowsGroups"
               [expandedRowsGroupsSubTotal]="expandedRowsGroupsSubTotal" [defaultSortField]="tab.sortField"
@@ -82,7 +82,7 @@
               [showAddCartIcon]="false" [tableData]="archiveWorkitems.workitems" [colHeaders]="colHeaders"
               (refreshScreen)="refreshTable()" [itemsPerPage]="itemsPerPage" [rowExpandable]="true"
               (toggleProgressDialogue)="showProgressDialogue($event)" [lazy]="lazy" [showProgressBtn]="true"
-              [isSelectedRoleInActive]="tab.status ==='INACTIVE'" [tabNameIdentifier]="tab.tabIdentifier"></data-table>
+              [isSelectedRoleInActive]="tab.status ==='INACTIVE'" [tabNameIdentifier]="tab.tabIdentifier" (sendSelectedColumns)="columnSelectionChanged($event,true)"></data-table>
           </div>
         </mat-tab>
         <!-- Outbox Grid -->
@@ -148,7 +148,7 @@
               [userType]="tab.tabType" [userId]="tab.recordId" [selectedRows]="archiveSelectedItem"
               [isSelectedRoleInActive]="tab.status ==='INACTIVE'" (refreshScreen)="refreshTable()"
               [itemsPerPage]="itemsPerPage" [rowExpandable]="false" [lazy]="lazy"
-              [tabNameIdentifier]="tab.tabIdentifier"></data-table>
+              [tabNameIdentifier]="tab.tabIdentifier" (sendSelectedColumns)="columnSelectionChanged($event,false)"></data-table>
             <data-table *ngIf="userGridView === gridViewOptions.grouped.value" [rowGroupMode]="'subheader'"
               [groupField]="'recordGroupName'" [expandedRowsGroups]="expandedRowsGroups"
               [expandedRowsGroupsSubTotal]="expandedRowsGroupsSubTotal" [defaultSortField]="tab.sortField"
@@ -160,7 +160,7 @@
               [userType]="tab.tabType" [userId]="tab.recordId" [selectedRows]="archiveSelectedItem"
               [isSelectedRoleInActive]="tab.status ==='INACTIVE'" (refreshScreen)="refreshTable()"
               [itemsPerPage]="itemsPerPage" [rowExpandable]="false" [lazy]="lazy"
-              [tabNameIdentifier]="tab.tabIdentifier"></data-table>
+              [tabNameIdentifier]="tab.tabIdentifier" (sendSelectedColumns)="columnSelectionChanged($event,false)"></data-table>
           </div>
 
         </mat-tab>

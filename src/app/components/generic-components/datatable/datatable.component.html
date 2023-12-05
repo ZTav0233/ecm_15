@@ -306,16 +306,16 @@
       <ng-template pTemplate="caption">
         <div style="display: flex; justify-content: space-between;">
           <p-columnFilter type="text" field="subject"></p-columnFilter>
-          <div>
-            <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
-              selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
-              placeholder="Choose Columns"></p-multiSelect>
-            <div style="color: white;"
+          <div style="display: flex;align-items: center;">
+            <p-multiSelect (onChange)="onChange($event)" [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
+              selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"
+              style="margin-right: 45px"></p-multiSelect>
+            <!-- <div style="color: white;"
               *ngIf="router.url.includes('draft') && !(router.url.includes('draftLaunch')) && totalCount>1"
               class="pull-right m-5">
               Total Items: {{totalCount}}
-            </div>
-            <button class="autorenew"
+            </div> -->
+            <button class="autorenew" style="padding: 0;"
               [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
               pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"></button>
           </div>
@@ -495,25 +495,29 @@
   </div>
   <!-- Grouped -->
   <div class="data-table-scroll" *ngIf="rowGroupMode">
-    <p-table [columns]="colHeaders" [resizableColumns]="true" columnResizeMode="expand" dataKey="workitemId"
+    <p-table [value]="tableData" [columns]="colHeaders" sortField="createdDate" dataKey="dateGroup"
+      rowGroupMode="subheader" groupRowsBy="dateGroup" [tableStyle]="{'min-width': '70rem'}"
       (onHeaderCheckboxToggle)="checked()" (onRowSelect)="checked($event)" (onRowUnselect)="unchecked($event)"
       (onRowClick)="rowSelected($event)" (onFilter)="onFiltering($event)" selectionMode="multiple" [lazy]="true"
-      [totalRecords]="totalRecords" expandableRows="true" [value]="tableData"
-      styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [tableStyle]="{ 'min-width': '40rem' }"
-      responsiveLayout="stack" [breakpoint]="'960px'" [(selection)]="selectedRows"
-      (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
+      [totalRecords]="totalRecords" styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
+      [tableStyle]="{ 'min-width': '40rem' }" responsiveLayout="stack" [breakpoint]="'960px'"
+      [(selection)]="selectedRows" (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
       [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
       [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
-      [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt [paginator]="true"
-      [globalFilterFields]="['subject']">
-      <ng-template pTemplate="caption" *ngIf="activePage!='draft'">
+      [reorderableColumns]="reorderableColumns" [rowExpandMode]="'dt.value'" #dt [paginator]="true">
+      <ng-template pTemplate="caption">
         <div style="display: flex; justify-content: space-between;">
           <p-columnFilter type="text" field="subject"></p-columnFilter>
-          <div>
-            <p-multiSelect [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
-              selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}"
-              placeholder="Choose Columns"></p-multiSelect>
-            <button class="autorenew"
+          <div style="display: flex;align-items: center;">
+            <p-multiSelect (onChange)="onChange($event)" [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
+              selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"
+              style="margin-right: 45px"></p-multiSelect>
+            <!-- <div style="color: white;"
+            *ngIf="router.url.includes('draft') && !(router.url.includes('draftLaunch')) && totalCount>1"
+            class="pull-right m-5">
+            Total Items: {{totalCount}}
+          </div> -->
+            <button class="autorenew" style="padding: 0;"
               [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
               pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"></button>
           </div>
@@ -526,7 +530,6 @@
           <th *ngIf="activePage!='draft'" style="width:17px;">
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
-          <th *ngIf="activePage==='inbox' && !reportPage" style="width:29px;"></th>
           <th *ngIf="activePage==='inbox' && !reportPage" style="width: 30px;"></th>
           <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="flag">
             Flag <p-sortIcon field="flag"></p-sortIcon>
@@ -548,15 +551,30 @@
           <th *ngIf="activePage==='draft'"></th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
-        <tr [pSelectableRow]="product" [pSelectableRowIndex]="rowIndex">
+      <ng-template *ngIf="!!rowGroupMode && !!groupField" pTemplate="groupheader" let-rowData let-rowIndex="rowIndex"
+        let-expanded="expanded">
+        <tr>
+          <td colspan="14">
+            <button type="button" pButton pRipple [pRowToggler]="rowData"
+              class="p-button-text p-button-rounded p-button-plain mr-2"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+            <span [innerHTML]="rowData.recordGroupName"></span>
+            <span *ngIf="expandedRowsGroupsSubTotal && expandedRowsGroupsSubTotal[rowData.recordGroupName]">
+              ({{expandedRowsGroupsSubTotal[rowData.recordGroupName]}}
+              <ng-container *ngIf="activePage==='inbox'">
+                {{expandedRowsGroupsSubTotal[rowData.recordGroupName]==1?' Workitem':' Workitems'}})
+              </ng-container>
+              <ng-container *ngIf="activePage==='sent'">
+                {{expandedRowsGroupsSubTotal[rowData.recordGroupName]==1?' Workflow':' Workflows'}})
+              </ng-container>
+            </span>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-product let-columns="columns">
+        <tr [pSelectableRow]="product">
           <td *ngIf="activePage!='draft'" style="width:17px;">
             <p-tableCheckbox [value]="product"></p-tableCheckbox>
-          </td>
-          <td *ngIf="activePage==='inbox' && !reportPage" style="width:29px;">
-            <button type="button" pButton pRipple [pRowToggler]="product"
-              class="p-button-text p-button-rounded p-button-plain"
-              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
           </td>
           <td *ngIf="activePage==='inbox' && !reportPage" style="width: 30px;">
             <div class="icons ">
@@ -588,6 +606,8 @@
               icon="{{product.hasProgress ? 'fa fa-fw ui-icon-hourglass-full' : 'fa fa-fw ui-icon-hourglass-empty'}}"
               title="Work Progress" (click)="mToggleProgressDialogue(product.workitemId)"
               class="remove-btn v-m"></button>
+            <button pButton type="button" icon="fa fa-fw ui-icon-remove-red-eye" title="Item Details"
+              (click)="listItemDialogue(product)" class="remove-btn v-m"></button>
           </td>
           <td *ngIf="showInfoIcon">
             <button pButton type="button" *ngIf="showInfoIcon" icon="fa fa-fw ui-icon-info-outline" title="Info"
@@ -599,93 +619,6 @@
               (click)="viewDraftItem(product)" class="remove-btn v-m"></button>
             <button pButton type="button" *ngIf="activePage === 'draft'" icon="fa fa-fw ui-icon-remove" title="Remove"
               (click)="removeDraft(product)" class="remove-btn v-m"></button>
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="rowexpansion" let-table>
-        <tr>
-          <td colspan="15">
-            <div class="ui-grid ui-grid-responsive ui-fluid">
-              <div class="ui-grid-row" *ngIf="activePage === 'inbox'">
-                <table id="details" class="ecm-table  inner-table w-100">
-                  <tbody>
-                    <tr class="even label-width">
-                      <td>Subject:</td>
-                      <td>{{table.subject}}</td>
-                      <td>Received Date:</td>
-                      <td>{{table.receivedDate}}</td>
-                    </tr>
-                    <tr class="label-width">
-                      <td>Sender Name:</td>
-                      <td>{{table.senderName}}</td>
-                      <td>Priority:</td>
-                      <td>{{table.priority}}</td>
-                    </tr>
-                    <tr class="even label-width">
-                      <td>Originator:</td>
-                      <td>{{table.wfCreatorName}}</td>
-                      <td>Status:</td>
-                      <td>{{table.status}}</td>
-                    </tr>
-                    <tr class="label-width">
-                      <td>Reminder:</td>
-                      <td>{{table.reminder}}</td>
-                      <td>Deadline:</td>
-                      <td>{{table.deadline}}</td>
-                    </tr>
-                    <tr class="even label-width">
-                      <td>For:</td>
-                      <td colspan="3">
-                        <div>{{table.actions}}</div>
-                      </td>
-                    </tr>
-                    <tr class="label-width">
-                      <td>Instructions:</td>
-                      <td colspan="3">
-                        <div *ngIf="table.instructions" [innerHTML]="table.instructions"></div>
-                      </td>
-                    </tr>
-                    <tr class="even label-width">
-                      <td>Remarks:</td>
-                      <td colspan="3">{{table.comments}}</td>
-                    </tr>
-                    <tr class="label-width" *ngIf="table.actionTaken && table.actionTaken!='Launch'">
-                      <td>Action Taken:</td>
-                      <td colspan="3">{{table.actionTaken}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <ng-container *ngIf="activePage === 'sent'">
-                <table id="sentWorkitemdetails" class="ecm-table ">
-                  <thead>
-                    <th>#</th>
-                    <th>Recipient</th>
-                    <th>Subject</th>
-                    <th>Sent On</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th [ngClass]="{'hide' : reportPage}">Action</th>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let workitem of sentitemWorkitems;let i=index;let isOdd=odd;let isEven=even;"
-                      [class.even]="isEven" (click)="openSentWorkitem(workitem.workitemId)" role="button">
-                      <td>{{i + 1}}</td>
-                      <td>{{workitem.recipientName}}</td>
-                      <td>{{workitem.subject}}</td>
-                      <td>{{workitem.receivedDate}}</td>
-                      <td>{{workitem.type}}</td>
-                      <td>{{workitem.status}}</td>
-                      <td [ngClass]="{'hide' : reportPage}"
-                        (click)="mToggleProgressDialogue(workitem.workitemId,$event)">
-                        <button pButton type="button" icon="fa fa-fw ui-icon-hourglass-empty" title="Work Progress"
-                          class="remove-btn v-m"></button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </ng-container>
-            </div>
           </td>
         </tr>
       </ng-template>

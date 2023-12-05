@@ -18,6 +18,7 @@ import * as _ from "lodash";
   selector: 'favourite-folders',
   templateUrl: './favourite-folders.component.html',
   providers: [ContentService],
+  styleUrls: ['./favourite-folders.component.css']
 })
 export class FavouriteFoldersComponent implements OnDestroy {
   folderList: TreeNode[];

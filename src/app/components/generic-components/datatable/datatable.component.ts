@@ -65,10 +65,12 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   @Output() addToCart = new EventEmitter();
   @Output() download = new EventEmitter();
   @Output() toggleProgressDialogue = new EventEmitter();
+  @Output() listItemsDialogue = new EventEmitter();
   @Output() toggleTrackSentitem = new EventEmitter();
   @Output() sendSortPagination = new EventEmitter();
   @Output() filteredGridItemsToExport = new EventEmitter();
   @Output() sendPaginationInfoSearch = new EventEmitter();
+  @Output() sendSelectedColumns = new EventEmitter();
   /*private sortOrder: number = -1;*/
   public docInfo: DocumentInfoModel[];
   public docVersion: DocumentInfoModel[];
@@ -186,6 +188,14 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
       $event.stopPropagation();
     }
   }
+  listItemDialogue(workitemId, $event?){
+    console.log(workitemId);
+    
+    this.listItemsDialogue.emit(workitemId);
+    if ($event) {
+      $event.stopPropagation();
+    }
+  }
 
   showSentWorkitems(event) {
     if (this.activePage === 'sent') {
@@ -248,10 +258,12 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit() {
     console.log(this.activePage);
     console.log(this.showInfoIcon);
-    console.log(this.colHeaders);
+    console.log("this.colHeaders",this.colHeaders);
     
     
-    this.cols=this.colHeaders
+    this.cols=this.colHeaders.filter(column => !column.hidden);
+    console.log(this.cols);
+    
     
     this.bs.setPageNoOnLoadMore.subscribe(d => {
       this.first = d;
@@ -296,7 +308,11 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
       }
     });
   }
-
+  onChange(ev:any){
+    console.log(ev);
+    this.sendSelectedColumns.emit(ev.value)
+    
+  }
   assignDocInfoSelected(data, ds, user, cs) {
     if (data.length == 1) {
       if (data[0].islinked == true && this.islinked == false) {

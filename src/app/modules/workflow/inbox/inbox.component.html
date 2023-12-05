@@ -37,7 +37,7 @@
         <div class="sub-container-export-options pull-right">
           <p-menubar [model]="inboxTieredItems" styleClass="export-menuItem"></p-menubar>
         </div>
-        <div class="colMultiselect p-b-0 m-r-lg p-t-sm pull-right container-gridview-options">
+        <div class="colMultiselect p-b-0 m-r-lg  pull-right container-gridview-options">
           <div class="sub-container-gridview-options">
             <span>{{gridViewOptions.grouped.text}}</span>
             <p-inputSwitch [(ngModel)]="userGridView" (onChange)="setDefaultSort()" onLabel="" offLabel="">
@@ -58,18 +58,20 @@
           [defaultSortField]="tab.sortField" [sortOrder]="tab.sortDirection"
           (sendSortPagination)="assignSortNotPaginationInfo($event)" [totalRecords]="tab.totalRecords"
           [selectedRows]="inboxSelectedItem" (refreshScreen)="refreshTable()" (sendData)="getData($event)"
+          (sendSelectedColumns)="columnSelectionChanged($event)"
           [showInfoIcon]="false" [showDownloadIcon]="false" [showAddCartIcon]="false"
           [tableData]="inboxWorkitems.workitems" [colHeaders]="colHeaders" [itemsPerPage]="itemsPerPage"
           [rowExpandable]="true" [activePage]="'inbox'" [userType]="tab.tabType" [userId]="tab.recordId"
-          (toggleProgressDialogue)="showProgressDialogue($event)" [isSelectedRoleInActive]="tab.status ==='INACTIVE'"
+          (toggleProgressDialogue)="showProgressDialogue($event)" (listItemsDialogue)="listItemDailogue($event)" [isSelectedRoleInActive]="tab.status ==='INACTIVE'"
           [showProgressBtn]="true" [workflowFilter]="request && request.exportFilter || advanceFilterShown"
           [tabNameIdentifier]="tab.tabIdentifier"></data-table>
         <data-table *ngIf="userGridView === gridViewOptions.grouped.value" [lazy]="true" [emptyMessage]="emptyMessage"
           [defaultSortField]="tab.sortField" [sortOrder]="tab.sortDirection" [rowGroupMode]="'subheader'"
           [groupField]="'recordGroupName'" [expandedRowsGroups]="expandedRowsGroups"
           [expandedRowsGroupsSubTotal]="expandedRowsGroupsSubTotal"
-          (sendSortPagination)="assignSortNotPaginationInfo($event)" [totalRecords]="tab.totalRecords"
+          (sendSortPagination)="assignSortNotPaginationInfo($event)" (listItemsDialogue)="listItemDailogue($event)" [totalRecords]="tab.totalRecords"
           [selectedRows]="inboxSelectedItem" (refreshScreen)="refreshTable()" (sendData)="getData($event)"
+          (sendSelectedColumns)="columnSelectionChanged($event)"
           [showInfoIcon]="false" [showDownloadIcon]="false" [showAddCartIcon]="false"
           [tableData]="inboxWorkitems.workitems" [colHeaders]="colHeaders" [itemsPerPage]="itemsPerPage"
           [rowExpandable]="true" [activePage]="'inbox'" [userType]="tab.tabType" [userId]="tab.recordId"
@@ -120,6 +122,64 @@
   <p>Application will refresh now.</p>
   <p-footer>
     <button pButton class="pull-right" type="button" label="Ok" (click)="reloadApp()"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog [modal]="true"  [(visible)]="showItemDialogue" [closable]="false" [closeOnEscape]="false" [style]="{ width: '80vw', height: '40vh' }">
+  <p-header>
+    <span >Workitem Details</span>
+  </p-header>
+  <div class="ui-grid-row">
+    <table id="details" class="ecm-table  inner-table w-100">
+      <tbody>
+        <tr class="even label-width">
+          <td>Subject:</td>
+          <td>{{showItemDialogueDetails?.subject}}</td>
+          <td>Received Date:</td>
+          <td>{{showItemDialogueDetails?.receivedDate}}</td>
+        </tr>
+        <tr class="label-width">
+          <td>Sender Name:</td>
+          <td>{{showItemDialogueDetails?.senderName}}</td>
+          <td>Priority:</td>
+          <td>{{showItemDialogueDetails?.priority}}</td>
+        </tr>
+        <tr class="even label-width">
+          <td>Originator:</td>
+          <td>{{showItemDialogueDetails?.wfCreatorName}}</td>
+          <td>Status:</td>
+          <td>{{showItemDialogueDetails?.status}}</td>
+        </tr>
+        <tr class="label-width">
+          <td>Reminder:</td>
+          <td>{{showItemDialogueDetails?.reminder}}</td>
+          <td>Deadline:</td>
+          <td>{{showItemDialogueDetails?.deadline}}</td>
+        </tr>
+        <tr class="even label-width">
+          <td>For:</td>
+          <td colspan="3">
+            <div>{{showItemDialogueDetails?.actions}}</div>
+          </td>
+        </tr>
+        <tr class="label-width">
+          <td>Instructions:</td>
+          <td colspan="3">
+            <div *ngIf="showItemDialogueDetails?.instructions" [innerHTML]="showItemDialogueDetails?.instructions"></div>
+          </td>
+        </tr>
+        <tr class="even label-width">
+          <td>Remarks:</td>
+          <td colspan="3">{{showItemDialogueDetails?.comments}}</td>
+        </tr>
+        <tr class="label-width" *ngIf="showItemDialogueDetails?.actionTaken && showItemDialogueDetails?.actionTaken!='Launch'">
+          <td>Action Taken:</td>
+          <td colspan="3">{{showItemDialogueDetails?.actionTaken}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p-footer>
+    <button pButton class="pull-right" type="button" label="Ok" (click)="showItemDialogue=false"></button>
   </p-footer>
 </p-dialog>
  <p-dialog [closable]="false" [closeOnEscape]="false"  [modal]="true"

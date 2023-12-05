@@ -31,7 +31,7 @@
                 <ng-container *ngIf="dashboardStatistics[currentUser.EmpNo].today.all.total>0">
                   <canvas *ngIf="dashboardStatistics[currentUser.EmpNo].today.all.active" baseChart
                     [type]="'pie'" [datasets]="dashboardStatistics[currentUser.EmpNo].today.all.chartData"
-                    [labels]="chartLabels" [options]="chartOptions"  
+                    [labels]="chartLabels" [options]="chartOptions"
                     (chartClick)="onSelect($event,'User',currentUser.fulName,currentUser.EmpNo,'Today','')">
                   </canvas>
                 </ng-container>

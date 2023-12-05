@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 import * as globalv from "../../../global.variables";
 import { CoreService } from "../../../services/core.service";
 import { BrowserEvents } from '../../../services/browser-events.service';
-import {AdminService} from "../../../services/admin.service";
+import { AdminService } from "../../../services/admin.service";
 import { ChartOptions } from 'chart.js';
 
 @Component({
@@ -24,9 +24,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public pieChartOptions: ChartOptions<'pie'> = {
     responsive: false,
   };
-  public pieChartDatasets:any = [ {
-    data: [ 20, 17, 3 ]
-  } ];
+  public pieChartDatasets: any = [{
+    data: [20, 17, 3]
+  }];
   public pieChartLegend = true;
   // public pieChartPlugins = [];
 
@@ -71,12 +71,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       fontColor: '#fff',
       fontFamily: '"Lucida Console", Monaco, monospace'
     },*/
-  
-      resposive:true,
-      maintainAspectRatio: false,
-   
+
+    resposive: true,
+    maintainAspectRatio: false,
+
     plugins: {
-     
+
       datalabels: {
         align: 'center',
         anchor: 'center',
@@ -115,12 +115,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(private breadcrumbService: BreadcrumbService, public workflowService: WorkflowService,
     private ns: NewsService, private us: UserService, private router: Router,
-    private coreService: CoreService, private bs: BrowserEvents,private as: AdminService) {
+    private coreService: CoreService, private bs: BrowserEvents, private as: AdminService) {
   }
 
   ngOnInit() {
-     //window.open('microsoft-edge:'+document.URL);
-     //window.open('ie:'+document.URL,'_blank');
+    //window.open('microsoft-edge:'+document.URL);
+    //window.open('ie:'+document.URL,'_blank');
     // navigate to previous page on reload
     let sentSelectedUserTab = localStorage.getItem('sentSelectedUserTab');
     let navigateToDraft = localStorage.getItem('navigateToDraft');
@@ -165,25 +165,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.getUserSetting();
         this.dashboardStatistics[this.currentUser.EmpNo] = {
           today: {
-            all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: true },
-            to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
-            cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
+            all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: true },
+            to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: false },
+            cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: false },
             selectedType: 'all'
           },
           total: {
-            all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: true },
-            to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
-            cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
+            all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: true },
+            to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: false },
+            cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: false },
             selectedType: 'all'
           },
           deadline: {
             inbox: {
-              dueToday: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: true },
-              overDue: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: false },
+              dueToday: { read: 0, unread: 0, total: 0, chartData: [{ data: [0, 0],backgroundColor:['#009999', '#90A4AE']}], active: true },
+              overDue: { read: 0, unread: 0, total: 0, chartData: [{ data: [0, 0],backgroundColor:['#009999', '#90A4AE'] }], active: false },
               active: true
             }, sent: {
-              dueToday: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: true },
-              overDue: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: false },
+              dueToday: { read: 0, unread: 0, total: 0, chartData: [{ data: [0, 0],backgroundColor:['#009999', '#90A4AE'] }], active: true },
+              overDue: { read: 0, unread: 0, total: 0, chartData: [{ data: [0, 0],backgroundColor:['#009999', '#90A4AE'] }], active: false },
               active: false
             },
             selectedType: 'dueToday', selectedWorkitemType: 'inbox'
@@ -193,25 +193,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.currentUser.roles.map((role, index) => {
             this.dashboardStatistics[role.id] = {
               today: {
-                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: true },
-                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
-                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
+                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: true },
+                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: false },
+                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: false },
                 selectedType: 'all'
               },
               total: {
-                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: true },
-                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
-                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
+                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: true },
+                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: false },
+                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: false },
                 selectedType: 'all'
               },
               deadline: {
                 inbox: {
-                  dueToday: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: true },
-                  overDue: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: false },
+                  dueToday: { read: 0, unread: 0, total: 0, chartData: [{ data: [0, 0],backgroundColor:['#009999', '#90A4AE'] }], active: true },
+                  overDue: { read: 0, unread: 0, total: 0, chartData: [{ data: [0, 0],backgroundColor:['#009999', '#90A4AE'] }], active: false },
                   active: true
                 }, sent: {
-                  dueToday: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: true },
-                  overDue: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: false },
+                  dueToday: { read: 0, unread: 0, total: 0, chartData: [{ data: [0, 0],backgroundColor:['#009999', '#90A4AE'] }], active: true },
+                  overDue: { read: 0, unread: 0, total: 0, chartData: [{ data: [0, 0],backgroundColor:['#009999', '#90A4AE'] }], active: false },
                   active: false
                 },
                 selectedType: 'dueToday', selectedWorkitemType: 'inbox'
@@ -223,25 +223,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.currentUser.delegated.map((del, index) => {
             this.dashboardStatistics[del.userId] = {
               today: {
-                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: true },
-                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
-                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
+                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: true },
+                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: false },
+                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: false },
                 selectedType: 'all'
               },
               total: {
-                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: true },
-                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
-                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{data:[0,0,0]}], active: false },
+                all: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: true },
+                to: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: false },
+                cc: { read: 0, unread: 0, actioned: 0, total: 0, chartData: [{ data: [0, 0, 0],backgroundColor: ['#FFC107', '#03A9F4', '#4CAF50'], }], active: false },
                 selectedType: 'all'
               },
               deadline: {
                 inbox: {
-                  dueToday: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: true },
-                  overDue: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: false },
+                  dueToday: { read: 0, unread: 0, total: 0, chartData: [{ data: [0, 0],backgroundColor:['#009999', '#90A4AE'] }], active: true },
+                  overDue: { read: 0, unread: 0, total: 0, chartData: [{ data: [0, 0],backgroundColor:['#009999', '#90A4AE'] }], active: false },
                   active: true
                 }, sent: {
-                  dueToday: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: true },
-                  overDue: { read: 0, unread: 0, total: 0, chartData: [{data:[0,0]}], active: false },
+                  dueToday: { read: 0, unread: 0, total: 0, chartData: [{ data: [0, 0],backgroundColor:['#009999', '#90A4AE'] }], active: true },
+                  overDue: { read: 0, unread: 0, total: 0, chartData: [{ data: [0, 0],backgroundColor:['#009999', '#90A4AE'] }], active: false },
                   active: false
                 },
                 selectedType: 'dueToday', selectedWorkitemType: 'inbox'
@@ -252,7 +252,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
         if (this.currentUser.roles.length > 0) {
         } else {
-         this.getUserStat(this.currentUser.EmpNo);
+          this.getUserStat(this.currentUser.EmpNo);
         }
         this.ns.getNews(this.currentUser.EmpNo).subscribe(res => {
           this.newsItems = res;
@@ -267,16 +267,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.dueWorkitemTypes = [{ label: 'Inbox', value: 'inbox' }, { label: 'Sent', value: 'sent' }];
     }
 
- 
-     if(this.as.designationValues && this.as.designationValues!=null && this.as.designationValues.length<=0){
-       //AKV-getDesignationValues
-       this.as.getDesignationData().subscribe(data => {
-         if(data){
-          this.as.designationValues=data;
+
+    if (this.as.designationValues && this.as.designationValues != null && this.as.designationValues.length <= 0) {
+      //AKV-getDesignationValues
+      this.as.getDesignationData().subscribe(data => {
+        if (data) {
+          this.as.designationValues = data;
           this.as.designationValues.unshift({ id: "", value: null, action: "" });
-         }
-    },err=>{
-       })
+        }
+      }, err => {
+      })
     }
   }
 
@@ -317,23 +317,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     }
   }
-  
-  getUserSetting(){
+
+  getUserSetting() {
     this.us.getUserSettings().subscribe(async result => {
       this.userSetting = result;
 
-    for(let i = 0; i< this.userSetting.length ;i++){
-      if(this.userSetting[i].key == 'Default Tab'){
-        if (this.userSetting[i].val == '' && this.user.roles.length > 0) {
-          this.selectedTabIndex =  1;
-        } else if(this.userSetting[i].val != ''){
-          this.activateSelectedTab(Number(this.userSetting[i].val))
-        } else if (this.user) {
-          this.selectedTabIndex = 0
+      for (let i = 0; i < this.userSetting.length; i++) {
+        if (this.userSetting[i].key == 'Default Tab') {
+          if (this.userSetting[i].val == '' && this.user.roles.length > 0) {
+            this.selectedTabIndex = 1;
+          } else if (this.userSetting[i].val != '') {
+            this.activateSelectedTab(Number(this.userSetting[i].val))
+          } else if (this.user) {
+            this.selectedTabIndex = 0
+          }
+          break;
         }
-        break;
       }
-    }
     });
   }
 
@@ -386,7 +386,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   changeActiveView(type?: any, id?, view?, selectedWorkitemType?) {
     // console.log(type, id, view, selectedWorkitemType,"type, id, view, selectedWorkitemType");
-    
+
     if (type === 'dueToday' || type === 'overDue') {
       this.changeDeadlineToInactiveView(id, view);
     } else {
@@ -430,9 +430,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // console.log(type,id,"type,id");
     // console.log(this.dashboardStatistics[this.currentUser.EmpNo].deadline[this.dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].overDue.chartData);
     // console.log(this.dashboardStatistics[this.currentUser.EmpNo].deadline[this.dashboardStatistics[this.currentUser.EmpNo].deadline.selectedWorkitemType].dueToday.active);
-    
-    
-    
+
+
+
     this.dashboardStatistics[id].deadline.inbox.active = false;
     this.dashboardStatistics[id].deadline.sent.active = false;
     switch (type) {
@@ -445,16 +445,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSelect(event?: any, userType?: any, userName?: any, id?: any, day?: any, WIType?: any, dueWorkitemTypes?,type?) {
+  onSelect(event?: any, userType?: any, userName?: any, id?: any, day?: any, WIType?: any, dueWorkitemTypes?, type?) {
     // console.log(event);
-    
-    
+
+
     let label;
-    if (event.active && event.active.length > 0&&type=='Due') {
+    if (event.active && event.active.length > 0 && type == 'Due') {
       const chartElement = event.active[0];
       label = this.dueChartLabels[chartElement.index];
       console.log(`Selected Label: ${label}`);
-    }else{
+    } else {
       const chartElement = event.active[0];
       label = this.chartLabels[chartElement.index];
       console.log(`Selected Label: ${label}`);
@@ -545,7 +545,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.dashboardStatistics[id][view][itemTypeList[i]].chartData[0].data.push('');
         }
       });
-      
+
     }, Error => {
       this.busy = false;
     });
@@ -553,11 +553,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getWorkitemDeadlineStatistics(id, userType, workitemType, itemType) {
     // console.log(id, userType, workitemType, itemType);
-    
+
     this.busy = true;
     this.workflowService.getWorkitemStats(id, userType, 'DEADLINE', itemType, workitemType).subscribe(data => {
       // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",data[0].read);
-      
+
       this.busy = false;
       if (data && data[0]) {
         this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data = [];
@@ -565,22 +565,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.dashboardStatistics[id].deadline[workitemType][itemType].unread = data[0].unread;
         this.dashboardStatistics[id].deadline[workitemType][itemType].total = data[0].total;
         if (data[0].read > 0) {
-          if (workitemType=='inbox') {
-            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data.push(data[0].read);
-            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[1].data.push(0);
-          }else{
-            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data.push(data[0].read);
+          if (workitemType == 'inbox') {
+            this.dashboardStatistics[id].deadline[workitemType][itemType]?.chartData[0]?.data?.push(data[0].read);
+            this.dashboardStatistics[id].deadline[workitemType][itemType]?.chartData[1]?.data?.push(0);
+          } else {
+            this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data?.push(data[0].read);
           }
+        } else {
+          this.dashboardStatistics[id].deadline[workitemType][itemType].chartData?.push('');
+        }
+        if (data[0].unread > 0) {
+          this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0]?.data?.push(data[0].unread);
         } else {
           this.dashboardStatistics[id].deadline[workitemType][itemType].chartData.push('');
         }
-        if (data[0].unread > 0) {
-          this.dashboardStatistics[id].deadline[workitemType][itemType].chartData[0].data.push(data[0].unread);
-        } else {
-          this.dashboardStatistics[id].deadline[workitemType][itemType].chartData.push('');
-        }        
         // console.log(this.dashboardStatistics);
-        
+
       }
     }, Error => {
       this.busy = false;
@@ -588,11 +588,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   tabChange(textLabel, index) {
-    console.log("textLabel, index",textLabel, index);
-    
+    console.log("textLabel, index", textLabel, index);
+
     // this.currentUser = this.us.getCurrentUser();
     // console.log(this.currentUser);
-    
+
     this.selectedTabIndex = index;
     this.breadcrumbService.dashboardTabSelected = this.selectedTabIndex + '@' + textLabel;
     let type;

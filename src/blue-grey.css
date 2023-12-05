@@ -3480,7 +3480,8 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 }
 
 .p-datatable.p-datatable-sm .p-datatable-header {
-  padding: 0.375rem 0.375rem;
+  /* padding: 0.375rem 0.375rem; */
+  padding: 0 0.375rem;
 }
 
 .p-datatable.p-datatable-sm .p-datatable-thead>tr>th {
@@ -4236,7 +4237,8 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   border: 0 none;
   color: white;
   min-width: 3rem;
-  height: 3rem;
+  /* height: 3rem; */
+  height: auto;
   margin: 0.143rem;
   transition: none;
   border-radius: 50%;
@@ -4285,8 +4287,9 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   border: 0 none;
   color: white;
   min-width: 3rem;
-  height: 3rem;
-  margin: 0.143rem;
+  /* height: 3rem; */
+  /* margin: 0.143rem; */
+  height: auto;
   padding: 0 0.5rem;
 }
 
@@ -4295,9 +4298,11 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   border: 0 none;
   color: white;
   min-width: 3rem;
-  height: 3rem;
+  /* height: 3rem; */
   margin: 0.143rem;
   transition: none;
+  height: auto;
+  font-size: 12.5px;
   border-radius: 50%;
 }
 
@@ -5226,7 +5231,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 
 .p-tabview .p-tabview-panels {
   background: #ffffff;
-  padding: 0.75rem;
+  padding: 0;
   border: 0 none;
   color: rgba(0, 0, 0, 0.87);
   border-bottom-right-radius: 4px;
@@ -6114,7 +6119,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 }
 
 .p-menubar .p-menubar-root-list>.p-menuitem>.p-menuitem-link {
-  padding: 0.75rem;
+  padding: 0.5em;
   color: rgba(0, 0, 0, 0.87);
   border-radius: 4px;
   transition: none;

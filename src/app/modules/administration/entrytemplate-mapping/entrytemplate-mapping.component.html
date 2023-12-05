@@ -33,7 +33,7 @@
         <p-table [value]="entryTemp" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"  #dt1 [globalFilterFields]="['name', 'symName']"
          [tableStyle]="{ 'min-width': '20rem' }">
         <ng-template  pTemplate="caption"> 
-          <span class="p-input-icon-left ml-auto">
+          <span class="p-input-icon-left ml-auto" style="width: 100%;">
             <!-- <!--<i class="pi pi-search"></i>--> 
             <input
               pInputText
@@ -42,8 +42,8 @@
               placeholder="Search keyword"
             />
           </span>
-          <div style="text-align: center;">
-          Entry Template
+          <div style="text-align: center; color: white;">
+          Entry Templates
         </div></ng-template>
         <ng-template pTemplate="header">
           <tr>
@@ -98,7 +98,7 @@
         <div class="ui-g-7 ui-md-12 ui-sm-7 fix-h-450">
           <div *ngIf="mappedList" class="roleSearch-box border-grey">
             <div class="ui-inputgroup">
-              <span class="md-inputfield">
+              <span class="md-inputfield" style="width: 100%">
                 <input type="text" pInputText (input)="searchMappedOrg($event)" placeholder="Filter"
                   [(ngModel)]="searchOrgText" />
                 <!-- <i class="topbar-icon material-icons">search</i> -->

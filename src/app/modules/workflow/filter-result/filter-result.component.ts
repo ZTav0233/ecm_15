@@ -54,7 +54,7 @@ export class FilterResultComponent implements OnInit, OnDestroy {
   public columns: any[] = [{ label: 'Sent On', value: 'lastItemSentOn' }, { label: 'Workflow Created By', value: 'wfCreatorName' },
   { label: 'Workflow Created Date', value: 'createdOn' }, { label: 'Deadline', value: 'deadline' }
   ];
-  public selectedColumns: string[] = ['lastItemSentOn', 'wfCreatorName'];
+  public selectedColumns: any[] = ['lastItemSentOn', 'wfCreatorName'];
   public actions: string[] = ['Recall', 'Archive', 'Finish Before'];
   public disableAction = true;
   public selectedCount = 0;
@@ -453,16 +453,31 @@ export class FilterResultComponent implements OnInit, OnDestroy {
   }
 
   columnSelectionChanged(event: any) {
-    for (const tableHead of this.colHeaders) {
-      tableHead.hidden = true;
-    }
-    for (const colunm of this.selectedColumns) {
+    if (event) {
+      this.selectedColumns=event;
       for (const tableHead of this.colHeaders) {
-        if (tableHead.field === colunm) {
-          tableHead.hidden = false;
+        tableHead.hidden = true;
+      }
+      for (const colunm of this.selectedColumns) {
+        for (const tableHead of this.colHeaders) {
+          if (tableHead.field === colunm.field) {
+            tableHead.hidden = false;
+          }
+        }
+      }
+    } else {
+      for (const tableHead of this.colHeaders) {
+        tableHead.hidden = true;
+      }
+      for (const colunm of this.selectedColumns) {
+        for (const tableHead of this.colHeaders) {
+          if (tableHead.field === colunm) {
+            tableHead.hidden = false;
+          }
         }
       }
     }
+    
   }
 
   assignSortNotPaginationInfo(data) {

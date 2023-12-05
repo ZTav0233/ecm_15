@@ -79,7 +79,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     { label: 'Deadline', value: 'deadline' },
     { label: 'Reminder', value: 'reminder' }
   ];
-  public selectedColumns: string[] = [];
+  public selectedColumns: any[] = [];
   public user = new User();
   public actions: string[] = ['Finish', 'Finish Before', 'Reply', 'Reply-All', 'Forward', 'Relaunch', 'Flag'];
   advanceFilterShown = false;
@@ -148,6 +148,8 @@ export class InboxComponent implements OnInit, OnDestroy {
   public isAllRecalled: any;
   public showRecallInactiveDialog = false;
   public showOperationNotPossible = false;
+  public showItemDialogue = false;
+  public showItemDialogueDetails :any;
   public today = new Date();
   userSetting = [];
   public messageDenyAction: any;
@@ -182,7 +184,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.selectedUser = undefined;
     this.type = undefined;
     this.selectedColumns = ['status', 'actions', 'receivedDate', 'senderName', 'deadline'];
-    
+
     this.user = null;
     // get user details
     this.busy = true;
@@ -204,25 +206,28 @@ export class InboxComponent implements OnInit, OnDestroy {
     });
   }
 
-  getUserSetting(){
+  getUserSetting() {
     this.us.getUserSettings().subscribe(async result => {
+      console.log(result);
+
       this.userSetting = result;
       let isFound = false;
 
- 
-      for (const setting of this.userSetting) {      
+
+      for (const setting of this.userSetting) {
         if (setting.key === 'Inbox Selected Columns') {
           isFound = true;
-          if(setting.val ){
-           let inboxSelectedColumns = JSON.parse(setting.val );
-            this.selectedColumns  = inboxSelectedColumns
+          if (setting.val) {
+            let inboxSelectedColumns = JSON.parse(setting.val);
+
+            this.selectedColumns = inboxSelectedColumns
             this.columnSelectionChanged(null);
-          }else{
+          } else {
             this.columnSelectionChanged(null);
           }
         }
-      } 
-      if(!isFound){
+      }
+      if (!isFound) {
         this.columnSelectionChanged(null);
       }
 
@@ -314,14 +319,6 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   private _filterRecords(filterText, sortField, sortOrder, cb?) {
-    /*let columnsToFilter = _.cloneDeep(this.selectedColumns);
-    if (columnsToFilter.indexOf('subject') === -1)
-      columnsToFilter.splice(0, 0, 'subject');
-
-    let inboxWorkItems = this.coreService.getFilterRecords(this.inboxWorkitemsCopy.workitems, filterText, columnsToFilter);
-    inboxWorkItems = _.orderBy(inboxWorkItems, [workItem => workItem[sortField].toString().toLowerCase()], [this.coreService.getSortOrderText(sortOrder)]);
-    */
-
     this.request.sort = sortField;
     this.request.order = this.coreService.getSortOrderText(sortOrder, true);
     this.setDefaultSort(sortField, sortOrder);
@@ -332,8 +329,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   private _getSubjectFilteredFromServer(filterText, cb?) {
-    if(filterText.length > 2)
-    {
+    if (filterText.length > 2) {
       this.request.repStatus = 'active';
       let requestCopyForSubject = _.cloneDeep(this.request);
       requestCopyForSubject.subject = filterText;
@@ -394,8 +390,8 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   assignSortNotPaginationInfo(data) {
-    console.log(data,'data');
-    
+    console.log(data, 'data');
+
     if (this.user) {
       if (!data || !data.rows) {
         return;
@@ -424,7 +420,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       this.setDefaultSort(data.sortField, data.sortOrder);
 
       //if(!this.isFirstLoadCall)
-        this.searchInbox();
+      this.searchInbox();
     }
   }
 
@@ -637,11 +633,11 @@ export class InboxComponent implements OnInit, OnDestroy {
           }
         }
 
-        if(this.inboxSelectedItem.length == 1){
-          this.actionDisabled =  this.inboxSelectedItem[0].actions == 'Initial' || this.inboxSelectedItem[0].actions == 'Signature' ? true : false
-        }else{
-          for(let i = 0 ;i < this.inboxSelectedItem.length ;i++){
-            if(this.inboxSelectedItem[i].actions == 'Initial' || this.inboxSelectedItem[i].actions == 'Signature'){
+        if (this.inboxSelectedItem.length == 1) {
+          this.actionDisabled = this.inboxSelectedItem[0].actions == 'Initial' || this.inboxSelectedItem[0].actions == 'Signature' ? true : false
+        } else {
+          for (let i = 0; i < this.inboxSelectedItem.length; i++) {
+            if (this.inboxSelectedItem[i].actions == 'Initial' || this.inboxSelectedItem[i].actions == 'Signature') {
               this.actionDisabled = true;
               break;
             }
@@ -778,12 +774,12 @@ export class InboxComponent implements OnInit, OnDestroy {
     }
   }
 
-  
+
   updateFlag(record) {
     // if (this.activePage != 'sent') {
     // console.log(this.inboxSelectedItem[0])
     let url = '/WorkflowService/flagWorkitem'
-    if(this.inboxSelectedItem[0].isFlag){
+    if (this.inboxSelectedItem[0].isFlag) {
       url = '/WorkflowService/unFlagWorkitem'
     }
 
@@ -791,7 +787,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       let count = 0;
       this.inboxSelectedItem.map((item, index) => {
         this.busy = true;
-        this.ws.updateFlag(url,item.workitemId).subscribe(res1 => {
+        this.ws.updateFlag(url, item.workitemId).subscribe(res1 => {
           this.busy = false;
           count++;
           if (this.inboxSelectedItem.length === count) {
@@ -804,17 +800,17 @@ export class InboxComponent implements OnInit, OnDestroy {
         });
         //this.refreshTabList();
       });
-    }  
+    }
 
-      /* this.ws.updateFlag(url,this.inboxSelectedItem[0].workitemId).subscribe(res1 => {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success',
-          detail: 'Flag Updated Successfully'
-        }); 
+    /* this.ws.updateFlag(url,this.inboxSelectedItem[0].workitemId).subscribe(res1 => {
+      this.growlService.showGrowl({
+        severity: 'info',
+        summary: 'Success',
+        detail: 'Flag Updated Successfully'
+      }); 
 
-        this.refreshTabList();
-      });*/
+      this.refreshTabList();
+    });*/
     // }
   }
 
@@ -835,18 +831,18 @@ export class InboxComponent implements OnInit, OnDestroy {
     });
   }
 
-  refreshTabList(){
+  refreshTabList() {
     let workitems = this.inboxWorkitems.workitems;
     console.log("this.inboxWorkitems")
     console.log(this.inboxWorkitems)
     console.log(this.inboxSelectedItem)
     for (let i = 0; i < workitems.length; i++) {
-      let tab = workitems[i];   
+      let tab = workitems[i];
       if (tab.workitemId === this.inboxSelectedItem[0].workitemId) {
         // check if propertyToUpdate is array or single object
         workitems[i].isFlag = !workitems[i].isFlag;
         this.inboxWorkitems.workitems = workitems;
-       break;
+        break;
       }
     }
   }
@@ -856,39 +852,53 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   columnSelectionChanged(event: any) {
-    
-    for (const tableHead of this.colHeaders) {
-      tableHead.hidden = true;
-    }
-    for (const column of this.selectedColumns) {
+    console.log(event);
+    if (event) {
+      this.selectedColumns = event
+
       for (const tableHead of this.colHeaders) {
-        if (tableHead.field === column) {
-          tableHead.hidden = false;
+        tableHead.hidden = true;
+      }
+      for (const column of this.selectedColumns) {
+        for (const tableHead of this.colHeaders) {
+          if (tableHead.field === column.field) {
+            tableHead.hidden = false;
+          }
         }
       }
+      this.updateGeneralSetting();
+    }else{
+      for (const tableHead of this.colHeaders) {
+        tableHead.hidden = true;
+      }
+      for (const column of this.selectedColumns) {
+        for (const tableHead of this.colHeaders) {
+          if (tableHead.field === column.field) {
+            tableHead.hidden = false;
+          }
+        }
+      }
+      this.updateGeneralSetting()
     }
-    this.updateGeneralSetting();
-    
-  //  localStorage.setItem('inboxSelectedColumns',JSON.stringify(this.selectedColumns))
   }
 
   updateGeneralSetting() {
     let isFound = false;
-    for (const setting of this.userSetting) { 
-      if(setting.key === 'Inbox Selected Columns'){
-        isFound= true;
+    for (const setting of this.userSetting) {
+      if (setting.key === 'Inbox Selected Columns') {
+        isFound = true;
         setting.val = JSON.stringify(this.selectedColumns)
       }
     }
-    if(!isFound){
-        this.userSetting.push({
-          'id': null,
-          'appId': 'ECM',
-          'empNo': this.user.EmpNo,
-          'key': 'Inbox Selected Columns',
-          'val': JSON.stringify(this.selectedColumns)
+    if (!isFound) {
+      this.userSetting.push({
+        'id': null,
+        'appId': 'ECM',
+        'empNo': this.user.EmpNo,
+        'key': 'Inbox Selected Columns',
+        'val': JSON.stringify(this.selectedColumns)
       });
-      }
+    }
     this.us.updateUserSettings(this.userSetting).subscribe(val => {
       this.busy = false;
     }, err => {
@@ -967,7 +977,7 @@ export class InboxComponent implements OnInit, OnDestroy {
           this.ws.roleId = null;
         }
         this.request = tabData.lastRequest;
-     
+
         this.searchInbox();
       } else {
         this.advanceFilterShown = this.dashboardFilter || false;
@@ -1275,6 +1285,11 @@ export class InboxComponent implements OnInit, OnDestroy {
       }
     });
   }
+  listItemDailogue(ev:any){
+    console.log(ev);
+    this.showItemDialogue=true
+    this.showItemDialogueDetails=ev;
+  }
 
   /**
    * @description Hide the progress dialog
@@ -1546,7 +1561,7 @@ export class InboxComponent implements OnInit, OnDestroy {
    */
   closeAllDialog() {
     // console.log(this.dataTableComponent);
-    
+
     if (this.dataTableComponent) {
       this.dataTableComponent.map((d) => {
         d.hideAllDialog();
@@ -1562,7 +1577,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       })
     }
     // console.log(this.confirmDialogRef);
-    
+
     // if (this.confirmDialogRef)
     //   this.confirmDialogRef['hide']();
     // if (this.progressDialogRef)
@@ -1846,14 +1861,14 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   relaunchProceedAfterAddDelegate() {
-    this.callAddMissingPermissions(cb =>  {
-    if (this.ws.delegateId && this.ws.delegateId > 0) {
-      this.assignSecurityForDelegate(cb => {
+    this.callAddMissingPermissions(cb => {
+      if (this.ws.delegateId && this.ws.delegateId > 0) {
+        this.assignSecurityForDelegate(cb => {
+          this.router.navigate(['/workflow/launch', 'reLaunch', { id: this.inboxSelectedItem[0].workitemId }]);
+        });
+      } else {
         this.router.navigate(['/workflow/launch', 'reLaunch', { id: this.inboxSelectedItem[0].workitemId }]);
-      });
-    } else {
-      this.router.navigate(['/workflow/launch', 'reLaunch', { id: this.inboxSelectedItem[0].workitemId }]);
-    }
+      }
     });
   }
 

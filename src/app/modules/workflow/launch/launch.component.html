@@ -2,11 +2,11 @@
   <div class="ui-md-12 ui-g-12 p-0">
     <div class="ui-g-4 ui-md-4 ui-sm-12 p-l-0 p-t-0 p-b-xs">
       <!-- <div class="ui-g-12 p-l-0 p-b-0 p-t-md p-r-0" style="height: calc(100vh - 82px); overflow: auto;"> -->
-      <div class="ui-g-12 p-l-0 p-b-0 p-t-md p-r-0">
+      <div class="ui-g-12 p-l-0 p-b-0 p-t-md p-r-0 border-container">
         <p-tabView (onChange)="step1TabChange($event)" styleClass="max-h-tab" [activeIndex]="tabActiveIndex">
           <p-tabPanel header="Attachment">
-            <p-dropdown (onChange)="selectedOption()" [options]="browsingOptions" optionLabel="name"
-              (click)="dropDownHideShow?hideDropdown(false): hideDropdown(true)" class="example-css-class "
+            <p-dropdown (onChange)="selectedOption()" [options]="browsingOptions" optionLabel="name" 
+              (click)="dropDownHideShow?hideDropdown(false): hideDropdown(true)" class="example-css-class ECM-dropdown"
               id="dropdown" [placeholder]='"Attach From ECM/File System"' [(ngModel)]="selectedOptionForDocument">
             </p-dropdown>
 

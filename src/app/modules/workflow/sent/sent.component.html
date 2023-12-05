@@ -67,7 +67,8 @@
           [rowExpandable]="false" [activePage]="'sent'" [userType]="tab.tabType" [userId]="tab.recordId"
           [workflowFilter]="request && request.exportFilter || advanceFilterShown"
           (toggleProgressDialogue)="showProgressDialogue($event)" [isSelectedRoleInActive]="tab.status ==='INACTIVE'"
-          (toggleTrackSentitem)="showTrackSentitem($event,tab.tabType)" [tabNameIdentifier]="tab.tabIdentifier">
+          (toggleTrackSentitem)="showTrackSentitem($event,tab.tabType)" [tabNameIdentifier]="tab.tabIdentifier"
+          (sendSelectedColumns)="columnSelectionChanged($event)">
         </data-table>
         <data-table *ngIf="userGridView === gridViewOptions.grouped.value" [lazy]="true" [emptyMessage]="emptyMessage"
           [defaultSortField]="tab.sortField" [sortOrder]="tab.sortDirection" [rowGroupMode]="'subheader'"
@@ -80,7 +81,8 @@
           [rowExpandable]="false" [activePage]="'sent'" [userType]="tab.tabType" [userId]="tab.recordId"
           [workflowFilter]="request && request.exportFilter || advanceFilterShown"
           (toggleProgressDialogue)="showProgressDialogue($event)" [isSelectedRoleInActive]="tab.status ==='INACTIVE'"
-          (toggleTrackSentitem)="showTrackSentitem($event,tab.tabType)" [tabNameIdentifier]="tab.tabIdentifier">
+          (toggleTrackSentitem)="showTrackSentitem($event,tab.tabType)" [tabNameIdentifier]="tab.tabIdentifier"
+          (sendSelectedColumns)="columnSelectionChanged($event)">
         </data-table>
       </div>
 

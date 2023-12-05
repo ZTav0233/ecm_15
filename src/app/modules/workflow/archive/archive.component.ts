@@ -99,8 +99,8 @@ export class ArchiveComponent implements OnInit, OnDestroy {
     { label: 'Workflow Created Date', value: 'createdOn' },
     { label: 'Deadline', value: 'deadline' }
   ];
-  public inboxSelectedColumns: string[] = [];
-  public sentSelectedColumns: string[] = [];
+  public inboxSelectedColumns: any[] = [];
+  public sentSelectedColumns: any[] = [];
   public user = new User();
   public actions: string[] = ['Un-Archive', 'Relaunch'];
   action = new FormControl();
@@ -175,7 +175,7 @@ export class ArchiveComponent implements OnInit, OnDestroy {
   userSetting = [];
   public showOperationNotPossible = false;
   constructor(private breadcrumbService: BreadcrumbService, private router: Router, private ws: WorkflowService, private us: UserService, private bs: BrowserEvents,
-    public coreService: CoreService, private growlService: GrowlService, private confirmationService: ConfirmationService, ) {
+    public coreService: CoreService, private growlService: GrowlService, private confirmationService: ConfirmationService,) {
     this.subscribeRouterEvents();
     this.subscribeRefreshRequiredEvent();
   }
@@ -224,27 +224,13 @@ export class ArchiveComponent implements OnInit, OnDestroy {
     // inbox
 
     this.inboxSelectedColumns = ['receivedDate', 'senderName', 'deadline'];
-    // let inboxSelectedColumns:any = localStorage.getItem('archiveInboxSelectedColumns')
-    // if(inboxSelectedColumns){
-    //   inboxSelectedColumns = JSON.parse(inboxSelectedColumns);
-    //   this.inboxSelectedColumns  = inboxSelectedColumns
-    //   this.columnSelectionChanged(null, false);
-    // }else{
-    //   this.columnSelectionChanged(null, false);
-    // }
+
 
 
 
     // sentitems
     this.sentSelectedColumns = ['lastItemSentOn', 'wfCreatorName', 'deadline'];
-    // let sentSelectedColumns:any = localStorage.getItem('archiveSentSelectedColumns')
-    // if(sentSelectedColumns){ 
-    //   sentSelectedColumns = JSON.parse(sentSelectedColumns);
-    //   this.sentSelectedColumns  = sentSelectedColumns
-    //   this.columnSelectionChanged(null, true);
-    // }else{
-    //   this.columnSelectionChanged(null, true);
-    // }
+
 
   }
 
@@ -689,33 +675,67 @@ export class ArchiveComponent implements OnInit, OnDestroy {
     });
   }
 
-  columnSelectionChanged(event: any, isSent = false) {
+  columnSelectionChanged(event: any, isSent?:any) {
+    console.log("isSent",isSent);
+    
     if (!isSent) {
-      for (const tableHead of this.colHeaders) {
-        tableHead.hidden = true;
-      }
-      // localStorage.setItem('archiveInboxSelectedColumns',JSON.stringify(this.inboxSelectedColumns))
-      for (const column of this.inboxSelectedColumns) {
+      if (event) {
+        this.inboxSelectedColumns = event;
         for (const tableHead of this.colHeaders) {
-          if (tableHead.field === column) {
-            tableHead.hidden = false;
+          tableHead.hidden = true;
+        }
+        for (const column of this.inboxSelectedColumns) {
+          for (const tableHead of this.colHeaders) {
+            if (tableHead.field === column.field) {
+              tableHead.hidden = false;
+            }
           }
         }
+        this.updateInboxGeneralSetting();
+      } else {
+        for (const tableHead of this.colHeaders) {
+          tableHead.hidden = true;
+        }
+        for (const column of this.inboxSelectedColumns) {
+          for (const tableHead of this.colHeaders) {
+            if (tableHead.field === column.field) {
+              tableHead.hidden = false;
+            }
+          }
+        }
+        this.updateInboxGeneralSetting();
       }
-      this.updateInboxGeneralSetting();
+
     } else {
-      for (const tableHead of this.sentColHeaders) {
-        tableHead.hidden = true;
-      }
-      // localStorage.setItem('archiveSentSelectedColumns',JSON.stringify(this.sentSelectedColumns))
-      for (const column of this.sentSelectedColumns) {
+      console.log("else??????????????????????????????");
+      
+      if (event) {
+        this.sentSelectedColumns = event
         for (const tableHead of this.sentColHeaders) {
-          if (tableHead.field === column) {
-            tableHead.hidden = false;
+          tableHead.hidden = true;
+        }
+        for (const column of this.sentSelectedColumns) {
+          for (const tableHead of this.sentColHeaders) {
+            if (tableHead.field === column.field) {
+              tableHead.hidden = false;
+            }
           }
         }
+        this.updateSentGeneralSetting();
+      } else {
+        for (const tableHead of this.sentColHeaders) {
+          tableHead.hidden = true;
+        }
+        for (const column of this.sentSelectedColumns) {
+          for (const tableHead of this.sentColHeaders) {
+            if (tableHead.field === column.field) {
+              tableHead.hidden = false;
+            }
+          }
+        }
+        this.updateSentGeneralSetting();
       }
-      this.updateSentGeneralSetting();
+
     }
   }
 
@@ -1250,7 +1270,7 @@ export class ArchiveComponent implements OnInit, OnDestroy {
 
   assignSortNotPaginationInfo(data) {
     console.log(data);
-    
+
     if (!data || !data.rows) {
       return;
     }
