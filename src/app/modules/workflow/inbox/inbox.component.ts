@@ -148,6 +148,8 @@ export class InboxComponent implements OnInit, OnDestroy {
   public isAllRecalled: any;
   public showRecallInactiveDialog = false;
   public showOperationNotPossible = false;
+  public showItemDialogue = false;
+  public showItemDialogueDetails :any;
   public today = new Date();
   userSetting = [];
   public messageDenyAction: any;
@@ -1282,6 +1284,11 @@ export class InboxComponent implements OnInit, OnDestroy {
         this.getWorkitemProgress();
       }
     });
+  }
+  listItemDailogue(ev:any){
+    console.log(ev);
+    this.showItemDialogue=true
+    this.showItemDialogueDetails=ev;
   }
 
   /**

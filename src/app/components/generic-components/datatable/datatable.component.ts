@@ -65,6 +65,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   @Output() addToCart = new EventEmitter();
   @Output() download = new EventEmitter();
   @Output() toggleProgressDialogue = new EventEmitter();
+  @Output() listItemsDialogue = new EventEmitter();
   @Output() toggleTrackSentitem = new EventEmitter();
   @Output() sendSortPagination = new EventEmitter();
   @Output() filteredGridItemsToExport = new EventEmitter();
@@ -183,6 +184,14 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
 
   mToggleProgressDialogue(workitemId, $event?) {
     this.toggleProgressDialogue.emit(workitemId);
+    if ($event) {
+      $event.stopPropagation();
+    }
+  }
+  listItemDialogue(workitemId, $event?){
+    console.log(workitemId);
+    
+    this.listItemsDialogue.emit(workitemId);
     if ($event) {
       $event.stopPropagation();
     }
