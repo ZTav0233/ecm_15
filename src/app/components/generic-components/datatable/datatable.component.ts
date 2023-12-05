@@ -253,6 +253,8 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
     
     
     this.cols=this.colHeaders.filter(column => !column.hidden);
+    console.log(this.cols);
+    
     
     this.bs.setPageNoOnLoadMore.subscribe(d => {
       this.first = d;
