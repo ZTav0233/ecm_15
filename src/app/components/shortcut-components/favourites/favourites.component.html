@@ -7,15 +7,18 @@
     [selectedRows]="selectedItem" [showInfoIcon]="true" [itemsPerPage]="itemsPerPage" [rowExpandable]="false"
     [totalRecords]="favDocuments?favDocuments.length:0" (filteredGridItemsToExport)="getFilteredItems($event)">
   </p-table> -->
-  <p-table  (sendData)="getData($event)"
-         (refreshScreen)="refreshTable()" [totalRecords]="favDocuments ? favDocuments.length : 0"
-         (filteredGridItemsToExport)="getFilteredItems($event)"></p-table>
+  <data-table [showCount]="true" [totalCount]="favDocuments.length" (sendData)="getData($event,sidemenu);"
+  [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable();" [tableData]="favDocuments"
+  [activePage]="'favorites'" [colHeaders]="colHeaders" [showDownloadIcon]="false" [showAddCartIcon]="false"
+  [selectedRows]="selectedItem" [showInfoIcon]="true" [itemsPerPage]="itemsPerPage" [rowExpandable]="false"
+  [totalRecords]="favDocuments?favDocuments.length:0" (filteredGridItemsToExport)="getFilteredItems($event)">
+</data-table>
 </div>
 <div [ngClass]="{'hidden':!selectedItem || selectedItem.length===0}">
-  <!-- <ngx-aside #sidemenu [showDefaultFooter]="false" [showDefaultHeader]="false" [showOverlay]="false">
+  <div #sidemenu class="aside-panel">
     <app-rightpanel (sendUpdate)="getFavUpdated($event);" (sendFolders)="getBrowseUpdated($event);"
       [currentScreen]="screen" (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>
-  </ngx-aside> -->
+  </div>
 </div>
 <div class="progress-bar">
   <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>

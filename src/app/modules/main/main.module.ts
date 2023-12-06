@@ -34,6 +34,7 @@ import { MessagesModule } from 'primeng/messages';
 import { MainRoutingModule } from './main-routing.module';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
+import { SharedDataTableModule } from 'src/app/shared-modules/data-table/data-table.module';
 
 @NgModule({
   imports: [
@@ -63,7 +64,8 @@ import { TableModule } from 'primeng/table';
     MessageModule,
     MessagesModule,
     ConfirmDialogModule,
-    TableModule
+    TableModule,
+    SharedDataTableModule
 
 
   ],

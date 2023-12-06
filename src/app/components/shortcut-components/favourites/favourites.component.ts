@@ -12,6 +12,7 @@ import { CoreService } from '../../../services/core.service';
 import { ContentService } from "../../../services/content.service";
 import { saveAs } from 'file-saver';
 import * as _ from "lodash";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-favourites',
@@ -19,6 +20,7 @@ import * as _ from "lodash";
   styleUrls: ['./favourites.component.css']
 })
 export class FavouritesComponent implements OnInit, OnDestroy {
+  @ViewChild('dt1') dataTable!: Table;
   public selectedItem: any[] = [];
   private subscription: Subscription[] = [];
   public itemsPerPage: any;
@@ -71,7 +73,12 @@ export class FavouritesComponent implements OnInit, OnDestroy {
 
     }
   }
-
+  applyFilterGlobal($event, stringVal) {
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
   getRowTrackBy = (index, item) => {
     return item.id;
   };
