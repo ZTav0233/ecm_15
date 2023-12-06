@@ -292,7 +292,7 @@
       </ng-template>
      
     </p-table>  -->
-    <p-table [columns]="colHeaders" [resizableColumns]="true" columnResizeMode="expand" dataKey="workitemId"
+    <p-table [columns]="cols" [resizableColumns]="true" columnResizeMode="expand" dataKey="workitemId"
       (onHeaderCheckboxToggle)="checked()" (onRowSelect)="checked($event)" (onRowUnselect)="unchecked($event)"
       (onRowClick)="rowSelected($event)" (onFilter)="onFiltering($event)" selectionMode="multiple" [lazy]="true"
       [totalRecords]="totalRecords" expandableRows="true" [value]="tableData"
@@ -307,7 +307,7 @@
         <div style="display: flex; justify-content: space-between;">
           <p-columnFilter type="text" field="subject"></p-columnFilter>
           <div style="display: flex;align-items: center;">
-            <p-multiSelect (onChange)="onChange($event)" [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
+            <p-multiSelect (onChange)="onChange($event)" [options]="colHeaders" [(ngModel)]="cols" optionLabel="header"
               selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"
               style="margin-right: 45px"></p-multiSelect>
             <!-- <div style="color: white;"
@@ -330,7 +330,7 @@
           </th>
           <th *ngIf="activePage==='inbox' && !reportPage" style="width:29px;"></th>
           <th *ngIf="activePage==='inbox' && !reportPage" style="width: 30px;"></th>
-          <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="flag">
+          <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="isFlag">
             Flag <p-sortIcon field="flag"></p-sortIcon>
           </th>
           <th *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" pSortableColumn="subject"
@@ -495,7 +495,7 @@
   </div>
   <!-- Grouped -->
   <div class="data-table-scroll" *ngIf="rowGroupMode">
-    <p-table [value]="tableData" [columns]="colHeaders" sortField="createdDate" dataKey="dateGroup"
+    <p-table [value]="tableData" [columns]="cols" sortField="dateGroup" dataKey="dateGroup"
       rowGroupMode="subheader" groupRowsBy="dateGroup" [tableStyle]="{'min-width': '70rem'}"
       (onHeaderCheckboxToggle)="checked()" (onRowSelect)="checked($event)" (onRowUnselect)="unchecked($event)"
       (onRowClick)="rowSelected($event)" (onFilter)="onFiltering($event)" selectionMode="multiple" [lazy]="true"
@@ -509,7 +509,7 @@
         <div style="display: flex; justify-content: space-between;">
           <p-columnFilter type="text" field="subject"></p-columnFilter>
           <div style="display: flex;align-items: center;">
-            <p-multiSelect (onChange)="onChange($event)" [options]="cols" [(ngModel)]="colHeaders" optionLabel="header"
+            <p-multiSelect (onChange)="onChange($event)" [options]="colHeaders" [(ngModel)]="cols" optionLabel="header"
               selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"
               style="margin-right: 45px"></p-multiSelect>
             <!-- <div style="color: white;"
@@ -531,7 +531,7 @@
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
           <th *ngIf="activePage==='inbox' && !reportPage" style="width: 30px;"></th>
-          <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="flag">
+          <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="isFlag">
             Flag <p-sortIcon field="flag"></p-sortIcon>
           </th>
           <th *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" pSortableColumn="subject"
@@ -551,7 +551,7 @@
           <th *ngIf="activePage==='draft'"></th>
         </tr>
       </ng-template>
-      <ng-template *ngIf="!!rowGroupMode && !!groupField" pTemplate="groupheader" let-rowData let-rowIndex="rowIndex"
+      <ng-template  pTemplate="groupheader" let-rowData let-rowIndex="rowIndex"
         let-expanded="expanded">
         <tr>
           <td colspan="14">

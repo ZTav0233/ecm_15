@@ -310,6 +310,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   }
   onChange(ev:any){
     console.log(ev);
+    this.cols=ev.value
     this.sendSelectedColumns.emit(ev.value)
     
   }
