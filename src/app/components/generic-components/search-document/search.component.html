@@ -181,7 +181,7 @@
           </div>
 
         </div>
-        <div class="ui-g-4"
+        <div class="ui-g-3"
           *ngIf="showSavedSearches && !savedSearchesHidden && data.searchTemplate && data.searchTemplate.props ">
           <div class="user-list">
             <p-panel>
@@ -202,7 +202,7 @@
                       <a href="javascript:"
                         [ngClass]="{'ui-state-highlight':search===selectedSearch}">{{search.name}}</a>
                     </td>
-                    <td align="right" class="action-btn-group"
+                    <td align="right" class="action-btn-group" style="width: 105px !important;"
                       [ngClass]="{'ui-state-highlight':search===selectedSearch}">
                       <span class="action-btn-group-sm">
                         <button pButton type="button" icon="fa fa-fw ui-icon-clear" (click)="removeSearch(search)" title="Delete" style="padding: 3px !important;"
