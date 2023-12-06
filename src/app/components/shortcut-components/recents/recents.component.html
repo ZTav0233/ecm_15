@@ -1,12 +1,12 @@
 <button pButton type="button" label="Export" (click)="exportToExcel();" class="pull-right m-b-sm"
   [disabled]="!gridItemsToExport || gridItemsToExport.length==0"></button>
 <div *ngIf="recDocuments">
-  <!-- <p-table [showCount]="true" [totalCount]="recDocuments.length" (sendData)="getData($event,sidemenu)"
-    [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable($event);" [activePage]="'recents'"
+  <data-table [showCount]="true" [totalCount]="recDocuments.length" (sendData)="getData($event,sidemenu)"
+    [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable();" [activePage]="'recents'"
     [tableData]="recDocuments" [showDownloadIcon]="false" [showAddCartIcon]="false" [showInfoIcon]="true"
     [totalRecords]="recDocuments?recDocuments.length:0" [colHeaders]="colHeaders" [itemsPerPage]="itemsPerPage"
     [rowExpandable]="false" [selectedRows]="selectedItem" (filteredGridItemsToExport)="getFilteredItems($event)">
-  </p-table> -->
+  </data-table>
   <p-table  (sendData)="getData($event)"
      (refreshScreen)="refreshTable()" 
     
@@ -14,10 +14,10 @@
 </p-table>
 </div>
 <div [ngClass]="{'hidden':!selectedItem || selectedItem.length===0}">
-  <!-- <ngx-aside #sidemenu [showDefaultFooter]="false" [showDefaultHeader]="false" [showOverlay]="false">
+  <div #sidemenu class="aside-panel">
     <app-rightpanel (sendUpdate)="getRecUpdated($event);" (sendFolders)="getBrowseUpdated($event);"
       [currentScreen]="screen" (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>
-  </ngx-aside> -->
+  </div>
 </div>
 <div class="progress-bar">
   <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>

@@ -4,9 +4,11 @@
  <div *ngIf="activeTabName==='Online Manuals'"  class="ui-g-12 ui-md-12 p-0">
   <p-table (refreshScreen)="refreshTable()" [totalRecords]="quickDocs ? quickDocs.length : 0"></p-table>
 
-     <!--<data-table *ngIf="activeTabName==='Training Videos'"  [showCount]="true"  (sendData)="getData($event,sidemenu);" [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable($event);"-->
-            <!--[tableData]="video" [colHeaders]="colHeaders" [showDownloadIcon]="false" [showAddCartIcon]="false"-->
-            <!--[showInfoIcon]="true" [itemsPerPage]="itemsPerPage" [rowExpandable]="false"></data-table>-->
+  <data-table  [showCount]="true"  [totalCount]="quickDocs?quickDocs.length:0" [activePage]="'help'"
+  [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable();"
+  [tableData]="quickDocs" [colHeaders]="colHeaders" [showDownloadIcon]="false" [showAddCartIcon]="false"
+  [showInfoIcon]="true" [itemsPerPage]="itemsPerPage" [rowExpandable]="false"
+  [totalRecords]="quickDocs?quickDocs.length:0"></data-table>
  </div>
  <div *ngIf="activeTabName==='Training Videos'" class="ui-g-12 ui-md-12 p-0">
    <p-tree #expandingTree [value]="videoList"
