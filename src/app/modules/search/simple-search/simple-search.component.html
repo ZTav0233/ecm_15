@@ -1,0 +1,56 @@
+<div class="ui-g-12 p-0 search-export">
+  <button role="button" pButton type="button" label="Export" (click)="exportToExcel()"
+    [disabled]="!searchResultCopy || searchResultCopy.length==0"></button>
+  <span class="search-result" *ngIf="searchObj.searchResult && searchObj.searchResult.length">Total Results:
+    {{searchObj.totalResults}}
+    <span *ngIf="searchObj.message">( {{searchObj.message}} )</span>
+  </span>
+</div>
+<p-accordion (onOpen)="onTabOpen($event)" [multiple]="true" [style]="{'margin-top':'45px'}">
+  <!--<p-tabView [activeIndex]="selectedIndex" (onChange)="changeTab($event)">-->
+  <!--<p-tabPanel header="Document Search">-->
+  <p-accordionTab header="Document Search" [selected]="isSearchSelected" [disabled]="selectedItem.length!==0">
+    <div [ngClass]="{'hidden':!selectedItem || selectedItem.length!==0}">
+      <app-search-document (onSearchComplete)="onSearchComplete($event)"
+        (updateSearchResultCopy)="updateSearchResultCopy($event)" [data]="searchObj" [isSimpleSearch]="true"
+        [dataTableComponentRef]="dataTableComponentRef"></app-search-document>
+    </div>
+    <!--</p-tabPanel>-->
+    <!--<p-tabPanel header="Search Result">-->
+  </p-accordionTab>
+  <p-accordionTab header="Search Result" [selected]="!isSearchSelected">
+    <p-header>
+      <span *ngIf="searchObj.searchResult && searchObj.searchResult.length===0">Search Result</span>
+      <span *ngIf="searchObj.searchResult && searchObj.searchResult.length>0">
+        Total {{searchObj.totalResults}} Records Found
+      </span>
+    </p-header>
+    <div class="ui-g">
+      <div class="ui-g-12 " *ngIf="searchObj.searchResult">
+        <!--(sendSortPagination)="continueSearch($event)"-->
+        <data-table [showCount]="true" [totalCount]="searchObj.totalResults" (sendData)="getData($event,sidemenu);"
+          [tableData]="searchObj.searchResult" [colHeaders]="colHeaders" [isLoadButtonDisabled]="isLastPage"
+          [itemsPerPage]="searchpageSize?searchpageSize:searchCountLimit" [rowExpandable]="false" [showInfoIcon]="true"
+          (addToCart)="addToCart($event)" [totalRecords]="searchObj.searchResult?searchObj.totalResults:0"
+          (sendPaginationInfoSearch)="getPaginationInfoSearch($event)" (download)="downloadDoc($event)" [lazy]="false"
+           [selectedRows]="selectedItem" [activePage]="'simpleSearch'"
+          [showCheckBox]="true" (filteredGridItemsToExport)="getFilteredItems($event)">
+        </data-table>
+      </div>
+    </div>
+  </p-accordionTab>
+  <!--</p-tabPanel>-->
+  <!--</p-tabView>-->
+</p-accordion>
+<div [ngClass]="{'hidden':!selectedItem || selectedItem.length===0}">
+  <!-- <ngx-aside #sidemenu [showDefaultFooter]="false" [showDefaultHeader]="false" [showOverlay]="false"> -->
+    <div #sidemenu class="aside-panel">
+    <app-rightpanel (sendFolders)="getBrowseUpdated($event);" [currentScreen]="screen"
+      (refreshScreen)="refresh($event);" (togglePanel)="toggle()" (toggleStrikeDeletedItem)="strikeDeletedItem($event)">
+    </app-rightpanel>
+  </div>
+  <!-- </ngx-aside> -->
+</div>
+<div class="progress-bar">
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

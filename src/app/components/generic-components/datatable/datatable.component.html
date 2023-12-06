@@ -552,12 +552,12 @@
         </tr>
       </ng-template>
       <ng-template  pTemplate="groupheader" let-rowData let-rowIndex="rowIndex"
-        let-expanded="expanded">
+        >
         <tr>
           <td colspan="14">
-            <button type="button" pButton pRipple [pRowToggler]="rowData"
+            <!-- <button type="button" pButton pRipple [pRowToggler]="rowData"
               class="p-button-text p-button-rounded p-button-plain mr-2"
-              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button> -->
             <span [innerHTML]="rowData.recordGroupName"></span>
             <span *ngIf="expandedRowsGroupsSubTotal && expandedRowsGroupsSubTotal[rowData.recordGroupName]">
               ({{expandedRowsGroupsSubTotal[rowData.recordGroupName]}}
@@ -571,7 +571,7 @@
           </td>
         </tr>
       </ng-template>
-      <ng-template pTemplate="rowexpansion" let-product let-columns="columns">
+      <ng-template pTemplate="body" let-product let-columns="columns">
         <tr [pSelectableRow]="product">
           <td *ngIf="activePage!='draft'" style="width:17px;">
             <p-tableCheckbox [value]="product"></p-tableCheckbox>

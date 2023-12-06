@@ -9,6 +9,7 @@ const routes: Routes = [
       {path: '', loadChildren:()=>import( './modules/main/main.module').then(m=>m.MainModule)},
       {path: 'workflow', loadChildren:()=>import('./modules/workflow/workflow.module').then(m=>m.WorkflowModule)},//canActivate: [WorkflowAuthGuardService]
       {path: 'browse', loadChildren:()=>import('./modules/browse/browse.module').then(m=>m.BrowseModule)},
+      {path: 'search', loadChildren:()=>import('./modules/search/search.module').then(m=>m.SearchModule)},
       {path: 'settings', loadChildren:()=>import('./modules/settings/settings.module').then(m=>m.SettingsModule)},
       {path: 'administration', loadChildren:()=>import( './modules/administration/administration.module').then(m=>m.AdministrationModule)},
       {path: 'report', loadChildren: ()=>import('./modules/report/report.module').then(m=>m.ReportModule)},
