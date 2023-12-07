@@ -53,7 +53,8 @@ export class AdminService {
 
   getSubLevelOrgUnits(orgId): any {
     const url = `${global.base_url}AdministrationService/getSubLevelOrgUnits?orgId=${orgId}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
-    return this.http.get(url);
+    // return this.http.get(url);
+    return this.http.get('./assets/data/getSubLevelOrgUnits3.json');
   }
 
   getOrgUnitsByTypeAndTypeAndStatus(type: string, status: string): any {

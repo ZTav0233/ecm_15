@@ -31,9 +31,11 @@ import { NgChartsModule } from 'ng2-charts';
 import { MatSelectModule } from '@angular/material/select';
 import { ReportsRoleTreeComponent } from 'src/app/components/generic-components/reports-role-tree/reports-role-tree.component';
 import { TableModule } from 'primeng/table';
+import { ReportRoutingModule } from './report-routing.module';
 
 @NgModule({
   imports: [
+    ReportRoutingModule,
     CommonModule,
     AccordionModule,
     ButtonModule,
@@ -61,4 +63,7 @@ import { TableModule } from 'primeng/table';
     ConfigurationService, {provide: APP_BASE_HREF, useValue: '/'}
   ]
 })
-export class ReportModule { }
+export class ReportModule { 
+ 
+  
+}

@@ -17,7 +17,8 @@ export class ReportService {
 
   getOrgWorkitemCount(query) {
     const url = `${global.base_url}ReportService/getOrgWorkitemCount`;
-    return this.http.post(url, query);
+    // return this.http.post(url, query);
+    return this.http.get('./assets/data/getOrgWorkitemCount3.json');
   }
 
   getOrgSentitemCount(query) {
@@ -37,7 +38,8 @@ export class ReportService {
 
   getOrgDocumentCount(query) {
     const url = `${global.base_url}ReportService/getOrgDocumentCount`;
-    return this.http.post(url, query);
+    // return this.http.post(url, query);
+    return this.http.get('./assets/data/getOrgDocumentCount3.json');
   }
 
   exportOrgDocumentCount(query) {
@@ -47,7 +49,14 @@ export class ReportService {
 
   getOrgESignItems(query) {
     const url = `${global.base_url}ReportService/getOrgESignItems`;
-    return this.http.post(url, query);
+    // return this.http.post(url, query);
+    return this.http.get('./assets/data/getOrgESignItems3.json');
+  }
+
+  getOrgMemoItems(query) {
+    const url = `${global.base_url}ReportService/getOrgMemoItems`;
+    // return this.http.post(url, query);
+    return this.http.get('./assets/data/getOrgMemoItems3.json')
   }
 
   exportOrgESignItems(query) {
@@ -55,9 +64,15 @@ export class ReportService {
     return this.http.post(url, query,{responseType:"blob"});
   }
 
+  exportOrgMemoItems(query) {
+    const url = `${global.base_url}ReportService/exportOrgMemoItems`;
+    return this.http.post(url, query,{responseType:"blob"});
+  }
+
   getOrgAllReportCount(query){
     const url = `${global.base_url}ReportService/getOrgAllReportCount`;
-    return this.http.post(url, query);
+    // return this.http.post(url, query);
+    return this.http.get('./assets/data/getOrgAllReportCount_User3.json');
   }
 
   public getAllReportStaticData(): Observable<any> {

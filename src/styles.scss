@@ -310,6 +310,12 @@ body {
 .ui-icon-build::before{
     content: "build";
 }
+.ui-icon-navigate-next::before{
+    content: "navigate_next";
+}
+.ui-icon-navigate-before::before{
+    content: "navigate_before";
+}
 .ui-icon-vertical-align-center::before{
     content: "vertical_align_center";
 }

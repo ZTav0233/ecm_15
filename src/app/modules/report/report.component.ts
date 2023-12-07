@@ -12,12 +12,14 @@ import * as _ from "lodash";
 import { GrowlService } from "../../services/growl.service";
 import * as moment from 'moment';
 import { BaseChartDirective } from 'ng2-charts';
+import { Table } from 'primeng/table';
 @Component({
   selector: 'app-report-component',
   templateUrl: './report.component.html'
 })
 
 export class ReportComponent implements OnInit, OnDestroy {
+  @ViewChild('dt') dataTable!: Table;
   public activeIndex: any[] = [0];
   public report: any = {
     roles: {},
@@ -56,6 +58,9 @@ export class ReportComponent implements OnInit, OnDestroy {
     scaleShowVerticalLines: false,
     responsive: true,
     maintainAspectRatio: true,
+     
+    barThickness:10,
+    indexAxis: 'y',
     plugins: {
       datalabels: {
         align: 'end',
@@ -101,9 +106,10 @@ export class ReportComponent implements OnInit, OnDestroy {
       ],
       yAxes: [
         {
-          barPercentage: 0.8,
+          barPercentage: 0.1,
           categoryPercentage: 1.0,
-          maxBarThickness: 45,
+          maxBarThickness: 15,
+          barThickness:10,
           ticks: {
             fontSize: 12,
             fontColor: '#000000',
@@ -141,9 +147,12 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
   };
   public allChartOptions: any = {
+     
+    barThickness:10,
     scaleShowVerticalLines: false,
     responsive: true,
     maintainAspectRatio: true,
+    indexAxis: 'y',
     plugins: {
       datalabels: {
         align: 'end',
@@ -230,9 +239,12 @@ export class ReportComponent implements OnInit, OnDestroy {
     },
   };
   public otherChartOptions: any = {
+     
+    barThickness:10,
     scaleShowVerticalLines: false,
     responsive: true,
     maintainAspectRatio: true,
+    indexAxis: 'y',
     plugins: {
       datalabels: {
         align: 'end',
@@ -345,10 +357,13 @@ export class ReportComponent implements OnInit, OnDestroy {
     private coreService: CoreService,
     private rs: ReportService,
     private as: AdminService,
-    private growlService: GrowlService) {
+    private growlService: GrowlService) 
+    {
+      console.log("ayayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
   }
 
   ngOnInit() {
+
     this.maxToDateValue=new Date();
     this.us.getUserSettings().subscribe(val => {
       const res: any = val;
@@ -397,6 +412,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       { field: 'docCount', header: 'Created' },
       { field: 'eSignCount', header: 'eSign' }
     ];
+    
     this.breadcrumbService.setItems([
       { label: 'Reports' }
     ]);
@@ -835,7 +851,14 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.searchQuery.type = undefined;
     this.enterUserName();
   }
+  applyFilterGlobal($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value);
 
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
   getReport() {
     if (typeof this.report.search.userSearchText === 'string') {
       this.growlService.showGrowl({
@@ -868,7 +891,6 @@ export class ReportComponent implements OnInit, OnDestroy {
       }
       this.colHeaders = [{ field: 'orgTeamName', header: this.getLabelByOrg() },
       { field: 'orgCode', header: 'Organization Code' },
-        //{field: 'count', header: 'Count'}
       ];
       this.allReportColHeaders = [
         { field: 'orgTeamName', header: this.getLabelByOrg() },
@@ -883,12 +905,9 @@ export class ReportComponent implements OnInit, OnDestroy {
         { field: 'orgTeamName', header: 'Team Name' },
         { field: 'orgGroupName', header: 'Directorate/Group Name' },
         { field: 'orgCode', header: 'Organization Code' },
-        //{field: 'count', header: 'Count'}
       ];
       this.allReportColHeaders = [
-        //{field: 'orgRoleName', header: 'User/Role Name'},
         { field: 'orgTeamName', header: 'Team Name' },
-        //{field: 'orgGroupName', header: 'Directorate/Group Name'},
         { field: 'inboxCount', header: 'Received' },
         { field: 'sentCount', header: 'sent' },
         { field: 'docCount', header: 'Created' },
@@ -1039,16 +1058,16 @@ export class ReportComponent implements OnInit, OnDestroy {
         ];
       }
       this.busy = true;
-      // this.rs.getOrgMemoItems(this.searchQuery).subscribe(res => {
-      //   this.busy = false;
-      //   this.assignMemoDate(res);
-      //   this.reportCount = [];
-      //   this.activeIndex = [1];
-      //   this.memoData = true;
-      //   this.searchQuery.memoData = res;
-      // }, err => {
-      //   this.busy = false;
-      // });
+      this.rs.getOrgMemoItems(this.searchQuery).subscribe(res => {
+        this.busy = false;
+        this.assignMemoDate(res);
+        this.reportCount = [];
+        this.activeIndex = [1];
+        this.memoData = true;
+        this.searchQuery.memoData = res;
+      }, err => {
+        this.busy = false;
+      });
     } else if (this.report.search.reportType === 'all') {
       this.chartOptions = this.allChartOptions;
       this.chartOptions.title.text = "All Report Chart";

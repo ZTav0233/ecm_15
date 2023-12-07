@@ -1,0 +1,632 @@
+[
+    {
+        "id": 52,
+        "name": "Corporate Planning Performance Management TL",
+        "orgCode": "LP21",
+        "type": "1",
+        "parentRole": 358,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 53,
+        "name": "Corporate Planning Strategic Planning TL",
+        "orgCode": "LP11",
+        "type": "1",
+        "parentRole": 358,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 520,
+        "name": "cr2 Dims Developers ",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 0,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 568,
+        "name": "Deputy CEO Planning & Innovation",
+        "orgCode": "LX01",
+        "type": "1",
+        "parentRole": 566,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 232,
+        "name": "DIMS Admins",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 0,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 228,
+        "name": "Dims Project Mgr",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 0,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 227,
+        "name": "DIMS Support Team",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 0,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 519,
+        "name": "DIMS System 1",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 0,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 616,
+        "name": "ECM Admins Unit",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 612,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 618,
+        "name": "ECM BS Unit",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 612,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2004,
+        "name": "ECM Dev Role",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 612,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 615,
+        "name": "ECM Development Unit",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 612,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 614,
+        "name": "ECM Management Unit",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 612,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 1675,
+        "name": "ECM Marketing Unit",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 612,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2002,
+        "name": "ECM QA Role1",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 612,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2003,
+        "name": "ECM QA Role2",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 612,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 613,
+        "name": "ECM Support Team Unit",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 612,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 268,
+        "name": "ECM Test Role1",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 612,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 269,
+        "name": "ECM Test Role2",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 612,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 1643,
+        "name": "I&T Enhanced hydrocarbon Recovery TL",
+        "orgCode": "LJ61",
+        "type": "1",
+        "parentRole": 1713,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 21,
+        "name": "I&T Exploration & Production Information Management TL",
+        "orgCode": "LJ51",
+        "type": "1",
+        "parentRole": 1713,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 4,
+        "name": "I&T Information Solutions - Exploration & Production TL",
+        "orgCode": "LJ41",
+        "type": "1",
+        "parentRole": 1713,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 442,
+        "name": "I&T Research & Development Programs TL",
+        "orgCode": "LJ11",
+        "type": "1",
+        "parentRole": 1713,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 163,
+        "name": "I&T Research & Technology Subsurface TL",
+        "orgCode": "LJ21",
+        "type": "1",
+        "parentRole": 1713,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 162,
+        "name": "I&T Research & Technology Surface TL",
+        "orgCode": "LJ31",
+        "type": "1",
+        "parentRole": 1713,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 1714,
+        "name": "Innovation & Technology Manager",
+        "orgCode": "LJ01",
+        "type": "1",
+        "parentRole": 1713,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2025,
+        "name": "IT C&N (Asset Area-Ahmadi)",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2028,
+        "name": "IT C&N (Asset Area-NK)",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2026,
+        "name": "IT C&N (Asset Area-S&EK)",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2027,
+        "name": "IT C&N (Asset Area-WK)",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 624,
+        "name": "IT C&N (Corporate Networks)",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 625,
+        "name": "IT C&N (Fiber Optic)",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 1697,
+        "name": "IT C&N (Integrated Security Networks)",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2005,
+        "name": "IT C&N (Planning)",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 623,
+        "name": "IT C&N (Projects Management)",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 626,
+        "name": "IT C&N (SCADA Networks)",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 1716,
+        "name": "IT C&N (Support Services )",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 9,
+        "name": "IT C&N (Voice Communications)",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 622,
+        "name": "IT C&N (Wireless Communication)",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 3,
+        "name": "IT C&N TL",
+        "orgCode": "LT41",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 58,
+        "name": "IT Contracts Admin",
+        "orgCode": "LT11",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 242,
+        "name": "IT Corporate solutions TL",
+        "orgCode": "LT31",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 240,
+        "name": "IT Financial & Technical Systems TL",
+        "orgCode": "LT21",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 631,
+        "name": "IT Information Security TL",
+        "orgCode": "LT71",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2,
+        "name": "IT Operations TL",
+        "orgCode": "LT11",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2125,
+        "name": "IT Planning Contracts Unit",
+        "orgCode": "LT61",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2126,
+        "name": "IT Planning Finance Unit",
+        "orgCode": "LT61",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 241,
+        "name": "IT Services TL",
+        "orgCode": "LT51",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 1,
+        "name": "Manager IT",
+        "orgCode": "LT01",
+        "type": "1",
+        "parentRole": 362,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 68,
+        "name": "Manager PR&I",
+        "orgCode": "LB01",
+        "type": "1",
+        "parentRole": 329,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 1715,
+        "name": "P&S Planning & Innovation TL",
+        "orgCode": "LX02",
+        "type": "1",
+        "parentRole": 566,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2189,
+        "name": "PI Assets Control TL",
+        "orgCode": "LI11",
+        "type": "1",
+        "parentRole": 2187,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 1632,
+        "name": "PI Production Excellence & Planning TL",
+        "orgCode": "LI31",
+        "type": "1",
+        "parentRole": 2187,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2190,
+        "name": "PI Production Supply Chain TL",
+        "orgCode": "LI21",
+        "type": "1",
+        "parentRole": 2187,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 22,
+        "name": "PI Reservoir Development Assurance TL",
+        "orgCode": "LI41",
+        "type": "1",
+        "parentRole": 2187,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 549,
+        "name": "Planning Capital Budget Control TL",
+        "orgCode": "LP91",
+        "type": "1",
+        "parentRole": 358,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 550,
+        "name": "Planning Capital Program Administration TL",
+        "orgCode": "LP92",
+        "type": "1",
+        "parentRole": 358,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 554,
+        "name": "Planning Enterprise Risk Management TL",
+        "orgCode": "LP93",
+        "type": "1",
+        "parentRole": 358,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 49,
+        "name": "Planning Manager",
+        "orgCode": "LP01",
+        "type": "1",
+        "parentRole": 358,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 95,
+        "name": "PR&I Info TL",
+        "orgCode": "LB11",
+        "type": "1",
+        "parentRole": 329,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 96,
+        "name": "PR&I LR TL",
+        "orgCode": "LB31",
+        "type": "1",
+        "parentRole": 329,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 94,
+        "name": "PR&I PR TL",
+        "orgCode": "LB21",
+        "type": "1",
+        "parentRole": 329,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 2188,
+        "name": "Production Integration Manager",
+        "orgCode": "LI01",
+        "type": "1",
+        "parentRole": 2187,
+        "directorate": 0,
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    }
+]

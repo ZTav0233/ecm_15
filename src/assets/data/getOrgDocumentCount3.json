@@ -1,0 +1,620 @@
+[
+    {
+        "id": 260,
+        "parent": 52,
+        "orgCode": "AM85",
+        "desc": "Ahmadi Hospital Maintenance Team",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "Medical Ahmadi Hospital Maintenance TL",
+        "orgTeamName": "Ahmadi Hospital Maintenance Team",
+        "orgGroupName": "Medical Group (Ahmadi hospital)",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 875,
+                "orgId": 260,
+                "histOrgCode": "AA71"
+            },
+            {
+                "id": 99,
+                "orgId": 260,
+                "histOrgCode": "CA51"
+            },
+            {
+                "id": 201,
+                "orgId": 260,
+                "histOrgCode": "AO51      "
+            },
+            {
+                "id": 17,
+                "orgId": 260,
+                "histOrgCode": "AO51"
+            }
+        ]
+    },
+    {
+        "id": 464,
+        "parent": 889,
+        "orgCode": "TG31",
+        "desc": "PMIV Team 43",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "PMIV Team 43 TL",
+        "orgTeamName": "PMIV Team 43",
+        "orgGroupName": "Projects Management Group IV",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 718,
+                "orgId": 464,
+                "histOrgCode": "NS61"
+            }
+        ]
+    },
+    {
+        "id": 336,
+        "parent": 18,
+        "orgCode": "LJ11",
+        "desc": "I&T Research & Development Programs Team",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "I&T Research & Development Programs TL",
+        "orgTeamName": "I&T Research & Development Programs Team",
+        "orgGroupName": "Innovation & Technology Group Admin.",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 778,
+                "orgId": 336,
+                "histOrgCode": "PJ11"
+            },
+            {
+                "id": 165,
+                "orgId": 336,
+                "histOrgCode": "EV11"
+            }
+        ]
+    },
+    {
+        "id": 91,
+        "parent": 2,
+        "orgCode": "AX21",
+        "desc": "Planning & Support Team (Admin.)",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "A&F Planning & Support TL",
+        "orgTeamName": "Planning & Support Team (Admin.)",
+        "orgGroupName": "Admin & Finance Directorate",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": []
+    },
+    {
+        "id": 816,
+        "parent": 41,
+        "orgCode": "WK61",
+        "desc": "Well Surveillance Team (WK) TL",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "Operations WK Well Surveillance (WK) TL",
+        "orgTeamName": "Well Surveillance Team (WK) TL",
+        "orgGroupName": "Operations Group (WK) Admin.",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 835,
+                "orgId": 816,
+                "histOrgCode": "EW28"
+            }
+        ]
+    },
+    {
+        "id": 62,
+        "parent": 8,
+        "orgCode": "LF01",
+        "desc": "Financial Systems & Control Group Admin.",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "Financial S&C Manager",
+        "orgTeamName": "Financial Systems & Control Group Admin.",
+        "orgGroupName": "Planning & Innovation Directorate",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 138,
+                "orgId": 62,
+                "histOrgCode": "AN01"
+            },
+            {
+                "id": 256,
+                "orgId": 62,
+                "histOrgCode": "AF01      "
+            },
+            {
+                "id": 6,
+                "orgId": 62,
+                "histOrgCode": "AF01"
+            }
+        ]
+    },
+    {
+        "id": 344,
+        "parent": 67,
+        "orgCode": "SE92",
+        "desc": "Operations Well Surveillance EK ",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "Operations Well Surveillance EK TL",
+        "orgTeamName": "Operations Well Surveillance EK ",
+        "orgGroupName": "Operations Group (EK) Admin.",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 815,
+                "orgId": 344,
+                "histOrgCode": "EW25"
+            }
+        ]
+    },
+    {
+        "id": 61,
+        "parent": 8,
+        "orgCode": "LB01",
+        "desc": "Public Relations & Information Group Admin.",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "Manager PR&I",
+        "orgTeamName": "Public Relations & Information Group Admin.",
+        "orgGroupName": "Planning & Innovation Directorate",
+        "offset": 0,
+        "count": 2,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 202,
+                "orgId": 61,
+                "histOrgCode": "MP01      "
+            },
+            {
+                "id": 2,
+                "orgId": 61,
+                "histOrgCode": "MP01"
+            },
+            {
+                "id": 515,
+                "orgId": 61,
+                "histOrgCode": "AI01"
+            }
+        ]
+    },
+    {
+        "id": 279,
+        "parent": 800,
+        "orgCode": "AE71",
+        "desc": "HR A&SS Employee Services III TL",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "HR A&SS Human Resources (Fire) TL",
+        "orgTeamName": "HR A&SS Employee Services III TL",
+        "orgGroupName": "Human Resources Group (Assets & Support services) Group Admin",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 339,
+                "orgId": 279,
+                "histOrgCode": "CK51"
+            }
+        ]
+    },
+    {
+        "id": 569,
+        "parent": 69,
+        "orgCode": "LT31",
+        "desc": "Corporate Solutions Team",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "IT Corporate solutions TL",
+        "orgTeamName": "Corporate Solutions Team",
+        "orgGroupName": "Corporate Information Technology Group Admin.",
+        "offset": 0,
+        "count": 47,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 107,
+                "orgId": 569,
+                "histOrgCode": "TK31"
+            },
+            {
+                "id": 267,
+                "orgId": 569,
+                "histOrgCode": "EI31      "
+            },
+            {
+                "id": 39,
+                "orgId": 569,
+                "histOrgCode": "EI31"
+            }
+        ]
+    },
+    {
+        "id": 491,
+        "parent": 800,
+        "orgCode": "AE51",
+        "desc": "HR A&SS Human Resources (Gas) TL",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "HR A&SS Human Resources (Gas) TL",
+        "orgTeamName": "HR A&SS Human Resources (Gas) TL",
+        "orgGroupName": "Human Resources Group (Assets & Support services) Group Admin",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 355,
+                "orgId": 491,
+                "histOrgCode": "PR41"
+            }
+        ]
+    },
+    {
+        "id": 10000,
+        "parent": -1,
+        "orgCode": "ANY",
+        "desc": "N/A",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "No Role",
+        "orgTeamName": "N/A (ANY)",
+        "orgGroupName": "N/A",
+        "offset": 0,
+        "count": 41,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": []
+    },
+    {
+        "id": 176,
+        "parent": 61,
+        "orgCode": "LB21",
+        "desc": "Public Relations Team",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "PR&I PR TL",
+        "orgTeamName": "Public Relations Team",
+        "orgGroupName": "Public Relations & Information Group Admin.",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 856,
+                "orgId": 176,
+                "histOrgCode": "AI21"
+            },
+            {
+                "id": 204,
+                "orgId": 176,
+                "histOrgCode": "MP21      "
+            },
+            {
+                "id": 4,
+                "orgId": 176,
+                "histOrgCode": "MP21"
+            }
+        ]
+    },
+    {
+        "id": 175,
+        "parent": 61,
+        "orgCode": "LB11",
+        "desc": "Information Team",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "PR&I Info TL",
+        "orgTeamName": "Information Team",
+        "orgGroupName": "Public Relations & Information Group Admin.",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 855,
+                "orgId": 175,
+                "histOrgCode": "AI11"
+            },
+            {
+                "id": 203,
+                "orgId": 175,
+                "histOrgCode": "MP11      "
+            },
+            {
+                "id": 3,
+                "orgId": 175,
+                "histOrgCode": "MP11"
+            }
+        ]
+    },
+    {
+        "id": 177,
+        "parent": 61,
+        "orgCode": "LB31",
+        "desc": "Local Relations Team",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "PR&I LR TL",
+        "orgTeamName": "Local Relations Team",
+        "orgGroupName": "Public Relations & Information Group Admin.",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 205,
+                "orgId": 177,
+                "histOrgCode": "MP31      "
+            },
+            {
+                "id": 5,
+                "orgId": 177,
+                "histOrgCode": "MP31"
+            },
+            {
+                "id": 857,
+                "orgId": 177,
+                "histOrgCode": "AI31"
+            }
+        ]
+    },
+    {
+        "id": 262,
+        "parent": 17,
+        "orgCode": "PD41",
+        "desc": "HSE (Ahmadi)",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "HSE (Ahmadi) TL",
+        "orgTeamName": "HSE (Ahmadi)",
+        "orgGroupName": "Health Safety & Environment Group Admin.",
+        "offset": 0,
+        "count": 2,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 101,
+                "orgId": 262,
+                "histOrgCode": "CA71"
+            },
+            {
+                "id": 638,
+                "orgId": 262,
+                "histOrgCode": "AA91"
+            }
+        ]
+    },
+    {
+        "id": 333,
+        "parent": 44,
+        "orgCode": "ET31",
+        "desc": "Drilling & Workover Technical Services Team I",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "TS Drlg & Workover 1 TL",
+        "orgTeamName": "Drilling & Workover Technical Services Team I",
+        "orgGroupName": "Technical Support Group Admin.",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": []
+    },
+    {
+        "id": 889,
+        "parent": 12,
+        "orgCode": "TG01",
+        "desc": "Projects Management Group IV",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "Manager Support Services S&EK",
+        "orgTeamName": "Projects Management Group IV",
+        "orgGroupName": "Projects Management & Engineering Admin.",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": []
+    },
+    {
+        "id": 317,
+        "parent": 43,
+        "orgCode": "EC51",
+        "desc": "Deep Drilling & Workover Team VI",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "Deep Drilling & Workover Team VI TL",
+        "orgTeamName": "Deep Drilling & Workover Team VI",
+        "orgGroupName": "Drilling Group III Admin",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": []
+    },
+    {
+        "id": 283,
+        "parent": 76,
+        "orgCode": "LP93",
+        "desc": "Planning Enterprise Risk Management Team",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "Planning Enterprise Risk Management TL",
+        "orgTeamName": "Planning Enterprise Risk Management Team",
+        "orgGroupName": "Planning Group",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 479,
+                "orgId": 283,
+                "histOrgCode": "LC41"
+            },
+            {
+                "id": 137,
+                "orgId": 283,
+                "histOrgCode": "CM41"
+            },
+            {
+                "id": 24,
+                "orgId": 283,
+                "histOrgCode": "MM31"
+            }
+        ]
+    },
+    {
+        "id": 405,
+        "parent": 76,
+        "orgCode": "LP91",
+        "desc": "Planning Capital Budget Control Team",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "Planning Capital Budget Control TL",
+        "orgTeamName": "Planning Capital Budget Control Team",
+        "orgGroupName": "Planning Group",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 477,
+                "orgId": 405,
+                "histOrgCode": "LC11"
+            },
+            {
+                "id": 254,
+                "orgId": 405,
+                "histOrgCode": "PP31      "
+            },
+            {
+                "id": 54,
+                "orgId": 405,
+                "histOrgCode": "PP31"
+            }
+        ]
+    },
+    {
+        "id": 406,
+        "parent": 76,
+        "orgCode": "LP92",
+        "desc": "Planning Capital Program Administration Team",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "Planning Capital Program Administration TL",
+        "orgTeamName": "Planning Capital Program Administration Team",
+        "orgGroupName": "Planning Group",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 255,
+                "orgId": 406,
+                "histOrgCode": "PP21      "
+            },
+            {
+                "id": 55,
+                "orgId": 406,
+                "histOrgCode": "PP21"
+            },
+            {
+                "id": 459,
+                "orgId": 406,
+                "histOrgCode": "LC21"
+            },
+            {
+                "id": 478,
+                "orgId": 406,
+                "histOrgCode": "LC92"
+            }
+        ]
+    },
+    {
+        "id": 576,
+        "parent": 12,
+        "orgCode": "TX04",
+        "desc": "PMC Management Team",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "PMC Management TL",
+        "orgTeamName": "PMC Management Team",
+        "orgGroupName": "Projects Management & Engineering Admin.",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 695,
+                "orgId": 576,
+                "histOrgCode": "TP31"
+            }
+        ]
+    },
+    {
+        "id": 523,
+        "parent": 889,
+        "orgCode": "TG11",
+        "desc": "PMIV Team 41 TL",
+        "headEmpNo": 0,
+        "headRoleId": 0,
+        "orgRoleName": "Operations Support PM (S&EK) TL",
+        "orgTeamName": "PMIV Team 41 TL",
+        "orgGroupName": "Projects Management Group IV",
+        "offset": 0,
+        "count": 1,
+        "iseSignAllowed": 0,
+        "isInitialAllowed": 0,
+        "histOrgCodes": [
+            {
+                "id": 715,
+                "orgId": 523,
+                "histOrgCode": "SS41"
+            }
+        ]
+    }
+]

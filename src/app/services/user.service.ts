@@ -222,7 +222,8 @@ export class UserService {
 
   getRoleByOrgCode(uOrgCode: any):any {
     const url = `${global.base_url}UserService/getRolesByOrgCode?orgCode=${uOrgCode}`;
-    return this.http.get(url);
+    // return this.http.get(url);
+    return this.http.get('./assets/data/getRolesByOrgCode3.json');
   }
 
   searchUsersList(usertype: any, text: any, key: any, filter: any): any {
