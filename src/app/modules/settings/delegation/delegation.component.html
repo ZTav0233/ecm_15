@@ -257,8 +257,8 @@
                 <div class="ui-g-12 ui-md-8">
                   <span class="md-inputfield">
                     <div class="ui-fluid">
-                      <p-spinner [(ngModel)]="searchQueary.phone" name="phone" (keyup.enter)="searchUsers()"
-                        class="no-spinners" [disabled]="editEnabled"></p-spinner>
+                      <input [(ngModel)]="searchQueary.phone" name="phone" (keyup.enter)="searchUsers()"
+                        class="no-spinners" [disabled]="editEnabled">
                     </div>
                   </span>
                 </div>

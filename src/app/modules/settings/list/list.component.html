@@ -236,10 +236,10 @@
           <div class="ui-g-12 ui-md-8">
             <span class="md-inputfield">
               <div class="ui-fluid">
-                <p-spinner
+                <input
                   [disabled]="!((listName  && selectedParentList>0) || (selectedParentList==0)) || isFilterEnabled"
                   [(ngModel)]="searchQueary.phone" (keyup.enter)="searchUsers()" name="phone"
-                  class="no-spinners"></p-spinner>
+                  class="no-spinners">
               </div>
             </span>
           </div>
