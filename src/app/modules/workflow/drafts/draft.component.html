@@ -1,5 +1,5 @@
 <data-table (sendData)="getData($event)" [showInfoIcon]="false" [activePage]="'draft'" [showDownloadIcon]="false"
-            [defaultSortField]="defaultSortField" [sortOrder]="-1"
+            [defaultSortField]="defaultSortField" [sortOrder]="-1" [dataKeyValue]="'draftId'"
     [showCheckBox]="false" [totalCount]="draftWorkitems.length" [showCount]="false" (viewDraftItems)="viewDraft($event)"
     (refreshScreen)="refreshTable()" [showAddCartIcon]="false" [tableData]="draftWorkitems" [colHeaders]="colHeaders" [totalRecords]="draftWorkitems.length"
     [itemsPerPage]="itemsPerPage" [rowExpandable]="false" (sendSelectedColumns)="columnSelectionChanged($event)"></data-table>

@@ -1,11 +1,11 @@
-.userResultsBox > ul {
+.userResultsBox>ul {
   list-style: none;
   cursor: pointer;
   margin: 0;
   padding: 8px;
 }
 
-.userResultsBox > ul > li {
+.userResultsBox>ul>li {
   cursor: pointer;
   padding: 5px;
   background-color: #fff;
@@ -31,7 +31,7 @@
   min-width: 40%;
 }
 
-.recipients > .selectedUsers {
+.recipients>.selectedUsers {
   padding: 3px 6px;
   font-size: 14px;
   border-radius: 4px;
@@ -39,6 +39,22 @@
   display: inline-block;
   margin-bottom: 0px;
 }
+
 .caption-container {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  height: 30px;
+}
+
+.role-name {
+  background-color: white;
+  color: black;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin: 0 -6px;
 }

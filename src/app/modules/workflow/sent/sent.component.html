@@ -65,7 +65,7 @@
           [showInfoIcon]="false" [showDownloadIcon]="false" [showAddCartIcon]="false"
           [tableData]="sentWorkitems.workitems" [colHeaders]="colHeaders" [itemsPerPage]="itemsPerPage"
           [rowExpandable]="false" [activePage]="'sent'" [userType]="tab.tabType" [userId]="tab.recordId"
-          [workflowFilter]="request && request.exportFilter || advanceFilterShown"
+          [workflowFilter]="request && request.exportFilter || advanceFilterShown" [dataKeyValue]="'sentitemId'"
           (toggleProgressDialogue)="showProgressDialogue($event)" [isSelectedRoleInActive]="tab.status ==='INACTIVE'"
           (toggleTrackSentitem)="showTrackSentitem($event,tab.tabType)" [tabNameIdentifier]="tab.tabIdentifier"
           (sendSelectedColumns)="columnSelectionChanged($event)">
@@ -79,7 +79,7 @@
           [showInfoIcon]="false" [showDownloadIcon]="false" [showAddCartIcon]="false"
           [tableData]="sentWorkitems.workitems" [colHeaders]="colHeaders" [itemsPerPage]="itemsPerPage"
           [rowExpandable]="false" [activePage]="'sent'" [userType]="tab.tabType" [userId]="tab.recordId"
-          [workflowFilter]="request && request.exportFilter || advanceFilterShown"
+          [workflowFilter]="request && request.exportFilter || advanceFilterShown" [dataKeyValue]="'sentitemId'"
           (toggleProgressDialogue)="showProgressDialogue($event)" [isSelectedRoleInActive]="tab.status ==='INACTIVE'"
           (toggleTrackSentitem)="showTrackSentitem($event,tab.tabType)" [tabNameIdentifier]="tab.tabIdentifier"
           (sendSelectedColumns)="columnSelectionChanged($event)">
@@ -151,7 +151,8 @@
         Track Preview
       </p-header>
       <div class="max-h-600">
-        <p-table [value]="workitemHistory" [scrollable]="true" scrollHeight="600px" [resizableColumns]="true" styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
+        <p-table [value]="workitemHistory" [scrollable]="true" scrollHeight="600px" [resizableColumns]="true" 
+        styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [tableStyle]="{'min-width': '50rem'}">
           <ng-template pTemplate="header">
               <tr>
                   <th pResizableColumn *ngFor="let col of trackColHeaders">{{col.header}}</th>

@@ -3,5 +3,6 @@
 }
 .p-tree.p-component{
   height: 100%;
+  overflow: auto !important;
 }
 

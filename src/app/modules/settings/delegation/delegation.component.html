@@ -19,10 +19,11 @@
             [(ngModel)]="isUnlimited"></p-checkbox>
         </div>
         <div class="ui-g-12 ui-md-3">
-          <p-calendar [readonlyInput]="true" id="From" dateFormat="dd-mm-yy" [minDate]="today" [disabled]="fromDate && fromDate<today"
-            (onSelect)="changeFrom($event)" [showIcon]="true" [(ngModel)]="fromDate" placeholder="Active From"
-            [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showButtonBar]="true"
-            (onClearClick)="clearFromDate()" [maxDate]="maxFromDate"></p-calendar>
+          <p-calendar [readonlyInput]="true" id="From" dateFormat="dd-mm-yy" [minDate]="today"
+            [disabled]="fromDate && fromDate<today" (onSelect)="changeFrom($event)" [showIcon]="true"
+            [(ngModel)]="fromDate" placeholder="Active From" [monthNavigator]="true" [yearNavigator]="true"
+            yearRange="1900:2030" [showButtonBar]="true" (onClearClick)="clearFromDate()"
+            [maxDate]="maxFromDate"></p-calendar>
         </div>
         <div class="ui-g-12 ui-md-3">
           <p-calendar [readonlyInput]="true" id="To" dateFormat="dd-mm-yy" [minDate]="minTo"
@@ -36,8 +37,8 @@
           <label for="role">Select Role to Delegate</label>
         </div>
         <div class="ui-g-12 ui-md-8">
-          <p-dropdown id="role" [options]="roles" [disabled]="editEnabled"
-            [(ngModel)]="selectedRole" name="role" (onChange)="onSelectionChange($event)">
+          <p-dropdown id="role" [options]="roles" [disabled]="editEnabled" [(ngModel)]="selectedRole" name="role"
+            (onChange)="onSelectionChange($event)">
           </p-dropdown>
         </div>
         <div class="ui-g-12 ui-md-1">
@@ -47,8 +48,8 @@
       </div>
       <div class="ui-md-11">
         <div *ngIf="user.roles.length>0" class="right-button">
-          <button *ngIf="!editEnabled" pButton type="button"
-            (click)="addDelegationRole()" label="Add Delegation" class="blue-btn"></button>
+          <button *ngIf="!editEnabled" pButton type="button" (click)="addDelegationRole()" label="Add Delegation"
+            class="blue-btn"></button>
           <button *ngIf="editEnabled" pButton type="button" (click)="addDelegationRole()" label="Save Delegation"
             class="blue-btn"></button>
         </div>
@@ -72,8 +73,8 @@
         <p-column  [expander]="true" styleClass="col-icon" [style]="{'width':'44px'}"
           (onRowClick)="dt.toggleRow($event.data)"></p-column>
         <p-column field="roleName" header="Role Name"></p-column> -->
-        <!-- row expansion -->
-        <!-- <ng-template let-table pTemplate="rowexpansion">
+      <!-- row expansion -->
+      <!-- <ng-template let-table pTemplate="rowexpansion">
           <div class="ui-grid ui-grid-responsive ui-fluid">
             <div class="ui-grid-row">
               <table *ngIf="table.members" id="rolemembers" class="ecm-table">
@@ -103,6 +104,54 @@
           </div>
         </ng-template>
       </p-dataTable> -->
+      <p-table selectionMode="single" [value]="delegatedRoles" sortField="roleName" sortMode="single" 
+      dataKey="roleName" rowGroupMode="subheader" groupRowsBy="roleName"
+        [styleClass]="'p-datatable-sm p-datatable-striped p-datatable-gridlines'">
+        <ng-template pTemplate="caption">
+          <div class="caption-container">
+            Delegated Users
+          </div>
+          <div class="role-name">
+            Role Name
+          </div>
+        </ng-template>
+        <!-- <ng-template pTemplate="header">
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Active From</th>
+            <th>Expire On</th>
+            <th></th>
+          </tr>
+        </ng-template> -->
+        <ng-template pTemplate="groupheader" let-customer let-rowIndex="rowIndex" let-expanded="expanded">
+          <tr style="background-color: #7CB342;">
+              <td colspan="5">
+                <button type="button" style="color: white;" pButton pRipple [pRowToggler]="customer" class="p-button-text p-button-rounded p-button-plain mr-2" icon="fa fa-fw ui-clickable ui-icon-people-outline"></button>
+                <span class="font-bold ml-2" style="color: white;">{{customer.roleName}}</span>
+              </td>
+          </tr>
+      </ng-template>
+        <ng-template pTemplate="rowexpansion" let-deluser let-i="rowIndex">
+          <tr>
+            <th>#</th>
+            <th>Role Members</th>
+            <th>Active From</th>
+            <th>Expire On</th>
+            <th></th>
+          </tr>
+          <tr>
+            <td>{{i+1}}</td>
+            <td *ngFor="let col of colHeaderUsers">{{ deluser[col.field] }}</td>
+            <td>
+              <button pButton type="button" icon="pi pi-pencil" title="Edit" class="remove-btn"
+                (click)="editDelegationUser(deluser)" [disabled]="deluser.delegateId===user.EmpNo"></button>
+              <button pButton type="button" icon="pi pi-times" title="Remove"
+                [disabled]="deluser.delegateId===user.EmpNo" class="remove-btn" (click)="confirm(deluser)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
     <div *ngIf="user.roles.length===0" class="ui-g-12 ui-md-12 ui-sm-12 p-t-md">
       <!-- <p-dataTable selectionMode="single" [emptyMessage]="emptyMessage" [value]="delegatedUsers">
@@ -119,12 +168,13 @@
           </ng-template>
         </p-column>
       </p-dataTable> -->
-      <p-table selectionMode="single"  [value]="delegatedUsers" [styleClass]="'p-datatable-sm p-datatable-striped p-datatable-gridlines'">
-        <ng-template pTemplate="caption"> 
+      <p-table selectionMode="single" [value]="delegatedUsers"
+        [styleClass]="'p-datatable-sm p-datatable-striped p-datatable-gridlines'">
+        <ng-template pTemplate="caption">
           <div class="caption-container">
-          Delegated Users
-        </div> 
-      </ng-template>
+            Delegated Users
+          </div>
+        </ng-template>
         <ng-template pTemplate="header">
           <tr>
             <th>Name</th>
@@ -146,7 +196,7 @@
           </tr>
         </ng-template>
       </p-table>
-      
+
     </div>
   </div>
   <div class="ui-g-6 ui-md-6 p-0">
@@ -157,7 +207,7 @@
         </div>
         <div class="ui-g-12 ui-md-12">
           <div class="searchBox">
-            
+
             <!--all search criteria-->
             <form #searchUserForm="ngForm" (submit)="searchUsers()">
               <div class="ui-g form-group">
@@ -208,7 +258,7 @@
                   <span class="md-inputfield">
                     <div class="ui-fluid">
                       <p-spinner [(ngModel)]="searchQueary.phone" name="phone" (keyup.enter)="searchUsers()"
-                         class="no-spinners" [disabled]="editEnabled"></p-spinner>
+                        class="no-spinners" [disabled]="editEnabled"></p-spinner>
                     </div>
                   </span>
                 </div>
@@ -268,6 +318,6 @@
     <button type="button" pButton icon="ui-icon-check" label="Ok" (click)="existinfo.accept()"></button>
   </p-footer>
 </p-confirmDialog>
-<div class="progress-bar" style="position: static !important;" >
+<div class="progress-bar" style="position: static !important;">
   <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
 </div>

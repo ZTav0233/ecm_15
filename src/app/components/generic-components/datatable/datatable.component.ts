@@ -49,7 +49,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public activePage: any;
   @Input() public userType: any;
   @Input() public userId: any;
-  @Input() public selectedRows: any;
+  @Input() public selectedRows: any[]=[];
   @Input() public rowGroupMode: any;
   @Input() public groupField: any;
   @Input() public defaultSortField: string;
@@ -61,6 +61,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public workflowFilter = false;
   @Input() public isSelectedRoleInActive: any = false;
   @Input() public isLoadButtonDisabled: any = false;
+  @Input() public dataKeyValue: any;
   @Output() sendData = new EventEmitter();
   @Output() addToCart = new EventEmitter();
   @Output() download = new EventEmitter();
@@ -360,6 +361,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   checked(event?:any) {
+    console.log("event",event);
     console.log(this.selectedRows);
     
     this.selectedRows.map((row, index) => {

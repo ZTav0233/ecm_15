@@ -292,9 +292,9 @@
       </ng-template>
      
     </p-table>  -->
-    <p-table [columns]="cols" [resizableColumns]="true" columnResizeMode="expand" dataKey="workitemId"
+    <p-table [columns]="cols" [resizableColumns]="true" columnResizeMode="expand" [dataKey]="dataKeyValue"
       (onHeaderCheckboxToggle)="checked()" (onRowSelect)="checked($event)" (onRowUnselect)="unchecked($event)"
-      (onRowClick)="rowSelected($event)" (onFilter)="onFiltering($event)" selectionMode="multiple" [lazy]="true"
+      (onRowClick)="rowSelected($event)" (onFilter)="onFiltering($event)" [lazy]="true"
       [totalRecords]="totalRecords" expandableRows="true" [value]="tableData"
       styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped" [tableStyle]="{ 'min-width': '40rem' }"
       responsiveLayout="stack" [breakpoint]="'960px'" [(selection)]="selectedRows"
@@ -340,8 +340,8 @@
           <th *ngIf="showInfoIcon" pSortableColumn="name">
             Title <p-sortIcon field="name"></p-sortIcon>
           </th>
-          <th *ngFor="let col of columns" [pSortableColumn]="col.header">
-            {{col.header}} <p-sortIcon [field]="col.header"></p-sortIcon>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.sortField?col.sortField:col.field">
+            {{col.header}} <p-sortIcon [field]="col.field"></p-sortIcon>
           </th>
           <th *ngIf="activePage==='sent'">
           </th>
@@ -495,10 +495,10 @@
   </div>
   <!-- Grouped -->
   <div class="data-table-scroll" *ngIf="rowGroupMode">
-    <p-table [value]="tableData" [columns]="cols" sortField="dateGroup" dataKey="dateGroup"
+    <p-table [value]="tableData" [columns]="cols" sortField="dateGroup" [dataKey]="dataKeyValue"
       rowGroupMode="subheader" groupRowsBy="dateGroup" [tableStyle]="{'min-width': '70rem'}"
       (onHeaderCheckboxToggle)="checked()" (onRowSelect)="checked($event)" (onRowUnselect)="unchecked($event)"
-      (onRowClick)="rowSelected($event)" (onFilter)="onFiltering($event)" selectionMode="multiple" [lazy]="true"
+      (onRowClick)="rowSelected($event)" (onFilter)="onFiltering($event)"  [lazy]="true"
       [totalRecords]="totalRecords" styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
       [tableStyle]="{ 'min-width': '40rem' }" responsiveLayout="stack" [breakpoint]="'960px'"
       [(selection)]="selectedRows" (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
@@ -541,8 +541,8 @@
           <th *ngIf="showInfoIcon" pSortableColumn="name">
             Title <p-sortIcon field="name"></p-sortIcon>
           </th>
-          <th *ngFor="let col of columns" [pSortableColumn]="col.header">
-            {{col.header}} <p-sortIcon [field]="col.header"></p-sortIcon>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.sortField?col.sortField:col.field">
+            {{col.header}} <p-sortIcon [field]="col.field"></p-sortIcon>
           </th>
           <th *ngIf="activePage==='sent'">
           </th>

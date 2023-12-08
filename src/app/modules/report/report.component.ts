@@ -359,7 +359,6 @@ export class ReportComponent implements OnInit, OnDestroy {
     private as: AdminService,
     private growlService: GrowlService) 
     {
-      console.log("ayayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
   }
 
   ngOnInit() {
@@ -852,8 +851,6 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.enterUserName();
   }
   applyFilterGlobal($event, stringVal) {
-    console.log(($event.target as HTMLInputElement).value);
-
     this.dataTable.filterGlobal(
       ($event.target as HTMLInputElement).value,
       stringVal

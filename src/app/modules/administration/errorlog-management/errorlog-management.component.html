@@ -98,7 +98,7 @@
           <td>{{ product.id }}</td>
           <td>{{ product.type }}</td>
           <td>{{ product.summary }}</td>
-          <td>{{ product.timeStamp2 }}</td>
+          <td>{{ product.timeStamp2|date }}</td>
           
           <td>
             <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info" (click)="viewErrors(product)"

@@ -4,9 +4,9 @@
 <!-- <vertical-split-pane primary-component-minsize="300" secondary-component-minsize="1080" local-storage-key="split-pane"
   primary-component-initialratio="0.2"> -->
 <div style="display: flex;">
-    <div style="width: 20%; height: 90vh;">
+    <div style="width: 20%; height: 90vh; position: relative;">
       <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refreshTree()"
-        class="remove-btn v-m pull-right"  ></button>
+        class="remove-btn v-m pull-right"  style="position: absolute; right: 20px; top: 5px;"></button>
       <p-tree [contextMenu]="cm" [value]="folderList" [loading]="loading" class="p-tree-height"
         (onNodeContextMenuSelect)="onContextMenu($event)" selectionMode="single" [(selection)]="selectedFolder"
         (onNodeExpand)="nodeExpand($event)" (onNodeSelect)="nodeSelect($event)"></p-tree>

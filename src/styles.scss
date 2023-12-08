@@ -85,6 +85,7 @@ $ecm_15-theme: mat.define-light-theme((color: (primary: $ecm_15-primary,
 
 .treeHeight .p-tree.p-component {
     height: 100%;
+    overflow: auto;
 }
 
 .aside-panel {
@@ -146,7 +147,15 @@ body {
 .ui-icon-apps::before{
     content:"apps"
 }
-
+.ui-icon-scanner::before{
+    content: "scanner";
+}
+.ui-icon-people-outline::before{
+    content: "people_outline";
+}
+.ui-clickable::before{
+    content: "clickable";
+}
 .ui-icon-reply-all:before {
     content: "reply_all";
 }

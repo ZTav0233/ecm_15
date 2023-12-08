@@ -10,8 +10,8 @@
           <div class="ui-g">
             <div class="ui-g-12 roleSearch-box">
               <div class="ui-inputgroup">
-                <span class="md-inputfield ">
-                  <input type="text" pInputText (input)="searchRoleTree()" placeholder="Search Directorate"
+                <span class="md-inputfield" style="display:flex; width: 100%;">
+                  <input style="width: 90% !important;" type="text" pInputText (input)="searchRoleTree()" placeholder="Search Directorate"
                     [(ngModel)]="roleTreeData.roles.model.query" />
                   <i class="topbar-icon material-icons">search</i>
                 </span>
@@ -43,8 +43,8 @@
                   placeholder="Search User" appendTo="body" [multiple]="false" [delay]="500" id="roleMgmt">
                 </p-autoComplete>
               </span>
-              <span *ngIf="roleData.roles.model.roleSearchType==='Role'" class="md-inputfield">
-                <input type="text" pInputText (input)="searchRole()" placeholder="Search Role"
+              <span *ngIf="roleData.roles.model.roleSearchType==='Role'" class="md-inputfield" style="display: flex; width: 100%;">
+                <input type="text" pInputText (input)="searchRole()" placeholder="Search Role" style="width: 90%;"
                   [(ngModel)]="roleData.roles.model.query" />
                 <i class="topbar-icon material-icons">search</i>
               </span>

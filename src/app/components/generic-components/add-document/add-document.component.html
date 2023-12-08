@@ -131,9 +131,9 @@
               </td>
             </tr>
             <tr>
-              <td colspan="7" align="center">
-                <button pButton type="button" label="Scan" icon="ui-icon-scanner" (click)="loadDynamsoft()"></button>
-                <div class="ui-fileupload-content ui-widget-content ui-corner-bottom">
+              <td colspan="7" align="center" >
+                <button pButton type="button" style="width: 300px;" label="Scan" icon="fa fa-fw ui-icon-scanner" (click)="loadDynamsoft()"></button>
+                <div class="ui-fileupload-content ui-widget-content ui-corner-bottom" style="width: 300px; background-color: #ffffff; border: 1px solid #d8d8d8;">
                   <!-- [ngClass]="{'width-scanned': (screen!=='Launch' || screen!=='BrowseModel')}" -->
                   <div *ngIf="docFromScanner">
                     {{newDocumentForm.get('DocumentTitle').value?newDocumentForm.get('DocumentTitle').value:'Scanned_Document'}}.pdf

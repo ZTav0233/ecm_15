@@ -1,13 +1,13 @@
 <div style="display: flex;">
   <div class="ui-g">
-    <p-tabView (onChange)="tabChange($event)">
+    <p-tabView style="width: 60%;" (onChange)="tabChange($event)">
       <p-tabPanel header="OrgUnit Tree" leftIcon="fa fa-fw ui-icon-list">
         <div *ngIf="activeTab===0">
           <div class="ui-g">
             <div class="ui-g-12 roleSearch-box">
               <div class="ui-inputgroup">
-                <span class="md-inputfield ">
-                  <input type="text" pInputText (input)="searchOrgUnitTree()" placeholder="Search Directorate"
+                <span class="md-inputfield " style="display: flex; width: 100%;">
+                  <input type="text" pInputText (input)="searchOrgUnitTree()" placeholder="Search Directorate" style="width: 90%;"
                     [(ngModel)]="orgTreeData.roles.model.query" />
                   <i class="topbar-icon material-icons">search</i>
                 </span>
@@ -29,8 +29,8 @@
         <div class="ui-g">
           <div class="ui-g-12 roleSearch-box">
             <div class="ui-inputgroup">
-              <span class="md-inputfield ">
-                <input type="text" pInputText (input)="searchInActiveRole()" placeholder="Search Deactivated Units"
+              <span class="md-inputfield " style="display: flex; width: 100%;">
+                <input type="text" pInputText (input)="searchInActiveRole()" placeholder="Search Deactivated Units" style="width: 90%;"
                   [(ngModel)]="inActiveQuery" />
                 <i class="topbar-icon material-icons">search</i>
               </span>
@@ -86,7 +86,7 @@
       </p-tabPanel>
     </p-tabView>
 
-    <div class="split-pane-content-secondary ">
+    <div class="split-pane-content-secondary " style="width: 40%;">
       <div class="lower">
         <div class=" p-t-0 p-r-0 p-b-0">
           <form #editOrgUnitForm="ngForm">
