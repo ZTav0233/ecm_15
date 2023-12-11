@@ -138,6 +138,11 @@ body {
     height: 1.5rem !important;
     width: 1.5rem !important;
 }
+.txt:hover {
+    text-decoration: underline;
+    cursor: pointer;
+    color: #0074cc;
+}
 .ui-icon-record-voice-over::before{
     content: "record_voice_over";
 }

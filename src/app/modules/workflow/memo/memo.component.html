@@ -792,10 +792,6 @@
                   <label>Subject:<span class="required">*</span></label>
                 </div>
                 <div class="ui-g-11">
-                  <!-- <span class="md-inputfield">
-                    <input type="text" maxlength="2000" pInputText name="workflowSubject"
-                      [(ngModel)]="launch.workflow.model.subject" [ngModelOptions]="{standalone: true}" required>
-                  </span> -->
                   <textarea [spellcheck]="true" class="text-area-resize-none bordered" maxlength="2000" 
                     [rows]="2" [cols]="30" pInputTextarea [autoResize]="false"
                     [(ngModel)]="launch.workflow.model.subject" (change)="setMemoDocTitle()"
@@ -807,17 +803,11 @@
                   <label>Message:<span class="required">*</span></label>
                 </div>
                 <div *ngIf="memoLang.name!='Arabic'" class="ui-g-11 ui-fluid">
-                  <!--<ckeditor id='editor' [config]="englishConfigEditor" [data]="editorData" name="messages" 
-                    [(ngModel)]="launch.workflow.model.messages" [editor]="Editor" tagName="textarea" [required]="true">
-                  </ckeditor> -->
                   <ckeditor [(ngModel)]="launch.workflow.model.messages" [ngModelOptions]="{standalone: true}"
                     [config]="englishConfigEditor" tagName="textarea" [required]="true" [data]="editorData" 
                     editorUrl="assets/js/memo/ckeditor/ckeditor.js"></ckeditor>
                 </div>
                 <div *ngIf="memoLang.name=='Arabic'" class="ui-g-11 ui-fluid">
-                 <!--  <ckeditor id='editor' [data]="editorData" [config]="config" name="messages"
-                    [(ngModel)]="launch.workflow.model.arMessages" [editor]="Editor" tagName="textarea" [required]="true">
-                  </ckeditor> -->
                    <ckeditor [(ngModel)]="launch.workflow.model.arMessages" [ngModelOptions]="{standalone: true}"
                     [config]="config" tagName="textarea" [required]="true" [data]="editorData" 
                     editorUrl="assets/js/memo/ckeditor/ckeditor.js"></ckeditor>

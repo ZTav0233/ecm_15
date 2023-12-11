@@ -688,6 +688,8 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   openView(e, names) {
+    console.log("aya");
+    
     //this.isViewerClick = true;
     //this.docTitle = names.name;
     //this.viewDoc(names);
