@@ -803,14 +803,14 @@
                   <label>Message:<span class="required">*</span></label>
                 </div>
                 <div *ngIf="memoLang.name!='Arabic'" class="ui-g-11 ui-fluid">
-                  <ckeditor [(ngModel)]="launch.workflow.model.messages" [ngModelOptions]="{standalone: true}"
+                  <!-- <ckeditor [(ngModel)]="launch.workflow.model.messages" [ngModelOptions]="{standalone: true}"
                     [config]="englishConfigEditor" tagName="textarea" [required]="true" [data]="editorData" 
-                    editorUrl="assets/js/memo/ckeditor/ckeditor.js"></ckeditor>
+                    editorUrl="assets/js/memo/ckeditor/ckeditor.js"></ckeditor> -->
                 </div>
                 <div *ngIf="memoLang.name=='Arabic'" class="ui-g-11 ui-fluid">
-                   <ckeditor [(ngModel)]="launch.workflow.model.arMessages" [ngModelOptions]="{standalone: true}"
+                   <!-- <ckeditor [(ngModel)]="launch.workflow.model.arMessages" [ngModelOptions]="{standalone: true}"
                     [config]="config" tagName="textarea" [required]="true" [data]="editorData" 
-                    editorUrl="assets/js/memo/ckeditor/ckeditor.js"></ckeditor>
+                    editorUrl="assets/js/memo/ckeditor/ckeditor.js"></ckeditor> -->
                 </div>
               </div>
               <div class="ui-g form-group">

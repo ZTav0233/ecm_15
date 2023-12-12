@@ -47,7 +47,6 @@ import { SharedUserModule } from '../../shared-modules/user/user.module';
 import { SharedRecipientsMemoModule } from '../../shared-modules/recipients-memo/recipients-memo.module';
 import { SharedExpandableListModule } from '../../shared-modules/expandable/expandable.module';
 import { DataService } from '../../services/data.Service';
-import { CKEditorModule } from 'ckeditor4-angular';
 import { AccordionModule } from 'primeng/accordion';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
@@ -145,7 +144,6 @@ import {MatIconModule} from '@angular/material/icon'
     SharedRecipientsModule,
     SharedBrowseModule,
     SharedRoleListModule,
-    CKEditorModule,
     TableModule,
     SharedDataTableModule,
     MatIconModule

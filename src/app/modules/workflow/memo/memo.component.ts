@@ -88,16 +88,16 @@ export class MemoComponent implements OnInit, OnDestroy {
     disableNativeSpellChecker: false,
     extraPlugins: "font,format,resize,smiley,colorbutton,colordialog,basicstyles,bidi,justify",
     font_names:
-            'Arial/Arial, Helvetica, sans-serif;' +
-            'Calibri/Calibri, Verdana, Geneva, sans-serif;' + /* here is your font */
-            'Comic Sans MS/Comic Sans MS, cursive;' +
-            'Courier New/Courier New, Courier, monospace;' +
-            'Georgia/Georgia, serif;' +
-            'Lucida Sans Unicode/Lucida Sans Unicode, Lucida Grande, sans-serif;' +
-            'Tahoma/Tahoma, Geneva, sans-serif;' +
-            'Times New Roman/Times New Roman, Times, serif;' +
-            'Trebuchet MS/Trebuchet MS, Helvetica, sans-serif;' +
-            'Verdana/Verdana, Geneva, sans-serif'
+      'Arial/Arial, Helvetica, sans-serif;' +
+      'Calibri/Calibri, Verdana, Geneva, sans-serif;' + /* here is your font */
+      'Comic Sans MS/Comic Sans MS, cursive;' +
+      'Courier New/Courier New, Courier, monospace;' +
+      'Georgia/Georgia, serif;' +
+      'Lucida Sans Unicode/Lucida Sans Unicode, Lucida Grande, sans-serif;' +
+      'Tahoma/Tahoma, Geneva, sans-serif;' +
+      'Times New Roman/Times New Roman, Times, serif;' +
+      'Trebuchet MS/Trebuchet MS, Helvetica, sans-serif;' +
+      'Verdana/Verdana, Geneva, sans-serif'
   };
   englishConfigEditor = {
     removeButtons: 'PasteText,Paste,PasteFromWord,About',
@@ -105,17 +105,17 @@ export class MemoComponent implements OnInit, OnDestroy {
     autoParagraph: false,
     disableNativeSpellChecker: false,
     extraPlugins: "font,format,resize,smiley,colorbutton,colordialog,basicstyles,bidi,justify",
-    font_names :
-            'Arial/Arial, Helvetica, sans-serif;' +
-            'Calibri/Calibri, Verdana, Geneva, sans-serif;' + /* here is your font */
-            'Comic Sans MS/Comic Sans MS, cursive;' +
-            'Courier New/Courier New, Courier, monospace;' +
-            'Georgia/Georgia, serif;' +
-            'Lucida Sans Unicode/Lucida Sans Unicode, Lucida Grande, sans-serif;' +
-            'Tahoma/Tahoma, Geneva, sans-serif;' +
-            'Times New Roman/Times New Roman, Times, serif;' +
-            'Trebuchet MS/Trebuchet MS, Helvetica, sans-serif;' +
-            'Verdana/Verdana, Geneva, sans-serif',
+    font_names:
+      'Arial/Arial, Helvetica, sans-serif;' +
+      'Calibri/Calibri, Verdana, Geneva, sans-serif;' + /* here is your font */
+      'Comic Sans MS/Comic Sans MS, cursive;' +
+      'Courier New/Courier New, Courier, monospace;' +
+      'Georgia/Georgia, serif;' +
+      'Lucida Sans Unicode/Lucida Sans Unicode, Lucida Grande, sans-serif;' +
+      'Tahoma/Tahoma, Geneva, sans-serif;' +
+      'Times New Roman/Times New Roman, Times, serif;' +
+      'Trebuchet MS/Trebuchet MS, Helvetica, sans-serif;' +
+      'Verdana/Verdana, Geneva, sans-serif',
   };
 
   //toolbar: 'MyToolbar',
@@ -234,7 +234,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   workflowType: any = 'Memo';
   selectedCartItems: any;
   searchResultDocsSelected: any = [];
-  public tabActiveIndex : any=0;
+  public tabActiveIndex: any = 0;
   public openSearchDialog = false;
   public openAddFromFolderDilaog = false;
   public openTheDialog = false;
@@ -398,9 +398,9 @@ export class MemoComponent implements OnInit, OnDestroy {
 
 
   init() {
-   /*  this.bs.setWfSubject.subscribe(d => {
-      this.setWorkflowSubject();
-    }); */
+    /*  this.bs.setWfSubject.subscribe(d => {
+       this.setWorkflowSubject();
+     }); */
     this.currentUser = this.us.getCurrentUser();
     this.launch.documents.existing = {
       activeAccordionIndices: [0, 1],
@@ -473,7 +473,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     //     this.busy = false
     //   });
     // }
-    
+
 
     this.loadUserSettings();
     this.assignLaunchUserOptions();
@@ -551,7 +551,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    var editor  = null;
+    var editor = null;
     this.recipientTab = true
     this.es = {
       firstDayOfWeek: 1,
@@ -573,7 +573,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     let nextYear = (nextMonth === 0) ? year + 1 : year;
     this.minDate = new Date();
     this.minDate.setMonth(prevMonth);
-    this.minDate.setFullYear(prevYear); 
+    this.minDate.setFullYear(prevYear);
     this.maxDate = new Date();
     this.maxDate.setMonth(nextMonth);
     this.maxDate.setFullYear(nextYear);
@@ -613,7 +613,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.prepareStepItems();
       this.getDocumentCart();
       this.busy = true;
-      this.actroute.params.subscribe((params:any) => {
+      this.actroute.params.subscribe((params: any) => {
         //console.log(params)
         this.busy = false;
         routeParams.actionType = params['actionType'];
@@ -621,13 +621,13 @@ export class MemoComponent implements OnInit, OnDestroy {
         if (paramAction === 'edit') {
           this.getWorkItemdetails(params.workItemId, params.memoStep);
         }
-        else if(paramAction === 'memoMerge'){
-          if(params.ecmNo && params.ecmNo !== null && params.ecmNo !== "")
-          this.launch.workflow.model.ECMNo = params.ecmNo;
+        else if (paramAction === 'memoMerge') {
+          if (params.ecmNo && params.ecmNo !== null && params.ecmNo !== "")
+            this.launch.workflow.model.ECMNo = params.ecmNo;
           this.ECM_NO = params.ecmNo;
         }
         this.assignActionType(routeParams);
-        
+
       }, Error => {
         this.busy = false;
       });
@@ -645,57 +645,15 @@ export class MemoComponent implements OnInit, OnDestroy {
         //console.log(typeof (this.launch.workflow.model.selectedorgCode))
       });
 
-    if (!this.ECM_NO){
-      this.adminService.getNextECMNo().subscribe((res) => {
-        this.ECM_NO = res;
-        this.busy = false
-      });
-    }
-  }
-
-/*     //debugger;
-    setTimeout(() => {
-      //console.log("Memo ngOnInit 2:: " + CKEDITOR.instances)
-      //debugger;
-      //editor = CKEDITOR.instances.editor1;
-      for ( var i in CKEDITOR.instances ){
-        var currentInstance = i;
-        //console.log("CKEditor Instance Name :: " + currentInstance)
-        break;
-      }
-      editor = CKEDITOR.instances[currentInstance];
-      if(editor && editor.document){
-        console.log(editor.mode);
-        editor.document.getBody().on('keydown', function (event) {
-          //console.log("Key ::" +event.data.getKeystroke());
-          //|(^|[\r\n])([a-z])....(^|\. *)([a-z])|(^|\? *)([a-z])
-          var abc = event.data.$.srcElement.innerText.replace(/\n{3,}/g, '\n\n').replace(/(^|\. *)([a-z])|(^|\? *)([a-z])/gm, function (match, separator, char) {
-            try{
-              //console.log("Editor :: " + match + " | " + separator + " | " + char );
-              //console.log("Match length :: " + match.length);
-              if(match && match.length == 1)
-                return match.toUpperCase();
-              else if(!!match.match(/^[?]/))
-                return (match.slice(0,-1) + match.slice(-1).toUpperCase());
-              else
-                return separator + char.toUpperCase();
-            }
-            catch (e){
-              //console.log("Editor :: " + match + " | " + separator + " | " + char );
-              return (separator !=undefined ? separator:'') + (char!=undefined ? char : (match.slice(0,-1) + match.slice(-1).toUpperCase()));
-            }
-          });
-          if (event.data.getKeystroke() === 190 || event.data.getKeystroke() === 2228415 || event.data.getKeystroke() === 110) {
-            if(abc && (abc !== undefined)){
-              event.data.$.srcElement.innerText = null;
-              editor.insertText(abc);
-            }
-          }
-          //console.log(abc)
-          // this.launch.workflow.model.messages = this.editorData
+      if (!this.ECM_NO) {
+        this.adminService.getNextECMNo().subscribe((res) => {
+          this.ECM_NO = res;
+          this.busy = false
         });
       }
-    }, 5000); */
+    }
+
+
 
   }
 
@@ -771,7 +729,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
 
 
-  setDefaultFolderDetails(fId){
+  setDefaultFolderDetails(fId) {
     this.busy = true
     this.contentService.getFolderDetails(fId).subscribe(res => {
       this.busy = false;
@@ -1205,18 +1163,18 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
 
   //setWorkflowSubject() {
-    // if ((this.actionTypes === 'launch' || (this.actionTypes === 'browseLaunch'))
-    //   && !this.isRelaunch && !this.launch.workflow.model.subject) {
-    //   if (this.selectedCartItems && this.selectedCartItems.length > 0) {
-    //     this.launch.workflow.model.subject = this.selectedCartItems[0].fileName;
-    //   }
-    //   else if (this.launch.workflow.model.attachments && this.launch.workflow.model.attachments.length > 0) {
-    //     this.launch.workflow.model.subject = this.launch.workflow.model.attachments[0].fileName;
-    //   }
-    //   else if (this.launch.documents.cartItems && this.launch.documents.cartItems.length > 0) {
-    //     this.launch.workflow.model.subject = this.launch.documents.cartItems[0].fileName;
-    //   }
-    // }
+  // if ((this.actionTypes === 'launch' || (this.actionTypes === 'browseLaunch'))
+  //   && !this.isRelaunch && !this.launch.workflow.model.subject) {
+  //   if (this.selectedCartItems && this.selectedCartItems.length > 0) {
+  //     this.launch.workflow.model.subject = this.selectedCartItems[0].fileName;
+  //   }
+  //   else if (this.launch.workflow.model.attachments && this.launch.workflow.model.attachments.length > 0) {
+  //     this.launch.workflow.model.subject = this.launch.workflow.model.attachments[0].fileName;
+  //   }
+  //   else if (this.launch.documents.cartItems && this.launch.documents.cartItems.length > 0) {
+  //     this.launch.workflow.model.subject = this.launch.documents.cartItems[0].fileName;
+  //   }
+  // }
   //} 
 
   getDocumentCart(isFromAdd?) {
@@ -1230,7 +1188,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.documentService.getCart(this.currentUser.EmpNo).subscribe((data) => {
       this.busy = false;
       this.documentService.refreshCart(data);
-      
+
       if ((this.actionTypes === 'launch' || (this.actionTypes === 'browseLaunch'))
         && !this.isRelaunch && !this.launch.workflow.model.subject && !this.launch.workflow.model.ECMNo) {
         if (this.selectedCartItems && this.selectedCartItems.length > 0) {
@@ -1377,7 +1335,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     window.location.assign(this.documentService.downloadDocument(doc.id));
   }
 
- //Add CC from Search User, Role Tree, Role List
+  //Add CC from Search User, Role Tree, Role List
   addToCCList(role) {
     if (!this.existsInList(role)) {
       role.EmpNo = role.id;
@@ -1504,7 +1462,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.SubFromList.map(v => Object.assign(v, { action: "Signature" }));
         this.launch.recipients.SubFromList.map(v => Object.assign(v, { wiRemarks: "" }));
       }
-      else{
+      else {
         this.growlService.showGrowl({
           severity: 'error',
           summary: 'Warning', detail: 'Only three user or role allowed in From'
@@ -1551,7 +1509,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.RevList.map(v => Object.assign(v, { action: "Comments" }));
         this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
       }
-      else{
+      else {
         this.growlService.showGrowl({
           severity: 'error',
           summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
@@ -1672,7 +1630,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
   //Add TO from Global List New!!!
   addListUsersToToListNew(list) {
-    var selectedList = { id: list.id, name: list.name, userName: '', fulName: list.name, title: '', EmpNo: list.id, appRole: 'LIST', userType:'LIST', actionType: 'TO'};  
+    var selectedList = { id: list.id, name: list.name, userName: '', fulName: list.name, title: '', EmpNo: list.id, appRole: 'LIST', userType: 'LIST', actionType: 'TO' };
     if (!list.userName) {
       list.userType = 'LIST';
       list.actionType = 'TO';
@@ -1809,9 +1767,9 @@ export class MemoComponent implements OnInit, OnDestroy {
       }
     }
   }
-   //Add THRU from Distribution & Global List New!!!
+  //Add THRU from Distribution & Global List New!!!
   addListUsersToThruListNew(list) {
-    var selectedList = { id: list.id, name: list.name, userName: '', fulName: list.name, title: '', EmpNo: list.id, appRole: 'LIST', userType:'LIST', actionType: 'THRU'};  
+    var selectedList = { id: list.id, name: list.name, userName: '', fulName: list.name, title: '', EmpNo: list.id, appRole: 'LIST', userType: 'LIST', actionType: 'THRU' };
     if (!list.userName) {
       list.userType = 'LIST';
       list.actionType = 'THRU';
@@ -1866,9 +1824,9 @@ export class MemoComponent implements OnInit, OnDestroy {
             } else if (l.appRole === 'USER') {
               l.userType = 'USER';
             }
-            l.actionType = this.Approver?'REV':'PREV';
+            l.actionType = this.Approver ? 'REV' : 'PREV';
             l.disabled = true;
-            
+
             if (!this.Approver && this.launch.recipients.RevList.length < 1) {
               l.actionType = 'PREV';
               this.launch.recipients.RevList.push(l);
@@ -1881,7 +1839,7 @@ export class MemoComponent implements OnInit, OnDestroy {
               this.launch.recipients.RevList.map(v => Object.assign(v, { action: "Comments" }));
               this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
             }
-            else{
+            else {
               this.growlService.showGrowl({
                 severity: 'error',
                 summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
@@ -1913,7 +1871,7 @@ export class MemoComponent implements OnInit, OnDestroy {
               } else if (l.appRole === 'USER') {
                 l.userType = 'USER';
               }
-              l.actionType = this.Approver?'REV':'PREV';
+              l.actionType = this.Approver ? 'REV' : 'PREV';
               l.disabled = true;
               if (!this.Approver && this.launch.recipients.RevList.length < 1) {
                 l.actionType = 'PREV';
@@ -1927,7 +1885,7 @@ export class MemoComponent implements OnInit, OnDestroy {
                 this.launch.recipients.RevList.map(v => Object.assign(v, { action: "Comments" }));
                 this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
               }
-              else{
+              else {
                 this.growlService.showGrowl({
                   severity: 'error',
                   summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
@@ -1961,9 +1919,9 @@ export class MemoComponent implements OnInit, OnDestroy {
         } else if (list.appRole === 'USER') {
           list.userType = 'USER';
         }
-        list.actionType = this.Approver?'REV':'PREV';
+        list.actionType = this.Approver ? 'REV' : 'PREV';
         list.disabled = true;
-        
+
         if (!this.Approver && this.launch.recipients.RevList.length < 1) {
           list.actionType = 'PREV';
           this.launch.recipients.RevList.push(list);
@@ -1976,7 +1934,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           this.launch.recipients.RevList.map(v => Object.assign(v, { action: "Comments" }));
           this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
         }
-        else{
+        else {
           this.growlService.showGrowl({
             severity: 'error',
             summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
@@ -2000,12 +1958,12 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
   //Add REV from Global List New!!!
   addListUsersToRevListNew(list) {
-    var selectedList = { id: list.id, name: list.name, userName: '', fulName: list.name, title: '', EmpNo: list.id, appRole: 'LIST', userType:'LIST', actionType: (this.Approver?'REV':'PREV')};  
+    var selectedList = { id: list.id, name: list.name, userName: '', fulName: list.name, title: '', EmpNo: list.id, appRole: 'LIST', userType: 'LIST', actionType: (this.Approver ? 'REV' : 'PREV') };
     if (!list.userName) {
       list.userType = 'LIST';
-      list.actionType = this.Approver?'REV':'PREV';
+      list.actionType = this.Approver ? 'REV' : 'PREV';
       list.disabled = true;
-      
+
       if (!this.Approver && this.launch.recipients.RevList.length < 1) {
         list.actionType = 'PREV';
         this.launch.recipients.RevList.push(selectedList);
@@ -2018,7 +1976,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.RevList.map(v => Object.assign(v, { action: " " }));
         this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
       }
-      else{
+      else {
         this.growlService.showGrowl({
           severity: 'error',
           summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
@@ -2041,7 +1999,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     else {
       if (!this.existsInList(list)) {
         list.userType = 'LIST';
-        list.actionType = this.Approver?'REV':'PREV';
+        list.actionType = this.Approver ? 'REV' : 'PREV';
         list.disabled = true;
         if (!this.Approver && this.launch.recipients.RevList.length < 1) {
           list.actionType = 'PREV';
@@ -2055,7 +2013,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           this.launch.recipients.RevList.map(v => Object.assign(v, { action: " " }));
           this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
         }
-        else{
+        else {
           this.growlService.showGrowl({
             severity: 'error',
             summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
@@ -2105,7 +2063,7 @@ export class MemoComponent implements OnInit, OnDestroy {
                 status: 'ACTIVE',
                 wiRemarks: ""
               });
-              
+
             } else if (this.launch.recipients.SubFromList.length < 2) {
               this.launch.recipients.SubFromList.push(l);
               this.launch.recipients.SubFromList.map(v => Object.assign(v, { action: "Signature" }));
@@ -2121,7 +2079,7 @@ export class MemoComponent implements OnInit, OnDestroy {
                 status: 'ACTIVE',
                 wiRemarks: ""
               })
-            } else{
+            } else {
               this.growlService.showGrowl({
                 severity: 'error',
                 summary: 'Warning', detail: 'Only three user or role allowed in From'
@@ -2174,7 +2132,7 @@ export class MemoComponent implements OnInit, OnDestroy {
                   status: 'ACTIVE',
                   wiRemarks: ""
                 })
-              } else{
+              } else {
                 this.growlService.showGrowl({
                   severity: 'error',
                   summary: 'Warning', detail: 'Only three user or role allowed in From'
@@ -2229,7 +2187,7 @@ export class MemoComponent implements OnInit, OnDestroy {
             status: 'ACTIVE',
             wiRemarks: ""
           })
-        } else{
+        } else {
           this.growlService.showGrowl({
             severity: 'error',
             summary: 'Warning', detail: 'Only three user or role allowed in From'
@@ -2242,7 +2200,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
   //Add FROM from Distribution & Global List New!!!
   addListUsersToFromListNew(list) {
-    var selectedList = { id: list.id, name: list.name, userName: '', fulName: list.name, title: '', EmpNo: list.id, appRole: 'LIST', userType:'LIST', actionType: 'FROM'};  
+    var selectedList = { id: list.id, name: list.name, userName: '', fulName: list.name, title: '', EmpNo: list.id, appRole: 'LIST', userType: 'LIST', actionType: 'FROM' };
     if (!list.userName) {
       list.userType = 'LIST';
       list.actionType = 'FROM';
@@ -2277,7 +2235,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           status: 'ACTIVE',
           wiRemarks: ""
         })
-      } else{
+      } else {
         this.growlService.showGrowl({
           severity: 'error',
           summary: 'Warning', detail: 'Only three user or role allowed in From'
@@ -2321,7 +2279,7 @@ export class MemoComponent implements OnInit, OnDestroy {
             status: 'ACTIVE',
             wiRemarks: ""
           })
-        } else{
+        } else {
           this.growlService.showGrowl({
             severity: 'error',
             summary: 'Warning', detail: 'Only three user or role allowed in From'
@@ -2428,7 +2386,7 @@ export class MemoComponent implements OnInit, OnDestroy {
 
   //Add CC from Distribution & Global List New!!!
   addListUsersToCCListNew(list) {
-    var selectedList = { id: list.id, name: list.name, userName: '', fulName: list.name, title: '', EmpNo: list.id, appRole: 'LIST', userType:'LIST', actionType: 'CC'};  
+    var selectedList = { id: list.id, name: list.name, userName: '', fulName: list.name, title: '', EmpNo: list.id, appRole: 'LIST', userType: 'LIST', actionType: 'CC' };
     if (!list.userName) {
       list.userType = 'LIST';
       list.actionType = 'CC';
@@ -2566,13 +2524,12 @@ export class MemoComponent implements OnInit, OnDestroy {
         //console.log(this.launch.recipients.FromList)
         this.busy = true
         this.memoService.getValidateRoleMemberByCurrentUser(role.id).subscribe((res: any) => {
-          if(res == 1){
+          if (res == 1) {
             this.Approver = true; this.Composer = false;
-            if(this.launch.recipients.RevList && this.launch.recipients.RevList.length == 0)
-            {
+            if (this.launch.recipients.RevList && this.launch.recipients.RevList.length == 0) {
               //do nothing
             }
-            else{
+            else {
               this.launch.recipients.RevList[0].actionType = "REV";
               this.recipients = this.recipients.map((item, i) => {
                 //console.log(item.userId, data.id, i)
@@ -2595,17 +2552,16 @@ export class MemoComponent implements OnInit, OnDestroy {
                   }
                   return data
                 } else {
-                    return item
+                  return item
                 }
               });
             }
-          } else{
+          } else {
             this.Approver = false; this.Composer = true;
-            if(this.launch.recipients.RevList && this.launch.recipients.RevList.length == 0)
-            {
+            if (this.launch.recipients.RevList && this.launch.recipients.RevList.length == 0) {
               //do nothing
             }
-            else{
+            else {
               this.launch.recipients.RevList[0].actionType = "PREV";
               this.recipients = this.recipients.map((item, i) => {
                 //console.log(item.userId, data.id, i)
@@ -2628,7 +2584,7 @@ export class MemoComponent implements OnInit, OnDestroy {
                   }
                   return data
                 } else {
-                    return item
+                  return item
                 }
               });
             }
@@ -2640,7 +2596,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.SubFromList.push(role);
         this.launch.recipients.SubFromList.map(v => Object.assign(v, { action: "Signature" }));
         this.launch.recipients.SubFromList.map(v => Object.assign(v, { wiRemarks: "" }));
-      } else{
+      } else {
         this.growlService.showGrowl({
           severity: 'error',
           summary: 'Warning', detail: 'Only three user or role allowed in From'
@@ -2661,7 +2617,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.prepareStepItems();
     }
   }
-//Add REV from Default List, Favorite List and Search User
+  //Add REV from Default List, Favorite List and Search User
   addToRevListFrom(role) {
     this.ShowRev = true;
     if (!this.existsInList(role)) {
@@ -2687,7 +2643,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.RevList.map(v => Object.assign(v, { action: "Comments" }));
         this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
       }
-      else{
+      else {
         this.growlService.showGrowl({
           severity: 'error',
           summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
@@ -3186,7 +3142,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.openTheReviewerConfirmationDialog = true;
   }
 
-  sendforApprovalConfirmation(){
+  sendforApprovalConfirmation() {
     this.isInfoButtonClicked = false;
     /* if (this.actionTypes === 'edit') {
       this.isConfirmationActionChecked = true;
@@ -3196,32 +3152,32 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.openTheConfirmationActionDialog = true;
     }
     else{ */
-      if(this.launch.recipients.RevList && this.launch.recipients.RevList.length == 0)
-        this.sendDataForApproval();
-      else{
-        this.openInformationDialog = true;
-        this.openTheInformationDialog = true;
-      }
+    if (this.launch.recipients.RevList && this.launch.recipients.RevList.length == 0)
+      this.sendDataForApproval();
+    else {
+      this.openInformationDialog = true;
+      this.openTheInformationDialog = true;
+    }
     //}
   }
 
-  cancelInfoDialogClick(){
+  cancelInfoDialogClick() {
     this.isInfoButtonClicked = true;
     this.openInformationDialog = false;
     this.openTheInformationDialog = false;
   }
 
-  okInfoDialogClick(){
+  okInfoDialogClick() {
     //this.busy = true;
     this.isInfoButtonClicked = true;
     this.sendDataForApproval();
-    
+
     this.openInformationDialog = false;
     this.openTheInformationDialog = false;
     //this.busy = false;
   }
 
-  cancelReviewer(){
+  cancelReviewer() {
     this.openReviewerConfirmationDialog = false;
     this.openTheReviewerConfirmationDialog = false;
   }
@@ -3700,10 +3656,10 @@ export class MemoComponent implements OnInit, OnDestroy {
   //modified on 20022019
   isSetECMNoDocExist() {
     let exist = false;
-    this.selectedCartItems.map((doc:any) => {
+    this.selectedCartItems.map((doc: any) => {
       if (this.launch.workflow.model.ECMNo === doc.ECMNo) {
         exist = true;
-         exist
+        exist
       }
     });
 
@@ -3772,8 +3728,8 @@ export class MemoComponent implements OnInit, OnDestroy {
       //console.log("assignDefaultForm ==> " + data[0].fileName);
       this.launch.workflow.model.subject = data[0].fileName;
     }
-    
-    if(data.docTitle){
+
+    if (data.docTitle) {
       this.launch.workflow.model.subject = data.docTitle;
     }
     else if (data && data.length > 0 && data[0].docTitle) {
@@ -3788,13 +3744,13 @@ export class MemoComponent implements OnInit, OnDestroy {
     if (data.params.actionType === 'edit') {
       this.actionId = data.params.id;
       this.actionTypes = data.params.actionType;
-      if(data.params.workItemId)
+      if (data.params.workItemId)
         this.memoWorkitemId = data.params.workItemId;
     }
     else if (data.params.actionType === 'draftMemo') {
       this.draftId = data.params.id;
       this.actionTypes = data.params.actionType;
-      if(data.params.workItemId)
+      if (data.params.workItemId)
         this.memoWorkitemId = data.params.workItemId;
     }
     else if (data.params.actionType === 'memoMerge') {
@@ -3803,7 +3759,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.ECM_NO = data.params.ecmNo;
       this.workflowType = 'Memo';
     }
-    
+
     //console.log(this.actionId)
     this.workItemId = data.params.workItemId;
     this.recipientRoleId = data.params.recipientRoleId;
@@ -3853,7 +3809,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   //   this.thisOne = "from"
   //   this.dataService.announceEvent("from")
   // }
-  assignDefaultMemoFields(data){
+  assignDefaultMemoFields(data) {
     this.launch.workflow.model.attachments = Object.assign([], data.attachments);
     this.launch.workflow.model.subject = data.subject ? data.subject : '';//---------------Draft change--------------
     this.launch.workflow.model.ECMNo = data.ECMNo;
@@ -3861,8 +3817,8 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.ECM_NO = data.ECMNo;
   }
 
-  setMemoDocTitle(){
-    this.memoDocTitle = (this.memoDocTitle && this.memoDocTitle !== null && this.memoDocTitle.length > 0)? this.memoDocTitle : this.launch.workflow.model.subject.substring(0,499);
+  setMemoDocTitle() {
+    this.memoDocTitle = (this.memoDocTitle && this.memoDocTitle !== null && this.memoDocTitle.length > 0) ? this.memoDocTitle : this.launch.workflow.model.subject.substring(0, 499);
   }
 
   maximumDate: any
@@ -3895,71 +3851,71 @@ export class MemoComponent implements OnInit, OnDestroy {
     if (this.actionTypes === 'edit' || this.actionTypes === 'draftMemo') {
       var orgData;
       var foldData;
-      
-      if(data.roleId != undefined && data.roleId > 0){
+
+      if (data.roleId != undefined && data.roleId > 0) {
         this.busy = true;
         // this.memoService.getValidateRoleMemberByCurrentUser(data.roleId).subscribe((res: any) => {
-          if(this.Approver){
-            this.Approver = true;
-            if(this.launch.recipients.RevList && this.launch.recipients.RevList.length != 0)
-              this.launch.recipients.RevList[0].actionType = "REV";
-            this.recipients = this.recipients.map((item, i) => {
-              //console.log(item.userId, data.id, i)
-              if (item.recipientType === "PREV") {
-                const data = {
-                  action: item.action,
-                  addStatus: item.addStatus,
-                  id: item.id,
-                  memoId: item.memoId,
-                  orderId: item.orderId,
-                  recipientType: "REV",
-                  replyComments: item.replyComments,
-                  userId: item.userId,
-                  userName: item.userName,
-                  status: 'ACTIVE',
-                  userType: item.userType,
-                  workflowId: item.workflowId,
-                  workitemId: item.workitemId,
-                  workitemStatus: item.workitemStatus
-                }
-                return data
-              } else {
-                  return item
+        if (this.Approver) {
+          this.Approver = true;
+          if (this.launch.recipients.RevList && this.launch.recipients.RevList.length != 0)
+            this.launch.recipients.RevList[0].actionType = "REV";
+          this.recipients = this.recipients.map((item, i) => {
+            //console.log(item.userId, data.id, i)
+            if (item.recipientType === "PREV") {
+              const data = {
+                action: item.action,
+                addStatus: item.addStatus,
+                id: item.id,
+                memoId: item.memoId,
+                orderId: item.orderId,
+                recipientType: "REV",
+                replyComments: item.replyComments,
+                userId: item.userId,
+                userName: item.userName,
+                status: 'ACTIVE',
+                userType: item.userType,
+                workflowId: item.workflowId,
+                workitemId: item.workitemId,
+                workitemStatus: item.workitemStatus
               }
-            });
-          } else{
-            this.Approver = false
-            if(this.launch.recipients.RevList && this.launch.recipients.RevList.length != 0)
-              this.launch.recipients.RevList[0].actionType = "PREV";
-            this.recipients = this.recipients.map((item, i) => {
-              //console.log(item.userId, data.id, i)
-              if (item.recipientType === "REV") {
-                const data = {
-                  action: item.action,
-                  addStatus: item.addStatus,
-                  id: item.id,
-                  memoId: item.memoId,
-                  orderId: item.orderId,
-                  recipientType: "PREV",
-                  replyComments: item.replyComments,
-                  userId: item.userId,
-                  userName: item.userName,
-                  status: 'ACTIVE',
-                  userType: item.userType,
-                  workflowId: item.workflowId,
-                  workitemId: item.workitemId,
-                  workitemStatus: item.workitemStatus
-                }
-                return data
-              } else {
-                  return item
+              return data
+            } else {
+              return item
+            }
+          });
+        } else {
+          this.Approver = false
+          if (this.launch.recipients.RevList && this.launch.recipients.RevList.length != 0)
+            this.launch.recipients.RevList[0].actionType = "PREV";
+          this.recipients = this.recipients.map((item, i) => {
+            //console.log(item.userId, data.id, i)
+            if (item.recipientType === "REV") {
+              const data = {
+                action: item.action,
+                addStatus: item.addStatus,
+                id: item.id,
+                memoId: item.memoId,
+                orderId: item.orderId,
+                recipientType: "PREV",
+                replyComments: item.replyComments,
+                userId: item.userId,
+                userName: item.userName,
+                status: 'ACTIVE',
+                userType: item.userType,
+                workflowId: item.workflowId,
+                workitemId: item.workitemId,
+                workitemStatus: item.workitemStatus
               }
-            });
-          }
-          this.busy = false
+              return data
+            } else {
+              return item
+            }
+          });
+        }
+        this.busy = false
         //});
       }
-      
+
       this.busy = true
       this.memoService.getOrgUnitbyOrgCode(data.orgcode).subscribe(res => {
         this.busy = false
@@ -3979,13 +3935,13 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.launch.workflow.model.isDeadlineEnabled = data.isDeadlineEnabled;
       this.launch.workflow.model.subject = data.subject;//? data.subject.replace('<br>', '\\r\\n'): '',
       this.ECM_NO = data.ecmNo,
-      this.launch.workflow.model.refNo = data.referenceNo,
-      this.launch.workflow.model.priority = data.priority,
-      this.memoType = { name: data.memoType, code: data.memoType },
-      this.memoLang = { name: data.memoLang, code: data.memoLang },
-      this.launch.workflow.model.messages = (data.memoLang == "English")?data.message:null, 
-      this.launch.workflow.model.arMessages = (data.memoLang == "Arabic")?data.message:null,  
-      this.memoDocId = data.memoDocId;
+        this.launch.workflow.model.refNo = data.referenceNo,
+        this.launch.workflow.model.priority = data.priority,
+        this.memoType = { name: data.memoType, code: data.memoType },
+        this.memoLang = { name: data.memoLang, code: data.memoLang },
+        this.launch.workflow.model.messages = (data.memoLang == "English") ? data.message : null,
+        this.launch.workflow.model.arMessages = (data.memoLang == "Arabic") ? data.message : null,
+        this.memoDocId = data.memoDocId;
       this.signUser2 = data.signUser2;
       this.launch.workflow.model.remarks = data.remarks;
       this.launch.workflow.model.instructions = data.instructions;
@@ -3994,15 +3950,15 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.maximumDate = new Date(this.launch.workflow.model.deadlineDate)
       this.launch.workflow.model.reminderDate = new Date(data.reminder).toLocaleDateString(); //new Date(data.reminderDate).toLocaleDateString(),
       this.date = new Date(moment(data.memoDate).format('MM-DD-YYYY'));
-      this.memoDocTitle = (data.memoDocTitle && data.memoDocTitle !== null)? data.memoDocTitle : data.subject;
-      if(this.actionTypes === 'draftMemo')
+      this.memoDocTitle = (data.memoDocTitle && data.memoDocTitle !== null) ? data.memoDocTitle : data.subject;
+      if (this.actionTypes === 'draftMemo')
         this.memoWorkitemId = data.workitemId;
       //moment(data.memoDate).format('DD-MM-YYYY');
       //console.log(this.maximumDate, this.launch.workflow.model.deadlineDate, this.launch.workflow.model.reminderDate, this.date);
-      this.greeting = data.greeting? data.greeting : '',
+      this.greeting = data.greeting ? data.greeting : '',
         this.address = data.address,
         this.designation = data.designation,
-        this.suffix = data.suffix? data.suffix : '',
+        this.suffix = data.suffix ? data.suffix : '',
         this.To = data.letterTo,
         this.recipients = data.recipients
       data.recipients.forEach(res => {
@@ -4116,8 +4072,8 @@ export class MemoComponent implements OnInit, OnDestroy {
   goBack() {
     this.location.back();
     this.router.events
-    .pipe(filter(event => event instanceof NavigationEnd))  // Use pipe to apply the filter operator
-    .subscribe(e => this.identifyNavigateScreen(e));
+      .pipe(filter(event => event instanceof NavigationEnd))  // Use pipe to apply the filter operator
+      .subscribe(e => this.identifyNavigateScreen(e));
   }
 
   identifyNavigateScreen(e) {
@@ -4283,7 +4239,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.viewer = false;
   }
 
-  getActionOnBehalfOf():any {
+  getActionOnBehalfOf(): any {
     if (this.wiaAction && this.wiaAction.recipientRoleName) {
       return 'On Behalf Of ' + this.wiaAction.recipientRoleName;
     } else if (this.wiaAction && this.wiaAction.recipientName) {
@@ -4301,7 +4257,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   searchRoleList() {
     this.launch.recipients.roles.roleTree = this.launch.recipients.roles.roleTree2.filter(e => {
       if (e.data.name) {
-         e.data.name.toUpperCase().indexOf(this.launch.recipients.search.roleSearchquery.toUpperCase()) !== -1
+        e.data.name.toUpperCase().indexOf(this.launch.recipients.search.roleSearchquery.toUpperCase()) !== -1
       }
     });
   }
@@ -4363,7 +4319,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     });
     this.launch.recipients.list.selectedUserList.lists = this.launch.recipients.list.selectedUserList.lists2.filter(e => {
       if (e.name) {
-         e.name.toUpperCase().indexOf(this.launch.recipients.search.roleSearchquery.toUpperCase()) !== -1
+        e.name.toUpperCase().indexOf(this.launch.recipients.search.roleSearchquery.toUpperCase()) !== -1
       }
     });
   }
@@ -4523,7 +4479,7 @@ export class MemoComponent implements OnInit, OnDestroy {
 
   searchExpandedRoleTree(query) {
     let self = this;
-    this.roleTreeData.roles.roleTree = this.roleTreeData.roles.roleTree2.filter((e:any) => {
+    this.roleTreeData.roles.roleTree = this.roleTreeData.roles.roleTree2.filter((e: any) => {
       if (e.label) {
         e.children && self.existInChildNode(e);
       }
@@ -4753,7 +4709,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.setMemoType(event.value.name);
   }
 
-  setMemoType(mType){
+  setMemoType(mType) {
     if (mType == "File Note") {
       this.fileNote = true
       this.letter = false
@@ -4796,34 +4752,34 @@ export class MemoComponent implements OnInit, OnDestroy {
     //   this.openConfirmationActionDialog = true;
     //   this.openTheConfirmationActionDialog = true;
     // } else {
-      this.busy = true
-      let data = this.memoData("Preview")
-      if (this.memoType.name == 'Letter' && this.memoLang.name == 'Arabic') {
-        delete data.isDraft
-        //console.log(data)
-      } else if (this.memoType.name == 'Letter') {
-        delete data.isDraft
-        delete data.greeting
-      } else {
-        delete data.isDraft
-        delete data.greeting
-        delete data.designation
-        delete data.address
-        delete data.suffix
-        delete data.letterTo
-      }
-      
-      this.memoService.previewMemo(data).subscribe(res => {
-        this.blobToBase64(res).then(res => {
-          this.busy = false
-          this.previewResponseForNewTab = res
-          this.previewResponse = this.transform(res);
-          this.openThePreviewDialog = true;
-          this.openTheDialogPreview = true
-        })
-      }, err => {
-        this.busy = false;
-      });
+    this.busy = true
+    let data = this.memoData("Preview")
+    if (this.memoType.name == 'Letter' && this.memoLang.name == 'Arabic') {
+      delete data.isDraft
+      //console.log(data)
+    } else if (this.memoType.name == 'Letter') {
+      delete data.isDraft
+      delete data.greeting
+    } else {
+      delete data.isDraft
+      delete data.greeting
+      delete data.designation
+      delete data.address
+      delete data.suffix
+      delete data.letterTo
+    }
+
+    this.memoService.previewMemo(data).subscribe(res => {
+      this.blobToBase64(res).then(res => {
+        this.busy = false
+        this.previewResponseForNewTab = res
+        this.previewResponse = this.transform(res);
+        this.openThePreviewDialog = true;
+        this.openTheDialogPreview = true
+      })
+    }, err => {
+      this.busy = false;
+    });
     //}
 
   }
@@ -4845,7 +4801,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     });
   };
 
-  saveAsTemplate(){
+  saveAsTemplate() {
     let data = this.memoData("saveAsTemplate")
     //console.log(data)
     if (this.actionTypes === 'draftMemo') {
@@ -4898,7 +4854,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.busy = false;
     });
   }
-  
+
   sendDataForApproval() {
     this.isConfirmationActionChecked = true;
     // if (this.actionTypes === 'edit') {
@@ -4908,93 +4864,92 @@ export class MemoComponent implements OnInit, OnDestroy {
     //   this.openConfirmationActionDialog = true;
     //   this.openTheConfirmationActionDialog = true;
     // } else {
-      this.busy = true;
+    this.busy = true;
 
-      if(this.launch.recipients.RevList && this.launch.recipients.RevList.length == 0)
-      {
-        //do nothing
-      }
-      else{
-        this.launch.recipients.RevList[0].actionType = "REV";
-        this.recipients = this.recipients.map((item, i) => {
-          //console.log(item.userId, data.id, i)
-          if (item.recipientType === "PREV") {
-            const data = {
-              action: item.action,
-              addStatus: item.addStatus,
-              id: item.id,
-              memoId: item.memoId,
-              orderId: item.orderId,
-              recipientType: "REV",
-              replyComments: item.replyComments,
-              userId: item.userId,
-              userName: item.userName,
-              status: 'ACTIVE',
-              userType: item.userType,
-              workflowId: item.workflowId,
-              workitemId: item.workitemId,
-              workitemStatus: item.workitemStatus
-            }
-            return data
-          } else {
-              return item
+    if (this.launch.recipients.RevList && this.launch.recipients.RevList.length == 0) {
+      //do nothing
+    }
+    else {
+      this.launch.recipients.RevList[0].actionType = "REV";
+      this.recipients = this.recipients.map((item, i) => {
+        //console.log(item.userId, data.id, i)
+        if (item.recipientType === "PREV") {
+          const data = {
+            action: item.action,
+            addStatus: item.addStatus,
+            id: item.id,
+            memoId: item.memoId,
+            orderId: item.orderId,
+            recipientType: "REV",
+            replyComments: item.replyComments,
+            userId: item.userId,
+            userName: item.userName,
+            status: 'ACTIVE',
+            userType: item.userType,
+            workflowId: item.workflowId,
+            workitemId: item.workitemId,
+            workitemStatus: item.workitemStatus
           }
-        });
-      }
+          return data
+        } else {
+          return item
+        }
+      });
+    }
 
-      
-      let data = this.memoData("sendDataForApproval")
-      if (this.memoType.name == 'Letter' && this.memoLang.name == 'Arabic') {
-        delete data.isDraft
-      } else if (this.memoType.name == 'Letter') {
-        delete data.greeting
-        delete data.isDraft
-      } else {
-        delete data.isDraft
-        delete data.greeting
-        delete data.designation
-        delete data.suffix
-        delete data.address
-        delete data.letterTo
-      }
-      data = Object.assign({ routeString: 'APPROVER' }, data);
-      //console.log(data, this.date, moment(this.date).format("DD-MM-YYYY hh:mm a"))
-      if (this.actionId) {
-        let updatedMemoData: any = this.SignAndSubmitWorkFlowData()
-        updatedMemoData.memo = data
-        updatedMemoData.memo.id = this.wiaAction.id;
-        updatedMemoData.memo = Object.assign({ memoDocId: this.wiaAction.memoDocId }, updatedMemoData.memo)
-        updatedMemoData.memo = Object.assign({ createdDate: this.wiaAction.createdDate }, updatedMemoData.memo)
-        updatedMemoData.memo = Object.assign({ modifiedDate: this.wiaAction.modifiedDate }, updatedMemoData.memo)
-        updatedMemoData.memo = Object.assign({ draftId: this.wiaAction.draftId }, updatedMemoData.memo)
-        //console.log(updatedMemoData)
-        this.busy = true;
-        this.memoService.submitForModifyMemo(updatedMemoData).subscribe(res => {
-          this.busy = false;
-          //console.log(res)
-          this.navigateToInbox();
-          //this.openInformationDialog = false;
-          //this.openTheInformationDialog = false;
 
-        }, err => {
-          //this.isInfoButtonClicked = false;
-          this.busy = false;
-        });
-      } else {
-        //console.log(data)
-        this.busy = true;
-        this.memoService.createMemo(data).subscribe(res => {
-          this.busy = false;
-          //console.log(res)
-          //this.router.navigate(['']);
-          this.navigateToInbox();
-          //this.openInformationDialog = false;
-          //this.openTheInformationDialog = false;
-        }, err => {
-          //this.isInfoButtonClicked = false;
-          this.busy = false;
-        });
-      }
+    let data = this.memoData("sendDataForApproval")
+    if (this.memoType.name == 'Letter' && this.memoLang.name == 'Arabic') {
+      delete data.isDraft
+    } else if (this.memoType.name == 'Letter') {
+      delete data.greeting
+      delete data.isDraft
+    } else {
+      delete data.isDraft
+      delete data.greeting
+      delete data.designation
+      delete data.suffix
+      delete data.address
+      delete data.letterTo
+    }
+    data = Object.assign({ routeString: 'APPROVER' }, data);
+    //console.log(data, this.date, moment(this.date).format("DD-MM-YYYY hh:mm a"))
+    if (this.actionId) {
+      let updatedMemoData: any = this.SignAndSubmitWorkFlowData()
+      updatedMemoData.memo = data
+      updatedMemoData.memo.id = this.wiaAction.id;
+      updatedMemoData.memo = Object.assign({ memoDocId: this.wiaAction.memoDocId }, updatedMemoData.memo)
+      updatedMemoData.memo = Object.assign({ createdDate: this.wiaAction.createdDate }, updatedMemoData.memo)
+      updatedMemoData.memo = Object.assign({ modifiedDate: this.wiaAction.modifiedDate }, updatedMemoData.memo)
+      updatedMemoData.memo = Object.assign({ draftId: this.wiaAction.draftId }, updatedMemoData.memo)
+      //console.log(updatedMemoData)
+      this.busy = true;
+      this.memoService.submitForModifyMemo(updatedMemoData).subscribe(res => {
+        this.busy = false;
+        //console.log(res)
+        this.navigateToInbox();
+        //this.openInformationDialog = false;
+        //this.openTheInformationDialog = false;
+
+      }, err => {
+        //this.isInfoButtonClicked = false;
+        this.busy = false;
+      });
+    } else {
+      //console.log(data)
+      this.busy = true;
+      this.memoService.createMemo(data).subscribe(res => {
+        this.busy = false;
+        //console.log(res)
+        //this.router.navigate(['']);
+        this.navigateToInbox();
+        //this.openInformationDialog = false;
+        //this.openTheInformationDialog = false;
+      }, err => {
+        //this.isInfoButtonClicked = false;
+        this.busy = false;
+      });
+    }
     //}
     //this.busy = false;
 
@@ -5108,7 +5063,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           }
           return data;
         } else {
-            return item;
+          return item;
         }
       });
       let data = this.memoData("submitMemoForReview");
@@ -5128,7 +5083,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       }
 
       data = Object.assign({ routeString: 'PREP_REVIEW' }, data);
-      if(!this.Approver && !this.Composer)
+      if (!this.Approver && !this.Composer)
         data = Object.assign({ routeString: 'PREP_REVIEW1' }, data);
       if (this.actionId) {
         let updatedMemoData: any = this.SignAndSubmitWorkFlowData()
@@ -5182,11 +5137,11 @@ export class MemoComponent implements OnInit, OnDestroy {
         }
       })
     }
-    
-    if(memoStep != null && memoStep.length > 0){
+
+    if (memoStep != null && memoStep.length > 0) {
       if (memoStep === 'COMPOSER') {
         this.Approver = false;
-          this.Composer = true;
+        this.Composer = true;
       } else if (memoStep == 'PREP_REVIEW' || memoStep == 'PREP_REVIEW1') {
         this.Approver = false;
         this.Composer = false;
@@ -5239,7 +5194,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   signAndSubmitMemo(isInitial) {
     let data = this.memoData("signAndSubmitMemo")
     let isEsign = true;
-    if(isInitial === 1)
+    if (isInitial === 1)
       isEsign = false;
     if (this.memoType.name == 'Letter' && this.memoLang.name == 'Arabic') {
       delete data.isDraft
@@ -5285,8 +5240,8 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.clearDeadline();
     }
 
-    if(clickType === "saveDraftData"){
-      if(this.launch.workflow.model.attachments && this.launch.workflow.model.attachments.length > 0){
+    if (clickType === "saveDraftData") {
+      if (this.launch.workflow.model.attachments && this.launch.workflow.model.attachments.length > 0) {
         for (let index = 0; index < this.launch.workflow.model.attachments.length; index++) {
           const exists = this.attachment.findIndex(element => element.docId == this.launch.workflow.model.attachments[index].docId) > -1
           if (!exists) {
@@ -5295,7 +5250,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         }
       }
     }
-    
+
     const user = this.us.getCurrentUser();
     let attachmentData: any[] = [];
     for (let i = 0; i < this.attachment.length; i++) {
@@ -5309,7 +5264,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           format: this.attachment[i].format,
           ecmNo: this.attachment[i].ecmNo || this.attachment[i].ECMNo,
           vsid: this.attachment[i].vsid,
-          isSign:this.attachment[i].isSign,
+          isSign: this.attachment[i].isSign,
           attach_type: "ATTACHMENT"
         })
       }
@@ -5348,7 +5303,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     let data
     return data = {
       id: 0,
-      subject: this.launch.workflow.model.subject? this.launch.workflow.model.subject.replace(/\n/g, '<br>') : '',
+      subject: this.launch.workflow.model.subject ? this.launch.workflow.model.subject.replace(/\n/g, '<br>') : '',
       ecmNo: this.ECM_NO,
       orgcode: this.launch.workflow.model.selectedorgCode.orgCode,
       referenceNo: this.launch.workflow.model.refNo,
@@ -5364,8 +5319,8 @@ export class MemoComponent implements OnInit, OnDestroy {
       remarks: this.launch.workflow.model.remarks,
       instructions: this.launch.workflow.model.instructions,
       forAction: this.selectedFor.name,
-      deadline: this.launch.workflow.model.isDeadlineEnabled?(moment(this.launch.workflow.model.deadlineDate).format("DD-MM-YYYY hh:mm a") || null) : null,
-      reminder: this.launch.workflow.model.isDeadlineEnabled?(moment(this.launch.workflow.model.reminderDate).format("DD-MM-YYYY hh:mm a") || null) : null,
+      deadline: this.launch.workflow.model.isDeadlineEnabled ? (moment(this.launch.workflow.model.deadlineDate).format("DD-MM-YYYY hh:mm a") || null) : null,
+      reminder: this.launch.workflow.model.isDeadlineEnabled ? (moment(this.launch.workflow.model.reminderDate).format("DD-MM-YYYY hh:mm a") || null) : null,
       memoDate: this.getMemoDate(),
       isDraft: 1,//=1(only for save draft)
       draftId: (this.draftWorkflow && this.draftWorkflow.draftId != null) ? this.draftWorkflow.draftId : 0,
@@ -5380,16 +5335,16 @@ export class MemoComponent implements OnInit, OnDestroy {
       isDeadlineEnabled: this.launch.workflow.model.isDeadlineEnabled,
       signUser2: this.signUser2,
       workitemId: this.memoWorkitemId,
-      memoDocTitle:this.memoDocTitle?this.memoDocTitle.replace(/\n/g, '') : ''
+      memoDocTitle: this.memoDocTitle ? this.memoDocTitle.replace(/\n/g, '') : ''
     }
   }
 
-  getMemoDate(){
+  getMemoDate() {
     let mDate = null;
     let date_moment = moment(this.date);
     console.log("date_moment : " + date_moment);
     console.log("this.date  : " + this.date);
-    if((this.actionTypes === 'draftMemo' || this.actionTypes === 'edit') && !date_moment.isValid())
+    if ((this.actionTypes === 'draftMemo' || this.actionTypes === 'edit') && !date_moment.isValid())
       mDate = this.date + ' ' + '12:00' + ' ' + 'am';
     else
       mDate = moment(this.date).format("DD-MM-YYYY hh:mm a");
@@ -5397,20 +5352,20 @@ export class MemoComponent implements OnInit, OnDestroy {
     console.log("mDate : " + mDate);
     return mDate;
   }
-  
-  getMemoRoleId(){
+
+  getMemoRoleId() {
     let roleId = 0;
-    if(this.launch.recipients.FromList && this.launch.recipients.FromList[0] && this.launch.recipients.FromList[0].appRole && this.launch.recipients.FromList[0].EmpNo){
+    if (this.launch.recipients.FromList && this.launch.recipients.FromList[0] && this.launch.recipients.FromList[0].appRole && this.launch.recipients.FromList[0].EmpNo) {
       roleId = (this.launch.recipients.FromList[0].appRole == "ROLE" || this.launch.recipients.FromList[0].userType == "ROLE") ? this.launch.recipients.FromList[0].EmpNo : 0;
     }
-    else if(this.launch.recipients.FromList && this.launch.recipients.FromList[0] && this.launch.recipients.FromList[0].userType && this.launch.recipients.FromList[0].id){
+    else if (this.launch.recipients.FromList && this.launch.recipients.FromList[0] && this.launch.recipients.FromList[0].userType && this.launch.recipients.FromList[0].id) {
       roleId = (this.launch.recipients.FromList[0].userType == "ROLE") ? this.launch.recipients.FromList[0].id : 0;
     }
-    
-    if(roleId === 0){
+
+    if (roleId === 0) {
       var recipientsData = this.recipients.filter(word => word.recipientType == "FROM");
-      if(recipientsData[0].userType == "ROLE")
-        roleId = (recipientsData[0].id)?recipientsData[0].id:recipientsData[0].EmpNo;
+      if (recipientsData[0].userType == "ROLE")
+        roleId = (recipientsData[0].id) ? recipientsData[0].id : recipientsData[0].EmpNo;
     }
 
     return roleId;
@@ -5418,12 +5373,12 @@ export class MemoComponent implements OnInit, OnDestroy {
 
   openESignPage(doc, rId, isEsign) {
     this.busyEsign = true;
-    this.roleId = (rId != null || rId != undefined)? rId: 0;
+    this.roleId = (rId != null || rId != undefined) ? rId : 0;
     let flagInitial = 'Y';
     if (isEsign) {
       flagInitial = 'N';
     }
-    
+
     const sysDateTime = new Date();
     const fulldatetime = sysDateTime.getTime();
     const browser = navigator.appName;
@@ -5459,13 +5414,13 @@ export class MemoComponent implements OnInit, OnDestroy {
           if (data && data === 'SIGNED') {
 
             clearInterval(timer);
-            self.eSignDialog = false; 
+            self.eSignDialog = false;
             self.growlService.showGrowl({
               severity: 'info',
               summary: 'Success', detail: 'eSign Successful'
             });
 
-            self.submitMemoDialog = true; 
+            self.submitMemoDialog = true;
             if (self.actionId) {
               let updatedMemoData: any = self.SignAndSubmitWorkFlowData();
               updatedMemoData.memo = self.wiaAction;
@@ -5478,10 +5433,10 @@ export class MemoComponent implements OnInit, OnDestroy {
               var subFromExists = updatedMemoData.memo.recipients.some((res) => (res.recipientType == "SUB-FROM"));
               var thruExists = updatedMemoData.memo.recipients.some((res) => (res.recipientType == "THRU"));
               var ToExists = updatedMemoData.memo.recipients.some((res) => (res.recipientType == "TO" && (res.action == "Signature" || res.action == "Initial")));
-          
+
               //Abhishek Added 31-Jan-2023: To assign routeString based on the conditions.
-              if(fromExists && !isEsign)
-                updatedMemoData.memo  = Object.assign({ routeString: 'APPROVER' }, updatedMemoData.memo);
+              if (fromExists && !isEsign)
+                updatedMemoData.memo = Object.assign({ routeString: 'APPROVER' }, updatedMemoData.memo);
               else if (subFromExists)
                 updatedMemoData.memo = Object.assign({ routeString: 'SUB-FROM' }, updatedMemoData.memo);
               else if (thruExists)
@@ -5490,26 +5445,25 @@ export class MemoComponent implements OnInit, OnDestroy {
                 updatedMemoData.memo = Object.assign({ routeString: 'TO' }, updatedMemoData.memo);
               else
                 updatedMemoData.memo = Object.assign({ routeString: 'Distribute' }, updatedMemoData.memo);
-              
+
               self.busy = true;
-              self.submitMemoDialog = true; 
+              self.submitMemoDialog = true;
               self.memoService.submitMemo(updatedMemoData).subscribe(res => {
                 self.busy = false;
-                self.submitMemoDialog = false; 
+                self.submitMemoDialog = false;
                 self.navigateToInbox();
               }, err => {
                 self.busy = false;
-                self.submitMemoDialog = false;  
+                self.submitMemoDialog = false;
               });
-            } 
-            else 
-            {
+            }
+            else {
               self.busy = true;
               let newMemoData: any = self.wiaAction;
               var subFromExists = newMemoData.recipients.some((res) => (res.recipientType == "SUB-FROM"));
               var thruExists = newMemoData.recipients.some((res) => (res.recipientType == "THRU"));
               var ToExists = newMemoData.recipients.some((res) => (res.recipientType == "TO"));
-          
+
               //Abhishek Added 31-Jan-2023: To assign routeString based on the conditions.
               if (subFromExists)
                 newMemoData = Object.assign({ routeString: 'SUB-FROM' }, newMemoData);
@@ -5519,13 +5473,13 @@ export class MemoComponent implements OnInit, OnDestroy {
                 newMemoData = Object.assign({ routeString: 'TO' }, newMemoData);
               else
                 newMemoData = Object.assign({ routeString: 'Distribute' }, newMemoData);
-              
-              self.submitMemoDialog = true; 
+
+              self.submitMemoDialog = true;
               self.busy = true;
               self.memoService.createMemo(newMemoData).subscribe(res => {
                 //self.router.navigate(['']);
                 self.busy = false;
-                self.submitMemoDialog = false; 
+                self.submitMemoDialog = false;
                 self.navigateToInbox();
               }, err => {
                 self.busy = false;
@@ -5552,7 +5506,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.eSignDialog = false;
     this.subscriptionEsign ? this.subscriptionEsign.unsubscribe() : '';
   }
-  cancelMemoDialog(){
+  cancelMemoDialog() {
     this.submitMemoDialog = false;
   }
   RecipientUserIconSelection(recipientTypeName: string) {
@@ -5626,7 +5580,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
   onRecipientActionChange(ev, index) {
     //debugger;
-    if(ev=='') ev = ' ';
+    if (ev == '') ev = ' ';
     //console.log(this.recipientTypeName, ev)
     if (this.recipientTypeName == "FROM") {
       this.launch.recipients.FromList[index].action = ev
@@ -5636,7 +5590,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       } else {
         var selectedRecipientIndex = this.recipients.findIndex((res: any) => (res.userId == this.launch.recipients.FromList[index].EmpNo) && (res.userType == this.launch.recipients.FromList[index].userType))
       }
-      
+
       this.recipients[selectedRecipientIndex].action = ev;
       this.recipients[selectedRecipientIndex].addStatus = "UPDATE";
       //console.log(this.recipients)
@@ -5715,11 +5669,11 @@ export class MemoComponent implements OnInit, OnDestroy {
       } else {
         var selectedRecipientIndex = this.recipients.findIndex((res: any) => res.userId == this.launch.recipients.FromList[0].EmpNo && (res.userType == this.launch.recipients.FromList[0].userType))
       }
-      if(selectedRecipientIndex >=0){
-        if(this.recipients[selectedRecipientIndex].wiRemarks != null && this.recipients[selectedRecipientIndex].wiRemarks!== undefined)
+      if (selectedRecipientIndex >= 0) {
+        if (this.recipients[selectedRecipientIndex].wiRemarks != null && this.recipients[selectedRecipientIndex].wiRemarks !== undefined)
           this.recipients[selectedRecipientIndex].wiRemarks = this.fromWiRemarks;
       }
-       
+
       //console.log(this.recipients)
     }
     else if (this.recipientTypeName == "SUB-FROM") {
@@ -5730,9 +5684,9 @@ export class MemoComponent implements OnInit, OnDestroy {
         } else {
           var selectedRecipientIndex = this.recipients.findIndex((res: any) => res.userId == this.launch.recipients.SubFromList[i].EmpNo && (res.userType == this.launch.recipients.SubFromList[0].userType))
         }
-        
-        if(selectedRecipientIndex >=0){
-          if(this.recipients[selectedRecipientIndex].wiRemarks != null && this.recipients[selectedRecipientIndex].wiRemarks!== undefined)
+
+        if (selectedRecipientIndex >= 0) {
+          if (this.recipients[selectedRecipientIndex].wiRemarks != null && this.recipients[selectedRecipientIndex].wiRemarks !== undefined)
             this.recipients[selectedRecipientIndex].wiRemarks = this.sub_fromWiRemarks;
         }
       }
@@ -5745,8 +5699,8 @@ export class MemoComponent implements OnInit, OnDestroy {
         } else {
           var selectedRecipientIndex = this.recipients.findIndex((res: any) => res.userId == this.launch.recipients.ThruList[i].EmpNo && (res.userType == this.launch.recipients.ThruList[0].userType))
         }
-        if(selectedRecipientIndex >=0){
-          if(this.recipients[selectedRecipientIndex].wiRemarks != null && this.recipients[selectedRecipientIndex].wiRemarks!== undefined)
+        if (selectedRecipientIndex >= 0) {
+          if (this.recipients[selectedRecipientIndex].wiRemarks != null && this.recipients[selectedRecipientIndex].wiRemarks !== undefined)
             this.recipients[selectedRecipientIndex].wiRemarks = this.throughWiRemarks;
         }
         if (this.launch.recipients.ThruList) {
@@ -5767,8 +5721,8 @@ export class MemoComponent implements OnInit, OnDestroy {
         } else {
           var selectedRecipientIndex = this.recipients.findIndex((res: any) => res.userId == this.launch.recipients.RevList[i].EmpNo && (res.userType == this.launch.recipients.RevList[0].userType))
         }
-        if(selectedRecipientIndex >=0){
-          if(this.recipients[selectedRecipientIndex].wiRemarks != null && this.recipients[selectedRecipientIndex].wiRemarks!== undefined)
+        if (selectedRecipientIndex >= 0) {
+          if (this.recipients[selectedRecipientIndex].wiRemarks != null && this.recipients[selectedRecipientIndex].wiRemarks !== undefined)
             this.recipients[selectedRecipientIndex].wiRemarks = this.reviewerWiRemarks;
         }
         //console.log(this.recipients)
@@ -5782,8 +5736,8 @@ export class MemoComponent implements OnInit, OnDestroy {
         } else {
           var selectedRecipientIndex = this.recipients.findIndex((res: any) => res.userId == this.launch.recipients.toList[i].EmpNo && (res.userType == this.launch.recipients.toList[0].userType))
         }
-        if(selectedRecipientIndex >=0){
-          if(this.recipients[selectedRecipientIndex].wiRemarks != null && this.recipients[selectedRecipientIndex].wiRemarks!== undefined)
+        if (selectedRecipientIndex >= 0) {
+          if (this.recipients[selectedRecipientIndex].wiRemarks != null && this.recipients[selectedRecipientIndex].wiRemarks !== undefined)
             this.recipients[selectedRecipientIndex].wiRemarks = this.toWiRemarks;
         }
         if (this.launch.recipients.toList) {
@@ -5803,16 +5757,16 @@ export class MemoComponent implements OnInit, OnDestroy {
           var selectedRecipientIndex = this.recipients.findIndex((res: any) => res.userId == this.launch.recipients.ccList[i].id && (res.userType == this.launch.recipients.ccList[0].userType))
         } else {
           var selectedRecipientIndex = this.recipients.findIndex((res: any) => res.userId == this.launch.recipients.ccList[i].EmpNo && (res.userType == this.launch.recipients.ccList[0].userType))
-        } 
-        if(selectedRecipientIndex >=0){
-          if(this.recipients[selectedRecipientIndex].wiRemarks != null && this.recipients[selectedRecipientIndex].wiRemarks!== undefined)
+        }
+        if (selectedRecipientIndex >= 0) {
+          if (this.recipients[selectedRecipientIndex].wiRemarks != null && this.recipients[selectedRecipientIndex].wiRemarks !== undefined)
             this.recipients[selectedRecipientIndex].wiRemarks = this.ccWiRemarks;
         }
         //console.log(this.recipients)
       }
     }
   }
-  getRoleMembersIfRole(role){
+  getRoleMembersIfRole(role) {
     if (role.id > 0 && (!role.members && role.members !== '') && ((role.appRole === 'ROLE' || role.userType === 'ROLE'))) {
       let RoleNameString = '';
       // this.busy = true;
@@ -5830,7 +5784,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     }
   }
 
-  getListMembersIfList(list){
+  getListMembersIfList(list) {
     if (list.id > 0 && (!list.members && list.members !== '') && ((list.appRole === 'LIST' || list.userType === 'LIST'))) {
       let listNameString = '';
       // this.busy = true;

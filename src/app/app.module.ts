@@ -23,7 +23,6 @@ import { MenubarModule } from 'primeng/menubar';
 // import { SharedDataTableModule } from './shared-modules/data-table/data-table.module';
 // import { SharedFolTreeModule } from './shared-modules/fav-fol-tree/fav-fol-tree';
 import { MessageModule } from 'primeng/message';
-import { CKEditorModule } from 'ckeditor4-angular';
 import { CgBusyModule } from 'angular-busy2';
 import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { RouteReuseStrategy } from "@angular/router";
@@ -74,7 +73,6 @@ import { HomeComponent } from './components/generic-components/home/home.compone
     MessageModule,
     SharedDocumentCartModule,
     SharedHTMLPipeModule,
-    CKEditorModule,
     CommonModule,
     CgBusyModule.forRoot({
       backdrop: true
