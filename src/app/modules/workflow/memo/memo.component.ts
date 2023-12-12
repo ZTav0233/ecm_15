@@ -42,6 +42,7 @@ import { ConfirmationService } from 'primeng/api';
 import { filter } from 'rxjs/operators';
 declare var $: any;
 declare var CKEDITOR: any
+declare var CKSource: any
 
 @Component({
   selector: 'app-memo',
@@ -652,7 +653,9 @@ export class MemoComponent implements OnInit, OnDestroy {
         });
       }
     }
-
+    setTimeout(() => {
+      this.onReadyCkEditor()
+    }, 2000);
 
 
   }
@@ -5965,4 +5968,55 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.recipientTab = (e.index === 0);
   }
 
+  onReadyCkEditor() {
+    console.log(window);
+
+    const watchdog = new CKSource.EditorWatchdog();
+    console.log(watchdog);
+
+
+    window['watchdog'] = watchdog;
+
+    watchdog.setCreator((element, config) => {
+      console.log("element,config", element, config);
+
+      return CKSource.Editor
+        .create(element, config)
+        .then(editor => {
+          // Set a custom container for the toolbar.
+          document.querySelector('.document-editor__toolbar').appendChild(editor.ui.view.toolbar.element);
+          document.querySelector('.ck-toolbar').classList.add('ck-reset_all');
+
+          return editor;
+        });
+    });
+
+    watchdog.setDestructor(editor => {
+      // Remove a custom container from the toolbar.
+      document.querySelector('.document-editor__toolbar').removeChild(editor.ui.view.toolbar.element);
+
+      return editor.destroy();
+    });
+
+    watchdog.on('error', handleSampleError);
+
+    watchdog
+      .create(document.querySelector('.editor'), {
+        // Editor configuration.
+      })
+      .catch(handleSampleError);
+
+    function handleSampleError(error) {
+      const issueUrl = 'https://github.com/ckeditor/ckeditor5/issues';
+
+      const message = [
+        'Oops, something went wrong!',
+        `Please, report the following error on ${issueUrl} with the build id "jafnjms6gfv5-r3bdl658kul2" and the error stack trace:`
+      ].join('\n');
+
+      console.log(message);
+      console.log(error);
+    }
+
+  }
 }

@@ -7,7 +7,6 @@ import {UserService} from '../services/user.service';
 import {HttpClient} from "@angular/common/http";
 import {CoreService} from "./core.service";
 import {Observable} from "rxjs";
-import * as polyfill from '../../assets/js/Resources/polyfill.js';
 declare var ie11_polyfill: any;
 
 @Injectable()

@@ -7,7 +7,6 @@ import { CoreService } from "./core.service";
 import { BreadcrumbService } from "./breadcrumb.service";
 import { forkJoin  } from "rxjs";
 import * as _ from 'lodash';
-import * as polyfill from '../../assets/js/Resources/polyfill.js';
 declare var ie11_polyfill: any
 @Injectable()
 export class WorkflowService {

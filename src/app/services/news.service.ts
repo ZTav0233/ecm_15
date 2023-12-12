@@ -5,7 +5,6 @@ import * as global from '../global.variables';
 import 'rxjs';
 import {HttpClient} from "@angular/common/http";
 import {CoreService} from "./core.service";
-import * as polyfill from '../../assets/js/Resources/polyfill.js';
 declare var ie11_polyfill: any;
 
 @Injectable()
