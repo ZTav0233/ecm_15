@@ -806,20 +806,27 @@
                 <div class="ui-g-1">
                   <label>Message:<span class="required">*</span></label>
                 </div>
-                <div *ngIf="memoLang.name!='Arabic'" class="ui-g-11 ui-fluid">
+                <div [ngClass]="memoLang.name=='Arabic'?'d-none':'d-block'" class="ui-g-11 ui-fluid">
                   <!-- <ckeditor [(ngModel)]="launch.workflow.model.messages" [ngModelOptions]="{standalone: true}"
                     [config]="englishConfigEditor" tagName="textarea" [required]="true" [data]="editorData" 
                     editorUrl="assets/js/memo/ckeditor/ckeditor.js"></ckeditor> -->
                   <!-- <div data-editor="DecoupledEditor" data-collaboration="false" data-revision-history="false"> -->
-                    <div class="document-editor__toolbar"></div>
+                  <div class="document-editor__toolbar"></div>
                     <div class="editor">
                     </div>
                   <!-- </div> -->
+                  <!-- <div id="toolbar-container"></div>
+                  <div id="editor">
+                    <p>This is the initial editor content.</p>
+                  </div> -->
                 </div>
-                <div *ngIf="memoLang.name=='Arabic'" class="ui-g-11 ui-fluid">
+                <div [ngClass]="memoLang.name!='Arabic'?'d-none':'d-block'" class="ui-g-11 ui-fluid">
                   <!-- <ckeditor [(ngModel)]="launch.workflow.model.arMessages" [ngModelOptions]="{standalone: true}"
                     [config]="config" tagName="textarea" [required]="true" [data]="editorData" 
                     editorUrl="assets/js/memo/ckeditor/ckeditor.js"></ckeditor> -->
+                    <div class="document-editor__toolbar1"></div>
+                    <div class="editor1">
+                    </div>
                 </div>
               </div>
               <div class="ui-g form-group">

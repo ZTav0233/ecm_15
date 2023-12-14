@@ -40,8 +40,8 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/moment/moment.js",
-              "node_modules/chart.js/dist/Chart.js",
-              "src/assets/ckeditor.js"
+              "node_modules/chart.js/dist/Chart.js"
+              
             ]
           },
           "configurations": {

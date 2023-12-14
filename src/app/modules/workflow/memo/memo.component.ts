@@ -41,8 +41,9 @@ import { MemoService } from '../../../services/memo.service';
 import { ConfirmationService } from 'primeng/api';
 import { filter } from 'rxjs/operators';
 declare var $: any;
-declare var CKEDITOR: any
-declare var CKSource: any
+declare var CKEDITOR: any;
+declare var CKSource: any;
+declare var DecoupledEditor: any
 
 @Component({
   selector: 'app-memo',
@@ -51,6 +52,7 @@ declare var CKSource: any
   styleUrls: ['memo.component.css']
 })
 export class MemoComponent implements OnInit, OnDestroy {
+  watchdog: any
   date1: Date;
   date2: Date;
   date3: Date;
@@ -482,7 +484,30 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.launch.currentDate = new Date();
 
   }
+  // initializeCKEditor() {
 
+  //   var s = document.createElement("script");
+  //   s.type = "text/javascript";
+  //   s.innerHTML = "setTimeout(function(){ CKEDITOR.replace( 'composeTextAr', {contentsLangDirection:'rtl'},{removeButtons: 'Image,About,Iframe'} ); }, 10 );"; //inline script
+  //   // this.elementRef.nativeElement.appendChild(s);
+  //   var fragment = document.createDocumentFragment();
+  //   fragment.appendChild(s);
+  //   document.getElementById('ckdiv').appendChild(fragment);
+  //   window['CKEDITOR'].config.extraPlugins = 'justify,colorbutton, font';
+  //   window['CKEDITOR'].config.removePlugins = 'scayt';
+  //   window['CKEDITOR'].config.disableNativeSpellChecker = true;
+  //   window['CKEDITOR'].config.enterMode = window['CKEDITOR'].ENTER_BR;
+  //   let _self = this;
+  //   setTimeout(function () {
+  //     window['CKEDITOR'].instances.composeTextAr.on('change', function (event) {
+  //       _self.workItem.memo.memoArMessage = window['CKEDITOR'].instances.composeTextAr.getData();
+  //       _self.shareService.idle.watch();
+  //       _self.shareService.idleState = "Started.";
+  //       _self.shareService.timedOut = false;
+  //     });
+  //   }
+  //     , 200);
+  // }
   applyMargin() {
     if (document.getElementById("drop")) {
       const myElement = document.getElementById("up");
@@ -654,8 +679,11 @@ export class MemoComponent implements OnInit, OnDestroy {
       }
     }
     setTimeout(() => {
-      this.onReadyCkEditor()
+      // this.onReadyCkEditor()
+      this.onReadyCkEditorEN('en')
+      this.onReadyCkEditorAR('ar')
     }, 2000);
+
 
 
   }
@@ -3138,6 +3166,9 @@ export class MemoComponent implements OnInit, OnDestroy {
   navigateToDashboard() {
     this.openConfirmationDialog = true;
     this.openTheConfirmationDialog = true;
+    // console.log(this.editor);
+    // console.log(this.editor.getData());
+    
   }
 
   navigateToInboxForReview() {
@@ -4743,6 +4774,7 @@ export class MemoComponent implements OnInit, OnDestroy {
 
     }
     //console.log(this.memoLang, this.config.language)
+
   }
   storeSelectedFor(event) {
     this.selectedFor = event.value.name
@@ -5968,55 +6000,47 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.recipientTab = (e.index === 0);
   }
 
-  onReadyCkEditor() {
-    console.log(window);
+  onReadyCkEditorEN(language: string) {
+    this.watchdog = new CKSource.EditorWatchdog();
+    window['watchdog'] = this.watchdog;
+    this.watchdog.setCreator((element, config) => {
+      config.language = language;
+      // Exclude the title plugin
+      config.extraPlugins = (config.extraPlugins || '').replace(/(?:^|,)\s*title\s*(?:,|$)/, '');
 
-    const watchdog = new CKSource.EditorWatchdog();
-    console.log(watchdog);
-
-
-    window['watchdog'] = watchdog;
-
-    watchdog.setCreator((element, config) => {
-      console.log("element,config", element, config);
-
+      // Disable the title feature
+      config.title = false;
       return CKSource.Editor
         .create(element, config)
         .then(editor => {
-          // Set a custom container for the toolbar.
           document.querySelector('.document-editor__toolbar').appendChild(editor.ui.view.toolbar.element);
           document.querySelector('.ck-toolbar').classList.add('ck-reset_all');
-
+          this.editor=editor;
           return editor;
         });
     });
-
-    watchdog.setDestructor(editor => {
-      // Remove a custom container from the toolbar.
-      document.querySelector('.document-editor__toolbar').removeChild(editor.ui.view.toolbar.element);
-
-      return editor.destroy();
-    });
-
-    watchdog.on('error', handleSampleError);
-
-    watchdog
+    this.watchdog
       .create(document.querySelector('.editor'), {
-        // Editor configuration.
       })
-      .catch(handleSampleError);
-
-    function handleSampleError(error) {
-      const issueUrl = 'https://github.com/ckeditor/ckeditor5/issues';
-
-      const message = [
-        'Oops, something went wrong!',
-        `Please, report the following error on ${issueUrl} with the build id "jafnjms6gfv5-r3bdl658kul2" and the error stack trace:`
-      ].join('\n');
-
-      console.log(message);
-      console.log(error);
-    }
-
+      .catch();
   }
+  onReadyCkEditorAR(language: string) {
+    this.watchdog = new CKSource.EditorWatchdog();
+    window['watchdog'] = this.watchdog;
+    this.watchdog.setCreator((element, config) => {
+      config.language = language;
+      return CKSource.Editor
+        .create(element, config)
+        .then(editor => {
+          document.querySelector('.document-editor__toolbar1').appendChild(editor.ui.view.toolbar.element);
+          document.querySelector('.ck-toolbar').classList.add('ck-reset_all');
+          return editor;
+        });
+    });
+    this.watchdog
+      .create(document.querySelector('.editor1'), {
+      })
+      .catch();
+  }
+
 }
