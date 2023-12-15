@@ -337,7 +337,8 @@ export class MemoComponent implements OnInit, OnDestroy {
   index: any;
   public folderPermission = { usage: 'addDocument', folderSelected: false, permission: true };
   selectedFolder: any;
-  editor: any
+  editorEN: any
+  editorAR: any
   constructor(
     public cs: ContentService,
     public ds: DocumentService,
@@ -682,7 +683,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       // this.onReadyCkEditor()
       this.onReadyCkEditorEN('en')
       this.onReadyCkEditorAR('ar')
-    }, 2000);
+    }, 500);
 
 
 
@@ -3973,8 +3974,8 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.workflow.model.priority = data.priority,
         this.memoType = { name: data.memoType, code: data.memoType },
         this.memoLang = { name: data.memoLang, code: data.memoLang },
-        this.launch.workflow.model.messages = (data.memoLang == "English") ? data.message : null,
-        this.launch.workflow.model.arMessages = (data.memoLang == "Arabic") ? data.message : null,
+        this.editorEN.setData((data.memoLang == "English") ? data.message : null),
+        this.editorEN.setData((data.memoLang == "Arabic") ? data.message : null),
         this.memoDocId = data.memoDocId;
       this.signUser2 = data.signUser2;
       this.launch.workflow.model.remarks = data.remarks;
@@ -4764,29 +4765,19 @@ export class MemoComponent implements OnInit, OnDestroy {
   storeSelectedLanguage(event) {
     this.memoLang = event.value;
     if (this.memoLang.name == "Arabic") {
-      this.launch.workflow.model.arMessages = this.launch.workflow.model.messages
-      this.editorData = this.launch.workflow.model.messages ? this.launch.workflow.model.messages : this.editorData
-      this.launch.workflow.model.messages = null
+      this.editorAR.setData(this.editorEN.getData())
+      this.editorData = this.editorEN.getData() ? this.editorEN.getData() : this.editorData
+      this.editorAR.setData(null)
     } else {
-      this.launch.workflow.model.messages = this.launch.workflow.model.arMessages
-      this.editorData = this.launch.workflow.model.arMessages ? this.launch.workflow.model.arMessages : this.editorData
-      this.launch.workflow.model.arMessages = null
-
+      this.editorEN.setData(this.editorAR.getData())
+      this.editorData = this.editorAR.getData() ? this.editorAR.getData() : this.editorData
+      this.editorAR.setData(null)
     }
-    //console.log(this.memoLang, this.config.language)
-
   }
   storeSelectedFor(event) {
     this.selectedFor = event.value.name
   }
   previewData() {
-    // if (this.actionTypes === 'edit') {
-    //   this.isConfirmationActionChecked = true
-    // }
-    // if (this.isConfirmationActionChecked == false) {
-    //   this.openConfirmationActionDialog = true;
-    //   this.openTheConfirmationActionDialog = true;
-    // } else {
     this.busy = true
     let data = this.memoData("Preview")
     if (this.memoType.name == 'Letter' && this.memoLang.name == 'Arabic') {
@@ -5342,7 +5333,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       ecmNo: this.ECM_NO,
       orgcode: this.launch.workflow.model.selectedorgCode.orgCode,
       referenceNo: this.launch.workflow.model.refNo,
-      message: this.launch.workflow.model.messages ? this.launch.workflow.model.messages : (this.launch.workflow.model.arMessages ? this.launch.workflow.model.arMessages : ''),
+      message: this.editorEN.getData() ? this.editorEN.getData() : (this.editorAR.getData() ? this.editorAR.getData() : ''),
       priority: this.launch.workflow.model.priority,
       memoType: this.memoType.name,
       memoLang: this.memoLang.name,
@@ -6015,7 +6006,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         .then(editor => {
           document.querySelector('.document-editor__toolbar').appendChild(editor.ui.view.toolbar.element);
           document.querySelector('.ck-toolbar').classList.add('ck-reset_all');
-          this.editor=editor;
+          this.editorEN=editor;
           return editor;
         });
     });
@@ -6034,6 +6025,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         .then(editor => {
           document.querySelector('.document-editor__toolbar1').appendChild(editor.ui.view.toolbar.element);
           document.querySelector('.ck-toolbar').classList.add('ck-reset_all');
+          this.editorAR=editor;
           return editor;
         });
     });

@@ -438,7 +438,6 @@
           <label>Language :<span class="required">*</span></label>
         </div>
         <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class=" label23">
-
           <p-dropdown class="langText" [options]="language" [(ngModel)]="memoLang"
             (onChange)="storeSelectedLanguage($event)" optionLabel="name"></p-dropdown>
         </div>
