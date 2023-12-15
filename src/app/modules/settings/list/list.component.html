@@ -5,8 +5,8 @@
         <p-accordionTab (click)="showListMembers($event,list.id,i)"
           [selected]="list.name==='Favourites'?isFavSelected:false">
           <p-header>
-            <i class="ui-icon-ac-h fa fa-fw"
-              [ngClass]="{'fa fa-fw ui-icon-view-list':list.name !== 'Favourites','fa fa-fw ui-icon-star-border':list.name==='Favourites'}"></i>
+            <i class="fa fa-fw ui-icon-view-list ui-icon-ac-h"
+              ></i>
             {{list.name==='Favourites'?'Favorites':list.name}}
           </p-header>
           <div class="w-100 ">
@@ -238,7 +238,7 @@
               <div class="ui-fluid">
                 <input
                   [disabled]="!((listName  && selectedParentList>0) || (selectedParentList==0)) || isFilterEnabled"
-                  [(ngModel)]="searchQueary.phone" (keyup.enter)="searchUsers()" name="phone"
+                  [(ngModel)]="searchQueary.phone" (keyup.enter)="searchUsers()" name="phone" pInputText
                   class="no-spinners">
               </div>
             </span>

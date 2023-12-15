@@ -91,8 +91,13 @@
 
 :host ::ng-deep #dropdown .p-dropdown {
   width: auto;
+  background-color: #607D8B;
+  /* color: white !important; */
 }
 
 :host ::ng-deep .p-multiselect{
   width: 100% !important;
+}
+:host ::ng-deep .p-dropdown .p-dropdown-label.p-placeholder {
+  color: white;
 }

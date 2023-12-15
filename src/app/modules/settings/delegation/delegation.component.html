@@ -125,7 +125,7 @@
           </tr>
         </ng-template> -->
         <ng-template pTemplate="groupheader" let-customer let-rowIndex="rowIndex" let-expanded="expanded">
-          <tr style="background-color: #7CB342;">
+          <tr  class="headerOOO">
               <td colspan="5">
                 <button type="button" style="color: white;" pButton pRipple [pRowToggler]="customer" class="p-button-text p-button-rounded p-button-plain mr-2" icon="fa fa-fw ui-clickable ui-icon-people-outline"></button>
                 <span class="font-bold ml-2" style="color: white;">{{customer.roleName}}</span>
@@ -257,12 +257,23 @@
                 <div class="ui-g-12 ui-md-8">
                   <span class="md-inputfield">
                     <div class="ui-fluid">
-                      <input [(ngModel)]="searchQueary.phone" name="phone" (keyup.enter)="searchUsers()"
+                      <input [(ngModel)]="searchQueary.phone" name="phone" pInputText (keyup.enter)="searchUsers()"
                         class="no-spinners" [disabled]="editEnabled">
                     </div>
                   </span>
                 </div>
               </div>
+              <!-- <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-4">
+                  <label>Phone:</label>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText name="title" [(ngModel)]="searchQueary.title"
+                      [disabled]="editEnabled">
+                  </span>
+                </div>
+              </div> -->
               <div class="ui-g form-group">
                 <div class="ui-g-12 ui-md-4">
                   <label>Org Code:</label>

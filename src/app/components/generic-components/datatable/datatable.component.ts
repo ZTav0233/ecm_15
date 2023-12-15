@@ -32,7 +32,9 @@ interface Column {
 
 export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('dt') dataTable!: Table;
+  @ViewChild('dt1') dataTable1!: Table;
   @Input() public tableData: any[];
+  @Input() public tableDataStored:any
   @Input() public colHeaders: any[];
   @Input() public showInfoIcon: any;
   @Input() public showDownloadIcon: any = false;
@@ -178,9 +180,13 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
   applyFilterGlobal($event, stringVal) {
-    console.log(($event.target as HTMLInputElement).value,stringVal);
-    
-    this.dataTable.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
+    if(($event.target as HTMLInputElement).value.length>2){
+      this.tableData = this.tableData.filter(entry => {
+        return entry.fileName.toLowerCase().match(($event.target as HTMLInputElement).value.toLowerCase())
+      });
+    } else if (($event.target as HTMLInputElement).value.length==0) {
+      this.tableData=this.tableDataStored
+    }
   }
 
   mToggleProgressDialogue(workitemId, $event?) {
@@ -258,14 +264,11 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     console.log(this.activePage);
-    console.log(this.showInfoIcon);
-    console.log("this.colHeaders",this.colHeaders);
-    
-    
+    console.log(this.tableData);
+    // this.tableDataStored=this.tableData
+    // console.log("this.colHeaders",this.colHeaders);
     this.cols=this.colHeaders.filter(column => !column.hidden);
-    console.log(this.cols);
-    
-    
+    // console.log(this.cols);
     this.bs.setPageNoOnLoadMore.subscribe(d => {
       this.first = d;
     });
@@ -352,6 +355,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   assignDocsSelected(sd) {
+    // this.tableDataStored=this.tableData
     this.selectedRows = [];
     if (this.sendData == null) {
       sd.emit(this.selectedRows);
@@ -719,9 +723,8 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
 
   refresh(table?) {
     this.goToPage = 1;
-    console.log(this.dataTable);
-    
     this.dataTable.reset();
+    this.dataTable1.reset();
     if (!table) {
       table = this.rowGroupMode ? this.groupedTableRef : this.unGroupedTableRef;
     }

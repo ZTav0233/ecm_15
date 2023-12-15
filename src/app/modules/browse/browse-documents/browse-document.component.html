@@ -27,7 +27,7 @@
           </div>
           <div *ngIf="documentFolders" class="ui-g-12 p-r-0 p-t-0">
             <data-table [showCount]="true" [totalCount]="documentFolders.length" [emptyMessage]="emptyMessage"
-              (sendData)="getData($event,sideMenu);" (refreshScreen)="refreshTable();" [tableData]="documentFolders"
+              (sendData)="getData($event,sideMenu);" (refreshScreen)="refreshTable();" [tableData]="documentFolders" [tableDataStored]="documentFolders"
               [showDownloadIcon]="false" [activePage]="'browse'" [showAddCartIcon]="false" [showInfoIcon]="true"
               [colHeaders]="colHeaders" [totalRecords]="documentFolders?documentFolders.length:0"
               [itemsPerPage]="itemsPerPage" [selectedRows]="selectedItem"

@@ -84,7 +84,7 @@
   <div #inboxDialog></div>
   <p-confirmDialog key="inboxConfirmation" #inboxConfirmation [appendTo]="inboxDialog"></p-confirmDialog>
   <p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [appendTo]="inboxDialog" [modal]="true"
-    [(visible)]="coreService.displayProgress" [style]="{ width: '650vw', height: '550px' }" [contentStyle]="{'overflow':'auto'}"
+    [(visible)]="coreService.displayProgress" [style]="{ width: '50vw', height: '550px' }" [contentStyle]="{'overflow':'auto'}"
     (onHide)="hideDisplayProgress()" #progressDialog>
     <p-header>
       Work Progress

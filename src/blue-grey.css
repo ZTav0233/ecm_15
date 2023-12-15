@@ -1813,9 +1813,9 @@ p-radiobutton.ng-dirty.ng-invalid>.p-radiobutton>.p-radiobutton-box {
 }
 
 .p-selectbutton .p-button {
-  background: #ffffff;
+  background: #607D8B;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  color: rgba(0, 0, 0, 0.87);
+  color: #ffffff;
   transition: background-color 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s, background-size 0.2s cubic-bezier(0.64, 0.09, 0.08, 1);
 }
 
@@ -1825,9 +1825,9 @@ p-radiobutton.ng-dirty.ng-invalid>.p-radiobutton>.p-radiobutton-box {
 }
 
 .p-selectbutton .p-button:not(.p-disabled):not(.p-highlight):hover {
-  background: #f6f6f6;
-  border-color: rgba(0, 0, 0, 0.12);
-  color: rgba(0, 0, 0, 0.87);
+  background: #607D8B;
+  border-color:#607D8B;
+  color:#ffffff;
 }
 
 .p-selectbutton .p-button:not(.p-disabled):not(.p-highlight):hover .p-button-icon-left,
@@ -1836,9 +1836,9 @@ p-radiobutton.ng-dirty.ng-invalid>.p-radiobutton>.p-radiobutton-box {
 }
 
 .p-selectbutton .p-button.p-highlight {
-  background: #e0e0e1;
-  border-color: #e0e0e1;
-  color: rgba(0, 0, 0, 0.87);
+  background: #7CB342;
+  border-color: #7CB342;
+  color: #ffffff;
 }
 
 .p-selectbutton .p-button.p-highlight .p-button-icon-left,
@@ -1847,9 +1847,9 @@ p-radiobutton.ng-dirty.ng-invalid>.p-radiobutton>.p-radiobutton-box {
 }
 
 .p-selectbutton .p-button.p-highlight:hover {
-  background: #d9d8d9;
-  border-color: #d9d8d9;
-  color: rgba(0, 0, 0, 0.87);
+  background: #7CB342;
+  border-color: #7CB342;
+  color: #ffffff;
 }
 
 .p-selectbutton .p-button.p-highlight:hover .p-button-icon-left,
@@ -2124,8 +2124,8 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   padding: 0.643rem 0.75rem;
   font-size: 1rem;
   transition: background-color 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s, background-size 0.2s cubic-bezier(0.64, 0.09, 0.08, 1);
-  border-radius: 4px;
-  margin: 0 5px !important;
+  border-radius: 2px;
+  margin: 0 0.5px !important;
 }
 
 .p-button:enabled:hover {
@@ -9120,8 +9120,8 @@ p-multiselect.ng-dirty.ng-invalid .p-multiselect:not(.p-disabled).p-focus {
 }
 
 .p-selectbutton .p-button:focus.p-highlight {
-  background: #d9d8d9;
-  border-color: #d9d8d9;
+  background: #7CB342;
+  border-color: #7CB342;
 }
 
 .p-slidemenu .p-menuitem-link:focus {

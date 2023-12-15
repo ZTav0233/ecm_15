@@ -6,7 +6,7 @@
         <p-tabView (onChange)="step1TabChange($event)" styleClass="max-h-tab" [activeIndex]="tabActiveIndex">
           <p-tabPanel header="Attachment">
             <p-dropdown (onChange)="selectedOption()" [options]="browsingOptions" optionLabel="name" 
-              (click)="dropDownHideShow?hideDropdown(false): hideDropdown(true)" class="example-css-class ECM-dropdown"
+              (click)="dropDownHideShow?hideDropdown(false): hideDropdown(true)" class="example-css-class ECM-dropdown ECM-dropdownn"
               id="dropdown" [placeholder]='"Attach From ECM/File System"' [(ngModel)]="selectedOptionForDocument">
             </p-dropdown>
 
@@ -276,7 +276,7 @@
                           <div class="ui-g-12 ui-md-6">
                             <span class="md-inputfield">
                               <div class="ui-fluid">
-                                <input [(ngModel)]="userSearchQueary.phone" (keyup.enter)="searchUsers('USER')"
+                                <input [(ngModel)]="userSearchQueary.phone" pInputText (keyup.enter)="searchUsers('USER')"
                                   name="phone" class="no-spinners">
                               </div>
                             </span>
