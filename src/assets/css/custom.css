@@ -1310,7 +1310,7 @@ body .p-fluid .p-fileupload .p-button {
 
 .user-list .ecm-table td,
 .role-tree .ecm-table td {
-  height: 35px;
+  /* height: 35px; */
 }
 
 .document-cart .p-accordion-content.p-widget-content {
