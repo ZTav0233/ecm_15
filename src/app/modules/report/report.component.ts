@@ -21,6 +21,8 @@ import { Table } from 'primeng/table';
 export class ReportComponent implements OnInit, OnDestroy {
   @ViewChild('dt') dataTable!: Table;
   public activeIndex: any[] = [0];
+  reportDataTab=false;
+  reportChartTab=false;
   public report: any = {
     roles: {},
     search: {},
@@ -938,9 +940,13 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.chartOptions.title.text = "Received Workflow Chart";
       this.busy = true;
       this.rs.getOrgWorkitemCount(this.searchQuery).subscribe(res => {
+        console.log(res);
+        
         this.busy = false;
+        this.reportDataTab=true
+        this.reportChartTab=true
+        this.activeIndex = [0,1, 2];
         this.prepareChart(res);
-        this.activeIndex = [1, 2];
         this.reportChartData = true;
         this.eSignDocData = [];
         this.memoDocData = [];
@@ -954,8 +960,10 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.busy = true;
       this.rs.getOrgSentitemCount(this.searchQuery).subscribe(res => {
         this.busy = false;
+        this.reportDataTab=true
+        this.reportChartTab=true
+        this.activeIndex = [0,1, 2];
         this.prepareChart(res);
-        this.activeIndex = [1, 2];
         this.reportChartData = true;
         this.eSignDocData = [];
         this.memoDocData = [];
@@ -984,8 +992,10 @@ export class ReportComponent implements OnInit, OnDestroy {
             item.orgRoleName += ' ' + count;
           }
         }
+        this.reportDataTab=true;
+        this.reportChartTab=true
+        this.activeIndex = [0,1, 2];
         this.prepareDocChart(data);
-        this.activeIndex = [1, 2];
         this.reportChartData = true;
         this.eSignDocData = [];
         this.memoDocData = [];
@@ -1020,9 +1030,10 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.busy = true;
       this.rs.getOrgESignItems(this.searchQuery).subscribe(res => {
         this.busy = false;
+        this.reportDataTab=true;
+        this.activeIndex = [0,1];
         this.assignDate(res);
         this.reportCount = [];
-        this.activeIndex = [1];
         this.eSignData = true;
         this.searchQuery.eSignData = res;
       }, err => {
@@ -1057,9 +1068,10 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.busy = true;
       this.rs.getOrgMemoItems(this.searchQuery).subscribe(res => {
         this.busy = false;
+        this.reportDataTab=true
+        this.activeIndex = [0,1];
         this.assignMemoDate(res);
         this.reportCount = [];
-        this.activeIndex = [1];
         this.memoData = true;
         this.searchQuery.memoData = res;
       }, err => {
@@ -1071,8 +1083,10 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.busy = true;
       this.rs.getOrgAllReportCount(this.searchQuery).subscribe(res => {
         this.busy = false;
+        this.reportDataTab=true;
+        this.reportChartTab=true;
+        this.activeIndex = [0,1, 2];
         this.prepareAllChartSeries(res);
-        this.activeIndex = [1, 2];
         this.allData = true;
         this.reportChartData = true;
         this.eSignDocData = [];
@@ -1081,13 +1095,6 @@ export class ReportComponent implements OnInit, OnDestroy {
       }, err => {
         this.busy = false;
       });
-      /*subscription = this.rs.getAllReportStaticData().subscribe(res => {
-        this.prepareAllChartSeries(res);
-        this.activeIndex = [1,2];
-        this.allData = true;
-        this.reportChartData = true;
-        this.eSignDocData = [];
-      });*/
     }
     this.report.options.previousSearchedReportType = this.report.search.reportType;
     this.report.options.previousSearchedCategory = this.report.search.category
@@ -1134,7 +1141,6 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   onTabOpen(event) {
     if (event.index === 0) {
-      //this.activeIndex = [0,1,2];
     }
   }
 
@@ -1550,6 +1556,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.eSignData = false;
     this.memoData = false;
     this.allData = false;
+    this.reportDataTab=false;
+    this.reportChartTab=false;
     this.activeIndex = [0];
     this.user.isReportAdmin !== 'Y' ? this.getRoleList(this.user.orgCode) : null;
   }

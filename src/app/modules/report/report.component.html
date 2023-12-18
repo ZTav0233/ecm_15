@@ -15,7 +15,7 @@
                 </div>
               </div>
             </div>
-            <div class="split-pane-content-secondary ">
+            <div class="split-pane-content-secondary " style="width: 68%;">
               <div class="lower">
                 <form #searchReportForm="ngForm" (ngSubmit)="getReport()">
                   <div class="ui-g form-group">
@@ -263,7 +263,7 @@
         </p-accordionTab>
       </div>
       <div class="ui-g-12 p-0 p-t-md">
-        <p-accordionTab header="Report Data">
+        <p-accordionTab header="Report Data" [selected]="reportDataTab">
           <p-header>
             Report Data
             <span *ngIf="eSignData && eSignDocData && eSignDocData.length>0" class="pull-right">Total Results:
@@ -636,7 +636,7 @@
         </p-accordionTab>
       </div>
       <div class="ui-g-12 p-0 p-t-md">
-        <p-accordionTab header="Report Graph" [disabled]="eSignData || memoData">
+        <p-accordionTab header="Report Graph" [disabled]="eSignData || memoData" [selected]="reportChartTab">
           <p-header>
             Report Chart
           </p-header>

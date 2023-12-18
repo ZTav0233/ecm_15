@@ -1286,7 +1286,7 @@ body .p-fluid .p-fileupload .p-button {
 }
 
 .ecm-table td {
-  padding: 4px 5px 4px 5px;
+  /* padding: 4px 5px 4px 5px; */
   height: 100%;
   vertical-align: middle;
 }
@@ -1399,7 +1399,7 @@ body .p-fluid .p-fileupload .p-button {
 }
 
 .fix-h-326 .p-tree-container {
-  height: 536px !important;
+  height: 400px !important;
   overflow: auto !important;
 }
 

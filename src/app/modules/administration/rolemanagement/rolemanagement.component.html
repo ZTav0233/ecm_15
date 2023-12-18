@@ -2,7 +2,7 @@
   <button pButton type="button" label="Add" (click)="prepareAddRole()"></button>
   <button pButton class="pull-right" type="button" label="Export" (click)="exportToExcel();"></button>
 </div>
-<div style="margin-top: 80px; display: flex;">
+<div style="margin-top: 50px; display: flex;">
   <div style=" border: solid rgba(0, 0, 0, 0.12); border-width: 1px;border-radius: 4px;">
     <p-tabView (onChange)="tabChange($event)" [(activeIndex)]="activeTab">
       <p-tabPanel header="Role Tree" leftIcon="fa fa-fw ui-icon-list">
@@ -114,7 +114,7 @@
       </p-tabPanel>
     </p-tabView>
   </div>
-  <div class="split-pane-content-secondary" style="width: 100%; margin: o 10px;">
+  <div class="split-pane-content-secondary" style="width: 70%; margin: o 10px;">
     <div class="lower">
       <div class=" p-t-0 p-r-0 p-b-0"
         *ngIf="(roleData.roles.selectedRole && activeTab===0) || (roleTreeData.roles.selectedRole && activeTab===1)">
