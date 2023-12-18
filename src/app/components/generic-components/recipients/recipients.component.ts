@@ -49,6 +49,8 @@ export class RecipientsComponent implements OnDestroy {
     //this.addNewCriterion();
   }
   ngOnInit() {
+    console.log(this.recipientsData.toList);
+    
     if (this.currentScreen === 'addUser') {
       this.getUserLists();
       let obj = { index: 0 };
@@ -56,10 +58,14 @@ export class RecipientsComponent implements OnDestroy {
       this.getOrgRole(true);
     }
   }
+  clearFilter(){
+    console.log(">>>>>>>>>>");
+    
+    this.recipientsData.toList=this.recipientsData.toList.slice()
+  }
+  
   keyDown(e) {
-   // if ((this.documentsData.existing.model.actionType === 'Signature' || this.documentsData.existing.model.actionType === 'Initial') && this.recipientsData.toList.length === 1) {
       e.preventDefault();
-    //}
   }
 
   assignDragItem(data) {

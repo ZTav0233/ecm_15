@@ -101,3 +101,9 @@
 :host ::ng-deep .p-dropdown .p-dropdown-label.p-placeholder {
   color: white;
 }
+:host ::ng-deep .p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-token{
+  background-color: #7CB342 !important;
+  color: white !important;
+  padding: 0px 5px !important;
+  margin-left: -5px !important;
+}

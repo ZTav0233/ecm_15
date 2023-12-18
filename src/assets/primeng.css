@@ -2228,7 +2228,7 @@ button.ui-button::-moz-focus-inner {
 .ui-g-12 {
     float: left;
     box-sizing: border-box;
-    padding: 0.5em;
+    padding: 1em;
 }
 
 .ui-g-1 {

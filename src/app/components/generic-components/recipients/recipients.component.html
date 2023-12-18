@@ -290,12 +290,12 @@
     </div>
     <div class="ui-g-11">
       <p-autoComplete id="toLaunch" [readonly]="true" pDroppable="cc" styleClass="scrollautocomplete" (onDrop)="assignDropItem($event,'to')"
-        [(ngModel)]="recipientsData.toList" (onUnselect)="onRecipientRemoved()"
+        [(ngModel)]="recipientsData.toList" (onUnselect)="onRecipientRemoved()" (ngModelChange)="clearFilter()"
         (completeMethod)="searchRoles($event,'to')" [suggestions]="filteredRoles" [multiple]="true"
         (keydown)="keyDown($event)" [delay]="1000" field="fulName" name="toList"
         (onSelect)="selectSuggestion($event,'to')"  (onFocus)="toCcFieldOnFocus($event)" >
         <ng-template let-value pTemplate="selectedItem">
-          <div pDraggable="to" (onDragStart)="assignDragItem(value)" style="padding-right:18px" (mouseover)="value.orgCode?getRoleMembersIfRole(value):''"
+          <div pDraggable="to" (onDragStart)="assignDragItem(value)" (mouseover)="value.orgCode?getRoleMembersIfRole(value):''"
                pTooltip="{{value.members}}" [tooltipStyleClass]="'tooltip-min-width'" [escape]="false"
                tooltipPosition="right"
           >{{value.name}}</div>
@@ -320,7 +320,7 @@
                   (mouseover)="value.orgCode?getRoleMembersIfRole(value):''" [escape]="false"
                   pTooltip="{{value.members}}" [tooltipStyleClass]="'tooltip-min-width'"
                   tooltipPosition="right"
-              style="padding-right:18px">{{value.name}}</span>
+              >{{value.name}}</span>
           </ng-template>
         </p-autoComplete>
       </div>

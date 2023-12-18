@@ -7,7 +7,8 @@ import {
   ViewChildren,
   QueryList,
   Output,
-  Input
+  Input,
+  ChangeDetectorRef
 } from '@angular/core';
 import { BreadcrumbService } from "../../../services/breadcrumb.service";
 // service
@@ -167,6 +168,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
   selectedOptionForDocument
   public isMemoUser: boolean = false;
   constructor(
+    private ref: ChangeDetectorRef,
     private breadcrumbService: BreadcrumbService,
     private ws: WorkflowService,
     private sanitizer: DomSanitizer,
@@ -1360,7 +1362,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
       }
       role.disabled = true;
       this.launch.recipients.toList.push(role);
-      console.log(this.launch.recipients.toList);
+      this.launch.recipients.toList=[...this.launch.recipients.toList]
       
       this.prepareStepItems();
     }
@@ -1381,6 +1383,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
       }
       role.disabled = true;
       this.launch.recipients.ccList.push(role);
+      this.launch.recipients.ccList=[...this.launch.recipients.ccList]
       this.prepareStepItems();
     }
   }
@@ -1446,6 +1449,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
               l.actionType = 'TO';
               l.disabled = true;
               this.launch.recipients.toList.push(l);
+              this.launch.recipients.toList=[...this.launch.recipients.toList]
             }
           });
           this.prepareStepItems();
@@ -1463,6 +1467,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
                 l.actionType = 'TO';
                 l.disabled = true;
                 this.launch.recipients.toList.push(l);
+                this.launch.recipients.toList=[...this.launch.recipients.toList]
               }
             });
             list.users = users;
@@ -1482,6 +1487,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
           list.actionType = 'TO';
           list.disabled = true;
           this.launch.recipients.toList.push(list);
+          this.launch.recipients.toList=[...this.launch.recipients.toList]
           this.prepareStepItems();
         }
       }
@@ -1496,6 +1502,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
         list.actionType = 'TO';
         list.disabled = true;
         this.launch.recipients.toList.push(list);
+        this.launch.recipients.toList=[...this.launch.recipients.toList]
         this.prepareStepItems();
       }
     }
@@ -1515,6 +1522,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
               l.actionType = 'CC';
               l.disabled = true;
               this.launch.recipients.ccList.push(l);
+              this.launch.recipients.ccList=[...this.launch.recipients.ccList]
             }
           });
           this.prepareStepItems();
@@ -1532,6 +1540,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
                 l.actionType = 'CC';
                 l.disabled = true;
                 this.launch.recipients.ccList.push(l);
+                this.launch.recipients.ccList=[...this.launch.recipients.ccList]
               }
             });
             list.users = users;
@@ -1551,6 +1560,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
           list.actionType = 'CC';
           list.disabled = true;
           this.launch.recipients.ccList.push(list);
+          this.launch.recipients.ccList=[...this.launch.recipients.ccList]
           this.prepareStepItems();
         }
       }
@@ -1565,6 +1575,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
         list.actionType = 'CC';
         list.disabled = true;
         this.launch.recipients.ccList.push(list);
+        this.launch.recipients.ccList=[...this.launch.recipients.ccList]
         this.prepareStepItems();
       }
     }
@@ -1584,6 +1595,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
       }
       role.disabled = true;
       this.launch.recipients.ccList.push(role);
+      this.launch.recipients.ccList=[...this.launch.recipients.ccList]
       this.prepareStepItems();
     }
   }
@@ -1602,7 +1614,10 @@ export class LaunchComponent implements OnInit, OnDestroy {
       }
       role.disabled = true;
       this.launch.recipients.toList.push(role);
+      console.log(this.launch.recipients.toList);
+      
       this.prepareStepItems();
+      this.launch.recipients.toList=[...this.launch.recipients.toList]
     }
   }
 

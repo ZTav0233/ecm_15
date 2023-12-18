@@ -1385,6 +1385,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.launch.recipients.ccList.push(role);
       this.launch.recipients.ccList.map(v => Object.assign(v, { action: " " }));
       this.launch.recipients.ccList.map(v => Object.assign(v, { wiRemarks: "" }));
+      this.launch.recipients.ccList=[...this.launch.recipients.ccList]
       this.recipients.push({
         userName: role.userName || role.name,
         displayName: role.name,
@@ -1417,6 +1418,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.launch.recipients.ThruList.push(role);
       this.launch.recipients.ThruList.map(v => Object.assign(v, { action: "Initial" }));
       this.launch.recipients.ThruList.map(v => Object.assign(v, { wiRemarks: "" }));
+      this.launch.recipients.ThruList=[...this.launch.recipients.ThruList]
       this.recipients.push({
         userName: role.userName || role.name,
         displayName: role.name,
@@ -1451,6 +1453,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.launch.recipients.toList.push(role);
       this.launch.recipients.toList.map(v => Object.assign(v, { action: " " }));
       this.launch.recipients.toList.map(v => Object.assign(v, { wiRemarks: "" }));
+      this.launch.recipients.toList=[...this.launch.recipients.toList]
       //console.log(this.launch.recipients.toList)
       this.recipients.push({
         userName: role.userName || role.name,
@@ -1486,6 +1489,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.FromList.push(role);
         this.launch.recipients.FromList.map(v => Object.assign(v, { action: "Signature" }));
         this.launch.recipients.FromList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.FromList=[...this.launch.recipients.FromList]
 
       } else if (this.launch.recipients.SubFromList.length < 2) {
         this.busy = false
@@ -1493,6 +1497,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.SubFromList.push(role);
         this.launch.recipients.SubFromList.map(v => Object.assign(v, { action: "Signature" }));
         this.launch.recipients.SubFromList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.SubFromList=[...this.launch.recipients.SubFromList]
       }
       else {
         this.growlService.showGrowl({
@@ -1534,12 +1539,14 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.RevList.push(role);
         this.launch.recipients.RevList.map(v => Object.assign(v, { action: "Comments" }));
         this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.RevList=[...this.launch.recipients.RevList]
       }
       else if (this.Approver) {
         role.actionType = 'REV';
         this.launch.recipients.RevList.push(role);
         this.launch.recipients.RevList.map(v => Object.assign(v, { action: "Comments" }));
         this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.RevList=[...this.launch.recipients.RevList]
       }
       else {
         this.growlService.showGrowl({
@@ -1583,6 +1590,7 @@ export class MemoComponent implements OnInit, OnDestroy {
             this.launch.recipients.toList.push(l);
             this.launch.recipients.toList.map(v => Object.assign(v, { action: " " }));
             this.launch.recipients.toList.map(v => Object.assign(v, { wiRemarks: "" }));
+            this.launch.recipients.toList=[...this.launch.recipients.toList]
             this.recipients.push({
               userName: l.userName,
               displayName: l.fulName,
@@ -1613,6 +1621,7 @@ export class MemoComponent implements OnInit, OnDestroy {
               this.launch.recipients.toList.push(l);
               this.launch.recipients.toList.map(v => Object.assign(v, { action: " " }));
               this.launch.recipients.toList.map(v => Object.assign(v, { wiRemarks: "" }));
+              this.launch.recipients.toList=[...this.launch.recipients.toList]
               this.recipients.push({
                 userName: l.userName,
                 displayName: l.fulName,
@@ -1645,6 +1654,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.toList.push(list);
         this.launch.recipients.toList.map(v => Object.assign(v, { action: " " }));
         this.launch.recipients.toList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.toList=[...this.launch.recipients.toList]
         this.recipients.push({
           userName: list.userName,
           displayName: list.fulName,
@@ -1670,6 +1680,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.launch.recipients.toList.push(selectedList);
       this.launch.recipients.toList.map(v => Object.assign(v, { action: " " }));
       this.launch.recipients.toList.map(v => Object.assign(v, { wiRemarks: "" }));
+      this.launch.recipients.toList=[...this.launch.recipients.toList]
       this.recipients.push({
         userName: selectedList.userName,
         displayName: selectedList.fulName,
@@ -1691,6 +1702,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.toList.push(selectedList);
         this.launch.recipients.toList.map(v => Object.assign(v, { action: " " }));
         this.launch.recipients.toList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.toList=[...this.launch.recipients.toList]
         this.recipients.push({
           userName: selectedList.userName,
           displayName: selectedList.fulName,
@@ -1722,6 +1734,7 @@ export class MemoComponent implements OnInit, OnDestroy {
             this.launch.recipients.ThruList.push(l);
             this.launch.recipients.ThruList.map(v => Object.assign(v, { action: "Initial" }));
             this.launch.recipients.ThruList.map(v => Object.assign(v, { wiRemarks: "" }));
+            this.launch.recipients.ThruList=[...this.launch.recipients.ThruList]
             this.recipients.push({
               userName: l.userName,
               displayName: l.fulName,
@@ -1752,6 +1765,7 @@ export class MemoComponent implements OnInit, OnDestroy {
               this.launch.recipients.ThruList.push(l);
               this.launch.recipients.ThruList.map(v => Object.assign(v, { action: "Initial" }));
               this.launch.recipients.ThruList.map(v => Object.assign(v, { wiRemarks: "" }));
+              this.launch.recipients.ThruList=[...this.launch.recipients.ThruList]
               this.recipients.push({
                 userName: l.userName,
                 displayName: l.fulName,
@@ -1784,6 +1798,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.ThruList.push(list);
         this.launch.recipients.ThruList.map(v => Object.assign(v, { action: "Initial" }));
         this.launch.recipients.ThruList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.ThruList=[...this.launch.recipients.ThruList]
         this.recipients.push({
           userName: list.userName,
           displayName: list.fulName,
@@ -1809,6 +1824,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.launch.recipients.ThruList.push(selectedList);
       this.launch.recipients.ThruList.map(v => Object.assign(v, { action: " " }));
       this.launch.recipients.ThruList.map(v => Object.assign(v, { wiRemarks: "" }));
+      this.launch.recipients.ThruList=[...this.launch.recipients.ThruList]
       this.recipients.push({
         userName: selectedList.userName,
         displayName: selectedList.fulName,
@@ -1830,6 +1846,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.ThruList.push(selectedList);
         this.launch.recipients.ThruList.map(v => Object.assign(v, { action: " " }));
         this.launch.recipients.ThruList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.ThruList=[...this.launch.recipients.ThruList]
         this.recipients.push({
           userName: selectedList.userName,
           displayName: selectedList.fulName,
@@ -1864,12 +1881,14 @@ export class MemoComponent implements OnInit, OnDestroy {
               this.launch.recipients.RevList.push(l);
               this.launch.recipients.RevList.map(v => Object.assign(v, { action: "Comments" }));
               this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
+              this.launch.recipients.RevList=[...this.launch.recipients.RevList]
             }
             else if (this.Approver) {
               l.actionType = 'REV';
               this.launch.recipients.RevList.push(l);
               this.launch.recipients.RevList.map(v => Object.assign(v, { action: "Comments" }));
               this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
+              this.launch.recipients.RevList=[...this.launch.recipients.RevList]
             }
             else {
               this.growlService.showGrowl({
@@ -1910,12 +1929,14 @@ export class MemoComponent implements OnInit, OnDestroy {
                 this.launch.recipients.RevList.push(l);
                 this.launch.recipients.RevList.map(v => Object.assign(v, { action: "Comments" }));
                 this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
+                this.launch.recipients.RevList=[...this.launch.recipients.RevList]
               }
               else if (this.Approver) {
                 l.actionType = 'REV';
                 this.launch.recipients.RevList.push(l);
                 this.launch.recipients.RevList.map(v => Object.assign(v, { action: "Comments" }));
                 this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
+                this.launch.recipients.RevList=[...this.launch.recipients.RevList]
               }
               else {
                 this.growlService.showGrowl({
@@ -2001,12 +2022,14 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.RevList.push(selectedList);
         this.launch.recipients.RevList.map(v => Object.assign(v, { action: " " }));
         this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.RevList=[...this.launch.recipients.RevList]
       }
       else if (this.Approver) {
         list.actionType = 'REV';
         this.launch.recipients.RevList.push(selectedList);
         this.launch.recipients.RevList.map(v => Object.assign(v, { action: " " }));
         this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.RevList=[...this.launch.recipients.RevList]
       }
       else {
         this.growlService.showGrowl({
@@ -2038,12 +2061,14 @@ export class MemoComponent implements OnInit, OnDestroy {
           this.launch.recipients.RevList.push(selectedList);
           this.launch.recipients.RevList.map(v => Object.assign(v, { action: " " }));
           this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
+          this.launch.recipients.RevList=[...this.launch.recipients.RevList]
         }
         else if (this.Approver) {
           list.actionType = 'REV';
           this.launch.recipients.RevList.push(selectedList);
           this.launch.recipients.RevList.map(v => Object.assign(v, { action: " " }));
           this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
+          this.launch.recipients.RevList=[...this.launch.recipients.RevList]
         }
         else {
           this.growlService.showGrowl({
@@ -2084,6 +2109,7 @@ export class MemoComponent implements OnInit, OnDestroy {
               this.launch.recipients.FromList.push(l);
               this.launch.recipients.FromList.map(v => Object.assign(v, { action: "Signature" }));
               this.launch.recipients.FromList.map(v => Object.assign(v, { wiRemarks: "" }));
+              this.launch.recipients.FromList=[...this.launch.recipients.FromList]
               this.recipients.push({
                 userName: l.userName,
                 displayName: l.fulName,
@@ -2100,6 +2126,7 @@ export class MemoComponent implements OnInit, OnDestroy {
               this.launch.recipients.SubFromList.push(l);
               this.launch.recipients.SubFromList.map(v => Object.assign(v, { action: "Signature" }));
               this.launch.recipients.SubFromList.map(v => Object.assign(v, { wiRemarks: "" }));
+              this.launch.recipients.SubFromList=[...this.launch.recipients.SubFromList]
               this.recipients.push({
                 userName: l.userName,
                 displayName: l.fulName,
@@ -2138,6 +2165,7 @@ export class MemoComponent implements OnInit, OnDestroy {
                 this.launch.recipients.FromList.push(l);
                 this.launch.recipients.FromList.map(v => Object.assign(v, { action: "Signature" }));
                 this.launch.recipients.FromList.map(v => Object.assign(v, { wiRemarks: "" }));
+                this.launch.recipients.FromList=[...this.launch.recipients.FromList]
                 this.recipients.push({
                   userName: l.userName,
                   displayName: l.fulName,
@@ -2153,6 +2181,7 @@ export class MemoComponent implements OnInit, OnDestroy {
                 this.launch.recipients.SubFromList.push(l);
                 this.launch.recipients.SubFromList.map(v => Object.assign(v, { action: "Signature" }));
                 this.launch.recipients.SubFromList.map(v => Object.assign(v, { wiRemarks: "" }));
+                this.launch.recipients.SubFromList=[...this.launch.recipients.SubFromList]
                 this.recipients.push({
                   userName: l.userName,
                   displayName: l.fulName,
@@ -2193,6 +2222,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           this.launch.recipients.FromList.push(list);
           this.launch.recipients.FromList.map(v => Object.assign(v, { action: "Signature" }));
           this.launch.recipients.FromList.map(v => Object.assign(v, { wiRemarks: "" }));
+          this.launch.recipients.FromList=[...this.launch.recipients.FromList]
           this.recipients.push({
             userName: list.userName,
             displayName: list.fulName,
@@ -2208,6 +2238,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           this.launch.recipients.SubFromList.push(list);
           this.launch.recipients.SubFromList.map(v => Object.assign(v, { action: "Signature" }));
           this.launch.recipients.SubFromList.map(v => Object.assign(v, { wiRemarks: "" }));
+          this.launch.recipients.SubFromList=[...this.launch.recipients.SubFromList]
           this.recipients.push({
             userName: list.userName,
             displayName: list.fulName,
@@ -2241,6 +2272,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.FromList.push(selectedList);
         this.launch.recipients.FromList.map(v => Object.assign(v, { action: "Signature" }));
         this.launch.recipients.FromList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.FromList=[...this.launch.recipients.FromList]
         this.recipients.push({
           userName: selectedList.userName,
           displayName: selectedList.fulName,
@@ -2256,6 +2288,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.SubFromList.push(selectedList);
         this.launch.recipients.SubFromList.map(v => Object.assign(v, { action: "Signature" }));
         this.launch.recipients.SubFromList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.SubFromList=[...this.launch.recipients.SubFromList]
         this.recipients.push({
           userName: selectedList.userName,
           displayName: selectedList.fulName,
@@ -2285,6 +2318,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           this.launch.recipients.FromList.push(selectedList);
           this.launch.recipients.FromList.map(v => Object.assign(v, { action: "Signature" }));
           this.launch.recipients.FromList.map(v => Object.assign(v, { wiRemarks: "" }));
+          this.launch.recipients.FromList=[...this.launch.recipients.FromList]
           this.recipients.push({
             userName: selectedList.userName,
             displayName: selectedList.fulName,
@@ -2300,6 +2334,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           this.launch.recipients.SubFromList.push(selectedList);
           this.launch.recipients.SubFromList.map(v => Object.assign(v, { action: "Signature" }));
           this.launch.recipients.SubFromList.map(v => Object.assign(v, { wiRemarks: "" }));
+          this.launch.recipients.SubFromList=[...this.launch.recipients.SubFromList]
           this.recipients.push({
             userName: selectedList.userName,
             displayName: selectedList.fulName,
@@ -2338,6 +2373,7 @@ export class MemoComponent implements OnInit, OnDestroy {
             this.launch.recipients.ccList.push(l);
             this.launch.recipients.ccList.map(v => Object.assign(v, { action: " " }));
             this.launch.recipients.ccList.map(v => Object.assign(v, { wiRemarks: "" }));
+            this.launch.recipients.ccList=[...this.launch.recipients.ccList]
             this.recipients.push({
               userName: l.userName,
               displayName: l.fulName,
@@ -2368,6 +2404,7 @@ export class MemoComponent implements OnInit, OnDestroy {
               this.launch.recipients.ccList.push(l);
               this.launch.recipients.ccList.map(v => Object.assign(v, { action: " " }));
               this.launch.recipients.ccList.map(v => Object.assign(v, { wiRemarks: "" }));
+              this.launch.recipients.ccList=[...this.launch.recipients.ccList]
               this.recipients.push({
                 userName: l.userName,
                 displayName: l.fulName,
@@ -2400,6 +2437,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.ccList.push(list);
         this.launch.recipients.ccList.map(v => Object.assign(v, { action: " " }));
         this.launch.recipients.ccList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.ccList=[...this.launch.recipients.ccList]
         this.recipients.push({
           userName: list.userName,
           displayName: list.fulName,
@@ -2426,6 +2464,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.launch.recipients.ccList.push(selectedList);
       this.launch.recipients.ccList.map(v => Object.assign(v, { action: " " }));
       this.launch.recipients.ccList.map(v => Object.assign(v, { wiRemarks: "" }));
+      this.launch.recipients.ccList=[...this.launch.recipients.ccList]
       this.recipients.push({
         userName: selectedList.userName,
         displayName: selectedList.fulName,
@@ -2447,6 +2486,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.ccList.push(selectedList);
         this.launch.recipients.ccList.map(v => Object.assign(v, { action: " " }));
         this.launch.recipients.ccList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.ccList=[...this.launch.recipients.ccList]
         this.recipients.push({
           userName: selectedList.userName,
           displayName: selectedList.fulName,
@@ -2492,6 +2532,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         wiRemarks: ""
 
       })
+      this.launch.recipients.ccList=[...this.launch.recipients.ccList]
       this.prepareStepItems();
 
     }
@@ -2530,6 +2571,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         status: 'ACTIVE',
         wiRemarks: ""
       })
+      this.launch.recipients.ThruList=[...this.launch.recipients.ThruList]
       this.prepareStepItems();
     }
   }
@@ -2554,6 +2596,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.FromList.map(v => Object.assign(v, { action: "Signature" }));
         this.launch.recipients.FromList.map(v => Object.assign(v, { wiRemarks: "" }));
         //console.log(this.launch.recipients.FromList)
+        this.launch.recipients.FromList=[...this.launch.recipients.FromList]
         this.busy = true
         this.memoService.getValidateRoleMemberByCurrentUser(role.id).subscribe((res: any) => {
           if (res == 1) {
@@ -2628,6 +2671,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.SubFromList.push(role);
         this.launch.recipients.SubFromList.map(v => Object.assign(v, { action: "Signature" }));
         this.launch.recipients.SubFromList.map(v => Object.assign(v, { wiRemarks: "" }));
+        this.launch.recipients.SubFromList=[...this.launch.recipients.SubFromList]
       } else {
         this.growlService.showGrowl({
           severity: 'error',
@@ -2694,6 +2738,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         wiRemarks: ""
 
       })
+      this.launch.recipients.RevList=[...this.launch.recipients.RevList]
       this.prepareStepItems();
     }
   }
@@ -2726,9 +2771,8 @@ export class MemoComponent implements OnInit, OnDestroy {
         addStatus: "ADD",
         status: 'ACTIVE',
         wiRemarks: ""
-
       })
-
+      this.launch.recipients.toList=[...this.launch.recipients.toList]
       this.prepareStepItems();
     }
   }
@@ -3169,7 +3213,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.openTheConfirmationDialog = true;
     // console.log(this.editor);
     // console.log(this.editor.getData());
-    
+
   }
 
   navigateToInboxForReview() {
@@ -6006,7 +6050,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         .then(editor => {
           document.querySelector('.document-editor__toolbar').appendChild(editor.ui.view.toolbar.element);
           document.querySelector('.ck-toolbar').classList.add('ck-reset_all');
-          this.editorEN=editor;
+          this.editorEN = editor;
           return editor;
         });
     });
@@ -6025,7 +6069,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         .then(editor => {
           document.querySelector('.document-editor__toolbar1').appendChild(editor.ui.view.toolbar.element);
           document.querySelector('.ck-toolbar').classList.add('ck-reset_all');
-          this.editorAR=editor;
+          this.editorAR = editor;
           return editor;
         });
     });
