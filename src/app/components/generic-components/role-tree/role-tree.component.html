@@ -7,7 +7,7 @@
          <tr  (mouseover)="mGetRoleMembers(node.data)" [escape]="false" pTooltip="{{node.data.members}}"  positionStyle="fixed"
               [tooltipStyleClass]="'tooltip-min-width'"
             tooltipPosition="right">
-          <td ><span class="v-m m-l-lg" *ngIf="node.label">{{node.label}}
+          <td ><span  *ngIf="node.label">{{node.label}}
             {{activeTab==='roleList'&& node.data.type==='1'?'['+node.data.orgCode+']':' '}}
             {{activeTab==='orgUnitList'?'['+node.data.orgCode+']':' '}}
           </span>
