@@ -1818,7 +1818,7 @@ body .p-panel .p-panel-content {
 }
 
 .search-box input {
-  color: #ffffff;
+  /* color: #ffffff; */
   border-bottom: 1px solid #ECEFF1;
 }
 

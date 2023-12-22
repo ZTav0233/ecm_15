@@ -12,10 +12,10 @@
                 </span>
                 <div class="m-l-lg">
                   <div class="ui-inputgroup">
-                    <span class="md-inputfield ">
+                    <span class="md-inputfield " style="display: flex;">
                       <!--<input type="text" pInputText (input)="searchRole()"-->
                       <!--placeholder="Search OrgCode" [(ngModel)]="roleData.roles.model.query"/>-->
-                      <p-autoComplete id="orgUnit" [suggestions]="suggestionsResults" (completeMethod)="search($event)"
+                      <p-autoComplete id="orgUnit" [suggestions]="suggestionsResults" (completeMethod)="search($event)" styleClass="p-autoClass"
                         field="desc" (onSelect)="orgUnitSelected($event);" [size]="30" placeholder="Search OrgUnit"
                         [minLength]="1" [forceSelection]="true" [appendTo]="'body'" [required]="true">
                         <ng-template let-selectedorgCode pTemplate="item">
