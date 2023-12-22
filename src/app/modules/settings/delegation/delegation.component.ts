@@ -15,6 +15,7 @@ import * as _ from "lodash";
   styleUrls: ['./delegation.component.css']
 })
 export class DelegationComponent implements OnInit, OnDestroy {
+  expanded=false
   criteria: SelectItem[];
   selectedcriteria: string;
   searchStarted: boolean;
@@ -74,7 +75,10 @@ export class DelegationComponent implements OnInit, OnDestroy {
     this.toDate=undefined;
 
   }
-
+  onExpanded(ev:any){
+    console.log(ev);
+    ev.expanded=!ev.expanded
+  }
   removeFromRole(e) {
     e.id = e.del;
     this.confirmationService.confirm({

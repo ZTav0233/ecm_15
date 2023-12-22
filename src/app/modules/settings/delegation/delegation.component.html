@@ -125,9 +125,9 @@
           </tr>
         </ng-template> -->
         <ng-template pTemplate="groupheader" let-customer let-rowIndex="rowIndex" let-expanded="expanded">
-          <tr  class="headerOOO">
+          <tr [ngStyle]="{'background-color': customer.expanded ? '#7CB342' : 'white', 'color': customer.expanded ? 'white' : 'black'}">
               <td colspan="5">
-                <button type="button" pButton pRipple [pRowToggler]="customer" class="p-button-text p-button-rounded p-button-plain mr-2" icon="fa fa-fw ui-clickable ui-icon-people-outline"></button>
+                <button type="button" (click)="onExpanded(customer)" pButton pRipple [pRowToggler]="customer" class="p-button-text p-button-rounded p-button-plain mr-2" icon="fa fa-fw ui-clickable ui-icon-people-outline"></button>
                 <span class="font-bold ml-2">{{customer.roleName}}</span>
               </td>
           </tr>
