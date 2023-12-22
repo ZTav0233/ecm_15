@@ -15,7 +15,7 @@ import * as _ from "lodash";
   styleUrls: ['./delegation.component.css']
 })
 export class DelegationComponent implements OnInit, OnDestroy {
-  expanded=false
+  // expanded=false
   criteria: SelectItem[];
   selectedcriteria: string;
   searchStarted: boolean;

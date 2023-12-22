@@ -173,6 +173,8 @@ export class ArchiveComponent implements OnInit, OnDestroy {
   public showRecallInactiveDialog = false;
   messageDenyAction: string;
   userSetting = [];
+  public showItemDialogue = false;
+  public showItemDialogueDetails :any;
   public showOperationNotPossible = false;
   constructor(private breadcrumbService: BreadcrumbService, private router: Router, private ws: WorkflowService, private us: UserService, private bs: BrowserEvents,
     public coreService: CoreService, private growlService: GrowlService, private confirmationService: ConfirmationService,) {
@@ -1854,6 +1856,11 @@ export class ArchiveComponent implements OnInit, OnDestroy {
     }, err => {
       this.busy = false;
     });
+  }
+  listItemDailogue(ev:any){
+    console.log(ev);
+    this.showItemDialogue=true
+    this.showItemDialogueDetails=ev;
   }
 
 }

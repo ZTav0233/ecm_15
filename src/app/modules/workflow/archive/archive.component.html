@@ -69,7 +69,7 @@
               (sendSortPagination)="assignSortNotPaginationInfo($event)" [showDownloadIcon]="false"
               [showAddCartIcon]="false" [tableData]="archiveWorkitems.workitems" [colHeaders]="colHeaders"
               (refreshScreen)="refreshTable()" [itemsPerPage]="itemsPerPage" [rowExpandable]="true"
-              (toggleProgressDialogue)="showProgressDialogue($event)" [lazy]="lazy" [showProgressBtn]="true"
+              (toggleProgressDialogue)="showProgressDialogue($event)" [lazy]="lazy" [showProgressBtn]="true" (listItemsDialogue)="listItemDailogue($event)"
               [isSelectedRoleInActive]="tab.status ==='INACTIVE'" [tabNameIdentifier]="tab.tabIdentifier" (sendSelectedColumns)="columnSelectionChanged($event,true)"></data-table>
             <data-table *ngIf="userGridView === gridViewOptions.grouped.value" [rowGroupMode]="'subheader'"
               [groupField]="'recordGroupName'" [expandedRowsGroups]="expandedRowsGroups"
@@ -81,7 +81,7 @@
               (sendSortPagination)="assignSortNotPaginationInfo($event)" [showDownloadIcon]="false"
               [showAddCartIcon]="false" [tableData]="archiveWorkitems.workitems" [colHeaders]="colHeaders"
               (refreshScreen)="refreshTable()" [itemsPerPage]="itemsPerPage" [rowExpandable]="true"
-              (toggleProgressDialogue)="showProgressDialogue($event)" [lazy]="lazy" [showProgressBtn]="true"
+              (toggleProgressDialogue)="showProgressDialogue($event)" [lazy]="lazy" [showProgressBtn]="true" (listItemsDialogue)="listItemDailogue($event)"
               [isSelectedRoleInActive]="tab.status ==='INACTIVE'" [tabNameIdentifier]="tab.tabIdentifier" (sendSelectedColumns)="columnSelectionChanged($event,true)"></data-table>
           </div>
         </mat-tab>
@@ -144,7 +144,7 @@
               [emptyMessage]="emptyMessage" [workflowFilter]="request && request.exportFilter || advanceFilterShown"
               [activePage]="'sent'" [showInfoIcon]="false" (sendSortPagination)="assignSortNotPaginationInfo($event)"
               (toggleTrackSentitem)="showTrackSentitem($event,'USER')" [showDownloadIcon]="false"
-              [showAddCartIcon]="false" [tableData]="archiveWorkitems.workitems" [colHeaders]="sentColHeaders"
+              [showAddCartIcon]="false" [tableData]="archiveWorkitems.workitems" [colHeaders]="sentColHeaders" (listItemsDialogue)="listItemDailogue($event)"
               [userType]="tab.tabType" [userId]="tab.recordId" [selectedRows]="archiveSelectedItem"
               [isSelectedRoleInActive]="tab.status ==='INACTIVE'" (refreshScreen)="refreshTable()" [dataKeyValue]="'sentitemId'"
               [itemsPerPage]="itemsPerPage" [rowExpandable]="false" [lazy]="lazy"
@@ -154,7 +154,7 @@
               [expandedRowsGroupsSubTotal]="expandedRowsGroupsSubTotal" [defaultSortField]="tab.sortField"
               [sortOrder]="tab.sortDirection" (sendData)="getData($event)" [totalRecords]="tab.totalRecords"
               [emptyMessage]="emptyMessage" [workflowFilter]="request && request.exportFilter || advanceFilterShown"
-              [activePage]="'sent'" [showInfoIcon]="false" (sendSortPagination)="assignSortNotPaginationInfo($event)"
+              [activePage]="'sent'" [showInfoIcon]="false" (sendSortPagination)="assignSortNotPaginationInfo($event)" (listItemsDialogue)="listItemDailogue($event)"
               (toggleTrackSentitem)="showTrackSentitem($event,'USER')" [showDownloadIcon]="false"
               [showAddCartIcon]="false" [tableData]="archiveWorkitems.workitems" [colHeaders]="sentColHeaders"
               [userType]="tab.tabType" [userId]="tab.recordId" [selectedRows]="archiveSelectedItem"
@@ -314,7 +314,64 @@
     <button pButton class="pull-right" type="button" label="Ok" (click)="reloadApp()"></button>
   </p-footer>
 </p-dialog>
-
+<p-dialog [modal]="true"  [(visible)]="showItemDialogue" [closable]="false" [closeOnEscape]="false" [style]="{ width: '80vw', height: '40vh' }">
+  <p-header>
+    <span >Workitem Details</span>
+  </p-header>
+  <div class="ui-grid-row">
+    <table id="details" class="ecm-table  inner-table w-100">
+      <tbody>
+        <tr class="even label-width">
+          <td>Subject:</td>
+          <td>{{showItemDialogueDetails?.subject}}</td>
+          <td>Received Date:</td>
+          <td>{{showItemDialogueDetails?.receivedDate}}</td>
+        </tr>
+        <tr class="label-width">
+          <td>Sender Name:</td>
+          <td>{{showItemDialogueDetails?.senderName}}</td>
+          <td>Priority:</td>
+          <td>{{showItemDialogueDetails?.priority}}</td>
+        </tr>
+        <tr class="even label-width">
+          <td>Originator:</td>
+          <td>{{showItemDialogueDetails?.wfCreatorName}}</td>
+          <td>Status:</td>
+          <td>{{showItemDialogueDetails?.status}}</td>
+        </tr>
+        <tr class="label-width">
+          <td>Reminder:</td>
+          <td>{{showItemDialogueDetails?.reminder}}</td>
+          <td>Deadline:</td>
+          <td>{{showItemDialogueDetails?.deadline}}</td>
+        </tr>
+        <tr class="even label-width">
+          <td>For:</td>
+          <td colspan="3">
+            <div>{{showItemDialogueDetails?.actions}}</div>
+          </td>
+        </tr>
+        <tr class="label-width">
+          <td>Instructions:</td>
+          <td colspan="3">
+            <div *ngIf="showItemDialogueDetails?.instructions" [innerHTML]="showItemDialogueDetails?.instructions"></div>
+          </td>
+        </tr>
+        <tr class="even label-width">
+          <td>Remarks:</td>
+          <td colspan="3">{{showItemDialogueDetails?.comments}}</td>
+        </tr>
+        <tr class="label-width" *ngIf="showItemDialogueDetails?.actionTaken && showItemDialogueDetails?.actionTaken!='Launch'">
+          <td>Action Taken:</td>
+          <td colspan="3">{{showItemDialogueDetails?.actionTaken}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p-footer>
+    <button pButton class="pull-right" type="button" label="Ok" (click)="showItemDialogue=false"></button>
+  </p-footer>
+</p-dialog>
 <p-dialog [closable]="false" [closeOnEscape]="false" [modal]="true" [(visible)]="showOperationNotPossible"
    [style]="{ width: '380px', height: '148px' }">
   <p-header>
