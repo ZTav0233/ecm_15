@@ -128,3 +128,6 @@
 :host ::ng-deep .p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-token:focus-visible {
   outline: transparent;
 }
+:host ::ng-deep .ecm-table td{
+  padding: 4px 5px 4px 5px;
+}

@@ -4,7 +4,7 @@
       <!-- <div class="ui-g-12 p-l-0 p-b-0 p-t-md p-r-0" style="height: calc(100vh - 82px); overflow: auto;"> -->
       <div class="ui-g-12 p-l-0 p-b-0 p-t-md p-r-0 border-container">
         <p-tabView (onChange)="step1TabChange($event)" styleClass="max-h-tab" [activeIndex]="tabActiveIndex">
-          <p-tabPanel header="Attachment">
+          <p-tabPanel header="Attachment" class="Attach-From-ECM-File-System">
             <p-dropdown (onChange)="selectedOption()" [options]="browsingOptions" optionLabel="name" 
               (click)="dropDownHideShow?hideDropdown(false): hideDropdown(true)" class="example-css-class ECM-dropdown ECM-dropdownn"
               id="dropdown" [placeholder]='"Attach From ECM/File System"' [(ngModel)]="selectedOptionForDocument">
@@ -415,8 +415,8 @@
               </div>
               <div
                 *ngIf="actionTypes =='reply' || actionTypes =='replyAll' ||
-              actionTypes =='draftLaunch' || actionTypes =='browseLaunch' || actionTypes =='reLaunch' || actionTypes =='launch'">
-                <textarea type="text" [spellcheck]="true" class="text-area-resize-none bordered" [rows]="5"
+              actionTypes =='draftLaunch' || actionTypes =='browseLaunch' || actionTypes =='reLaunch' || actionTypes =='launch'" class="remarks-box">
+                <textarea type="text" [spellcheck]="true" class="text-area-resize-none bordered " [rows]="5"
                   maxlength="2000" [cols]="30" pInputTextarea [autoResize]="false"
                   ng-model-options="{ updateOn: 'blur' }" [(ngModel)]="launch.workflow.model.remarks"
                   name="remarks"></textarea>
@@ -426,7 +426,7 @@
               </div>
             </div>
             <div class="ui-g-6">
-              <div *ngIf="(actionTypes !='reply' && actionTypes !='replyAll') || wiaAction?.isMemo==1">
+              <div *ngIf="(actionTypes !='reply' && actionTypes !='replyAll') || wiaAction?.isMemo==1" class="remarks-box">
                 <textarea type="text" [spellcheck]="true" class="text-area-resize-none bordered" [rows]="5"
                   maxlength="500" [cols]="30" pInputTextarea [autoResize]="false"
                   ng-model-options="{ updateOn: 'blur' }" [(ngModel)]="launch.workflow.model.instructions"

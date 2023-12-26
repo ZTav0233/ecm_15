@@ -8,9 +8,9 @@
       <ng-container *ngFor="let item of items;let i=index">
         <tr (mouseover)="mExistsInList(item)" class="item"
           [ngClass]="{'even':i%2===0 && !isNoAlternateRows,'clickable':isRowSelectable}">
-          <td *ngIf="!isUserRoleNotList"><i [ngClass]="(item.appRole=='USER')?'fa ui-icon-person':iconClass"></i></td>
+          <td *ngIf="!isUserRoleNotList"><i [ngClass]="(item.appRole=='USER')?'fa fa-fw ui-icon-person':iconClass"></i></td>
           <td *ngIf="isUserRoleNotList"><i
-              [ngClass]="(item.appRole=='USER')?'fa fa-fw icon-person':'fa fa-fw icon-people'"></i>
+              [ngClass]="(item.appRole=='USER')?'fa fa-fw ui-icon-person':'fa fa-fw ui-icon-people'"></i>
           </td>
           <td>
             <div class="w-100" *ngIf="!showTooltip">

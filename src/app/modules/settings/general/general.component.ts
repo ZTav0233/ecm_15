@@ -29,7 +29,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
   defaultNo: any;
   selectedActions: string;
   selectedTemplate: string;
-  selectedTab: string;
+  selectedTab: any;
   selShowInactiveRole: string;
   themes: any[] = [];
   isTheme = false;
@@ -100,8 +100,6 @@ export class GeneralComponent implements OnInit, OnDestroy {
     });
     // this.userService.getUserDe
     this.userService.logIn(this.user.userName,this.user.password).subscribe(data => {
-    // this.defaultTab.push({label :'',value:''},)
-    // console.log(data);
     this.defaultTabAction(data);
 
     }, err => {
@@ -116,23 +114,19 @@ export class GeneralComponent implements OnInit, OnDestroy {
         this.actions.push({label: data[i].name, value: data[i].name});
       }
     }
+    console.log(this.actions);
+    
   }
 
   defaultTabAction(data:any){
-    //this.defaultTab.push({label:"", value:""});
     this.defaultTab.push({label: data.fulName ,value: data.EmpNo});
     for (let i = 0; i < data.roles.length; i++) {
       if(data.roles[i].status.toLowerCase() === 'active'){
         this.defaultTab.push({label: data.roles[i].name, value: data.roles[i].id});
       }
-      // this.defaultTab.push({label: data.title, value: data.EmpNo});
     }
-    // for (let i = 0; i < data.delegated.length; i++) {
-    //   this.defaultTab.push({label: data.delegated[i].delName, value: data.delegated[i].id});
-    //   // this.defaultTab.push({label: data.title, value: data.EmpNo});
-    // }
-
-
+    console.log(this.defaultTab);
+    
   }
 
   changeClass(){
@@ -206,34 +200,6 @@ export class GeneralComponent implements OnInit, OnDestroy {
         'val': this.selShowInactiveRole
       });
     }
-    // this.generalSettings.map((d,i)=>{
-    //   if(d.key)
-    // });
-  /*   if (this.isTheme === false) {
-      this.generalSettings.push({
-        'id': null,
-        'appId': 'ECM',
-        'empNo': this.user.EmpNo,
-        'key': 'Default Theme',
-        'val': this.userService.selectedTheme
-      });
-    }
-    if (this.isDefaultView === false) {
-      this.generalSettings.push({
-        'id': null,
-        'appId': 'ECM',
-        'empNo': this.user.EmpNo,
-        'key': 'Default View',
-        'val': this.userService.defaultView
-      });
-    } */
-    // this.generalSettings.push({
-    //   'id': null,
-    //   'appId': 'ECM',
-    //   'empNo': this.user.EmpNo,
-    //   'key': 'Default Tab',
-    //   'val': `${this.selectedTab}`
-    // });
     this.busy = true;
     // console.log(this.generalSettings);
     this.userService.updateUserSettings(this.generalSettings).subscribe(val => {
@@ -264,7 +230,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
   }
 
   assignGeneralSettings(val) {
-    // console.log("Assign general settings :: " + val);
+    console.log("Assign general settings :: " + val);
     this.userService.updateSettings(val);
     this.generalSettings = val;
     for (const setting of val) {
@@ -279,7 +245,11 @@ export class GeneralComponent implements OnInit, OnDestroy {
         this.selectedTemplate = setting.val;
       }
       if (setting.key === 'Show Inactive Role') {
+        console.log(setting.val);
+        
         this.selShowInactiveRole = setting.val;
+        console.log(this.selShowInactiveRole);
+        
       }
       if (setting.key === 'Default Theme') {
         this.userService.selectedTheme = setting.val;
@@ -288,7 +258,11 @@ export class GeneralComponent implements OnInit, OnDestroy {
         this.userService.defaultView = setting.val;
       }
       if(setting.key === 'Default Tab') {
-        this.selectedTab  = setting.val;
+        console.log(typeof(setting.val));
+        
+        this.selectedTab  = +setting.val;
+        console.log(this.selectedTab);
+        
       }
       if(setting.key === 'Default Folder') {
         this.folderId = setting.val;

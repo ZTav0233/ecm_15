@@ -876,7 +876,7 @@
                 </div>
                 <div class=" ui-g-6">
 
-                  <div>
+                  <div class="remarks-box">
                     <textarea type="text" [spellcheck]="true" class="text-area-resize-none bordered" [rows]="4"
                       maxlength="2000" [cols]="30" pInputTextarea [autoResize]="false"
                       ng-model-options="{ updateOn: 'blur' }" [(ngModel)]="launch.workflow.model.remarks"
@@ -887,7 +887,7 @@
                   </div>
                 </div>
                 <div class="ui-g-6">
-                  <div *ngIf="actionTypes !='reply' && actionTypes !='replyAll'">
+                  <div *ngIf="actionTypes !='reply' && actionTypes !='replyAll'" class="remarks-box">
                     <textarea type="text" [spellcheck]="true" class="text-area-resize-none bordered" [rows]="4"
                       maxlength="500" [cols]="30" pInputTextarea [autoResize]="false"
                       ng-model-options="{ updateOn: 'blur' }" [(ngModel)]="launch.workflow.model.instructions"

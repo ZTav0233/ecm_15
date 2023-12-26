@@ -107,3 +107,10 @@
   padding: 0px 5px !important;
   margin-left: -5px !important;
 }
+:host ::ng-deep .p-inputtext{
+  /* color: white; */
+}
+:host ::ng-deep .ecm-table td{
+  padding: 4px 5px 4px 5px;
+}
+

@@ -12,8 +12,8 @@
           <div class="w-100 ">
             <div class="ui-g roleSearch-box">
               <div class="ui-g-12 ui-inputgroup">
-                <span class="md-inputfield ">
-                  <input type="text" pInputText (input)="searchDLList(searchTextList)" placeholder="Search"
+                <span class="md-inputfield " style="display: flex; width: 100%;">
+                  <input type="text" pInputText (input)="searchDLList(searchTextList)" placeholder="Search" style="width: 90%;"
                     [(ngModel)]="searchTextList" />
                   <i class="topbar-icon material-icons">search</i>
                 </span>
@@ -55,8 +55,8 @@
           <div class="w-100 ">
             <div class="ui-g roleSearch-box">
               <div class="ui-g-12 ui-inputgroup">
-                <span class="md-inputfield ">
-                  <input type="text" pInputText (input)="searchDistList(searchTextList)" placeholder="Search"
+                <span class="md-inputfield " style="display: flex; width: 100%;">
+                  <input type="text" pInputText (input)="searchDistList(searchTextList)" placeholder="Search" style="width: 90%;"
                     [(ngModel)]="searchTextList" />
                   <i class="topbar-icon material-icons">search</i>
                 </span>
@@ -64,7 +64,7 @@
             </div>
           </div>
           <div class="max-h-360">
-            <table class="ecm-table w-100 m-t-xsm">
+            <table class="ecm-table ecm-table1 w-100 m-t-xsm">
               <tr *ngFor="let lst of distList.lists;let j = index;" class="item"
                 [ngClass]="{'even':j%2===0 && j!==selectedIndex,'highlighted':j===selectedIndex}">
                 <td>
@@ -85,7 +85,7 @@
                 </td>
                 <td align="right" class="action-btn-group">
                   <span class="action-btn-group-sm p-r-lg">
-                    <button *ngIf="lst.name!=='Add New List'" pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete"
+                    <button *ngIf="lst.name!=='Add New List'" pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete" style="padding: 3px !important;"
                       (click)="confirmRemoveLink($event,lst,user.EmpNo)"></button>
 
                   </span>

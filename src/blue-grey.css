@@ -275,6 +275,7 @@
 
 .p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-token .p-autocomplete-token-icon {
   margin-left: 0.5rem;
+  margin-top: 3px;
 }
 
 p-autocomplete.ng-dirty.ng-invalid>.p-autocomplete>.p-inputtext {
