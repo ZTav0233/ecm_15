@@ -6,8 +6,6 @@
     <span *ngIf="searchObj.message">( {{searchObj.message}} )</span>
   </span>
 </div>
-<!--<p-tabView [activeIndex]="selectedIndex" (onChange)="changeTab($event)">-->
-<!--<p-tabPanel header="Document Search">-->
 <p-accordion (onOpen)="onTabOpen($event)" [multiple]="true" [style]="{'margin-top':'45px'}">
   <p-accordionTab header="Document Search" [selected]="isSearchSelected" [disabled]="selectedItem.length!==0">
     <div [ngClass]="{'hidden':!selectedItem || selectedItem.length!==0}">
@@ -15,8 +13,6 @@
         (updateSearchResultCopy)="updateSearchResultCopy($event)" [data]="searchObj" [showSavedSearches]="true"
         [dataTableComponentRef]="dataTableComponentRef"></app-search-document>
     </div>
-    <!--</p-tabPanel>-->
-    <!--<p-tabPanel header="Search Result">-->
   </p-accordionTab>
   <p-accordionTab header="Search Result" [selected]="!isSearchSelected">
     <p-header>
@@ -27,7 +23,6 @@
     </p-header>
     <div class="ui-g" *ngIf="searchObj.searchResult && searchObj.searchResult.length>0">
       <div class="ui-g-12 ">
-        <!--(sendSortPagination)="continueSearch($event)"-->
         <data-table [showCount]="true" [totalCount]="searchObj.totalResults" (sendData)="getData($event,sidemenu);"
           [showInfoIcon]="true" [tableData]="searchObj.searchResult" [colHeaders]="colHeaders"
           [isLoadButtonDisabled]="isLastPage" [itemsPerPage]="searchpageSize?searchpageSize:searchCountLimit"
@@ -38,8 +33,6 @@
         </data-table>
       </div>
     </div>
-    <!--</p-tabPanel>-->
-    <!--</p-tabView>-->
   </p-accordionTab>
 </p-accordion>
 <div [ngClass]="{'hidden':!selectedItem || selectedItem.length===0}">

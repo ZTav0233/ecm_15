@@ -22,6 +22,7 @@ import { AdminService } from "../../../services/admin.service";
 import * as global from "../../../global.variables";
 import * as moment from 'moment';
 @Component({
+  styleUrls: ['./search.component.css'],
   selector: 'app-search-document',
   templateUrl: './search.component.html'
 })

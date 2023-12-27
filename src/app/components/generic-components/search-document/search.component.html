@@ -35,7 +35,7 @@
                 <div class="ui-g-2">
                   <label class="pull-right">{{data.isCurrent ? 'Current Version' : 'All Versions'}}</label>
                 </div>
-                <div class="ui-g-1">
+                <div class="ui-g-2">
                   <p-inputSwitch onLabel="All_Versions" offLabel="Current Version" [(ngModel)]="data.isCurrent"
                     [ngModelOptions]="{standalone: true}" [disabled]="!!(data.model.contentSearch.mvalues[0] && data.model.contentSearch.mvalues[0].length>0) ||
                                               createdByFieldSearch"></p-inputSwitch>
@@ -51,13 +51,13 @@
               </div>
               <div *ngIf="data.searchTemplate && data.searchTemplate.props">
                 <div class="ui-g-6" *ngFor="let dynamicProp of dynamicProps;let i=index;">
-                  <div class="ui-g-3" [ngClass]="{'red-back': dynamicProp.selectedOption.symName === 'DateCreated'}">
+                  <div class="ui-g-4" [ngClass]="{'red-back': dynamicProp.selectedOption.symName === 'DateCreated'}">
                     <p-dropdown *ngIf="dynamicProp.selectedOption.symName !== 'DateCreated'"
                       [options]="dynamicProp.options" [(ngModel)]="dynamicProp.selectedOption" 
                       name="{{i}}f" (onChange)="propChanged(i)"></p-dropdown>
                     <label *ngIf="dynamicProp.selectedOption.symName === 'DateCreated'">Created Date</label>
                   </div>
-                  <div class="ui-g-1">
+                  <div class="ui-g-2">
                     <p-dropdown [options]="dynamicProp.selectedOption.operFields"
                       [(ngModel)]="dynamicProp.selectedOption.oper"  class="p-dropdownarrow-lg "
                       (onChange)="operChanged(dynamicProp)" name="{{i}}o"></p-dropdown>
@@ -73,7 +73,7 @@
                         yearRange="1900:2030" [showButtonBar]="true">
                       </p-calendar>
                     </div>
-                    <div class="ui-g-3">
+                    <div class="ui-g-2">
                       <p-calendar placeholder="To" dateFormat="dd-mm-yy" [disabled]="!dynamicProp.mvalues[0] || dynamicProp.selectedOption.oper === '>='
                      || dynamicProp.selectedOption.oper === '<=' || dynamicProp.selectedOption.oper === 'is equal to' "
                         [readonlyInput]="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030"
@@ -93,7 +93,7 @@
                         [showButtonBar]="true">
                       </p-calendar>
                     </div>
-                    <div class="ui-g-3">
+                    <div class="ui-g-2">
                       <p-calendar  [required]="true" [attr.required]="true" placeholder="To"
                         dateFormat="dd-mm-yy" [disabled]="!dynamicProp.mvalues[0] || dynamicProp.selectedOption.oper === '>='
                      || dynamicProp.selectedOption.oper === '<=' || dynamicProp.selectedOption.oper === 'is equal to' "
@@ -107,7 +107,7 @@
                   <ng-container *ngIf="dynamicProp.selectedOption && (dynamicProp.selectedOption.dtype.toLowerCase()=='string' ||
                   dynamicProp.selectedOption.dtype.toLowerCase()=='long'  || dynamicProp.selectedOption.dtype.toLowerCase() =='integer') && !dynamicProp.selectedOption.lookups &&
                   !(dynamicProp.selectedOption.symName.toLowerCase()==='creator')" class="form-group">
-                    <div class="ui-g-6">
+                    <div class="ui-g-5">
                       <span
                         (click)="(!(excepClassNames && excepClassNames.indexOf(data.model.selectedDocumentClass.etName.toLowerCase())> -1) && (dynamicProp.selectedOption.symName.toLowerCase()==='documentfrom' || dynamicProp.selectedOption.symName.toLowerCase()==='documentto')) ? openListDialog(dynamicProp.selectedOption.symName):''"
                         class="md-inputfield">
@@ -127,7 +127,7 @@
                   </ng-container>
                   <ng-container *ngIf="dynamicProp.selectedOption && dynamicProp.selectedOption.symName &&
                   (dynamicProp.selectedOption.symName.toLowerCase()==='creator')" class="form-group">
-                    <div class="ui-g-6">
+                    <div class="ui-g-5">
                       <p-autoComplete [(ngModel)]="dynamicProp.mvalues[0]" [suggestions]="userSearchSuggestion"
                         [ngModelOptions]="{standalone: true}" (completeMethod)="getUserSuggestion($event)"
                         (onSelect)="usersSelected($event);" (onClear)="clearSelection($event)"
@@ -139,7 +139,7 @@
                   <ng-container
                     *ngIf="dynamicProp.selectedOption && dynamicProp.selectedOption.lookups && dynamicProp.selectedOption.lookups.length>0"
                     class="form-group">
-                    <div class="ui-g-6">
+                    <div class="ui-g-5">
                       <p-dropdown [options]="dynamicProp.selectedOption.lookups" placeholder="Select"
                         [(ngModel)]="dynamicProp.mvalues[0]"  (click)="onClickLookup(dynamicProp.selectedOption)" 
                         name="{{dynamicProp.selectedOption.symName}}" [filter]="true" filterBy="label,value.name">
