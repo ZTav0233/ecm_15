@@ -31064,3 +31064,16 @@ svg.DocSearch-Hit-Select-Icon {
 .pi-spinner:before {
     content: "\e926"
 }
+.quickSearch {
+    background-color: #607d8b;
+    color: white;
+    border: none;
+    border-bottom: 1px solid white;
+    height: 95% !important;
+}
+
+.quickSearch::placeholder {
+    color: white !important;
+    opacity: 1;
+    /* Firefox */
+}

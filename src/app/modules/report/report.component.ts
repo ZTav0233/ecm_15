@@ -14,6 +14,7 @@ import * as moment from 'moment';
 import { BaseChartDirective } from 'ng2-charts';
 import { Table } from 'primeng/table';
 @Component({
+  styleUrls: ['./report-component.css'],
   selector: 'app-report-component',
   templateUrl: './report.component.html'
 })

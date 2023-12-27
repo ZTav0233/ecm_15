@@ -1,12 +1,36 @@
-.autorenew{
+.autorenew {
     height: auto !important;
     width: 40px !important;
 }
 
-.autorenew .fa{
+.autorenew .fa {
     font-size: 24px !important;
 }
-td img{
+
+td img {
     height: 16px;
     width: 16px;
+}
+
+.quickSearch {
+    background-color: #607d8b;
+    color: white;
+    border: none;
+    border-bottom: 1px solid white;
+    height: 95% !important;
+}
+
+.quickSearch::placeholder {
+    color: white !important;
+    opacity: 1;
+    /* Firefox */
+}
+:host ::ng-deep .p-element .p-fluid .p-inputtext{
+    background-color: #607d8b;
+    border: none;
+    border-bottom: 1px solid white;
+    color :white
+}
+:host ::ng-deep .p-element .p-fluid .p-inputtext::placeholder{
+    color: white !important;
 }

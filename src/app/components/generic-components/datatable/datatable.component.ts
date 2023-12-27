@@ -263,6 +263,13 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   
 
   ngOnInit() {
+    setTimeout(() => {
+      var filter:any=document.getElementsByClassName('p-element p-fluid');
+      var inputFIlter:any=filter[0].getElementsByTagName('input')[0];
+      inputFIlter.placeholder='Subject'
+      // inputFIlter.style.color ='white'
+    }, 1000);
+    
     console.log(this.activePage);
     console.log(this.tableData);
     // this.tableDataStored=this.tableData

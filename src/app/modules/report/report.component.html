@@ -324,7 +324,7 @@
                 <ng-template pTemplate="caption">
                   <span class="p-input-icon-left ml-auto">
 
-                    <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                    <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" class="quickSearch"
                       placeholder="Search keyword" />
                   </span>
 
@@ -407,7 +407,7 @@
                 [globalFilterFields]="['orgTeamName','orgCode','inboxCount','sentCount','docCount','eSignCount','orgRoleName','orgGroupName']">
                 <ng-template pTemplate="caption">
                   <span class="p-input-icon-left ml-auto">
-                    <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                    <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" class="quickSearch"
                       placeholder="Search keyword" />
                   </span>
                 </ng-template>
@@ -479,7 +479,7 @@
                 [globalFilterFields]="['orgTeamName','orgCode','inboxCount','sentCount','docCount','eSignCount','orgRoleName','orgGroupName']">
                 <ng-template pTemplate="caption">
                   <span class="p-input-icon-left ml-auto">
-                    <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                    <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" class="quickSearch"
                       placeholder="Search keyword" />
                   </span>
                 </ng-template>
@@ -584,7 +584,7 @@
                 [reorderableColumns]="true" [resizableColumns]="true" [rows]="pageSize" [paginator]="true">
                 <ng-template pTemplate="caption">
                   <span class="p-input-icon-left ml-auto">
-                    <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                    <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" class="quickSearch"
                       placeholder="Search keyword" />
                   </span>
                 </ng-template>

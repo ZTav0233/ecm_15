@@ -305,9 +305,9 @@
       <ng-template pTemplate="caption">
         <div style="display: flex; justify-content: space-between;">
           <div>
-            <p-columnFilter *ngIf="activePage!='favoriteFolders'&&activePage!='browse'&&activePage!='favorites'&&activePage!='recents'&&activePage!='teamshared'" type="text"
+            <p-columnFilter *ngIf="activePage!='favoriteFolders'&&activePage!='browse'&&activePage!='favorites'&&activePage!='recents'&&activePage!='teamshared'" type="text" placeholder="Quick Search"
               field="subject"></p-columnFilter>
-            <input style="height: 100% !important;" *ngIf="activePage=='favoriteFolders'||activePage=='browse'||activePage=='favorites'||activePage=='recents'||activePage=='teamshared'"
+            <input class="quickSearch" *ngIf="activePage=='favoriteFolders'||activePage=='browse'||activePage=='favorites'||activePage=='recents'||activePage=='teamshared'"
               pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Quick Search" />
             <div style="color:white" *ngIf="showCount && totalCount===1" class="pull-right m-5">
               Found {{totalCount}} Item

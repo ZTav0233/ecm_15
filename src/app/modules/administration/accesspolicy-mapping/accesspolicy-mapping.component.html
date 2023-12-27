@@ -15,12 +15,13 @@
                     <span class="md-inputfield " style="display: flex;">
                       <!--<input type="text" pInputText (input)="searchRole()"-->
                       <!--placeholder="Search OrgCode" [(ngModel)]="roleData.roles.model.query"/>-->
-                      <p-autoComplete id="orgUnit" [suggestions]="suggestionsResults" (completeMethod)="search($event)" styleClass="p-autoClass"
-                        field="desc" (onSelect)="orgUnitSelected($event);" [size]="30" placeholder="Search OrgUnit"
-                        [minLength]="1" [forceSelection]="true" [appendTo]="'body'" [required]="true">
+                      <p-autoComplete id="orgUnit" [suggestions]="suggestionsResults" (completeMethod)="search($event)"
+                        styleClass="p-autoClass" field="desc" (onSelect)="orgUnitSelected($event);" [size]="30"
+                        placeholder="Search OrgUnit" [minLength]="1" [forceSelection]="true" [appendTo]="'body'"
+                        [required]="true">
                         <ng-template let-selectedorgCode pTemplate="item">
                           <div class="ui-helper-clearfix">
-                             <span class="pull-left">{{selectedorgCode.desc}}</span>
+                            <span class="pull-left">{{selectedorgCode.desc}}</span>
                             <span class="pull-right font-light">{{selectedorgCode.orgCode}}</span>
                           </div>
                         </ng-template>
@@ -70,8 +71,7 @@
                     </div>
                     <div class="ui-g-12 ui-md-9">
                       <p-dropdown [options]="roleData.roles.entryTemplates" [filter]="true"
-                        [(ngModel)]="roleData.roles.model.selectedEntryTemplate" 
-                        name="entryTemplates" [required]="true" 
+                        [(ngModel)]="roleData.roles.model.selectedEntryTemplate" name="entryTemplates" [required]="true"
                         [placeholder]="'Select Entry Template'"></p-dropdown>
                     </div>
                   </div>
@@ -81,8 +81,7 @@
                     </div>
                     <div class="ui-g-12 ui-md-9">
                       <p-dropdown [options]="roleData.roles.accessPolicies" [filter]="true"
-                        [(ngModel)]="roleData.roles.model.selectedAccessPolicy" 
-                        name="accessPolicies" [required]="true" 
+                        [(ngModel)]="roleData.roles.model.selectedAccessPolicy" name="accessPolicies" [required]="true"
                         [placeholder]="'Select Access Policy'"></p-dropdown>
                     </div>
                   </div>
@@ -149,8 +148,8 @@
                           style="color: #ffffff; width: 30%;" class="v-m p-0" >
                       </td> -->
                       <td>
-                        <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"
-                          class="remove-btn v-m no-box-shadow"></button>
+                        <button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh"
+                          (click)="refresh()" class="remove-btn v-m no-box-shadow"></button>
                       </td>
                     </tr>
                   </table>
@@ -186,42 +185,42 @@
                     </ng-template>
                   </p-column>
                 </p-dataTable> -->
-                  <p-table [value]="roleData.roles.accessPolicyMappings" [resizableColumns]="true"  styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
-          [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"  #dt1
-          [globalFilterFields]="['id', 'etName', 'apname']">
-          <ng-template pTemplate="caption"> 
-            <span class="p-input-icon-left ml-auto">
-              <!--<i class="pi pi-search"></i>--> 
-              <input
-                pInputText
-                type="text"
-                (input)="applyFilterGlobal($event, 'contains')"
-                placeholder="Search keyword"
-              />
-            </span>  
-            <button class="autorenew"
-            pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="reset()"></button>
-          </ng-template>
-          <ng-template pTemplate="header">
-            <tr>
-              <th style="text-align: center;" pResizableColumn pSortableColumn="id">Id<p-sortIcon field="id"></p-sortIcon></th>
-              <th style="text-align: center;" pResizableColumn pSortableColumn="etName">Entry Template <p-sortIcon field="etName"></p-sortIcon></th>
-              <th style="text-align: center;" pResizableColumn pSortableColumn="apname">Access Policy<p-sortIcon field="apname"></p-sortIcon></th>
-              <th style="text-align: center;">Action</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-product>
-            <tr>
-              <td>{{ product.id }}</td>
-              <td>{{ product.etName }}</td>
-              <td>{{ product.apname }}</td>
-              <td>
-                  <button pButton type="button" icon="fa fa-fw ui-icon-remove" title="Remove Permission"
-                  (click)="removeMappingConfirm(product)" class="remove-btn v-m"></button>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
+                <p-table [value]="roleData.roles.accessPolicyMappings" [resizableColumns]="true"
+                  styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="10"
+                  [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }" #dt1
+                  [globalFilterFields]="['id', 'etName', 'apname']">
+                  <ng-template pTemplate="caption">
+                    <span class="p-input-icon-left ml-auto">
+                      <!--<i class="pi pi-search"></i>-->
+                      <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" class="quickSearch"
+                        placeholder="Search keyword" />
+                    </span>
+                    <button class="autorenew" pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh"
+                      (click)="reset()"></button>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th style="text-align: center;" pResizableColumn pSortableColumn="id">Id<p-sortIcon
+                          field="id"></p-sortIcon></th>
+                      <th style="text-align: center;" pResizableColumn pSortableColumn="etName">Entry Template
+                        <p-sortIcon field="etName"></p-sortIcon></th>
+                      <th style="text-align: center;" pResizableColumn pSortableColumn="apname">Access Policy<p-sortIcon
+                          field="apname"></p-sortIcon></th>
+                      <th style="text-align: center;">Action</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-product>
+                    <tr>
+                      <td>{{ product.id }}</td>
+                      <td>{{ product.etName }}</td>
+                      <td>{{ product.apname }}</td>
+                      <td>
+                        <button pButton type="button" icon="fa fa-fw ui-icon-remove" title="Remove Permission"
+                          (click)="removeMappingConfirm(product)" class="remove-btn v-m"></button>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
               </div>
             </div>
           </div>
