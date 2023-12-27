@@ -1166,15 +1166,12 @@ export class ReportComponent implements OnInit, OnDestroy {
     let page = 0;
     let index = 0;
     this.report.options.chartPages = { 0: { chartLabels: [], chartData: [{ data: [] }], chartColors: [{ backgroundColor: [] }] } };
-    //this.report.options.chartPages = {0:{chartLabels:[], chartData:[{data: []}], chartColors:[{backgroundColor: []}]}};
     this.report.options.chartPageCount = 0;
     reportCountSorted.map((d) => {
-      //if ( maxRows < reportCountSorted.length) {
       if (d.count >= 0 && maxRows < 26) {
         maxRows++;
         this.report.options.chartPages[page].chartLabels.push(this.getChartLabelText(d));
         this.report.options.chartPages[page].chartData[0].data.push(d.count);
-        //this.report.options.chartPages[page].chartColors[0].backgroundColor.push('#d7ccc8');
         this.report.options.chartPages[page].chartColors[0].backgroundColor.push(this.rs.getRandomMaterialColor(index));
         debugger;
         if (maxRows === 25 && maxRows < reportCountSorted.length) {
@@ -1203,22 +1200,13 @@ export class ReportComponent implements OnInit, OnDestroy {
     let page = 0;
     let index = 0;
     this.report.options.chartPages = { 0: { chartLabels: [], chartData: [{ data: [] }], chartColors: [{ backgroundColor: [] }] } };
-    //this.report.options.chartPages = {0:{chartLabels:[], chartData:[{data: []}], chartColors:[{backgroundColor: []}]}};
     this.report.options.chartPageCount = 0;
     reportCountSorted.map((d) => {
       if (maxRows < reportCountSorted.length) {
-        //if(d.count>0 && maxRows<15) {
         maxRows++;
         this.report.options.chartPages[page].chartLabels.push(this.getChartLabelText(d));
         this.report.options.chartPages[page].chartData[0].data.push(d.count);
-        //this.report.options.chartPages[page].chartColors[0].backgroundColor.push('#d7ccc8');
         this.report.options.chartPages[page].chartColors[0].backgroundColor.push(this.rs.getRandomMaterialColor(index));
-        // if(maxRows===14 && maxRows<reportCountSorted.length){
-        //   maxRows = 0;
-        //   page++;
-        //   this.report.options.chartPages[page] = {chartLabels:[], chartData:[{data: []}], chartColors:[{backgroundColor: []}]};
-        //   this.report.options.chartPageCount++;
-        // }
         index++;
       }
     });

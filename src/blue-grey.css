@@ -6212,6 +6212,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 
 .p-menubar .p-submenu-list .p-menuitem {
   margin: 0;
+  padding: 5px 10px;
 }
 
 .p-menubar .p-submenu-list .p-menuitem:last-child {
