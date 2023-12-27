@@ -7584,7 +7584,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 }
 
 .p-accordion .p-accordion-tab.p-accordion-tab-active {
-  margin-bottom: 1rem;
+  /* margin-bottom: 5px; */
 }
 
 .p-accordion .p-accordion-tab.p-accordion-tab-active .p-accordion-toggle-icon {

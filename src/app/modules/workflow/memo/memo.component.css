@@ -1,3 +1,4 @@
+
 .div .ui-menu .ui-menu-dynamic .ui-widget .ui-widget-content .ui-corner-all .ui-helper-clearfix {
   display: block;
   visibility: visible;
@@ -128,6 +129,23 @@
 :host ::ng-deep .p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-token:focus-visible {
   outline: transparent;
 }
-:host ::ng-deep .ecm-table td{
+
+:host ::ng-deep .ecm-table td {
   padding: 4px 5px 4px 5px;
+}
+
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.glyphicon-tasks:before {
+  content: "\e137";
 }
