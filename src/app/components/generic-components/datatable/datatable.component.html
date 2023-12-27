@@ -305,17 +305,17 @@
       <ng-template pTemplate="caption">
         <div style="display: flex; justify-content: space-between;">
           <div>
-          <p-columnFilter *ngIf="activePage!='favoriteFolders'&&activePage!='browse'" type="text"
-            field="subject"></p-columnFilter>
-          <input style="height: 100% !important;" *ngIf="activePage=='favoriteFolders'||activePage=='browse'" pInputText type="text"
-            (input)="applyFilterGlobal($event, 'contains')" placeholder="Quick Search" />
-          <div style="color:white" *ngIf="showCount && totalCount===1" class="pull-right m-5">
-            Found {{totalCount}} Item
+            <p-columnFilter *ngIf="activePage!='favoriteFolders'&&activePage!='browse'&&activePage!='favorites'&&activePage!='recents'&&activePage!='teamshared'" type="text"
+              field="subject"></p-columnFilter>
+            <input style="height: 100% !important;" *ngIf="activePage=='favoriteFolders'||activePage=='browse'||activePage=='favorites'||activePage=='recents'||activePage=='teamshared'"
+              pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Quick Search" />
+            <div style="color:white" *ngIf="showCount && totalCount===1" class="pull-right m-5">
+              Found {{totalCount}} Item
+            </div>
+            <div style="color:white" *ngIf="showCount && totalCount>1" class="pull-right m-5">
+              Found {{totalCount}} Items
+            </div>
           </div>
-          <div style="color:white" *ngIf="showCount && totalCount>1" class="pull-right m-5">
-            Found {{totalCount}} Items
-          </div>
-        </div>
           <div style="display: flex;align-items: center;">
             <p-multiSelect (onChange)="onChange($event)" [options]="colHeaders" [(ngModel)]="cols" optionLabel="header"
               selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"
@@ -597,7 +597,7 @@
           <th *ngIf="activePage==='draft'"></th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="groupheader" let-rowData let-rowIndex="rowIndex" >
+      <ng-template pTemplate="groupheader" let-rowData let-rowIndex="rowIndex">
         <tr style="background-color: lightgray !important;">
           <td colspan="14">
             <!-- <button type="button" pButton pRipple [pRowToggler]="rowData"

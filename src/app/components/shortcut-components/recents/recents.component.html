@@ -3,7 +3,7 @@
 <div *ngIf="recDocuments">
   <data-table [showCount]="true" [totalCount]="recDocuments.length" (sendData)="getData($event,sidemenu)"
     [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable();" [activePage]="'recents'"
-    [tableData]="recDocuments" [showDownloadIcon]="false" [showAddCartIcon]="false" [showInfoIcon]="true"
+    [tableData]="recDocuments" [tableDataStored]="recDocuments" [showDownloadIcon]="false" [showAddCartIcon]="false" [showInfoIcon]="true"
     [totalRecords]="recDocuments?recDocuments.length:0" [colHeaders]="colHeaders" [itemsPerPage]="itemsPerPage"
     [rowExpandable]="false" [selectedRows]="selectedItem" (filteredGridItemsToExport)="getFilteredItems($event)">
   </data-table>

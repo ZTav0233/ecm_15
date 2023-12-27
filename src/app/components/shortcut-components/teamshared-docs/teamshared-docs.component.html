@@ -2,7 +2,7 @@
   [disabled]="!gridItemsToExport || gridItemsToExport.length==0"></button>
 <div *ngIf="teamDocs">
   <data-table [showCount]="true" [totalCount]="teamDocs.length" (sendData)="getData($event,sidemenu)"
-  [emptyMessage]="emptyMessage" [tableData]="teamDocs" (refreshScreen)="refreshTable();"
+  [emptyMessage]="emptyMessage" [tableData]="teamDocs" [tableDataStored]="teamDocs" (refreshScreen)="refreshTable();"
   [showDownloadIcon]="false" [showAddCartIcon]="false" [showInfoIcon]="true" [colHeaders]="colHeaders"
   [itemsPerPage]="itemsPerPage" [activePage]="'teamshared'" [totalRecords]="teamDocs?teamDocs.length:0"
   [rowExpandable]="false" [selectedRows]="selectedItem" (filteredGridItemsToExport)="getFilteredItems($event)">
