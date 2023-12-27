@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { DocumentService } from '../../../services/document.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ConfirmationService, SelectItem } from 'primeng/api';
@@ -8,6 +8,7 @@ import { GrowlService } from "../../../services/growl.service";
 import { ContentService } from '../../../services/content.service';
 import { Subscription } from "rxjs";
 import { BrowserEvents } from "../../../services/browser-events.service";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-doc-details-modal',
@@ -15,6 +16,7 @@ import { BrowserEvents } from "../../../services/browser-events.service";
   styleUrls: ['./doc-details-modal.component.css']
 })
 export class DocDetailsModalComponent implements OnInit, OnDestroy {
+  @ViewChild('dt1') dataTable1!: Table;
   @Input() public docInfo: any;
   @Input() public docSysProp: any;
   @Input() public docVersion: any;
@@ -51,6 +53,13 @@ export class DocDetailsModalComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
+  applyfilterGlobal($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value);
+    this.dataTable1.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
   viewDoc(doc, type) {
     //this.showIframe = true;
     if (type === 'link') {
