@@ -349,8 +349,9 @@
                           <div class="ui-g-12 ui-md-6">
                             <span class="md-inputfield">
                               <div class="ui-fluid">
-                                <input [(ngModel)]="userSearchQueary.phone" pInputText (keyup.enter)="searchUsers('USER')"
-                                  [ngModelOptions]="{standalone: true}" name="phone" class="no-spinners">
+                                <input [(ngModel)]="userSearchQueary.phone" pInputText
+                                  (keyup.enter)="searchUsers('USER')" [ngModelOptions]="{standalone: true}" name="phone"
+                                  class="no-spinners">
                               </div>
                             </span>
                           </div>
@@ -811,8 +812,8 @@
                     editorUrl="assets/js/memo/ckeditor/ckeditor.js"></ckeditor> -->
                   <!-- <div data-editor="DecoupledEditor" data-collaboration="false" data-revision-history="false"> -->
                   <div class="document-editor__toolbar"></div>
-                    <div class="editor border-ckeditor">
-                    </div>
+                  <div class="editor border-ckeditor">
+                  </div>
                   <!-- </div> -->
                   <!-- <div id="toolbar-container"></div>
                   <div id="editor">
@@ -823,9 +824,9 @@
                   <!-- <ckeditor [(ngModel)]="launch.workflow.model.arMessages" [ngModelOptions]="{standalone: true}"
                     [config]="config" tagName="textarea" [required]="true" [data]="editorData" 
                     editorUrl="assets/js/memo/ckeditor/ckeditor.js"></ckeditor> -->
-                    <div class="document-editor__toolbar1"></div>
-                    <div class="editor1 border-ckeditor">
-                    </div>
+                  <div class="document-editor__toolbar1"></div>
+                  <div class="editor1 border-ckeditor">
+                  </div>
                 </div>
               </div>
               <div class="ui-g form-group">
@@ -1021,7 +1022,8 @@
   (onHide)="closeViewPopUp()">
   <iframe *ngIf="showIframe" class="dynamic-Iframe-size" [src]="attach_url" frameborder="0" allowfullscreen></iframe>
 </p-dialog>
-<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTree" width="800" height="450">
+<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTree" [style]="{width: '60vw'}"
+  height="450">
   <p-header>
     Select Folder Path
   </p-header>
@@ -1211,8 +1213,7 @@
           </tbody>
         </table>
 
-        <textarea class="w-100" placeholder="" [(ngModel)]="toWiRemarks" [maxlength]="maxChars">
-  </textarea>
+        <textarea class="w-100" placeholder="" [(ngModel)]="toWiRemarks" [maxlength]="maxChars"></textarea>
         <br />
         <br>
         <label class="nopadding clrlbl"> Characters Remaining: 0/{{maxChars}}</label>
@@ -1286,15 +1287,14 @@
             </tr>
           </tbody>
         </table>
-        <textarea class="w-100" placeholder="" [(ngModel)]="reviewerWiRemarks" [maxlength]="maxChars">
-  </textarea>
+        <textarea class="w-100" placeholder="" [(ngModel)]="reviewerWiRemarks" [maxlength]="maxChars"></textarea>
         <br />
         <br>
         <label class="nopadding clrlbl"> Characters Remaining: 0/{{maxChars}}</label>
       </p-accordionTab>
     </p-accordion>
-    <div>
-      <button style="display: block; margin-left: auto; margin-top: 15vh; width: 20%; height: 40px;"
+    <div style="display: flex; justify-content: end; margin-top: 30px;">
+      <button style="display: block; width: 20%; height: 40px;"
         (click)="closeSelectedList();openTheDialogLoaded=false;openTheDialog=false;" pButton type="button" class="mr-1"
         label="OK"></button> &nbsp;
     </div>

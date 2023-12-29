@@ -129,18 +129,18 @@ export class UserService {
   getUserDelegation(): any {
     const user = this.getCurrentUser();
     const url = `${global.base_url}UserService/getUserDelegations?userid=${ie11_polyfill(JSON.stringify(user.EmpNo))}&usertype=${ie11_polyfill('USER')}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
-    return this.http.get(url);
+    return this.http.get('assets/data/userDelegation.json');
   }
   getUserDelegationForSelectedUser(empNo): any {
     const user = this.getCurrentUser();
     const url = `${global.base_url}UserService/getUserDelegations?userid=${ie11_polyfill(JSON.stringify(empNo))}&usertype=${ie11_polyfill('USER')}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
-    return this.http.get(url);
+    return this.http.get('assets/data/userDelegation.json');
   }
 
   getRoleDelegation(roleId): any {
     const user = this.getCurrentUser();
     const url = `${global.base_url}UserService/getUserDelegations?userid=${ie11_polyfill(JSON.stringify(roleId))}&usertype=${ie11_polyfill('ROLE')}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
-    return this.http.get(url);
+    return this.http.get('assets/data/userDelegation.json');
   }
 
   saveRole(json: any): any {
@@ -320,9 +320,11 @@ export class UserService {
     return this.http.get(url);
   }
   getRoleMembersForSettings(roleid): any {
+    console.log("getRoleMembersForSettings");
+    
     const user = this.getCurrentUser();
     const url = `${global.base_url}UserService/getRoleMembersForSettings?roleId=${ie11_polyfill(JSON.stringify(roleid))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
-    return this.http.get(url);
+    return this.http.get('assets/data/userDelegation.json');
   }
 
   addUserList(id: any, list: any): any {

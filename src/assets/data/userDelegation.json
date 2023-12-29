@@ -1,0 +1,58 @@
+[
+    {
+        "id": 43982,
+        "roleId": 1,
+        "delId": 51123,
+        "empNo": 179192,
+        "name": "Vannadil, Abhishek Karkulangara",
+        "type": "DELEGATE",
+        "fromDate": "13/12/2021",
+        "toDate": "Unlimited",
+        "isActual": 0,
+        "designation": "",
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 46281,
+        "roleId": 1,
+        "delId": 53807,
+        "empNo": 187038,
+        "name": "Abdelmohsen, Hosni Abdelaziz",
+        "type": "DELEGATE",
+        "fromDate": "05/07/2022",
+        "toDate": "Unlimited",
+        "isActual": 0,
+        "designation": "",
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 44692,
+        "roleId": 1,
+        "delId": 52054,
+        "empNo": 175804,
+        "name": "ECM Test8",
+        "type": "DELEGATE",
+        "fromDate": "06/03/2022",
+        "toDate": "Unlimited",
+        "isActual": 0,
+        "designation": "",
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    },
+    {
+        "id": 44691,
+        "roleId": 1,
+        "delId": 52053,
+        "empNo": 175803,
+        "name": "ECM Test7",
+        "type": "DELEGATE",
+        "fromDate": "06/03/2022",
+        "toDate": "Unlimited",
+        "isActual": 0,
+        "designation": "",
+        "iseSignAllowed": 0,
+        "isInitalAllowed": 0
+    }
+]
