@@ -18,7 +18,7 @@
                 <td *ngIf="docTrack && docTrack.length>0">{{track.creator}}</td>
                 <td *ngIf="docTrack && docTrack.length>0">{{track.createdDate | date : 'dd/MM/yyyy hh:mm a'}}</td>
                 <td *ngIf="docTrack && docTrack.length>0" class="text-align-right">
-                  <button pButton type="button" icon="fa ui-icon-link" title="View Details"
+                  <button pButton type="button" icon="fa ui-icon-timeline" title="View Details"
                     (click)="viewWorkItem(track)"></button>
               </tr>
               <td class="no-result text-align-center" *ngIf="(!docTrack || docTrack.length===0)">Loading...</td>

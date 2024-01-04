@@ -490,10 +490,10 @@
           </div>
         </p-accordionTab>
       </div>
-      <div class="ui-g-12 p-0 p-t-md">
+      <div class="ui-g-12 p-0 p-t-md" *ngIf="workitem.isMemo==1"> <!--Abhishek-->
         <div class="ui-g-12 p-0">
-          <p-accordionTab header="Attachments" [selected]="true">
-            <div class="ui-md-5">
+          <p-accordionTab header="Main Attachment" [selected]="true">
+            <div class="ui-md-7">
               <table class="ecm-table w-100">
                 <thead>
                   <th></th>
@@ -503,147 +503,160 @@
                 <tbody>
                   <tr *ngFor="let attachment of workitem.attachments;let i=index;let isOdd=odd;let isEven=even;"
                     [class.even]="isEven">
-                    <td class="icon p-r-0">
-                      <span *ngIf="attachment.format">
-                        <span class="v-m"></span>
-                        <img src="assets/images/icons/file-pdf-o.png" *ngIf="attachment.format.indexOf('pdf')!==-1">
-                        <img src="assets/images/icons/file-excel-o.png"
-                          *ngIf="attachment.format.indexOf('sheet')!==-1 || attachment.format.indexOf('xls')!==-1 || attachment.format.indexOf('xlsx')!==-1">
-                        <img src="assets/images/icons/file-image-o.png"
-                          *ngIf="attachment.format.indexOf('image')!==-1 && attachment.format.indexOf('tiff')===-1 && attachment.format.indexOf('tif')===-1">
-                        <img src="assets/images/icons/file-word-o.png" *ngIf="attachment.format.indexOf('word')!==-1">
-                        <img src="assets/images/icons/file-msg-48.png"
-                          *ngIf="attachment.format.indexOf('vnd.ms-outlook')!==-1">
-                        <img src="assets/images/icons/file-ppt-48.png"
-                          *ngIf="attachment.format.indexOf('ppt')!==-1 || attachment.format.indexOf('pptx')!==-1">
-                        <img src="assets/images/icons/file-tiff-48.png"
-                          *ngIf="attachment.format.indexOf('tiff')!==-1 || attachment.format.indexOf('tif')!==-1">
-                        <img src="assets/images/icons/file-text-o.png" *ngIf="attachment.format.indexOf('pdf')===-1 && attachment.format.indexOf('sheet')===-1
-                                && attachment.format.indexOf('xls')===-1 && attachment.format.indexOf('xlsx')===-1
-                                && attachment.format.indexOf('image')===-1  && attachment.format.indexOf('word')===-1
-                                && attachment.format.indexOf('vnd.ms-outlook')===-1 && attachment.format.indexOf('ppt')===-1 && attachment.format.indexOf('pptx')===-1
-                                && attachment.format.indexOf('tiff')===-1 && attachment.format.indexOf('tif')===-1">
-                      </span>
-                      <span *ngIf="!attachment.format">
-                        <span class="v-m"></span>
-                        <img src="assets/images/icons/file-text-o.png" class="icon">
-                      </span>
-                    </td>
-                    <td>
-                      <a (click)="viewAttachmentLink(attachment)" [ngClass]="{'strike-text': i===strikeIndex }"
-                        class="hyperlink" title="Click To View">{{attachment.docTitle}}</a>
-                      <a class="p-0" href="javascript:">
-                        <i *ngIf="(workitem.actions === 'Signature' || workitem.actions === 'Initial') && (attachment.isSign && attachment.isSign == 1)"
-                          class="fa ui-icon-edit v-m text-red m-l-xs" pTooltip="Mark For Sign"
-                          [tooltipStyleClass]="'tooltip'"></i>
-                        <!-- <i *ngIf="attachment.isSign && attachment.isSign == 1" class="fa ui-icon-flag v-m text-red"
-                          pTooltip="Sign" [tooltipStyleClass]="'tooltip'"></i> -->
-                      </a>
-                    </td>
-                    <td class="actions">
-                      <button pButton
-                        *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
-                        && (!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0))"
-                        [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                        type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
-                        (click)="eSign(attachment);">
-                        <img src="assets/images/icons/edit.png" class="fa"></button>
-                      <button pButton *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
-                          && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='SUB-FROM'
-                          ||workitem.memoStepname=='THRU'||workitem.memoStepname=='TO')"
-                        [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                        type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
-                        (click)="eSign(attachment);">
-                        <img src="assets/images/icons/edit.png" class="fa"></button>
-                      <button pButton *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
-                          && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='APPROVER')"
-                        [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                        type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
-                        (click)="eSign(attachment);">
-                        <img src="assets/images/icons/edit.png" class="fa"></button>
-                      <button pButton *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1)
-                          && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname!='APPROVER' && workitem.memoStepname!='SUB-FROM'
-                          && workitem.memoStepname!='THRU' && workitem.memoStepname!='TO')"
-                        [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                        type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
-                        (click)="eSign(attachment);">
-                        <img src="assets/images/icons/edit.png" class="fa"></button>
-                      <button pButton *ngIf="(workitem.isMemo && workitem.isMemo === 1) && (workitem.actions === 'Initial' 
-                          || workitem.actions === 'Signature') && (currentUser.isInitialAllowed===1) 
-                          && (workitem.memoStepname=='APPROVER')"
-                        [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                        type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
-                        (click)="eSign(attachment);"> </button>
-                      <button pButton *ngIf="(workitem.memoStepname=='REVIEWER') && (workitem.isMemo && workitem.isMemo === 1) 
-                          && (workitem.actions === 'Initial' || workitem.actions === 'Signature') 
-                          && (currentUser.isInitialAllowed===1)"
-                        [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                        type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
-                        (click)="eSign(attachment);"> </button>
-                      <button pButton *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1' || workitem.memoStepname=='SUB-FROM' 
-                          || (workitem.memoStepname=='THRU' &&  (workitem.actions === 'Initial' || workitem.actions === 'Signature')) 
-                          || (workitem.memoStepname=='TO' && (workitem.actions === 'Initial' || workitem.actions === 'Signature'))) 
-                          && (workitem.isMemo && workitem.isMemo === 1)  && (currentUser.isInitialAllowed===1)"
-                        [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                        type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
-                        (click)="eSign(attachment);"> </button>
-                      <!--<button pButton
-                        *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1') && (workitem.isMemo && workitem.isMemo === 1) 
-                          && (currentUser.isInitialAllowed===1) && (workitem.memoStepname!='APPROVER' 
-                          && workitem.memoStepname!='SUB-FROM' && workitem.memoStepname!='THRU' && workitem.memoStepname!='TO')"
-                        [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                        type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
-                        (click)="eSign(attachment);"> </button>-->
-                      <button pButton *ngIf="(!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0)) && (workitem.actions === 'Initial') 
-                          && (attachment.isSign && attachment.isSign===1) && (currentUser.isInitialAllowed===1)"
-                        [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                        type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
-                        (click)="eSign(attachment);"></button>
+                    <ng-container *ngIf="attachment.isMemo===1">
+                      <td class="icon p-r-0">
+                        <span *ngIf="attachment.format">
+                          <span class="v-m"></span>
+                          <img src="assets/images/icons/file-pdf-o.png" *ngIf="attachment.format.indexOf('pdf')!==-1">
+                          <img src="assets/images/icons/file-excel-o.png"
+                            *ngIf="attachment.format.indexOf('sheet')!==-1 || attachment.format.indexOf('xls')!==-1 || attachment.format.indexOf('xlsx')!==-1">
+                          <img src="assets/images/icons/file-image-o.png"
+                            *ngIf="attachment.format.indexOf('image')!==-1 && attachment.format.indexOf('tiff')===-1 && attachment.format.indexOf('tif')===-1">
+                          <img src="assets/images/icons/file-word-o.png" *ngIf="attachment.format.indexOf('word')!==-1">
+                          <img src="assets/images/icons/file-msg-48.png"
+                            *ngIf="attachment.format.indexOf('vnd.ms-outlook')!==-1">
+                          <img src="assets/images/icons/file-ppt-48.png"
+                            *ngIf="attachment.format.indexOf('ppt')!==-1 || attachment.format.indexOf('pptx')!==-1">
+                          <img src="assets/images/icons/file-tiff-48.png"
+                            *ngIf="attachment.format.indexOf('tiff')!==-1 || attachment.format.indexOf('tif')!==-1">
+                          <img src="assets/images/icons/file-text-o.png" *ngIf="attachment.format.indexOf('pdf')===-1 && attachment.format.indexOf('sheet')===-1
+                                  && attachment.format.indexOf('xls')===-1 && attachment.format.indexOf('xlsx')===-1
+                                  && attachment.format.indexOf('image')===-1  && attachment.format.indexOf('word')===-1
+                                  && attachment.format.indexOf('vnd.ms-outlook')===-1 && attachment.format.indexOf('ppt')===-1 && attachment.format.indexOf('pptx')===-1
+                                  && attachment.format.indexOf('tiff')===-1 && attachment.format.indexOf('tif')===-1">
+                        </span>
+                        <span *ngIf="!attachment.format">
+                          <span class="v-m"></span>
+                          <img src="assets/images/icons/file-text-o.png" class="icon">
+                        </span>
+                      </td>
+                      <td>
+                        <a (click)="viewAttachmentLink(attachment)" [ngClass]="{'strike-text': i===strikeIndex }"
+                          class="hyperlink" title="Click To View">{{attachment.docTitle}}</a>
+                        <a class="p-0" href="javascript:">
+                          <i *ngIf="(workitem.actions === 'Signature' || workitem.actions === 'Initial') && (attachment.isSign && attachment.isSign == 1)"
+                            class="fa ui-icon-edit v-m text-red m-l-xs" pTooltip="Mark For Sign"
+                            [tooltipStyleClass]="'tooltip'"></i>
+                        </a>
+                      </td>
+                      <td class="actions">
+                        <button pButton
+                          *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
+                          && (!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0))"
+                          [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
+                          (click)="eSign(attachment, 0, 0);">
+                          <img src="assets/images/icons/edit.png" class="fa"></button>
+                        <button pButton
+                          *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
+                            && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='SUB-FROM'
+                            ||workitem.memoStepname=='THRU'||workitem.memoStepname=='TO')"
+                          [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
+                          (click)="eSign(attachment, 0, 1);">
+                          <img src="assets/images/icons/edit.png" class="fa"></button>
+                        <button pButton
+                          *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
+                            && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='APPROVER') && (attachment.docId !== this.curVerMemoDocId)"
+                          [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
+                          (click)="eSign(attachment, 0, 0);">
+                          <img src="assets/images/icons/edit.png" class="fa"></button>
+                        <button pButton
+                          *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1)
+                            && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname!='APPROVER' && workitem.memoStepname!='SUB-FROM'
+                            && workitem.memoStepname!='THRU' && workitem.memoStepname!='TO')"
+                          [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
+                          (click)="eSign(attachment, 0, 0);">
+                          <img src="assets/images/icons/edit.png" class="fa"></button>
+                        <button pButton
+                          *ngIf="(workitem.isMemo && workitem.isMemo === 1) && (workitem.actions === 'Initial' 
+                            || workitem.actions === 'Signature') && (currentUser.isInitialAllowed===1) 
+                            && (workitem.memoStepname=='APPROVER') && (attachment.docId !== this.curVerMemoDocId)"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          (click)="eSign(attachment, 1, 0);"> </button>
+                        <button pButton
+                          *ngIf="(workitem.memoStepname=='REVIEWER') && (workitem.isMemo && workitem.isMemo === 1) 
+                            && (workitem.actions === 'Initial' || workitem.actions === 'Signature') 
+                            && (currentUser.isInitialAllowed===1)"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          (click)="eSign(attachment, 1, 0);"> </button>
+                        <button pButton
+                          *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1' || workitem.memoStepname=='SUB-FROM' 
+                            || (workitem.memoStepname=='THRU' &&  (workitem.actions === 'Initial' || workitem.actions === 'Signature')) 
+                            || (workitem.memoStepname=='TO' && (workitem.actions === 'Initial' || workitem.actions === 'Signature'))) 
+                            && (workitem.isMemo && workitem.isMemo === 1)  && (currentUser.isInitialAllowed===1)"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          (click)="eSign(attachment, 1, 0);"> </button>
+                        <!--<button pButton
+                          *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1') && (workitem.isMemo && workitem.isMemo === 1) 
+                            && (currentUser.isInitialAllowed===1) && (workitem.memoStepname!='APPROVER' 
+                            && workitem.memoStepname!='SUB-FROM' && workitem.memoStepname!='THRU' && workitem.memoStepname!='TO')"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          (click)="eSign(attachment, 1, 0);"> </button>-->
+                        <button pButton
+                          *ngIf="(!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0)) && (workitem.actions === 'Initial') 
+                            && (attachment.isSign && attachment.isSign===1) && (currentUser.isInitialAllowed===1)"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          (click)="eSign(attachment, 1, 0);"></button>
 
-                      <!-- <button pButton
-                        *ngIf="ESignedAttachments[attachment.docId] && (workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
-                          && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='APPROVER' || workitem.memoStepname=='SUB-FROM')
-                          && (attachment.vsid && attachment.vsid === docVsId)"
-                        [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                        type="button" icon="ui-icon-today" title="Modify Date" class="remove-btn v-m"
-                        (click)="eSignForDate(attachment, 1);"></button>  -->
-                      <button pButton *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
-                          && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='APPROVER')
-                          "
-                        [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                        type="button" icon="ui-icon-update" title="Modify Reference No."
-                        class="remove-btn v-m"></button>
+                        <button pButton
+                          *ngIf="(!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0)) && (workitem.actions === 'MultiSign') 
+                            && (currentUser.iseSignAllowed===1)"
+                          [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="Multi Sign" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-burst-mode"
+                          (click)="multiSignDocument(attachment);"></button>
+                        
+                        <!-- <button pButton
+                          *ngIf="ESignedAttachments[attachment.docId] && (workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
+                            && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='APPROVER' || workitem.memoStepname=='SUB-FROM')
+                            && (attachment.vsid && attachment.vsid === docVsId)"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" icon="ui-icon-today" title="Modify Date" class="remove-btn v-m"
+                          (click)="eSignForDate(attachment, 1);"></button>  -->
+                        <button pButton
+                          *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
+                            && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='APPROVER')
+                            && (attachment.vsid && attachment.vsid === docVsId)"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" icon="ui-icon-update" title="Modify Reference No." class="remove-btn v-m"
+                          (click)="updateMemoReference(attachment);"></button> 
 
-                      <button pButton type="button" icon="fa fa-fw ui-icon-get-app" title="Download"
-                        class="remove-btn v-m" [disabled]="isAllActionsDisabled"
-                        (click)="downloadDoc(attachment)"></button>
-                      <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info"
-                        class="remove-btn v-m" (click)="openDocInfo(attachment)"></button>
-                      <button pButton type="button" icon="fa fa-fw ui-icon-star" title="Add to Favorites"
-                        class="remove-btn v-m"></button>
-                      <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit Attachment"
-                        class="remove-btn v-m"
-                        [disabled]="(fromPage[0] === 'sent') || (this.fromPage[0] === 'archive') || isAllActionsDisabled||workitem.memoStepname == 'REVIEWER'||workitem.memoStepname == 'THRU'||workitem.memoStepname == 'TO'||workitem.memoStepname == 'SUB-FROM'"
-                        (click)="openEditDoc(attachment)"></button>
-                      <button
-                        *ngIf="(isesignverified || workitem.actions === 'Initial') && ESignedAttachments[attachment.docId] && (attachment.isSign && attachment.isSign == 1) && (fromPage[0] !== 'sent' && this.fromPage[0] !== 'archive')"
-                        pButton type="button" icon="ui-icon-check" title="Validate" class="remove-btn v-m"
-                        [disabled]="isAllActionsDisabled" (click)="openDocInValidate(attachment);"></button>
-                      <button *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new')" pButton type="button"
-                        [disabled]="isAllActionsDisabled" icon="fa fa-fw ui-icon-folder" title="File-In Folder"
-                        class="remove-btn v-m" (click)="openSubTree(attachment);"></button>
-                      <button pButton type="button" icon="fa fa-fw ui-icon-mail" title="Mail To"
-                        class="remove-btn v-m"></button>
-                      <!--<button pButton type="button" icon="ui-icon-colorize" title="Edit Properties" class="remove-btn v-m"-->
-                      <!--(click)="editProperties=true;openEditDoc(attachment)"></button>-->
-                    </td>
+                        <button pButton type="button" icon="ui-icon-get-app" title="Download" class="remove-btn v-m"
+                          [disabled]="isAllActionsDisabled" (click)="downloadDoc(attachment)"></button>
+                        <button pButton type="button" icon="ui-icon-info-outline" title="Info" class="remove-btn v-m"
+                          (click)="openDocInfo(attachment)"></button>
+                        <button pButton type="button" icon="ui-icon-star" title="Add to Favorites" class="remove-btn v-m"
+                          (click)="addFavourites(attachment)"></button>
+                        <button pButton type="button" icon="ui-icon-edit" title="Edit Attachment" class="remove-btn v-m"
+                          [disabled]="(fromPage[0] === 'sent') || (this.fromPage[0] === 'archive') || isAllActionsDisabled||workitem.memoStepname == 'REVIEWER'||workitem.memoStepname == 'THRU'||workitem.memoStepname == 'TO'||workitem.memoStepname == 'SUB-FROM'"
+                          (click)="openEditDoc(attachment)"></button>
+                        <button 
+                          *ngIf="(isesignverified || workitem.actions === 'Initial') && ESignedAttachments[attachment.docId] && (attachment.isSign && attachment.isSign == 1) && (fromPage[0] !== 'sent' && this.fromPage[0] !== 'archive')"
+                          pButton type="button" icon="ui-icon-check" title="Validate" class="remove-btn v-m"
+                          [disabled]="isAllActionsDisabled" (click)="openDocInValidate(attachment);"></button>
+                        <button *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new')" pButton type="button"
+                          [disabled]="isAllActionsDisabled" icon="ui-icon-folder" title="File-In Folder"
+                          class="remove-btn v-m" (click)="openSubTree(attachment);"></button>
+                        <button pButton type="button" icon="ui-icon-mail" title="Mail To" class="remove-btn v-m"
+                          (click)="mailTo(attachment)"></button>
+                        <!--<button pButton type="button" icon="ui-icon-colorize" title="Edit Properties" class="remove-btn v-m"-->
+                        <!--(click)="editProperties=true;openEditDoc(attachment)"></button>-->
+                      </td>
+                    </ng-container>
                   </tr>
                 </tbody>
               </table>
             </div>
             <div class="ui-md-12">
               <button *ngIf="displayIframe && !displayinfo && !editAttachment" pButton type="button"
-                icon="fa fa-fw ui-icon-close" title="Close" class="remove-btn v-m" style="float: right"
+                icon="ui-icon-close" title="Close" class="remove-btn v-m" style="float: right"
                 (click)="closeViewer($event)"></button>
               <div *ngIf="displayIframe" id="divmain"
                 [ngClass]="{'show': !displayinfo || !editAttachment ,'hide': displayinfo || editAttachment}">
@@ -653,7 +666,199 @@
             </div>
           </p-accordionTab>
         </div>
+      </div>
+     <div class="ui-g-12 p-0 p-t-md">
+        <div class="ui-g-12 p-0">
+          <p-accordionTab header="Attachments" [selected]="true">
+            <div class="ui-md-7">
+              <table class="ecm-table w-100">
+                <thead>
+                  <th></th>
+                  <th class="text-align-left" width="70%">Attachment Name</th>
+                  <th class="text-align-left" width="30%">Actions</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let attachment of workitem.attachments;let i=index;let isOdd=odd;let isEven=even;"
+                    [class.even]="isEven">
+                    <ng-container *ngIf="attachment.isMemo===0 || (workitem.isMemo==0 && attachment.isMemo===1)">
+                      <td class="icon p-r-0">
+                        <span *ngIf="attachment.format">
+                          <span class="v-m"></span>
+                          <img src="assets/images/icons/file-pdf-o.png" *ngIf="attachment.format.indexOf('pdf')!==-1">
+                          <img src="assets/images/icons/file-excel-o.png"
+                            *ngIf="attachment.format.indexOf('sheet')!==-1 || attachment.format.indexOf('xls')!==-1 || attachment.format.indexOf('xlsx')!==-1">
+                          <img src="assets/images/icons/file-image-o.png"
+                            *ngIf="attachment.format.indexOf('image')!==-1 && attachment.format.indexOf('tiff')===-1 && attachment.format.indexOf('tif')===-1">
+                          <img src="assets/images/icons/file-word-o.png" *ngIf="attachment.format.indexOf('word')!==-1">
+                          <img src="assets/images/icons/file-msg-48.png"
+                            *ngIf="attachment.format.indexOf('vnd.ms-outlook')!==-1">
+                          <img src="assets/images/icons/file-ppt-48.png"
+                            *ngIf="attachment.format.indexOf('ppt')!==-1 || attachment.format.indexOf('pptx')!==-1">
+                          <img src="assets/images/icons/file-tiff-48.png"
+                            *ngIf="attachment.format.indexOf('tiff')!==-1 || attachment.format.indexOf('tif')!==-1">
+                          <img src="assets/images/icons/file-text-o.png" *ngIf="attachment.format.indexOf('pdf')===-1 && attachment.format.indexOf('sheet')===-1
+                                  && attachment.format.indexOf('xls')===-1 && attachment.format.indexOf('xlsx')===-1
+                                  && attachment.format.indexOf('image')===-1  && attachment.format.indexOf('word')===-1
+                                  && attachment.format.indexOf('vnd.ms-outlook')===-1 && attachment.format.indexOf('ppt')===-1 && attachment.format.indexOf('pptx')===-1
+                                  && attachment.format.indexOf('tiff')===-1 && attachment.format.indexOf('tif')===-1">
+                        </span>
+                        <span *ngIf="!attachment.format">
+                          <span class="v-m"></span>
+                          <img src="assets/images/icons/file-text-o.png" class="icon">
+                        </span>
+                      </td>
+                      <td>
+                        <a (click)="viewAttachmentLink(attachment)" [ngClass]="{'strike-text': i===strikeIndex }"
+                          class="hyperlink" title="Click To View">{{attachment.docTitle}}</a>
+                        <a class="p-0" href="javascript:">
+                          <i *ngIf="(workitem.actions === 'Signature' || workitem.actions === 'Initial') && (attachment.isSign && attachment.isSign == 1)"
+                            class="fa ui-icon-edit v-m text-red m-l-xs" pTooltip="Mark For Sign"
+                            [tooltipStyleClass]="'tooltip'"></i>
+                          <!-- <i *ngIf="attachment.isSign && attachment.isSign == 1" class="fa ui-icon-flag v-m text-red"
+                            pTooltip="Sign" [tooltipStyleClass]="'tooltip'"></i> -->
+                        </a>
+                      </td>
+                      <td class="actions">
+                        <button pButton
+                          *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
+                          && (!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0))"
+                          [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
+                          (click)="eSign(attachment, 0, 0);">
+                          <img src="assets/images/icons/edit.png" class="fa"></button>
+                        <button pButton
+                          *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
+                            && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='SUB-FROM'
+                            ||workitem.memoStepname=='THRU'||workitem.memoStepname=='TO')"
+                          [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
+                          (click)="eSign(attachment, 0, 1);">
+                          <img src="assets/images/icons/edit.png" class="fa"></button>
+                        <button pButton
+                          *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
+                            && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='APPROVER') && (attachment.docId !== this.curVerMemoDocId)"
+                          [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
+                          (click)="eSign(attachment, 0, 0);">
+                          <img src="assets/images/icons/edit.png" class="fa"></button>
+                        <button pButton
+                          *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1)
+                            && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname!='APPROVER' && workitem.memoStepname!='SUB-FROM'
+                            && workitem.memoStepname!='THRU' && workitem.memoStepname!='TO')"
+                          [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
+                          (click)="eSign(attachment, 0, 0);">
+                          <img src="assets/images/icons/edit.png" class="fa"></button>
+                        <button pButton
+                          *ngIf="(workitem.isMemo && workitem.isMemo === 1) && (workitem.actions === 'Initial' 
+                            || workitem.actions === 'Signature') && (currentUser.isInitialAllowed===1) 
+                            && (workitem.memoStepname=='APPROVER') && (attachment.docId !== this.curVerMemoDocId)"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          (click)="eSign(attachment, 1, 0);"> </button>
+                        <button pButton
+                          *ngIf="(workitem.memoStepname=='REVIEWER') && (workitem.isMemo && workitem.isMemo === 1) 
+                            && (workitem.actions === 'Initial' || workitem.actions === 'Signature') 
+                            && (currentUser.isInitialAllowed===1)"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          (click)="eSign(attachment, 1, 0);"> </button>
+                        <button pButton
+                          *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1' || workitem.memoStepname=='SUB-FROM' 
+                            || (workitem.memoStepname=='THRU' &&  (workitem.actions === 'Initial' || workitem.actions === 'Signature')) 
+                            || (workitem.memoStepname=='TO' && (workitem.actions === 'Initial' || workitem.actions === 'Signature'))) 
+                            && (workitem.isMemo && workitem.isMemo === 1)  && (currentUser.isInitialAllowed===1)"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          (click)="eSign(attachment, 1, 0);"> </button>
+                        <!--<button pButton
+                          *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1') && (workitem.isMemo && workitem.isMemo === 1) 
+                            && (currentUser.isInitialAllowed===1) && (workitem.memoStepname!='APPROVER' 
+                            && workitem.memoStepname!='SUB-FROM' && workitem.memoStepname!='THRU' && workitem.memoStepname!='TO')"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          (click)="eSign(attachment, 1, 0);"> </button>-->
+                        <button pButton
+                          *ngIf="(!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0)) && (workitem.actions === 'Initial') 
+                            && (attachment.isSign && attachment.isSign===1) && (currentUser.isInitialAllowed===1)"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          (click)="eSign(attachment, 1, 0);"></button>
 
+                        <button pButton
+                          *ngIf="(!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0)) && (workitem.actions === 'MultiSign') 
+                            && (currentUser.iseSignAllowed===1)"
+                          [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" title="Multi Sign" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-burst-mode"
+                          (click)="multiSignDocument(attachment);"></button>
+                        
+                        <!-- <button pButton
+                          *ngIf="ESignedAttachments[attachment.docId] && (workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
+                            && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='APPROVER' || workitem.memoStepname=='SUB-FROM')
+                            && (attachment.vsid && attachment.vsid === docVsId)"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" icon="ui-icon-today" title="Modify Date" class="remove-btn v-m"
+                          (click)="eSignForDate(attachment, 1);"></button>  -->
+                        <button pButton
+                          *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
+                            && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='APPROVER')
+                            && (attachment.vsid && attachment.vsid === docVsId)"
+                          [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
+                          type="button" icon="ui-icon-update" title="Modify Reference No." class="remove-btn v-m"
+                          (click)="updateMemoReference(attachment);"></button> 
+
+                        <button pButton type="button" icon="ui-icon-get-app" title="Download" class="remove-btn v-m"
+                          [disabled]="isAllActionsDisabled" (click)="downloadDoc(attachment)"></button>
+                        <button pButton type="button" icon="ui-icon-info-outline" title="Info" class="remove-btn v-m"
+                          (click)="openDocInfo(attachment)"></button>
+                        <button pButton type="button" icon="ui-icon-star" title="Add to Favorites" class="remove-btn v-m"
+                          (click)="addFavourites(attachment)"></button>
+                        <button pButton type="button" icon="ui-icon-edit" title="Edit Attachment" class="remove-btn v-m"
+                          [disabled]="(fromPage[0] === 'sent') || (this.fromPage[0] === 'archive') || isAllActionsDisabled||workitem.memoStepname == 'REVIEWER'||workitem.memoStepname == 'THRU'||workitem.memoStepname == 'TO'||workitem.memoStepname == 'SUB-FROM'"
+                          (click)="openEditDoc(attachment)"></button>
+                        <button 
+                          *ngIf="(isesignverified || workitem.actions === 'Initial') && ESignedAttachments[attachment.docId] && (attachment.isSign && attachment.isSign == 1) && (fromPage[0] !== 'sent' && this.fromPage[0] !== 'archive')"
+                          pButton type="button" icon="ui-icon-check" title="Validate" class="remove-btn v-m"
+                          [disabled]="isAllActionsDisabled" (click)="openDocInValidate(attachment);"></button>
+                        <button *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new')" pButton type="button"
+                          [disabled]="isAllActionsDisabled" icon="ui-icon-folder" title="File-In Folder"
+                          class="remove-btn v-m" (click)="openSubTree(attachment);"></button>
+                        <button pButton type="button" icon="ui-icon-mail" title="Mail To" class="remove-btn v-m"
+                          (click)="mailTo(attachment)"></button>
+                        <!--<button pButton type="button" icon="ui-icon-colorize" title="Edit Properties" class="remove-btn v-m"-->
+                        <!--(click)="editProperties=true;openEditDoc(attachment)"></button>-->
+                      </td>
+                    </ng-container>  
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="ui-md-12">
+              <button *ngIf="displayIframe && !displayinfo && !editAttachment" pButton type="button"
+                icon="ui-icon-close" title="Close" class="remove-btn v-m" style="float: right"
+                (click)="closeViewer($event)"></button>
+              <div *ngIf="displayIframe" id="divmain"
+                [ngClass]="{'show': !displayinfo || !editAttachment ,'hide': displayinfo || editAttachment}">
+                <iframe style="width:99%;border: 1px solid;" height="500" [src]="current_url" scrolling="yes"
+                  id="attachmentFrame" frameborder="0"></iframe>
+              </div>
+            </div>
+          </p-accordionTab>
+        </div>
+        <!--<div class="ui-g-6 p-0" id="workitemProgressTab">-->
+        <!--<p-accordionTab [selected]="progressTabOpened">-->
+        <!--<p-header>-->
+        <!--<span>Progress {{progressTabOpened}}</span>-->
+        <!--<span><button pButton type="button" icon="ui-icon-refresh" class="remove-btn v-m m-l-sm" (click)="getWorkitemProgress($event)">-->
+        <!--</button>-->
+        <!--</span>-->
+        <!--</p-header>-->
+        <!--<div class="ui-g max-h-350"><div class="ui-g-12 p-0 scrollable">-->
+        <!--<app-workflow-status [workitemProgress]="workitemProgress" (onRemoveProgress)="removeWorkitemProgress($event)"-->
+        <!--[showAddBtn]="fromPage[0]==='inbox'"     (onAddProgress)="addWorkitemProgress($event)"></app-workflow-status>-->
+        <!--</div></div>-->
+        <!--</p-accordionTab>-->
+        <!--</div>-->
       </div>
       <div *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new') || (fromPage[0]==='archive' && !isTrack)"
         class="ui-g-12 p-0 p-t-md">

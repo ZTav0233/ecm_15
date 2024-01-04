@@ -5,7 +5,7 @@ import { UserService } from './user.service';
 import { HttpClient } from "@angular/common/http";
 import { CoreService } from "./core.service";
 import { BreadcrumbService } from "./breadcrumb.service";
-import { forkJoin  } from "rxjs";
+import { forkJoin } from "rxjs";
 import * as _ from 'lodash';
 declare var ie11_polyfill: any
 @Injectable()
@@ -75,6 +75,11 @@ export class WorkflowService {
     const url = `${global.base_url}WorkflowService/launchWorkflow`;
     return this.http.post(url, workflow);
   }
+  getAutoSignUrl(empno, roleid, docid, witemid, initial, userType, refNo, dateString, memoId) {
+    let urlone = global.esign_complete;
+    const url = `${global.base_url}ESignService/prepareAutoESign?empno=${ie11_polyfill(empno)}&systime=${this.coreService.getSysTimeStamp()}&roleid=${ie11_polyfill(JSON.stringify(roleid))}&docid=${ie11_polyfill(docid)}&witemid=${ie11_polyfill(JSON.stringify(witemid))}&initial=${ie11_polyfill(initial)}&url=${ie11_polyfill(urlone)}&userType=${ie11_polyfill(userType)}&refNo=${ie11_polyfill(refNo)}&mdate=${ie11_polyfill(dateString)}&memoId=${ie11_polyfill(JSON.stringify(memoId))}`;
+    return this.http.get(url);
+  }
 
   launchBulkWorkflow(workflow: any): any {
     const url = `${global.base_url}WorkflowService/launchWorkflowBulk`;
@@ -133,9 +138,9 @@ export class WorkflowService {
     return this.http.get(url, { responseType: 'text' });
   }
 
-  updateFlag(url,id): any {
+  updateFlag(url, id): any {
     const user = this.us.getCurrentUser();
-    url = url + '?witmid='+ie11_polyfill(JSON.stringify(id))+'&empNo='+ie11_polyfill(JSON.stringify(user.EmpNo))+'&sysdatetime='+this.coreService.getSysTimeStamp();
+    url = url + '?witmid=' + ie11_polyfill(JSON.stringify(id)) + '&empNo=' + ie11_polyfill(JSON.stringify(user.EmpNo)) + '&sysdatetime=' + this.coreService.getSysTimeStamp();
     return this.http.get(`${global.base_url}${url}`, { responseType: 'text' });
   }
 
@@ -176,14 +181,14 @@ export class WorkflowService {
     return this.http.get(url);
   }
 
-  
+
 
   getWorkflow(id: any): any {
     const url = `${global.base_url}WorkflowService/getWorkflow?id=${id}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
     return this.http.get(url);
   }
 
-  getWorkitem(id: any, empID: any, delNo = 0): any {
+  getWorkitem(id: any, empID: any, delNo = 0, isTask = 0): any {
     let witid = '';
     if ((typeof id === 'string')) {
       witid = id;
@@ -192,7 +197,8 @@ export class WorkflowService {
       witid = JSON.stringify(id);
     }
     // console.log(typeof id);
-    const url = `${global.base_url}WorkflowService/getWorkitemDetails?witmid=${ie11_polyfill(witid)}&empNo=${ie11_polyfill(JSON.stringify(empID))}&delNo=${ie11_polyfill(JSON.stringify(delNo))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
+    const url = `${global.base_url}WorkflowService/getWorkitemDetails?witmid=${ie11_polyfill(witid)}&empNo=${ie11_polyfill(JSON.stringify(empID))}&delNo=${ie11_polyfill(JSON.stringify(delNo))}&isTask=${ie11_polyfill(JSON.stringify(isTask))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
+    // const url = `${global.base_url}WorkflowService/getWorkitemDetails?witmid=${ie11_polyfill(witid)}&empNo=${ie11_polyfill(JSON.stringify(empID))}&delNo=${ie11_polyfill(JSON.stringify(delNo))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
     // const url = `${global.base_url}WorkflowService/getWorkitemDetails?witmid=${witid}&empNo=${empID}&delNo=${delNo}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
     return this.http.get(url);
   }
@@ -544,6 +550,11 @@ export class WorkflowService {
     return this.http.get(url);
   }
 
+  getNewTokenUrl(empno, roleid, docid, witemid, initial) {
+    let urlone = global.esign_New_complete;
+    const url = `${global.base_url}ESignService/prepareNewESign?empno=${ie11_polyfill(empno)}&systime=${this.coreService.getSysTimeStamp()}&roleid=${ie11_polyfill(JSON.stringify(roleid))}&docid=${ie11_polyfill(docid)}&witemid=${ie11_polyfill(JSON.stringify(witemid))}&initial=${ie11_polyfill(initial)}&url=${urlone}`;
+    return this.http.get(url);
+  }
   updateInboxCount() {
     const user = this.us.getCurrentUser();
     this.getUserNewWorkitems().subscribe(
@@ -558,13 +569,16 @@ export class WorkflowService {
       this.draftMenu.badge = data.length;
     });
   }
-
+  multiSignDocument(empno, docid, witemid, roleid) {
+    const url = `${global.base_url}ESignService/multiSignDocument?empno=${ie11_polyfill(empno)}&roleid=${ie11_polyfill(JSON.stringify(roleid))}&xPos=${global.sign_xPos}&yPos=${global.sign_yPos}&systime=${this.coreService.getSysTimeStamp()}&docid=${ie11_polyfill(docid)}&witemid=${ie11_polyfill(JSON.stringify(witemid))}`;
+    return this.http.get(url, { responseType: 'text' });
+  }
   /**
    * @description Get the counter for all tabs
    * @param userId
    * @param page
    */
-  getTabsCounter(userId, page):any {
+  getTabsCounter(userId, page): any {
     let url;
     let value = { active: 'active', finish: 'finish', archive: 'archive' };
     if (page === 'inbox') {
@@ -610,5 +624,5 @@ export class WorkflowService {
       });
     }
   }
-  
+
 }

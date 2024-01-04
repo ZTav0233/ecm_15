@@ -5,12 +5,15 @@
       <div class="ui-g-12 p-l-0 p-b-0 p-t-md p-r-0 border-container">
         <p-tabView (onChange)="step1TabChange($event)" styleClass="max-h-tab" [activeIndex]="tabActiveIndex">
           <p-tabPanel header="Attachment" class="Attach-From-ECM-File-System">
-            <p-dropdown (onChange)="selectedOption()" [options]="browsingOptions" optionLabel="name" 
-              (click)="dropDownHideShow?hideDropdown(false): hideDropdown(true)" class="example-css-class ECM-dropdown ECM-dropdownn"
-              id="dropdown" [placeholder]='"Attach From ECM/File System"' [(ngModel)]="selectedOptionForDocument">
+            <p-dropdown (onChange)="selectedOption()" [options]="browsingOptions" optionLabel="name"
+              (click)="dropDownHideShow?hideDropdown(false): hideDropdown(true)" class="example-css-class "
+              id="dropdown" [placeholder]='"Attach From ECM/File System"' [(ngModel)]="selectedOptionForDocument"
+              [disabled]="launch.documents.existing.model.actionType==='MultiSign' && (this.actionTypes == 'reply' || this.actionTypes == 'forward' || this.actionTypes === 'replyAll')">
             </p-dropdown>
 
-            <button pButton type="button" (click)="generateNew()" label="Generate New Memo & Circulate"></button>
+            <button *ngIf="isMemoUser" pButton type="button" (click)="generateNew()" label="Generate New Memo & Circulate"
+            [disabled]="launch.documents.existing.model.actionType==='MultiSign' && (this.actionTypes == 'reply' || this.actionTypes == 'forward' || this.actionTypes === 'replyAll')">
+            </button>
             <!-- <button (click)="openAddFromFolderDilaog=true;openAddFromFolderDilaogLoaded=true;" pButton type="button"
               label="Add From Folder"></button> -->
             <!-- <div (click)="hhhshsh()" *ngIf="dropDownHideShow" style="height:95px"></div> -->
@@ -66,7 +69,8 @@
                   </p-header>
                   <app-document-cart [showHeading]="false" [cartItems]="launch.workflow.model.attachments"
                     [isFromDraft]="actionTypes ==='draftLaunch'" [componentTitle]="'Attachments'"
-                    [workflowType]="workflowType" [isItemSelectable]="true" (onItemPreview)="showDocPreview($event)">
+                    [workflowType]="workflowType" [isItemSelectable]="true" (onItemPreview)="showDocPreview($event)"
+                    (onItemRemoved)="onDocumentRemoved()">
                   </app-document-cart>
                 </p-accordionTab>
               </p-accordion>
@@ -137,7 +141,7 @@
                 </div>
               </p-accordionTab>
               <p-accordionTab
-                [disabled]="launch.documents.existing.model.actionType==='Signature' || launch.documents.existing.model.actionType==='Initial'">
+                [disabled]="launch.documents.existing.model.actionType==='Signature' || launch.documents.existing.model.actionType==='Initial' || launch.documents.existing.model.actionType==='MultiSign'">
                 <p-header>
                   <i class="ui-icon-ac-h fa fa-fw ui-icon-apps" style="color: white"></i> Distribution List
                 </p-header>
@@ -190,7 +194,8 @@
                           <div class="ui-g-12 p-b-0">
                             <div class="ui-g-12 ui-md-12 ui-sm-12 p-b-0"
                               *ngIf="launch.recipients.list.selectedUserList.lists && launch.recipients.list.selectedUserList.lists.length>0 &&
-                                          !(launch.documents.existing.model.actionType=='Signature' || launch.documents.existing.model.actionType=='Initial')">
+                                          !(launch.documents.existing.model.actionType=='Signature' || launch.documents.existing.model.actionType=='Initial' 
+                                              || launch.documents.existing.model.actionType==='MultiSign')">
                               <app-user-list [isNoAlternateRows]="true" [isNoFoundMessage]="true"
                                 [iconClass]="'fa fa-fw ui-icon-view-list'" [showTooltip]="true" [showAddBtn]="false"
                                 [actionType]="launch.documents.existing.model.actionType"
@@ -340,7 +345,7 @@
         <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class="ui-g-1">
           <label>Type :</label>
         </div>
-        <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class="ui-g-11 ui-xl-4 ui-lg-6">
+        <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class="ui-g-11 ui-xl-5 ui-lg-6">
           <p-selectButton [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'"
             (onChange)="onActionTypeChanged($event)" [options]="launch.documents.existing.actionTypes"
             [(ngModel)]="launch.documents.existing.model.actionType" name="actionType"></p-selectButton>
@@ -348,7 +353,7 @@
         <div class="ui-g-1">
           <label>Priority:</label>
         </div>
-        <div class="ui-g-6 ui-xl-6 ui-lg-4 prio">
+        <div class="ui-g-1 ui-xl-5 ui-lg-4 prio">
           <p-radioButton [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" name="workflowPriority"
             value="2" label="Normal" [(ngModel)]="launch.workflow.model.priority">
           </p-radioButton>
@@ -523,6 +528,10 @@
             <p-splitButton [styleClass]="'ecm-split-button'"
               [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
                           !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
+                          (launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+                            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+                            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+                            (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1))) ||
                           (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
                           (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
                           (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
@@ -536,6 +545,10 @@
               [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
                         !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
                         (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+                        (launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+                            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+                            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+                            (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1))) ||
                         (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
                         (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
                         (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
@@ -548,6 +561,10 @@
               [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
                         !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
                         (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+                        (launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+                            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+                            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+                            (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1))) ||
                         (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
                         (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
                         (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
@@ -560,6 +577,10 @@
               [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
                           !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
                           (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+                          (launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+                            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+                            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+                            (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1))) ||
                           (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
                           (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
                           (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
@@ -572,6 +593,10 @@
               [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
                           !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
                           (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+                          (launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+                            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+                            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+                            (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1))) ||
                           (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
                           (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
                           (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
@@ -584,6 +609,10 @@
               [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
                       !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
                       (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+                      (launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+                            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+                            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+                            (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1))) ||
                       (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
                       (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
                       (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
@@ -596,6 +625,10 @@
               [disabled]="launch.recipients.toList.length==0  || !launch.documents.cartItems || (launch.documents.cartItems.length==0 && !isRelaunch) ||
                       !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0 ||
                       (launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
+                      (launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+                            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+                            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+                            (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1))) ||
                       (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
                       (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) || (!this.selectedCartItems && !isRelaunch) ||
                       (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
@@ -608,6 +641,10 @@
               [disabled]="launch.recipients.toList.length==0  || !launch.workflow.model.attachments || !launch.documents.cartItems  ||
                         (launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0) || !launch.workflow.model.subject ||
                         launch.workflow.model.subject.trim().length===0 ||
+                        (launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+                            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+                            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+                            (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1))) ||
                         (this.selectedCartItems && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||  
                         (!this.selectedCartItems && !isRelaunch && launch.workflow.model.attachments.length==0) ||
                         !launch.workflow.model.actions || launch.workflow.model.actions.length==0 || (launch.documents.existing.model.actionType === 'bulkLaunch' &&
@@ -619,6 +656,10 @@
             <p-splitButton [styleClass]="'ecm-split-button'"
               [disabled]="launch.recipients.toList.length==0  || !launch.workflow.model.attachments ||
                        !launch.documents.cartItems || (launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0) ||
+                       (launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+                            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+                            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+                            (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1))) ||
                        ((this.selectedCartItems && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0) || 
                        (!this.selectedCartItems && launch.workflow.model.attachments.length==0)) || 
                        !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0
@@ -631,6 +672,10 @@
             <button pButton type="button"
               [disabled]="launch.recipients.toList.length==0  || !launch.workflow.model.attachments || 
                        !launch.documents.cartItems || (launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0) ||
+                       (launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+                            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+                            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+                            (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1))) ||
                        ((this.selectedCartItems && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 ) || 
                        (!this.selectedCartItems && launch.workflow.model.attachments.length==0)) || 
                        !launch.workflow.model.subject || launch.workflow.model.subject.trim().length===0 || !launch.workflow.model.actions || launch.workflow.model.actions.length==0
@@ -641,31 +686,46 @@
               (click)="launchAsCurrentUser(launch.documents.existing.model.actionType === 'bulkLaunch' ? 'bulk' : 'normal', 0, false, '')"></button>
             <!--for Workflow Actions-->
             <button pButton type="button"
-              [disabled]="launch.recipients.toList.length==0  || !launch.workflow.model.subject || !launch.workflow.model.actions
+              [disabled]="(launch.recipients.toList.length==0  || !launch.workflow.model.subject || !launch.workflow.model.actions
                     || launch.workflow.model.actions.length==0 || (launch.workflow.model.attachments.length==0
-                    && (launch.documents.existing.model.actionType === 'Signature' || launch.documents.existing.model.actionType === 'Initial'))"
+                    && (launch.documents.existing.model.actionType === 'Signature' || launch.documents.existing.model.actionType === 'Initial'))) ||
+                    (launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+                            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+                            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+                            (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1)))"
               *ngIf="actionTypes==='forward'" label="Forward"
               (click)="wiaAction.recipientRoleName ? forwardAsRole(wiaAction.recipientRoleId) : forwardAsCurrentUser(wiaAction.recipientEMPNo,wiaAction.recipientName)"></button>
-            <button pButton type="button" [disabled]="wiaAction?.isMemo==0
+              <button pButton type="button"
+              [disabled]="wiaAction?.isMemo==0
                     ? (launch.recipients.toList.length==0  || !launch.workflow.model.subject || !launch.workflow.model.actions
                     || launch.workflow.model.actions.length==0 || (launch.workflow.model.attachments.length==0 
-                    && (launch.documents.existing.model.actionType === 'Signature' || launch.documents.existing.model.actionType === 'Initial')))
-                    :!launch.workflow.model.remarks" *ngIf="actionTypes==='reply'" label="Reply"
+                    && (launch.documents.existing.model.actionType === 'Signature' || launch.documents.existing.model.actionType === 'Initial'))) ||
+                    (launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+                            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+                            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+                            (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1)))
+                    :!launch.workflow.model.remarks"
+              *ngIf="actionTypes==='reply'" label="Reply"
               (click)="wiaAction.recipientRoleName ? replyAsRole(wiaAction.recipientRoleId) : replyAsCurrentUser(wiaAction.recipientEMPNo,wiaAction.recipientName)"></button>
             <button pButton type="button"
               [disabled]="launch.recipients.toList.length==0  || !launch.workflow.model.subject || !launch.workflow.model.actions
                     || launch.workflow.model.actions.length==0 || (launch.workflow.model.attachments.length==0  && (this.selectedCartItems && this.selectedCartItems.length==0 )
-                    && (launch.documents.existing.model.actionType === 'Signature' || launch.documents.existing.model.actionType === 'Initial'))"
+                    && (launch.documents.existing.model.actionType === 'Signature' || launch.documents.existing.model.actionType === 'Initial')) || 
+                    (launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+                            (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+                            (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+                            (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1)))"
               *ngIf="actionTypes==='replyAll'" label="Reply All"
               (click)="wiaAction.recipientRoleName ? replyAllAsRole(wiaAction.recipientRoleId) : replyAllAsCurrentUser(wiaAction.recipientEMPNo,wiaAction.recipientName)"></button>
-            <span class="warning"
+              <span class="warning"
               *ngIf="((launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
             (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0 && !isRelaunch) ||
             (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length==0 && !isRelaunch) 
             || (!this.selectedCartItems && !isRelaunch && actionTypes!=='forward' && actionTypes!=='reply' && actionTypes!=='replyAll') ||
             (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && !this.selectedCartItems) ||
             (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && this.selectedCartItems 
-            && this.selectedCartItems.length==0)) && (launch.documents.existing.model.actionType !== 'Signature' && launch.documents.existing.model.actionType !== 'Initial')">
+            && this.selectedCartItems.length==0)) && (launch.documents.existing.model.actionType !== 'Signature' && launch.documents.existing.model.actionType !== 'Initial' &&
+            launch.documents.existing.model.actionType !== 'MultiSign')">
               <br /> &nbsp; Please select required attachment(s)..! </span>
             <span class="warning"
               *ngIf="((launch.documents.existing.model.actionType === 'bulkLaunch' && (this.selectedCartItems && this.selectedCartItems.length<=1)) ||
@@ -676,6 +736,18 @@
             (isRelaunch && launch.workflow.model.attachments && launch.workflow.model.attachments.length==0 && launch.documents.cartItems.length==0 && this.selectedCartItems 
             && this.selectedCartItems.length==0)) && (launch.documents.existing.model.actionType === 'Signature' || launch.documents.existing.model.actionType === 'Initial')">
               <br /> &nbsp; Please select required attachment(s) & mark for Sign..! </span>
+            <span class="warning"
+              *ngIf="(launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length>1) ||
+              (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
+              (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+              (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1)))">
+              <br /> &nbsp; Please select only one attachment for multi-sign..! </span>
+            <span class="warning"
+              *ngIf="(launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length<=0) ||
+              (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0) ||
+              (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length<=0) ||
+              (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length <=0)))">
+              <br /> &nbsp; Please select an attachment for multi-sign..! </span>
           </div>
         </div>
       </div>

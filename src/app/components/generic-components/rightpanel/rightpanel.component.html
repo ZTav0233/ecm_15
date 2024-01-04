@@ -158,7 +158,9 @@
 <div *ngIf="showFileIn">
   <p-dialog appendTo="body" [modal]="true" showEffect="fade" [resizable]="false" [(visible)]="showFileIn" [style]="{ width: '600px', height: '400px' }">
     <p-header>
-      Add To Folder
+      <div class="ui-g-7"><span>Add To Public Folder</span></div>
+      <div class="ui-g-4"><button pButton class="ui-g-12 folder_popup" type="button"
+         label="Add to Classify Folder" (click)="openClassifySubTree()"></button></div>
     </p-header>
     <div class="fix-h-350">
       <div class="scrollable">
@@ -170,6 +172,26 @@
     <p-footer>
       <button type="button" pButton (click)="fileIn()" label="Add"></button>
       <button type="button" pButton (click)="showFileIn=false" label="Cancel"></button>
+    </p-footer>
+  </p-dialog>
+</div>
+<div *ngIf="showFavFileIn">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [resizable]="false" [(visible)]="showFavFileIn"
+   [style]="{width: '60vw',height:'60vh'}">
+    <p-header>
+      <div class="ui-g-7"><span>Add To Classify Folder</span></div>
+      <div class="ui-g-4"><button pButton class="ui-g-12 folder_popup" type="button" label="Add to Public Folder" (click)="openSubTreePop()"></button></div>
+    </p-header>
+    <div class="fix-h-350">
+      <div class="scrollable">
+        <!--<tree [folderPermission]="folderPermission" [clearSelectedDocs]="true" [changeView]="false"></tree>-->
+        <p-tree [value]="addToFolderList" selectionMode="single" [(selection)]="selectedAddFolder"
+          (onNodeExpand)="nodeExpand($event)"></p-tree>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" pButton (click)="fileIn()" label="Add"></button>
+      <button type="button" pButton (click)="showFavFileIn=false" label="Cancel"></button>
     </p-footer>
   </p-dialog>
 </div>

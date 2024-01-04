@@ -208,6 +208,13 @@ export class BrowseScreenComponent implements OnInit, OnDestroy {
     });
     this.busy = true;
     if (this.fromEnclosure == "Enclosuer") {
+      postArray = { empNo: this.currentUser.EmpNo, docIds: [] };  
+      docs.map((doc, index) => {
+        if(doc.format && doc.format.toLowerCase() == "application/pdf")
+          postArray.docIds.push(doc.id);
+        else
+          alert("Only PDF documents supported for enclosure");
+      });  
       this.ds.addToEncMulti(postArray).subscribe(val => {
         this.busy = false;
         this.Success(val, docs);
@@ -235,7 +242,7 @@ export class BrowseScreenComponent implements OnInit, OnDestroy {
       temp.map(d => {
         newarray.push(d);
       });
-      if (this.fromEnclosure == "Enclosuer") {
+      if (this.fromEnclosure == "Enclosure") {
         this.subscriptions.push(this.ds.getEnclosureCart(this.currentUser.EmpNo).subscribe((data) => {
           this.ds.refreshEnclosureCart(data);
           // this.browserEvents.setWfSubject.emit();
@@ -259,7 +266,7 @@ export class BrowseScreenComponent implements OnInit, OnDestroy {
     let message = '';
     let summary = 'Success';
     let severity = 'info';
-    if (this.fromEnclosure == "Enclosuer") {
+    if (this.fromEnclosure == "Enclosure") {
       switch (res.status) {
         case 'Success':
           window.parent.postMessage({ v1: 'AddCartSuccess', v2: res.success }, '*');

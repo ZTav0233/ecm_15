@@ -13,6 +13,8 @@ export class WorkflowDetails {
   refNo: any;
   projNo: any;
   contractNo: any;
+  isMemo:any;
+  memoId:any;
   ECMNo: any;
 // action = new Action();
 }

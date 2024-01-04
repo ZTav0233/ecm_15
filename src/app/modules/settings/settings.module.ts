@@ -5,7 +5,7 @@ import { SettingsComponent } from './settings.component';
 //   AccordionModule, ConfirmDialogModule, TabViewModule,
 //   AutoCompleteModule, SelectButtonModule, DialogModule, TooltipModule, SpinnerModule, DataScrollerModule, TreeModule,
 // } from 'primeng/primeng';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DelegationComponent } from './delegation/delegation.component';
 import { ListComponent } from './list/list.component';
 import { GeneralComponent } from './general/general.component';
@@ -30,6 +30,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { DialogModule } from 'primeng/dialog';
 import { TreeModule } from 'primeng/tree';
 import { TableModule } from 'primeng/table';
+import { SignComponent } from './esign/esign.component';
+import { FileUploadModule } from 'primeng/fileupload';
 //import {ContentService} from "../../services/content.service";
 
 @NgModule({
@@ -37,7 +39,8 @@ import { TableModule } from 'primeng/table';
     SettingsComponent,
     DelegationComponent,
     ListComponent,
-    GeneralComponent
+    GeneralComponent,
+    SignComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +57,9 @@ import { TableModule } from 'primeng/table';
     TreeModule,
     CgBusyModule,
     SettingRoutingModule,
-    TableModule 
+    TableModule,
+    ReactiveFormsModule,
+    FileUploadModule
   ],
   providers: [
     //WorkflowService

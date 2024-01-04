@@ -344,11 +344,22 @@ export class DocumentService {
     return this.http.get(url);
   }
  
+  getDocumentInfoForWF(docid: any,isprop:any):any
+  {
+    const user = this.us.getCurrentUser();
+    const url = `${global.report_url}DocumentService/getDocumentInfo?id=${docid}&empno=${ie11_polyfill(JSON.stringify(user.EmpNo))}&isprops=${ie11_polyfill(JSON.stringify(isprop))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
+    return this.http.get(url);
+  }
   getDocumentInfo(docid: any,isprop:any):any
   {
     const user = this.us.getCurrentUser();
     const url = `${global.base_url}DocumentService/getDocumentInfo?id=${docid}&empno=${ie11_polyfill(JSON.stringify(user.EmpNo))}&isprops=${ie11_polyfill(JSON.stringify(isprop))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
     return this.http.get(url);
+  }
+  verifyMultiSign(docid: any, witemid: any, vsid: any):any{
+    const user = this.us.getCurrentUser();
+    const url = `${global.base_url}ESignService/verifyMultiSign?docid=${docid}&vsid=${vsid}&witemid=${witemid}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
+    return this.http.get(url,{responseType:'text'});
   }
  
   verifyESign(docid: any, witemid: any,flagInitial:any):any{

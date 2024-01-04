@@ -167,6 +167,11 @@ export class HomeComponent implements OnDestroy, OnInit, AfterContentInit {
         this.router.navigate(['/workflow/launch']);
         break;
       }
+      case 'navigateToMemo': {
+        //this.bs.launchRefreshRequired.emit('launch-feature');
+        this.router.navigate(['/workflow/memo']);
+        break;
+      }
       case 'navigateToInbox': {
         /*console.log('previous '+ this.ws.inboxMenu.badge);
         const previousInboxBadge=this.ws.inboxMenu.badge;

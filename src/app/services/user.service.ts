@@ -129,18 +129,18 @@ export class UserService {
   getUserDelegation(): any {
     const user = this.getCurrentUser();
     const url = `${global.base_url}UserService/getUserDelegations?userid=${ie11_polyfill(JSON.stringify(user.EmpNo))}&usertype=${ie11_polyfill('USER')}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
-    return this.http.get('assets/data/userDelegation.json');
+    return this.http.get(url);
   }
   getUserDelegationForSelectedUser(empNo): any {
     const user = this.getCurrentUser();
     const url = `${global.base_url}UserService/getUserDelegations?userid=${ie11_polyfill(JSON.stringify(empNo))}&usertype=${ie11_polyfill('USER')}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
-    return this.http.get('assets/data/userDelegation.json');
+    return this.http.get(url);
   }
 
   getRoleDelegation(roleId): any {
     const user = this.getCurrentUser();
     const url = `${global.base_url}UserService/getUserDelegations?userid=${ie11_polyfill(JSON.stringify(roleId))}&usertype=${ie11_polyfill('ROLE')}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
-    return this.http.get('assets/data/userDelegation.json');
+    return this.http.get(url);
   }
 
   saveRole(json: any): any {
@@ -324,7 +324,7 @@ export class UserService {
     
     const user = this.getCurrentUser();
     const url = `${global.base_url}UserService/getRoleMembersForSettings?roleId=${ie11_polyfill(JSON.stringify(roleid))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
-    return this.http.get('assets/data/userDelegation.json');
+    return this.http.get(url);
   }
 
   addUserList(id: any, list: any): any {
@@ -430,6 +430,11 @@ export class UserService {
     const url = `${global.base_url}UserService/exportUsers?sysdatetime=${this.coreService.getSysTimeStamp()}`;
     return this.http.get(url,{responseType:"blob"});
   }
+  validateContractUser(): any {
+    const user = this.getCurrentUser();
+    const url = `${global.base_url}UserService/validateContractUser?userid=${ie11_polyfill(JSON.stringify(user.EmpNo))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
+    return this.http.get(url, {responseType: 'text'});
+  }
    exportRoles(){
     const url = `${global.base_url}UserService/exportRoles?sysdatetime=${this.coreService.getSysTimeStamp()}`;
     return this.http.get(url,{responseType:"blob"});
@@ -441,6 +446,21 @@ export class UserService {
       if (cb)
         cb();
     });
+  }
+  addSignImage(formdata: any):any{
+    const url = `${global.base_url}ESignService/addInitialImage`;
+    return this.http.post(url, formdata,{responseType:'text'});
+  }
+
+  //getInitialImage verifyInitialExists
+  getInitialImage(): any {
+    const url = `${global.base_url}ESignService/getInitialImage?sysdatetime=${this.coreService.getSysTimeStamp()}`;
+    return this.http.get(url, {responseType: 'text'});
+  }
+
+  verifyInitialExists(): any {
+    const url = `${global.base_url}ESignService/verifyInitialExists?sysdatetime=${this.coreService.getSysTimeStamp()}`;
+    return this.http.get(url, {responseType: 'text'});
   }
 
   getUserSettingsFormMemory(){

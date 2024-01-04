@@ -675,6 +675,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 'navigateToLaunch': {
         return '/workflow/launch';
       }
+      case 'navigateToMemo': {
+        return '/workflow/memo';
+      }
       case 'navigateToInbox': {
         return '/workflow/inbox';
       }

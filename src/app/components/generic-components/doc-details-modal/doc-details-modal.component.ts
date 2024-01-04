@@ -77,6 +77,29 @@ export class DocDetailsModalComponent implements OnInit, OnDestroy {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
+viewFolderPath(folder){
+    this.busy = true;
+    this.contentService.validateFolderPermissions(folder.id, "ADD").subscribe(data => {
+      this.busy = false;
+      if (data === true) {
+        console.log("viewFolderPath :: " + folder);
+        window.parent.postMessage({ 'v1': 'openFolderPath', 'v2': folder.id, 'v3': folder.path}, '*');
+      }
+      else {
+        this.growlService.showGrowl({
+          severity: 'error',
+          summary: 'No Permission', detail: 'User have no access to the folder'
+        });
+      }
+    }, err => {
+      this.busy = false;
+      this.growlService.showGrowl({
+        severity: 'error',
+        summary: 'No Permission', detail: 'User have no access to the folder'
+      });
+    });
+  }
+
   confirmRemoveLink(docLink) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',

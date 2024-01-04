@@ -21,6 +21,7 @@
 
 :host ::ng-deep .example-css-class .ui-widget {
   margin-top: -2px !important;
+  width: 220px !important;
 }
 
 :host::ng-deep .example-css-class .ui-placeholder {
@@ -80,7 +81,7 @@
 }
 
 .prio {
-  margin-top: -15px;
+  margin-top: 0;
 }
 
 .border-container {

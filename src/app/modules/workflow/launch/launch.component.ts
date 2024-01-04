@@ -76,6 +76,8 @@ export class LaunchComponent implements OnInit, OnDestroy {
   wiaReply = new WorkItemAction();
   wiaForward = new WorkItemAction();
   wiaReplyAll = new WorkItemAction();
+  private memoId: any = 0;
+  private memoData: any;
   //items: any;
   reminderRequired = false;
   public distList = { 'id': 1, 'empNo': 1002, 'name': 'Distribution List', lists: [] };
@@ -114,6 +116,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
   public viewer = false;
   public emptyMessage: any;
   public previousUrl: any;
+  private isContractUser: any = false;
   @ViewChildren(DataTableComponent) dataTableComponentRef: QueryList<DataTableComponent>;
   allSelectedValues = [];
   @Input() selectedValues = new EventEmitter();
@@ -295,6 +298,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
   }
 
   assignLaunchUserOptions() {
+    this.verifyContractUser();
     this.currentUser.roles.map((r, i) => {
       if (r.status === 'ACTIVE') {
         this.launch.launchBtnItems.push({
@@ -319,7 +323,35 @@ export class LaunchComponent implements OnInit, OnDestroy {
       });
     }
   }
-
+  verifyContractUser(){
+    this.userService.validateContractUser().subscribe((res) => {
+      //console.log("validateContractUser :: " + res);
+      if(res === "1"){
+        this.isContractUser = true;
+        if(this.actionTypes && (this.actionTypes == 'forward' || this.actionTypes == 'reply'))
+          this.launch.documents.existing.actionTypes = Object.assign([], [{ label: 'Default', value: 'Default' },
+                            { label: 'Signature', value: 'Signature' }, { label: 'Initial', value: 'Initial' }, 
+                            { label: 'Multi Sign',  value: 'MultiSign' }]);
+        else
+          this.launch.documents.existing.actionTypes = Object.assign([], [{ label: 'Default', value: 'Default' }, {label: 'Bulk Launch', value: 'bulkLaunch'},
+                            { label: 'Signature', value: 'Signature' }, { label: 'Initial', value: 'Initial' }, 
+                            { label: 'Multi Sign',  value: 'MultiSign' }]);
+      }
+      else{
+        this.isContractUser = false;
+        if(this.actionTypes && (this.actionTypes == 'forward' || this.actionTypes == 'reply'))
+          this.launch.documents.existing.actionTypes = Object.assign([], [{ label: 'Default', value: 'Default' },
+                            { label: 'Signature', value: 'Signature' }, { label: 'Initial', value: 'Initial' }, 
+                            { label: 'Multi Sign',  value: 'MultiSign' }]);
+        else
+          this.launch.documents.existing.actionTypes = Object.assign([], [{ label: 'Default', value: 'Default' }, {label: 'Bulk Launch', value: 'bulkLaunch'},
+                            { label: 'Signature', value: 'Signature' }, { label: 'Initial', value: 'Initial' }, 
+                            { label: 'Multi Sign',  value: 'MultiSign' }]);
+      }
+        
+      this.busy = false;
+    });
+  }
   assignBulkLaunchOptions() {
     this.currentUser.roles.map((r, i) => {
       if (r.status === 'ACTIVE') {
@@ -492,6 +524,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
     });
     this.getUserLists();
     this.busy = true;
+    
     this.us.validateMemoUser().subscribe((res) => {
       console.log("ValidateMemoUser :: " + res);
       if(res === "1")
@@ -500,19 +533,22 @@ export class LaunchComponent implements OnInit, OnDestroy {
         this.isMemoUser = false;
       this.busy = false;
     });
-    this.actroute.data.subscribe(data => {
-      this.busy = false;
-      //this.contentService.entryTemplatesListForSearchAndAdd.addList=data.entryTemplateForSearchAndAdd.addList;
-      //this.contentService.entryTemplatesListForSearchAndAdd.searchList=data.entryTemplateForSearchAndAdd.searchList;
-    }, Error => {
-      this.busy = false;
-    });
+
+    this.busy = true;
+    // this.actroute.data.subscribe(data => {
+    //   this.busy = false;
+    //   //this.contentService.entryTemplatesListForSearchAndAdd.addList=data.entryTemplateForSearchAndAdd.addList;
+    //   //this.contentService.entryTemplatesListForSearchAndAdd.searchList=data.entryTemplateForSearchAndAdd.searchList;
+    // }, Error => {
+    //   this.busy = false;
+    // });
     this.breadcrumbService.setItems([
       { label: 'Launch' }
     ]);
     this.busy = true;
+    let isActRoute = 0;
     this.actroute.paramMap.subscribe(data => {
-      console.log(data)
+      //console.log("actroute inside :: " + data);
       this.busy = false;
       //console.log('actroute---------------'+new Date().getTime());
       const routeParams: any = data;
@@ -524,6 +560,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
       this.actroute.params.subscribe(params => {
         this.busy = false;
         //console.log('routeParams---------------'+new Date().getTime());
+        isActRoute = 1;
         routeParams.actionType = params['actionType'];
         this.assignActionType(routeParams);
       }, Error => {
@@ -532,6 +569,9 @@ export class LaunchComponent implements OnInit, OnDestroy {
     }, Error => {
       this.busy = false;
     });
+
+    //console.log("isActRoute :: " + isActRoute);
+    this.verifyContractUser();
     this.emptyMessage = global.no_doc_found;
   }
 
@@ -615,7 +655,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
 
   onActionTypeChanged(event) {
     this.workflowType = event.value;
-    if (event.value === 'Signature' || event.value === 'Initial') {
+    if (event.value === 'Signature' || event.value === 'Initial'|| event.value === 'MultiSign') {
       this.launch.recipients.ccList = [];
       this.launch.recipients.toList = [];
     }
@@ -657,6 +697,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
     let isSelectedCardInvalid = false;
     let docPdfWordCount = 0;
     let docPdfWordSignedCount = 0;
+    let multiSignPDF = 0;
     if (array && array.length > 0) {
       array.map(doc => {
         if (doc.format.indexOf('pdf') !== -1 || doc.format.indexOf('word') !== -1) {
@@ -664,19 +705,29 @@ export class LaunchComponent implements OnInit, OnDestroy {
           if (doc.isSign == 1) {
             docPdfWordSignedCount++;
           }
+          if(doc.format.indexOf('pdf') !== -1){
+            multiSignPDF++;
+          }
         }
       });
     }
-    if (docPdfWordCount == 0) {
+    if (docPdfWordCount == 0&& this.launch.documents.existing.model.actionType !== 'MultiSign') {
       this.growlService.showGrowl({
         severity: 'error',
         summary: 'Not Allowed', detail: 'At least one PDF or MS word file should be selected for Signature/Initial.'
       });
       isSelectedCardInvalid = true;
-    } else if (docPdfWordSignedCount == 0) {
+    } else if (docPdfWordSignedCount == 0&& this.launch.documents.existing.model.actionType !== 'MultiSign') {
       this.growlService.showGrowl({
         severity: 'error',
         summary: 'Not Allowed', detail: 'At least one document should be marked for eSign.'
+      });
+      isSelectedCardInvalid = true;
+    }
+    else if(this.launch.documents.existing.model.actionType==='MultiSign' && multiSignPDF == 0){
+      this.growlService.showGrowl({
+        severity: 'error',
+        summary: 'Not Allowed', detail: 'Only one PDF document should be selected for MultieSign.'
       });
       isSelectedCardInvalid = true;
     }
@@ -690,6 +741,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
     let isSelectedCardInvalid = false;
     let docPdfWordCount = 0;
     let docPdfWordSignedCount = 0;
+    let multiSignPDF = 0;
     if (array && array.length > 0) {
       array.map(doc => {
         if (doc.format.indexOf('pdf') !== -1 || doc.format.indexOf('word') !== -1) {
@@ -700,16 +752,23 @@ export class LaunchComponent implements OnInit, OnDestroy {
         }
       });
     }
-    if (docPdfWordCount == 0) {
+    if (docPdfWordCount == 0&& this.launch.documents.existing.model.actionType !== 'MultiSign') {
       this.growlService.showGrowl({
         severity: 'error',
         summary: 'Not Allowed', detail: 'At least one PDF or MS word file should be selected for Signature/Initial.'
       });
       isSelectedCardInvalid = true;
-    } else if (docPdfWordSignedCount == 0) {
+    } else if (docPdfWordSignedCount == 0&& this.launch.documents.existing.model.actionType !== 'MultiSign') {
       this.growlService.showGrowl({
         severity: 'error',
         summary: 'Not Allowed', detail: 'At least one document should be marked for eSign.'
+      });
+      isSelectedCardInvalid = true;
+    }
+    else if(this.launch.documents.existing.model.actionType==='MultiSign' && multiSignPDF == 0){
+      this.growlService.showGrowl({
+        severity: 'error',
+        summary: 'Not Allowed', detail: 'Only one PDF document should be selected for MultieSign.'
       });
       isSelectedCardInvalid = true;
     }
@@ -814,6 +873,12 @@ export class LaunchComponent implements OnInit, OnDestroy {
       this.launch.workflow.model.actions = [this.launch.workflow.forOptions[0].value];
       console.log(this.launch.workflow.model.actions)
 
+    
+    }//MultiSign
+    else if (this.launch.documents.existing.model.actionType.match(/MultiSign/) !== null) {
+      this.launch.workflow.forOptions.push({ label: 'MultiSign', value: 'MultiSign' });
+      this.launch.workflow.model.actions = [this.launch.workflow.forOptions[0].value];
+      console.log(this.launch.workflow.model.actions);
     }
     else {
       //if (this.activeIndex === 2) {
@@ -842,7 +907,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
         })
       }
       this.ws.getWorkflowActions().map(a => {
-        if (a.name !== 'Signature' && a.name !== 'Initial') {
+        if (a.name !== 'Signature' && a.name !== 'Initial'&& a.name !== 'MultiSign') {
           this.launch.workflow.forOptions.push({ label: a.name, value: a.name });
         }
       });
@@ -1580,6 +1645,25 @@ export class LaunchComponent implements OnInit, OnDestroy {
       }
     }
   }
+  isPresentinMemoFromThruList(obj){
+    let exist = false;
+    if (obj.EmpNo) {
+      obj.id = obj.EmpNo;
+    }
+    if(this.memoData && this.memoData.recipients){
+      var recipientsData = this.memoData.recipients.filter(word => (word.recipientType == "FROM" || word.recipientType == "THRU"));
+      if(recipientsData && recipientsData.length > 0){
+        recipientsData.map((reci, index) => {
+          if (reci.userId === obj.id &&  reci.userType === obj.appRole) {
+            exist = true;
+          }
+        });
+      }
+    }
+    
+    return exist;
+
+  }
 
   addToCCListFromList(role) {
     if (!this.existsInList(role)) {
@@ -1629,8 +1713,10 @@ export class LaunchComponent implements OnInit, OnDestroy {
     if (role.headRoleName) {
       role.name = role.headRoleName;
     }
-    if ((this.launch.documents.existing.model.actionType === 'Signature' || this.launch.documents.existing.model.actionType === 'Initial')
-      && this.launch.recipients.toList.length === 1) {
+    if ((this.launch.documents.existing.model.actionType === 'Signature' 
+          || this.launch.documents.existing.model.actionType === 'Initial' 
+          || this.launch.documents.existing.model.actionType === 'MultiSign')
+              && this.launch.recipients.toList.length === 1) {
       role.disabled = true;
       if (role.name === this.launch.recipients.toList[0].name && this.launch.recipients.toList[0].id === role.id) {
         return true;
@@ -1687,8 +1773,10 @@ export class LaunchComponent implements OnInit, OnDestroy {
   }
 
   searchRoles(event, q) {
-    if ((this.launch.documents.existing.model.actionType === 'Signature' || this.launch.documents.existing.model.actionType === 'Initial')
-      && this.launch.recipients.toList.length === 1) {
+    if ((this.launch.documents.existing.model.actionType === 'Signature' 
+        || this.launch.documents.existing.model.actionType === 'Initial' 
+        || this.launch.documents.existing.model.actionType === 'MultiSign')
+          && this.launch.recipients.toList.length === 1) {
       this.filteredRoles = [];
       return;
     }
@@ -1705,6 +1793,9 @@ export class LaunchComponent implements OnInit, OnDestroy {
     }
     else if (this.launch.documents.existing.model.actionType === 'Initial') {
       isSignInit = 'initial'
+    }
+    else if (this.launch.documents.existing.model.actionType === 'MultiSign') {
+      isSignInit = 'esign'
     }
     else {
       isSignInit = this.launch.documents.existing.model.actionType;
@@ -1880,7 +1971,9 @@ export class LaunchComponent implements OnInit, OnDestroy {
         ECMNo: undefined,
         empNo: undefined,
         docDate: 1452364200000,
-        docRecDate: 1452709800000
+        docRecDate: 1452709800000,
+        isMemo:0,
+        memoId:0
       },
       wiAction: 'LAUNCH',
       draftId: 0,
@@ -1978,7 +2071,9 @@ export class LaunchComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    if ((this.launch.documents.existing.model.actionType === 'Signature' || this.launch.documents.existing.model.actionType === 'Initial') && launchActionType !== 'reLaunch') {
+    if ((this.launch.documents.existing.model.actionType === 'Signature' 
+            || this.launch.documents.existing.model.actionType === 'Initial' 
+            || this.launch.documents.existing.model.actionType === 'MultiSign') && launchActionType !== 'reLaunch') {
       if (this.checkDoc()) {
         return;
       }
@@ -2173,7 +2268,9 @@ export class LaunchComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if ((this.launch.documents.existing.model.actionType === 'Signature' || this.launch.documents.existing.model.actionType === 'Initial')  && launchActionType !== 'reLaunch') {
+    if ((this.launch.documents.existing.model.actionType === 'Signature' 
+        || this.launch.documents.existing.model.actionType === 'Initial' 
+        || this.launch.documents.existing.model.actionType === 'MultiSign') && launchActionType !== 'reLaunch') {
       if (this.checkDoc(true)) {
         return;
       }
@@ -2221,7 +2318,9 @@ export class LaunchComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if ((this.launch.documents.existing.model.actionType === 'Signature' || this.launch.documents.existing.model.actionType === 'Initial') && launchActionType !== 'reLaunch') {
+    if ((this.launch.documents.existing.model.actionType === 'Signature' 
+            || this.launch.documents.existing.model.actionType === 'Initial' 
+            || this.launch.documents.existing.model.actionType === 'MultiSign') && launchActionType !== 'reLaunch') {
       if (this.checkDoc(true)) {
         return;
       }
@@ -2464,7 +2563,9 @@ export class LaunchComponent implements OnInit, OnDestroy {
       }
     });
 
-    if((this.launch.documents.existing.model.actionType === 'Signature' || this.launch.documents.existing.model.actionType === 'Initial') && launchActionType === 'reLaunch'){
+    if ((this.launch.documents.existing.model.actionType === 'Signature' 
+            || this.launch.documents.existing.model.actionType === 'Initial' 
+            || this.launch.documents.existing.model.actionType === 'MultiSign') && launchActionType === 'reLaunch') {
       console.log("Relaunch checkDocOtherActions");
       if (this.checkDocOtherActions(workflow.attachments, true)) {
         return;
@@ -2678,14 +2779,23 @@ export class LaunchComponent implements OnInit, OnDestroy {
   }
 
   assignRecepients(data, fromDraft) {
-    if (data.isMemo == 1 && this.actionTypes == 'reply') {
-      this.launch.documents.existing.model.actionType = 'Signature'
-      this.launch.workflow.model.actions = 'Signature'
-      this.onActionTypeChanged({ value: 'Signature' })
+    if (data.isMemo == 1 && (this.actionTypes == 'forward' || this.actionTypes == 'reply') && (this.memoId && this.memoId > 0)) {
+      this.memoService.getMemoById(this.memoId.toString()).subscribe(res => {
+        this.memoData = res;
+      }, err => {
+        this.busy = false;
+      });
     }
-    this.launch.documents.existing.actionTypes = Object.assign([], [{ label: 'Default', value: 'Default' },
-    { label: 'Signature', value: 'Signature' }, { label: 'Initial', value: 'Initial' }]);
-    console.log(this.launch.documents.existing.model.actionType)
+
+    if(this.isContractUser)
+      this.launch.documents.existing.actionTypes = Object.assign([], [{ label: 'Default', value: 'Default' },
+                              { label: 'Signature', value: 'Signature' }, { label: 'Initial', value: 'Initial' }, 
+                              { label: 'Multi Sign',  value: 'MultiSign' }]);
+    else
+      this.launch.documents.existing.actionTypes = Object.assign([], [{ label: 'Default', value: 'Default' },
+                              { label: 'Signature', value: 'Signature' }, { label: 'Initial', value: 'Initial' }]);
+    //, { label: 'Multi Sign',  value: 'MultiSign' }
+    //console.log(this.launch.documents.existing.model.actionType)
     this.isFromDraft = fromDraft;
     this.launch.workflow.model.attachments = [];
     this.wiaAction = data;
@@ -2715,6 +2825,12 @@ export class LaunchComponent implements OnInit, OnDestroy {
       this.wiaForward.id = this.wiaAction.workitemId;
       this.wiaForward.wiAction = "FORWARD";
       this.wiaForward.attachments = this.wiaAction.attachments;
+      if(this.wiaAction && this.wiaAction.isMemo != undefined && this.wiaAction.isMemo == 1){
+        this.wiaForward.memoStepName = this.wiaAction.memoStepname;
+        this.wiaForward.isMemoApproval = 0;
+        this.wiaForward.workflow.isMemo = this.wiaAction.isMemo;
+        this.wiaForward.workflow.memoId = this.wiaAction.memoId;
+      }
     }
     else if (this.actionTypes === 'reply') {
       this.activeIndex = 1;
@@ -2730,6 +2846,12 @@ export class LaunchComponent implements OnInit, OnDestroy {
       this.wiaReply.attachments = this.wiaAction.attachments;
       this.launch.workflow.model.remarks = this.wiaAction.remarks;
       this.launch.workflow.model.instructions = this.wiaAction.instructions;
+      if(this.wiaAction && this.wiaAction.isMemo != undefined && this.wiaAction.isMemo == 1){
+        this.wiaReply.memoStepName = this.wiaAction.memoStepname;
+        this.wiaReply.isMemoApproval = 0;
+        this.wiaReply.workflow.isMemo = this.wiaAction.isMemo;
+        this.wiaReply.workflow.memoId = this.wiaAction.memoId;
+      }
       // launch.workflow.model.instructions
 
       if (!fromDraft) {
@@ -2820,7 +2942,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
         const actions = this.wiaAction.actions.split(',');
         console.log(actions)
         this.launch.workflow.model.actions = Object.assign([], actions);
-        if (actions[0] === 'Signature' || actions[0] === 'Initial') {
+        if (actions[0] === 'Signature' || actions[0] === 'Initial' || actions[0] === 'MultiSign') {
           this.launch.documents.existing.model.actionType = actions[0];
           console.log(this.launch.documents.existing.model.actionType)
           this.launch.workflow.forOptions.push({ label: actions[0], value: actions[0] });
@@ -2828,7 +2950,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
           this.onActionTypeChanged({ value: 'Signature' })
         }
       }
-      this.subjectDisabled = true;
+      this.subjectDisabled = false;
       this.actionTypes = 'launch';
       this.isRelaunch = true;
     }
@@ -2879,7 +3001,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
     }
     //---------------Draft change--------------
     const actions = this.draftWorkflow.actions.split(',');
-    if (actions[0] === 'Signature' || actions[0] === 'Initial') {
+    if (actions[0] === 'Signature' || actions[0] === 'Initial' || actions[0] === 'MultiSign') {
       this.launch.workflow.forOptions = [{ label: actions[0], value: actions[0] }];
       this.launch.documents.existing.model.actionType = actions[0];
       console.log(this.launch.documents.existing.model.actionType);
@@ -2982,8 +3104,10 @@ export class LaunchComponent implements OnInit, OnDestroy {
   }
 
   proceedForward(data, isNewAtt?, attachments?) {
-
-    if (this.launch.documents.existing.model.actionType === 'Signature' || this.launch.documents.existing.model.actionType === 'Initial') {
+    
+    if (this.launch.documents.existing.model.actionType === 'Signature' 
+        || this.launch.documents.existing.model.actionType === 'Initial'
+        || this.launch.documents.existing.model.actionType === 'MultiSign') {
       if (this.checkDocOtherActions(data.attachments, true)) {
         return;
       }
@@ -3139,7 +3263,9 @@ export class LaunchComponent implements OnInit, OnDestroy {
       empno = this.wiaReplyAll.EMPNo;
     }
 
-    if (this.launch.documents.existing.model.actionType === 'Signature' || this.launch.documents.existing.model.actionType === 'Initial') {
+    if (this.launch.documents.existing.model.actionType === 'Signature' 
+        || this.launch.documents.existing.model.actionType === 'Initial'
+        || this.launch.documents.existing.model.actionType === 'MultiSign') {
       if (this.checkDocOtherActions(array, true)) {
         return;
       }

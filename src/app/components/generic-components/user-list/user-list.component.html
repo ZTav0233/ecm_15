@@ -37,13 +37,16 @@
           <td align="right" class="action-btn-group">
             <span class="action-btn-group-sm">
               <button *ngIf="showToBtn" pButton type="button" label="To" class="v-m" (click)="mAddToToList(item)"
-                [disabled]="item.disabled || (clickable && (actionType==='Signature' || actionType==='Initial')) || (actionType==='Signature' && item.iseSignAllowed===0)
-                 || (actionType==='Initial' && item.isInitalAllowed===0)
+              [disabled]="item.disabled || (clickable && (actionType==='Signature' || actionType==='Initial')) || (actionType==='Signature' && item.iseSignAllowed===0)
+                  || (actionType==='MultiSign' && item.iseSignAllowed===0 && item.isInitalAllowed && item.isInitalAllowed===0)
+                  || (actionType==='MultiSign' && item.iseSignAllowed===0 && item.isInitialAllowed && item.isInitialAllowed===0)
+                  || (actionType==='MultiSign' && item.iseSignAllowed===0 && item.isIntialAllowed && item.isIntialAllowed===0)
+                  || (actionType==='Initial' && item.isInitalAllowed===0)
                       || (actionType==='Initial' && item.isInitialAllowed===0)
                       || (actionType==='Initial' && item.isIntialAllowed===0)"
               ></button>
               <button *ngIf="showCcBtn" pButton type="button" label="CC" class="v-m" (click)="mAddToCCList(item)"
-                [disabled]="item.disabled || actionType==='Signature' || actionType==='Initial'"></button>
+              [disabled]="item.disabled || actionType==='Signature' || actionType==='Initial' || actionType==='MultiSign'"></button>
              
               <button pButton type="button" icon="ui-icon-add" (click)="mAddToList(item)" class="remove-btn v-m "
                 *ngIf="showAddBtn" [disabled]="item.disabled"></button>

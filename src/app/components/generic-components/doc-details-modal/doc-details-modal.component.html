@@ -302,6 +302,9 @@
                  let isEven=even" [class.even]="isEven">
               <td>{{folder.name}}</td>
               <td>{{folder.path}}</td>
+              <td *ngIf="docInfo && docInfo.length>0" class="text-align-right">
+                <button pButton type="button" icon="fa ui-icon-launch" title="Go to folder"
+                  (click)="viewFolderPath(folder)"></button>
             </tr>
           </tbody>
         </table>
@@ -333,7 +336,7 @@
               <td *ngIf="docTrack && docTrack.length>0">{{track.creator}}</td>
               <td *ngIf="docTrack && docTrack.length>0">{{track.createdDate | date : 'dd/MM/yyyy hh:mm a'}}</td>
               <td *ngIf="docTrack && docTrack.length>0" class="text-align-right">
-                <button pButton type="button" icon="fa ui-icon-link" title="View Details"
+                <button pButton type="button" icon="fa ui-icon-timeline" title="View Details"
                   (click)="viewWorkItem(track)"></button>
             </tr>
           </tbody>

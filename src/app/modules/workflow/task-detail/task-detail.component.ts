@@ -39,11 +39,13 @@ import * as moment from 'moment';
 import { MemoService } from '../../../services/memo.service';
 import { ConfirmationService, Message, TreeNode } from 'primeng/api';
 import { Table } from 'primeng/table';
+import {Attachment} from "../../../models/document/attachment.model";
+
 interface Column {
   field: string;
   header: string;
-  hidden:boolean;
-  sortField:string;
+  hidden: boolean;
+  sortField: string;
 }
 @Component({
   templateUrl: './task-detail.component.html',
@@ -58,15 +60,21 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public memoDetails: any;
   public memoReviewerList: any[] = [];
   public memoReviewerExist: boolean = false;
+  public memoStepIndex: String = "";
   public memoReviewers: string;
   private subscription: Subscription[] = [];
+  public isMemoDateChange: boolean = false;
   public displayIframe = false;
   public current_url: SafeResourceUrl = null;
+  public curVerMemoDocId: string;
+  public wiReferenceVisible = false;
   private attach_url: SafeResourceUrl;
+  public memoReference: String;
   // private esignInitialUrl: SafeResourceUrl = null;
   public workitemHistory: any;
   public selectedRows: any;
   public colHeaders: any[] = [];
+  public memoRefDocId: String;
   public trackColHeaders: any[] = [
     { field: 'senderName', header: 'Sender Name', hidden: true },
     { field: 'recipientName', header: 'Recipient', hidden: true },
@@ -76,7 +84,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     { field: 'actionFor', header: 'For', hidden: true }
   ];
 
-  public  replyRecipients: any = {
+  public replyRecipients: any = {
     toList: []
   };
   public esignEnabled = false;
@@ -88,11 +96,14 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public docVersion: DocumentInfoModel[];
   public docHistory: DocumentInfoModel[];
   public linkedDocuments: DocumentInfoModel[];
+  public signDocCount = 0;
+  public signedDocCount = 0;
   public docSecurity: DocumentSecurityModel[];
   public docSysProp: any;
   private noLink = false;
   viewDocTitle: any;
   headId: any;
+  public docVsId: String;
   public fileselected = false;
   private updateddDocuments = new FormData();
   public fileUploaded: any = undefined;
@@ -140,6 +151,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public ESignedAttachments: any[] = [];
   public recipientsTab = false;
   public eSignDialog = false;
+  public isReturnButtonDisabled = false;
   public showDelegationInactiveDialog = false;
   public showRecallInactiveDialog = false;
   public isesignverified = false;
@@ -224,71 +236,83 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.selectedColumns = ['senderName', 'recipientName', 'sentOn', 'actionUser', 'status'];
-    this.cols=this.trackColHeaders
+    this.selectedColumns = ['senderName', 'recipientName', 'sentOn', 'actionFor', 'actionUser', 'status'];
     this.columnSelectionChanged(null);
     if ((this.fromPage[0] === 'inbox' || this.fromPage[0] === 'inbox-new' || this.fromPage[0] === 'archive') && this.workitem.workitemId) {
       let delNo = this.workflowService.delegateEmpNo && this.workflowService.delegateEmpNo > 0 ? this.workflowService.delegateEmpNo : 0;
       this.busy = true;
-      this.workflowService.getWorkitem(this.workitem.workitemId, this.currentUser.EmpNo, delNo).subscribe(data => {
+      this.workflowService.getWorkitem(this.workitem.workitemId, this.currentUser.EmpNo, delNo, 1).subscribe(data => {
         this.busy = false;
         data.priority = this.coreService.getPriorityString(data.priority);
         this.workitem = data;
         // this.workitem.memoStepname = "REVIEWER"
         // this.workitem.actions = "Initial"
         // console.log(this.workitem)
+        let userId = this.workitem.recipientEMPNo;
+        let userType = "USER";
+        if (this.workitem.recipientRoleId !== 0) {
+          userId = this.workitem.recipientRoleId;
+          userType = "ROLE";
+        }
+
         this.isAllActionsDisabled = this.checkDateForDisableActions(this.workitem.createdOn);
 
         if (this.workitem.isMemo && this.workitem.isMemo === 1) {
-
           this.memoService.getMemoById(this.workitem.memoId.toString()).subscribe(res => {
             this.memoDetails = res;
-
             this.memoDetails.recipients.forEach((res) => {
               // console.log(res.recipientType == "REV")
               if (res.recipientType == "REV") {
                 this.memoReviewerExist = true;
                 this.memoReviewerList.push(res.displayName);
-                console.log(this.memoReviewerList[0]);
+                //console.log(this.memoReviewerList[0]);
               }
             });
             this.memoReviewers = this.memoReviewerList.join(', ');
-            console.log("memoReviewers ::" + this.memoReviewers);
+            //console.log("memoReviewers ::" + this.memoReviewers);
+
+            //Abhishek 30-May-2023 :: Auto-eSign Updates
+            let rType = "CC";
+            if (this.workitem.memoStepname == "APPROVER") {
+              rType = "FROM";
+              this.memoStepIndex = (this.memoDetails && this.memoDetails.memoType === "Letter") ? "From" : "From1";
+            } else if (this.workitem.memoStepname == "REVIEWER") {
+              rType = "REV";
+            } else if (this.workitem.memoStepname == "SUB-FROM") {
+              rType = "SUB-FROM";
+              this.memoStepIndex = "From" + (this.findMemoRecipientIndex(rType, userId, userType) + 1);
+            } else if (this.workitem.memoStepname == "THRU") {
+              rType = "THRU";
+              this.memoStepIndex = "Thru"
+            } else if (this.workitem.memoStepname == "TO") {
+              rType = "TO";
+              this.memoStepIndex = "To";
+            }
+
+            if (this.workitem.memoId && this.workitem.memoId > 0 && rType != "CC") {
+              // console.log(this.workitem.memoId, this.workitem.workflowId, rType);
+              this.memoService.getMemoLockStatus(this.workitem.memoId, this.workitem.workflowId, rType, userType, userId).subscribe(res => {
+                // console.log(res)
+                if (res == 0) {
+                  this.memoService.lockMemo(this.workitem.memoId, this.workitem.workflowId, rType, userType, userId).subscribe(res => {
+                  });
+                } else {
+                  this.isAllActionsDisabled = true;
+                }
+              });
+            }
+
+            if (this.memoDetails && this.memoDetails.memoDocId && this.memoDetails.memoDocId.length > 0) {
+              this.ds.getDocumentInfo(this.memoDetails.memoDocId, 0).subscribe(data => {
+                this.docVsId = (data.vsid != undefined && data.vsid != null && data.vsid.length > 0) ? data.vsid : "";
+                this.curVerMemoDocId = data.id;
+              });
+            }
           }, err => {
             this.busy = false;
           });
-          let rType = "CC";
-          if (this.workitem.memoStepname == "APPROVER") {
-            rType = "FROM"
-          } else if (this.workitem.memoStepname == "REVIEWER") {
-            rType = "REV"
-          } else if (this.workitem.memoStepname == "SUB-FROM") {
-            rType = "SUB-FROM"
-          } else if (this.workitem.memoStepname == "THRU") {
-            rType = "THRU"
-          } else if (this.workitem.memoStepname == "TO") {
-            rType = "TO"
-          }
 
-          if (this.workitem.memoId && this.workitem.memoId > 0 && rType != "CC") {
-            // console.log(this.workitem.memoId, this.workitem.workflowId, rType);
-            let userId = this.workitem.recipientEMPNo;
-            let userType = "USER";
-            if (this.workitem.recipientRoleId !== 0){
-              userId = this.workitem.recipientRoleId;
-              userType = "ROLE";
-            }
-            
-            this.memoService.getMemoLockStatus(this.workitem.memoId, this.workitem.workflowId, rType, userType, userId).subscribe(res => {
-              // console.log(res)
-              if (res == 0) {
-                this.memoService.lockMemo(this.workitem.memoId, this.workitem.workflowId, rType, userType, userId).subscribe(res => {
-                })
-              } else {
-                this.isAllActionsDisabled = true
-              }
-            })
-          }
+
 
         }
 
@@ -315,21 +339,45 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.breadcrumbService.setItems(this.breadCrumbPath);
         this.workflowId = this.workitem.workflowId;
         this.getWorkflowTrack();
-        if (this.workitem.actions === 'Signature' || this.workitem.actions === 'Initial') {
+        //console.log("workitem.actions : " +this.workitem.actions + " | currentUser.iseSignAllowed : " +this.currentUser.iseSignAllowed + " | workitem.isMemo : " +this.workitem.isMemo)
+        if (this.workitem.actions === 'Signature' || this.workitem.actions === 'Initial' || this.workitem.actions === 'MultiSign') {
           this.esignEnabled = true;
           if (this.workitem.actions === 'Signature') {
             this.flagInitial = 'N';
             this.workitem.attachments.map((attachment, index) => {
-              this.subscription.push(this.ds.verifyESign(attachment.docId, this.workitem.workitemId, this.flagInitial).subscribe(res => {
-                if (res && res === 'True') {
-                  this.isesignverified = true;
-                  this.ESignedAttachments[attachment.docId] = true;
-                } else {
-                  this.ESignedAttachments[attachment.docId] = false;
-                  this.isesignverified = false;
-                }
-              }));
+              //console.log("attachment.docId : " +attachment.isSign + " | attachment.isSign : " +attachment.isSign);
+              if (attachment.isSign && attachment.isSign == 1) {
+                this.signDocCount++;
+                this.callAddMissingPermissions(cb => {
+                  this.subscription.push(this.ds.verifyESign(attachment.docId, this.workitem.workitemId, this.flagInitial).subscribe(res => {
+                    if (res && res === 'True') {
+                      this.signedDocCount++;
+                      this.isesignverified = true;
+                      this.ESignedAttachments[attachment.docId] = true;
+                    } else {
+                      this.ESignedAttachments[attachment.docId] = false;
+                      this.isesignverified = false;
+                    }
+                  }));
+                });
+              }
             });
+          } else if (this.workitem.actions === 'MultiSign') {
+            this.esignEnabled = false;
+            this.workitem.attachments.map((attachment, index) => {
+              this.callAddMissingPermissions(cb => {
+                this.subscription.push(this.ds.verifyMultiSign(attachment.docId, this.workitem.workitemId, attachment.vsid).subscribe(res => {
+                  if (res && res === 'True') {
+                    this.isesignverified = true;
+                    this.ESignedAttachments[attachment.docId] = true;
+                  } else {
+                    this.ESignedAttachments[attachment.docId] = false;
+                    this.isesignverified = false;
+                  }
+                }));
+              });
+            });
+
           }
         } else {
           this.esignEnabled = false;
@@ -360,11 +408,70 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     else {
       this.isRoleActive = 'ACTIVE';
     }
+
+    //console.log("2 workitem.actions : " +this.workitem.actions + " | currentUser.iseSignAllowed : " +this.currentUser.iseSignAllowed + " | workitem.isMemo : " +this.workitem.isMemo)
+
   }
 
   checkDateForDisableActions(date) {
     let tempdate = (moment(date).format("DD/MM/YYYY"));
     return moment((tempdate), "DD/MM/YYYY").toDate() < moment((global.date_disable_action), "DD/MM/YYYY").toDate();
+  }
+  /*  filterAttachments(){
+    let otherAttachments: Attachment[];
+    
+    if (this.workitem.isMemo && this.workitem.isMemo === 1) {
+      if(!this.memoDetails)
+      {
+        this.memoService.getMemoById(this.workitem.memoId.toString()).subscribe(res => {
+          this.memoDetails = res;
+          otherAttachments = this.getOtherAttachments(this.memoDetails);
+        });
+      }
+      else if (this.memoDetails && this.memoDetails.memoDocId && this.memoDetails.memoDocId.length > 0){
+        otherAttachments = this.getOtherAttachments(this.memoDetails);
+      }
+      else{
+        otherAttachments.push(this.workitem.attachments[0]);
+      }
+    }
+    else
+      otherAttachments = this.workitem.attachments;
+
+
+    return otherAttachments;
+  }
+
+  getOtherAttachments(memo: any){
+    let otherAttachments: Attachment[];
+    if(memo && memo.memoDocId && memo.memoDocId.length > 0){
+      this.ds.getDocumentInfo(memo.memoDocId, 0).subscribe(data => {
+        this.docVsId = (data.vsid != undefined && data.vsid != null && data.vsid.length > 0)?data.vsid:"";
+        this.curVerMemoDocId = data.id;
+        this.workitem.attachments.map((attachment, index) => {
+          if (attachment.docId !== memo.memoDocId && attachment.docId !== this.curVerMemoDocId)
+            otherAttachments.push(attachment);
+        });
+      });
+    }
+    return otherAttachments;
+  } */
+  findMemoRecipientIndex(rType, userId, userType) {
+    //return this.memoDetails.recipients.findIndex((res) => (res.recipientType == rType && res.userId==userId && res.userType==userType));
+    let indexVal = 2;
+
+    let cnt = 0;
+    this.memoDetails.recipients.forEach((res) => {
+      // console.log(res.recipientType == "REV")
+      if (res.recipientType === rType) {
+        cnt += 1;
+        console.log("Sub-From Count :: " + cnt + ", User :: " + userId + ", userType :: " + userType);
+        if (res.userId == userId && res.userType == userType)
+          indexVal = cnt;
+      }
+    });
+
+    return indexVal;
   }
 
   populateRecipients() {
@@ -376,6 +483,53 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       } else if (user.actionType === 'cc' || user.actionType === 'CC' || user.actionType === 'Reply-CC') {
         this.ccRecipients.push(user);
       }
+    });
+  }
+  multiSignDocument(doc) {
+    this.ds.getDocumentInfo(doc.docId, 0).subscribe(data => this.processMultiSign(data.id), err => this.noDocFound(doc));
+  }
+
+  processMultiSign(docId) {
+    this.busy = true;
+    if (this.workitem.recipientRoleId !== 0) {
+      this.roleId = this.workitem.recipientRoleId;
+    } else {
+      this.roleId = 0;
+    }
+    this.workflowService.multiSignDocument(this.currentUser.KocId, docId, this.workitem.workitemId, this.roleId).subscribe(data => {
+      this.busy = false;
+      this.multiSignSuccess(data, docId);
+    }, Error => {
+      this.busy = false;
+      this.multiSignFailed();
+    });
+  }
+
+  multiSignSuccess(data, docId) {
+    if (data == "SIGNED") {
+      this.growlService.showGrowl({
+        severity: 'error',
+        summary: 'Cancelled', detail: 'Document is already Signed'
+      });
+    }
+    else if (data == "FAILED") {
+      this.multiSignFailed();
+    }
+    else if (data) {
+      this.ESignedAttachments[docId] = true;
+      this.growlService.showGrowl({
+        severity: 'info',
+        summary: 'Success', detail: 'Document is Signed Successfully'
+      });
+    } else {
+      this.updateFailed('error');
+    }
+  }
+
+  multiSignFailed() {
+    this.growlService.showGrowl({
+      severity: 'error',
+      summary: 'Failure', detail: "Please upload sign image in settings and try again or contact ECM Support"
     });
   }
 
@@ -688,7 +842,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.fileUploaded = event.fileUploaded;
   }
 
-  viewAttachmentLink(doc: any, flag?:any) {
+  viewAttachmentLink(doc: any, flag?: any) {
     this.validateWorkitemForAttachementActions().then((data: any) => {
       if (data !== 'INACTIVE') {
         this.callAddMissingPermissions(cb => {
@@ -811,53 +965,66 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     window.location.assign(this.ds.downloadDocument(data.id));
   }
 
-  eSign(doc) {
-    console.log(this.workitem.attachments[0])
-    this.validateWorkitemForAttachementActions().then((data: any) => {
-      if (data !== 'INACTIVE') {
-        this.callAddMissingPermissions(cb => {
-           this.ds.verifyDocOCRStatus(doc.docId).subscribe(d => {
-             if (d === 'True') {
-              if (this.workitem.actions === 'Signature') {
+  eSign(doc, isInitial, isAuto?) {
+    //console.log(this.workitem.attachments[0])
+    this.ds.getDocumentInfo(doc.docId, 0).subscribe(doccurver => {
+      this.validateWorkitemForAttachementActions().then((data: any) => {
+        if (data !== 'INACTIVE') {
+          this.callAddMissingPermissions(cb => {
+            this.ds.verifyDocOCRStatus(doc.docId).subscribe(d => {
+              if (d === 'True') {
+                if (this.workitem.actions === 'Signature' && isInitial == 0) {
                   this.flagInitial = 'N';
                   this.ds.verifyESign(doc.docId, this.workitem.workitemId, this.flagInitial).subscribe(res => {
-                  if (res && res === 'True') {
-                    this.growlService.showGrowl({
-                      severity: 'error',
-                      summary: 'Warning', detail: 'You Have Already Signed this Document'
-                    });
-                    this.ESignedAttachments[doc.docId] = true;
-                    this.isesignverified = true;
-                    let attachment = _.find(this.workitem.attachments, ['docId', doc.docId]);
-                    if (attachment) {
-                      attachment.format = 'application/pdf';
+                    if (res && res === 'True') {
+                      this.growlService.showGrowl({
+                        severity: 'error',
+                        summary: 'Warning', detail: 'You have already signed this document'
+                      });
+                      this.ESignedAttachments[doc.docId] = true;
+                      this.isesignverified = true;
+                      this.signedDocCount++;
+                      let attachment = _.find(this.workitem.attachments, ['docId', doccurver.id]);
+                      if (attachment) {
+                        attachment.format = 'application/pdf';
+                      }
+                    } else if (res && res === 'False') {
+                      this.isesignverified = false;
+                      this.openESignPage(doccurver.id, true, doc.docId, isAuto, 0, 0);
                     }
-                  } else if (res && res === 'False') {
-                    this.isesignverified = false;
-                    this.openESignPage(doc, true);
-                  }
-                }, err => {
-                });
-              } else if (this.workitem.actions === 'Initial') {
-                this.flagInitial = 'Y';
-                this.openESignPage(doc, false);
+                  }, err => {
+                  });
+                } else if (this.workitem.actions === 'Initial' || isInitial == 1) {
+                  this.flagInitial = 'Y';
+                  this.openESignPage(doccurver.id, false, doc.docId, isAuto, 0, 0);
+                }
               }
-             }
-             else {
-               this.growlService.showGrowl({
-                 severity: 'error',
-                 summary: 'Try again later',
-                 detail: 'The document conversion process is in progress, please try after a while '
-               });
-             }
-           });
-        });
-      }
+              else {
+                this.growlService.showGrowl({
+                  severity: 'error',
+                  summary: 'Try again later',
+                  detail: 'The document conversion process is in progress, please try after a while '
+                });
+              }
+            });
+          });
+        }
+      });
     });
   }
-
-  openESignPage(doc, isEsign) {
-
+  //Abhishek - Added for Date Auto Update - 31.May.2023
+  eSignForDate(doc, memoDate, memoId, isAuto?) {
+    //console.log(this.workitem.attachments[0])
+    // this.validateWorkitemForAttachementActions().then((data: any) => {
+    //   if (data !== 'INACTIVE') {
+    this.memoService.updateMemoDate(memoId, memoDate).subscribe(cb => {
+      this.flagInitial = 'N';
+      this.ds.getDocumentInfo(doc.docId, 0).subscribe(data => this.openESignPage(data.id, true, data.id, 1, 1, 0), err => this.noDocFound(doc));
+    });
+    //   }
+    // });
+  }
+  openESignPage(signDocCurId, isEsign, signAttachId, isAuto?, isDate?, isRef?) {
     this.busyEsign = true;
     this.empNo = this.currentUser.EmpNo;
     if (this.workitem.recipientRoleId !== 0) {
@@ -865,65 +1032,117 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.roleId = 0;
     }
-    this.docId = doc.docId;
+
+    let workitemId = this.workitem.workitemId;
+    this.docId = signDocCurId;
     const sysDateTime = new Date();
     const fulldatetime = sysDateTime.getTime();
     const browser = navigator.appName;
     if (browser === 'Microsoft Internet Explorer' || browser === 'netscape') {
       window.opener = self;
     }
-    this.workflowService.getTokenUrl(this.currentUser.KocId, this.roleId, this.docId, this.workitem.workitemId, this.flagInitial).subscribe(d =>
-      this.assignesignUrl(this.docId, d, isEsign),
-      err => {
-        alert("Error connecting to eSign Server. Please try again or contact ECM Support team.");
-        this.busyEsign = false;
-      });
+    //Abhishek 30-May-2023 :: Auto-eSign Updates
+    if (isAuto === 1) {
+      let userType = this.memoStepIndex, refNo = "", mDate = "";
+      let memoId = this.memoDetails ? this.memoDetails.id : "9999999";
+      if (this.memoDetails && this.memoStepIndex.startsWith("From") && isDate === 1) {
+        refNo = this.memoReference && this.memoReference != null ? this.memoReference : this.memoDetails.referenceNo;
+        mDate = moment(sysDateTime).format('DD-MM-YYYY').toString();
+        userType = "Date";
+        workitemId = 10002;
+      }
+      else if (this.memoDetails && this.memoStepIndex.startsWith("From") && isRef === 1) {
+        refNo = this.memoReference && this.memoReference != null ? this.memoReference : this.memoDetails.referenceNo;
+        mDate = moment(sysDateTime).format('DD-MM-YYYY').toString();
+        userType = "Ref";
+        workitemId = 10003;
+      }
+
+      //console.log("Auto esign :: userType : " + userType + ", refNo : " + refNo + ", mDate : " + mDate + ", memoId : " + memoId);
+      this.workflowService.getAutoSignUrl(this.currentUser.KocId, this.roleId, this.docId, workitemId, this.flagInitial, userType, refNo, mDate, memoId).subscribe(d =>
+        this.assignesignUrl(this.docId, d, isEsign, isDate, isRef, signAttachId),
+        err => {
+          console.log("esign error :: err.status  : " + err.status + ", err.message : " + err.message);
+          if (err.status == 500 || err.status == 400) {
+            if (err.message && err.message.includes('Not a valid memo document to modify date')) {
+              alert("Not a valid document to modify date.");
+            }
+            else {
+              alert("Error connecting to eSign Server. Please try again or contact ECM Support team.");
+            }
+          }
+          else {
+            alert("Error connecting to eSign Server. Please try again or contact ECM Support team.");
+          }
+          this.busyEsign = false;
+        });
+    }
+    else {
+      //getNewTokenUrl getTokenUrl
+      this.workflowService.getNewTokenUrl(this.currentUser.KocId, this.roleId, this.docId, this.workitem.workitemId, this.flagInitial).subscribe(d =>
+        this.assignesignUrl(this.docId, d, isEsign, 0, 0, signAttachId),
+        err => {
+          alert("Error connecting to eSign Server. Please try again or contact ECM Support team.");
+          this.busyEsign = false;
+        });
+    }
   }
 
-  assignesignUrl(docId, data, isEsign) {
-
+  assignesignUrl(docId, data, isEsign, isDate, isRef, signAttachId) {
     let tokenurl = data.tokenUrl;
     let action = 'Initial';
-    if (isEsign) {
+    let workitemId = this.workitem.workitemId;
+    //console.log("AssignEsignURL witemId :: " + workitemId + " - isEsign : " + isEsign + " - isDate : " + isDate + " - isRef : " + isRef);
+    if (isEsign)
       action = 'eSign';
+    if (isDate === 1) {
+      action = 'Date Update';
+      workitemId = 10002;
     }
+    else if (isRef === 1) {
+      action = 'Reference No. Update';
+      workitemId = 10003;
+    }
+
+    //console.log("curr workitemId :: " + workitemId);
+
     let win = window.open(tokenurl, "", "menubar=0,location='',toolbar=0,scrollbars=yes,dialog=yes,resizable=yes,top=0,left=0,width=" + window.screen.width + ",height=" + window.screen.availHeight);
     var self = this;
     self.eSignDialog = true;
     let timer = setInterval(function () {
       self.isesignCancelDisabled = true;
       if (win && win.closed) {
-        this.subscriptionEsign = self.ds.verifyESignStatusService(docId, self.workitem.workitemId, self.flagInitial).subscribe((data) => {
+        console.log("Verify workitemId :: " + workitemId);
+        this.subscriptionEsign = self.ds.verifyESignStatusService(docId, workitemId, self.flagInitial).subscribe((data) => {
           if (data && data === 'SIGNED') {
-            if (isEsign) {
+            if (isEsign && (isDate === 0) && (isRef === 0)) {
               self.isesignverified = true;
+              self.ESignedAttachments[signAttachId] = true;
+              self.signedDocCount++;
             }
-
             self.growlService.showGrowl({
               severity: 'info',
               summary: 'Success', detail: action + ' Successful'
             });
 
-            let attachment = _.find(self.workitem.attachments, ['docId', docId]);
+            let attachment = _.find(self.workitem.attachments, ['docId', signAttachId]);
             if (attachment) {
               attachment.format = 'application/pdf';
             }
-            if (isEsign) {
-              self.ESignedAttachments[docId] = true;
-            }
 
-            let signDocCount = 0;
-            let sigedDocCount = 0;
-            self.workitem.attachments.map(file => {
-              if (file.isSign == 1) {
-                signDocCount++;
-                self.ds.verifyESignStatusService(file.docId, self.workitem.workitemId, self.flagInitial).subscribe((data) => {
-                  if (data && data === 'SIGNED') {
-                    sigedDocCount++;
-                  }
-                })
-              }
-            })
+            // let signDocCount = 0;
+            // let signedDocCount = 0;
+            // self.workitem.attachments.map(file => {
+            //   if (file.isSign == 1) {
+            //     signDocCount++;
+            //     self.ds.verifyESignStatusService(file.docId, workitemId, self.flagInitial).subscribe((data) => {
+            //       if (data && data === 'SIGNED') {
+            //         signedDocCount++;
+            //       }
+            //     })
+            //   }
+            // });
+
 
             let senderName;
             if (self.workitem.senderRoleName) {
@@ -934,7 +1153,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
             if (self.workitem.isMemo != 1) {
               self.confirmationService.confirm({
-                message: action + ' successful would you like to reply to ' + senderName,
+                message: action + ' successful. Would you like to reply to ' + senderName,
                 header: action + ' Confirmation',
                 icon: 'ui-icon-help',
                 key: 'taskDetailConfirmation',
@@ -944,12 +1163,10 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                 reject: () => { }
               });
             }
+
             clearInterval(timer);
             self.eSignDialog = false;
-            if (self.workitem.isMemo == 1) {
-              self.submitAfterEsign("eSign");
-            }
-              
+            self.isReturnButtonDisabled = true;
           } else if (data && data === 'FAILED') {
             self.growlService.showGrowl({
               severity: 'error',
@@ -958,7 +1175,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             clearInterval(timer);
             self.eSignDialog = false;
           } else if (data && data === 'PENDING') {
-            // self.eSignDialog = true;
             self.isesignCancelDisabled = false;
           }
         }, err => { });
@@ -970,7 +1186,73 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.eSignDialog = false;
     this.subscriptionEsign ? this.subscriptionEsign.unsubscribe() : '';
   }
+  addFavourites(doc) {
+    this.busy = true;
+    let userEmpNo = this.currentUser.EmpNo;
+    this.ds.addToFavorites(userEmpNo,doc.docId).subscribe(data => {
+      this.busy = false;
+      this.addToFavSuccess(data)
+    }, error => {
+      this.busy = false;
+      this.addToFavFailure()
+    });
+  }
+  addToFavSuccess(res) {
+    let message = '';
+    let summary = 'Success';
+    let severity = 'info';
+    switch (res) {
+      case 'OK':
+        message = 'Document Added To Favorites';
+        break;
+      case 'Exists':
+        message = 'Document Already Exist in Favorites';
+        summary = 'Already Exist';
+        severity = 'error';
+        break;
+      case '':
+        message = 'Document Added To Favorites';
+        break;
+    }
+    this.growlService.showGrowl({
+      severity: severity,
+      summary: summary,
+      detail: message
+    });
+  }
 
+  addToFavFailure() {
+    this.growlService.showGrowl({
+      severity: 'error',
+      summary: 'Failure', detail: 'Failed To Add To Favorites'
+    });
+  }
+  mailTo(doc) {
+    this.busy = true;
+    let postdata=[];
+    let attachmentMail  = new Attachment();
+    attachmentMail.docTitle=doc.docTitle;
+    attachmentMail.docId=doc.docId;
+    attachmentMail.format=doc.format;
+    postdata.push(attachmentMail)
+
+    this.ds.emailDocuments(postdata).subscribe(d=>{
+      const file = new Blob([d], { type: 'text/plain' });
+      saveAs(file, "mailto.eml");
+      this.busy = false;
+    }, error => {
+      this.busy = false;
+      this.growlService.showGrowl({
+        severity: 'error',
+        summary: 'Error Occurred', detail: 'Please try again!'
+      });
+    });
+  }
+  updateMemoReference(doc){
+    this.memoRefDocId = doc.docId;
+    //if(!this.memoReference || this.memoReference == null || this.memoReference == undefined || this.memoReference == '' )
+    this.wiReferenceVisible = true;
+  }
   updatedAttachment() {
     this.updateddDocuments = new FormData();
     this.updateddDocuments.append('document', this.fileUploaded);
@@ -1088,7 +1370,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   //     summary: 'Failure', detail: this.errorJson
   //   });
   // }
-  reset(){
+  reset() {
     this.dataTable.reset()
   }
   recallWorkitemConfirmation(event) {
@@ -1854,7 +2136,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         data.priority = this.coreService.getPriorityString(data.priority);
         this.trackWorkitemDetails = data
         console.log(this.trackWorkitemDetails);
-        
+
       }, err => {
         this.busy = false;
       });
@@ -2057,8 +2339,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   checkBoxChecked(event, action, row?) {
-    console.log(event,action,row);
-    
+    console.log(event, action, row);
+
     if (action === 'all') {
       this.selectedWi = [];
       this.workflowTrack.map((item) => {
@@ -2082,7 +2364,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
     console.log(this.selectedWi);
-    
+
   }
 
   reloadApp() {
@@ -2263,57 +2545,57 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       data.memo = Object.assign({ routeString: 'APPROVER' }, data.memo);
     }
     else if (this.workitem.memoStepname == "APPROVER") {
-      if(subFromExists)
+      if (subFromExists)
         data.memo = Object.assign({ routeString: 'SUB-FROM' }, data.memo);
-      else if(thruExists)
+      else if (thruExists)
         data.memo = Object.assign({ routeString: 'THRU' }, data.memo);
-      else if(ToExists)
+      else if (ToExists)
         data.memo = Object.assign({ routeString: 'TO' }, data.memo);
       else
         data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
 
-    /*   for (let index = 0; index < data.memo.recipients.length; index++) {
-        console.log(data.memo.recipients[index].recipientType)
-        if (data.memo.recipients[index].recipientType == "FROM")
-          continue;
-        if (data.memo.recipients[index].recipientType == "SUB-FROM") {
-          data.memo = Object.assign({ routeString: 'SUB-FROM' }, data.memo);
-          break;
-        } else if (data.memo.recipients[index].recipientType == "THRU") {
-          data.memo = Object.assign({ routeString: 'THRU' }, data.memo);
-          break;
-        } else if (data.memo.recipients[index].recipientType == "TO") {
-          data.memo = Object.assign({ routeString: 'TO' }, data.memo);
-          break;
-        } else {
-          data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
-        }
-      } */
+      /*   for (let index = 0; index < data.memo.recipients.length; index++) {
+          console.log(data.memo.recipients[index].recipientType)
+          if (data.memo.recipients[index].recipientType == "FROM")
+            continue;
+          if (data.memo.recipients[index].recipientType == "SUB-FROM") {
+            data.memo = Object.assign({ routeString: 'SUB-FROM' }, data.memo);
+            break;
+          } else if (data.memo.recipients[index].recipientType == "THRU") {
+            data.memo = Object.assign({ routeString: 'THRU' }, data.memo);
+            break;
+          } else if (data.memo.recipients[index].recipientType == "TO") {
+            data.memo = Object.assign({ routeString: 'TO' }, data.memo);
+            break;
+          } else {
+            data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
+          }
+        } */
     }
     else if (this.workitem.memoStepname == "SUB-FROM") {
-      if(thruExists)
+      if (thruExists)
         data.memo = Object.assign({ routeString: 'THRU' }, data.memo);
-      else if(ToExists)
+      else if (ToExists)
         data.memo = Object.assign({ routeString: 'TO' }, data.memo);
       else
         data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
 
-     /*  for (let index = 0; index < data.memo.recipients.length; index++) {
-        console.log(data.memo.recipients[index].recipientType)
-        if (data.memo.recipients[index].recipientType == "THRU") {
-          data.memo = Object.assign({ routeString: 'THRU' }, data.memo);
-          break;
-        } else if (data.memo.recipients[index].recipientType == "TO") {
-          data.memo = Object.assign({ routeString: 'TO' }, data.memo);
-          break;
-        } else {
-          data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
-        }
-      } */
+      /*  for (let index = 0; index < data.memo.recipients.length; index++) {
+         console.log(data.memo.recipients[index].recipientType)
+         if (data.memo.recipients[index].recipientType == "THRU") {
+           data.memo = Object.assign({ routeString: 'THRU' }, data.memo);
+           break;
+         } else if (data.memo.recipients[index].recipientType == "TO") {
+           data.memo = Object.assign({ routeString: 'TO' }, data.memo);
+           break;
+         } else {
+           data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
+         }
+       } */
     }
     else if (this.workitem.memoStepname == "THRU") {
       var ToActionExists = data.memo.recipients.some((res) => (res.recipientType == "TO" && ((res.action == "Initial") || (res.action == "Signature"))));
-      if(ToActionExists)
+      if (ToActionExists)
         data.memo = Object.assign({ routeString: 'TO' }, data.memo);
       else
         data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
@@ -2349,9 +2631,9 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             this.wiRemarksVisible = false
             this.ESignedAttachments[this.workitem.attachments[0].docId] = false;
             this.isesignverified = false;
-            // this.openConfirmationDialog = true;
-            // this.openTheConfirmationDialog = true;
-            this.eSign(this.workitem.attachments[0])
+            this.openConfirmationDialog = true;
+            this.openTheConfirmationDialog = true;
+            // this.eSign(this.workitem.attachments[0])
           }
         }));
       }
@@ -2367,6 +2649,272 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
+  noDocIdFound(docId) {
+    this.growlService.showGrowl({
+      severity: 'error',
+      summary: 'Invalid Document', detail: 'This document is either deleted or you dont have permission. Try again!'
+    });
+    this.workitem.attachments.map((d, i) => {
+      if (docId === d.docId) {
+        this.strikeIndex = i;
+      }
+    });
+  }
+  getTodaysDate() {
+    const date = new Date();
+    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+  }
+  checkDateForUpdateMemo(date) {
+    let tempdate = (moment(date).format("DD/MM/YYYY"));
+    return moment((tempdate), "DD/MM/YYYY").toDate() < moment(this.getTodaysDate(), "DD/MM/YYYY").toDate();
+  }
+  viewMemoAttachment(docId: any) {
+    this.ds.getDocumentInfo(docId, 0).subscribe(data => {
+      window.parent.postMessage({ v1: 'openViewer', v2: data.id }, '*');
+
+    }, err => this.noDocIdFound(docId));
+  }
+  signAndSubmitMemoAsOthers() {
+    console.log("signAndSubmitMemoAsOthers");
+    var mdata = this.SignAndSubmitWorkFlowData();
+    mdata.wiRemarks = this.wiActionForReviewer? this.wiActionForReviewer: ' ';
+    var subFromExists = mdata.memo.recipients.some((res) => (res.recipientType == "SUB-FROM"));
+    var thruExists = mdata.memo.recipients.some((res) => (res.recipientType == "THRU"));
+    var ToExists = mdata.memo.recipients.some((res) => (res.recipientType == "TO" && (res.action == "Signature" || res.action == "Initial")));
+    let isDistribute = false;
+
+    if (this.workitem.memoStepname == "REVIEWER" || this.workitem.memoStepname=='PREP_REVIEW' || this.workitem.memoStepname=='PREP_REVIEW1') {
+      mdata.memo = Object.assign({ routeString: 'APPROVER' }, mdata.memo);
+    }
+    else if (this.workitem.memoStepname == "APPROVER") {
+      if(subFromExists)
+        mdata.memo = Object.assign({ routeString: 'SUB-FROM' }, mdata.memo);
+      else if(thruExists)
+        mdata.memo = Object.assign({ routeString: 'THRU' }, mdata.memo);
+      else if(ToExists)
+        mdata.memo = Object.assign({ routeString: 'TO' }, mdata.memo);
+      else{
+        isDistribute = true;
+        mdata.memo = Object.assign({ routeString: 'Distribute' }, mdata.memo);
+      }
+    }
+    else if (this.workitem.memoStepname == "SUB-FROM") {
+      if(thruExists)
+        mdata.memo = Object.assign({ routeString: 'THRU' }, mdata.memo);
+      else if(ToExists)
+        mdata.memo = Object.assign({ routeString: 'TO' }, mdata.memo);
+      else{
+        isDistribute = true;
+        mdata.memo = Object.assign({ routeString: 'Distribute' }, mdata.memo);
+      }
+    }
+    else if (this.workitem.memoStepname == "THRU") {
+      var ToActionExists = mdata.memo.recipients.some((res) => (res.recipientType == "TO" && ((res.action == "Initial") || (res.action == "Signature"))));
+      if(ToActionExists)
+        mdata.memo = Object.assign({ routeString: 'TO' }, mdata.memo);
+      else{
+        isDistribute = true;
+        mdata.memo = Object.assign({ routeString: 'Distribute' }, mdata.memo);
+      }
+    }
+    else if (this.workitem.memoStepname == "TO") {
+      isDistribute = true;
+      mdata.memo = Object.assign({ routeString: 'Distribute' }, mdata.memo);
+    }
+
+    if (this.workitem.actions == 'Signature' || this.workitem.actions == 'Initial') {
+      
+      this.isMemoDateChange = this.checkDateForUpdateMemo(mdata.memo.memoDate);
+      var memoAttachmentIndex = -1;
+
+      this.ds.getDocumentInfo(mdata.memo.memoDocId, 0).subscribe(data => {
+        this.docVsId = data.vsid;
+        this.curVerMemoDocId = data.id;
+        console.log("getDocumentInfo MemoDocId :: " + this.curVerMemoDocId);
+      
+        if(!this.curVerMemoDocId || this.curVerMemoDocId == null || this.curVerMemoDocId == undefined)
+          this.curVerMemoDocId = '123';
+        console.log("cur Ver MemoDocId :: " + this.curVerMemoDocId);
+        this.workitem.attachments.map((d, i) => {
+            if (d.docId === mdata.memo.memoDocId || d.docId === this.curVerMemoDocId) {
+              memoAttachmentIndex = i;
+            } 
+          });
+  
+        if(memoAttachmentIndex < 0)
+          memoAttachmentIndex= this.workitem.attachments.findIndex((res: any) => (res.docId == mdata.memo.memoDocId || res.docId === this.curVerMemoDocId));
+  
+        if(memoAttachmentIndex < 0)
+          memoAttachmentIndex = 0;
+        
+        console.log("First attachment isSign :: " + this.workitem.attachments[0].isSign);
+        console.log("memoAttachmentIndex :: " + memoAttachmentIndex );
+        if (this.workitem.attachments[memoAttachmentIndex].isSign == 1) {
+          var eSigndocId = this.workitem.attachments[memoAttachmentIndex].docId;
+          this.callAddMissingPermissions(cb => {
+            this.subscription.push(this.ds.verifyESign(eSigndocId, this.workitem.workitemId, this.flagInitial).subscribe(res => {
+              if (res && res === 'True') {
+                this.isesignverified = true;
+                this.ESignedAttachments[this.workitem.attachments[memoAttachmentIndex].docId] = true;
+                this.confirmationService.confirm({
+                  message: 'Please confirm to proceed for Submit with Auto-eSign of memo attachment and date update?',
+                  header: 'Submit Confirmation',
+                  icon: 'ui-icon-help',
+                  key: 'taskDetailConfirmation',
+                  accept: () => {
+                    if(this.isMemoDateChange){
+                      mdata.memo.memoDate = moment(new Date()).format("DD-MM-YYYY hh:mm a");
+                      this.eSignForDate(this.workitem.attachments[memoAttachmentIndex], mdata.memo.memoDate, mdata.memo.id, 1);
+                    }
+                    this.busy = true;
+
+                    if(this.signDocCount > this.signedDocCount)
+                    {
+                      this.openConfirmationDialog = true;
+                      this.openTheConfirmationDialog = true;
+                    }
+                    else{
+                      var self = this;
+                      setTimeout(() => {
+                        self.busy = true;
+                        self.memoService.getMemoById(self.workitem.memoId.toString()).subscribe(res => {
+                          self.memoDetails = res;
+                          self.callAddMissingPermissions(cb => {
+                            self.memoService.submitMemo(mdata).subscribe(res => {
+                              self.busy = false;
+                              self.confirmationService.confirm({
+                                message: 'To view signed memo document, click Yes',
+                                header: 'Successfully Completed',
+                                icon: 'ui-icon-help',
+                                key: 'taskDetailConfirmation',
+                                accept: () => {
+                                  self.viewMemoAttachment(eSigndocId);
+                                  setTimeout(() => {
+                                    self.navigateToInbox();
+                                  }, 3000);
+                                },
+                                reject: () => { 
+                                  self.navigateToInbox();
+                                }
+                              });
+                            }, error => {
+                              self.busy = false;
+                            });
+                          });
+                        }, error => {
+                          self.busy = false;
+                        });
+                      }, 4000);
+                    }
+                  },
+                  reject: () => { }
+                });
+              } else {
+                this.wiRemarksVisible = false;
+                this.ESignedAttachments[this.workitem.attachments[memoAttachmentIndex].docId] = false;
+                this.isesignverified = false;
+                this.confirmationService.confirm({
+                  message: 'Please confirm to proceed for Submit with Auto-eSign of memo attachment and date update?',
+                  header: 'Submit Confirmation',
+                  icon: 'ui-icon-help',
+                  key: 'taskDetailConfirmation',
+                  accept: () => {
+                    this.eSign(this.workitem.attachments[memoAttachmentIndex], 0, 1);
+                    var self = this;
+                    let timer = setInterval(function () {
+                      var docId = self.workitem.attachments[memoAttachmentIndex].docId;
+                      self.eSignDialog = true;
+                      self.isesignCancelDisabled = true;
+                      self.subscriptionEsign = self.ds.verifyESignStatusService(docId, self.workitem.workitemId, self.flagInitial).subscribe((data) => {
+                          if (data && data === 'SIGNED') {
+                            clearInterval(timer);
+                            self.eSignDialog = false;
+                            this.signedDocCount++;
+                            if(self.isMemoDateChange){
+                              mdata.memo.memoDate = moment(new Date()).format("DD-MM-YYYY hh:mm a");
+                              self.eSignForDate(self.workitem.attachments[memoAttachmentIndex], mdata.memo.memoDate, mdata.memo.id, 1);
+                            }
+                            if(this.signDocCount > this.signedDocCount)
+                            {
+                              this.openConfirmationDialog = true;
+                              this.openTheConfirmationDialog = true;
+                            }
+                            else
+                            {
+                              self.busy = true;
+                              setTimeout(() => {
+                                self.busy = true;
+                                self.memoService.getMemoById(self.workitem.memoId.toString()).subscribe(res => {
+                                  self.memoDetails = res;
+                                  self.callAddMissingPermissions(cb => {
+                                    self.memoService.submitMemo(mdata).subscribe(res => {
+                                      self.busy = false;
+                                      self.confirmationService.confirm({
+                                        message: 'To view signed memo document, click Yes',
+                                        header: 'Successfully Completed',
+                                        icon: 'ui-icon-help',
+                                        key: 'taskDetailConfirmation',
+                                        accept: () => {
+                                          self.viewMemoAttachment(eSigndocId);
+                                          setTimeout(() => {
+                                            self.navigateToInbox();
+                                          }, 3000);
+                                        },
+                                        reject: () => { 
+                                            this.navigateToInbox();
+                                        }
+                                      });
+                                    }, error => {
+                                      self.busy = false;
+                                    });
+                                  });
+                                }, error => {
+                                  self.busy = false;
+                                });
+                                
+                              }, 3000);
+                            }
+                          } else if (data && data === 'FAILED') {
+                              self.growlService.showGrowl({
+                                severity: 'error',
+                                summary: 'Failure', detail: 'Cancelled or Error while signing'
+                              });
+                              clearInterval(timer);
+                              self.eSignDialog = false;
+                          } else if (data && data === 'PENDING') {
+                              self.isesignCancelDisabled = false;
+                          }
+                        }, err => { });
+        
+                      }, 2000);
+                  },
+                  reject: () => { }
+                });
+                //this.openConfirmationDialog = true;
+                //this.openTheConfirmationDialog = true;
+              }
+            }));
+          });
+        }
+      });
+    }
+    else {
+      if (this.workitem.actions) {
+        this.wiRemarksVisible = true;
+      } else {
+        this.busy = true;
+        this.callAddMissingPermissions(cb => {
+          this.memoService.submitMemo(mdata).subscribe(res => {
+            this.navigateToInbox();
+          }, error => {
+            this.busy = false;
+          });
+        });
+        this.busy = false;
+      }
+    }
+   
+  }
   submitAfterEsign(type: any) {
     var data = this.SignAndSubmitWorkFlowData()
     data.wiRemarks = this.wiActionForReviewer;
@@ -2380,57 +2928,57 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     else if (this.workitem.memoStepname == "APPROVER") {
 
-      if(subFromExists)
+      if (subFromExists)
         data.memo = Object.assign({ routeString: 'SUB-FROM' }, data.memo);
-      else if(thruExists)
+      else if (thruExists)
         data.memo = Object.assign({ routeString: 'THRU' }, data.memo);
-      else if(ToExists)
+      else if (ToExists)
         data.memo = Object.assign({ routeString: 'TO' }, data.memo);
       else
         data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
 
-    /*   for (let index = 0; index < data.memo.recipients.length; index++) {
-        console.log(data.memo.recipients[index].recipientType)
-        if (data.memo.recipients[index].recipientType == "FROM")
-          continue;
-        if (data.memo.recipients[index].recipientType == "SUB-FROM") {
-          data.memo = Object.assign({ routeString: 'SUB-FROM' }, data.memo);
-          break;
-        } else if (data.memo.recipients[index].recipientType == "THRU") {
-          data.memo = Object.assign({ routeString: 'THRU' }, data.memo);
-          break;
-        } else if (data.memo.recipients[index].recipientType == "TO") {
-          data.memo = Object.assign({ routeString: 'TO' }, data.memo);
-          break;
-        } else {
-          data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
-        }
-      } */
+      /*   for (let index = 0; index < data.memo.recipients.length; index++) {
+          console.log(data.memo.recipients[index].recipientType)
+          if (data.memo.recipients[index].recipientType == "FROM")
+            continue;
+          if (data.memo.recipients[index].recipientType == "SUB-FROM") {
+            data.memo = Object.assign({ routeString: 'SUB-FROM' }, data.memo);
+            break;
+          } else if (data.memo.recipients[index].recipientType == "THRU") {
+            data.memo = Object.assign({ routeString: 'THRU' }, data.memo);
+            break;
+          } else if (data.memo.recipients[index].recipientType == "TO") {
+            data.memo = Object.assign({ routeString: 'TO' }, data.memo);
+            break;
+          } else {
+            data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
+          }
+        } */
     }
     else if (this.workitem.memoStepname == "SUB-FROM") {
 
-      if(thruExists)
+      if (thruExists)
         data.memo = Object.assign({ routeString: 'THRU' }, data.memo);
-      else if(ToExists)
+      else if (ToExists)
         data.memo = Object.assign({ routeString: 'TO' }, data.memo);
       else
         data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
 
-     /*  for (let index = 0; index < data.memo.recipients.length; index++) {
-        console.log(data.memo.recipients[index].recipientType)
-        if (data.memo.recipients[index].recipientType == "THRU") {
-          data.memo = Object.assign({ routeString: 'THRU' }, data.memo);
-          break;
-        } else if (data.memo.recipients[index].recipientType == "TO") {
-          data.memo = Object.assign({ routeString: 'TO' }, data.memo);
-          break;
-        } else {
-          data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
-        }
-      } */
+      /*  for (let index = 0; index < data.memo.recipients.length; index++) {
+         console.log(data.memo.recipients[index].recipientType)
+         if (data.memo.recipients[index].recipientType == "THRU") {
+           data.memo = Object.assign({ routeString: 'THRU' }, data.memo);
+           break;
+         } else if (data.memo.recipients[index].recipientType == "TO") {
+           data.memo = Object.assign({ routeString: 'TO' }, data.memo);
+           break;
+         } else {
+           data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
+         }
+       } */
     }
     else if (this.workitem.memoStepname == "THRU") {
-      if(ToExists)
+      if (ToExists)
         data.memo = Object.assign({ routeString: 'TO' }, data.memo);
       else
         data.memo = Object.assign({ routeString: 'Distribute' }, data.memo);
@@ -2512,12 +3060,13 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   signAndSubmitMemo() {
-    var data = this.SignAndSubmitWorkFlowData()
-    console.log(data)
+    console.log("signAndSubmitMemo");
+    var mdata = this.SignAndSubmitWorkFlowData();
+    //console.log(data)
     var routeString;
-    var subFromExists = data.memo.recipients.some((res) => (res.recipientType == "SUB-FROM"));
-    var thruExists = data.memo.recipients.some((res) => (res.recipientType == "THRU"));
-    var ToExists = data.memo.recipients.some((res) => (res.recipientType == "TO"));
+    var subFromExists = mdata.memo.recipients.some((res) => (res.recipientType == "SUB-FROM"));
+    var thruExists = mdata.memo.recipients.some((res) => (res.recipientType == "THRU"));
+    var ToExists = mdata.memo.recipients.some((res) => (res.recipientType == "TO" && (res.action == "Signature" || res.action == "Initial")));
 
     if (this.workitem.memoStepname == "APPROVER") {
       if(subFromExists)
@@ -2525,49 +3074,234 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       else if(thruExists)
         routeString = 'THRU'
       else if(ToExists)
-        routeString = 'THRU'
+        routeString = 'TO'
       else
         routeString = 'Distribute'
     }
-    data.memo = Object.assign({ routeString: routeString }, data.memo);
-    console.log(data)
+    mdata.memo = Object.assign({ routeString: routeString }, mdata.memo);
 
-  /*   for (let index = 0; index < data.memo.recipients.length; index++) {
-      console.log(data.memo.recipients[index].recipientType)
-      if (data.memo.recipients[index].recipientType == "FROM")
-        continue;
-      if (data.memo.recipients[index].recipientType == "SUB-FROM") {
-        routeString = 'SUB-FROM'
-        break;
-      } else if (data.memo.recipients[index].recipientType == "THRU") {
-        routeString = 'THRU'
-        break;
-      } else if (data.memo.recipients[index].recipientType == "TO") {
-        routeString = 'TO'
-        break;
-      } else {
-        routeString = 'Distribute'
+    this.isMemoDateChange = this.checkDateForUpdateMemo(mdata.memo.memoDate);
+  
+    var memoAttachmentIndex = -1;
+    //console.log("Input MemoDocId :: " + mdata.memo.memoDocId);
+    //this.getDocumentDetails(mdata.memo.memoDocId);
+    this.ds.getDocumentInfo(mdata.memo.memoDocId, 0).subscribe(data => {
+      this.docVsId = data.vsid;
+      this.curVerMemoDocId = data.id;
+     // console.log("getDocumentInfo MemoDocId :: " + this.curVerMemoDocId);
+      if(!this.curVerMemoDocId || this.curVerMemoDocId == null || this.curVerMemoDocId == undefined)
+        this.curVerMemoDocId = '123';
+      //console.log("cur Ver MemoDocId :: " + this.curVerMemoDocId);
+      this.workitem.attachments.map((d, i) => {
+          if (d.docId === mdata.memo.memoDocId || d.docId === this.curVerMemoDocId) {
+            memoAttachmentIndex = i;
+          } /* else if(d.isSign == 1 && memoAttachmentIndex == -1){
+            memoAttachmentIndex = i;
+          } */
+        });
+
+      if(memoAttachmentIndex < 0)
+        memoAttachmentIndex= this.workitem.attachments.findIndex((res: any) => (res.docId == mdata.memo.memoDocId || res.docId === this.curVerMemoDocId));
+
+      if(memoAttachmentIndex < 0)
+        memoAttachmentIndex = 0;
+      
+      console.log("First attachment isSign :: " + this.workitem.attachments[0].isSign);
+      console.log("memoAttachmentIndex :: " + memoAttachmentIndex );
+
+      if (this.workitem.attachments[memoAttachmentIndex].isSign == 1) {
+        var eSigndocId = this.workitem.attachments[memoAttachmentIndex].docId;
+        this.callAddMissingPermissions(cb => {
+          this.subscription.push(this.ds.verifyESign(eSigndocId, this.workitem.workitemId, this.flagInitial).subscribe(res => {
+            if (res && res === 'True') {
+              this.isesignverified = true;
+              this.ESignedAttachments[eSigndocId] = true;
+              this.confirmationService.confirm({
+                message: 'Please confirm to proceed for Submit with Auto-eSign of memo attachment and date update?',
+                header: 'Submit Confirmation',
+                icon: 'ui-icon-help',
+                key: 'taskDetailConfirmation',
+                accept: () => {
+                  if(this.isMemoDateChange){
+                    mdata.memo.memoDate = moment(new Date()).format("DD-MM-YYYY hh:mm a");
+                    this.eSignForDate(this.workitem.attachments[memoAttachmentIndex], mdata.memo.memoDate, mdata.memo.id, 1);
+                  }
+
+                  if(this.signDocCount > this.signedDocCount)
+                  {
+                    this.openConfirmationDialog = true;
+                    this.openTheConfirmationDialog = true;
+                  }
+                  else{
+                    this.busy = true;
+                    var self = this;
+                    setTimeout(() => {
+                      self.busy = true;
+                      self.memoService.getMemoById(self.workitem.memoId.toString()).subscribe(res => {
+                        self.memoDetails = res;
+                        self.callAddMissingPermissions(cb => {
+                          self.memoService.submitMemo(mdata).subscribe(res => {
+                            self.busy = false;
+                            self.confirmationService.confirm({
+                              message: 'To view signed memo document, click Yes',
+                              header: 'Successfully Completed',
+                              icon: 'ui-icon-help',
+                              key: 'taskDetailConfirmation',
+                              accept: () => {
+                                self.viewMemoAttachment(eSigndocId);
+                                setTimeout(() => {
+                                  self.navigateToInbox();
+                                }, 3000);
+                              },
+                              reject: () => { 
+                                self.navigateToInbox();
+                              }
+                            });
+                          }, error => {
+                            self.busy = false;
+                          });
+                        });
+                      }, error => {
+                        self.busy = false;
+                      });
+                    }, 4000);
+                  }
+                  // if (this.workitem.actions) {
+                  //   this.wiRemarksVisible = true;
+                  // } else {
+                  //   this.busy = true;
+                  //   this.memoService.submitMemo(data).subscribe(res => {
+                  //     this.busy = false;
+                  //     this.navigateToInbox();
+                  //   }, error => {
+                  //     this.busy = false;
+                  //   });
+                  // }
+                },
+                reject: () => { }
+              });
+              
+            } else {
+              this.wiRemarksVisible = false;
+              this.ESignedAttachments[this.workitem.attachments[memoAttachmentIndex].docId] = false;
+              this.isesignverified = false;
+              //this.openConfirmationDialog = true;
+              //this.openTheConfirmationDialog = true;
+              
+              //this.eSign(this.workitem.attachments[0])
+              //Abhishek 20.July.2023
+              //this.submitConfirmationDialog = true;
+              //this.submitTheConfirmationDialog = true;
+              this.confirmationService.confirm({
+                message: 'Please confirm to proceed for Submit with Auto-eSign of memo attachment and date update?',
+                header: 'Submit Confirmation',
+                icon: 'ui-icon-help',
+                key: 'taskDetailConfirmation',
+                accept: () => {
+                  this.eSign(this.workitem.attachments[memoAttachmentIndex], 0, 1);
+                  var self = this;
+                  let timer = setInterval(function () {
+                    var docId = self.workitem.attachments[memoAttachmentIndex].docId;
+                    self.eSignDialog = true;
+                    self.isesignCancelDisabled = true;
+                    self.subscriptionEsign = self.ds.verifyESignStatusService(docId, self.workitem.workitemId, self.flagInitial).subscribe((data) => {
+                        if (data && data === 'SIGNED') {
+                          clearInterval(timer);
+                          self.eSignDialog = false;
+                          this.signedDocCount++;
+                          if(self.isMemoDateChange){
+                            mdata.memo.memoDate = moment(new Date()).format("DD-MM-YYYY hh:mm a");
+                            self.eSignForDate(self.workitem.attachments[memoAttachmentIndex], mdata.memo.memoDate, mdata.memo.id, 1);
+                          }
+
+                          if(this.signDocCount > this.signedDocCount)
+                          {
+                            this.openConfirmationDialog = true;
+                            this.openTheConfirmationDialog = true;
+                          }
+                          else{
+                            self.busy = true;
+                            setTimeout(() => {
+                              self.busy = true;
+                              self.memoService.getMemoById(self.workitem.memoId.toString()).subscribe(res => {
+                                self.memoDetails = res;
+                                self.callAddMissingPermissions(cb => {
+                                  self.memoService.submitMemo(mdata).subscribe(res => {
+                                    self.busy = false;
+                                    self.confirmationService.confirm({
+                                      message: 'To view signed memo document, click Yes',
+                                      header: 'Successfully Completed',
+                                      icon: 'ui-icon-help',
+                                      key: 'taskDetailConfirmation',
+                                      accept: () => {
+                                        self.viewMemoAttachment(eSigndocId);
+                                        setTimeout(() => {
+                                          self.navigateToInbox();
+                                        }, 3000);
+                                      },
+                                      reject: () => { 
+                                          this.navigateToInbox();
+                                      }
+                                    });
+                                  }, error => {
+                                    self.busy = false;
+                                  });
+                                });
+                              }, error => {
+                                self.busy = false;
+                              });
+                              
+                            }, 3000);
+                          }
+                          /* if (self.workitem.actions) {
+                            self.wiRemarksVisible = true;
+                          } else {
+                            self.busy = true;
+                            self.callAddMissingPermissions(cb => {
+                              self.memoService.submitMemo(data).subscribe(res => {
+                                self.busy = false;
+                                self.navigateToInbox();
+                              }, error => {
+                                self.busy = false;
+                              });
+                            });
+                          } */
+                        } else if (data && data === 'FAILED') {
+                            self.growlService.showGrowl({
+                              severity: 'error',
+                              summary: 'Failure', detail: 'Cancelled or Error while signing'
+                            });
+                            clearInterval(timer);
+                            self.eSignDialog = false;
+                        } else if (data && data === 'PENDING') {
+                            self.isesignCancelDisabled = false;
+                        }
+                      }, err => { });
+      
+                    }, 2000);
+                },
+                reject: () => { }
+              });
+            }
+          }));
+        });
       }
-    } */
-    
-    if (this.workitem.attachments[0].isSign == 1) {
-      this.subscription.push(this.ds.verifyESign(this.workitem.attachments[0].docId, this.workitem.workitemId, this.flagInitial).subscribe(res => {
-        if (res && res === 'True') {
-          this.isesignverified = true;
-          this.ESignedAttachments[this.workitem.attachments[0].docId] = true;
-          // this.workitem.priority = 2
-          this.memoService.submitMemo(data).subscribe(res => {
-            this.navigateToInbox();
-          })
+      else{
+        if (this.workitem.actions) {
+          this.wiRemarksVisible = true;
         } else {
-          this.ESignedAttachments[this.workitem.attachments[0].docId] = false;
-          this.isesignverified = false;
-          this.openConfirmationDialog = true;
-          this.openTheConfirmationDialog = true;
-          //this.eSign(this.workitem.attachments[0])
+          this.busy = true;
+          this.callAddMissingPermissions(cb => {
+            this.memoService.submitMemo(mdata).subscribe(res => {
+              this.busy = false;
+              this.navigateToInbox();
+            }, error => {
+              this.busy = false;
+            });
+          });
         }
-      }));
-    }
+      }
+    });  
   }
   ok() {
     this.openConfirmationDialog = false;
@@ -2597,7 +3331,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   SignAndSubmitWorkFlowData(isReply?) {
     const user = this.us.getCurrentUser();
     let replyAttachmentData: any[] = [];
-    if(isReply){
+    if (isReply) {
       const sender = { actionType: 'TO', id: 0, name: '', userName: '', userType: '' };
       if (this.workitem.senderName) {
         sender.id = this.workitem.senderEMPNo;
@@ -2615,7 +3349,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.workitem.actions = 'Signature';
       this.replyRecipients.toList.push(sender);
 
-      console.log("Reply memo docid = " + this.memoDetails.memoDocId); 
+      console.log("Reply memo docid = " + this.memoDetails.memoDocId);
       this.workitem.attachments.map((d, i) => {
         console.log("Reply workitem docid = " + d.docId + " || Count i = " + i);
         if (d.docId === this.memoDetails.memoDocId) {
@@ -2646,13 +3380,13 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       id: this.workitem.workitemId,
       workflowId: this.workitem.workflowId, ////WorkFlowId
       instructions: this.workitem.instructions,
-      priority:this.workitem.priority == 'Normal' ? 2 : 3,
+      priority: this.workitem.priority == 'Normal' ? 2 : 3,
       reminder: null,
       roleId: this.workitem.recipientRoleId,
       wiAction: 'Submit Memo',
       wiRemarks: this.workitem.wiRemarks,
-      recipients: (isReply? this.replyRecipients.toList:this.workitem.recipients),
-      attachments: (isReply? replyAttachmentData:this.workitem.attachments),
+      recipients: (isReply ? this.replyRecipients.toList : this.workitem.recipients),
+      attachments: (isReply ? replyAttachmentData : this.workitem.attachments),
       memo: this.memoDetails,
       workflow: {
         ECMNo: this.workitem.ECMNo,
@@ -2663,7 +3397,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         docRecDate: 1452364200000,
         empNo: user.EmpNo,
         isDeadlineEnabled: false,
-        memoId:this.workitem.memoId,
+        memoId: this.workitem.memoId,
         keywords: '',
         priority: this.workitem.priority == 'Normal' ? 2 : 3,
         projNo: 0,
@@ -2733,7 +3467,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     let userId = this.workitem.recipientEMPNo;
     let userType = "USER";
-    if (this.workitem.recipientRoleId !== 0){
+    if (this.workitem.recipientRoleId !== 0) {
       userId = this.workitem.recipientRoleId;
       userType = "ROLE";
     }

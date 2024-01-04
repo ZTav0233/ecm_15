@@ -52,6 +52,7 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
   public allowRemoveFol =false;
   public allowShowLinks = false;
   public allowShowTrack = false;
+  public showFavFileIn = false;
   private subscriptions: Subscription[] = [];
   public showFileIn = false;
   public showMove = false;
@@ -905,8 +906,33 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
 
   fileIn() {
     this.showFileIn = false;
+    this.showFavFileIn = false;
     this.ds.addToFolderId = this.selectedAddFolder.data.id;
     this.sendFolders.emit(this.selectedDocs);
+  }
+  openClassifySubTree(){
+    this.showFileIn=false;
+    //this.toggleSidePanel();
+    this.showFavFileIn=true;
+    this.busy = true;
+    this.cs.getClassifySubFolders().subscribe(data => {
+      this.busy = false;
+      this.assignTreeFolders(data, true)
+    }, err => {
+      this.busy = false;
+    });
+  }
+
+  openSubTreePop() {
+    this.showFavFileIn=false;
+    this.showFileIn = true;
+    this.busy = true;
+    this.cs.getTopFolders().subscribe(data => {
+      this.busy = false;
+      this.assignTreeFolders(data, true)
+    }, err => {
+      this.busy = false;
+    });
   }
 
   callValidateFolpermFrom(folderIdFrom, type, moveToFolder, folderIdTo, docs) {
@@ -1148,6 +1174,17 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
             'level': '1',
             'expandedIcon': 'ui-icon-folder-open',
             'collapsedIcon': 'ui-icon-folder-shared',
+            'children': [],
+            'leaf': false
+          });
+        }
+        else if (d.type === 'ECMClassifyFolder' || d.type === 'ECMClassifyFolder') {
+          topFolder.push({
+            label: d.name,
+            data: d,
+            'level': '1',
+            'expandedIcon': 'ui-icon-folder-open',
+            'collapsedIcon': 'ui-icon-folder-special',
             'children': [],
             'leaf': false
           });

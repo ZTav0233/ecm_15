@@ -91,3 +91,18 @@
   max-height: 250px;
   overflow: auto;
 }
+.folder_popupheader1{
+  width: 60%;
+}
+
+.folder_popupheader2{
+  width: 35%;
+}
+
+.folder_popup {
+  width: 100%;
+  height: 40px;
+  background-color: darkgray !important;
+  color: white!important;
+  font: menu!important;
+}

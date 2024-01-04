@@ -1,0 +1,123 @@
+<div class="ui-g">
+    <div class="ui-g-10 ui-md-12 p-0 ">
+      <form  id="addSignPage" [formGroup]="signForm" (submit)="addDocument($event)" class="tabled-form">
+        <div class="ui-g-5 ui-md-8 ui-sm-12 p-0">
+          <table class="signfld" >
+            <tbody>
+              <tr>
+                <td>
+                  <label class="boldTitle">Your Fullname:</label>
+                </td>
+                <td class="add-doc-main-input">
+                  <input [title]="fullName" [(ngModel)]="fullName" disabled="true"
+                  [ngModelOptions]="{standalone: true}" name="fullName" pInputText>
+                </td>
+                <td><div *ngIf="isInitialExists==='yes'">
+                  <span *ngIf="isInitialExists==='yes'"  style="font-family: Arial Unicode MS, Lucida Grande;color: green;font-weight: bold;">
+                      ✔ Sign Image is already uploaded.
+                  </span>
+                </div></td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="boldTitle">Your Login Name:</label>
+                </td>
+                <td class="add-doc-main-input">
+                  <input [title]="userName" [(ngModel)]="userName" disabled="true"
+                  [ngModelOptions]="{standalone: true}" name="userName" pInputText>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="boldTitle">Your KOC Id:</label>
+                </td>
+                <td class="add-doc-main-input">
+                  <input [title]="kocId" [(ngModel)]="kocId" disabled="true"
+                  [ngModelOptions]="{standalone: true}" name="kocId" pInputText>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  <label class="boldTitle">Sign Preview:</label>
+                </td>
+                <td align="center">
+                  <div *ngIf="imageSrc" style="border-bottom: 1px dotted black;">
+                    <img src="signImage/{{kocId}}.png" style="border: 1px dotted red;" alt="Image" width="100"/>
+                  </div>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td colspan="2" align="right">
+                  <button pButton (click)="previewSign(true)" type="button" [disabled]="!isContractUser || isInitialExists==='no'" label="Preview" class="m-t-sm"></button>
+                  <button pButton type="submit" [disabled]="!uploadedFiles || !isContractUser" label="Upload"></button>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td _ngcontent-c7="" align="left" colspan="9" style="font-weight: bold;"><u>Instructions to upload sign:</u></td>
+              </tr>
+              <tr>
+                <td _ngcontent-c7="" align="left" colspan="9">&nbsp; 1. Use black or blue ink thick pen to sign in white paper.</td>
+              </tr>
+              <tr>
+                <td _ngcontent-c7="" align="left" colspan="9">&nbsp; 2. Take a photo and crop the area similar to sample provided.</td>
+              </tr>
+              <tr>
+                <td _ngcontent-c7="" align="left" colspan="9">&nbsp; 3. Save the image as *.png file and upload here.</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  <div *ngIf="!imageSrc"><label class="boldTitle">Sample Sign Preview:</label></div>
+                </td>
+                <td align="center">
+                  <div *ngIf="!imageSrc" style="border-bottom: 1px dotted black;"><img src="images/sample_sign.png" style="border: 1px dotted red;" alt="Image" width="100"/></div>
+                </td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ui-g-4 ui-md-4 ui-fluid ui-sm-12 p-0">
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <label class="boldTitle">Select File<b style="color:red">*</b></label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p-fileUpload [disabled]= "!isContractUser" name="demo[]" (onSelect)="docUpload($event)"
+                    invalidFileTypeMessageDetail="Please select a file with valid format"
+                    invalidFileTypeMessageSummary="Unknown File Format," chooseLabel="Browse"
+                    [accept]="allowedExtensionsString" [showCancelButton]="false" [showUploadButton]="false"
+                    [customUpload]="true" [auto]="false" (uploadHandler)="docUpload($event)">
+                    <ng-template pTemplate="content">
+                      <p class="fileDrop">Drop Files Here</p>
+                    </ng-template>
+                    <ng-template let-file pTemplate="file">
+                      <div *ngIf="uploadedFiles && uploadedFiles.name" class="file-text-ellipsis"
+                        pTooltip="{{uploadedFiles.name}}" [tooltipStyleClass]="'tooltip-min-width-sm'"
+                        tooltipPosition="bottom">{{uploadedFiles.name}}</div>
+                    </ng-template>
+                  </p-fileUpload>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="progress-bar">
+    <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+  </div>

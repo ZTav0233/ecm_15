@@ -65,10 +65,9 @@
                     </div>
                   </p-header>
                   <app-document-cart [showHeading]="false" [cartItems]="launch.workflow.model.attachments"
-                    [isFromDraft]="actionTypes ==='draftLaunch' || actionTypes ==='draftMemo' || isFromDraft"
-                    [componentTitle]="'Attachments'" [workflowType]="workflowType"
-                    (onItemSelect)="populateWorkflowForm($event)" [isItemSelectable]="true"
-                    (onItemPreview)="showDocPreview($event)">
+                    [isFromDraft]="actionTypes ==='draftLaunch' || actionTypes ==='draftMemo' || isFromDraft" [componentTitle]="'Attachments'"
+                    [workflowType]="workflowType" (onItemSelect)="populateWorkflowForm($event)" 
+                    [isItemSelectable]="true" (onItemPreview)="showDocPreview($event)" (onItemRemoved)="onDocumentRemoved()">
                   </app-document-cart>
                 </p-accordionTab>
               </p-accordion>
@@ -94,7 +93,7 @@
                             Enclosures ({{launch.documents.enclosureCartItems.length}})</span>
                           <span class="v-m"
                             *ngIf="launch.documents.enclosureCartItems && actionTypes ==='forward' || actionTypes ==='reply' || actionTypes ==='replyAll'">
-                            Add From Cart ({{launch.documents.enclosureCartItems.length}})</span>
+                            Add From Encl. Cart ({{launch.documents.enclosureCartItems.length}})</span>
                         </div>
                       </div>
                     </p-header>
@@ -122,7 +121,7 @@
                     </div>
                   </p-header>
                   <app-document-cart [showHeading]="false" [cartItems]="launch.workflow.model.Enclosuer"
-                    [isFromDraft]="actionTypes ==='draftLaunch'" [componentTitle]="'Attachments'"
+                    [isFromDraft]="actionTypes ==='draftLaunch'" [componentTitle]="'Attachments'"  (onItemRemoved)="onDocumentRemoved()"
                     [workflowType]="workflowType" [isItemSelectable]="true" (onItemPreview)="showDocPreview($event)">
                   </app-document-cart>
                 </p-accordionTab>
@@ -417,9 +416,7 @@
 
 
       <div form-group>
-        <div class="ui-info-label-div">
-          <span class="ui-info-label">...</span>
-        </div>
+       
         <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class=" label23">
           <label>Type :<span class="required">*</span></label>
         </div>
@@ -539,7 +536,7 @@
                   </button>
                 </div>
                 <div class="ui-g-1">
-                  <label>From(Others):</label>
+                  <label>From(Other):</label>
                 </div>
                 <div class="ui-g-5">
                   <p-autoComplete [readonly]="true" pDroppable="From" styleClass="scrollautocompleteForMemo"
@@ -566,6 +563,29 @@
                     class="btn glyphonButton">
                     <span class="glyphicon glyphicon-user"></span>
                   </button> -->
+                </div>
+              </div>
+              <div class="ui-g form-group" *ngIf="(!memo && !fileNote && !letter)">
+                <!--style="margin-top: 5px;"-->
+                <div class="ui-g-1">
+                  <label>OnBehalf:<span class="required">*</span></label>
+                </div>
+                <div class="ui-g-5" style="width: 20vh !important;">
+                 <p-dropdown name="onBehalf" class="langText" [options]="boolOnBehalfVals" [(ngModel)]="isOnBehalf" 
+                  (onChange)="onChangeOnBehalf($event)" optionLabel="name" [style]="{'width':'100%'}"></p-dropdown> 
+                  <!-- <p-dropdown class= "langText" [options]="boolOnBehalfVals" [(ngModel)]="isOnBehalf" 
+                    optionLabel="name" [style]="{'width':'100%'}"></p-dropdown>-->
+                </div>
+                <div class="ui-g-1" *ngIf="isOnBehalf.name==='Yes'">
+                  <label>From(Behalf):<span class="required">*</span></label>
+                </div>
+                <div class="ui-g-8" *ngIf="isOnBehalf.name==='Yes'">
+                  <p-autoComplete [(ngModel)]="onBehalfUser" [suggestions]="userSearchSuggestion" [disabled]="isOnBehalf.name==='No'"
+                    [ngModelOptions]="{standalone: true}" [forceSelection]="true" (completeMethod)="getUserSuggestion($event)"
+                    (onSelect)="usersSelected($event);" (onClear)="clearSelection($event)" (onpaste)="getUserSuggestion($event)" 
+                    (onUnselect)="clearSelection($event)" [size]="30" placeholder="Search User" [minLength]="4" appendTo="body" 
+                    [multiple]="false" field="label">
+                  </p-autoComplete>
                 </div>
               </div>
               <div class="ui-g form-group" *ngIf="memo || fileNote || letter">
@@ -793,15 +813,32 @@
               </div>
               <div class="ui-g form-group">
                 <div class="ui-g-1">
+                  <label>Contract:</label>
+                </div>
+                <div class="ui-g-11 ui-fluid">
+                  <textarea [spellcheck]="true" class="text-area-resize-none bordered" maxlength="2000" 
+                    [rows]="2" [cols]="30" pInputTextarea [autoResize]="false"
+                    [(ngModel)]="memoContract" [ngModelOptions]="{standalone: true}" name="contractNo"></textarea>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-1">
                   <label>Subject:<span class="required">*</span></label>
                 </div>
-                <div class="ui-g-11">
+                <div class="ui-g-8" style="width: 98vh !important;">
                   <textarea [spellcheck]="true" class="text-area-resize-none bordered" maxlength="2000" [rows]="2"
                     [cols]="30" pInputTextarea [autoResize]="false" [(ngModel)]="launch.workflow.model.subject"
                     (change)="setMemoDocTitle()" [ngModelOptions]="{standalone: true}" name="workflowSubject"
                     required></textarea>
                 </div>
               </div>
+              <div class="ui-g-0" style="padding-left: 10px;">
+                  <label>Font Size:<span class="required">*</span></label>
+                </div>
+                <div class="ui-g-0" style="width: 11vh !important;">
+                  <p-dropdown name="memoSubFontSize" class="langText" [options]="subFontSizes" [(ngModel)]="memoSubFontSize" 
+                  (onChange)="storeSubjectFontSize($event)" [ngModelOptions]="{standalone: true}" optionLabel="name"></p-dropdown>
+                </div>
               <div class="ui-g form-group">
                 <div class="ui-g-1">
                   <label>Message:<span class="required">*</span></label>
@@ -1114,8 +1151,8 @@
     <p-footer>
       <button pButton (click)="openSearchDialog=false;" type="button" label="Cancel"
         class="pull-right footer-btn-blue m-l-md"></button>
-      <button [disabled]="searchResultDocsSelected && searchResultDocsSelected.length==0" pButton
-        (click)="openSearchDialog=false;addToCartMulti(searchResultDocsSelected); addToEncMulti(searchResultDocsSelected)"
+        <button [disabled]="searchResultDocsSelected && searchResultDocsSelected.length==0" pButton
+        (click)="openSearchDialog=false;addToCartMulti(searchResultDocsSelected);"
         type="button" label="Done" class="pull-right footer-btn-blue"></button>
     </p-footer>
   </p-dialog>
@@ -1326,9 +1363,6 @@
     </p-header>
     <p><span *ngIf="(!wiaAction || !wiaAction.id)">
         Please confirm to go back.
-      </span>
-      <span *ngIf="(wiaAction && wiaAction.id)">
-        Please note that generated document will be deleted and workitem will be cancelled.
       </span>
     </p>
     <div style="height: 40px;"></div>

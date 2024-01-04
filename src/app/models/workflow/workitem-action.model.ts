@@ -21,6 +21,8 @@ export class WorkItemAction {
   workitemId: any;
   priority: any;
   actionTaken: any;
+  memoStepName:any;
+  isMemoApproval:any;
   wiRemarks: any;
   recipients: Recipients[];
   attachments: Attachment[];

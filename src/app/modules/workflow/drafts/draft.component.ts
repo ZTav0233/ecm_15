@@ -76,8 +76,7 @@ export class DraftComponent implements OnInit, OnDestroy {
     this.getDrafts();
     this.actions = ['View'];
     this.colHeaders = [{ field: 'wiAction', header: 'Actions', hidden: true },
-    { field: 'draftDate', header: 'Draft Date', hidden: true, sortField: 'draftDate2' }
-    ];
+    { field: 'draftDate', header: 'Draft Date', hidden: true, sortField: 'draftDate2' }];
     this.columns = [];
     this.columns = [{ label: 'Actions', value: 'wiAction' },
     { label: 'Draft Date', value: 'draftDate', sortField: 'draftDate2' }
@@ -117,6 +116,7 @@ export class DraftComponent implements OnInit, OnDestroy {
     data.map((item, index) => {
       item.subject = item.workflow.subject;
       item.draftDate2 = this.coreService.getTimestampFromDate(item.draftDate, null, '/');
+      item.wiAction = (item.wiAction == 'MEMO' && item.isdraftTemplate == 1)? 'MEMO TEMPLATE':item.wiAction;
     });
     this.draftWorkitems = data;
     console.log(this.draftWorkitems);
