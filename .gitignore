@@ -42,3 +42,5 @@ testem.log
 Thumbs.db
 src/app/global.variables.ts
 src/index.html
+src/app/services/user.service.ts.bak
+src/app/services/workflow.service.ts.bak

@@ -320,8 +320,6 @@ export class UserService {
     return this.http.get(url);
   }
   getRoleMembersForSettings(roleid): any {
-    console.log("getRoleMembersForSettings");
-    
     const user = this.getCurrentUser();
     const url = `${global.base_url}UserService/getRoleMembersForSettings?roleId=${ie11_polyfill(JSON.stringify(roleid))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
     return this.http.get(url);
