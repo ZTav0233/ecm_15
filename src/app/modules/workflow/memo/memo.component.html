@@ -793,7 +793,7 @@
                 <div class="ui-g-0" style="padding-left: 20px;" *ngIf="memo || fileNote || letter">
                   <label>OrgCode :<span class="required">*</span></label>
                 </div>
-                <div class="ui-g-2 ui-xl-3 ui-lg-2" *ngIf="memo || fileNote || letter">
+                <div class="ui-g-2 ui-xl-3 ui-lg-2" *ngIf="memo || fileNote || letter" style="display: flex;">
                   <p-autoComplete id="orgUnit" name="selectedorgCode" [suggestions]="suggestionsResults"
                     (completeMethod)="search($event)" field="orgCode"
                     [(ngModel)]="launch.workflow.model.selectedorgCode" [ngModelOptions]="{standalone: true}"
@@ -807,7 +807,7 @@
                     </ng-template>
                   </p-autoComplete>
 
-                  <i class="topbar-icon material-icons orgSearch">search</i>
+                  <i style="display: flex; align-items: center;" class="topbar-icon material-icons orgSearch">search</i>
                 </div>
 
               </div>
