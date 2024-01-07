@@ -575,14 +575,14 @@
                             || workitem.actions === 'Signature') && (currentUser.isInitialAllowed===1) 
                             && (workitem.memoStepname=='APPROVER') && (attachment.docId !== this.curVerMemoDocId)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
                           (click)="eSign(attachment, 1, 0);"> </button>
                         <button pButton
                           *ngIf="(workitem.memoStepname=='REVIEWER') && (workitem.isMemo && workitem.isMemo === 1) 
                             && (workitem.actions === 'Initial' || workitem.actions === 'Signature') 
                             && (currentUser.isInitialAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
                           (click)="eSign(attachment, 1, 0);"> </button>
                         <button pButton
                           *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1' || workitem.memoStepname=='SUB-FROM' 
@@ -590,20 +590,20 @@
                             || (workitem.memoStepname=='TO' && (workitem.actions === 'Initial' || workitem.actions === 'Signature'))) 
                             && (workitem.isMemo && workitem.isMemo === 1)  && (currentUser.isInitialAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
                           (click)="eSign(attachment, 1, 0);"> </button>
                         <!--<button pButton
                           *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1') && (workitem.isMemo && workitem.isMemo === 1) 
                             && (currentUser.isInitialAllowed===1) && (workitem.memoStepname!='APPROVER' 
                             && workitem.memoStepname!='SUB-FROM' && workitem.memoStepname!='THRU' && workitem.memoStepname!='TO')"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
                           (click)="eSign(attachment, 1, 0);"> </button>-->
                         <button pButton
                           *ngIf="(!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0)) && (workitem.actions === 'Initial') 
                             && (attachment.isSign && attachment.isSign===1) && (currentUser.isInitialAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
                           (click)="eSign(attachment, 1, 0);"></button>
 
                         <button pButton
@@ -754,14 +754,14 @@
                             || workitem.actions === 'Signature') && (currentUser.isInitialAllowed===1) 
                             && (workitem.memoStepname=='APPROVER') && (attachment.docId !== this.curVerMemoDocId)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
                           (click)="eSign(attachment, 1, 0);"> </button>
                         <button pButton
                           *ngIf="(workitem.memoStepname=='REVIEWER') && (workitem.isMemo && workitem.isMemo === 1) 
                             && (workitem.actions === 'Initial' || workitem.actions === 'Signature') 
                             && (currentUser.isInitialAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
                           (click)="eSign(attachment, 1, 0);"> </button>
                         <button pButton
                           *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1' || workitem.memoStepname=='SUB-FROM' 
@@ -769,20 +769,20 @@
                             || (workitem.memoStepname=='TO' && (workitem.actions === 'Initial' || workitem.actions === 'Signature'))) 
                             && (workitem.isMemo && workitem.isMemo === 1)  && (currentUser.isInitialAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
                           (click)="eSign(attachment, 1, 0);"> </button>
                         <!--<button pButton
                           *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1') && (workitem.isMemo && workitem.isMemo === 1) 
                             && (currentUser.isInitialAllowed===1) && (workitem.memoStepname!='APPROVER' 
                             && workitem.memoStepname!='SUB-FROM' && workitem.memoStepname!='THRU' && workitem.memoStepname!='TO')"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
                           (click)="eSign(attachment, 1, 0);"> </button>-->
                         <button pButton
                           *ngIf="(!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0)) && (workitem.actions === 'Initial') 
                             && (attachment.isSign && attachment.isSign===1) && (currentUser.isInitialAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
                           (click)="eSign(attachment, 1, 0);"></button>
 
                         <button pButton
@@ -1124,8 +1124,8 @@
     <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
   </div>
 </p-dialog>
-<p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
-  [(visible)]="remarksHistory" [style]="{ width: '850vw', height: '550px' }" [contentStyle]="{'overflow':'auto'}">
+<p-dialog styleClass="p-0"  [modal]="true" [appendTo]="taskDetailDialog"
+  [(visible)]="remarksHistory" [style]="{ width: '50vw', height: '350px' }" [contentStyle]="{'overflow':'auto'}">
   <p-header>
     <span>Remarks History</span>
   </p-header>
