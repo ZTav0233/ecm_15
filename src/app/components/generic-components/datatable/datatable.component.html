@@ -305,9 +305,11 @@
       <ng-template pTemplate="caption">
         <div style="display: flex; justify-content: space-between;">
           <div>
-            <p-columnFilter *ngIf="activePage!='favoriteFolders'&&activePage!='browse'&&activePage!='favorites'&&activePage!='recents'&&activePage!='teamshared'" type="text" placeholder="Quick Search"
-              field="subject"></p-columnFilter>
-            <input class="quickSearch" *ngIf="activePage=='favoriteFolders'||activePage=='browse'||activePage=='favorites'||activePage=='recents'||activePage=='teamshared'"
+            <p-columnFilter
+              *ngIf="activePage!='favoriteFolders'&&activePage!='browse'&&activePage!='favorites'&&activePage!='recents'&&activePage!='teamshared'"
+              type="text" placeholder="Quick Search" field="subject"></p-columnFilter>
+            <input class="quickSearch"
+              *ngIf="activePage=='favoriteFolders'||activePage=='browse'||activePage=='favorites'||activePage=='recents'||activePage=='teamshared'"
               pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Quick Search" />
             <div style="color:white" *ngIf="showCount && totalCount===1" class="pull-right m-5">
               Found {{totalCount}} Item
@@ -385,6 +387,9 @@
           </td>
           <td *ngIf="activePage==='inbox' && !reportPage">
             <img title="Type" [src]="product.isFlag ? 'assets/images/icons/flag.png' : 'assets/images/icons/unflag.png'"
+              class="flag-img-dim">
+            <img *ngIf="product.isMemo" title="Memo"
+              [src]="product.isMemo ? 'assets/images/icons/note24x.png' : 'assets/images/icons/note24xbw.png'"
               class="flag-img-dim">
           </td>
           <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" class="subjectMinWidth txt"
@@ -636,6 +641,9 @@
           </td>
           <td *ngIf="activePage==='inbox' && !reportPage">
             <img title="Type" [src]="product.isFlag ? 'assets/images/icons/flag.png' : 'assets/images/icons/unflag.png'"
+              class="flag-img-dim">
+            <img *ngIf="product.isMemo" title="Memo"
+              [src]="product.isMemo ? 'assets/images/icons/note24x.png' : 'assets/images/icons/note24xbw.png'"
               class="flag-img-dim">
           </td>
           <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" class="subjectMinWidth txt"
