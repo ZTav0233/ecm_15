@@ -1062,7 +1062,7 @@
 </div>
 <div #taskDetailDialog></div>
 <p-confirmDialog key="taskDetailConfirmation" [appendTo]="taskDetailDialog"></p-confirmDialog>
-<p-dialog [(visible)]="displayinfo" [modal]="true" [appendTo]="taskDetailDialog" height="500" (onHide)="closeModal()">
+<p-dialog [(visible)]="displayinfo" [modal]="true" [appendTo]="taskDetailDialog" [style]="{ height: '65vh' }" (onHide)="closeModal()">
   <p-header>
     {{viewDocTitle}}
   </p-header>

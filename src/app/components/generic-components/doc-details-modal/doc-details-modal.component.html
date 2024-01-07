@@ -130,9 +130,9 @@
                 <td>{{version.addOn}}</td>
                 <td>{{version.modOn}}</td>
                 <td role="button">
-                  <button pButton type="button" icon="fa ui-icon-remove-red-eye" title="View Document"
+                  <button pButton type="button" icon="fa fa-fw ui-icon-remove-red-eye" title="View Document"
                     (click)="viewDoc(version,'version')"></button>
-                  <button pButton type="button" icon="fa ui-icon-get-app" title="Download Document"
+                  <button pButton type="button" icon="fa fa-fw ui-icon-get-app" title="Download Document"
                     (click)="downloadDoc(version)"></button>
                 </td>
               </tr>
@@ -198,9 +198,9 @@
                  let isEven=even" [class.even]="isEven">
               <td *ngIf="!noLink">{{doclink.desc}}</td>
               <td *ngIf="!noLink">
-                <button pButton type="button" icon="fa ui-icon-remove-red-eye" title="View Link"
+                <button pButton type="button" icon="fa fa-fw ui-icon-remove-red-eye" title="View Link"
                   (click)="viewDoc(doclink,'link')"></button>
-                <button pButton type="button" icon="fa ui-icon-remove" title="Remove Link"
+                <button pButton type="button" icon="fa fa-fw ui-icon-remove" title="Remove Link"
                   (click)="confirmRemoveLink(doclink)"></button>
               </td>
             </tr>
@@ -303,7 +303,7 @@
               <td>{{folder.name}}</td>
               <td>{{folder.path}}</td>
               <td *ngIf="docInfo && docInfo.length>0" class="text-align-right">
-                <button pButton type="button" icon="fa ui-icon-launch" title="Go to folder"
+                <button pButton type="button" icon="fa fa-fw ui-icon-launch" title="Go to folder"
                   (click)="viewFolderPath(folder)"></button>
             </tr>
           </tbody>
@@ -336,7 +336,7 @@
               <td *ngIf="docTrack && docTrack.length>0">{{track.creator}}</td>
               <td *ngIf="docTrack && docTrack.length>0">{{track.createdDate | date : 'dd/MM/yyyy hh:mm a'}}</td>
               <td *ngIf="docTrack && docTrack.length>0" class="text-align-right">
-                <button pButton type="button" icon="fa ui-icon-timeline" title="View Details"
+                <button pButton type="button" icon="fa fa-fw ui-icon-timeline" title="View Details"
                   (click)="viewWorkItem(track)"></button>
             </tr>
           </tbody>
