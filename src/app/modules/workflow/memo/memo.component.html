@@ -825,20 +825,21 @@
                 <div class="ui-g-1">
                   <label>Subject:<span class="required">*</span></label>
                 </div>
-                <div class="ui-g-8" style="width: 98vh !important;">
+                <div class="ui-g-8" style="width: 70% !important;">
                   <textarea [spellcheck]="true" class="text-area-resize-none bordered" maxlength="2000" [rows]="2"
                     [cols]="30" pInputTextarea [autoResize]="false" [(ngModel)]="launch.workflow.model.subject"
                     (change)="setMemoDocTitle()" [ngModelOptions]="{standalone: true}" name="workflowSubject"
                     required></textarea>
                 </div>
-              </div>
-              <div class="ui-g-0" style="padding-left: 10px;">
+                <div class="ui-g-0" style="padding-left: 10px;">
                   <label>Font Size:<span class="required">*</span></label>
                 </div>
-                <div class="ui-g-0" style="width: 11vh !important;">
+                <div class="ui-g-0" style="width: 15vh !important;">
                   <p-dropdown name="memoSubFontSize" class="langText" [options]="subFontSizes" [(ngModel)]="memoSubFontSize" 
                   (onChange)="storeSubjectFontSize($event)" [ngModelOptions]="{standalone: true}" optionLabel="name"></p-dropdown>
                 </div>
+              </div>
+              
               <div class="ui-g form-group">
                 <div class="ui-g-1">
                   <label>Message:<span class="required">*</span></label>
