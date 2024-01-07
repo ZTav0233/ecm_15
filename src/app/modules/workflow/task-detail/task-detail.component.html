@@ -628,13 +628,13 @@
                           type="button" icon="ui-icon-update" title="Modify Reference No." class="remove-btn v-m"
                           (click)="updateMemoReference(attachment);"></button> 
 
-                        <button pButton type="button" icon="ui-icon-get-app" title="Download" class="remove-btn v-m"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-get-app" title="Download" class="remove-btn v-m"
                           [disabled]="isAllActionsDisabled" (click)="downloadDoc(attachment)"></button>
-                        <button pButton type="button" icon="ui-icon-info-outline" title="Info" class="remove-btn v-m"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info" class="remove-btn v-m"
                           (click)="openDocInfo(attachment)"></button>
-                        <button pButton type="button" icon="ui-icon-star" title="Add to Favorites" class="remove-btn v-m"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-star" title="Add to Favorites" class="remove-btn v-m"
                           (click)="addFavourites(attachment)"></button>
-                        <button pButton type="button" icon="ui-icon-edit" title="Edit Attachment" class="remove-btn v-m"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit Attachment" class="remove-btn v-m"
                           [disabled]="(fromPage[0] === 'sent') || (this.fromPage[0] === 'archive') || isAllActionsDisabled||workitem.memoStepname == 'REVIEWER'||workitem.memoStepname == 'THRU'||workitem.memoStepname == 'TO'||workitem.memoStepname == 'SUB-FROM'"
                           (click)="openEditDoc(attachment)"></button>
                         <button 
@@ -642,9 +642,9 @@
                           pButton type="button" icon="ui-icon-check" title="Validate" class="remove-btn v-m"
                           [disabled]="isAllActionsDisabled" (click)="openDocInValidate(attachment);"></button>
                         <button *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new')" pButton type="button"
-                          [disabled]="isAllActionsDisabled" icon="ui-icon-folder" title="File-In Folder"
+                          [disabled]="isAllActionsDisabled" icon="fa fa-fw ui-icon-folder" title="File-In Folder"
                           class="remove-btn v-m" (click)="openSubTree(attachment);"></button>
-                        <button pButton type="button" icon="ui-icon-mail" title="Mail To" class="remove-btn v-m"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-mail" title="Mail To" class="remove-btn v-m"
                           (click)="mailTo(attachment)"></button>
                         <!--<button pButton type="button" icon="ui-icon-colorize" title="Edit Properties" class="remove-btn v-m"-->
                         <!--(click)="editProperties=true;openEditDoc(attachment)"></button>-->
@@ -656,7 +656,7 @@
             </div>
             <div class="ui-md-12">
               <button *ngIf="displayIframe && !displayinfo && !editAttachment" pButton type="button"
-                icon="ui-icon-close" title="Close" class="remove-btn v-m" style="float: right"
+                icon="fa fa-fw ui-icon-close" title="Close" class="remove-btn v-m" style="float: right"
                 (click)="closeViewer($event)"></button>
               <div *ngIf="displayIframe" id="divmain"
                 [ngClass]="{'show': !displayinfo || !editAttachment ,'hide': displayinfo || editAttachment}">
@@ -807,13 +807,13 @@
                           type="button" icon="ui-icon-update" title="Modify Reference No." class="remove-btn v-m"
                           (click)="updateMemoReference(attachment);"></button> 
 
-                        <button pButton type="button" icon="ui-icon-get-app" title="Download" class="remove-btn v-m"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-get-app" title="Download" class="remove-btn v-m"
                           [disabled]="isAllActionsDisabled" (click)="downloadDoc(attachment)"></button>
-                        <button pButton type="button" icon="ui-icon-info-outline" title="Info" class="remove-btn v-m"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-info-outline" title="Info" class="remove-btn v-m"
                           (click)="openDocInfo(attachment)"></button>
-                        <button pButton type="button" icon="ui-icon-star" title="Add to Favorites" class="remove-btn v-m"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-star" title="Add to Favorites" class="remove-btn v-m"
                           (click)="addFavourites(attachment)"></button>
-                        <button pButton type="button" icon="ui-icon-edit" title="Edit Attachment" class="remove-btn v-m"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit Attachment" class="remove-btn v-m"
                           [disabled]="(fromPage[0] === 'sent') || (this.fromPage[0] === 'archive') || isAllActionsDisabled||workitem.memoStepname == 'REVIEWER'||workitem.memoStepname == 'THRU'||workitem.memoStepname == 'TO'||workitem.memoStepname == 'SUB-FROM'"
                           (click)="openEditDoc(attachment)"></button>
                         <button 
@@ -821,9 +821,9 @@
                           pButton type="button" icon="ui-icon-check" title="Validate" class="remove-btn v-m"
                           [disabled]="isAllActionsDisabled" (click)="openDocInValidate(attachment);"></button>
                         <button *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new')" pButton type="button"
-                          [disabled]="isAllActionsDisabled" icon="ui-icon-folder" title="File-In Folder"
+                          [disabled]="isAllActionsDisabled" icon="fa fa-fw ui-icon-folder" title="File-In Folder"
                           class="remove-btn v-m" (click)="openSubTree(attachment);"></button>
-                        <button pButton type="button" icon="ui-icon-mail" title="Mail To" class="remove-btn v-m"
+                        <button pButton type="button" icon="fa fa-fw ui-icon-mail" title="Mail To" class="remove-btn v-m"
                           (click)="mailTo(attachment)"></button>
                         <!--<button pButton type="button" icon="ui-icon-colorize" title="Edit Properties" class="remove-btn v-m"-->
                         <!--(click)="editProperties=true;openEditDoc(attachment)"></button>-->
@@ -835,7 +835,7 @@
             </div>
             <div class="ui-md-12">
               <button *ngIf="displayIframe && !displayinfo && !editAttachment" pButton type="button"
-                icon="ui-icon-close" title="Close" class="remove-btn v-m" style="float: right"
+                icon="fa fa-fw ui-icon-close" title="Close" class="remove-btn v-m" style="float: right"
                 (click)="closeViewer($event)"></button>
               <div *ngIf="displayIframe" id="divmain"
                 [ngClass]="{'show': !displayinfo || !editAttachment ,'hide': displayinfo || editAttachment}">
