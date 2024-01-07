@@ -1,12 +1,6 @@
-<button pButton type="button" label="Export" (click)="exportToExcel();" class="pull-right m-b-sm"
+<!-- <button pButton type="button" label="Export" (click)="exportToExcel();" class="pull-right m-b-sm"
   [disabled]="!gridItemsToExport || gridItemsToExport.length==0"></button>
 <div *ngIf="favDocuments">
-    <!-- <p-table [showCount]="true" [totalCount]="favDocuments.length" (sendData)="getData($event,sidemenu);"
-    [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable($event);" [tableData]="favDocuments"
-    [activePage]="'favorites'" [colHeaders]="colHeaders" [showDownloadIcon]="false" [showAddCartIcon]="false"
-    [selectedRows]="selectedItem" [showInfoIcon]="true" [itemsPerPage]="itemsPerPage" [rowExpandable]="false"
-    [totalRecords]="favDocuments?favDocuments.length:0" (filteredGridItemsToExport)="getFilteredItems($event)">
-  </p-table> -->
   <data-table [showCount]="true" [totalCount]="favDocuments.length" (sendData)="getData($event,sidemenu);"
   [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable();" [tableData]="favDocuments" [tableDataStored]="favDocuments"
   [activePage]="'favorites'" [colHeaders]="colHeaders" [showDownloadIcon]="false" [showAddCartIcon]="false"
@@ -18,7 +12,69 @@
   <div #sidemenu class="aside-panel">
     <app-rightpanel (sendUpdate)="getFavUpdated($event);" (sendFolders)="getBrowseUpdated($event);"
       [currentScreen]="screen" (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>
+  </div> -->
+  <!-- <vertical-split-pane primary-component-minsize="250" secondary-component-minsize="1080" local-storage-key="split-pane"
+  primary-component-initialratio="0.2"> -->
+  <div style="display: flex;">
+    <div style="width: 20%; height: 90vh;">
+      <!--<div class="upper">
+        <tree [folderPermission]="folderPermission"></tree>
+      </div> -->
+      <p-tree [value]="folderList" selectionMode="single" [(selection)]="selectedFolder" (onNodeExpand)="nodeExpand($event)"
+      (onNodeSelect)="nodeSelect($event)"  [contextMenu]="cm"  (onNodeContextMenuSelect)="onContextMenu($event)"></p-tree>
+      <p-contextMenu appendTo="body"  #cm [model]="cmItems"></p-contextMenu>
+    </div>
+    <div style="width: 80%; height: auto;">
+      <div >
+        <div class="ui-g-12 ui-md-12 p-0 p-l-sm p-r-sm with-tree">
+          <div class="ui-g-12 ui-md-12 p-t-0 p-r-0">
+              <button pButton type="button" label="Create Classify Folder" (click)="requestFolderName();" class="m-b-sm"></button>
+              <button pButton type="button" label="Export" (click)="exportToExcel();" class="pull-right m-b-sm"
+              [disabled]="!gridItemsToExport || gridItemsToExport.length==0"></button>
+          </div>
+          <div *ngIf="favDocuments" class="ui-g-12 p-r-0 p-t-0">
+            <data-table [showCount]="true" [totalCount]="favDocuments.length" (sendData)="getData($event,sidemenu);"
+              [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable();" [tableData]="favDocuments"
+              [activePage]="'favorites'" [colHeaders]="colHeaders" [showDownloadIcon]="false" [showAddCartIcon]="false"
+              [selectedRows]="selectedItem" [showInfoIcon]="true" [itemsPerPage]="itemsPerPage" [rowExpandable]="false"
+              [totalRecords]="favDocuments?favDocuments.length:0" (filteredGridItemsToExport)="getFilteredItems($event)">
+            </data-table>
+            <div [ngClass]="{'hidden':!selectedItem || selectedItem.length===0}">
+           
+              <div #sidemenu class="aside-panel">
+                <app-rightpanel (sendUpdate)="getFavUpdated($event);" (sendFolders)="getBrowseUpdated($event);"
+                [currentScreen]="screen" (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  
+
+<div *ngIf="folderNameVisible">
+  <p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [(visible)]="folderNameVisible" 
+    showEffect="fade" [contentStyle]="{'overflow':'auto'}" [style]="{ width: '70vw', height: '60vh' }">
+    <p-header>
+      <span>* Classify Folder Details: </span>
+    </p-header>
+    <div class="ui-g form-group">
+      <div class="ui-g-12 ui-md-4">
+        <label>Name:</label>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <span class="md-inputfield">
+          <input type="text" pInputText name="title" [(ngModel)]="classifyFolderName"
+            [ngModelOptions]="{standalone: true}">
+        </span>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" [disabled]="!classifyFolderName" pButton label="OK"
+        (click)="createClassifyFolder()"></button>
+    </p-footer>
+  </p-dialog>
 </div>
 <div class="progress-bar">
   <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>

@@ -34,18 +34,10 @@
               (filteredGridItemsToExport)="getFilteredItems($event)">
             </data-table>
             <div [ngClass]="{'hidden':!selectedItem || selectedItem.length===0}">
-              <!-- <aside-menu #sidemenu side="right" width="300px" isBackdrop="false" sideMode="slide">
-                <app-rightpanel (sendFolders)="getBrowseUpdated($event);" [currentScreen]="screen"
-                  (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>
-              </aside-menu> -->
               <div #sidemenu class="aside-panel">
                 <app-rightpanel (sendFolders)="getBrowseUpdated($event);" [currentScreen]="screen"
                 (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>
               </div>
-              <!-- <ngx-aside #sidemenu [showDefaultFooter]="false" [showDefaultHeader]="false" [showOverlay]="false">
-                <app-rightpanel (sendFolders)="getBrowseUpdated($event);" [currentScreen]="screen"
-                  (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>
-              </ngx-aside> -->
             </div>
           </div>
         </div>

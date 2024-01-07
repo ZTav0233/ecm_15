@@ -13,6 +13,9 @@ import { ContentService } from "../../../services/content.service";
 import { saveAs } from 'file-saver';
 import * as _ from "lodash";
 import { Table } from 'primeng/table';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { AppComponent } from '../../../app.component';
+import { MenuItem, Message, TreeNode } from 'primeng/api';
 
 @Component({
   selector: 'app-favourites',
@@ -25,6 +28,16 @@ export class FavouritesComponent implements OnInit, OnDestroy {
   private subscription: Subscription[] = [];
   public itemsPerPage: any;
   emptyMessage: any;
+  cmItems: MenuItem[];
+  public favFolders = true;
+  folderPath: any;
+  folderList: any[];
+  selectedFolder: any;
+  clearSelectedDocs = false;
+  public folderNameVisible = false;
+  public classifyFolderName: any;
+  changeView = true;
+  public folderPermission = { usage: 'browseFolderView', permission: false };
   screen: any = 'Favourites';
   public user = new User();
   public sideMenu: any;
@@ -41,7 +54,7 @@ export class FavouritesComponent implements OnInit, OnDestroy {
   public exportFields: any[] = ['name', 'creator', 'addOn', 'modOn', 'modifier', 'format', 'verNo'];
   public gridItemsToExport: any[] = [];
 
-  constructor(private breadcrumbService: BreadcrumbService, public ds: DocumentService, private us: UserService,
+  constructor(private breadcrumbService: BreadcrumbService, public ds: DocumentService, private us: UserService, public app: AppComponent,
     private bs: BrowserEvents, private growlService: GrowlService, private coreService: CoreService,
     private cs: ContentService) {
     this.user = this.us.getCurrentUser();
@@ -108,6 +121,48 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     }, error => {
       this.busy = false;
     });
+    this.cs.getClassifySubFolders().subscribe(data => {
+      this.busy = false;
+      this.getFavFolders(data)
+    }, err => {
+      this.busy = false;
+    });
+    this.bs.clearFolderSelection.subscribe(d => {
+      this.selectedFolder = [];
+    })
+  }
+  getFavFolders(data) {
+    if (data.length > 0) {
+      localStorage.setItem('folderId', data[0].id);
+      localStorage.setItem('folderIdForMove', data[0].id);
+      const favFolder = [];
+      data.map((d, i) => {
+        if (d != null) {
+            favFolder.push({
+              label: d.name,
+              data: d,
+              'level': '1',
+              'expandedIcon': 'ui-icon-folder-open',
+              'collapsedIcon': 'ui-icon-folder-special',
+              'children': [],
+              'leaf': false
+            });
+        }
+      });
+      this.folderList = favFolder;
+
+    }
+    else {
+      //  this.favFolders = false;
+      localStorage.removeItem('folderId');
+      // this.documentFolders = [];
+      this.folderList = [];
+      this.folderPath = '';
+      this.ds.savedFolderFav.folderResultsSavedFav = [];
+      this.ds.savedFolderFav.folderTreeSavedFav = [];
+      this.ds.savedFolderFav.folderPathSavedFav = '';
+      this.favFolders = false;
+    }
   }
 
   toggle() {
@@ -124,6 +179,7 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     });
     this.favDocuments = data;
     this.gridItemsToExport = _.cloneDeep(this.favDocuments);
+    this.bs.sendFolderDocs.emit(this.favDocuments);
   }
 
   getFavUpdated(docs) {
@@ -166,7 +222,35 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     });
     this.refresh(docs);
   }
+  nodeExpand(event) {
+    // this.cs.getSubFolders(event.node.data.id).subscribe(data => {
+    //   this.assignSubFolders(event.node, data)
+    // });
+  }
 
+  assignFolderDoc(data) {
+    this.bs.sendFolderDocs.emit(data);
+  }
+
+  nodeSelect(event) {
+    localStorage.setItem('folderId', event.node.data.id);
+    localStorage.setItem('path', event.node.data.path);
+    if (this.clearSelectedDocs !== true) {
+      this.bs.clearSelectedDocs.emit();
+    }
+    if (this.changeView === true) {
+      this.bs.sendFolderDocs.emit([]);
+      this.folderPath = event.node.data.path;
+      this.bs.folderPath.emit(this.folderPath);
+      this.busy = true;
+      this.cs.getDocumentFolders(event.node.data.id).subscribe(data => {
+        this.busy = false;
+        this.assignFavourites(data);
+      }, err => {
+        this.busy = false;
+      });
+    }
+  }
   refresh(docs) {
     let loop = 0;
     docs.map((d, i) => {
@@ -181,15 +265,15 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     });
     this.refreshTable();
   }
-
   refreshTable() {
     this.busy = true;
-    this.ds.getFavourites(this.user.EmpNo).subscribe(res => {
+    /* this.ds.getFavourites(this.user.EmpNo).subscribe(res => {
       this.busy = false;
       this.assignFavourites(res)
     }, error => {
       this.busy = false;
-    });
+    }); */
+    this.refreshAll();
   }
 
   clearSubscriptions() {
@@ -241,7 +325,48 @@ export class FavouritesComponent implements OnInit, OnDestroy {
       });
     }
   }
+  requestFolderName(){
+    this.folderNameVisible = true;
+  }
+  
+  createClassifyFolder(){
+    this.folderNameVisible = false;
+    this.busy = true;
+    console.log("Fav Folder Name : " + this.classifyFolderName);
+    this.cs.createClassifyFolder(this.classifyFolderName).subscribe(f => {
+      console.log("Created Folder : " + this.classifyFolderName);
+      this.refreshAll();
+      this.growlService.showGrowl({
+        severity: 'info',
+        summary: 'Success', detail: 'Classify Folder Created'
+      });
+    }, err => {
+      this.busy = false;
+    });
+    
+  }
 
+  refreshAll(){
+    console.log("Inside Refresh All");
+    this.busy = true;
+    this.ds.getFavourites(this.user.EmpNo).subscribe(data => {
+      this.busy = false;
+      this.assignFavourites(data)
+    }, error => {
+      this.busy = false;
+    });
+
+    this.cs.getClassifySubFolders().subscribe(data => {
+      this.busy = false;
+      this.getFavFolders(data)
+    }, err => {
+      this.busy = false;
+    });
+    this.bs.clearFolderSelection.subscribe(d => {
+      this.selectedFolder = [];
+    })
+   
+  }
   getFilteredItems(filteredItems) {
     this.gridItemsToExport = filteredItems;
   }
@@ -265,7 +390,38 @@ export class FavouritesComponent implements OnInit, OnDestroy {
       this.busy = false;
     });
   }
+  onContextMenu(folder) {
+    localStorage.setItem('folderIdToDelete', folder.node.data.id);
+      this.cmItems = [
+        { label: 'Remove Folder', icon: 'ui-icon-delete', command: (event) => this.removeFolder(this.selectedFolder) }
+      ];
+  }
 
+  removeFolder(selectedFolder){
+      this.subscription.push(this.cs.removeFolder(selectedFolder.data.id).subscribe(data => this.removeSuccess(data), error => this.removeFailed()));
+  }
+
+  removeSuccess(data) {
+    this.refreshAll();
+    if (data.toLocaleLowerCase().trim() === 'ok') {
+      this.growlService.showGrowl({
+        severity: 'info',
+        summary: 'Success', detail: 'Folder Removed'
+      });
+    } else {
+      this.growlService.showGrowl({
+        severity: 'error',
+        summary: 'Failure', detail: 'Failed To Remove Folder. Please Contact Administrator.'
+      });
+    }
+  }
+
+  removeFailed() {
+    this.growlService.showGrowl({
+      severity: 'error',
+      summary: 'Failure', detail: 'Failed To Remove Folder. Please Contact Administrator.'
+    });
+  }
   destroyKeys() {
     Object.keys(this).map(k => {
       delete this[k];
