@@ -142,8 +142,8 @@ export class FavouritesComponent implements OnInit, OnDestroy {
               label: d.name,
               data: d,
               'level': '1',
-              'expandedIcon': 'ui-icon-folder-open',
-              'collapsedIcon': 'ui-icon-folder-special',
+              'expandedIcon': 'fa fa-fw ui-icon-folder-open',
+              'collapsedIcon': 'fa fa-fw ui-icon-folder-special',
               'children': [],
               'leaf': false
             });
