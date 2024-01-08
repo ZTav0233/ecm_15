@@ -718,7 +718,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       // this.onReadyCkEditor()
       this.onReadyCkEditorEN('en')
       this.onReadyCkEditorAR('ar')
-    }, 500);
+    }, 300);
 
 
 
@@ -4121,7 +4121,9 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.workflow.model.priority = data.priority,
         this.memoType = { name: data.memoType, code: data.memoType },
         this.memoLang = { name: data.memoLang, code: data.memoLang },
-        data.memoLang == "English" ? (this.editorEN.setData((data.memoLang == "English") ? data.message : null)) : (this.editorAR.setData((data.memoLang == "Arabic") ? data.message : null)),
+        setTimeout(() => {
+          data.memoLang == "English" ? (this.editorEN.setData((data.memoLang == "English") ? data.message : null)) : (this.editorAR.setData((data.memoLang == "Arabic") ? data.message : null))
+        }, 500);
         this.memoDocId = data.memoDocId;
       this.signUser2 = data.signUser2;
       this.launch.workflow.model.remarks = data.remarks;
