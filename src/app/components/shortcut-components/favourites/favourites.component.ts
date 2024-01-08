@@ -393,7 +393,7 @@ export class FavouritesComponent implements OnInit, OnDestroy {
   onContextMenu(folder) {
     localStorage.setItem('folderIdToDelete', folder.node.data.id);
       this.cmItems = [
-        { label: 'Remove Folder', icon: 'ui-icon-delete', command: (event) => this.removeFolder(this.selectedFolder) }
+        { label: 'Remove Folder', icon: 'fa fa-fw ui-icon-delete', command: (event) => this.removeFolder(this.selectedFolder) }
       ];
   }
 
