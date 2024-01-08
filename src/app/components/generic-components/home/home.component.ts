@@ -325,7 +325,12 @@ export class HomeComponent implements OnDestroy, OnInit, AfterContentInit {
         senderId: e.data.options.senderId,
         type: e.data.options.type
       }]);
-    }
+    } else if(e.data && e.data.actionid == "NoReloadContent::NavigateToFolderPath"){
+      this.router.navigate(['/browse/browse-folders', {
+        folderPath: e.data.options.fPath,
+        folderId: e.data.options.fId
+      }]);
+   }
     //this.VCR.clear();
     //setTimeout(function(){  }, 5000)
   }
