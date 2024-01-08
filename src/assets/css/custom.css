@@ -534,7 +534,7 @@ p-accordiontab .p-state-active .no-box-shadow:focus {
 }
 
 .action-btn-group {
-  width: 197px;
+  width: 30vh; /* 197px*/
 }
 
 .item .action-btn-group-sm {
@@ -1481,14 +1481,14 @@ body .layout-wrapper .layout-sidebar .layout-menu li ul li a {
   font-weight: bold;
 }
 
-.p-info-label-div {
+.ui-info-label-div {
   text-align: end;
 }
-span.p-info-label {
+span.ui-info-label {
   font-style: italic;
   font-size: smaller;
 }
-span.p-info-label_red {
+span.ui-info-label_red {
   font-style: italic;
   font-size: smaller;
   color: red;
