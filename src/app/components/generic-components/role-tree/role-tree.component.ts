@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { DataService } from '../../../services/data.Service';
 
 @Component({
   selector: 'app-role-tree',
@@ -31,8 +32,25 @@ export class RoleTreeComponent implements OnDestroy, OnInit {
   @Output() selectNode = new EventEmitter();
   @Output() showEditRole = new EventEmitter();
   @Output() showDeleteRole = new EventEmitter();
+  constructor(public dataService: DataService) {
+
+  }
   ngOnInit() {
-    // console.log(this.fromMemo)
+    console.log(this.fromMemo);
+    
+  }
+  ngOnChanges() {
+    this.dataService.memoTypeState$.subscribe(res => {
+      // console.log(res);
+      // console.log('ngOnChanges');
+      if (res == 'Letter') {
+        this.showAddToToBtn = false;
+        this.showAddToCCBtn = false;
+      }else{
+        this.showAddToToBtn = true;
+        this.showAddToCCBtn = true;
+      }
+    })
   }
   mExpandNode(item) {
     this.expandNode.emit(item);
