@@ -3925,13 +3925,13 @@ export class MemoComponent implements OnInit, OnDestroy {
     if (data.params.actionType === 'edit') {
       this.actionId = data.params.id;
       this.actionTypes = data.params.actionType;
-      if(data.params.workItemId)
+      if (data.params.workItemId)
         this.memoWorkitemId = data.params.workItemId;
     }
     else if (data.params.actionType === 'draftMemo') {
       this.draftId = data.params.id;
       this.actionTypes = data.params.actionType;
-      if(data.params.workItemId)
+      if (data.params.workItemId)
         this.memoWorkitemId = data.params.workItemId;
     }
     else if (data.params.actionType === 'memoMerge') {
@@ -3940,7 +3940,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.ECM_NO = data.params.ecmNo;
       this.workflowType = 'Memo';
     }
-    
+
     //console.log(this.actionId)
     this.workItemId = data.params.workItemId;
     this.recipientRoleId = data.params.recipientRoleId;
@@ -4033,71 +4033,71 @@ export class MemoComponent implements OnInit, OnDestroy {
     if (this.actionTypes === 'edit' || this.actionTypes === 'draftMemo') {
       var orgData;
       var foldData;
-      
-      if(data.roleId != undefined && data.roleId > 0){
+
+      if (data.roleId != undefined && data.roleId > 0) {
         this.busy = true;
         // this.memoService.getValidateRoleMemberByCurrentUser(data.roleId).subscribe((res: any) => {
-          if(this.Approver){
-            this.Approver = true;
-            if(this.launch.recipients.RevList && this.launch.recipients.RevList.length != 0)
-              this.launch.recipients.RevList[0].actionType = "REV";
-            this.recipients = this.recipients.map((item, i) => {
-              //console.log(item.userId, data.id, i)
-              if (item.recipientType === "PREV") {
-                const data = {
-                  action: item.action,
-                  addStatus: item.addStatus,
-                  id: item.id,
-                  memoId: item.memoId,
-                  orderId: item.orderId,
-                  recipientType: "REV",
-                  replyComments: item.replyComments,
-                  userId: item.userId,
-                  userName: item.userName,
-                  status: 'ACTIVE',
-                  userType: item.userType,
-                  workflowId: item.workflowId,
-                  workitemId: item.workitemId,
-                  workitemStatus: item.workitemStatus
-                }
-                return data
-              } else {
-                  return item
+        if (this.Approver) {
+          this.Approver = true;
+          if (this.launch.recipients.RevList && this.launch.recipients.RevList.length != 0)
+            this.launch.recipients.RevList[0].actionType = "REV";
+          this.recipients = this.recipients.map((item, i) => {
+            //console.log(item.userId, data.id, i)
+            if (item.recipientType === "PREV") {
+              const data = {
+                action: item.action,
+                addStatus: item.addStatus,
+                id: item.id,
+                memoId: item.memoId,
+                orderId: item.orderId,
+                recipientType: "REV",
+                replyComments: item.replyComments,
+                userId: item.userId,
+                userName: item.userName,
+                status: 'ACTIVE',
+                userType: item.userType,
+                workflowId: item.workflowId,
+                workitemId: item.workitemId,
+                workitemStatus: item.workitemStatus
               }
-            });
-          } else{
-            this.Approver = false
-            if(this.launch.recipients.RevList && this.launch.recipients.RevList.length != 0)
-              this.launch.recipients.RevList[0].actionType = "PREV";
-            this.recipients = this.recipients.map((item, i) => {
-              //console.log(item.userId, data.id, i)
-              if (item.recipientType === "REV") {
-                const data = {
-                  action: item.action,
-                  addStatus: item.addStatus,
-                  id: item.id,
-                  memoId: item.memoId,
-                  orderId: item.orderId,
-                  recipientType: "PREV",
-                  replyComments: item.replyComments,
-                  userId: item.userId,
-                  userName: item.userName,
-                  status: 'ACTIVE',
-                  userType: item.userType,
-                  workflowId: item.workflowId,
-                  workitemId: item.workitemId,
-                  workitemStatus: item.workitemStatus
-                }
-                return data
-              } else {
-                  return item
+              return data
+            } else {
+              return item
+            }
+          });
+        } else {
+          this.Approver = false
+          if (this.launch.recipients.RevList && this.launch.recipients.RevList.length != 0)
+            this.launch.recipients.RevList[0].actionType = "PREV";
+          this.recipients = this.recipients.map((item, i) => {
+            //console.log(item.userId, data.id, i)
+            if (item.recipientType === "REV") {
+              const data = {
+                action: item.action,
+                addStatus: item.addStatus,
+                id: item.id,
+                memoId: item.memoId,
+                orderId: item.orderId,
+                recipientType: "PREV",
+                replyComments: item.replyComments,
+                userId: item.userId,
+                userName: item.userName,
+                status: 'ACTIVE',
+                userType: item.userType,
+                workflowId: item.workflowId,
+                workitemId: item.workitemId,
+                workitemStatus: item.workitemStatus
               }
-            });
-          }
-          this.busy = false
+              return data
+            } else {
+              return item
+            }
+          });
+        }
+        this.busy = false
         //});
       }
-      
+
       this.busy = true
       this.memoService.getOrgUnitbyOrgCode(data.orgcode).subscribe(res => {
         this.busy = false
@@ -4117,13 +4117,12 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.launch.workflow.model.isDeadlineEnabled = data.isDeadlineEnabled;
       this.launch.workflow.model.subject = data.subject;//? data.subject.replace('<br>', '\\r\\n'): '',
       this.ECM_NO = data.ecmNo,
-      this.launch.workflow.model.refNo = data.referenceNo,
-      this.launch.workflow.model.priority = data.priority,
-      this.memoType = { name: data.memoType, code: data.memoType },
-      this.memoLang = { name: data.memoLang, code: data.memoLang },
-      this.launch.workflow.model.messages = (data.memoLang == "English")?data.message:null, 
-      this.launch.workflow.model.arMessages = (data.memoLang == "Arabic")?data.message:null,  
-      this.memoDocId = data.memoDocId;
+        this.launch.workflow.model.refNo = data.referenceNo,
+        this.launch.workflow.model.priority = data.priority,
+        this.memoType = { name: data.memoType, code: data.memoType },
+        this.memoLang = { name: data.memoLang, code: data.memoLang },
+        data.memoLang == "English" ? (this.editorEN.setData((data.memoLang == "English") ? data.message : null)) : (this.editorAR.setData((data.memoLang == "Arabic") ? data.message : null)),
+        this.memoDocId = data.memoDocId;
       this.signUser2 = data.signUser2;
       this.launch.workflow.model.remarks = data.remarks;
       this.launch.workflow.model.instructions = data.instructions;
@@ -4132,19 +4131,19 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.maximumDate = new Date(this.launch.workflow.model.deadlineDate)
       this.launch.workflow.model.reminderDate = new Date(data.reminder).toLocaleDateString(); //new Date(data.reminderDate).toLocaleDateString(),
       this.date = new Date(moment(data.memoDate).format('MM-DD-YYYY'));
-      this.memoDocTitle = (data.memoDocTitle && data.memoDocTitle !== null)? data.memoDocTitle : data.subject;
+      this.memoDocTitle = (data.memoDocTitle && data.memoDocTitle !== null) ? data.memoDocTitle : data.subject;
       this.memoSubFontSize = { name: data.subFontSize, code: data.subFontSize };
-      this.memoContract = (data.contractNo && data.contractNo !== null)? data.contractNo : '';
+      this.memoContract = (data.contractNo && data.contractNo !== null) ? data.contractNo : '';
       this.isOnBehalf = { name: data.isOnBehalf, code: data.isOnBehalf };
       this.onBehalfUser = this.setOnBehalfUser(data.onBehalfUser);
-      if(this.actionTypes === 'draftMemo')
+      if (this.actionTypes === 'draftMemo')
         this.memoWorkitemId = data.workitemId;
       //moment(data.memoDate).format('DD-MM-YYYY');
       //console.log(this.maximumDate, this.launch.workflow.model.deadlineDate, this.launch.workflow.model.reminderDate, this.date);
-      this.greeting = data.greeting? data.greeting : '',
+      this.greeting = data.greeting ? data.greeting : '',
         this.address = data.address,
         this.designation = data.designation,
-        this.suffix = data.suffix? data.suffix : '',
+        this.suffix = data.suffix ? data.suffix : '',
         this.To = data.letterTo,
         this.recipients = data.recipients
       data.recipients.forEach(res => {
@@ -4246,6 +4245,13 @@ export class MemoComponent implements OnInit, OnDestroy {
       })
       //this.memoDetailsTab = true;
       //this.recipientTab = false;
+      this.launch.recipients.toList = [...this.launch.recipients.toList]
+      this.launch.recipients.FromList = [...this.launch.recipients.FromList]
+      this.launch.recipients.SubFromList = [...this.launch.recipients.SubFromList]
+      this.launch.recipients.ccList = [...this.launch.recipients.ccList]
+      this.launch.recipients.ThruList = [...this.launch.recipients.ThruList]
+      this.launch.recipients.RevList = [...this.launch.recipients.RevList]
+      this.launch.recipients.RevList = [...this.launch.recipients.RevList]
     }
   }
 
@@ -4571,10 +4577,10 @@ export class MemoComponent implements OnInit, OnDestroy {
   addToCartMulti(docs) {
     let postArray = { empNo: this.currentUser.EmpNo, docIds: [] };
     docs.map((doc, index) => {
-        postArray.docIds.push(doc.id);
+      postArray.docIds.push(doc.id);
     });
     this.busy = true;
-    if(this.addDocumentType == "Enclosure") {
+    if (this.addDocumentType == "Enclosure") {
       this.addToEncMulti(docs);
     }
     else {
@@ -4590,7 +4596,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   addToEncMulti(docs) {
     let postArray = { empNo: this.currentUser.EmpNo, docIds: [] };
     docs.map((doc, index) => {
-      if(doc.format && doc.format.toLowerCase() == "application/pdf")
+      if (doc.format && doc.format.toLowerCase() == "application/pdf")
         postArray.docIds.push(doc.id);
       else
         alert("Only PDF documents supported for enclosure");
@@ -4614,7 +4620,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         newarray.push(d);
       });
 
-      if(this.addDocumentType == "Enclosure") {
+      if (this.addDocumentType == "Enclosure") {
         this.subscriptions.push(this.ds.getEnclosureCart(this.currentUser.EmpNo).subscribe((data) => {
           this.ds.refreshEnclosureCart(data);
         }));
@@ -4659,11 +4665,11 @@ export class MemoComponent implements OnInit, OnDestroy {
     });
 
   }
-  storeSubjectFontSize(event){
+  storeSubjectFontSize(event) {
     this.memoSubFontSize = event.value;
   }
 
-  onChangeOnBehalf(event){
+  onChangeOnBehalf(event) {
     this.isOnBehalf = event.value;
   }
   addToCartFailure() {
@@ -5324,7 +5330,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         //console.log("this.workitem")
         this.launch.workflow.model.attachments = [];
         //Attachment Change in Edit Memo #20001
-        let attachFiltered : any [];
+        let attachFiltered: any[];
         console.log("attachFiltered before :: " + attachFiltered);
         attachFiltered = this.workitem.attachments.filter(e => e.isMemo !== 1);
         console.log("attachFiltered after :: " + attachFiltered);
@@ -5343,11 +5349,11 @@ export class MemoComponent implements OnInit, OnDestroy {
         }
       })
     }
-    
-    if(memoStep != null && memoStep.length > 0){
+
+    if (memoStep != null && memoStep.length > 0) {
       if (memoStep === 'COMPOSER') {
         this.Approver = false;
-          this.Composer = true;
+        this.Composer = true;
       } else if (memoStep == 'PREP_REVIEW' || memoStep == 'PREP_REVIEW1') {
         this.Approver = false;
         this.Composer = false;
@@ -5430,7 +5436,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     //console.log(this.attachment, this.launch.workflow.model.attachments)
     if (this.actionTypes === 'draftMemo' || this.actionTypes === 'edit') {
       for (let index = 0; index < this.launch.workflow.model.attachments.length; index++) {
-        if(this.actionTypes === 'edit' && this.launch.workflow.model.attachments[index].isMemo && this.launch.workflow.model.attachments[index].isMemo === 1)
+        if (this.actionTypes === 'edit' && this.launch.workflow.model.attachments[index].isMemo && this.launch.workflow.model.attachments[index].isMemo === 1)
           continue;
         const exists = this.attachment.findIndex(element => element.docId == this.launch.workflow.model.attachments[index].docId) > -1
         if (!exists) {
@@ -5448,8 +5454,8 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.clearDeadline();
     }
 
-    if(clickType === "saveDraftData"){
-      if(this.launch.workflow.model.attachments && this.launch.workflow.model.attachments.length > 0){
+    if (clickType === "saveDraftData") {
+      if (this.launch.workflow.model.attachments && this.launch.workflow.model.attachments.length > 0) {
         for (let index = 0; index < this.launch.workflow.model.attachments.length; index++) {
           const exists = this.attachment.findIndex(element => element.docId == this.launch.workflow.model.attachments[index].docId) > -1
           if (!exists) {
@@ -5458,7 +5464,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         }
       }
     }
-    
+
     const user = this.us.getCurrentUser();
     let attachmentData: any[] = [];
     for (let i = 0; i < this.attachment.length; i++) {
@@ -5472,7 +5478,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           format: this.attachment[i].format,
           ecmNo: this.attachment[i].ecmNo || this.attachment[i].ECMNo,
           vsid: this.attachment[i].vsid,
-          isSign:this.attachment[i].isSign,
+          isSign: this.attachment[i].isSign,
           attach_type: "ATTACHMENT"
         })
       }
@@ -5511,11 +5517,11 @@ export class MemoComponent implements OnInit, OnDestroy {
     let data
     return data = {
       id: 0,
-      subject: this.launch.workflow.model.subject? this.launch.workflow.model.subject.replace(/\n/g, '<br>') : '',
+      subject: this.launch.workflow.model.subject ? this.launch.workflow.model.subject.replace(/\n/g, '<br>') : '',
       ecmNo: this.ECM_NO,
       orgcode: this.launch.workflow.model.selectedorgCode.orgCode,
       referenceNo: this.launch.workflow.model.refNo,
-      message:  this.launch.workflow.model.messages ? this.launch.workflow.model.messages : (this.launch.workflow.model.arMessages ? this.launch.workflow.model.arMessages : ''),
+      message: this.editorEN.getData() ? this.editorEN.getData() : (this.editorAR.getData() ? this.editorAR.getData() : ''),
       priority: this.launch.workflow.model.priority,
       memoType: this.memoType.name,
       memoLang: this.memoLang.name,
@@ -5527,15 +5533,15 @@ export class MemoComponent implements OnInit, OnDestroy {
       remarks: this.launch.workflow.model.remarks,
       instructions: this.launch.workflow.model.instructions,
       forAction: this.selectedFor.name,
-      deadline: this.launch.workflow.model.isDeadlineEnabled?(moment(this.launch.workflow.model.deadlineDate).format("DD-MM-YYYY hh:mm a") || null) : null,
-      reminder: this.launch.workflow.model.isDeadlineEnabled?(moment(this.launch.workflow.model.reminderDate).format("DD-MM-YYYY hh:mm a") || null) : null,
+      deadline: this.launch.workflow.model.isDeadlineEnabled ? (moment(this.launch.workflow.model.deadlineDate).format("DD-MM-YYYY hh:mm a") || null) : null,
+      reminder: this.launch.workflow.model.isDeadlineEnabled ? (moment(this.launch.workflow.model.reminderDate).format("DD-MM-YYYY hh:mm a") || null) : null,
       memoDate: this.getMemoDate(),
       isDraft: 1,//=1(only for save draft)
       draftId: (this.draftWorkflow && this.draftWorkflow.draftId != null) ? this.draftWorkflow.draftId : 0,
       greeting: this.greeting ? this.greeting : '',
       attachments: attachmentData,
       recipients: recipientsData,
-      address: (this.address && this.address != null)? this.address.replace(/\n/g, '<br>') : '',
+      address: (this.address && this.address != null) ? this.address.replace(/\n/g, '<br>') : '',
       designation: this.designation,
       suffix: this.suffix ? this.suffix : '',
       letterTo: this.To,
@@ -5543,11 +5549,11 @@ export class MemoComponent implements OnInit, OnDestroy {
       isDeadlineEnabled: this.launch.workflow.model.isDeadlineEnabled,
       signUser2: this.signUser2,
       workitemId: this.memoWorkitemId,
-      memoDocTitle:this.memoDocTitle?this.memoDocTitle.replace(/\n/g, '') : '',
-      contractNo:(this.memoContract && this.memoContract != '' && this.memoContract != null)?this.memoContract.replace(/\n/g, '<br>') : '',
-      subFontSize:this.memoSubFontSize?this.memoSubFontSize.name:"14",
-      isOnBehalf:this.isOnBehalf?this.isOnBehalf.name:"No",
-      onBehalfUser:this.onBehalfUser?this.onBehalfUser.value:0
+      memoDocTitle: this.memoDocTitle ? this.memoDocTitle.replace(/\n/g, '') : '',
+      contractNo: (this.memoContract && this.memoContract != '' && this.memoContract != null) ? this.memoContract.replace(/\n/g, '<br>') : '',
+      subFontSize: this.memoSubFontSize ? this.memoSubFontSize.name : "14",
+      isOnBehalf: this.isOnBehalf ? this.isOnBehalf.name : "No",
+      onBehalfUser: this.onBehalfUser ? this.onBehalfUser.value : 0
     }
   }
 
@@ -5585,12 +5591,12 @@ export class MemoComponent implements OnInit, OnDestroy {
 
   openESignPage(doc, rId, isEsign) {
     this.busyEsign = true;
-    this.roleId = (rId != null || rId != undefined)? rId: 0;
+    this.roleId = (rId != null || rId != undefined) ? rId : 0;
     let flagInitial = 'Y';
     if (isEsign) {
       flagInitial = 'N';
     }
-    
+
     const sysDateTime = new Date();
     const fulldatetime = sysDateTime.getTime();
     const browser = navigator.appName;
@@ -6266,19 +6272,19 @@ export class MemoComponent implements OnInit, OnDestroy {
         //users.push(user.id);
         //users.push(user.login+' ('+user.id+')');
         users.push({ value: user.id, label: user.fulName });
-        if(userDetails && userDetails == null)
+        if (userDetails && userDetails == null)
           userDetails = { value: user.id, label: user.fulName };
       });
       //this.userSearchSuggestion = users;
       this.onBehalfUser = userDetails;
       return userDetails;
-      
+
     }, err => {
       this.busy = false;
       return null;
     });
   }
-    
+
   usersSelected(event) {
 
   }

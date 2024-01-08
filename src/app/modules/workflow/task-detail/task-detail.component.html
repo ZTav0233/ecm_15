@@ -545,7 +545,7 @@
                           && (!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0))"
                           [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
                           type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
-                          (click)="eSign(attachment, 0, 0);" icon="fa fa-fw ui-icon-file-edit">
+                          (click)="eSign(attachment, 0, 0);" icon="pi pi-file-edit">
                           </button>
                          
                         <button pButton
@@ -554,13 +554,13 @@
                             ||workitem.memoStepname=='THRU'||workitem.memoStepname=='TO')"
                           [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
                           type="button" title="eSign" class="remove-btn v-m ui-button-icon-only"
-                          (click)="eSign(attachment, 0, 1);" icon="fa fa-fw ui-icon-file-edit">
+                          (click)="eSign(attachment, 0, 1);" icon="pi pi-file-edit">
                           </button>
                         <button pButton
                           *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
                             && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='APPROVER') && (attachment.docId !== this.curVerMemoDocId)"
                           [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-file-edit"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only" icon="pi pi-file-edit"
                           (click)="eSign(attachment, 0, 0);">
                           </button>
                         <button pButton
@@ -568,7 +568,7 @@
                             && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname!='APPROVER' && workitem.memoStepname!='SUB-FROM'
                             && workitem.memoStepname!='THRU' && workitem.memoStepname!='TO')"
                           [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-file-edit"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only" icon="pi pi-file-edit"
                           (click)="eSign(attachment, 0, 0);">
                           </button>
                         <button pButton
@@ -724,7 +724,7 @@
                           *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
                           && (!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0))"
                           [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-file-edit"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only" icon="pi pi-file-edit"
                           (click)="eSign(attachment, 0, 0);">
                           </button>
                         <button pButton
@@ -732,14 +732,14 @@
                             && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='SUB-FROM'
                             ||workitem.memoStepname=='THRU'||workitem.memoStepname=='TO')"
                           [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-file-edit"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only" icon="pi pi-file-edit"
                           (click)="eSign(attachment, 0, 1);">
                           </button>
                         <button pButton
                           *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
                             && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='APPROVER') && (attachment.docId !== this.curVerMemoDocId)"
                           [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-file-edit"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only" icon="pi pi-file-edit"
                           (click)="eSign(attachment, 0, 0);">
                           </button>
                         <button pButton
@@ -747,7 +747,7 @@
                             && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname!='APPROVER' && workitem.memoStepname!='SUB-FROM'
                             && workitem.memoStepname!='THRU' && workitem.memoStepname!='TO')"
                           [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-file-edit"
+                          type="button" title="eSign" class="remove-btn v-m ui-button-icon-only" icon="pi pi-file-edit"
                           (click)="eSign(attachment, 0, 0);">
                           </button>
                         <button pButton
