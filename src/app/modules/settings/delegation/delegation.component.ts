@@ -76,7 +76,7 @@ export class DelegationComponent implements OnInit, OnDestroy {
 
   }
   onExpanded(ev:any){
-    console.log(ev);
+    // console.log(ev);
     ev.expanded=!ev.expanded
   }
   removeFromRole(e) {
@@ -159,6 +159,8 @@ export class DelegationComponent implements OnInit, OnDestroy {
               }
               this.showRoleMembers(d);
               allRoleDelegations.push(d);
+              console.log(allRoleDelegations);
+              
             });
             this.delegatedRoles = Object.assign([], allRoleDelegations);
             if (this.user.roles.length === finalIndex  + 1) {
