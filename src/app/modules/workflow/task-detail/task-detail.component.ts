@@ -40,6 +40,7 @@ import { MemoService } from '../../../services/memo.service';
 import { ConfirmationService, Message, TreeNode } from 'primeng/api';
 import { Table } from 'primeng/table';
 import {Attachment} from "../../../models/document/attachment.model";
+import { ToastrService } from 'ngx-toastr';
 
 interface Column {
   field: string;
@@ -204,7 +205,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   // showeSigninitialPopup=false;
   //showeSigninitialPrepare=false;
   constructor(
-    private memoService: MemoService,
+    private memoService: MemoService,private toastr: ToastrService,
     public router: Router, private breadcrumbService: BreadcrumbService, private workflowService: WorkflowService,
     private sanitizer: DomSanitizer, private us: UserService, private ds: DocumentService, private cs: ContentService,
     private bs: BrowserEvents, private coreService: CoreService, private route: ActivatedRoute,
@@ -513,30 +514,33 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   multiSignSuccess(data, docId) {
     if (data == "SIGNED") {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Cancelled', detail: 'Document is already Signed'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Cancelled', detail: 'Document is already Signed'
+      // });
+      this.toastr.error('Document is already Signed', 'Cancelled');
     }
     else if (data == "FAILED") {
       this.multiSignFailed();
     }
     else if (data) {
       this.ESignedAttachments[docId] = true;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Document is Signed Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Document is Signed Successfully'
+      // });
+      this.toastr.info('Document is Signed Successfully', 'Success');
     } else {
       this.updateFailed('error');
     }
   }
 
   multiSignFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: "Please upload sign image in settings and try again or contact ECM Support"
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: "Please upload sign image in settings and try again or contact ECM Support"
+    // });
+    this.toastr.error('Please upload sign image in settings and try again or contact ECM Support', 'Failure');
   }
 
   ngAfterViewInit() {
@@ -560,10 +564,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.busy = false;
     }, error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error Occurred', detail: 'Please try again!'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error Occurred', detail: 'Please try again!'
+      // });
+      this.toastr.error('Please try again!', 'Error Occurred');
     });
   }
 
@@ -632,11 +637,12 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                     }, err => {
                       this.busy = false;
                       if (err.statusText === 'OK') {
-                        this.growlService.showGrowl({
-                          severity: 'error',
-                          summary: 'Invalid Document',
-                          detail: 'This document is either deleted or you dont have permission'
-                        });
+                        // this.growlService.showGrowl({
+                        //   severity: 'error',
+                        //   summary: 'Invalid Document',
+                        //   detail: 'This document is either deleted or you dont have permission'
+                        // });
+                        this.toastr.error('This document is either deleted or you dont have permission', 'Invalid Document');
                         this.editAttachment = false;
                       }
                     });
@@ -656,11 +662,12 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                   }, err => {
                     this.busy = false;
                     if (err.statusText === 'OK') {
-                      this.growlService.showGrowl({
-                        severity: 'error',
-                        summary: 'Invalid Document',
-                        detail: 'This document is either deleted or you dont have permission'
-                      });
+                      // this.growlService.showGrowl({
+                      //   severity: 'error',
+                      //   summary: 'Invalid Document',
+                      //   detail: 'This document is either deleted or you dont have permission'
+                      // });
+                      this.toastr.error('This document is either deleted or you dont have permission', 'Invalid Document');
                       this.editAttachment = false;
                     }
                   });
@@ -670,11 +677,12 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             else {
               this.editAttachment = false;
-              this.growlService.showGrowl({
-                severity: 'error',
-                summary: 'Try again later',
-                detail: 'The document conversion process is in progress, please try after a while '
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'error',
+              //   summary: 'Try again later',
+              //   detail: 'The document conversion process is in progress, please try after a while '
+              // });
+              this.toastr.error('The document conversion process is in progress, please try after a while', 'Try again later');
             }
           });
         }, err => this.noDocFound(doc));
@@ -711,10 +719,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.currentUser.EmpNo, this.workitem.workitemId)
       .subscribe(res => {
         this.busy = false;
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Workitem Progress Added Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Workitem Progress Added Successfully'
+        // });
+        this.toastr.info('Workitem Progress Added Successfully', 'Success');
         event.message = undefined;
         this.getWorkitemProgress(this.workitem.workitemId);
         this.bs.inboxRefreshRequired.emit('task-detail-read-action');
@@ -738,10 +747,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.busy = true;
     this.workflowService.removeWorkitemProgress(id).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Workitem Progress Removed Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Workitem Progress Removed Successfully'
+      // });
+      this.toastr.info('Workitem Progress Removed Successfully', 'Success');
       this.getWorkitemProgress(id);
       this.bs.inboxRefreshRequired.emit('task-detail-read-action');
     }, err => {
@@ -945,10 +955,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   noDocFound(doc) {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Invalid Document', detail: 'This document is either deleted or you dont have permission'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Invalid Document', detail: 'This document is either deleted or you dont have permission'
+    // });
+    this.toastr.error('The document conversion process is in progress, please try after a while', 'Invalid Document');
     this.workitem.attachments.map((d, i) => {
       if (doc.docId === d.docId) {
         this.strikeIndex = i;
@@ -1007,10 +1018,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                   this.flagInitial = 'N';
                   this.ds.verifyESign(doc.docId, this.workitem.workitemId, this.flagInitial).subscribe(res => {
                     if (res && res === 'True') {
-                      this.growlService.showGrowl({
-                        severity: 'error',
-                        summary: 'Warning', detail: 'You have already signed this document'
-                      });
+                      // this.growlService.showGrowl({
+                      //   severity: 'error',
+                      //   summary: 'Warning', detail: 'You have already signed this document'
+                      // });
+                      this.toastr.error('You have already signed this document', 'Warning');
                       this.ESignedAttachments[doc.docId] = true;
                       this.isesignverified = true;
                       this.signedDocCount++;
@@ -1030,11 +1042,12 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
               }
               else {
-                this.growlService.showGrowl({
-                  severity: 'error',
-                  summary: 'Try again later',
-                  detail: 'The document conversion process is in progress, please try after a while '
-                });
+                // this.growlService.showGrowl({
+                //   severity: 'error',
+                //   summary: 'Try again later',
+                //   detail: 'The document conversion process is in progress, please try after a while '
+                // });
+                this.toastr.error('The document conversion process is in progress, please try after a while', 'Try again later');
               }
             });
           });
@@ -1287,18 +1300,20 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         message = 'Document Added To Favorites';
         break;
     }
-    this.growlService.showGrowl({
-      severity: severity,
-      summary: summary,
-      detail: message
-    });
+    // this.growlService.showGrowl({
+    //   severity: severity,
+    //   summary: summary,
+    //   detail: message
+    // });
+    this.toastr.error(message, summary);
   }
 
   addToFavFailure() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Add To Favorites'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Add To Favorites'
+    // });
+    this.toastr.error('Failed To Add To Favorites', 'Failure');
   }
   mailTo(doc) {
     this.busy = true;
@@ -1315,10 +1330,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.busy = false;
     }, error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error Occurred', detail: 'Please try again!'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error Occurred', detail: 'Please try again!'
+      // });
+      this.toastr.error('Please try again!', 'Error Occurred');
     });
   }
 
@@ -1367,10 +1383,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   updateSuccess(data) {
     this.docSysProp = [];
     if (data) {
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Document Updated Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Document Updated Successfully'
+      // });
+      this.toastr.info('Document Updated Successfully', 'Success');
       this.editAttachment = false;
       this.closeEditAttModal();
     } else {
@@ -1382,18 +1399,20 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   updateFailed(error) {
     this.errorJson = JSON.parse(error.error).responseMessage;
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: this.errorJson
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: this.errorJson
+    // });
+    this.toastr.error(this.errorJson, 'Failure');
   }
 
   updateDocCheckInFailed(error) {
     this.errorJson = JSON.parse(error.error).responseMessage;
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: this.errorJson
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: this.errorJson
+    // });
+    this.toastr.error(this.errorJson, 'Failure');
     this.ds.cancelCheckOut(this.saveDocInfo.id).subscribe();
   }
 
@@ -1563,10 +1582,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.busy = true;
     this.workflowService.recallWorkitem(this.recallmodel).subscribe(data => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Recalled Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Recalled Successfully'
+      // });
+      this.toastr.info('Recalled Successfully', 'Success');
       if (this.checkAll || this.isAllItemsChecked()) {
         this.isWorkItemRecalled = true;
         this.previousPage('');
@@ -1646,10 +1666,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.busy = true;
         this.workflowService.finishWorkitem(this.workitem.workitemId).subscribe(data => {
           this.busy = false;
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success', detail: 'Finished Successfully'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success', detail: 'Finished Successfully'
+          // });
+          this.toastr.info('Finished Successfully', 'Success');
           this.bs.inboxRefreshRequired.emit('task-detail');
           this.router.navigateByUrl('/workflow/' + this.fromPage[0]);
         }, err => {
@@ -1704,10 +1725,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.busy = true;
     this.workflowService.archiveSentitem(this.sentItemId).subscribe(data => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Archived Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Archived Successfully'
+      // });
+      this.toastr.info('Archived Successfully', 'Success');
       if (this.fromPage[0] === 'inbox' || this.fromPage[0] === 'inbox-new') {
         const selectedInboxTab = this.workflowService.inboxSelectedUserTab.split('@');
         const inboxTabIndex = parseInt(selectedInboxTab[0], 10);
@@ -1789,10 +1811,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     this.busy = true;
     this.workflowService.addUserWorkitem(wia).subscribe(data => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Added User Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Added User Successfully'
+      // });
+      this.toastr.info('Added User Successfully', 'Success');
       //this.populateRecipients();
       this.getFirstWorkitemDetails();
       this.getWorkflowTrack();
@@ -2325,10 +2348,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
     if (exist) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'User Already Exist'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'User Already Exist'
+      // });
+      this.toastr.error('User Already Existy', 'Failure');
     }
   }
 
@@ -2624,32 +2648,36 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.cs.fileInFolder(folderId, doc.docId).subscribe(data => {
         this.busy = false;
         if (data === 'OK') {
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success', detail: 'Document Added To Folder'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success', detail: 'Document Added To Folder'
+          // });
+          this.toastr.info('Document Added To Folder', 'Success');
         }
         else if (data === 'Exists') {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Already Exist', detail: 'Document Already Exist In Destination Folder'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Already Exist', detail: 'Document Already Exist In Destination Folder'
+          // });
+          this.toastr.error('Document Already Exist In Destination Folder', 'Already Exist');
         }
         else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Failure', detail: 'Add To Folder Failed'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Failure', detail: 'Add To Folder Failed'
+          // });
+          this.toastr.error('Add To Folder Failed', 'Failure');
         }
       }, err => {
         this.busy = false;
       });
     }
     else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Permission', detail: 'User dont have permission to add'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Permission', detail: 'User dont have permission to add'
+      // });
+      this.toastr.error('User dont have permission to add', 'No Permission');
     }
   }
 
@@ -2795,10 +2823,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   noDocIdFound(docId) {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Invalid Document', detail: 'This document is either deleted or you dont have permission. Try again!'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Invalid Document', detail: 'This document is either deleted or you dont have permission. Try again!'
+    // });
+    this.toastr.error('This document is either deleted or you dont have permission. Try again!', 'Invalid Document');
     this.workitem.attachments.map((d, i) => {
       if (docId === d.docId) {
         this.strikeIndex = i;
@@ -3584,17 +3613,19 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
   replysuccess() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Reply Success'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Reply Success'
+    // });
+    this.toastr.info('Reply Success', 'Success');
     this.navigateToInbox();
   }
   replyfailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Reply Failed - Please check attachments or recipients are valid'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Reply Failed - Please check attachments or recipients are valid'
+    // });
+    this.toastr.info('Reply Failed - Please check attachments or recipients are valid', 'Failure');
   }
   ngOnDestroy() {
     let rType = "CC";

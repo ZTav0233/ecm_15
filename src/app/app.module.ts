@@ -49,6 +49,7 @@ import { HeaderComponent } from './components/generic-components/header/header.c
 import { AppBreadcrumbComponent } from './components/generic-components/breadcrumb/app.breadcrumb.component';
 import { AppMenuComponent, AppSubMenuComponent } from './components/generic-components/menu/app.menu.component';
 import { HomeComponent } from './components/generic-components/home/home.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,9 @@ import { HomeComponent } from './components/generic-components/home/home.compone
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+    }), // ToastrModule added
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,

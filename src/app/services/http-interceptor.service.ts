@@ -6,10 +6,11 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { GrowlService } from './growl.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
-  constructor(private growlService: GrowlService) {}
+  constructor(private growlService: GrowlService,private toastr: ToastrService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const modifiedReq = req.clone({
@@ -46,11 +47,12 @@ export class HttpInterceptorService implements HttpInterceptor {
         }
 
         if (!req.url.includes('getDesignationValues')) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Failure',
-            detail: message
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Failure',
+          //   detail: message
+          // });
+          this.toastr.error(message, 'Failure');
         }
 
         return throwError(error);
