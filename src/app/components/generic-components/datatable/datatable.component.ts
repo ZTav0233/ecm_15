@@ -18,6 +18,7 @@ import { WorkitemDetails } from "../../../models/workflow/workitem-details.model
 import { ContentService } from '../../../services/content.service';
 import { Table } from 'primeng/table';
 import * as _ from 'lodash';
+import { ToastrService } from 'ngx-toastr';
 interface Column {
   field: string;
   header: string;
@@ -133,7 +134,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   isFlag: boolean = false;
   displayBasic: boolean;
   cols!: Column[];
-  constructor(private ds: DocumentService, private sanitizer: DomSanitizer, public router: Router, private bs: BrowserEvents,
+  constructor(private ds: DocumentService, private sanitizer: DomSanitizer, public router: Router, private bs: BrowserEvents,private toastr:ToastrService,
     private us: UserService, private coreService: CoreService,
     private ws: WorkflowService, private confirmationService: ConfirmationService, private contentService: ContentService,
     private growlService: GrowlService) {
@@ -236,23 +237,26 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
 
   noWorkitemFound(selectedItem) {
     if (selectedItem.status === 'RECALL') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure',
-        detail: 'No Workitem Found for Recalled item'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure',
+      //   detail: 'No Workitem Found for Recalled item'
+      // });
+      this.toastr.error('No Workitem Found for Recalled item', 'Failure');
     } else if (selectedItem.status === 'ARCHIVE') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure',
-        detail: 'No Workitem Found for Archived item'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure',
+      //   detail: 'No Workitem Found for Archived item'
+      // });
+      this.toastr.error('No Workitem Found for Archived item', 'Failure');
     } else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure',
-        detail: 'No Workitem Found'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure',
+      //   detail: 'No Workitem Found'
+      // });
+      this.toastr.error('No Workitem Found', 'Failure');
     }
   }
 

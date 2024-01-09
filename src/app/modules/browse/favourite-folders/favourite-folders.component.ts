@@ -13,6 +13,7 @@ import { CoreService } from "../../../services/core.service";
 import { UserService } from "../../../services/user.service";
 import { saveAs } from 'file-saver';
 import * as _ from "lodash";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'favourite-folders',
@@ -46,7 +47,7 @@ export class FavouriteFoldersComponent implements OnDestroy {
   public folderPermission = { usage: 'rightPanel', folderSelected: false, permission: true };
   public gridItemsToExport: any[] = [];
   folderFilterInput:any='';
-  constructor(private breadcrumbService: BreadcrumbService, public cs: ContentService, public app: AppComponent,
+  constructor(private breadcrumbService: BreadcrumbService, public cs: ContentService, public app: AppComponent,private toastr:ToastrService,
     public ds: DocumentService, private bs: BrowserEvents, private growlService: GrowlService, public us: UserService,
     private coreService: CoreService) {
     this.subscription.push(this.us.getUserSettings().subscribe(val => {
@@ -306,10 +307,11 @@ export class FavouriteFoldersComponent implements OnDestroy {
         this.subscription.push(this.cs.fileInFolder(folderId, d.id)
           .subscribe(data => {
             if (data === 'OK') {
-              this.growlService.showGrowl({
-                severity: 'info',
-                summary: 'Success', detail: 'Document Added To Folder'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'info',
+              //   summary: 'Success', detail: 'Document Added To Folder'
+              // });
+              this.toastr.info('Document Added To Folder', 'Success');
               loop++;
               if (loop === docs.length) {
                 docs.splice(0, docs.length);
@@ -317,25 +319,28 @@ export class FavouriteFoldersComponent implements OnDestroy {
               }
             }
             else if (data === 'Exists') {
-              this.growlService.showGrowl({
-                severity: 'error',
-                summary: 'Already Exist', detail: 'Document Already Exist In Destination Folder'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'error',
+              //   summary: 'Already Exist', detail: 'Document Already Exist In Destination Folder'
+              // });
+              this.toastr.error('Document Already Exist In Destination Folder', 'Already Exist');
             }
             else {
-              this.growlService.showGrowl({
-                severity: 'error',
-                summary: 'Failure', detail: 'Add To Folder Failed'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'error',
+              //   summary: 'Failure', detail: 'Add To Folder Failed'
+              // });
+              this.toastr.error('Add To Folder Failed', 'Failure');
             }
 
           }));
       });
     } else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Permission', detail: 'User dont have permission to add'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Permission', detail: 'User dont have permission to add'
+      // });
+      this.toastr.error('User dont have permission to add', 'No Permission');
     }
 
   }
@@ -446,19 +451,21 @@ export class FavouriteFoldersComponent implements OnDestroy {
   }
 
   moveSuccess() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Move To Folder Success'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Move To Folder Success'
+    // });
+    this.toastr.info('Move To Folder Success', 'Success');
     this.viewMoveTree = false;
     this.subscription.push(this.cs.getFavoriteFolders().subscribe(data => this.getFavFolders(data)));
   }
 
   moveFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Move To Folder Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Move To Folder Failed'
+    // });
+    this.toastr.error('Move To Folder Failed', 'Failure');
   }
 
   removeFolderFav(selectedFolder) {
@@ -467,20 +474,22 @@ export class FavouriteFoldersComponent implements OnDestroy {
   }
 
   remFavSuccess() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Folder Removed From Favorites'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Folder Removed From Favorites'
+    // });
+    this.toastr.info('Folder Removed From Favorites', 'Success');
     this.documentFolders = [];
     this.subscription.push(this.cs.getFavoriteFolders().subscribe(data => this.getFavFolders(data)));
     this.gridItemsToExport=[];
   }
 
   remFavFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Remove From Favorites'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Remove From Favorites'
+    // });
+    this.toastr.error('Failed To Remove From Favorites', 'Failure');
   }
 
   clearSubscriptions() {

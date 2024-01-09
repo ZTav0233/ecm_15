@@ -8,6 +8,7 @@ import { AccessPolicyService } from '../../../services/access-policy.service';
 import { CoreService } from '../../../services/core.service';
 import { AdminService } from "../../../services/admin.service";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-accesspolicy-mapping',
@@ -28,7 +29,7 @@ export class AccessPolicyMappingComponent implements OnInit, OnDestroy {
   tempOrgId: any;
   busy: boolean;
 
-  constructor(private userService: UserService, private growlService: GrowlService, private coreService: CoreService,
+  constructor(private userService: UserService, private growlService: GrowlService, private coreService: CoreService,private toastr:ToastrService,
     private breadcrumbService: BreadcrumbService, private accessPolicyService: AccessPolicyService, private as: AdminService,
     private confirmationService: ConfirmationService, private contentService: ContentService) {
     this.roleData.roles = {
@@ -196,17 +197,19 @@ export class AccessPolicyMappingComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.accessPolicyService.removeAccessPolicyMapping(mapping.id).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Info', detail: 'Mapping Removed Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Info', detail: 'Mapping Removed Successfully'
+      // });
+      this.toastr.info('Mapping Removed Successfully', 'Info');
       this.getAccessPolicyMappings(this.roleData.roles.selectedRole.data.id);
     }, err => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error', detail: 'Error In Removing Mapping'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error', detail: 'Error In Removing Mapping'
+      // });
+      this.toastr.error('Error In Removing Mapping', 'Error');
     });
   }
 
@@ -277,23 +280,26 @@ export class AccessPolicyMappingComponent implements OnInit, OnDestroy {
       this.roleData.roles.model.selectedAccessPolicy.id).subscribe(res => {
         this.busy = false;
         if (res === 'OK') {
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Info', detail: 'Mapping Added Successfully'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Info', detail: 'Mapping Added Successfully'
+          // });
+          this.toastr.info('Mapping Added Successfully', 'Info');
         } else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Error', detail: 'Mapping Already Exist.'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Error', detail: 'Mapping Already Exist.'
+          // });
+          this.toastr.error('Mapping Already Exist.', 'Error');
         }
         this.getAccessPolicyMappings(this.roleData.roles.selectedRole.data.id);
       }, err => {
         this.busy = false;
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Error', detail: 'Error In Mapping'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Error', detail: 'Error In Mapping'
+        // });
+        this.toastr.error('Error In Mapping', 'Error');
       });
   }
 

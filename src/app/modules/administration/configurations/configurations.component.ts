@@ -9,6 +9,7 @@ import { User } from "../../../models/user/user.model";
 import { ContentService } from "../../../services/content.service";
 import * as _ from "lodash";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-configurations',
@@ -31,7 +32,7 @@ export class ConfigurationsComponent implements OnInit, OnDestroy {
   activeIndex=0
   busy: boolean;
 
-  constructor(private configService: ConfigurationService, private coreService: CoreService, private growlService: GrowlService,
+  constructor(private configService: ConfigurationService, private coreService: CoreService, private growlService: GrowlService,private toastr:ToastrService,
     private breadcrumbService: BreadcrumbService, private us: UserService, private cs: ContentService) {
     this.colHeaders = [{ field: 'keyName', header: 'Key Name', hidden: false }, { field: 'value', header: 'Value', hidden: false },
     { field: 'appId', header: 'appId', hidden: true }, { field: 'configScope', header: 'configScope', hidden: true },
@@ -155,17 +156,19 @@ export class ConfigurationsComponent implements OnInit, OnDestroy {
 
   saveValue() {
     this.subscriptions.push(this.configService.updateConfigurationRow([this.updatedRow]).subscribe(res => {
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Saved Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Saved Successfully'
+      // });
+      this.toastr.info('Saved Successfully', 'Success');
       this.showEditKeyValue = false;
       this.getConfigurations(this.updatedRow.scope);
     }, Error => {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'Failed'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'Failed'
+      // });
+      this.toastr.error('Failed', 'Failure');
     }));
   }
 

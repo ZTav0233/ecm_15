@@ -19,6 +19,7 @@ import * as moment from 'moment';
 import * as global from "../../../global.variables";
 import {Attachment} from "../../../models/document/attachment.model";
 import { ConfigurationService } from '../../../services/configuration.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-rightpanel',
@@ -119,7 +120,7 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
   @ViewChild('gb') searchInput: ElementRef;
   @ViewChild('dt') namelist:any;
   fileSizeConfiguration:any;
-  constructor(private bs: BrowserEvents, private ds: DocumentService, private us: UserService,
+  constructor(private bs: BrowserEvents, private ds: DocumentService, private us: UserService,private toastr:ToastrService,
     private router: Router, private cs: ContentService, private growlService: GrowlService,
     private confirmationService: ConfirmationService, private as: AdminService, private configService: ConfigurationService) {
     this.user = this.us.getCurrentUser();
@@ -343,10 +344,11 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     }
     else {
       this.isRemoveDisable = true;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Permission', detail: 'User dont have permission to remove'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Permission', detail: 'User dont have permission to remove'
+      // });
+      this.toastr.error('User dont have permission to remove', 'No Permission');
       this.selectedRemoveFolder.map((d, i) => {
         if (d.data.id === removeItem.id) {
           this.selectedRemoveFolder.splice(i, 1);
@@ -452,10 +454,11 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     this.allowEditSec = false;
     this.allowCheckin = false;
     this.allowDelete = false;
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Get Permission Details'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Get Permission Details'
+    // });
+    this.toastr.error('Failed To Get Permission Details', 'Failure');
   }
 
   validateForDocPermisssion(resp) {
@@ -605,11 +608,12 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
         message = 'Document Added To Cart';
         break;
     }
-    this.growlService.showGrowl({
-      severity: severity,
-      summary: summary,
-      detail: message
-    });
+    // this.growlService.showGrowl({
+    //   severity: severity,
+    //   summary: summary,
+    //   detail: message
+    // });
+    this.toastr.info(message, summary);
     this.subscriptions.push(this.ds.getCart(this.user.EmpNo).subscribe((data) => {
       this.ds.refreshCart(data);
     }));
@@ -617,10 +621,11 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   addToCartFailure() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Add To Cart Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Add To Cart Failed'
+    // });
+    this.toastr.error('Add To Cart Failed', 'Failure');
   }
 
   removeFav() {
@@ -698,18 +703,20 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     if(data.toLowerCase()==='exists'){
       msg='Link already exists';
     }
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: msg
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: msg
+    // });
+    this.toastr.info(msg, 'Success');
     this.refresh();
   }
 
   errorLink() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Link Docs'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Link Docs'
+    // });
+    this.toastr.error('Failed To Link Docs', 'Failure');
   }
 
   addFavourites() {
@@ -744,19 +751,21 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
         message = 'Document Added To Favorites';
         break;
     }
-    this.growlService.showGrowl({
-      severity: severity,
-      summary: summary,
-      detail: message
-    });
+    // this.growlService.showGrowl({
+    //   severity: severity,
+    //   summary: summary,
+    //   detail: message
+    // });
+    this.toastr.info(message, summary);
     this.refresh();
   }
 
   addToFavFailure() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Add To Favorites'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Add To Favorites'
+    // });
+    this.toastr.error('Failed To Add To Favorites', 'Failure');
   }
 
   openEditDoc() {
@@ -776,19 +785,21 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
        }, err => {
          this.busy = false;
          if (err.statusText === 'OK') {
-           this.growlService.showGrowl({
-             severity: 'error',
-             summary: 'Invalid Document', detail: 'This Document is either deleted or not found'
-           });
+          //  this.growlService.showGrowl({
+          //    severity: 'error',
+          //    summary: 'Invalid Document', detail: 'This Document is either deleted or not found'
+          //  });
+           this.toastr.error('This Document is either deleted or not found', 'Invalid Document');
          }
        });
       }
       else{
         this.update = false;
-        this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Try again later', detail: 'The document conversion process is in progress, please try after a while '
-      });
+      //   this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Try again later', detail: 'The document conversion process is in progress, please try after a while '
+      // });
+      this.toastr.error('The document conversion process is in progress, please try after a while ', 'Try again later');
       }
     });
   }
@@ -849,10 +860,11 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     }, err => {
       this.busy = false;
       this.update = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'User dont have permission'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'User dont have permission'
+      // });
+      this.toastr.error('User dont have permission', 'Failure');
     });
     this.as.getNextECMNo().subscribe(data => {
       this.ecmNo = data;
@@ -889,19 +901,21 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
   unfileSuccess() {
     setTimeout(() => {
       this.refresh();
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Document Removed From Folder '
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Document Removed From Folder '
+      // });
+      this.toastr.info('Document Removed From Folder', 'Success');
     }, 900);
 
   }
 
   unfileFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Remove'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Remove'
+    // });
+    this.toastr.error('Failed To Remove', 'Failure');
   }
 
   fileIn() {
@@ -946,46 +960,51 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     if (data === true) {
       this.callValidateFolpermTo(folderIdFrom, "ADD", moveToFolder, folderIdTo, docs);
     } else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Permission', detail: 'User dont have permission to move from this folder'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Permission', detail: 'User dont have permission to move from this folder'
+      // });
+      this.toastr.error('User dont have permission to move from this folder', 'No Permission');
     }
   }
 
   validateFolderPermConfirm(folderIdFrom, data, moveToFolder, folderIdTo, docs) {
     if (data === true) {
       if (folderIdFrom === folderIdTo) {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Cant Move', detail: 'Source and Destination are same'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Cant Move', detail: 'Source and Destination are same'
+        // });
+        this.toastr.error('Source and Destination are same', 'Cant Move');
       } else {
         this.busy = true;
         this.ds.moveMultipleDocuments(moveToFolder).subscribe(res => {
           this.busy = false;
           if (res === 'OK') {
-            this.growlService.showGrowl({
-              severity: 'info',
-              summary: 'Success', detail: 'Document Moved To Folder'
-            });
+            // this.growlService.showGrowl({
+            //   severity: 'info',
+            //   summary: 'Success', detail: 'Document Moved To Folder'
+            // });
+            this.toastr.info('Document Moved To Folder', 'Success');
             const folderId = localStorage.getItem('folderIdForMove');
             docs.splice(0, docs.length);
           } else {
-            this.growlService.showGrowl({
-              severity: 'error',
-              summary: 'Failure', detail: 'Move To Folder Failed'
-            });
+            // this.growlService.showGrowl({
+            //   severity: 'error',
+            //   summary: 'Failure', detail: 'Move To Folder Failed'
+            // });
+            this.toastr.error('Move To Folder Failed', 'Failure');
           }
         }, err => {
           this.busy = false;
         });
       }
     } else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Permission', detail: 'User dont have permission to move to this folder'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Permission', detail: 'User dont have permission to move to this folder'
+      // });
+      this.toastr.error('User dont have permission to move to this folder', 'No Permission');
     }
   }
 
@@ -1038,44 +1057,49 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
         moveToFolder.docIds.push(d.id);
       });
       if (folderIdFrom === folderIdTo) {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Cant Move', detail: 'Source and Destination are same'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Cant Move', detail: 'Source and Destination are same'
+        // });
+        this.toastr.error('Source and Destination are same', 'Cant Move');
       }
       else {
         this.busy = true;
         this.ds.moveMultipleDocuments(moveToFolder).subscribe(data => {
           this.busy = false;
           if (data === 'OK') {
-            this.growlService.showGrowl({
-              severity: 'info',
-              summary: 'Success', detail: 'Document Moved To Folder'
-            });
+            // this.growlService.showGrowl({
+            //   severity: 'info',
+            //   summary: 'Success', detail: 'Document Moved To Folder'
+            // });
+            this.toastr.info('Document Moved To Folder', 'Success');
             this.refresh();
           }
           else if (data === 'Partial Fail') {
-            this.growlService.showGrowl({
-              severity: 'info',
-              summary: 'Success', detail: 'Only Some Documents Moved'
-            });
+            // this.growlService.showGrowl({
+            //   severity: 'info',
+            //   summary: 'Success', detail: 'Only Some Documents Moved'
+            // });
+            this.toastr.info('Only Some Documents Moved', 'Success');
             this.refresh();
           }
           else {
-            this.growlService.showGrowl({
-              severity: 'error',
-              summary: 'Failure', detail: 'Move To Folder Failed'
-            });
+            // this.growlService.showGrowl({
+            //   severity: 'error',
+            //   summary: 'Failure', detail: 'Move To Folder Failed'
+            // });
+            this.toastr.error('Move To Folder Failed', 'Failure');
           }
         }, err => {
           this.busy = false;
         });
       }
     } else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Permission', detail: 'User dont have permission to move to this folder'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Permission', detail: 'User dont have permission to move to this folder'
+      // });
+      this.toastr.error('User dont have permission to move to this folder', 'No Permission');
     }
   }
 
@@ -1156,10 +1180,11 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     if (data !== true) {
       //this.showMoveFrom=false;
       this.showMove = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Permission', detail: 'User dont have permission to move'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Permission', detail: 'User dont have permission to move'
+      // });
+      this.toastr.error('User dont have permission to move', 'No Permission');
     }
   }
 
@@ -1341,10 +1366,11 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
 
   updateSuccess(data) {
     this.docSysProp = [];
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Document Updated Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Document Updated Successfully'
+    // });
+    this.toastr.info('Document Updated Successfully', 'Success');
     this.editAttachment = false;
     this.fileselected = false;
     this.update = false;
@@ -1354,18 +1380,20 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
 
   updateFailed(error) {
     this.errorJson = JSON.parse(error.error).responseMessage;
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: this.errorJson
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: this.errorJson
+    // });
+    this.toastr.error( this.errorJson, 'Failure');
   }
 
   updateDocCheckInFailed(error) {
     this.errorJson = JSON.parse(error.error).responseMessage;
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: this.errorJson
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: this.errorJson
+    // });
+    this.toastr.error(this.errorJson, 'Failure');
     this.ds.cancelCheckOut(this.saveDocInfo.id).subscribe();
   }
 
@@ -1511,19 +1539,21 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     this.busy = true;
     const subscription = this.ds.setDocumentAdhocPermissions(selectedPolicy).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: successMsg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: successMsg
+      // });
+      this.toastr.info(successMsg, 'Success');
       this.showPermissionDialogue = false;
       this.newPermissions = [];
       this.refresh();
     }, err => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error', detail: errorMsg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error', detail: errorMsg
+      // });
+      this.toastr.error(errorMsg, 'Error');
     });
   }
 
@@ -1620,10 +1650,11 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
           this.refresh();
         }, error => {
           this.busy = false;
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Error', detail: 'Failed to Delete, Try again or contact ECM Support'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Error', detail: 'Failed to Delete, Try again or contact ECM Support'
+          // });
+          this.toastr.error('Failed to Delete, Try again or contact ECM Support', 'Error');
         });
       }
     });
@@ -1653,35 +1684,40 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
           severity: 'info',
           summary: 'Success', detail: detailMsg
         });
+        this.toastr.info(detailMsg, 'Success');
       }
       else if(docReason === 'SOFT')
       {
         detailMsg = "Document is deleted successfully";
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: detailMsg
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: detailMsg
+        // });
+        this.toastr.info(detailMsg, 'Success');
       }
       else if(docReason !== 'SOFT' && docReason !== 'DELETE')
       {
         detailMsg = "Not permitted to delete this document, please contact ECM Support Team";
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Failure', detail: detailMsg
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Failure', detail: detailMsg
+        // });
+        this.toastr.error(detailMsg, 'Failure');
       }
       else{
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: detailMsg
-        }); 
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: detailMsg
+        // }); 
+        this.toastr.info(detailMsg, 'Success');
       }
     }
     else{
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: detailMsg
-      }); 
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: detailMsg
+      // }); 
+      this.toastr.info(detailMsg, 'Success');
     }
   }
 

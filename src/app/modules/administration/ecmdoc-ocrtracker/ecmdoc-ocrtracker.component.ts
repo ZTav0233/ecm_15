@@ -5,6 +5,7 @@ import {BreadcrumbService} from "../../../services/breadcrumb.service";
 import {GrowlService} from "../../../services/growl.service";
 import * as moment from 'moment';
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-ecmdoc-ocrtracker',
   templateUrl: './ecmdoc-ocrtracker.component.html',
@@ -17,7 +18,8 @@ export class EcmdocOcrtrackerComponent implements OnInit {
  selectedRow:any;
  public justificationDialog = false;
  justificationMsg:any;
-  constructor(private as: AdminService,private breadcrumbService: BreadcrumbService,private growlService: GrowlService,private coreService: CoreService) { }
+  constructor(private as: AdminService,private breadcrumbService: BreadcrumbService,private toastr:ToastrService,
+    private growlService: GrowlService,private coreService: CoreService) { }
 
   ngOnInit() {
     this.callOCRDetails();
@@ -57,16 +59,18 @@ export class EcmdocOcrtrackerComponent implements OnInit {
   }
   addJustification(){
     this.as.updateDocOCRStatus(this.selectedRow.docId,this.justificationMsg).subscribe(data => {
-      this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Updated Successfully'
-    });
+    //   this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Updated Successfully'
+    // });
+    this.toastr.info('Updated Successfully', 'Success');
     this.callOCRDetails();
     },err=>{
-      this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Update Failed'
-    });
+    //   this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Update Failed'
+    // });
+    this.toastr.error('Update Faile', 'Failure');
     })
   }
   //  exportToExcel() {

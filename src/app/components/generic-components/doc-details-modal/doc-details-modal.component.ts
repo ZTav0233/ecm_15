@@ -9,6 +9,7 @@ import { ContentService } from '../../../services/content.service';
 import { Subscription } from "rxjs";
 import { BrowserEvents } from "../../../services/browser-events.service";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-doc-details-modal',
@@ -42,7 +43,7 @@ export class DocDetailsModalComponent implements OnInit, OnDestroy {
   public isDocTrackLoaded = false;
   public docVersions: SelectItem[] = [];
   selectedVersionVal: any;
-  constructor(private ds: DocumentService, private sanitizer: DomSanitizer, private confirmationService: ConfirmationService,
+  constructor(private ds: DocumentService, private sanitizer: DomSanitizer, private confirmationService: ConfirmationService,private toastr:ToastrService,
     private contentService: ContentService, private coreService: CoreService, private growlService: GrowlService,
     private bs: BrowserEvents) {
     this.bs.docDetailsModelTabIndex.subscribe(() => {
@@ -86,17 +87,19 @@ viewFolderPath(folder){
         window.parent.postMessage({ 'v1': 'openFolderPath', 'v2': folder.id, 'v3': folder.path}, '*');
       }
       else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'No Permission', detail: 'User have no access to the folder'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'No Permission', detail: 'User have no access to the folder'
+        // });
+        this.toastr.error('User have no access to the folder', 'No Permission');
       }
     }, err => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Permission', detail: 'User have no access to the folder'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Permission', detail: 'User have no access to the folder'
+      // });
+      this.toastr.error('User have no access to the folder', 'No Permission');
     });
   }
 
@@ -125,10 +128,11 @@ viewFolderPath(folder){
   }
 
   successremoveLink() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Remove Link Successful'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Remove Link Successful'
+    // });
+    this.toastr.info('Remove Link Successful', 'Success');
     this.busy = true;
     this.ds.getLinks(this.headId).subscribe(data => {
       this.busy = false;
@@ -144,6 +148,7 @@ viewFolderPath(folder){
       severity: 'error',
       summary: 'Failure', detail: "No permissions to remove selected link"
     });
+    this.toastr.error('No permissions to remove selected link', 'Failure');
   }
 
   downloadDoc(doc) {

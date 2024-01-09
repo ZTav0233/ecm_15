@@ -7,6 +7,7 @@ import { BreadcrumbService } from '../../../services/breadcrumb.service';
 import { CoreService } from '../../../services/core.service';
 import { saveAs } from 'file-saver';
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-entrytemplate-mapping',
@@ -28,6 +29,7 @@ export class EntrytemplateMappingComponent implements OnInit {
   busy: boolean;
 
   constructor(
+    private toastr:ToastrService,
     private cs: ContentService,
     private coreService: CoreService,
     private adminService: AdminService,
@@ -137,10 +139,11 @@ export class EntrytemplateMappingComponent implements OnInit {
       }
     });
     if (isExist) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Already Exist', detail: 'Mapping Already Exist'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Exist', detail: 'Mapping Already Exist'
+      // });
+      this.toastr.error('Mapping Already Exist', 'Already Exist');
     }
     else {
       this.adminService.addEntryTemplateMapping(this.selectedorgCode.id, this.selectedEntryTemplate.id, this.isvisible, this.selectedEntryTemplate.vsid).subscribe(data => this.mapSuccess(), err => this.mapFailed());
@@ -148,10 +151,11 @@ export class EntrytemplateMappingComponent implements OnInit {
   }
 
   mapSuccess() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Mapped To Entry Template'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Mapped To Entry Template'
+    // });
+    this.toastr.info('Mapped To Entry Template', 'Success');
     if (this.selectedEntryTemplate.name !== 'Correspondence') {
       this.getAnyOrg();
     }
@@ -162,10 +166,11 @@ export class EntrytemplateMappingComponent implements OnInit {
   }
 
   mapFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Map To Entry Template'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Map To Entry Template'
+    // });
+    this.toastr.error('Failed To Map To Entry Template', 'Failure');
   }
 
   removeMapping(dat) {
@@ -174,18 +179,20 @@ export class EntrytemplateMappingComponent implements OnInit {
 
   removeSuccess() {
     this.searchOrgText = undefined;
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Removed From Mapping'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Removed From Mapping'
+    // });
+    this.toastr.info('Removed From Mapping', 'Success');
     this.adminService.getOrgUnitsByEntryTemplate(this.selectedEntryTemplate.vsid).subscribe(val => this.assignMappedIds(val));
   }
 
   removeFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Fail To Remove From Mapping'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Fail To Remove From Mapping'
+    // });
+    this.toastr.error('Fail To Remove From Mapping', 'Failure');
   }
 
   confirm(event) {
@@ -244,23 +251,26 @@ export class EntrytemplateMappingComponent implements OnInit {
     this.adminService.deleteEntryTemplate(template.id, template.vsid).subscribe(res => {
       this.busy = false;
       if (res && res === 'OK') {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Deleted Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Deleted Successfully'
+        // });
+        this.toastr.info('Deleted Successfully', 'Success');
       } else if (res && res.toLowerCase() === 'docexists') {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Failure', detail: 'Cant Delete Entry Template, Document Exists.'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Failure', detail: 'Cant Delete Entry Template, Document Exists.'
+        // });
+        this.toastr.error('Cant Delete Entry Template, Document Exists.', 'Failure');
       }
       this.ngOnInit();
     }, error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'User Has No Permission to Delete'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'User Has No Permission to Delete'
+      // });
+      this.toastr.error('User Has No Permission to Delete', 'Failure');
     });
   }
 

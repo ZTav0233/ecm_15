@@ -70,7 +70,7 @@
       <ng-container
         *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new' ||  (fromPage[0]==='archive' && !isTrack)) && workitem.isMemo==0">
         <button pButton class="remove-btn v-m" type="button" [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"
-          icon="{{workitem.hasProgress?'ui-icon-hourglass-full':'ui-icon-hourglass-empty'}}" title="Work Progress"
+          icon="{{workitem.hasProgress?'fa fa-fw ui-icon-hourglass-full':'fa fa-fw ui-icon-hourglass-empty'}}" title="Work Progress"
           (click)="getWorkitemProgress(workitem.workitemId)"></button>
       </ng-container>
       <ng-container *ngIf="(fromPage[0]==='sent' || fromPage[0]==='actioned')">

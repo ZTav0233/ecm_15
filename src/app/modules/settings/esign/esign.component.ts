@@ -8,6 +8,7 @@ import {UserService} from '../../../services/user.service';
 import {GrowlService} from '../../../services/growl.service';
 import {CoreService} from '../../../services/core.service';
 import {BreadcrumbService} from '../../../services/breadcrumb.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class SignComponent implements OnInit, OnDestroy {
   selectedFolder: any;
 
   constructor(
+    private toastr:ToastrService,
     private wfs: WorkflowService, 
     public userService: UserService, 
     private growlService: GrowlService,
@@ -156,10 +158,11 @@ export class SignComponent implements OnInit, OnDestroy {
     // }
     console.log("Sign Upload Status :: " + data);
     if(data=="success"){
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Signature Image Uploaded'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Signature Image Uploaded'
+      // });
+      this.toastr.info('Signature Image Uploaded', 'Success');
     }
     else
       this.addDocFailed();
@@ -167,10 +170,11 @@ export class SignComponent implements OnInit, OnDestroy {
 
   addDocFailed() {
     
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Upload Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Upload Failed'
+    // });
+    this.toastr.error('Upload Failed', 'Failure');
 
   }
 

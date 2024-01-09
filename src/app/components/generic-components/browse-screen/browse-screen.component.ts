@@ -10,6 +10,7 @@ import * as globalv from '../../../global.variables';
 import { CoreService } from '../../../services/core.service';
 import { UserService } from "../../../services/user.service";
 import { DataService } from '../../../services/data.Service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-browse-screen',
@@ -37,7 +38,7 @@ export class BrowseScreenComponent implements OnInit, OnDestroy {
   public selectedItem: any[] = [];
   folderFilterInput: any = '';
   @Input() public fromEnclosure;
-  constructor(private dataService: DataService, private breadcrumbService: BreadcrumbService, public cs: ContentService, public app: AppComponent,
+  constructor(private dataService: DataService, private breadcrumbService: BreadcrumbService, public cs: ContentService, public app: AppComponent,private toastr:ToastrService,
     public ds: DocumentService, public browserEvents: BrowserEvents, private growlService: GrowlService, public us: UserService,
     private coreService: CoreService) {
     this.currentUser = this.us.getCurrentUser();
@@ -282,11 +283,12 @@ export class BrowseScreenComponent implements OnInit, OnDestroy {
           message = 'Document Added To Enclosures';
           break;
       }
-      this.growlService.showGrowl({
-        severity: severity,
-        summary: summary,
-        detail: message
-      });
+      // this.growlService.showGrowl({
+      //   severity: severity,
+      //   summary: summary,
+      //   detail: message
+      // });
+      this.toastr.info(message, summary);
     }else{
       switch (res.status) {
         case 'Success':
@@ -303,21 +305,24 @@ export class BrowseScreenComponent implements OnInit, OnDestroy {
           message = 'Document Added To Cart';
           break;
       }
-      this.growlService.showGrowl({
-        severity: severity,
-        summary: summary,
-        detail: message
-      });
+      // this.growlService.showGrowl({
+      //   severity: severity,
+      //   summary: summary,
+      //   detail: message
+      // });
+      this.toastr.info(message, summary);
     }
 
     
   }
 
   addToCartFailure() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Add To Cart Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Add To Cart Failed'
+    // });
+    this.toastr.error('Add To Cart Failed', 'Failure');
+
   }
   updateSearchInDatatable() {
     const folderId = localStorage.getItem('folderId');

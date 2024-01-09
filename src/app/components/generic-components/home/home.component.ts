@@ -14,6 +14,7 @@ import { GrowlService } from "../../../services/growl.service";
 import { User } from "../../../models/user/user.model";
 import { AdminService } from "../../../services/admin.service";
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -58,7 +59,7 @@ export class HomeComponent implements OnDestroy, OnInit, AfterContentInit {
 
   //comp: ComponentRef<any>;
   //@ViewChild('viewContainerRef', { read: ViewContainerRef }) VCR: ViewContainerRef;
-  constructor(public router: Router, private us: UserService, private ws: WorkflowService, private bs: BrowserEvents,
+  constructor(public router: Router, private us: UserService, private ws: WorkflowService, private toastr:ToastrService,private bs: BrowserEvents,
     private coreService: CoreService, private growlService: GrowlService, private as: AdminService) {
     this.currentUser = this.us.getCurrentUser();
 
@@ -269,10 +270,11 @@ export class HomeComponent implements OnDestroy, OnInit, AfterContentInit {
           this.showWorkItemDetailsFromMail(e);
         }
         else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Not Available', detail: msg
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Not Available', detail: msg
+          // });
+          this.toastr.error(msg, 'Not Available');
           this.router.navigate(['/workflow/inbox']);
         }
       });
@@ -311,10 +313,11 @@ export class HomeComponent implements OnDestroy, OnInit, AfterContentInit {
           this.showWorkItemDetailsFromMail(e);
         }
         else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Not Available', detail: msg
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Not Available', detail: msg
+          // });
+          this.toastr.error(msg, 'Not Available');
           this.router.navigate(['/workflow/archive']);
         }
       });
@@ -346,17 +349,19 @@ export class HomeComponent implements OnDestroy, OnInit, AfterContentInit {
     this.ws.validateWorkitem(e.data.options.wiId).subscribe(res => {
       if (res === 'ACTIONED') {
         this.router.navigate(['/workflow/inbox']);
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Already Actioned', detail: 'Workitem already actioned'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Already Actioned', detail: 'Workitem already actioned'
+        // });
+        this.toastr.error('Workitem already actioned', 'Already Actioned');
 
       } else if (res === 'INACTIVE') {
         this.router.navigate(['/workflow/inbox']);
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Workitem recalled', detail: 'Workitem is recalled'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Workitem recalled', detail: 'Workitem is recalled'
+        // });
+        this.toastr.error('Workitem is recalled', 'Workitem recalled');
       }
       else {
         if (e.data.options.wiStatus && e.data.options.wiStatus == 'FINISH') {

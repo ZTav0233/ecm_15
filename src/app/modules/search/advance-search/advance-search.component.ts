@@ -15,6 +15,7 @@ import { DataTableComponent } from "../../../components/generic-components/datat
 import * as globalv from "../../../global.variables";
 import { AdminService } from "../../../services/admin.service";
 import { ConfigurationService } from "../../../services/configuration.service";
+import { ToastrService } from 'ngx-toastr';
 @Component({
   templateUrl: './advance-search.component.html'
 })
@@ -51,7 +52,7 @@ export class AdvanceSearchComponent implements OnInit, OnDestroy {
   searchpageSize: any;
   public isLastPage = false;
   searchCountLimit: any;
-  constructor(private breadcrumbService: BreadcrumbService, private sanitizer: DomSanitizer,
+  constructor(private breadcrumbService: BreadcrumbService, private sanitizer: DomSanitizer,private toastr:ToastrService,
     private us: UserService, private documentService: DocumentService, private coreService: CoreService, private bs: BrowserEvents,
     private cs: ContentService, private growlService: GrowlService, private as: AdminService) {
     this.currentUser = this.us.getCurrentUser();
@@ -175,23 +176,26 @@ export class AdvanceSearchComponent implements OnInit, OnDestroy {
       this.busy = false;
       if (res === 'OK') {
         window.parent.postMessage({ v1: 'AddCartSuccess', v2: 1 }, '*');
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Add To Cart Success'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Add To Cart Success'
+        // });
+        this.toastr.info('Add To Cart Success', 'Success');
       }
       else if (res === 'Exists') {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Already Exist', detail: 'Document Already Exist in Cart'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Already Exist', detail: 'Document Already Exist in Cart'
+        // });
+        this.toastr.error('Document Already Exist in Cart', 'Already Exist');
       }
     }, err => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'Add To Cart Failed'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'Add To Cart Failed'
+      // });
+      this.toastr.error('Add To Cart Failed', 'Failure');
     });
   }
 
@@ -288,32 +292,36 @@ export class AdvanceSearchComponent implements OnInit, OnDestroy {
         this.subscriptions.push(this.cs.fileInFolder(folderId, d.id)
           .subscribe(data => {
             if (data === 'OK') {
-              this.growlService.showGrowl({
-                severity: 'info',
-                summary: 'Success', detail: 'Document Added To Folder'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'info',
+              //   summary: 'Success', detail: 'Document Added To Folder'
+              // });
+              this.toastr.info('Document Added To Folder', 'Success');
               loop++;
               if (loop === docs.length) {
                 docs.splice(0, docs.length);
               }
             } else if (data === 'Exists') {
-              this.growlService.showGrowl({
-                severity: 'error',
-                summary: 'Already Exist', detail: 'Document Already Exist In Destination Folder'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'error',
+              //   summary: 'Already Exist', detail: 'Document Already Exist In Destination Folder'
+              // });
+              this.toastr.error('Document Already Exist In Destination Folder', 'Already Exist');
             } else {
-              this.growlService.showGrowl({
-                severity: 'error',
-                summary: 'Failure', detail: 'Add To Folder Failed'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'error',
+              //   summary: 'Failure', detail: 'Add To Folder Failed'
+              // });
+              this.toastr.error('Add To Folder Failed', 'Failure');
             }
           }));
       });
     } else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Permission', detail: 'User dont have permission to add'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Permission', detail: 'User dont have permission to add'
+      // });
+      this.toastr.error('User dont have permission to add', 'No Permission');
     }
   }
 

@@ -12,6 +12,7 @@ import { ContentService } from "../../../services/content.service";
 import { GrowlService } from "../../../services/growl.service";
 import { saveAs } from 'file-saver';
 import * as _ from "lodash";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-recents',
@@ -34,7 +35,7 @@ export class RecentsComponent implements OnInit {
   public exportFields: any[] = ['name', 'creator', 'addOn', 'modOn', 'modifier', 'format', 'verNo'];
   public gridItemsToExport: any[] = [];
 
-  constructor(private breadcrumbService: BreadcrumbService, private ds: DocumentService, private us: UserService,
+  constructor(private breadcrumbService: BreadcrumbService, private ds: DocumentService, private us: UserService,private toastr:ToastrService,
     private coreService: CoreService, private cs: ContentService, private growlService: GrowlService) {
     this.user = this.us.getCurrentUser();
     this.emptyMessage = globalv.no_doc_found;
@@ -197,36 +198,40 @@ export class RecentsComponent implements OnInit {
         this.subscription.push(this.cs.fileInFolder(folderId, d.id)
           .subscribe(data => {
             if (data === 'OK') {
-              this.growlService.showGrowl({
-                severity: 'info',
-                summary: 'Success', detail: 'Document Added To Folder'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'info',
+              //   summary: 'Success', detail: 'Document Added To Folder'
+              // });
+              this.toastr.info('Document Added To Folder', 'Success');
               loop++;
               if (loop === docs.length) {
                 docs.splice(0, docs.length);
               }
             }
             else if (data === 'Exists') {
-              this.growlService.showGrowl({
-                severity: 'error',
-                summary: 'Already Exist', detail: 'Document Already Exist In Destination Folder'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'error',
+              //   summary: 'Already Exist', detail: 'Document Already Exist In Destination Folder'
+              // });
+              this.toastr.error('Document Already Exist In Destination Folder', 'Already Exist');
             }
             else {
-              this.growlService.showGrowl({
-                severity: 'error',
-                summary: 'Failure', detail: 'Add To Folder Failed'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'error',
+              //   summary: 'Failure', detail: 'Add To Folder Failed'
+              // });
+              this.toastr.error('Add To Folder Failed', 'Failure');
             }
 
           }));
       });
     }
     else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Permission', detail: 'User dont have permission to add'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Permission', detail: 'User dont have permission to add'
+      // });
+      this.toastr.info('User dont have permission to add', 'No Permission');
     }
   }
 

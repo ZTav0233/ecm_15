@@ -7,6 +7,7 @@ import {CoreService} from "../../../services/core.service";
 import {AdminService} from "../../../services/admin.service";
 import {GrowlService} from "../../../services/growl.service";
 import { TreeNode} from "primeng/api";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-help',
@@ -32,7 +33,8 @@ export class HelpComponent implements OnInit {
   index: any;
   videoList: TreeNode[];
   selectedVideo: any;
-  constructor(private breadcrumbService: BreadcrumbService, public cs: ContentService, private coreService: CoreService,private as:AdminService,private growlService: GrowlService) {
+  constructor(private breadcrumbService: BreadcrumbService, public cs: ContentService, 
+    private toastr:ToastrService,private coreService: CoreService,private as:AdminService,private growlService: GrowlService) {
   }
 
   ngOnInit() {
@@ -128,10 +130,11 @@ export class HelpComponent implements OnInit {
       window.open(event.data.docurl);
     }
     else{
-       this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'No video found', detail: 'Video to be uploaded soon'
-      });
+      //  this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'No video found', detail: 'Video to be uploaded soon'
+      // });
+      this.toastr.info('Video to be uploaded soon', 'No video found');
     }
   }
 

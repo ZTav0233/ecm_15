@@ -1305,7 +1305,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     //   summary: summary,
     //   detail: message
     // });
-    this.toastr.error(message, summary);
+    this.toastr.info(message, summary);
   }
 
   addToFavFailure() {

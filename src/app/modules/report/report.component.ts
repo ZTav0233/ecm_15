@@ -13,6 +13,7 @@ import { GrowlService } from "../../services/growl.service";
 import * as moment from 'moment';
 import { BaseChartDirective } from 'ng2-charts';
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   styleUrls: ['./report-component.css'],
   selector: 'app-report-component',
@@ -355,6 +356,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   maxToDateValue:any;
   fromDateMin:any;
   constructor(
+    private toastr:ToastrService,
     private breadcrumbService: BreadcrumbService,
     private us: UserService,
     private coreService: CoreService,
@@ -861,17 +863,19 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
   getReport() {
     if (typeof this.report.search.userSearchText === 'string') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'Please Select Valid User'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'Please Select Valid User'
+      // });
+      this.toastr.info('Please Select Valid User', 'Failure');
       return;
     }
     if (this.report.search.userSearchText && !(this.report.search.searchSuggestions && this.report.search.searchSuggestions.length > 0)) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'Please Select Valid User'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'Please Select Valid User'
+      // });
+      this.toastr.error('Please Select Valid User', 'Failure');
       return;
     }
     if (!this.report.search.roleSearchText && !this.report.search.userSearchText &&

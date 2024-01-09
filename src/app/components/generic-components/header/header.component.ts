@@ -11,6 +11,7 @@ import * as global from '../../../global.variables';
 import { GrowlService } from '../../../services/growl.service';
 import { CoreService } from "../../../services/core.service";
 import { BrowserEvents } from "../../../services/browser-events.service";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-header',
@@ -27,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('searchQuery') public searchQuery: ElementRef;
   busy: boolean;
 
-  constructor(public app: AppComponent, public router: Router, public us: UserService,
+  constructor(public app: AppComponent, public router: Router, public us: UserService,private toastr:ToastrService,
     public documentService: DocumentService, private growlService: GrowlService, private coreService: CoreService, private bs: BrowserEvents) {
   }
 
@@ -97,10 +98,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   search(event) {
     if (!this.isAdvanced && (!this.searchObj.query || this.searchObj.query.length < 3)) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Search', detail: 'Please enter minimum 3 characters'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Search', detail: 'Please enter minimum 3 characters'
+      // });
+      this.toastr.error('Please enter minimum 3 characters', 'Search');
       return;
     }
     if (this.isAdvanced) {

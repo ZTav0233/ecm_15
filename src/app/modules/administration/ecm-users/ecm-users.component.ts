@@ -8,6 +8,7 @@ import { GrowlService } from '../../../services/growl.service';
 import { saveAs } from 'file-saver';
 import * as _ from "lodash";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ecm-users',
@@ -31,6 +32,7 @@ export class EcmUsersComponent implements OnInit, OnDestroy {
   showUserInfo = false;
 
   constructor(
+    private toastr:ToastrService,
     private us: UserService,
     private coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
@@ -149,10 +151,11 @@ export class EcmUsersComponent implements OnInit, OnDestroy {
   }
 
   successSave() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Saved Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Saved Successfully'
+    // });
+    this.toastr.info('Saved Successfully', 'Success');
     this.userModel = new User();
     this.busy = true;
     this.us.getECMUsers().subscribe(data => {
@@ -164,10 +167,11 @@ export class EcmUsersComponent implements OnInit, OnDestroy {
   }
 
   failureSave() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Save Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Save Failed'
+    // });
+    this.toastr.error('Save Failed', 'Failure');
   }
 
   exportToExcel() {

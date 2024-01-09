@@ -39,7 +39,7 @@ import { DocumentCartComponent } from '../../../components/generic-components/do
 import { MemoService } from '../../../services/memo.service';
 import { filter } from 'rxjs/operators';
 
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-launch',
   templateUrl: './launch.component.html',
@@ -171,6 +171,7 @@ export class LaunchComponent implements OnInit, OnDestroy {
   selectedOptionForDocument
   public isMemoUser: boolean = false;
   constructor(
+    private toastr:ToastrService,
     private ref: ChangeDetectorRef,
     private breadcrumbService: BreadcrumbService,
     private ws: WorkflowService,
@@ -712,23 +713,26 @@ export class LaunchComponent implements OnInit, OnDestroy {
       });
     }
     if (docPdfWordCount == 0&& this.launch.documents.existing.model.actionType !== 'MultiSign') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Not Allowed', detail: 'At least one PDF or MS word file should be selected for Signature/Initial.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Not Allowed', detail: 'At least one PDF or MS word file should be selected for Signature/Initial.'
+      // });
+      this.toastr.error('At least one PDF or MS word file should be selected for Signature/Initial.', 'Not Allowed');
       isSelectedCardInvalid = true;
     } else if (docPdfWordSignedCount == 0&& this.launch.documents.existing.model.actionType !== 'MultiSign') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Not Allowed', detail: 'At least one document should be marked for eSign.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Not Allowed', detail: 'At least one document should be marked for eSign.'
+      // });
+      this.toastr.error('At least one document should be marked for eSign.', 'Not Allowed');
       isSelectedCardInvalid = true;
     }
     else if(this.launch.documents.existing.model.actionType==='MultiSign' && multiSignPDF == 0){
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Not Allowed', detail: 'Only one PDF document should be selected for MultieSign.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Not Allowed', detail: 'Only one PDF document should be selected for MultieSign.'
+      // });
+      this.toastr.error('Only one PDF document should be selected for MultieSign.', 'Not Allowed');
       isSelectedCardInvalid = true;
     }
     return isSelectedCardInvalid;
@@ -753,23 +757,26 @@ export class LaunchComponent implements OnInit, OnDestroy {
       });
     }
     if (docPdfWordCount == 0&& this.launch.documents.existing.model.actionType !== 'MultiSign') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Not Allowed', detail: 'At least one PDF or MS word file should be selected for Signature/Initial.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Not Allowed', detail: 'At least one PDF or MS word file should be selected for Signature/Initial.'
+      // });
+      this.toastr.error('At least one PDF or MS word file should be selected for Signature/Initial', 'Not Allowed');
       isSelectedCardInvalid = true;
     } else if (docPdfWordSignedCount == 0&& this.launch.documents.existing.model.actionType !== 'MultiSign') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Not Allowed', detail: 'At least one document should be marked for eSign.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Not Allowed', detail: 'At least one document should be marked for eSign.'
+      // });
+      this.toastr.error('At least one document should be marked for eSign', 'Not Allowed');
       isSelectedCardInvalid = true;
     }
     else if(this.launch.documents.existing.model.actionType==='MultiSign' && multiSignPDF == 0){
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Not Allowed', detail: 'Only one PDF document should be selected for MultieSign.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Not Allowed', detail: 'Only one PDF document should be selected for MultieSign.'
+      // });
+      this.toastr.error('Only one PDF document should be selected for MultieSign.', 'Not Allowed');
       isSelectedCardInvalid = true;
     }
     return isSelectedCardInvalid;
@@ -814,10 +821,11 @@ export class LaunchComponent implements OnInit, OnDestroy {
 
   onDocumentRemoved() {
     this.prepareStepItems();
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Document Removed From Cart'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Document Removed From Cart'
+    // });
+    this.toastr.info('Document Removed From Cart', 'Success');
   }
 
   prepareStepItems() {
@@ -1358,10 +1366,11 @@ export class LaunchComponent implements OnInit, OnDestroy {
       if (!(this.existsInAttachment(this.launch.workflow.model.attachments, doc))) {
         this.addToCart2(doc);
       } else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Failure', detail: 'Document Already Exists in Draft Attachment'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Failure', detail: 'Document Already Exists in Draft Attachment'
+        // });
+        this.toastr.error('Document Already Exists in Draft Attachment', 'Failure');
       }
     } else {
       this.addToCart2(doc);
@@ -1374,24 +1383,27 @@ export class LaunchComponent implements OnInit, OnDestroy {
       this.busy = false;
       this.openNewDocDilaog = false;
       if (res === 'OK') {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Document Added To Cart'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Document Added To Cart'
+        // });
+        this.toastr.info('Document Added To Cart', 'Success');
         this.getDocumentCart(true);
         window.parent.postMessage('AddCartSuccess', '*');
       }
       else if (res === 'Exists') {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Already Exist', detail: 'Document Already Exist in Cart'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Already Exist', detail: 'Document Already Exist in Cart'
+        // });
+        this.toastr.error('Document Already Exist in Cart', 'Already Exist');
       }
       else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Failure', detail: 'Add To Cart Failed'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Failure', detail: 'Add To Cart Failed'
+        // });
+        this.toastr.error('Add To Cart Failed', 'Failure');
       }
       if (res.status !== 'Exists' && (this.actionTypes === 'forward' || this.actionTypes === 'reply' || this.actionTypes === 'replyAll')) {
         let temp = [...[doc]];
@@ -1822,10 +1834,11 @@ export class LaunchComponent implements OnInit, OnDestroy {
       (searchQueary.phone !== undefined && searchQueary.phone !== '' && searchQueary.phone !== null)) {
     } else {
       formValid = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Warning', detail: 'Fill Any One Field To Search'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Warning', detail: 'Fill Any One Field To Search'
+      // });
+      this.toastr.error('Fill Any One Field To Search', 'Warning');
     }
     if (formValid) {
       if (searchQueary.userName === "") {
@@ -1838,10 +1851,11 @@ export class LaunchComponent implements OnInit, OnDestroy {
       this.us.searchEcmUsers(searchQueary).subscribe(data => {
         this.busy = false;
         if (data.length === 0) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'No Result', detail: 'No Results Found'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'No Result', detail: 'No Results Found'
+          // });
+          this.toastr.error('No Results Found', 'No Result');
         }
         if (selectedType === 'ROLE') {
           this.launch.recipients.roles.result = data;
@@ -1950,10 +1964,11 @@ export class LaunchComponent implements OnInit, OnDestroy {
       if (!(this.existsInAttachment(this.launch.workflow.model.attachments, doc))) {
         this.addToCart2(doc);
       } else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Failure', detail: 'Document Already Exists in Draft Attachment'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Failure', detail: 'Document Already Exists in Draft Attachment'
+        // });
+        this.toastr.error('Document Already Exists in Draft Attachment', 'Failure');
       }
     } else {
       this.addToCart2(doc);
@@ -2065,10 +2080,11 @@ export class LaunchComponent implements OnInit, OnDestroy {
     if (!this.launch.routeParams.actionType && launchActionType !== 'reLaunch' && (!this.selectedCartItems || this.selectedCartItems.length == 0)
               && (!this.launch.workflow.model.attachments || this.launch.workflow.model.attachments.length <=0)) {
       let msg = "Please select at least one attachment."
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Attachment Required', detail: msg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Attachment Required', detail: msg
+      // });
+      this.toastr.error(msg, 'Attachment Required');
       return;
     }
     if ((this.launch.documents.existing.model.actionType === 'Signature' 
@@ -2261,10 +2277,11 @@ export class LaunchComponent implements OnInit, OnDestroy {
     if (!this.launch.routeParams.actionType && launchActionType !== 'reLaunch' && (!this.selectedCartItems || this.selectedCartItems.length == 0)
               && (!this.launch.workflow.model.attachments || this.launch.workflow.model.attachments.length <=0)) {
       let msg = "Please select at least one attachment."
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Attachment Required', detail: msg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Attachment Required', detail: msg
+      // });
+      this.toastr.error(msg, 'Attachment Required');
       return;
     }
 
@@ -2311,10 +2328,11 @@ export class LaunchComponent implements OnInit, OnDestroy {
               && (!this.launch.workflow.model.attachments || this.launch.workflow.model.attachments.length <=0)) {
       console.log("Inside me 1");
       let msg = "Please select at least one attachment."
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Attachment Required', detail: msg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Attachment Required', detail: msg
+      // });
+      this.toastr.error(msg, 'Attachment Required');
       return;
     }
 
@@ -2408,10 +2426,11 @@ export class LaunchComponent implements OnInit, OnDestroy {
         //  this.launchProceed(workflow, type, draft);
         // });
         let msg = "Please select at least one attachment."
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Attachment Required', detail: msg
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Attachment Required', detail: msg
+        // });
+        this.toastr.error(msg, 'Attachment Required');
         return;
       }
     }
@@ -2527,10 +2546,11 @@ export class LaunchComponent implements OnInit, OnDestroy {
                   this.ws.launchBulkWorkflow(Object.assign({}, workflow, { workflowBulk: workflowArray }))
                     .subscribe(data => {
                       this.busy = false;
-                      this.growlService.showGrowl({
-                        severity: 'info',
-                        summary: 'Success', detail: 'Launched Successfully'
-                      });
+                      // this.growlService.showGrowl({
+                      //   severity: 'info',
+                      //   summary: 'Success', detail: 'Launched Successfully'
+                      // });
+                      this.toastr.info('Launched Successfully', 'Success');
                       if (this.selectedCartItems) {
                         this.clearCart(draft, false, true);
                       }
@@ -2545,20 +2565,22 @@ export class LaunchComponent implements OnInit, OnDestroy {
                       // this.clearCart(draft, false, false);
                     }, error => {
                       this.busy = false;
-                      this.growlService.showGrowl({
-                        severity: 'error',
-                        summary: 'Failure', detail: error.message
-                      });
+                      // this.growlService.showGrowl({
+                      //   severity: 'error',
+                      //   summary: 'Failure', detail: error.message
+                      // });
+                      this.toastr.error(error.message, 'Failure');
                     });
                 }
               });
             }
           })
         } else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Bulk Launch Not Allowed', detail: 'Minimum 2 documents  required in cart for bulk launch'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Bulk Launch Not Allowed', detail: 'Minimum 2 documents  required in cart for bulk launch'
+          // });
+          this.toastr.error('Minimum 2 documents  required in cart for bulk launch', 'Bulk Launch Not Allowed');
         }
       }
     });
@@ -2578,15 +2600,17 @@ export class LaunchComponent implements OnInit, OnDestroy {
       this.ws.launchWorkflow(workflow).subscribe(data => {
         this.busy = false;
         if (draft) {
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success', detail: 'Saved Successfully'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success', detail: 'Saved Successfully'
+          // });
+          this.toastr.info('Saved Successfully', 'Success');
         } else {
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success', detail: 'Launched Successfully'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success', detail: 'Launched Successfully'
+          // });
+          this.toastr.info('Launched Successfully', 'Success');
         }
         if (this.selectedCartItems) {
           this.clearCart(draft, false, true);
@@ -2603,15 +2627,17 @@ export class LaunchComponent implements OnInit, OnDestroy {
       }, error => {
         this.busy = false;
         if (draft) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Failure', detail: error.message
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Failure', detail: error.message
+          // });
+          this.toastr.error(error.message, 'Failure');
         } else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Failure', detail: error.message
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Failure', detail: error.message
+          // });
+          this.toastr.error(error.message, 'Failure');
         }
       });
       /*setTimeout(() => {
@@ -3437,10 +3463,11 @@ export class LaunchComponent implements OnInit, OnDestroy {
   }
 
   replysuccess() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Reply Success'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Reply Success'
+    // });
+    this.toastr.info('Reply Success', 'Success');
     //if (this.wiaAction.actions !== 'Signature' && this.wiaAction.actions !== 'Initial') {
     if (this.selectedCartItems) {
       this.clearCart(false, false, true);
@@ -3456,20 +3483,22 @@ export class LaunchComponent implements OnInit, OnDestroy {
   }
 
   replyfailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Reply Failed - Please check attachments or recipients are valid'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Reply Failed - Please check attachments or recipients are valid'
+    // });
+    this.toastr.error("Reply Failed - Please check attachments or recipients are valid", 'Failure');
     this.wiaReplyAll.recipients = [];
     //this.navigateToSent();
   }
 
   forwardSuccess() {
     //window.parent.postMessage('ForwardSuccess', '*');
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Forward Success'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Forward Success'
+    // });
+    this.toastr.info('Forward Success', 'Success');
     //if (this.wiaAction.actions !== 'Signature' && this.wiaAction.actions !== 'Initial') {
     //console.log(this.documentService.cartItems);
     //console.log(this.selectedCartItems);
@@ -3487,10 +3516,11 @@ export class LaunchComponent implements OnInit, OnDestroy {
   }
 
   forwardfail() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Forward Failed - Please check attachments or recipients are valid'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Forward Failed - Please check attachments or recipients are valid'
+    // });
+    this.toastr.error('Forward Failed - Please check attachments or recipients are valid', 'Failure');
     this.wiaForward.recipients = [];
   }
 
@@ -3789,19 +3819,21 @@ export class LaunchComponent implements OnInit, OnDestroy {
       this.busy = false;
       if (data) {
         this.getDocumentCart();
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Document Cart Cleared Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Document Cart Cleared Successfully'
+        // });
+        this.toastr.info('Document Cart Cleared Successfully', 'Success');
         window.parent.postMessage('clearCartSuccess', '*');
         this.prepareStepItems();
       }
     }, Error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'Failed to Clear'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'Failed to Clear'
+      // });
+      this.toastr.error('Failed to Clear', 'Attachment Required');
     });
   }
 
@@ -3944,11 +3976,12 @@ export class LaunchComponent implements OnInit, OnDestroy {
         message = 'Document Added To Cart';
         break;
     }
-    this.growlService.showGrowl({
-      severity: severity,
-      summary: summary,
-      detail: message
-    });
+    // this.growlService.showGrowl({
+    //   severity: severity,
+    //   summary: summary,
+    //   detail: message
+    // });
+    this.toastr.info(message, summary);
 
     // if(this.launch.workflow.model.subject && (this.launch.workflow.model.subject).trim().length===0){
     //   this.launch.workflow.model.subject = this.documentService.cartItems[0].fileName;
@@ -3956,10 +3989,11 @@ export class LaunchComponent implements OnInit, OnDestroy {
   }
 
   addToCartFailure() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Add To Cart Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Add To Cart Failed'
+    // });
+    this.toastr.error('Add To Cart Failed', 'Failure');
   }
 
   roleTreeExpanded(event) {

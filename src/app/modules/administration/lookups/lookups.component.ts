@@ -11,6 +11,7 @@ import { UserService } from '../../../services/user.service';
 import { saveAs } from 'file-saver';
 import * as _ from "lodash";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-lookups',
@@ -44,7 +45,9 @@ export class LookupsComponent implements OnInit, OnDestroy {
   orgName: any;
   currentUser: any;
   showEditLookup = false;
-  constructor(private as: AdminService, private userService: UserService, private confirmationService: ConfirmationService, private coreService: CoreService, private growlService: GrowlService, private breadcrumbService: BreadcrumbService) {
+  constructor(private as: AdminService, private userService: UserService, private confirmationService: ConfirmationService, 
+    private toastr:ToastrService,private coreService: CoreService, 
+    private growlService: GrowlService, private breadcrumbService: BreadcrumbService) {
     this.lookupValues = [];
   }
 
@@ -235,16 +238,18 @@ export class LookupsComponent implements OnInit, OnDestroy {
 
   addSuccess(dat) {
     if (dat === 'Already Exists') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Already Exist', detail: 'Lookup Value Already Exist'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Exist', detail: 'Lookup Value Already Exist'
+      // });
+      this.toastr.error('Lookup Value Already Exist', 'Already Exist');
       this.lookupValues.pop();
     } else {
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Saved Lookup Value Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Saved Lookup Value Successfully'
+      // });
+      this.toastr.info('Saved Lookup Value Successfully', 'Success');
 
       this.showEdit = false;
       this.refresh();
@@ -252,10 +257,11 @@ export class LookupsComponent implements OnInit, OnDestroy {
   }
 
   addFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Save Lookup Value'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Save Lookup Value'
+    // });
+    this.toastr.error('Failed To Save Lookup Value', 'Failure');
     this.showEdit = true;
     this.refresh();
   }
@@ -327,15 +333,17 @@ export class LookupsComponent implements OnInit, OnDestroy {
 
   removelookupsuccess(data) {
     if (data === 'Mapping Exists') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Cannot Remove', detail: 'Mapping Exist'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Cannot Remove', detail: 'Mapping Exist'
+      // });
+      this.toastr.error('Mapping Exist', 'Cannot Remove');
     } else {
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Removed Lookup Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Removed Lookup Successfully'
+      // });
+      this.toastr.info('Removed Lookup Successfully', 'Success');
     }
     this.busy = true;
     this.as.getLookups().subscribe(val => {
@@ -353,10 +361,11 @@ export class LookupsComponent implements OnInit, OnDestroy {
   }
 
   removelookupfailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Remove Lookup Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Remove Lookup Failed'
+    // });
+    this.toastr.error('Remove Lookup Failed', 'Failure');
   }
 
   deleteLookupValue(rowdat) {
@@ -372,18 +381,20 @@ export class LookupsComponent implements OnInit, OnDestroy {
   }
 
   removesuccess() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Removed Lookup Value'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Removed Lookup Value'
+    // });
+    this.toastr.info('Removed Lookup Value', 'Success');
     this.refresh();
   }
 
   removefailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed to Remove Lookup Value'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed to Remove Lookup Value'
+    // });
+    this.toastr.error('Failed to Remove Lookup Value', 'Failure');
   }
 
   addEditLookup(row) {
@@ -415,15 +426,17 @@ export class LookupsComponent implements OnInit, OnDestroy {
 
   savelookupsuccess(data) {
     if (data === 'Lookup Exists') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Already Exist', detail: 'Lookup Already Exist'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Exist', detail: 'Lookup Already Exist'
+      // });
+      this.toastr.error('Lookup Already Exist', 'Already Exist');
     } else {
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Saved Lookup Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Saved Lookup Successfully'
+      // });
+      this.toastr.info('Saved Lookup Successfully', 'Success');
       this.refreshLookupTable();
       if (this.headerTitleLookup === 'Edit Lookup') {
         this.selectedLookup = this.lookup;
@@ -439,10 +452,11 @@ export class LookupsComponent implements OnInit, OnDestroy {
   }
 
   savelookupfailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed to Save Lookup'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed to Save Lookup'
+    // });
+    this.toastr.error('Failed to Save Lookup', 'Failure');
   }
 
   search(event) {

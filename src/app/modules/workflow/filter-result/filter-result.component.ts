@@ -22,6 +22,7 @@ import { DataTableComponent } from "../../../components/generic-components/datat
 import { WorkitemDetails } from "../../../models/workflow/workitem-details.model";
 import * as _ from "lodash";
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-filter-result',
   templateUrl: './filter-result.component.html',
@@ -116,7 +117,7 @@ export class FilterResultComponent implements OnInit, OnDestroy {
   public tabsList = [];
   public progressObj = {};
   public showOperationNotPossible = false;
-  constructor(private breadcrumbService: BreadcrumbService, private ws: WorkflowService,
+  constructor(private breadcrumbService: BreadcrumbService, private ws: WorkflowService,private toastr:ToastrService,
     private us: UserService, private bs: BrowserEvents,
     private router: Router, private confirmationService: ConfirmationService, private growlService: GrowlService,
     private coreService: CoreService, private workflowService: WorkflowService) {
@@ -409,10 +410,11 @@ export class FilterResultComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.workflowService.addWorkitemProgress(event.message, this.user.EmpNo, this.selectedWorkitem.workitemId).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Workitem Progress Added Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Workitem Progress Added Successfully'
+      // });
+      this.toastr.info('Workitem Progress Added Successfully', 'Success');
       this.getWorkitemProgress();
     }, err => {
       this.busy = false;
@@ -435,10 +437,11 @@ export class FilterResultComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.workflowService.removeWorkitemProgress(id).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Workitem Progress Removed Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Workitem Progress Removed Successfully'
+      // });
+      this.toastr.info('Workitem Progress Removed Successfully', 'Success');
       this.getWorkitemProgress();
     }, err => {
       this.busy = false;
@@ -758,10 +761,11 @@ export class FilterResultComponent implements OnInit, OnDestroy {
                 count++;
                 if (this.selectedItem.length === count) {
                   this.sentWorkitems = {};
-                  this.growlService.showGrowl({
-                    severity: 'info',
-                    summary: 'Success', detail: 'Recalled Successfully'
-                  });
+                  // this.growlService.showGrowl({
+                  //   severity: 'info',
+                  //   summary: 'Success', detail: 'Recalled Successfully'
+                  // });
+                  this.toastr.info('Recalled Successfully', 'Success');
                   setTimeout(() => {
                     this.getSentItems();
                     this.selectedItem = [];
@@ -777,10 +781,11 @@ export class FilterResultComponent implements OnInit, OnDestroy {
   }
 
   failed(error) {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Operation Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Operation Failed'
+    // });
+    this.toastr.error('Operation Failed', 'Failure');
   }
 
   exportActioned(exportType) {
@@ -864,10 +869,11 @@ export class FilterResultComponent implements OnInit, OnDestroy {
 
   archiveBeforeSuccess(val) {
     if (val === 'Workitems not found') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Workitems', detail: 'No workitems found..Choose a different date'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Workitems', detail: 'No workitems found..Choose a different date'
+      // });
+      this.toastr.error('No workitems found..Choose a different date', 'No Workitems');
     }
     else {
       const count = this.getArchiveCount(val).trim();
@@ -878,10 +884,11 @@ export class FilterResultComponent implements OnInit, OnDestroy {
       else {
         message = count + ' ' + 'Workitems Archived';
       }
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: message
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: message
+      // });
+      this.toastr.info(message, 'Success');
       this.redirectToArchive();
     }
   }
@@ -898,18 +905,20 @@ export class FilterResultComponent implements OnInit, OnDestroy {
   }
 
   archiveSuccess() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Archived Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Archived Successfully'
+    // });
+    this.toastr.info('Archived Successfully', 'Success');
     this.redirectToArchive();
   }
 
   archiveFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Archive Workitems'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Archive Workitems'
+    // });
+    this.toastr.error('Failed To Archive Workitems', 'Failure');
   }
 
   getForOptions(EmpNo) {

@@ -11,6 +11,7 @@ import { CoreService } from "../../../services/core.service";
 import * as _ from "lodash";
 import { NavigationEnd, NavigationStart, Router } from "@angular/router";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list',
@@ -67,7 +68,7 @@ export class ListComponent implements OnInit, OnDestroy {
   tempArray: any;
   isAddOperation;
   searchTextList:any;
-  constructor(private userService: UserService, private breadcrumbService: BreadcrumbService, private growlService: GrowlService,
+  constructor(private userService: UserService, private breadcrumbService: BreadcrumbService, private growlService: GrowlService,private toastr:ToastrService,
     private confirmationService: ConfirmationService, private coreService: CoreService, private router: Router) {
     this.roleData.roles = { model: {} };
   }
@@ -347,10 +348,11 @@ export class ListComponent implements OnInit, OnDestroy {
       (this.searchQueary.phone !== undefined && this.searchQueary.phone !== '' && this.searchQueary.phone !== null)) {
     } else {
       formValid = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Warning', detail: 'Fill Any One Field To Search'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Warning', detail: 'Fill Any One Field To Search'
+      // });
+      this.toastr.error('Fill Any One Field To Search', 'Warning');
     }
     if (formValid) {
       this.searchStarted = true;
@@ -364,10 +366,11 @@ export class ListComponent implements OnInit, OnDestroy {
       this.userService.searchEcmUsers(this.searchQueary).subscribe(data => {
         this.busy = false;
         if (data.length === 0) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'No Result', detail: 'No Results Found'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'No Result', detail: 'No Results Found'
+          // });
+          this.toastr.error('No Results Found', 'No Result');
         }
         this.SelectedUserList = data;
       }, Error => {
@@ -404,10 +407,11 @@ export class ListComponent implements OnInit, OnDestroy {
       if (this.selectedType === 'ROLE') {
         err = "Role already exist in list";
       }
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Already Exist', detail: err
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Exist', detail: err
+      // });
+      this.toastr.error(err, 'No Result');
     }
     user.disabled = true;
     this.isSaveDisabled = false;
@@ -438,20 +442,22 @@ export class ListComponent implements OnInit, OnDestroy {
       });
     }
     if (record && this.newDistList) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'List Name Already Exists.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'List Name Already Exists.'
+      // });
+      this.toastr.error('List Name Already Exists.', 'Failure');
     } else {
       this.searchUserAndRole('removeFilter');
       if (this.selectedParentList === 0) {
         this.updateList.name = 'Favourites';
       } else {
         if (this.listName && this.listName.trim().length <= 0) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Failure', detail: 'Invalid List Name.'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Failure', detail: 'Invalid List Name.'
+          // });
+          this.toastr.error('Invalid List Name.', 'Failure');
           return;
         }
         this.updateList.name = this.listName;
@@ -478,10 +484,11 @@ export class ListComponent implements OnInit, OnDestroy {
         });
         // this.selectedIndex = undefined;
       } else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Name Required', detail: 'List name is required to save the list'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Name Required', detail: 'List name is required to save the list'
+        // });
+        this.toastr.error('List name is required to save the list', 'Name Required');
       }
     }
   }
@@ -490,10 +497,11 @@ export class ListComponent implements OnInit, OnDestroy {
     if (this.dataTableComponentRef) {
       this.dataTableComponentRef.reset();
     }
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'List Updated Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'List Updated Successfully'
+    // });
+    this.toastr.info('List Updated Successfully', 'Success');
     // this.listName = '';
     this.searchText = '';
     this.searchStarted = false;
@@ -513,10 +521,11 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   failed(error) {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Save List Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Save List Failed'
+    // });
+    this.toastr.error('Save List Failed', 'Failure');
   }
 
   clearSubscriptions() {
@@ -541,10 +550,11 @@ export class ListComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.userService.removeDistList(listId, empno, 'N').subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'List Deleted Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'List Deleted Successfully'
+      // });
+      this.toastr.info('List Deleted Successfully', 'Success');
       this.listName = '';
       this.searchText = '';
       this.searchStarted = false;
@@ -553,10 +563,11 @@ export class ListComponent implements OnInit, OnDestroy {
       this.getUserListAfterSave('delete');
     }, Error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'Failed To Delete List'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'Failed To Delete List'
+      // });
+      this.toastr.error('Failed To Delete List', 'Failure');
     });
   }
 
@@ -576,17 +587,19 @@ export class ListComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.userService.removeDefaultList(appRole,listEmpNo, empno).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'List Updated Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'List Updated Successfully'
+      // });
+      this.toastr.info('List Updated Successfully', 'Success');
       this.getDefaultListUser();
     }, Error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'Failed To Delete List'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'Failed To Delete List'
+      // });
+      this.toastr.error('Failed To Delete List', 'Failure');
     });
   }
 

@@ -9,6 +9,7 @@ import { CoreService } from '../../../services/core.service';
 import { WorkflowService } from "../../../services/workflow.service";
 import { ContentService } from '../../../services/content.service';
 import * as _ from 'lodash';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'tree',
@@ -34,7 +35,7 @@ export class TreeComponent implements OnInit {
   private subscriptions: any[] = [];
   public moveToFolderPermission = { usage: 'moveToFolder', folderSelected: false, permission: true };
 
-  constructor(public cs: ContentService, public ds: DocumentService, private bs: BrowserEvents, private coreService: CoreService,
+  constructor(public cs: ContentService, private toastr:ToastrService ,public ds: DocumentService, private bs: BrowserEvents, private coreService: CoreService,
     private growlService: GrowlService, private ws: WorkflowService) {
   }
 
@@ -69,29 +70,33 @@ export class TreeComponent implements OnInit {
 
   addFavSuccess(data) {
     if (data.toLocaleLowerCase().trim() === 'ok') {
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Folder Added To Favorites'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Folder Added To Favorites'
+      // });
+      this.toastr.info('Folder Added To Favorites', 'Success');
       window.parent.postMessage('AddFavFolSuccess', '*');
     } else if (data.toLocaleLowerCase().trim() === 'exists') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Already Exist', detail: 'Folder already exists in Favorites'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Exist', detail: 'Folder already exists in Favorites'
+      // });
+      this.toastr.error('Folder already exists in Favorites', 'Already Exist');
     } else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'Failed To Add Folder To Favorites. Please Contact Administrator.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'Failed To Add Folder To Favorites. Please Contact Administrator.'
+      // });
+      this.toastr.error('Failed To Add Folder To Favorites. Please Contact Administrator.', 'Failure');
     }
   }
 
   addFavFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Add To Favorites'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Add To Favorites'
+    // });
+    this.toastr.error('Failed To Add To Favorites', 'Failure');
   }
 
   onContextMenu(folder) {
@@ -143,19 +148,21 @@ export class TreeComponent implements OnInit {
   }
 
   moveSuccess() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Move To Folder Success'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Move To Folder Success'
+    // });
+    this.toastr.info('Move To Folder Success', 'Success');
     this.viewMoveTree = false;
     this.cs.getTopFolders().subscribe(data => this.getMainFolders(data));
   }
 
   moveFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Move To Folder Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Move To Folder Failed'
+    // });
+    this.toastr.error('Move To Folder Failed', 'Failure');
   }
 
   getMainFolders(data) {

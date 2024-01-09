@@ -10,6 +10,7 @@ import { AccessPolicyService } from "../../../services/access-policy.service";
 import { BreadcrumbService } from "../../../services/breadcrumb.service";
 import * as _ from "lodash";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-manage-accesspolicy',
@@ -58,6 +59,7 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
   busy: boolean;
   isButtonSaveDisabled = true;
   constructor(
+    private toastr:ToastrService,
     private accessPolicyService: AccessPolicyService,
     private coreService: CoreService,
     private adminService: AdminService,
@@ -118,10 +120,11 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
 
   assignGroupList(data) {
     if (data.length === 0) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Results', detail: 'No Groups Found'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Results', detail: 'No Groups Found'
+      // });
+      this.toastr.error('No Groups Found', 'No Results');
     }
     this.groupList = [];
     data.map(d => {
@@ -250,10 +253,11 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
         }
       });
       if (exists) {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Policy Name Already Exists'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Policy Name Already Exists'
+        // });
+        this.toastr.info('Policy Name Already Exists', 'Success');
         return;
       }
     }
@@ -393,19 +397,21 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.accessPolicyService[service](sendpolicy).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: successMsg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: successMsg
+      // });
+      this.toastr.info(successMsg, 'Success');
       this.disableAddNewPermission = false;
       this.updateMultipleDialog = false;
       this.refreshPolicyAfterSearch();
     }, err => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error', detail: errorMsg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error', detail: errorMsg
+      // });
+      this.toastr.error(errorMsg, 'Error');
     });
   }
 
@@ -513,24 +519,27 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
       } else if (this.selectedType === 'GG' || this.selectedType === 'G') {
         msg = 'Removed group from accesspolicy'
       }
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: msg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: msg
+      // });
+      this.toastr.info(msg, 'Success');
       this.refreshPolicyAfterSearch();
     } else if (res === 'Mapping Exists') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error', detail: 'Mapping Exists Cannot Be Deleted'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error', detail: 'Mapping Exists Cannot Be Deleted'
+      // });
+      this.toastr.error('Mapping Exists Cannot Be Deleted', 'Error');
     }
   }
 
   updateFailure() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed to remove accesspolicies'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed to remove accesspolicies'
+    // });
+    this.toastr.error('Failed to remove accesspolicies', 'Failure');
   }
 
   addPolicyAfterFilter(policy) {
@@ -581,10 +590,11 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
         }
       });
       if (exists) {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Policy Name Already Exists'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Policy Name Already Exists'
+        // });
+        this.toastr.info('Policy Name Already Exists', 'Success');
         return;
       }
     }
@@ -726,16 +736,18 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
         this.accessPolicyService.removeAccessPolicy(policy.id).subscribe(res => {
           this.busy = false;
           if (res === 'OK') {
-            this.growlService.showGrowl({
-              severity: 'info',
-              summary: 'Success', detail: 'Access Policy Deleted Successfully'
-            });
+            // this.growlService.showGrowl({
+            //   severity: 'info',
+            //   summary: 'Success', detail: 'Access Policy Deleted Successfully'
+            // });
+            this.toastr.info('Access Policy Deleted Successfully', 'Success');
             this.refresh();
           } else if (res === 'Mapping Exists') {
-            this.growlService.showGrowl({
-              severity: 'error',
-              summary: 'Error', detail: 'Mapping Exists Cannot Be Deleted'
-            });
+            // this.growlService.showGrowl({
+            //   severity: 'error',
+            //   summary: 'Error', detail: 'Mapping Exists Cannot Be Deleted'
+            // });
+            this.toastr.error('Mapping Exists Cannot Be Deleted', 'Error');
           }
         }, err => {
           this.busy = false;
@@ -768,10 +780,11 @@ export class ManageAccesspolicyComponent implements OnInit, OnDestroy {
           });
         }
       } else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Invalid Search', detail: 'Please select a valid user/group'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Invalid Search', detail: 'Please select a valid user/group'
+        // });
+        this.toastr.error('Please select a valid user/group', 'Invalid Search');
       }
     }
   }

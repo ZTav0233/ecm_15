@@ -26,6 +26,7 @@ import * as global from "../../../global.variables";
 import * as moment from 'moment';
 import { WorkItemAction } from '../../../models/workflow/workitem-action.model';
 import { WorkflowDetails } from '../../../models/workflow/workflow-details.model';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -176,7 +177,8 @@ export class ArchiveComponent implements OnInit, OnDestroy {
   public showItemDialogue = false;
   public showItemDialogueDetails :any;
   public showOperationNotPossible = false;
-  constructor(private breadcrumbService: BreadcrumbService, private router: Router, private ws: WorkflowService, private us: UserService, private bs: BrowserEvents,
+  constructor(private breadcrumbService: BreadcrumbService, private router: Router, private ws: WorkflowService, private us: UserService,
+    private toastr:ToastrService, private bs: BrowserEvents,
     public coreService: CoreService, private growlService: GrowlService, private confirmationService: ConfirmationService,) {
     this.subscribeRouterEvents();
     this.subscribeRefreshRequiredEvent();
@@ -310,10 +312,11 @@ export class ArchiveComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.ws.addWorkitemProgress(event.message, this.user.EmpNo, this.selectedWorkitem.workitemId).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Workitem Progress Added Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Workitem Progress Added Successfully'
+      // });
+      this.toastr.info('Workitem Progress Added Successfully', 'Success');
       event = {};
       this.getWorkitemProgress();
       this.refreshTable();
@@ -337,10 +340,11 @@ export class ArchiveComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.ws.removeWorkitemProgress(id).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Workitem Progress Removed Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Workitem Progress Removed Successfully'
+      // });
+      this.toastr.info('Workitem Progress Removed Successfully', 'Success');
       this.getWorkitemProgress();
     }, err => {
       this.busy = false;
@@ -663,18 +667,20 @@ export class ArchiveComponent implements OnInit, OnDestroy {
 
   unArchiveSuccess() {
     window.parent.postMessage('Un-ArchiveSuccess', '*');
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Un-Archived Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Un-Archived Successfully'
+    // });
+    this.toastr.info('Un-Archived Successfully', 'Success');
     this.resetCurrentTableSortAndRefresh();
   }
 
   unArchiveFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Un-Archive Workitems'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Un-Archive Workitems'
+    // });
+    this.toastr.error('Failed To Un-Archive Workitems', 'Failure');
   }
 
   columnSelectionChanged(event: any, isSent?:any) {

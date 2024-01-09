@@ -28,6 +28,7 @@ import * as moment from 'moment';
 import { async } from '@angular/core/testing';
 import { WorkItemAction } from '../../../models/workflow/workitem-action.model';
 import { WorkflowDetails } from '../../../models/workflow/workflow-details.model';
+import { ToastrService } from 'ngx-toastr';
 
 declare var ie11_polyfill: any;
 
@@ -154,6 +155,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   userSetting = [];
   public messageDenyAction: any;
   constructor(private breadcrumbService: BreadcrumbService, private ws: WorkflowService, private route: ActivatedRoute,
+    private toastr:ToastrService,
     private us: UserService, private bs: BrowserEvents, public coreService: CoreService,
     private confirmationService: ConfirmationService, public router: Router, private growlService: GrowlService) {
     this.subscribeRouterEvents();
@@ -263,10 +265,11 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.ws.addWorkitemProgress(event.message, this.user.EmpNo, this.selectedWorkitem.workitemId).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Workitem Progress Added Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Workitem Progress Added Successfully'
+      // });
+      this.toastr.info('Workitem Progress Added Successfully', 'Success');
       event = {};
       this.getWorkitemProgress();
       this.refreshTable();
@@ -290,10 +293,11 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.ws.removeWorkitemProgress(id).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Workitem Progress Removed Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Workitem Progress Removed Successfully'
+      // });
+      this.toastr.info('Workitem Progress Removed Successfully', 'Success');
       this.getWorkitemProgress();
     }, err => {
       this.busy = false;
@@ -403,10 +407,11 @@ export class InboxComponent implements OnInit, OnDestroy {
         });
         return;
       } else if (data && data.filters.subject?.value && data.filters.subject?.value.trim() && data.filters.subject?.value.trim().length <= 2) {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Message', detail: "Please enter more than 2 characters to filter"
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Message', detail: "Please enter more than 2 characters to filter"
+        // });
+        this.toastr.info('Please enter more than 2 characters to filter', 'Message');
         return;
       } else {
         this._updateTabsList(this.request.userId, { property: 'quickFilterText', value: '' });
@@ -528,10 +533,11 @@ export class InboxComponent implements OnInit, OnDestroy {
           });
         }
         else if (tab && tab.quickFilterText && tab.quickFilterText.trim().length < 3) {
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Message', detail: "Please enter more than 2 characters to filter"
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Message', detail: "Please enter more than 2 characters to filter"
+          // });
+          this.toastr.info('Please enter more than 2 characters to filter', 'Message');
         }
 
         this.inboxTieredItems.map((item, index) => {
@@ -816,19 +822,21 @@ export class InboxComponent implements OnInit, OnDestroy {
 
   flagSuccess() {
     window.parent.postMessage('FlagSuccess', '*');
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Flag Updated Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Flag Updated Successfully'
+    // });
+    this.toastr.info('Flag Updated Successfully', 'Success');
     this.resetCurrentTableSortAndRefresh();
     // this.redirectToArchive();
   }
 
   flagFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Flag Workitems'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Flag Workitems'
+    // });
+    this.toastr.error('Failed To Flag Workitems', 'Failure');
   }
 
   refreshTabList() {
@@ -1216,10 +1224,11 @@ export class InboxComponent implements OnInit, OnDestroy {
   finishBeforeSuccess(val) {
     window.parent.postMessage('FinishSuccess', '*');
     if (val === 'Workitems not found') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Workitems', detail: 'No workitems found..Choose a different date'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Workitems', detail: 'No workitems found..Choose a different date'
+      // });
+      this.toastr.error('No workitems found..Choose a different date', 'No Workitems');
     } else {
       const count = this.getArchiveCount(val.trim());
       let message;
@@ -1228,10 +1237,11 @@ export class InboxComponent implements OnInit, OnDestroy {
       } else {
         message = count + ' ' + 'Workitems Finished';
       }
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: message
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: message
+      // });
+      this.toastr.info(message, 'Success');
       //this.redirectToArchive();
       let totalCount = this.tabsList[this.selectedTabIndex].tabCount - parseInt(count, 10);
       this._updateTabsList(this.request.userId, [{ property: 'tabCount', value: totalCount }]);
@@ -1248,19 +1258,21 @@ export class InboxComponent implements OnInit, OnDestroy {
 
   finishSuccess() {
     window.parent.postMessage('FinishSuccess', '*');
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Finished Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Finished Successfully'
+    // });
+    this.toastr.info('Finished Successfully', 'Success');
     this.resetCurrentTableSortAndRefresh();
     // this.redirectToArchive();
   }
 
   finishFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Finish Workitems'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Finish Workitems'
+    // });
+    this.toastr.info('Failed To Finish Workitems', 'Failure');
   }
 
   getArchiveCount(str) {
@@ -1811,10 +1823,11 @@ export class InboxComponent implements OnInit, OnDestroy {
         this.busy = true;
         this.ws.finishWorkitem(this.inboxSelectedItem[0].workitemId).subscribe(data => {
           this.busy = false;
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success', detail: 'Finished Successfully'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success', detail: 'Finished Successfully'
+          // });
+          this.toastr.info('Finished Successfully', 'Success');
           this.bs.inboxRefreshRequired.emit('task-detail');
           this.router.navigateByUrl('/workflow/' + this.fromPage[0]);
         }, err => {

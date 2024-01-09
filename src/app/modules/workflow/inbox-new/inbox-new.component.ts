@@ -21,6 +21,7 @@ import { FilterComponent } from "../../../components/generic-components/filter/f
 import { DataTableComponent } from "../../../components/generic-components/datatable/datatable.component";
 import { ActionButtonComponent } from "../../../components/generic-components/action-button/action-button.component";
 import * as _ from "lodash";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'inbox-new',
@@ -159,6 +160,7 @@ export class InboxNewComponent implements OnInit, OnDestroy {
   public progressDialogWorkItem: any = {};
 
   constructor(
+    private toastr:ToastrService,
     private breadcrumbService: BreadcrumbService,
     private ws: WorkflowService,
     private route: ActivatedRoute,
@@ -310,10 +312,11 @@ export class InboxNewComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.ws.addWorkitemProgress(event.message, this.user.EmpNo, this.progressDialogWorkItem.workitemId).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Workitem Progress Added Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Workitem Progress Added Successfully'
+      // });
+      this.toastr.info('Workitem Progress Added Successfully', 'Success');
       event = {};
       this.getWorkitemProgress();
     }, err => {
@@ -343,10 +346,11 @@ export class InboxNewComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.ws.removeWorkitemProgress(id).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Workitem Progress Removed Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Workitem Progress Removed Successfully'
+      // });
+      this.toastr.info('Workitem Progress Removed Successfully', 'Success');
       this.getWorkitemProgress();
     }, err => {
       this.busy = false;
@@ -809,10 +813,11 @@ export class InboxNewComponent implements OnInit, OnDestroy {
   _finishBeforeSuccess(val) {
     window.parent.postMessage('FinishSuccess', '*');
     if (val === 'Workitems not found') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Workitems', detail: 'No workitems found..Choose a different date'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Workitems', detail: 'No workitems found..Choose a different date'
+      // });
+      this.toastr.error('No workitems found..Choose a different date', 'No Workitems');
     } else {
       const count = val.trim().split('-')[1];
       let message;
@@ -821,10 +826,11 @@ export class InboxNewComponent implements OnInit, OnDestroy {
       } else {
         message = count + ' ' + 'Workitems Finished';
       }
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: message
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: message
+      // });
+      this.toastr.info(message, 'Success');
       //this.redirectToArchive();
       this.refreshTable();
     }
@@ -835,10 +841,11 @@ export class InboxNewComponent implements OnInit, OnDestroy {
    */
   _finishSuccess() {
     window.parent.postMessage('FinishSuccess', '*');
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Finished Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Finished Successfully'
+    // });
+    this.toastr.info('Finished Successfully', 'Success');
     this.refreshTable();
     // this.redirectToArchive();
   }
@@ -847,10 +854,11 @@ export class InboxNewComponent implements OnInit, OnDestroy {
    * @description On fail of finish
    */
   _finishFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Finish Workitems'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Finish Workitems'
+    // });
+    this.toastr.error('Failed To Finish Workitems', 'Failure');
   }
 
   /**

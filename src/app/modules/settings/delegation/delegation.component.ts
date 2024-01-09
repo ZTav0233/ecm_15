@@ -8,6 +8,7 @@ import { DelegateModel } from '../../../models/user/delegate.model';
 import * as global from '../../../global.variables';
 import { CoreService } from '../../../services/core.service';
 import * as _ from "lodash";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-delegation',
@@ -63,6 +64,7 @@ export class DelegationComponent implements OnInit, OnDestroy {
   busy: boolean;
 
   constructor(
+    private toastr:ToastrService,
     private us: UserService,
     private confirmationService: ConfirmationService,
     private growlService: GrowlService,
@@ -227,10 +229,11 @@ export class DelegationComponent implements OnInit, OnDestroy {
       (this.searchQueary.phone !== undefined && this.searchQueary.phone !== '' && this.searchQueary.phone !== null)) {
     } else {
       formValid = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Warning', detail: 'Fill Any One Field To Search'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Warning', detail: 'Fill Any One Field To Search'
+      // });
+      this.toastr.error('Fill Any One Field To Search', 'Warning');
     }
     if (formValid) {
       this.searchStarted = true;
@@ -238,10 +241,11 @@ export class DelegationComponent implements OnInit, OnDestroy {
       this.us.searchEcmUsers(this.searchQueary).subscribe(data => {
         this.busy = false;
         if (data.length === 0) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'No Result', detail: 'No Results Found'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'No Result', detail: 'No Results Found'
+          // });
+          this.toastr.error('No Results Found', 'No Result');
         }
         this.SelectedUserList = data;
       }, err => {
@@ -269,10 +273,11 @@ export class DelegationComponent implements OnInit, OnDestroy {
       }
     });
     if (exist && !this.editEnabled) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Already Exist', detail: 'User Already Exist'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Exist', detail: 'User Already Exist'
+      // });
+      this.toastr.error('User Already Exist', 'Already Exist');
       return;
     }
     if (this.isUnlimited === false) {
@@ -312,10 +317,11 @@ export class DelegationComponent implements OnInit, OnDestroy {
           });
         }
         else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Not Allowed', detail: 'Cannot Delegate To Self'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Not Allowed', detail: 'Cannot Delegate To Self'
+          // });
+          this.toastr.error('Cannot Delegate To Self', 'Not Allowed');
         }
       }
       else {
@@ -328,10 +334,11 @@ export class DelegationComponent implements OnInit, OnDestroy {
         else if (!this.toDate) {
           message = 'Select Expire On';
         }
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Fill Required', detail: message
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Fill Required', detail: message
+        // });
+        this.toastr.error(message, 'Fill Required');
       }
     } else {
       if (this.delegateId && this.fromDate) {
@@ -370,10 +377,11 @@ export class DelegationComponent implements OnInit, OnDestroy {
           });
         }
         else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Not Allowed', detail: 'Cannot Delegate To Self'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Not Allowed', detail: 'Cannot Delegate To Self'
+          // });
+          this.toastr.error('Cannot Delegate To Self', 'Not Allowed');
         }
       }
       else {
@@ -383,33 +391,37 @@ export class DelegationComponent implements OnInit, OnDestroy {
         } else if (!this.fromDate) {
           message = 'Select Active From';
         }
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Fill Required', detail: message
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Fill Required', detail: message
+        // });
+        this.toastr.error(message, 'Fill Required');
       }
     }
   }
 
   addUserSuccessfull(data) {
     if (data === 'EXISTS') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Already Exist', detail: 'User Already Exist'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Exist', detail: 'User Already Exist'
+      // });
+      this.toastr.error('User Already Exist', 'Already Exist');
     }
     else {
       if (this.editEnabled) {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Saved Delegation Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Saved Delegation Successfully'
+        // });
+        this.toastr.info('Saved Delegation Successfully', 'Success');
       }
       else {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Added Delegation Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Added Delegation Successfully'
+        // });
+        this.toastr.info('Added Delegation Successfully', 'Success');
       }
     }
     this.editEnabled = false;
@@ -442,10 +454,11 @@ export class DelegationComponent implements OnInit, OnDestroy {
   }
 
   addUserFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Add Delegation Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Add Delegation Failed'
+    // });
+    this.toastr.error('Add Delegation Failed', 'Failure');
   }
 
   addDelegationRole() {
@@ -480,10 +493,11 @@ export class DelegationComponent implements OnInit, OnDestroy {
           });
         }
         else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Not Allowed', detail: 'Cannot Delegate To Self'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Not Allowed', detail: 'Cannot Delegate To Self'
+          // });
+          this.toastr.error('Cannot Delegate To Self', 'Not Allowed');
         }
       }
       else {
@@ -496,10 +510,11 @@ export class DelegationComponent implements OnInit, OnDestroy {
         else if (!this.toDate) {
           message = 'Select Expire On';
         }
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Fill Required', detail: message
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Fill Required', detail: message
+        // });
+        this.toastr.error(message, 'Fill Required');
       }
     }
     else {
@@ -528,10 +543,11 @@ export class DelegationComponent implements OnInit, OnDestroy {
           });
         }
         else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Not Allowed', detail: 'Cannot Delegate To Self'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Not Allowed', detail: 'Cannot Delegate To Self'
+          // });
+          this.toastr.error('Cannot Delegate To Self', 'Not Allowed');
         }
       }
       else {
@@ -541,10 +557,11 @@ export class DelegationComponent implements OnInit, OnDestroy {
         } else if (!this.fromDate) {
           message = 'Select Active From';
         }
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Fill Required', detail: message
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Fill Required', detail: message
+        // });
+        this.toastr.error(message, 'Fill Required');
       }
     }
     }
@@ -560,23 +577,26 @@ export class DelegationComponent implements OnInit, OnDestroy {
 
   addRoleSuccessfull(data) {
     if (data === 'EXISTS') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Already Exist', detail: 'User Already Exist'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Exist', detail: 'User Already Exist'
+      // });
+      this.toastr.error('User Already Exist', 'Already Exist');
     }
     else {
       if (this.editEnabled) {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Saved Delegation Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Saved Delegation Successfully'
+        // });
+        this.toastr.info('Saved Delegation Successfully', 'Success');
       }
       else {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Added Delegation Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Added Delegation Successfully'
+        // });
+        this.toastr.info('Added Delegation Successfully', 'Success');
         //this.onSelectionChange({value: this.selectedRole});
       }
     }
@@ -644,26 +664,29 @@ export class DelegationComponent implements OnInit, OnDestroy {
   }
 
   addUserRoleFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Add Delegate Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Add Delegate Failed'
+    // });
+    this.toastr.error('Add Delegate Failed', 'Failure');
   }
 
   revokeDelegation(del) {
     if (del.id === 0) {
       const subscription = this.us.removeUserFromRole(del.empNo, del.roleId).subscribe(res => {
         if (res === 'OK') {
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success', detail: 'Removed Delegation Successfully'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success', detail: 'Removed Delegation Successfully'
+          // });
+          this.toastr.info('Removed Delegation Successfully', 'Success');
           this.removeDelegationSuccess();
         } else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Failure', detail: 'Failed To Remove Delegation'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Failure', detail: 'Failed To Remove Delegation'
+          // });
+          this.toastr.error('Failed To Remove Delegation', 'Failure');
         }
       });
     }
@@ -672,17 +695,19 @@ export class DelegationComponent implements OnInit, OnDestroy {
       this.us.revokeDelegation(del.id).subscribe(data => {
         this.busy = false;
         if (data === 'OK') {
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success', detail: 'Removed Delegation Successfully'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success', detail: 'Removed Delegation Successfully'
+          // });
+          this.toastr.info('Removed Delegation Successfully', 'Success');
           this.removeDelegationSuccess();
           //this.onSelectionChange({value:this.selectedRole});
         } else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Failure', detail: 'Failed To Remove Delegation'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Failure', detail: 'Failed To Remove Delegation'
+          // });
+          this.toastr.error('Failed To Remove Delegation', 'Failure');
         }
       }, err => {
         this.busy = false;

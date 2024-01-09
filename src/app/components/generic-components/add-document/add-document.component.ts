@@ -26,6 +26,7 @@ import { BreadcrumbService } from "../../../services/breadcrumb.service";
 import { AdminService } from "../../../services/admin.service";
 import * as global from "../../../global.variables";
 import { ConfigurationService } from '../../../services/configuration.service';
+import { ToastrService } from 'ngx-toastr';
 //import * as jsonData from "../../../getDesignationValues.json";
 
 @Component({
@@ -98,7 +99,7 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   fileSizeConfiguration:any;
   //et_default_orgcode: any
   //et_default_date: any
-  constructor(private cs: ContentService, private fb: FormBuilder, private breadcrumbService: BreadcrumbService, private as: AdminService,
+  constructor(private cs: ContentService, private fb: FormBuilder, private breadcrumbService: BreadcrumbService, private as: AdminService,private toastr:ToastrService,
     private router: Router, private us: UserService, private coreService: CoreService, private configService: ConfigurationService,
     private ds: DocumentService, private bs: BrowserEvents, private growlService: GrowlService,
     private confirmationService: ConfirmationService) {
@@ -1200,10 +1201,11 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
           this.addDocFailed(err)
         });
       } else if (allRequiredFieldsFilled === false) {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Fill Required', detail: 'Fill All Required Fields'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Fill Required', detail: 'Fill All Required Fields'
+        // });
+        this.toastr.error('Fill All Required Fields', 'Fill Required');
       }
     }
   }
@@ -1233,10 +1235,11 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
     // if (!this.router.url.includes('launch')) {
     //   window.parent.postMessage('AddDocLaunchSuccess', '*');
     // }
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Add Document Success'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Add Document Success'
+    // });
+    this.toastr.info('Add Document Success', 'Success');
     const newDocID = data;
     this.clearForm();
     this.uploadedFiles = '';
@@ -1254,10 +1257,11 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
 
   addDocFailed(error) {
     this.errorJson = JSON.parse(error.error).responseMessage;
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: this.errorJson
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: this.errorJson
+    // });
+    this.toastr.error(this.errorJson, 'Failure');
 
   }
 
@@ -1328,15 +1332,17 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
       this.docFromScanner = true;
       this.DWObject.RemoveAllImages();
       this.displayScannerSettings = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Document Saved Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Document Saved Successfully'
+      // });
+      this.toastr.info('Document Saved Successfully', 'Success');
     } else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'Failed To Save'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'Failed To Save'
+      // });
+      this.toastr.error('Failed To Save', 'Failure');
     }
   }
 

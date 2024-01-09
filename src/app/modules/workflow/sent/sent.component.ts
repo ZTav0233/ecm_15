@@ -31,6 +31,7 @@ import { WorkitemSet } from '../../../models/workflow/workitem-set.model';
 import { WorkItemAction } from '../../../models/workflow/workitem-action.model';
 import { WorkitemDetails } from '../../../models/workflow/workitem-details.model';
 import { ConfirmationService, SelectItem } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'inbox',
@@ -179,7 +180,7 @@ export class SentComponent implements OnInit, OnDestroy {
   public showOperationNotPossible = false;
   public messageDenyAction: any;
   activePage: string;
-  constructor(private breadcrumbService: BreadcrumbService, private ws: WorkflowService, private route: ActivatedRoute,
+  constructor(private breadcrumbService: BreadcrumbService, private ws: WorkflowService, private route: ActivatedRoute,private toastr:ToastrService,
     private us: UserService, private bs: BrowserEvents, public coreService: CoreService,
     private confirmationService: ConfirmationService, public router: Router, private growlService: GrowlService) {
     this.subscribeRouterEvents();
@@ -526,10 +527,11 @@ export class SentComponent implements OnInit, OnDestroy {
       this.user.EmpNo, this.selectedWorkitem.workitemId)
       .subscribe(res => {
         this.busy = false;
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Workitem Progress Added Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Workitem Progress Added Successfully'
+        // });
+        this.toastr.info('Reply Success', 'Success');
         event = {};
         this.getWorkitemProgress();
         this.refreshTable();
@@ -553,10 +555,11 @@ export class SentComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.ws.removeWorkitemProgress(id).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Workitem Progress Removed Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Workitem Progress Removed Successfully'
+      // });
+      this.toastr.info('Workitem Progress Removed Successfully', 'Success');
       this.getWorkitemProgress();
     }, err => {
       this.busy = false;
@@ -671,10 +674,11 @@ export class SentComponent implements OnInit, OnDestroy {
         });
         return;
       } else if (data && data.filters.subject.value && data.filters.subject.value.trim() && data.filters.subject.value.trim().length <= 2) {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Message', detail: "Please enter more than 2 characters to filter"
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Message', detail: "Please enter more than 2 characters to filter"
+        // });
+        this.toastr.info('Please enter more than 2 characters to filter', 'Message');
         return;
       } else {
         this._updateTabsList(this.request.userId, { property: 'quickFilterText', value: '' });
@@ -871,10 +875,11 @@ export class SentComponent implements OnInit, OnDestroy {
           });
         }
         else if (tab && tab.quickFilterText && tab.quickFilterText.trim().length < 3) {
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Message', detail: "Please enter more than 2 characters to filter"
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Message', detail: "Please enter more than 2 characters to filter"
+          // });
+          this.toastr.info('Please enter more than 2 characters to filter', 'Message');
         }
         this.sentTieredItems.map((item, index) => {
           item.disabled = !this.sentWorkitems.workitems || this.sentWorkitems.workitems.length === 0;
@@ -1061,20 +1066,22 @@ export class SentComponent implements OnInit, OnDestroy {
     });
   }
   failed(error) {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Operation Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Operation Failed'
+    // });
+    this.toastr.error('Operation Failed', 'Failure');
   }
 
   refresh() {
     throw new Error('Method not implemented.');
   }
   fail(error) {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Operation Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Operation Failed'
+    // });
+    this.toastr.error('Operation Failed', 'Failure');
   }
 
   /**
@@ -1178,10 +1185,11 @@ export class SentComponent implements OnInit, OnDestroy {
 
   archiveBeforeSuccess(val) {
     if (val === 'Workitems not found') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Workitems', detail: 'No workitems found..Choose a different date'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Workitems', detail: 'No workitems found..Choose a different date'
+      // });
+      this.toastr.error('Operation Failed', 'Failure');
     } else {
       const count = this.getArchiveCount(val).trim();
       let message;
@@ -1190,10 +1198,11 @@ export class SentComponent implements OnInit, OnDestroy {
       } else {
         message = count + ' ' + 'Workitems Archived';
       }
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: message
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: message
+      // });
+      this.toastr.info(message, 'Success');
       let totalCount = this.tabsList[this.selectedTabIndex].tabCount - parseInt(count, 10);
       this._updateTabsList(this.request.userId, [{ property: 'tabCount', value: totalCount }]);
       this.resetCurrentTableSortAndRefresh();
@@ -1214,18 +1223,20 @@ export class SentComponent implements OnInit, OnDestroy {
 
   archiveSuccess() {
     window.parent.postMessage('ArchiveSuccess', '*');
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Archived Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Archived Successfully'
+    // });
+    this.toastr.info('Archived Successfully', 'Success');
     this.resetCurrentTableSortAndRefresh();
   }
 
   archiveFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Archive Workitems'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Archive Workitems'
+    // });
+    this.toastr.error('Failed To Archive Workitems', 'Failure');
   }
 
   /**
@@ -1695,10 +1706,11 @@ export class SentComponent implements OnInit, OnDestroy {
       });
     }
     if (exist) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'User Already Exist'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'User Already Exist'
+      // });
+      this.toastr.error('User Already Exist', 'Failure');
     }
   }
 
@@ -1811,10 +1823,11 @@ export class SentComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.ws.addUserWorkitem(wia).subscribe(data => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Added User Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Added User Successfully'
+      // });
+      this.toastr.info('Added User Successfully', 'Success');
       //this.populateRecipients();
       this.getFirstWorkitemDetails();
       this.getWorkflowTrack();

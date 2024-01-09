@@ -9,6 +9,7 @@ import { CoreService } from "../../../services/core.service";
 import { UserService } from "../../../services/user.service";
 import * as _ from "lodash";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-lookupmapping',
@@ -43,7 +44,7 @@ export class LookupmappingComponent implements OnInit, OnDestroy {
   public isMapped = false;
   alreadyMappedMsg: any;
 
-  constructor(private adminService: AdminService,
+  constructor(private adminService: AdminService,private toastr:ToastrService,
     private cs: ContentService, private us: UserService,
     private growlService: GrowlService, private breadcrumbService: BreadcrumbService,
     private confirmationService: ConfirmationService, private coreService: CoreService) {
@@ -284,36 +285,40 @@ export class LookupmappingComponent implements OnInit, OnDestroy {
     if (data === "OK") {
       this.showNewLookupMapping = false;
       if (this.editMode) {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success',
-          detail: 'Saved Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success',
+        //   detail: 'Saved Successfully'
+        // });
+        this.toastr.info('Saved Successfully', 'Success');
       } else {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success',
-          detail: 'Added Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success',
+        //   detail: 'Added Successfully'
+        // });
+        this.toastr.info('Added Successfully', 'Success');
       }
       this.searchLookupMapping();
     }
     else if (data === "Exists") {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Already Exist', detail: 'Mapping Already Exist'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Exist', detail: 'Mapping Already Exist'
+      // });
+      this.toastr.error('Mapping Already Exist', 'Already Exist');
     }
     this.editMode = false;
 
   }
 
   fail(data) {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure',
-      detail: 'Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure',
+    //   detail: 'Failed'
+    // });
+    this.toastr.error('Failed', 'Failure');
     this.editMode = false;
   }
 
@@ -327,11 +332,12 @@ export class LookupmappingComponent implements OnInit, OnDestroy {
       this.assignSelectedPropWithDesc(data, row)
     }, err => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure',
-        detail: 'User doesnot have permission to edit'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure',
+      //   detail: 'User doesnot have permission to edit'
+      // });
+      this.toastr.error('User doesnot have permission to edit', 'Failure');
     });
   }
 
@@ -361,11 +367,12 @@ export class LookupmappingComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.adminService.removeLookupMapping(row.orgUId, row.tmpId, prop).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success',
-        detail: 'Deleted Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success',
+      //   detail: 'Deleted Successfully'
+      // });
+      this.toastr.info('Deleted Successfully', 'Success');
       if (this.selectedTemplate) {
         this.busy = true;
         this.adminService.getLookupMappingsByOrg('', this.selectedTemplate).subscribe(data => {
@@ -380,11 +387,12 @@ export class LookupmappingComponent implements OnInit, OnDestroy {
       }
     }, Error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure',
-        detail: 'Failed'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure',
+      //   detail: 'Failed'
+      // });
+      this.toastr.error('Failed', 'Failure');
     });
   }
 

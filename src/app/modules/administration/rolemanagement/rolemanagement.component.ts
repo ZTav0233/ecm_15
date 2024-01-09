@@ -11,6 +11,7 @@ import { consoleTestResultHandler } from "tslint/lib/test";
 import { saveAs } from 'file-saver';
 import * as _ from "lodash";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-rolemanagement',
@@ -52,6 +53,7 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
   public editRoleWithOrg = false;
   showInfoDialog=false;
   constructor(private userService: UserService, private coreService: CoreService, private growlService: GrowlService, private as: AdminService,
+    private toastr:ToastrService,
     private breadcrumbService: BreadcrumbService, private confirmationService: ConfirmationService) {
     this.roleData.roles = {
       selectCriterions: [
@@ -158,15 +160,17 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
         this.getInactiveRoles();
         this.getOrgRole();
         this.getRoles();
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Activated Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Activated Successfully'
+        // });
+        this.toastr.info('Activated Successfully', 'Success');
       } else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Error', detail: 'Error In Activating'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Error', detail: 'Error In Activating'
+        // });
+        this.toastr.error('Error In Activating', 'Error');
       }
     })
 
@@ -354,17 +358,19 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
       this.userService.addUserToRole(user.EmpNo,
         this.activeTab === 0 ? this.roleData.roles.selectedRole.data.id : this.roleTreeData.roles.selectedRole.data.id).subscribe(res => {
           this.busy = false;
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success', detail: 'User Added Successfully'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success', detail: 'User Added Successfully'
+          // });
+          this.toastr.info('User Added Successfully', 'Success');
           this.getRoleMembers(this.activeTab === 0 ? this.roleData.roles.selectedRole : this.roleTreeData.roles.selectedRole);
         }, err => {
           this.busy = false;
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Error', detail: 'Error In Adding The User'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Error', detail: 'Error In Adding The User'
+          // });
+          this.toastr.error('Error In Adding The User', 'Error');
         });
     }
   }
@@ -396,17 +402,19 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
         this.busy = true;
         this.userService.removeUserFromRole(event.data.empNo, event.data.roleId).subscribe(res => {
           this.busy = false;
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success', detail: 'Member Removed Successfully'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success', detail: 'Member Removed Successfully'
+          // });
+          this.toastr.info('Member Removed Successfully', 'Success');
           this.getRoleMembers(event.parent);
         }, err => {
           this.busy = false;
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Error', detail: 'Error In Removing The Member'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Error', detail: 'Error In Removing The Member'
+          // });
+          this.toastr.error('Error In Removing The Member', 'Error');
         });
       }
     });
@@ -432,20 +440,22 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
       (this.searchQueary.phone !== undefined && this.searchQueary.phone !== '' && this.searchQueary.phone !== null)) {
     } else {
       formValid = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Warning', detail: 'Fill Any One Field To Search'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Warning', detail: 'Fill Any One Field To Search'
+      // });
+      this.toastr.error('Fill Any One Field To Search', 'Warning');
     }
     if (formValid) {
       this.busy = true;
       this.userService.searchEcmUsers(this.searchQueary).subscribe(data => {
         this.busy = false;
         if (data && data.length === 0) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'No Result', detail: 'No Results Found'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'No Result', detail: 'No Results Found'
+          // });
+          this.toastr.error('No Results Found', 'No Result');
         }
         this.roleData.roles.result = data;
       }, err => {
@@ -636,10 +646,11 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
     this.userService.saveRole(this.editRole).subscribe(res => {
       this.busy = false;
       if (res === 'OK') {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: this.editMode ? 'Saved Successfully' : 'Added Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: this.editMode ? 'Saved Successfully' : 'Added Successfully'
+        // });
+        this.toastr.info(this.editMode ? 'Saved Successfully' : 'Added Successfully', 'Success');
         this.closeModel();
         this.getRoles();
         if (this.activeTab === 0) {
@@ -648,17 +659,19 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
           this.getInactiveRoles();
         }
       } else if (res === 'Exists') {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Already Exist', detail: 'Name Already Exist'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Already Exist', detail: 'Name Already Exist'
+        // });
+        this.toastr.error('Name Already Exist', 'Already Exist');
       }
     }, Error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error', detail: 'Operation Failed'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error', detail: 'Operation Failed'
+      // });
+      this.toastr.error('Operation Failed', 'Error');
     });
   }
 
@@ -714,19 +727,21 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.userService.deactivateRole(event.id).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Deactivated Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Deactivated Successfully'
+      // });
+      this.toastr.info('Deactivated Successfully', 'Success');
       this.getInactiveRoles();
       this.getOrgRole();
       this.getRoles();
     }, Error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error', detail: 'Failed To Deactivate'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error', detail: 'Failed To Deactivate'
+      // });
+      this.toastr.error('Failed To Deactivate', 'Error');
     });
   }
 
@@ -747,17 +762,19 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.userService.deleteRole(deactrole.id).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Deleted Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Deleted Successfully'
+      // });
+      this.toastr.info('Deleted Successfully', 'Success');
       this.getInactiveRoles();
     }, Error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error', detail: 'Failed To Delete'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error', detail: 'Failed To Delete'
+      // });
+      this.toastr.error('Failed To Delete', 'Error');
     });
   }
 
@@ -857,10 +874,11 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
       this.userService.searchEcmUsers(searchQuery).subscribe(data => {
         this.busy = false;
         if (data.length === 0) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'No Result', detail: 'No Results Found'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'No Result', detail: 'No Results Found'
+          // });
+          this.toastr.error('No Results Found', 'No Result');
         }
         this.roleData.roles.searchSuggestions = data;
       }, err => {

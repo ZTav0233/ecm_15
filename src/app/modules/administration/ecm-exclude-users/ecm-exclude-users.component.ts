@@ -7,6 +7,7 @@ import { GrowlService } from "../../../services/growl.service";
 import { ConfirmationService } from "primeng/api";
 import { AdminUser } from "../../../models/user/adminUser";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ecm-exclude-users',
@@ -38,6 +39,7 @@ export class EcmExcludeUsersComponent implements OnInit {
   public adminUser = new AdminUser();
   busy: boolean;
   constructor(
+    private toastr:ToastrService,
     private us: UserService,
     private confirmationService: ConfirmationService,
     private coreService: CoreService,
@@ -128,10 +130,11 @@ export class EcmExcludeUsersComponent implements OnInit {
       });
     }
     if (exist) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Already Added', detail: 'User already added to list'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Added', detail: 'User already added to list'
+      // });
+      this.toastr.error('User already added to list', 'Already Addedt');
     }
     else {
       this.adminUser.empNo = data.EmpNo;
@@ -150,10 +153,11 @@ export class EcmExcludeUsersComponent implements OnInit {
   }
 
   successAdd() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'User added successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'User added successfully'
+    // });
+    this.toastr.info('User added successfully', 'Success');
     this.busy = true;
     this.us.getExcludedUsers().subscribe(data => {
       this.busy = false;
@@ -164,10 +168,11 @@ export class EcmExcludeUsersComponent implements OnInit {
   }
 
   failureAdd() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed to add user'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed to add user'
+    // });
+    this.toastr.error('Failed to add user', 'Failure');
   }
 
   removeExcludeUser(data) {
@@ -185,10 +190,11 @@ export class EcmExcludeUsersComponent implements OnInit {
   }
 
   successRemove() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Removed Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Removed Successfully'
+    // });
+    this.toastr.info('Removed Successfully', 'Success');
     this.busy = true;
     this.us.getExcludedUsers().subscribe(data => {
       this.busy = false;
@@ -199,17 +205,19 @@ export class EcmExcludeUsersComponent implements OnInit {
   }
 
   failureRemove() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Remove Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Remove Failed'
+    // });
+    this.toastr.error('Remove Failed', 'Failure');
   }
 
   successSave() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Added Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Added Successfully'
+    // });
+    this.toastr.info('Added Successfully', 'Success');
     this.adminUser = new AdminUser();
     this.busy = true;
     this.us.getExcludedUsers().subscribe(data => {
@@ -223,10 +231,11 @@ export class EcmExcludeUsersComponent implements OnInit {
     this.dataTable.reset()
   }
   failureSave() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Add Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Add Failed'
+    // });
+    this.toastr.error('Add Failed', 'Failure');
   }
 
   clearSubscriptions() {
@@ -281,20 +290,22 @@ export class EcmExcludeUsersComponent implements OnInit {
       (this.searchQueary.phone !== undefined && this.searchQueary.phone !== '' && this.searchQueary.phone !== null)) {
     } else {
       formValid = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Warning', detail: 'Fill Any One Field To Search'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Warning', detail: 'Fill Any One Field To Search'
+      // });
+      this.toastr.error('Fill Any One Field To Search', 'Warning');
     }
     if (formValid) {
       this.busy = true;
       this.us.searchEcmUsers(this.searchQueary).subscribe(data => {
         this.busy = false;
         if (data.length === 0) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'No Result', detail: 'No Results Found'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'No Result', detail: 'No Results Found'
+          // });
+          this.toastr.error('No Results Found', 'No Result');
         }
         this.searchResult = data;
       }, err => {

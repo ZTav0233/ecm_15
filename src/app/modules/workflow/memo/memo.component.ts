@@ -40,6 +40,7 @@ import { AdminService } from '../../../services/admin.service';
 import { MemoService } from '../../../services/memo.service';
 import { ConfirmationService } from 'primeng/api';
 import { filter } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 declare var CKEDITOR: any;
 declare var CKSource: any;
@@ -347,6 +348,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   editorEN: any
   editorAR: any
   constructor(
+    private toastr:ToastrService,
     public cs: ContentService,
     public ds: DocumentService,
     public breadcrumbService: BreadcrumbService,
@@ -823,16 +825,18 @@ export class MemoComponent implements OnInit, OnDestroy {
       });
     }
     if (docPdfWordCount == 0) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Not Allowed', detail: 'At least one PDF or MS word file should be selected for Signature/Initial.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Not Allowed', detail: 'At least one PDF or MS word file should be selected for Signature/Initial.'
+      // });
+      this.toastr.error('At least one PDF or MS word file should be selected for Signature/Initial.', 'Not Allowed');
       isSelectedCardInvalid = true;
     } else if (docPdfWordSignedCount == 0) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Not Allowed', detail: 'At least one document should be marked for eSign.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Not Allowed', detail: 'At least one document should be marked for eSign.'
+      // });
+      this.toastr.error('At least one document should be marked for eSign.', 'Not Allowed');
       isSelectedCardInvalid = true;
     }
     return isSelectedCardInvalid;
@@ -856,16 +860,18 @@ export class MemoComponent implements OnInit, OnDestroy {
       });
     }
     if (docPdfWordCount == 0) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Not Allowed', detail: 'At least one PDF or MS word file should be selected for Signature/Initial.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Not Allowed', detail: 'At least one PDF or MS word file should be selected for Signature/Initial.'
+      // });
+      this.toastr.error('At least one PDF or MS word file should be selected for Signature/Initial.', 'Not Allowed');
       isSelectedCardInvalid = true;
     } else if (docPdfWordSignedCount == 0) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Not Allowed', detail: 'At least one document should be marked for eSign.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Not Allowed', detail: 'At least one document should be marked for eSign.'
+      // });
+      this.toastr.error('At least one document should be marked for eSign.', 'Not Allowed');
       isSelectedCardInvalid = true;
     }
     return isSelectedCardInvalid;
@@ -904,10 +910,11 @@ export class MemoComponent implements OnInit, OnDestroy {
   onDocumentRemoved() {
     //console.log("clears")
     this.prepareStepItems();
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Document Removed From Enclosures'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Document Removed From Enclosures'
+    // });
+    this.toastr.info('Document Removed From Enclosures', 'Success');
   }
 
   prepareStepItems() {
@@ -1349,10 +1356,11 @@ export class MemoComponent implements OnInit, OnDestroy {
       if (!(this.existsInAttachment(this.launch.workflow.model.attachments, doc))) {
         this.addToCart2_v2(doc);
       } else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Failure', detail: 'Document Already Exists in Draft Attachment'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Failure', detail: 'Document Already Exists in Draft Attachment'
+        // });
+        this.toastr.error('Document Already Exists in Draft Attachment', 'Failure');
       }
     } else {
       this.addToCart2_v2(doc);
@@ -1376,24 +1384,27 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.busy = false;
         this.openNewDocDilaog = false;
         if (res === 'OK') {
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success', detail: 'Document Added To Cart'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success', detail: 'Document Added To Cart'
+          // });
+          this.toastr.info('Document Added To Cart', 'Success');
           this.getDocumentCart(true);
           window.parent.postMessage('AddCartSuccess', '*');
         }
         else if (res === 'Exists') {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Already Exist', detail: 'Document Already Exist in Cart'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Already Exist', detail: 'Document Already Exist in Cart'
+          // });
+          this.toastr.error('Document Already Exist in Cart', 'Already Exist');
         }
         else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Failure', detail: 'Add To Cart Failed'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Failure', detail: 'Add To Cart Failed'
+          // });
+          this.toastr.error('Add To Cart Failed', 'Failure');
         }
         if (res.status !== 'Exists' && (this.actionTypes === 'forward' || this.actionTypes === 'reply' || this.actionTypes === 'replyAll')) {
           let temp = [...[doc]];
@@ -1415,24 +1426,27 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.busy = false;
       this.openNewDocDilaog = false;
       if (res === 'OK') {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Document Added To Cart'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Document Added To Cart'
+        // });
+        this.toastr.info('Document Added To Cart', 'Success');
         this.getDocumentCart(true);
         window.parent.postMessage('AddCartSuccess', '*');
       }
       else if (res === 'Exists') {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Already Exist', detail: 'Document Already Exist in Cart'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Already Exist', detail: 'Document Already Exist in Cart'
+        // });
+        this.toastr.error('Document Already Exist in Cart', 'Already Exist');
       }
       else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Failure', detail: 'Add To Cart Failed'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Failure', detail: 'Add To Cart Failed'
+        // });
+        this.toastr.error('Add To Cart Failed', 'Failure');
       }
       if (res.status !== 'Exists' && (this.actionTypes === 'forward' || this.actionTypes === 'reply' || this.actionTypes === 'replyAll')) {
         let temp = [...[doc]];
@@ -1585,10 +1599,11 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.SubFromList = [...this.launch.recipients.SubFromList]
       }
       else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Warning', detail: 'Only three user or role allowed in From'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Warning', detail: 'Only three user or role allowed in From'
+        // });
+        this.toastr.error('Only three user or role allowed in From', 'Warning');
         return;
       }
       this.recipients.push({
@@ -1634,10 +1649,11 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.RevList = [...this.launch.recipients.RevList]
       }
       else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
+        // });
+        this.toastr.error('Only one reviewer allowed during preparation', 'Warning');
         return;
       }
       this.recipients.push({
@@ -1976,10 +1992,11 @@ export class MemoComponent implements OnInit, OnDestroy {
               this.launch.recipients.RevList = [...this.launch.recipients.RevList]
             }
             else {
-              this.growlService.showGrowl({
-                severity: 'error',
-                summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'error',
+              //   summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
+              // });
+              this.toastr.error('Only one reviewer allowed during preparation', 'Warning');
               return;
             }
             this.recipients.push({
@@ -2024,10 +2041,11 @@ export class MemoComponent implements OnInit, OnDestroy {
                 this.launch.recipients.RevList = [...this.launch.recipients.RevList]
               }
               else {
-                this.growlService.showGrowl({
-                  severity: 'error',
-                  summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
-                });
+                // this.growlService.showGrowl({
+                //   severity: 'error',
+                //   summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
+                // });
+                this.toastr.error('Only one reviewer allowed during preparation', 'Warning');
                 return;
               }
               this.recipients.push({
@@ -2073,10 +2091,11 @@ export class MemoComponent implements OnInit, OnDestroy {
           this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
         }
         else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
+          // });
+          this.toastr.error('Only one reviewer allowed during preparation', 'Warning');
           return;
         }
         this.recipients.push({
@@ -2117,10 +2136,11 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.RevList = [...this.launch.recipients.RevList]
       }
       else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
+        // });
+        this.toastr.error('Only one reviewer allowed during preparation', 'Warning');
         return;
       }
       this.recipients.push({
@@ -2156,10 +2176,11 @@ export class MemoComponent implements OnInit, OnDestroy {
           this.launch.recipients.RevList = [...this.launch.recipients.RevList]
         }
         else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
+          // });
+          this.toastr.error('Only one reviewer allowed during preparation', 'Warning');
           return;
         }
         this.recipients.push({
@@ -2224,10 +2245,11 @@ export class MemoComponent implements OnInit, OnDestroy {
                 wiRemarks: ""
               })
             } else {
-              this.growlService.showGrowl({
-                severity: 'error',
-                summary: 'Warning', detail: 'Only three user or role allowed in From'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'error',
+              //   summary: 'Warning', detail: 'Only three user or role allowed in From'
+              // });
+              this.toastr.error('Only three user or role allowed in From', 'Warning');
               return;
             }
           }
@@ -2279,10 +2301,11 @@ export class MemoComponent implements OnInit, OnDestroy {
                   wiRemarks: ""
                 })
               } else {
-                this.growlService.showGrowl({
-                  severity: 'error',
-                  summary: 'Warning', detail: 'Only three user or role allowed in From'
-                });
+                // this.growlService.showGrowl({
+                //   severity: 'error',
+                //   summary: 'Warning', detail: 'Only three user or role allowed in From'
+                // });
+                this.toastr.error('Only three user or role allowed in From', 'Warning');
                 return;
               }
             }
@@ -2336,10 +2359,11 @@ export class MemoComponent implements OnInit, OnDestroy {
             wiRemarks: ""
           })
         } else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Warning', detail: 'Only three user or role allowed in From'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Warning', detail: 'Only three user or role allowed in From'
+          // });
+          this.toastr.error('Only three user or role allowed in From', 'Warning');
           return;
         }
         this.prepareStepItems();
@@ -2386,10 +2410,11 @@ export class MemoComponent implements OnInit, OnDestroy {
           wiRemarks: ""
         })
       } else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Warning', detail: 'Only three user or role allowed in From'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Warning', detail: 'Only three user or role allowed in From'
+        // });
+        this.toastr.error('Only three user or role allowed in From', 'Warning');
         return;
       }
       this.prepareStepItems();
@@ -2432,10 +2457,11 @@ export class MemoComponent implements OnInit, OnDestroy {
             wiRemarks: ""
           })
         } else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Warning', detail: 'Only three user or role allowed in From'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Warning', detail: 'Only three user or role allowed in From'
+          // });
+          this.toastr.error('Only three user or role allowed in From', 'Warning');
           return;
         }
         this.prepareStepItems();
@@ -2758,10 +2784,11 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.SubFromList.map(v => Object.assign(v, { wiRemarks: "" }));
         this.launch.recipients.SubFromList = [...this.launch.recipients.SubFromList]
       } else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Warning', detail: 'Only three user or role allowed in From'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Warning', detail: 'Only three user or role allowed in From'
+        // });
+        this.toastr.error('Only three user or role allowed in From', 'Warning');
         return;
       }
       this.recipients.push({
@@ -2805,10 +2832,11 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.launch.recipients.RevList.map(v => Object.assign(v, { wiRemarks: "" }));
       }
       else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Warning', detail: 'Only one reviewer allowed during preparation'
+        // });
+        this.toastr.error('Only one reviewer allowed during preparation', 'Warning');
         return;
       }
       this.recipients.push({
@@ -2972,10 +3000,11 @@ export class MemoComponent implements OnInit, OnDestroy {
       (searchQuery.phone !== undefined && searchQuery.phone !== '' && searchQuery.phone !== null)) {
     } else {
       formValid = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Warning', detail: 'Fill Any One Field To Search'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Warning', detail: 'Fill Any One Field To Search'
+      // });
+      this.toastr.error('Fill Any One Field To Search', 'Warning');
     }
     if (formValid) {
       if (searchQuery.userName === "") {
@@ -2988,10 +3017,11 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.us.searchEcmUsers(searchQuery).subscribe(data => {
         this.busy = false;
         if (data.length === 0) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'No Result', detail: 'No Results Found'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'No Result', detail: 'No Results Found'
+          // });
+          this.toastr.error('No Results Found', 'No Result');
         }
         if (selectedType === 'ROLE') {
           this.launch.recipients.roles.result = data;
@@ -3071,10 +3101,11 @@ export class MemoComponent implements OnInit, OnDestroy {
       if (!(this.existsInAttachment(this.launch.workflow.model.attachments, doc))) {
         this.addToCart2_v2(doc);
       } else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Failure', detail: 'Document Already Exists in Draft Attachment'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Failure', detail: 'Document Already Exists in Draft Attachment'
+        // });
+        this.toastr.error('Document Already Exists in Draft Attachment', 'Failure');
       }
     } else {
       this.addToCart2_v2(doc);
@@ -3193,10 +3224,11 @@ export class MemoComponent implements OnInit, OnDestroy {
 
     if (!this.launch.routeParams.actionType && launchActionType !== 'reLaunch' && (!this.selectedCartItems || this.selectedCartItems.length == 0)) {
       let msg = "Please select at least one attachment."
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Attachment Required', detail: msg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Attachment Required', detail: msg
+      // });
+      this.toastr.error(msg, 'Attachment Required');
       return;
     }
     if ((this.launch.documents.existing.model.actionType === 'Signature' || this.launch.documents.existing.model.actionType === 'Initial') && launchActionType !== 'reLaunch') {
@@ -3469,10 +3501,11 @@ export class MemoComponent implements OnInit, OnDestroy {
     let launchActionType = (!this.launch.routeParams.actionType) ? "Empty" : this.launch.routeParams.actionType;
     if (!this.launch.routeParams.actionType && launchActionType !== 'reLaunch' && (!this.selectedCartItems || this.selectedCartItems.length == 0)) {
       let msg = "Please select at least one attachment."
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Attachment Required', detail: msg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Attachment Required', detail: msg
+      // });
+      this.toastr.error(msg, 'Attachment Required');
       return;
     }
 
@@ -3512,10 +3545,11 @@ export class MemoComponent implements OnInit, OnDestroy {
     let launchActionType = (!this.launch.routeParams.actionType) ? "Empty" : this.launch.routeParams.actionType;
     if (!this.launch.routeParams.actionType && launchActionType !== 'reLaunch' && (!this.selectedCartItems || this.selectedCartItems.length == 0)) {
       let msg = "Please select at least one attachment."
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Attachment Required', detail: msg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Attachment Required', detail: msg
+      // });
+      this.toastr.error(msg, 'Attachment Required');
       return;
     }
 
@@ -3602,10 +3636,11 @@ export class MemoComponent implements OnInit, OnDestroy {
     } else {
       if (launchActionType !== 'reLaunch' && (!this.selectedCartItems || this.selectedCartItems.length == 0)) {
         let msg = "Please select at least one attachment."
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Attachment Required', detail: msg
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Attachment Required', detail: msg
+        // });
+        this.toastr.error(msg, 'Attachment Required');
         return;
       }
     }
@@ -3736,10 +3771,11 @@ export class MemoComponent implements OnInit, OnDestroy {
                   this.ws.launchBulkWorkflow(Object.assign({}, workflow, { workflowBulk: workflowArray }))
                     .subscribe(data => {
                       this.busy = false;
-                      this.growlService.showGrowl({
-                        severity: 'info',
-                        summary: 'Success', detail: 'Launched Successfully'
-                      });
+                      // this.growlService.showGrowl({
+                      //   severity: 'info',
+                      //   summary: 'Success', detail: 'Launched Successfully'
+                      // });
+                      this.toastr.info('Launched Successfully', 'Success');
                       if (this.selectedCartItems) {
                         this.clearCart(draft, false, true);
                       }
@@ -3752,20 +3788,22 @@ export class MemoComponent implements OnInit, OnDestroy {
                       }
                     }, error => {
                       this.busy = false;
-                      this.growlService.showGrowl({
-                        severity: 'error',
-                        summary: 'Failure', detail: error.message
-                      });
+                      // this.growlService.showGrowl({
+                      //   severity: 'error',
+                      //   summary: 'Failure', detail: error.message
+                      // });
+                      this.toastr.info(error.message, 'Failure');
                     });
                 }
               });
             }
           })
         } else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Bulk Launch Not Allowed', detail: 'Minimum 2 documents  required in cart for bulk launch'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Bulk Launch Not Allowed', detail: 'Minimum 2 documents  required in cart for bulk launch'
+          // });
+          this.toastr.info('Minimum 2 documents  required in cart for bulk launch', 'Bulk Launch Not Allowed');
         }
       }
     });
@@ -3783,15 +3821,17 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.ws.launchWorkflow(workflow).subscribe(data => {
         this.busy = false;
         if (draft) {
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success', detail: 'Saved Successfully'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success', detail: 'Saved Successfully'
+          // });
+          this.toastr.info('Saved Successfully', 'Success');
         } else {
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success', detail: 'Launched Successfully'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success', detail: 'Launched Successfully'
+          // });
+          this.toastr.info('Launched Successfully', 'Success');
         }
         if (this.selectedCartItems) {
           this.clearCart(draft, false, true);
@@ -3806,15 +3846,17 @@ export class MemoComponent implements OnInit, OnDestroy {
       }, error => {
         this.busy = false;
         if (draft) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Failure', detail: error.message
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Failure', detail: error.message
+          // });
+          this.toastr.error(error.message, 'Failure');
         } else {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Failure', detail: error.message
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Failure', detail: error.message
+          // });
+          this.toastr.error(error.message, 'Failure');
         }
       });
     }
@@ -4463,19 +4505,21 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.busy = false;
       if (data) {
         this.getDocumentCart();
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Document Cart Cleared Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Document Cart Cleared Successfully'
+        // });
+        this.toastr.info('Document Cart Cleared Successfully', 'Success');
         window.parent.postMessage('clearCartSuccess', '*');
         this.prepareStepItems();
       }
     }, Error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'Failed to Clear'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'Failed to Clear'
+      // });
+      this.toastr.error('Failed to Clea', 'Failure');
     });
   }
 
@@ -4660,11 +4704,12 @@ export class MemoComponent implements OnInit, OnDestroy {
         message = 'Document Added To ' + this.addDocumentType;
         break;
     }
-    this.growlService.showGrowl({
-      severity: severity,
-      summary: summary,
-      detail: message
-    });
+    // this.growlService.showGrowl({
+    //   severity: severity,
+    //   summary: summary,
+    //   detail: message
+    // });
+    this.toastr.info(message, summary);
 
   }
   storeSubjectFontSize(event) {
@@ -4675,10 +4720,11 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.isOnBehalf = event.value;
   }
   addToCartFailure() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Add To ' + this.addDocumentType + ' Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Add To ' + this.addDocumentType + ' Failed'
+    // });
+    this.toastr.error('Add To ' + this.addDocumentType + ' Failed', 'Failure');
   }
 
   roleTreeExpanded(event) {

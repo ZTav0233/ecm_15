@@ -11,6 +11,7 @@ import { CoreService } from '../../../services/core.service';
 import { Recipients } from '../../../models/user/recipients.model';
 import * as _ from "lodash";
 import { MemoService } from '../../../services/memo.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-memoref',
@@ -83,6 +84,7 @@ export class MemoRefComponent implements OnInit, OnDestroy {
   busy: boolean;
 
   constructor(
+    private toastr:ToastrService,
     private us: UserService,
     private ms: MemoService,
     private confirmationService: ConfirmationService,
@@ -177,17 +179,19 @@ export class MemoRefComponent implements OnInit, OnDestroy {
       this.busy = true;
       this.ms.removeMemoRefSettings(templateId).subscribe(data => {
         this.busy = false;
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Removed Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Removed Successfully'
+        // });
+        this.toastr.info('Removed Successfully', 'Success');
         this.onChangeSuccess();
       }, err => {
         this.busy = false;
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Failed', detail: 'Remove Failed'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Failed', detail: 'Remove Failed'
+        // });
+        this.toastr.error('Remove Failed', 'Failed');
       });
     }
   }
@@ -211,10 +215,11 @@ export class MemoRefComponent implements OnInit, OnDestroy {
         (this.refTemplate.part5Type !== undefined && this.refTemplate.part5Type !== null && this.refTemplate.part5Type.name !== 'select') */
     } else {
       formValid = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Warning', detail: 'Fill Any One Field To Save'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Warning', detail: 'Fill Any One Field To Save'
+      // });
+      this.toastr.error('Fill Any One Field To Save', 'Warning');
     }
 
     this.refTemplate = {
@@ -240,17 +245,19 @@ export class MemoRefComponent implements OnInit, OnDestroy {
       this.busy = true;
       this.ms.saveMemoRefSettings(this.refTemplate).subscribe(data => {
         this.busy = false;
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Saved Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Saved Successfully'
+        // });
+        this.toastr.info('Saved Successfully', 'Success');
         this.onChangeSuccess();
       }, err => {
         this.busy = false;
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Failed', detail: 'Save Failed'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Failed', detail: 'Save Failed'
+        // });
+        this.toastr.info('Save Failed', 'Failed');
       });
     }
   }
@@ -324,10 +331,11 @@ export class MemoRefComponent implements OnInit, OnDestroy {
   }
 
   addUserRoleFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Add Delegate Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Add Delegate Failed'
+    // });
+    this.toastr.info('Add Delegate Failed', 'Failure');
   }
 
   onExpanded(ev:any){

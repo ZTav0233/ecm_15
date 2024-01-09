@@ -11,6 +11,7 @@ import { UserService } from "../../../services/user.service";
 import * as global from '../../../global.variables';
 import * as _ from "lodash";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-integration',
@@ -62,7 +63,8 @@ export class IntegrationComponent implements OnInit, OnDestroy {
   public viewIntigrationParams = false;
   public temp: any;
 
-  constructor(private as: AdminService, private confirmationService: ConfirmationService, private coreService: CoreService, private growlService: GrowlService,
+  constructor(private as: AdminService, private confirmationService: ConfirmationService, private coreService: CoreService,
+    private toastr:ToastrService, private growlService: GrowlService,
     private cs: ContentService, private breadcrumbService: BreadcrumbService, private us: UserService) {
     this.user = us.getCurrentUser();
   }
@@ -216,11 +218,12 @@ export class IntegrationComponent implements OnInit, OnDestroy {
       }
     }, err => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure',
-        detail: 'You do not have permission for selected entry template.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure',
+      //   detail: 'You do not have permission for selected entry template.'
+      // });
+      this.toastr.error('You do not have permission for selected entry template.', 'Failure');
       this.showIntegration = false;
     });
   }
@@ -257,17 +260,19 @@ export class IntegrationComponent implements OnInit, OnDestroy {
       this.as.saveIntegrations(newIntegration).subscribe(data => {
         this.busy = false;
         if (this.editMode) {
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success',
-            detail: 'Saved Successfully'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success',
+          //   detail: 'Saved Successfully'
+          // });
+          this.toastr.info('Saved Successfully', 'Success');
         } else {
-          this.growlService.showGrowl({
-            severity: 'info',
-            summary: 'Success',
-            detail: 'Added Successfully'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'info',
+          //   summary: 'Success',
+          //   detail: 'Added Successfully'
+          // });
+          this.toastr.info('Added Successfully', 'Success');
         }
         this.closeModel();
         this.getIntegrations();
@@ -277,20 +282,22 @@ export class IntegrationComponent implements OnInit, OnDestroy {
       });
     }
     else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Already Exist',
-        detail: 'Integration name already exist'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Exist',
+      //   detail: 'Integration name already exist'
+      // });
+      this.toastr.error('Integration name already exist', 'Already Exist');
     }
   }
 
   fail() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure',
-      detail: 'Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure',
+    //   detail: 'Failed'
+    // });
+    this.toastr.error('Failed', 'Failure');
   }
 
   modifyIntegration(row) {
@@ -320,19 +327,21 @@ export class IntegrationComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.as.deleteIntegrations(row.id).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success',
-        detail: 'Deleted Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success',
+      //   detail: 'Deleted Successfully'
+      // });
+      this.toastr.info('Deleted Successfully', 'Success');
       this.getIntegrations();
     }, error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure',
-        detail: 'Failed'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure',
+      //   detail: 'Failed'
+      // });
+      this.toastr.error('Failed', 'Failure');
     });
   }
 
@@ -381,13 +390,15 @@ export class IntegrationComponent implements OnInit, OnDestroy {
       this.viewIntigrationParams = true;
     }, err => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure',
-        detail: 'User does not have permission to view'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure',
+      //   detail: 'User does not have permission to view'
+      // });
+      this.toastr.error('User does not have permission to view', 'Failure');
       this.viewIntigrationParams = false;
     });
+
   }
 
   exportToExcel() {

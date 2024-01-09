@@ -4,6 +4,7 @@ import { DocumentService } from '../../../services/document.service';
 import { GrowlService } from '../../../services/growl.service';
 import { CoreService } from "../../../services/core.service";
 import { BrowserEvents } from "../../../services/browser-events.service";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-enclosure-document-cart',
@@ -27,7 +28,7 @@ export class EnclosureDocumentCartComponent implements OnInit, OnChanges, OnDest
   private currentUser: any;
   private subscriptions: any[] = [];
   busy: boolean;
-  constructor(private userService: UserService, private documentService: DocumentService,
+  constructor(private userService: UserService, private documentService: DocumentService,private toastr:ToastrService,
     private growlService: GrowlService, private coreService: CoreService, private bs: BrowserEvents) {
     this.selectedValues = [];
   }
@@ -122,20 +123,22 @@ export class EnclosureDocumentCartComponent implements OnInit, OnChanges, OnDest
     this.documentService.removeFromEnclosure(this.currentUser.EmpNo, item.id).subscribe((data) => {
       this.busy = false;
       if (data === 'OK') {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Document Removed From Cart'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Document Removed From Cart'
+        // });
+        this.toastr.info('Document Removed From Cart', 'Success');
         window.parent.postMessage('removeCartSuccess', '*');
       }
       this.onItemRemoved.emit();
       this.refreshCart();
     }, (err) => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'Failed To Remove From Cart'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'Failed To Remove From Cart'
+      // });
+      this.toastr.error('Failed To Remove From Cart', 'Failure');
       this.refreshCart();
     });
   }

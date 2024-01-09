@@ -9,6 +9,7 @@ import {GeneralSettings} from '../../../models/general/general-settings.model';
 import {GrowlService} from '../../../services/growl.service';
 import {CoreService} from '../../../services/core.service';
 import {BreadcrumbService} from '../../../services/breadcrumb.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-general',
@@ -48,6 +49,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
   selectedFolder: any;
 
   constructor(
+    private toastr:ToastrService,
     private wfs: WorkflowService, 
     public userService: UserService, 
     private growlService: GrowlService,
@@ -130,17 +132,19 @@ export class GeneralComponent implements OnInit, OnDestroy {
   }
 
   changeClass(){
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Info', detail: 'You must refresh your browser to use the updated settings'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Info', detail: 'You must refresh your browser to use the updated settings'
+    // });
+    this.toastr.info('You must refresh your browser to use the updated settings', 'Info');
   }
 
   changeShowInactiveRole(){
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Info', detail: 'You must refresh your browser to use the updated settings'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Info', detail: 'You must refresh your browser to use the updated settings'
+    // });
+    this.toastr.info('You must refresh your browser to use the updated settings', 'Info');
   }
 
   assignTemplates(data) {
@@ -212,17 +216,19 @@ export class GeneralComponent implements OnInit, OnDestroy {
   }
 
   updateFailed(err) {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Update'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Update'
+    // });
+    this.toastr.error('Failed To Update', 'Failure');
   }
 
   updateSettings(val) {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Updated Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Updated Successfully'
+    // });
+    this.toastr.info('Updated Successfully', 'Success');
     localStorage.removeItem('defaultView');
     localStorage.setItem('defaultView',this.userService.defaultView);
     this.userService.pageSize = this.defaultNo;

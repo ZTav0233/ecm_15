@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { UserService } from "../../../services/user.service";
 import { CoreService } from "../../../services/core.service";
 import { GrowlService } from "../../../services/growl.service";
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-recipients-memo',
   templateUrl: './recipients-memo.component.html',
@@ -46,7 +47,7 @@ export class RecipientsMemoComponent implements OnDestroy {
   selectedIndexAccordion = 0;
   showRoleTree = false;
   public roleTreeData: any = { roles: { model: {} } };
-  constructor(private userService: UserService, private coreService: CoreService, private growlService: GrowlService) {
+  constructor(private userService: UserService, private coreService: CoreService, private toastr:ToastrService,private growlService: GrowlService) {
     this.criteria = [{ label: 'Name', value: 'userName' }, { label: 'Email', value: 'mail' }, { label: 'Designation', value: 'title' },
     { label: 'Phone', value: 'phone' }, { label: 'Org Code', value: 'orgCode' }, { label: 'KOC No', value: 'empNo' }];
     //this.addNewCriterion();
@@ -400,10 +401,11 @@ export class RecipientsMemoComponent implements OnDestroy {
       (searchQueary.phone !== undefined && searchQueary.phone !== '' && searchQueary.phone !== null)) {
     } else {
       formValid = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Warning', detail: 'Fill Any One Field To Search'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Warning', detail: 'Fill Any One Field To Search'
+      // });
+      this.toastr.error('Fill Any One Field To Search', 'Warning');
     }
     if (formValid) {
       if (searchQueary.userName === "") {
@@ -416,10 +418,11 @@ export class RecipientsMemoComponent implements OnDestroy {
       this.userService.searchEcmUsers(searchQueary).subscribe(data => {
         this.busy = false;
         if (data.length === 0) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'No Result', detail: 'No Results Found'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'No Result', detail: 'No Results Found'
+          // });
+          this.toastr.error('No Results Found', 'No Result');
         }
         if (this.selectedType === 'ROLE') {
           this.recipientsData.roles.result = data;

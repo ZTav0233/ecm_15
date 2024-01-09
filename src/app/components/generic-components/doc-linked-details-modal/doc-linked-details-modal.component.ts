@@ -7,6 +7,7 @@ import { saveAs } from 'file-saver';
 import { GrowlService } from "../../../services/growl.service";
 import { ContentService } from '../../../services/content.service';
 import { BrowserEvents } from "../../../services/browser-events.service";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-doc-linked-details-modal',
@@ -40,7 +41,7 @@ export class DocLinkedDetailsModalComponent implements OnInit, OnDestroy, OnChan
   public isDocTrackLoaded = false;
   public docVersions: SelectItem[] = [];
   selectedVersionVal: any;
-  constructor(private ds: DocumentService, private sanitizer: DomSanitizer, private confirmationService: ConfirmationService,
+  constructor(private ds: DocumentService, private sanitizer: DomSanitizer, private confirmationService: ConfirmationService,private toastr:ToastrService,
     private contentService: ContentService, private coreService: CoreService, private growlService: GrowlService,
     private bs: BrowserEvents) {
     this.bs.docDetailsModelTabIndex.subscribe(() => {
@@ -102,10 +103,11 @@ export class DocLinkedDetailsModalComponent implements OnInit, OnDestroy, OnChan
   }
 
   successremoveLink() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Remove Link Successful'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Remove Link Successful'
+    // });
+    this.toastr.info('Remove Link Successful', 'Success');
     this.busy = true;
     this.ds.getLinks(this.headId).subscribe(data => {
       this.busy = false;
@@ -117,10 +119,11 @@ export class DocLinkedDetailsModalComponent implements OnInit, OnDestroy, OnChan
 
   removeLinkFailed(error) {
     //let errorJson = JSON.parse(error.error).responseMessage;
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: "No permissions to remove selected link"
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: "No permissions to remove selected link"
+    // });
+    this.toastr.error('No permissions to remove selected link', 'Failure');
   }
 
   downloadDoc(doc) {

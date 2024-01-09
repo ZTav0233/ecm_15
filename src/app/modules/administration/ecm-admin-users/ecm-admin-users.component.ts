@@ -7,6 +7,7 @@ import { GrowlService } from "../../../services/growl.service";
 import { ConfirmationService } from "primeng/api";
 import { AdminUser } from "../../../models/user/adminUser";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ecm-admin-users',
@@ -33,7 +34,7 @@ export class EcmAdminUsersComponent implements OnInit {
   public adminUser = new AdminUser();
   busy: boolean;
 
-  constructor(private us: UserService, private confirmationService: ConfirmationService, private coreService: CoreService, private breadcrumbService: BreadcrumbService, private growlService: GrowlService) {
+  constructor(private toastr:ToastrService,private us: UserService, private confirmationService: ConfirmationService, private coreService: CoreService, private breadcrumbService: BreadcrumbService, private growlService: GrowlService) {
     this.criteria = [{ label: 'Name', value: 'userName' }, { label: 'Email', value: 'mail' }, { label: 'Designation', value: 'title' },
     { label: 'Phone', value: 'phone' }, { label: 'Org Code', value: 'orgCode' }, { label: 'KOC No', value: 'empNo' }];
     this.addNewCriterion();
@@ -120,10 +121,11 @@ export class EcmAdminUsersComponent implements OnInit {
       });
     }
     if (exist) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Already Added', detail: 'Administrator is already added'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Added', detail: 'Administrator is already added'
+      // });
+      this.toastr.error('Administrator is already added', 'Already Added');
     }
     else {
       this.adminUser.empNo = data.EmpNo;
@@ -150,10 +152,11 @@ export class EcmAdminUsersComponent implements OnInit {
   }
 
   successRemove() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Removed Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Removed Successfully'
+    // });
+    this.toastr.info('Removed Successfully', 'Success');
     this.busy = true;
     this.us.getAdminUsers().subscribe(data => {
       this.busy = false;
@@ -164,17 +167,19 @@ export class EcmAdminUsersComponent implements OnInit {
   }
 
   failureRemove() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Remove Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Remove Failed'
+    // });
+    this.toastr.error('Remove Failed', 'Failure');
   }
 
   successSave() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Added Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Added Successfully'
+    // });
+    this.toastr.info('Added Successfully', 'Success');
     this.adminUser = new AdminUser();
     this.justificationDialog = false;
     this.busy = true;
@@ -187,10 +192,11 @@ export class EcmAdminUsersComponent implements OnInit {
   }
 
   failureSave() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Add Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Add Failed'
+    // });
+    this.toastr.error('Add Failed', 'Failure');
   }
 
   clearSubscriptions() {
@@ -248,20 +254,22 @@ export class EcmAdminUsersComponent implements OnInit {
       (this.searchQueary.phone !== undefined && this.searchQueary.phone !== '' && this.searchQueary.phone !== null)) {
     } else {
       formValid = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Warning', detail: 'Fill Any One Field To Search'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Warning', detail: 'Fill Any One Field To Search'
+      // });
+      this.toastr.error('Fill Any One Field To Search', 'Warning');
     }
     if (formValid) {
       this.busy = true;
       this.us.searchEcmUsers(this.searchQueary).subscribe(data => {
         this.busy = false;
         if (data.length === 0) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'No Result', detail: 'No Results Found'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'No Result', detail: 'No Results Found'
+          // });
+          this.toastr.error('No Results Found', 'No Result');
         }
         this.searchResult = data;
       }, err => {

@@ -16,6 +16,7 @@ import { Table } from 'primeng/table';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
 import { MenuItem, Message, TreeNode } from 'primeng/api';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-favourites',
@@ -54,7 +55,8 @@ export class FavouritesComponent implements OnInit, OnDestroy {
   public exportFields: any[] = ['name', 'creator', 'addOn', 'modOn', 'modifier', 'format', 'verNo'];
   public gridItemsToExport: any[] = [];
 
-  constructor(private breadcrumbService: BreadcrumbService, public ds: DocumentService, private us: UserService, public app: AppComponent,
+  constructor(
+    private toastr:ToastrService,private breadcrumbService: BreadcrumbService, public ds: DocumentService, private us: UserService, public app: AppComponent,
     private bs: BrowserEvents, private growlService: GrowlService, private coreService: CoreService,
     private cs: ContentService) {
     this.user = this.us.getCurrentUser();
@@ -197,10 +199,11 @@ export class FavouritesComponent implements OnInit, OnDestroy {
   }
 
   removeFromFavMessageFailure() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Remove From Favorites Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Remove From Favorites Failed'
+    // });
+    this.toastr.error('Remove From Favorites Failed', 'Failure');
   }
 
   removeFromFavMessage(res, docs) {
@@ -215,11 +218,12 @@ export class FavouritesComponent implements OnInit, OnDestroy {
         message = 'Document Removed From Favorites';
         break;
     }
-    this.growlService.showGrowl({
-      severity: severity,
-      summary: summary,
-      detail: message
-    });
+    // this.growlService.showGrowl({
+    //   severity: severity,
+    //   summary: summary,
+    //   detail: message
+    // });
+    this.toastr.info(message, summary);
     this.refresh(docs);
   }
   nodeExpand(event) {
@@ -293,36 +297,40 @@ export class FavouritesComponent implements OnInit, OnDestroy {
         this.subscription.push(this.cs.fileInFolder(folderId, d.id)
           .subscribe(data => {
             if (data === 'OK') {
-              this.growlService.showGrowl({
-                severity: 'info',
-                summary: 'Success', detail: 'Document Added To Folder'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'info',
+              //   summary: 'Success', detail: 'Document Added To Folder'
+              // });
+              this.toastr.info('Document Added To Folder', 'Success');
               loop++;
               if (loop === docs.length) {
                 docs.splice(0, docs.length);
               }
             }
             else if (data === 'Exists') {
-              this.growlService.showGrowl({
-                severity: 'error',
-                summary: 'Already Exist', detail: 'Document Already Exist In Destination Folder'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'error',
+              //   summary: 'Already Exist', detail: 'Document Already Exist In Destination Folder'
+              // });
+              this.toastr.error('Document Already Exist In Destination Folder', 'Already Exist');
             }
             else {
-              this.growlService.showGrowl({
-                severity: 'error',
-                summary: 'Failure', detail: 'Add To Folder Failed'
-              });
+              // this.growlService.showGrowl({
+              //   severity: 'error',
+              //   summary: 'Failure', detail: 'Add To Folder Failed'
+              // });
+              this.toastr.error('Add To Folder Failed', 'Failure');
             }
 
           }));
       });
     }
     else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'No Permission', detail: 'User dont have permission to add'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'No Permission', detail: 'User dont have permission to add'
+      // });
+      this.toastr.error('User dont have permission to ad', 'No Permission');
     }
   }
   requestFolderName(){
@@ -336,10 +344,11 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     this.cs.createClassifyFolder(this.classifyFolderName).subscribe(f => {
       console.log("Created Folder : " + this.classifyFolderName);
       this.refreshAll();
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Classify Folder Created'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Classify Folder Created'
+      // });
+      this.toastr.info('Classify Folder Created', 'Success');
     }, err => {
       this.busy = false;
     });
@@ -404,23 +413,26 @@ export class FavouritesComponent implements OnInit, OnDestroy {
   removeSuccess(data) {
     this.refreshAll();
     if (data.toLocaleLowerCase().trim() === 'ok') {
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Folder Removed'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Folder Removed'
+      // });
+      this.toastr.info('Folder Removed', 'Success');
     } else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'Failed To Remove Folder. Please Contact Administrator.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'Failed To Remove Folder. Please Contact Administrator.'
+      // });
+      this.toastr.error('Failed To Remove Folder. Please Contact Administrator.', 'Failure');
     }
   }
 
   removeFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Remove Folder. Please Contact Administrator.'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Remove Folder. Please Contact Administrator.'
+    // });
+    this.toastr.error('Failed To Remove Folder. Please Contact Administrator.', 'Failure');
   }
   destroyKeys() {
     Object.keys(this).map(k => {

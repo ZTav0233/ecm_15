@@ -7,6 +7,7 @@ import { User } from '../../../models/user/user.model';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import * as _ from "lodash";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ecm-report-user',
@@ -38,7 +39,7 @@ export class EcmReportUserComponent implements OnInit {
     empNo: undefined, userType: undefined, filter: ''
   };
   public busy: boolean;
-  constructor(private us: UserService, private confirmationService: ConfirmationService, private coreService: CoreService, private breadcrumbService: BreadcrumbService,
+  constructor(private toastr:ToastrService ,private us: UserService, private confirmationService: ConfirmationService, private coreService: CoreService, private breadcrumbService: BreadcrumbService,
     private growlService: GrowlService) { }
   refresh() {
     this.busy = true;
@@ -159,20 +160,22 @@ export class EcmReportUserComponent implements OnInit {
       (this.searchQueary.phone !== undefined && this.searchQueary.phone !== '' && this.searchQueary.phone !== null)) {
     } else {
       formValid = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Warning', detail: 'Fill Any One Field To Search'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Warning', detail: 'Fill Any One Field To Search'
+      // });
+      this.toastr.error('Fill Any One Field To Search', 'Warning');
     }
     if (formValid) {
       this.busy = true;
       this.us.searchEcmUsers(this.searchQueary).subscribe(data => {
         this.busy = false;
         if (data.length === 0) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'No Result', detail: 'No Results Found'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'No Result', detail: 'No Results Found'
+          // });
+          this.toastr.error('No Results Found', 'No Result');
         }
         this.SelectedUserList = data;
       }, err => {
@@ -197,20 +200,22 @@ export class EcmReportUserComponent implements OnInit {
 
   addUserSuccess(val, isEdit?) {
     if (val === 'User Exists') {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Already Exist', detail: 'User Already Exist'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Exist', detail: 'User Already Exist'
+      // });
+      this.toastr.error('User Already Exist', 'Already Exist');
     }
     else {
       let msg = 'Add User Successful';
       if (isEdit) {
         msg = 'User information saved';
       }
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: msg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: msg
+      // });
+      this.toastr.info(msg, 'Success');
     }
     this.busy = true;
     this.us.getReportUsers().subscribe(data => {
@@ -222,10 +227,11 @@ export class EcmReportUserComponent implements OnInit {
   }
 
   addUserFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Add User Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Add User Failed'
+    // });
+    this.toastr.error('Add User Failed', 'Failure');
   }
 
   clearSubscriptions() {
@@ -239,17 +245,19 @@ export class EcmReportUserComponent implements OnInit {
   };
 
   successSave() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Saved Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Saved Successfully'
+    // });
+    this.toastr.info('Saved Successfully', 'Success');
   }
 
   failureSave() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Save Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Save Failed'
+    // });
+    this.toastr.error('Save Failed', 'Failure');
   }
 
   confirm(event) {
@@ -269,17 +277,19 @@ export class EcmReportUserComponent implements OnInit {
 
   removeSuccess() {
     this.us.getReportUsers().subscribe(data => this.assignUsers(data));
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Removed Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Removed Successfully'
+    // });
+    this.toastr.info('Removed Successfully', 'Success');
   }
 
   removeFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Remove Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Remove Failed'
+    // });
+    this.toastr.error('Remove Failed', 'Failure');
   }
 
   closeModel() {

@@ -8,6 +8,7 @@ import { OrgUnit } from "../../../models/admin/org-unit.model";
 import { AdminService } from "../../../services/admin.service";
 import * as _ from "lodash";
 import {delay} from "rxjs-compat/operator/delay";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ecm-org-unit-management',
@@ -48,6 +49,7 @@ export class EcmOrgUnitManagementComponent implements OnInit, OnDestroy {
   isOrgCodeExist=false;
   editingNode:any;
   constructor(
+    private toastr:ToastrService,
     private userService: UserService,
     private coreService: CoreService,
     private growlService: GrowlService,
@@ -170,10 +172,11 @@ export class EcmOrgUnitManagementComponent implements OnInit, OnDestroy {
     });
     }
     else{
-         this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Invalid', detail: 'Head User Value Is Not Valid'
-      });
+      //    this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Invalid', detail: 'Head User Value Is Not Valid'
+      // });
+      this.toastr.error('Head User Value Is Not Valiy', 'Invalid');
     }
 
   }
@@ -189,19 +192,21 @@ export class EcmOrgUnitManagementComponent implements OnInit, OnDestroy {
      // }
     this.as.saveOrgUnit(this.editOrgUnit).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Saved Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Saved Successfully'
+      // });
+      this.toastr.info('Saved Successfullyy', 'Success');
       this.closeModel();
       this.getTopOrgUnit();
       this.getInactiveOrgUnits();
     }, Error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error', detail: 'Operation Failed'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error', detail: 'Operation Failed'
+      // });
+      this.toastr.error('Operation Failed', 'Error');
     });
   }
 
@@ -284,19 +289,21 @@ export class EcmOrgUnitManagementComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.as.deleteOrgUnit(event.id).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Deleted Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Deleted Successfully'
+      // });
+      this.toastr.info('Deleted Successfully', 'Success');
       this.closeModel();
       this.getTopOrgUnit();
       this.getInactiveOrgUnits();
     }, Error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error', detail: 'Failed To Delete'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error', detail: 'Failed To Delete'
+      // });
+      this.toastr.info('Failed To Delete', 'Error');
     });
   }
 
@@ -409,18 +416,20 @@ export class EcmOrgUnitManagementComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.as.deactivateOrgUnit(event.id, 'Self').subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Deactivated Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Deactivated Successfully'
+      // });
+      this.toastr.info('Deactivated Successfully', 'Success');
       this.getTopOrgUnit();
       this.getInactiveOrgUnits();
     }, Error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error', detail: 'Failed To Deactivate'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error', detail: 'Failed To Deactivate'
+      // });
+      this.toastr.error('Failed To Deactivate', 'Error');
     });
   }
 
@@ -428,18 +437,20 @@ export class EcmOrgUnitManagementComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.as.deactivateOrgUnit(event.id, 'All').subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Deactivated Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Deactivated Successfully'
+      // });
+      this.toastr.info('Deactivated Successfully', 'Success');
       this.getTopOrgUnit();
       this.getInactiveOrgUnits();
     }, Error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error', detail: 'Failed To Deactivate'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error', detail: 'Failed To Deactivate'
+      // });
+      this.toastr.error('Failed To Deactivate', 'Error');
     });
   }
 
@@ -504,15 +515,17 @@ export class EcmOrgUnitManagementComponent implements OnInit, OnDestroy {
         this.closeModel();
         this.getTopOrgUnit();
         this.getInactiveOrgUnits();
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: 'Activated Successfully'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Activated Successfully'
+        // });
+        this.toastr.info('Activated Successfully', 'Success');
       } else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Error', detail: 'Error In Activating'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Error', detail: 'Error In Activating'
+        // });
+        this.toastr.error('Error In Activating', 'Error');
       }
     });
   }

@@ -21,6 +21,7 @@ import { Router } from "@angular/router";
 import { AdminService } from "../../../services/admin.service";
 import * as global from "../../../global.variables";
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   styleUrls: ['./search.component.css'],
   selector: 'app-search-document',
@@ -75,7 +76,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   searchButtonDisabledStopWord: any = true;
   msgs: Message[] = [];
   stopwordmessageGlobal: any;
-  constructor(public documentService: DocumentService,
+  constructor(public documentService: DocumentService,private toastr:ToastrService,
     private browserEvents: BrowserEvents, private coreService: CoreService,
     private growlService: GrowlService, private userService: UserService,
     private confirmationService: ConfirmationService, private contentService: ContentService,
@@ -804,18 +805,20 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
         });
       }
       if (isDateFieldsEmpty) {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Invalid Search', detail: 'From Date and To Date Required'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Invalid Search', detail: 'From Date and To Date Required'
+        // });
+        this.toastr.error('From Date and To Date Required', 'Invalid Search');
         return;
       }
       if (noFilter) {
         if (flag === 'isbutton') {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Invalid Search', detail: 'Fill atleast one field'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Invalid Search', detail: 'Fill atleast one field'
+          // });
+          this.toastr.error('Fill atleast one field', 'Invalid Search');
         }
         return;
       }
@@ -884,16 +887,18 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
       }
       this.data.searchResult = data.row;
       if (data.message.includes('MaxCountLimit')) {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Search Max Limit!', detail: "The search reached max limit, please change 'Search Text' to narrow results"
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Search Max Limit!', detail: "The search reached max limit, please change 'Search Text' to narrow results"
+        // });
+        this.toastr.info("The search reached max limit, please change 'Search Text' to narrow results", 'Search Max Limit!');
       }
       if (data.message.includes('DB buffer')) {
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Search Timeout!', detail: "There are more results available, Please refine your search query to return results."
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Search Timeout!', detail: "There are more results available, Please refine your search query to return results."
+        // });
+        this.toastr.info('There are more results available, Please refine your search query to return results.', 'Search Timeout!');
       }
       if (!this.isLaunchSearch) {
         // this.documentService.savedSearch.searchResultsSaved = data;
@@ -928,10 +933,11 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
         }
         summaryText = 'No results found!';
       }
-      this.growlService.showGrowl({
-        severity: severity,
-        summary: summaryText, detail: errortext
-      });
+      // this.growlService.showGrowl({
+      //   severity: severity,
+      //   summary: summaryText, detail: errortext
+      // });
+      this.toastr.info(errortext,summaryText);
     });
   }
 
@@ -1146,19 +1152,21 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
       this.userService.updateUserSearches(settings).subscribe(res => {
         this.busy = false;
         this.documentService.savedSearches = tmpSavedSearches;
-        this.growlService.showGrowl({
-          severity: 'info',
-          summary: 'Success', detail: this.selectedSearch ? 'Search Updated Successfully' : msg
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: this.selectedSearch ? 'Search Updated Successfully' : msg
+        // });
+        this.toastr.info(this.selectedSearch ? 'Search Updated Successfully' : msg, 'Success');
         this.getSavedSearches(init);
         this.showSaveSearchModal = false;
       }, err => {
         this.busy = false;
         if ((err.error).includes('value too large for column')) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Cant Save', detail: 'Maximum limit reached'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Cant Save', detail: 'Maximum limit reached'
+          // });
+          this.toastr.error('Maximum limit reached', 'Cant Save');
         }
       });
     }, err => {

@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {UserService} from "../../../services/user.service";
-import {CoreService} from "../../../services/core.service";
-import {Subscription} from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { UserService } from "../../../services/user.service";
+import { CoreService } from "../../../services/core.service";
+import { Subscription } from "rxjs";
 import * as $ from 'jquery';
-import {GrowlService} from "../../../services/growl.service";
-import {User} from "../../../models/user/user.model";
-import {UserList} from "../../../models/user/user-list.model";
-import {ConfirmationService} from "primeng/api";
-import {BreadcrumbService} from "../../../services/breadcrumb.service";
+import { GrowlService } from "../../../services/growl.service";
+import { User } from "../../../models/user/user.model";
+import { UserList } from "../../../models/user/user-list.model";
+import { ConfirmationService } from "primeng/api";
+import { BreadcrumbService } from "../../../services/breadcrumb.service";
 import * as _ from "lodash";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ecm-global-list',
@@ -37,17 +38,17 @@ export class EcmGlobalListComponent implements OnInit {
   public showRoleTree = false;
   public showRoleList = false;
   private tmpRoleTree: any[];
-  public roleData: any = {roles: {model: {}}};
+  public roleData: any = { roles: { model: {} } };
   roleTreeExpandedIcon = 'fa fa-fw ui-icon-people-outline';
   roleTreeCollapsedIcon = 'fa fa-fw ui-icon-people';
   isGlobal = true;
   userOrRole: any;
   isSaveDisabled = true;
   public selectedId;
-  public noListSelected=true;
+  public noListSelected = true;
   public searchTypes = [
-    {label: 'User', value: 'USER', icon: 'fa fa-fw fa-cc-paypal'},
-    {label: 'Role', value: 'ROLE', icon: 'fa fa-fw fa-cc-visa'}
+    { label: 'User', value: 'USER', icon: 'fa fa-fw fa-cc-paypal' },
+    { label: 'Role', value: 'ROLE', icon: 'fa fa-fw fa-cc-visa' }
   ];
 
   public updateList = new UserList();
@@ -55,30 +56,30 @@ export class EcmGlobalListComponent implements OnInit {
     userName: undefined, mail: undefined, title: undefined, phone: undefined, orgCode: undefined,
     empNo: undefined, userType: undefined, filter: ''
   };
-  public distList = {'id': 1, 'empNo': 1002, 'name': 'ECM-Global List', lists: [], model: {query: ''}};
+  public distList = { 'id': 1, 'empNo': 1002, 'name': 'ECM-Global List', lists: [], model: { query: '' } };
   public distListForSearch: any;
   public busy: boolean;
-  isFilterEnabled=false;
-  constructor(private userService: UserService, private coreService: CoreService, private growlService: GrowlService,
-              private confirmationService: ConfirmationService, private breadcrumbService: BreadcrumbService) {
+  isFilterEnabled = false;
+  constructor(private toastr: ToastrService, private userService: UserService, private coreService: CoreService, private growlService: GrowlService,
+    private confirmationService: ConfirmationService, private breadcrumbService: BreadcrumbService) {
     this.user = this.userService.getCurrentUser();
     //this.distListForSearch=[];
 
   }
-   trackByFn(index, item) {
+  trackByFn(index, item) {
     return index; // or item.id
   }
 
   ngOnInit() {
     this.getUserLists();
     this.breadcrumbService.setItems([
-      {label: 'Admin'},
-      {label: 'ECM-Global List'}
+      { label: 'Admin' },
+      { label: 'ECM-Global List' }
     ]);
 
   }
-  searchListName(e){
-    if(e.length>0){
+  searchListName(e) {
+    if (e.length > 0) {
 
     }
   }
@@ -87,9 +88,9 @@ export class EcmGlobalListComponent implements OnInit {
     this.listName = undefined;
     this.listUsers = [];
     this.newDistList = true;
-    this.selectedIndex=undefined;
-    this.userOrRole=undefined;
-    this.isFilterEnabled=false;
+    this.selectedIndex = undefined;
+    this.userOrRole = undefined;
+    this.isFilterEnabled = false;
   }
 
   searchList() {
@@ -98,26 +99,26 @@ export class EcmGlobalListComponent implements OnInit {
     );
   }
 
-  searchUserAndRole(filterText,e?) {
-    if(e != undefined && e != null && e.data && e.data.trim().length>0){
-      this.isFilterEnabled=true;
+  searchUserAndRole(filterText, e?) {
+    if (e != undefined && e != null && e.data && e.data.trim().length > 0) {
+      this.isFilterEnabled = true;
     }
-    else{
-      this.isFilterEnabled=false;
+    else {
+      this.isFilterEnabled = false;
     }
 
-    if(filterText==='removeFilter'){
-      this.userOrRole='';
-      if(!this.noListSelected) {
+    if (filterText === 'removeFilter') {
+      this.userOrRole = '';
+      if (!this.noListSelected) {
         this.listUsers = this.listUsersTemp
       }
     }
-    else{
+    else {
       this.listUsers = this.listUsersTemp.filter(e =>
-      e.fulName.toUpperCase().indexOf(this.userOrRole.toUpperCase()) !== -1
-    );
+        e.fulName.toUpperCase().indexOf(this.userOrRole.toUpperCase()) !== -1
+      );
     }
-    this.SelectedUserList=[];
+    this.SelectedUserList = [];
 
   }
 
@@ -195,27 +196,29 @@ export class EcmGlobalListComponent implements OnInit {
       (this.searchQueary.phone !== undefined && this.searchQueary.phone !== '' && this.searchQueary.phone !== null)) {
     } else {
       formValid = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Warning', detail: 'Fill Any One Field To Search'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Warning', detail: 'Fill Any One Field To Search'
+      // });
+      this.toastr.error('Fill Any One Field To Search', 'Warning');
     }
     if (formValid) {
       this.searchStarted = true;
-      if(this.searchQueary.userName===""){
+      if (this.searchQueary.userName === "") {
         delete this.searchQueary.userName;
       }
-      if(this.searchQueary.orgCode===""){
+      if (this.searchQueary.orgCode === "") {
         delete this.searchQueary.orgCode;
       }
       this.busy = true;
       this.userService.searchEcmUsers(this.searchQueary).subscribe(data => {
         this.busy = false;
         if (data.length === 0) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'No Result', detail: 'No Results Found'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'No Result', detail: 'No Results Found'
+          // });
+          this.toastr.error('No Results Found', 'No Result');
         }
         this.SelectedUserList = data;
       }, err => {
@@ -253,20 +256,21 @@ export class EcmGlobalListComponent implements OnInit {
 
     if (!exist) {
       if (this.selectedType === 'USER') {
-        this.listUsers.push({'EmpNo': user.EmpNo, 'fulName': user.fulName, 'appRole': 'USER'});
+        this.listUsers.push({ 'EmpNo': user.EmpNo, 'fulName': user.fulName, 'appRole': 'USER' });
       } else if (this.selectedType === 'ROLE') {
         if (user.name) {
-          this.listUsers.push({'EmpNo': user.id, 'fulName': user.name, 'appRole': 'ROLE'});
+          this.listUsers.push({ 'EmpNo': user.id, 'fulName': user.name, 'appRole': 'ROLE' });
         } else if (user.headRoleName) {
-          this.listUsers.push({'EmpNo': user.id, 'fulName': user.headRoleName, 'appRole': 'ROLE'});
+          this.listUsers.push({ 'EmpNo': user.id, 'fulName': user.headRoleName, 'appRole': 'ROLE' });
         }
       }
     }
-     else{
-       this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Already Exist', detail: 'User already exist in list'
-    });
+    else {
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Already Exist', detail: 'User already exist in list'
+      // });
+      this.toastr.error('User already exist in list', 'Already Exist');
     }
     user.disabled = true;
     this.isSaveDisabled = false;
@@ -274,19 +278,19 @@ export class EcmGlobalListComponent implements OnInit {
   searchRole() {
     this.roleData.roles.roleTree = this.roleData.roles.oRoleTree.filter(e => {
       if (e.data.name && e.data.orgCode) {
-         e.data.name.toUpperCase().indexOf(this.roleData.roles.model.query2.toUpperCase()) !== -1
+        e.data.name.toUpperCase().indexOf(this.roleData.roles.model.query2.toUpperCase()) !== -1
           || e.data.orgCode.toUpperCase().indexOf(this.roleData.roles.model.query2.toUpperCase()) !== -1
       }
     });
   }
 
-  closeModel(){
-    this.roleData.roles.model.query2=undefined;
+  closeModel() {
+    this.roleData.roles.model.query2 = undefined;
   }
 
   getOrgRole() {
     this.busy = true;
-    this.userService.getRolesByType(1,0).subscribe(res => {
+    this.userService.getRolesByType(1, 0).subscribe(res => {
       this.busy = false;
       const response = res;
       this.tmpRoleTree = [];
@@ -314,19 +318,20 @@ export class EcmGlobalListComponent implements OnInit {
       key: 'confirmKey',
       accept: () => {
         this.removeDlList(list.id, empno);
-         this.selectedIndex=undefined;
+        this.selectedIndex = undefined;
       }
     });
   }
 
   removeDlList(listId, empno) {
     this.busy = true;
-    this.userService.removeDistList(listId, empno,'Y').subscribe(res => {
+    this.userService.removeDistList(listId, empno, 'Y').subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'Deleted Successfully'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'Deleted Successfully'
+      // });
+      this.toastr.info('Deleted Successfully', 'Success');
       this.listName = '';
       this.searchText = '';
       this.searchStarted = false;
@@ -335,10 +340,11 @@ export class EcmGlobalListComponent implements OnInit {
       this.getUserLists();
     }, Error => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'Failed To Delete'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'Failed To Delete'
+      // });
+      this.toastr.error('Failed To Delete', 'Failure');
     });
   }
 
@@ -380,13 +386,13 @@ export class EcmGlobalListComponent implements OnInit {
     this.selectedIndex = index;
     this.listName = name;
     this.isSaveDisabled = false;
-    this.userOrRole=undefined;
+    this.userOrRole = undefined;
     this.busy = true;
     this.userService.getListUsers(listId).subscribe(data => {
       this.busy = false;
       //this.SelectedUserList = data;
       for (const user of data) {
-        this.listUsers.push({'EmpNo': user.EmpNo, 'fulName': user.fulName, 'appRole': user.appRole});
+        this.listUsers.push({ 'EmpNo': user.EmpNo, 'fulName': user.fulName, 'appRole': user.appRole });
       }
     }, err => {
       this.busy = false;
@@ -400,19 +406,20 @@ export class EcmGlobalListComponent implements OnInit {
   save() {
     let self = this;
     let originalRecordsToCompare = _.cloneDeep(self.distListForSearch);
-    if (self.selectedParentList){
+    if (self.selectedParentList) {
       originalRecordsToCompare = _.filter(originalRecordsToCompare, function (record) {
-        return record.id!==self.selectedParentList;
+        return record.id !== self.selectedParentList;
       });
     }
     let record = _.find(originalRecordsToCompare, function (r) {
       return r.name.trim().toLowerCase() === self.listName.trim().toLowerCase();
     });
     if (record) {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Failure', detail: 'List Name Already Exists.'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Failure', detail: 'List Name Already Exists.'
+      // });
+      this.toastr.error('List Name Already Exists.', 'Failure');
     } else {
       this.searchUserAndRole('removeFilter');
       if (this.selectedParentList === 0) {
@@ -462,10 +469,11 @@ export class EcmGlobalListComponent implements OnInit {
   }
 
   updateSuccess(data) {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'List Updated Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'List Updated Successfully'
+    // });
+    this.toastr.info('List Updated Successfully', 'Success');
     // this.listName = '';
     // this.searchText = '';
     this.searchStarted = false;
@@ -476,7 +484,7 @@ export class EcmGlobalListComponent implements OnInit {
     this.isGlobal = true;
     this.getUserLists();
     this.isSaveDisabled = true;
-    this.userOrRole=undefined;
+    this.userOrRole = undefined;
     //console.log(this.selectedIndex);
   }
 
@@ -493,7 +501,7 @@ export class EcmGlobalListComponent implements OnInit {
       }
       //this.busy = true;
       this.userService.getRoleMembers(roleId).subscribe((res: any) => {
-       // this.busy = false;
+        // this.busy = false;
         for (const RName of res) {
           if (RName.name !== undefined) {
             RoleNameString = RoleNameString + '\n' + '<i class=material-icons style=font-size:.95em;>person</i>' + ' ' + RName.name;
@@ -517,7 +525,7 @@ export class EcmGlobalListComponent implements OnInit {
 
   onRemove(event) {
     this.confirmationService.confirm({
-      header:'Confirm Deletion?',
+      header: 'Confirm Deletion?',
       message: 'Are you sure that you want to perform this action?',
       key: 'confirmKey',
       acceptVisible: true,
@@ -528,7 +536,7 @@ export class EcmGlobalListComponent implements OnInit {
     });
   }
 
-  confirmOnRemove(event){
+  confirmOnRemove(event) {
     this.listUsers.map((d, i) => {
       if (d.EmpNo === event.EmpNo) {
         this.listUsers.splice(i, 1);

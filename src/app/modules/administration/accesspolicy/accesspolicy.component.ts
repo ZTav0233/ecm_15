@@ -10,6 +10,7 @@ import { ConfirmationService } from "primeng/api";
 import * as _ from "lodash";
 import apply = Reflect.apply;
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-accesspolicy',
@@ -52,7 +53,7 @@ export class AccesspolicyComponent implements OnInit, OnDestroy {
   isButtonSaveDisabled = true;
   selectedpolicyname: any;
   selectedorgcode: any;
-  constructor(private accessPolicyService: AccessPolicyService, private coreService: CoreService, private adminService: AdminService,
+  constructor(private accessPolicyService: AccessPolicyService, private coreService: CoreService, private adminService: AdminService,private toastr:ToastrService,
     private growlService: GrowlService, private breadcrumbService: BreadcrumbService, private us: UserService,
     private confirmationService: ConfirmationService) {
     this.user = this.us.getCurrentUser();
@@ -204,10 +205,11 @@ export class AccesspolicyComponent implements OnInit, OnDestroy {
         }
       });
       if (exists) {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Error', detail: 'Policy Name Already Exists'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Error', detail: 'Policy Name Already Exists'
+        // });
+        this.toastr.error('Policy Name Already Exists', 'Error');
         return;
       }
     }
@@ -329,19 +331,21 @@ export class AccesspolicyComponent implements OnInit, OnDestroy {
     this.busy = true;
     this.accessPolicyService[service](selectedPolicy).subscribe(res => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: successMsg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: successMsg
+      // });
+      this.toastr.info(successMsg, 'Success');
       this.showPermissionDialogue = false;
       this.disableAddNewPermission = false;
       this.getAllPermissions();
     }, err => {
       this.busy = false;
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Error', detail: errorMsg
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error', detail: errorMsg
+      // });
+      this.toastr.error(errorMsg, 'Error');
     });
   }
 
@@ -475,16 +479,18 @@ export class AccesspolicyComponent implements OnInit, OnDestroy {
       accept: () => {
         this.accessPolicyService.removeAccessPolicy(policy.id).subscribe(res => {
           if (res === 'OK') {
-            this.growlService.showGrowl({
-              severity: 'info',
-              summary: 'Success', detail: 'Access Policy Deleted Successfully'
-            });
+            // this.growlService.showGrowl({
+            //   severity: 'info',
+            //   summary: 'Success', detail: 'Access Policy Deleted Successfully'
+            // });
+            this.toastr.info('Access Policy Deleted Successfully', 'Success');
             this.refresh();
           } else if (res === 'Mapping Exists') {
-            this.growlService.showGrowl({
-              severity: 'error',
-              summary: 'Error', detail: 'Mapping Exists Cannot Be Deleted'
-            });
+            // this.growlService.showGrowl({
+            //   severity: 'error',
+            //   summary: 'Error', detail: 'Mapping Exists Cannot Be Deleted'
+            // });
+            this.toastr.error('Mapping Exists Cannot Be Deleted', 'Error');
           }
         });
       }

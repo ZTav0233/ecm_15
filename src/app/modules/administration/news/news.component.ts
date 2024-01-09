@@ -11,6 +11,7 @@ import { User } from "../../../models/user/user.model";
 import { UserService } from "../../../services/user.service";
 import * as _ from "lodash";
 import { Table } from 'primeng/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-news',
@@ -36,6 +37,7 @@ export class NewsComponent implements OnInit {
   viewnews = false;
   busy: boolean;
   constructor(
+    private toastr:ToastrService,
     private ns: NewsService,
     private userService: UserService,
     private confirmationService: ConfirmationService,
@@ -138,26 +140,29 @@ export class NewsComponent implements OnInit {
             self.coreService.getFormattedDateString(self.expire, self.coreService.dateTimeFormats.DDMMYYYY, '/');
         });
         if (record) {
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Failure', detail: 'News Already Exists.'
-          });
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Failure', detail: 'News Already Exists.'
+          // });
+          this.toastr.error('News Already Exists.', 'Failure');
         } else {
           this.subscriptions.push(this.ns.saveNews(this.newsModel).subscribe(data => this.saveNewsSuccess(data), err => this.saveFailed()));
         }
       }
       else {
-        this.growlService.showGrowl({
-          severity: 'error',
-          summary: 'Max Length Exceeded', detail: 'Text Entered For News Exceeds Maximum Length'
-        });
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Max Length Exceeded', detail: 'Text Entered For News Exceeds Maximum Length'
+        // });
+        this.toastr.error('Text Entered For News Exceeds Maximum Length', 'Max Length Exceeded');
       }
     }
     else {
-      this.growlService.showGrowl({
-        severity: 'error',
-        summary: 'Fill All Inputs', detail: 'Please Fill All Inputs To Save'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Fill All Inputs', detail: 'Please Fill All Inputs To Save'
+      // });
+      this.toastr.error('Please Fill All Inputs To Save', 'Fill All Inputs');
       //this.subscriptions.push(this.ns.getAllNews().subscribe(data=>this.assignNews(data)));
     }
   }
@@ -180,32 +185,36 @@ export class NewsComponent implements OnInit {
   }
 
   removeSuccess() {
-    this.growlService.showGrowl({
-      severity: 'info',
-      summary: 'Success', detail: 'Removed News Successfully'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'info',
+    //   summary: 'Success', detail: 'Removed News Successfully'
+    // });
+    this.toastr.info('Removed News Successfully', 'Success');
     this.ns.getAllNews().subscribe(data => this.assignNews(data));
   }
 
   removeFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Remove Failed'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Remove Failed'
+    // });
+    this.toastr.error('Remove Failed', 'Failure');
   }
 
   saveNewsSuccess(data) {
     if (this.isCreate) {
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'News Created'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'News Created'
+      // });
+      this.toastr.info('News Created', 'Success');
     }
     else {
-      this.growlService.showGrowl({
-        severity: 'info',
-        summary: 'Success', detail: 'News Saved'
-      });
+      // this.growlService.showGrowl({
+      //   severity: 'info',
+      //   summary: 'Success', detail: 'News Saved'
+      // });
+      this.toastr.info('News Saved', 'Success');
     }
 
     this.subscriptions.push(this.ns.getAllNews().subscribe(res => this.assignNews(res)));
@@ -217,10 +226,11 @@ export class NewsComponent implements OnInit {
   }
 
   saveFailed() {
-    this.growlService.showGrowl({
-      severity: 'error',
-      summary: 'Failure', detail: 'Failed To Save News'
-    });
+    // this.growlService.showGrowl({
+    //   severity: 'error',
+    //   summary: 'Failure', detail: 'Failed To Save News'
+    // });
+    this.toastr.error('Failed To Save News', 'Failure');
   }
 
   viewAllNews(row) {
