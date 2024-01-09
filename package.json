@@ -43,6 +43,7 @@
     "moment": "^2.29.4",
     "ng2-charts": "^4.1.1",
     "ng2-split-pane": "^1.4.0",
+    "ngx-toastr": "^15.0.0",
     "open": "^9.1.0",
     "postcss-import": "^15.1.0",
     "postcss-url": "^10.1.3",
