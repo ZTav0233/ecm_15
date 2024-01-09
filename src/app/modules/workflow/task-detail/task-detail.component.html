@@ -5,65 +5,86 @@
       <ng-container
         *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new') && ((workitem.isMemo==0) || (workitem.isMemo==1 && workitem.memoStepname==='DISTRIBUTE'))">
         <button id="reply" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-reply" title="Reply"
-          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled || (workitem.isMemo==1 && workitem.memoStepname==='DISTRIBUTE')"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled "
           (click)="replyWorkitem(workitem);"></button>
         <button *ngIf="workitem.actions!=='Signature' && workitem.actions!=='Initial'" id="reply-all" pButton
           class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-reply-all" title="Reply All"
-          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled || (workitem.isMemo==1 && workitem.memoStepname==='DISTRIBUTE')"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled" 
           (click)="replyAllWorkitem(workitem);"></button>
-        <button id="forward" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-forward"
-          title="Forward" [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"
-          (click)="forwardWorkitem(workitem);"></button>
+          <!--|| (workitem.isMemo==1 && workitem.memoStepname==='DISTRIBUTE')-->
+        <button id="forward" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-forward" title="Forward"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled" (click)="forwardWorkitem(workitem);"></button>
         <button id="finish" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-remove-circle-outline"
           [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled" title="Finish"
           (click)="finishWorkitem($event)"></button>
-        <button id="email" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-mail"
-          title="Email All Attachments" [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled "></button>
+        <button id="email" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-mail" title="Email All Attachments"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled "
+          (click)="mailToAll(workitem);"></button>
       </ng-container>
-      <ng-container *ngIf="workitem.isMemo==1&&fromPage[0] === 'inbox'">
+      <ng-container *ngIf="workitem.isMemo==1 && fromPage[0] === 'inbox'">
         <button *ngIf="workitem.memoStepname=='APPROVER'" id="return" pButton class="remove-btn v-m" type="button"
+          icon="fa fa-fw ui-icon-reply" title="Return" [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"
+          (click)="replyWorkitem(workitem);"></button>
+          <!--(click)="wiRemarksVisibleForReturn=true"-->
+        <button *ngIf="workitem.memoStepname=='PREP_REVIEW2'" id="return" pButton class="remove-btn v-m" type="button"
           icon="fa fa-fw ui-icon-reply" title="Return" [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"
           (click)="wiRemarksVisibleForReturn=true"></button>
         <button
           *ngIf="workitem.memoStepname=='REVIEWER'||workitem.memoStepname=='SUB-FROM'||workitem.memoStepname=='THRU'||workitem.memoStepname=='TO'"
           id="return" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-reply" title="Return"
-          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled || isReturnButtonDisabled"
           (click)="wiRemarksVisibleForReturn=true"></button>
-        <button *ngIf="workitem.memoStepname!='DISTRIBUTE'" id="return" pButton class="remove-btn v-m" type="button"
+          
+        <button *ngIf="workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1'" id="reply" pButton class="remove-btn v-m" type="button"
+          icon="fa fa-fw ui-icon-reply" title="Reply" [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"
+          (click)="replyWorkitem(workitem);"></button>
+        <button *ngIf="workitem.memoStepname!='DISTRIBUTE' && workitem.memoStepname!='PREP_REVIEW' && workitem.memoStepname!='PREP_REVIEW1'" 
+        id="remarks" pButton class="remove-btn v-m" type="button"
           icon="fa fa-fw ui-icon-comment" title="Remarks" [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"
           (click)="getMemoRemarksById()"></button>
-        <button *ngIf="workitem.memoStepname=='COMPOSER'||workitem.memoStepname=='APPROVER'" id="forward" pButton
+        <button *ngIf="(workitem.memoStepname=='COMPOSER'||workitem.memoStepname=='APPROVER')" id="editMemo" pButton
           class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-edit" title="Edit Memo"
           [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled" (click)="editMemo()"></button>
-        <button *ngIf="workitem.memoStepname=='APPROVER'" (click)="submitForReview()" id="forward" pButton
+        <button *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1')" id="editMemo" pButton
+          class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-edit" title="Edit Memo"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled" (click)="editRemarksVisible=true;"></button>
+        <button *ngIf="workitem.memoStepname!=='DISTRIBUTE'" id="email" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-mail" title="Email All Attachments"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled "
+          (click)="mailToAll(workitem);"></button>
+        <button *ngIf="workitem.memoStepname=='APPROVER'" (click)="submitForReview()" id="submitReview" pButton
           class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-forward" title="Submit for Review"
           [disabled]="isAllActionsDisabled||!memoReviewerExist"></button>
-        <button (click)="signAndSubmitMemo()" *ngIf="workitem.memoStepname=='APPROVER'" id="forward" pButton
-          class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-near-me" title="Sign & Submit"
+        <button *ngIf="workitem.memoStepname=='APPROVER'" (click)="signAndSubmitMemo()" id="submit" pButton
+          class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-check" title="Sign Memo & Submit"
           [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"></button>
-        <button (click)="submitForOthers()"
-          *ngIf="workitem.memoStepname=='REVIEWER'||workitem.memoStepname=='SUB-FROM'||workitem.memoStepname=='THRU'||workitem.memoStepname=='TO'"
-          id="forward" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-near-me" title="Submit"
-          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"></button>
+        <button *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1')" id="forward" pButton 
+          class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-forward" title="Forward for Review"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled" (click)="forwardWorkitem(workitem);"></button>
+        <button *ngIf="workitem.memoStepname=='SUB-FROM'||workitem.memoStepname=='THRU'||workitem.memoStepname=='TO'"
+          id="forward" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-check" title="Submit"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled" (click)="submitForOthers()"></button>
+        <button *ngIf="workitem.memoStepname=='REVIEWER'|| workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1'"
+          id="forward" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-check" title="Submit for Approval"
+          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled" (click)="submitForPreReviewers()"></button>
       </ng-container>
       <ng-container
-        *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new' ||  (fromPage[0]==='archive' && !isTrack ))&&workitem.isMemo==0">
-        <button pButton class="remove-btn v-m" type="button"
-          [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"
-          icon="{{workitem.hasProgress ? 'fa fa-fw ui-icon-hourglass-full' : 'fa fa-fw ui-icon-hourglass-empty'}}"
-          title="Work Progress" (click)="getWorkitemProgress(workitem.workitemId)"></button>
+        *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new' ||  (fromPage[0]==='archive' && !isTrack)) && workitem.isMemo==0">
+        <button pButton class="remove-btn v-m" type="button" [disabled]="isRoleActive==='INACTIVE' || isAllActionsDisabled"
+          icon="{{workitem.hasProgress?'ui-icon-hourglass-full':'ui-icon-hourglass-empty'}}" title="Work Progress"
+          (click)="getWorkitemProgress(workitem.workitemId)"></button>
       </ng-container>
-      <ng-container *ngIf="fromPage[0]==='sent' || fromPage[0]==='actioned'">
+      <ng-container *ngIf="(fromPage[0]==='sent' || fromPage[0]==='actioned')">
         <button id="recall" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-replay" title="Recall"
-          (click)="recallWorkitemConfirmation($event);"
+          (click)="(workitem.isMemo && workitem.isMemo === 1)?recallMemoWorkitemConfirmation($event):recallWorkitemConfirmation($event);"
           [disabled]="selectedWi.length<=0 || isRoleActive==='INACTIVE' || isAllActionsDisabled"></button>
+          <!--|| (workitem.isMemo==1 && (workitem.memoStepname=='COMPOSER' || workitem.memoStepname=='APPROVER'))-->
         <button
-          *ngIf="(workitem.isMemo==1 && workitem.memoStepname=='DISTRIBUTE') || !(workitem.actions === 'Signature' || workitem.actions === 'Initial')"
+          *ngIf="(workitem.isMemo==1 && workitem.memoStepname=='DISTRIBUTE') || (workitem.isMemo==0 && !(workitem.actions === 'Signature' || workitem.actions === 'Initial'))"
           id="adduser" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-person-add" title="Add User"
           [disabled]="isAllRecalled || isRoleActive==='INACTIVE' || isAllActionsDisabled"
           (click)="prepareAdduser(workitem);AddUserDialog=true"></button>
         <button id="archive" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-archive"
-          [disabled]="isAllRecalled  || isRoleActive==='INACTIVE' || isAllActionsDisabled" title="Archive"
+          [disabled]="isAllRecalled || isRoleActive==='INACTIVE' || isAllActionsDisabled || workitem.isMemo==1" title="Archive"
           (click)="archiveWorkflowConfirmation($event);"></button>
       </ng-container>
       <button *ngIf="workitem.isMemo==0" pButton class="remove-btn v-m" type="button" icon="fa fa-fw ui-icon-near-me"
@@ -71,8 +92,7 @@
         (click)="relaunchWorkItem(workitem);"></button>
     </ng-container>
     <ng-container *ngIf="workitem.isMemo==1&&fromPage[0] === 'inbox'&&isAllActionsDisabled">
-      <span style="color: darkred;font-weight: 500;"> Step is locked by another recipient! To take action, please try
-        again.</span>
+      <span style="color: darkred;font-weight: 500;">  Step is locked by another recipient! To take action, please try again.</span>
     </ng-container>
   </div>
   <div class="ui-g-2 p-0">
@@ -611,7 +631,7 @@
                           *ngIf="(!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0)) && (workitem.actions === 'MultiSign') 
                             && (currentUser.iseSignAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Multi Sign" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-burst-mode"
+                          type="button" title="Multi Sign" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-burst-mode"
                           (click)="multiSignDocument(attachment);"></button>
                         
                         <!-- <button pButton
@@ -619,7 +639,7 @@
                             && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='APPROVER' || workitem.memoStepname=='SUB-FROM')
                             && (attachment.vsid && attachment.vsid === docVsId)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" icon="ui-icon-today" title="Modify Date" class="remove-btn v-m"
+                          type="button" icon="fa fa-fw ui-icon-today" title="Modify Date" class="remove-btn v-m"
                           (click)="eSignForDate(attachment, 1);"></button>  -->
                         <button pButton
                           *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
@@ -640,14 +660,14 @@
                           (click)="openEditDoc(attachment)"></button>
                         <button 
                           *ngIf="(isesignverified || workitem.actions === 'Initial') && ESignedAttachments[attachment.docId] && (attachment.isSign && attachment.isSign == 1) && (fromPage[0] !== 'sent' && this.fromPage[0] !== 'archive')"
-                          pButton type="button" icon="ui-icon-check" title="Validate" class="remove-btn v-m"
+                          pButton type="button" icon="fa fa-fw ui-icon-check" title="Validate" class="remove-btn v-m"
                           [disabled]="isAllActionsDisabled" (click)="openDocInValidate(attachment);"></button>
                         <button *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new')" pButton type="button"
                           [disabled]="isAllActionsDisabled" icon="fa fa-fw ui-icon-folder" title="File-In Folder"
                           class="remove-btn v-m" (click)="openSubTree(attachment);"></button>
                         <button pButton type="button" icon="fa fa-fw ui-icon-mail" title="Mail To" class="remove-btn v-m"
                           (click)="mailTo(attachment)"></button>
-                        <!--<button pButton type="button" icon="ui-icon-colorize" title="Edit Properties" class="remove-btn v-m"-->
+                        <!--<button pButton type="button" icon="fa fa-fw ui-icon-colorize" title="Edit Properties" class="remove-btn v-m"-->
                         <!--(click)="editProperties=true;openEditDoc(attachment)"></button>-->
                       </td>
                     </ng-container>
@@ -790,7 +810,7 @@
                           *ngIf="(!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0)) && (workitem.actions === 'MultiSign') 
                             && (currentUser.iseSignAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || ESignedAttachments[attachment.docId] || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Multi Sign" class="remove-btn v-m ui-button-icon-only" icon="ui-icon-burst-mode"
+                          type="button" title="Multi Sign" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-burst-mode"
                           (click)="multiSignDocument(attachment);"></button>
                         
                         <!-- <button pButton
@@ -798,7 +818,7 @@
                             && (workitem.isMemo && workitem.isMemo === 1) && (workitem.memoStepname=='APPROVER' || workitem.memoStepname=='SUB-FROM')
                             && (attachment.vsid && attachment.vsid === docVsId)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" icon="ui-icon-today" title="Modify Date" class="remove-btn v-m"
+                          type="button" icon="fa fa-fw ui-icon-today" title="Modify Date" class="remove-btn v-m"
                           (click)="eSignForDate(attachment, 1);"></button>  -->
                         <button pButton
                           *ngIf="(workitem.actions === 'Signature') && (attachment.isSign && attachment.isSign===1) && (currentUser.iseSignAllowed===1) 
@@ -819,14 +839,14 @@
                           (click)="openEditDoc(attachment)"></button>
                         <button 
                           *ngIf="(isesignverified || workitem.actions === 'Initial') && ESignedAttachments[attachment.docId] && (attachment.isSign && attachment.isSign == 1) && (fromPage[0] !== 'sent' && this.fromPage[0] !== 'archive')"
-                          pButton type="button" icon="ui-icon-check" title="Validate" class="remove-btn v-m"
+                          pButton type="button" icon="fa fa-fw ui-icon-check" title="Validate" class="remove-btn v-m"
                           [disabled]="isAllActionsDisabled" (click)="openDocInValidate(attachment);"></button>
                         <button *ngIf="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new')" pButton type="button"
                           [disabled]="isAllActionsDisabled" icon="fa fa-fw ui-icon-folder" title="File-In Folder"
                           class="remove-btn v-m" (click)="openSubTree(attachment);"></button>
                         <button pButton type="button" icon="fa fa-fw ui-icon-mail" title="Mail To" class="remove-btn v-m"
                           (click)="mailTo(attachment)"></button>
-                        <!--<button pButton type="button" icon="ui-icon-colorize" title="Edit Properties" class="remove-btn v-m"-->
+                        <!--<button pButton type="button" icon="fa fa-fw ui-icon-colorize" title="Edit Properties" class="remove-btn v-m"-->
                         <!--(click)="editProperties=true;openEditDoc(attachment)"></button>-->
                       </td>
                     </ng-container>  
@@ -850,7 +870,7 @@
         <!--<p-accordionTab [selected]="progressTabOpened">-->
         <!--<p-header>-->
         <!--<span>Progress {{progressTabOpened}}</span>-->
-        <!--<span><button pButton type="button" icon="ui-icon-refresh" class="remove-btn v-m m-l-sm" (click)="getWorkitemProgress($event)">-->
+        <!--<span><button pButton type="button" icon="fa fa-fw ui-icon-refresh" class="remove-btn v-m m-l-sm" (click)="getWorkitemProgress($event)">-->
         <!--</button>-->
         <!--</span>-->
         <!--</p-header>-->
@@ -1114,7 +1134,7 @@
   [(visible)]="displayProgress" [style]="{ width: '650vw', height: '550px' }" [contentStyle]="{'overflow':'auto'}">
   <p-header>
     <span>Work Progress</span>
-    <!--<span><button pButton type="button" icon="ui-icon-refresh" class="remove-btn v-m m-l-sm" (click)="getWorkitemProgress($event)"></button></span>-->
+    <!--<span><button pButton type="button" icon="fa fa-fw ui-icon-refresh" class="remove-btn v-m m-l-sm" (click)="getWorkitemProgress($event)"></button></span>-->
   </p-header>
   <app-document-status [workitemProgress]="workitemProgress" (onRemoveProgress)="removeWorkitemProgress($event)"
     [showAddBtn]="(fromPage[0] === 'inbox' || fromPage[0]==='inbox-new')" (onAddProgress)="addWorkitemProgress($event)"
@@ -1156,7 +1176,10 @@
     [rows]="5" maxlength="2000" [cols]="30" pInputTextarea [autoResize]="false"
     ng-model-options="{ updateOn: 'blur' }"></textarea>
   <p-footer>
-    <button type="button" [disabled]="!wiActionForReviewer" pButton label="Add" (click)="addWiAction()"></button>
+    <!--[disabled]="!wiActionForReviewer"-->
+    <button *ngIf="(workitem.actions === 'Comments' || workitem.actions === 'Review')" type="button" [disabled]="!wiActionForReviewer" pButton label="Proceed"
+      (click)="addWiAction()"></button>
+    <button *ngIf="(workitem.actions !== 'Comments' && workitem.actions !== 'Review' )" type="button" pButton label="Proceed" (click)="addWiAction()"></button>
     <button type="button" pButton label="Cancel" (click)="wiRemarksVisible=false"></button>
   </p-footer>
 </p-dialog>
@@ -1170,13 +1193,36 @@
     [rows]="5" maxlength="2000" [cols]="30" pInputTextarea [autoResize]="false"
     ng-model-options="{ updateOn: 'blur' }"></textarea>
   <p-footer>
-    <button type="button" [disabled]="!wiActionForReviewer" pButton label="Add"
+    <button type="button" [disabled]="!wiActionForReviewer" pButton label="Proceed"
       (click)="addWiActionForReturn()"></button>
     <button type="button" pButton label="Cancel" (click)="wiRemarksVisibleForReturn=false"></button>
   </p-footer>
 </p-dialog>
-<p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="eSignDialog"
-  [style]="{ width: '250vw', height: '120px' }" (onHide)="canceleSign()">
+<p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
+  [(visible)]="wiReferenceVisible" [style]="{ width: '350vw', height: '150px' }" [contentStyle]="{'overflow':'auto'}">
+  <p-header>
+    <span>Please provide value for memo reference no: </span>
+  </p-header>
+  <textarea type="text" [(ngModel)]="memoReference" [spellcheck]="true" class="text-area-resize-none bordered"
+    [rows]="1" maxlength="50" [cols]="10" pInputTextarea [autoResize]="false"
+    ng-model-options="{ updateOn: 'blur' }" placeholder=" Enter Ref No. "></textarea>
+  <p-footer>
+    <button type="button" [disabled]="!memoReference" pButton label="OK"
+      (click)="OkMemoReference()"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
+  [(visible)]="editRemarksVisible" [style]="{ width: '650vw', height: '200px' }" [contentStyle]="{'overflow':'auto'}">
+  <p-header>
+    <span>Edit Action will generate a new copy and miss all previous obtained initials/eSigns</span>
+  </p-header>
+  <p-footer>
+    <button type="button" pButton label="OK" (click)="editMemo()"></button>
+    <button type="button" pButton label="Cancel" (click)="editRemarksVisible=false"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="eSignDialog" [style]="{ width: '250vw', height: '120' }"
+  (onHide)="canceleSign()">
   <p-header>
     <span>{{workitem.actions === 'Signature' ? 'eSign' : 'Initial'}} In-Progress</span>
   </p-header>
@@ -1204,7 +1250,27 @@
   </p-header>
   <p>Application will refresh now.</p>
   <p-footer>
-    <button pButton class="pull-right" type="button" label="Ok" (click)="reloadApp()"></button>
+    <button pButton class="pull-right" type="button" label="OK" (click)="reloadApp()"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="showRecallActionedDialog" [style]="{ width: '380vw', height: '160px' }" 
+    [closable]="false" [closeOnEscape]="false">
+  <p-header>
+    <span>Recall Notification</span>
+  </p-header>
+  <p>Actioned Workitem (memo) cannot be recalled.</p>
+  <p-footer>
+    <button pButton class="pull-right" type="button" label="OK" (click)="showRecallActionedDialog=false"></button>
+  </p-footer>
+</p-dialog>
+<p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="showMemoRecallSelectOneDialog" 
+[style]="{ width: '380vw', height: '200px' }" [closable]="false" [closeOnEscape]="false">
+  <p-header>
+    <span>Recall Notification</span>
+  </p-header>
+  <p>Select only one item to validate recall and proceed</p>
+  <p-footer>
+    <button pButton class="pull-right" type="button" label="OK" (click)="showMemoRecallSelectOneDialog=false"></button>
   </p-footer>
 </p-dialog>
 <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showFileIn" [resizable]="false"
@@ -1225,16 +1291,50 @@
     <button type="button" pButton label="Cancel" (click)="showFileIn=false;"></button>
   </p-footer>
 </p-dialog>
+<p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
+  [(visible)]="overrideRemarksVisible" [style]="{ width: '650vw', height: '250px' }" [contentStyle]="{'overflow':'auto'}">
+  <p-header>
+    <span>Memo is not initialed, please provide comments to proceed</span>
+  </p-header>
+  <textarea type="text" [(ngModel)]="wiActionForReviewer" [spellcheck]="true" class="text-area-resize-none bordered"
+    [rows]="5" maxlength="2000" [cols]="30" pInputTextarea [autoResize]="false" placeholder=" Enter Comment "
+    ng-model-options="{ updateOn: 'blur' }"></textarea>
+  <p-footer>
+    <button type="button" [disabled]="!wiActionForReviewer" pButton label="Proceed" (click)="addWiAction()"></button>
+    <button type="button" pButton label="Cancel" (click)="overrideRemarksVisible=false"></button>
+  </p-footer>
+</p-dialog>
 <div *ngIf="openConfirmationDialog" class="text">
-  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTheConfirmationDialog" [responsive]="true"
-    [style]="{ width: '400vw', height: '200px' }">
-
-    <p>Please eSign memo attachment to submit and proceed.</p>
+  <p-dialog appendTo="body" [modal]="true"  showEffect="fade" [(visible)]="openTheConfirmationDialog" [responsive]="true"
+      [style]="{ width: '600vw', height: '250px' }">
+    <p-header>
+      Information
+    </p-header>
+    <p>Please {{workitem.actions === 'Signature' ? 'eSign' : 'Initial'}} memo & other attachment(s) to submit and proceed.</p>
     <div style="height: 50px;"></div>
     <p-footer>
       <div style="margin-left: 20vh">
-        <button (click)="cancelSignAndSubmit()" pButton label="Cancel"></button> &nbsp;
-        <button (click)="ok()" pButton class="mr-1" label="OK"></button> &nbsp;
+        <button type="button" (click)="ok()" pButton class="mr-1" label="OK"></button> &nbsp;
+        <button *ngIf="workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1'" 
+          type="button" pButton class="mr-1" label="Submit Anyways" 
+          (click)="openTheConfirmationDialog=false;openConfirmationDialog=false;overrideRemarksVisible=true"></button> &nbsp;
+      </div>
+    </p-footer>
+  </p-dialog>
+</div>
+<div *ngIf="submitConfirmationDialog" class="text">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="submitTheConfirmationDialog" [responsive]="true"
+      [style]="{ width: '600vw', height: '250px' }">
+    <p-header>
+      Information
+    </p-header>
+    <p>Are you sure to proceed for Submit with Auto-{{workitem.actions === 'Signature' ? 'eSign' : 'Initial'}} of memo attachment and date update?</p>
+    <div style="height: 50px;"></div>
+    <p-footer>
+      <div style="margin-left: 20vh">
+        <button type="button" (click)="submitConfirmationDialog=false;submitTheConfirmationDialog=false;" pButton class="mr-1" label="OK"></button> &nbsp;
+        <button type="button" pButton label="Cancel" 
+        (click)="submitConfirmationDialog=false;submitTheConfirmationDialog=false;overrideRemarksVisible=false"></button> &nbsp;
       </div>
     </p-footer>
   </p-dialog>

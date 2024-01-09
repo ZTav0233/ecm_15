@@ -44,3 +44,4 @@ src/app/global.variables.ts
 src/index.html
 src/app/services/user.service.ts.bak
 src/app/services/workflow.service.ts.bak
+src/app/modules/workflow/task-detail/task-detail.component.html.bak

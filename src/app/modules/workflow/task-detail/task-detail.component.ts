@@ -146,7 +146,9 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public displayProgress = false;
   public remarksHistory = false
   public wiRemarksVisible = false
-  public wiRemarksVisibleForReturn = false
+  public wiRemarksVisibleForReturn = false;  
+  public editRemarksVisible = false;  
+  public overrideRemarksVisible = false;
   public remarksHistoryData: any
   public ESignedAttachments: any[] = [];
   public recipientsTab = false;
@@ -154,6 +156,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public isReturnButtonDisabled = false;
   public showDelegationInactiveDialog = false;
   public showRecallInactiveDialog = false;
+  public showRecallActionedDialog = false;
+  public showMemoRecallSelectOneDialog = false;
   public isesignverified = false;
   displayinfo = false;
   strikeIndex: any;
@@ -194,6 +198,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   public subscriptionEsign: any;
   public openConfirmationDialog = false;
   public openTheConfirmationDialog = false;
+  public submitConfirmationDialog = false;
+  public submitTheConfirmationDialog = false;
   cols!: Column[];
   // showeSigninitialPopup=false;
   //showeSigninitialPrepare=false;
@@ -535,6 +541,30 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     $('#workitemProgressTab>p-accordionTab>div>a').attr('href', 'javascript:;');
+  }
+
+  mailToAll(curWorkitem) {
+    this.busy = true;
+    let postdata=[];
+    curWorkitem.attachments.map((d, i) => {
+       let attachmentMail  = new Attachment();
+       attachmentMail.docTitle=d.docTitle;
+       attachmentMail.docId=d.docId;
+       attachmentMail.format=d.format;
+       postdata.push(attachmentMail);
+    });
+
+    this.ds.emailDocuments(postdata).subscribe(d=>{
+      const file = new Blob([d], { type: 'text/plain' });
+      saveAs(file, "mailtoall.eml");
+      this.busy = false;
+    }, error => {
+      this.busy = false;
+      this.growlService.showGrowl({
+        severity: 'error',
+        summary: 'Error Occurred', detail: 'Please try again!'
+      });
+    });
   }
 
   openDocInfo(doc) {
@@ -1024,6 +1054,49 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     //   }
     // });
   }
+
+  updateMemoReference(doc){
+    this.memoRefDocId = doc.docId;
+    //if(!this.memoReference || this.memoReference == null || this.memoReference == undefined || this.memoReference == '' )
+    this.wiReferenceVisible = true;
+  }
+  
+  OkMemoReference(){
+    this.wiReferenceVisible = false;
+    this.eSignForReference(this.memoRefDocId, 1);
+  }
+
+  eSignForReference(docId, isAuto?) {
+    //console.log(this.workitem.attachments[0])
+    
+    /*this.confirmationService.confirm({
+        message: 'Are you sure to proceed for Submit with Auto-eSign of memo attachment and date update?',
+        header: 'Submit Confirmation',
+        icon: 'ui-icon-help',
+        key: 'taskDetailConfirmation',
+        accept: () => {
+          
+        },
+        reject: () => { }
+      });*/
+    
+    console.log('eSign for Memo Ref :: ' + this.memoReference);
+    if(this.memoReference && this.memoReference != '')
+    {
+      this.validateWorkitemForAttachementActions().then((data: any) => {
+        if (data !== 'INACTIVE') {
+          this.callAddMissingPermissions(cb => {
+              this.flagInitial = 'N';
+              this.ds.getDocumentInfo(docId, 0).subscribe(data => this.openESignPage(data.id, true, data.id, 1, 0, 1), err => this.noDocIdFound(docId));
+          });
+        }
+      });
+    }
+    else{
+      console.log('Memo Ref is not valid ---> ' + this.memoReference);
+    }
+  }
+
   openESignPage(signDocCurId, isEsign, signAttachId, isAuto?, isDate?, isRef?) {
     this.busyEsign = true;
     this.empNo = this.currentUser.EmpNo;
@@ -1248,11 +1321,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     });
   }
-  updateMemoReference(doc){
-    this.memoRefDocId = doc.docId;
-    //if(!this.memoReference || this.memoReference == null || this.memoReference == undefined || this.memoReference == '' )
-    this.wiReferenceVisible = true;
-  }
+
   updatedAttachment() {
     this.updateddDocuments = new FormData();
     this.updateddDocuments.append('document', this.fileUploaded);
@@ -1412,6 +1481,71 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         });
       }
     });
+  }
+
+  recallMemoWorkitemConfirmation(event) {
+    let selectedWorkitemIds: any[] = [];
+    let selectWItemId = 0;
+
+    if (this.fromPage[0] === 'sent' || this.fromPage[0] === 'actioned') {
+      this.selectedWi.map((item) => {
+        selectedWorkitemIds.push(item.workitemId);
+      });
+    }
+    else
+      selectedWorkitemIds[0] = this.workitem.workitemId;
+    
+    console.log("Memo Recall :: " + selectedWorkitemIds.length + " : " + selectedWorkitemIds[0]);
+    if(selectedWorkitemIds && selectedWorkitemIds.length > 1 && !this.showMemoRecallSelectOneDialog )
+      this.showMemoRecallSelectOneDialog = true;
+    else 
+    {
+      if(selectedWorkitemIds && selectedWorkitemIds.length == 1)
+        selectWItemId = selectedWorkitemIds[0];
+      else
+        selectWItemId = this.workitem.workitemId;
+
+      this.workflowService.validateWorkitem(selectWItemId).subscribe(res1 => {
+        if (res1 === 'INACTIVE') {
+          this.showRecallInactiveDialog = true;
+        } else if (res1 === 'ACTIONED' && this.workitem.isMemo === 1) {
+          this.showRecallActionedDialog = true;
+        } else {
+          this.confirmationService.confirm({
+            message: 'Please confirm to recall this workitem?',
+            header: 'Recall Confirmation',
+            icon: 'ui-icon-help',
+            key: 'taskDetailConfirmation',
+            accept: () => {
+              if (!!this.workflowService.delegateId) {
+                this.us.validateDelegation(this.workflowService.delegateId).subscribe(res => {
+                  if (res === 'INACTIVE') {
+                    this.inactiveDialogMessage = 'Delegated user access has ended';
+                    this.showDelegationInactiveDialog = true;
+                  } else {
+                    this.recallWorkitem();
+                  }
+                });
+              } else if (!!this.workflowService.roleId) {
+                this.us.validateRole(this.workflowService.roleId).subscribe(res => {
+                  if (res === 'INACTIVE') {
+                    this.inactiveDialogMessage = 'Role access has ended';
+                    this.showDelegationInactiveDialog = true;
+                  } else {
+                    this.recallWorkitem();
+                  }
+                });
+              }
+              else {
+                this.recallWorkitem();
+              }
+            },
+            reject: () => {
+            }
+          });
+        }
+      });
+    }
   }
 
   recallProceedAfterAddDelegate() {
@@ -2042,8 +2176,10 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+
   editMemo() {
-    this.router.navigate(['/workflow/memo', 'edit', { id: this.workitem.memoId, workItemId: this.workitem.workitemId, recipientRoleId: this.workitem.recipientRoleId }]);
+    this.editRemarksVisible = false;
+    this.router.navigate(['/workflow/memo', 'edit', { id: this.workitem.memoId, workItemId: this.workitem.workitemId, recipientRoleId: this.workitem.recipientRoleId, memoStep: this.workitem.memoStepname}]);
   }
   // validateWorkitemForAttachementActions(){
   //   let response;
@@ -2531,6 +2667,15 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
       this.wiRemarksVisible = true
     } else {
       this.signAndSubmitMemoAsReviewer()
+    }
+  }
+
+  submitForPreReviewers() {
+    console.log("submitForPreReviewers");
+    if (this.workitem.actions == "Comments") {
+      this.wiRemarksVisible = true
+    } else {
+      this.signAndSubmitMemoAsReviewer();
     }
   }
 

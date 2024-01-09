@@ -5,8 +5,7 @@
         <p-accordionTab (click)="showListMembers($event,list.id,i)"
           [selected]="list.name==='Favourites'?isFavSelected:false">
           <p-header>
-            <i class="fa fa-fw ui-icon-view-list ui-icon-ac-h"
-              ></i>
+            <i class="fa fa-fw ui-icon-view-list ui-icon-ac-h"></i>
             {{list.name==='Favourites'?'Favorites':list.name}}
           </p-header>
           <div class="w-100 ">
