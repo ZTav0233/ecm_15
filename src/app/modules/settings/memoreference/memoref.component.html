@@ -1,0 +1,208 @@
+<div class="ui-g">
+  <div class="ui-g-6 ui-md-6">
+    <div class="ui-g-12 ui-md-12 p-0">
+      <div *ngIf="user.roles.length>0" class="ui-g form-group">
+        <div class="ui-g-12 ui-md-3">
+          <label for="role">Select Role for Template</label>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <p-dropdown id="role" [options]="roles" [disabled]="editEnabled" [(ngModel)]="selectedRole" name="role"
+            (onChange)="onSelectionChange($event)">
+          </p-dropdown>
+        </div>
+        <div class="ui-g-12 ui-md-1">
+          <i *ngIf="isCurrentRoleInactive" title="The selected role is inactive"
+            class="material-icons deadline-red ">flash_off</i>
+        </div>
+      </div>
+
+      <div class="ui-md-11">
+        <!--<div *ngIf="user.roles.length>0" class="right-button">
+          <button [disabled]="editEnabled || (user.roles.length===0)" pButton type="button"
+            (click)="createNewRefTemplate()" label="Create New Template" class="blue-btn"></button>
+        </div>
+        <button *ngIf="editEnabled" pButton type="button" (click)="cancel()" label="Cancel"
+          class="left-button m-r-md"></button>-->
+      </div>
+    </div>
+    <div *ngIf="user.roles.length>0" class="ui-g-12 ui-md-12 ui-sm-12 p-t-md">
+      <p-table selectionMode="single" [value]="delegatedRoles" sortField="roleName" sortMode="single" 
+      dataKey="roleName" rowGroupMode="subheader" groupRowsBy="roleName" [rowExpandMode]="'single'"
+        [styleClass]="'p-datatable-sm p-datatable-striped p-datatable-gridlines'">
+        <ng-template pTemplate="caption">
+          <div class="caption-container">
+            Memo Reference No# Templates by Role
+          </div>
+        </ng-template>
+        <ng-template pTemplate="groupheader" let-customer let-rowIndex="rowIndex" let-expanded="expanded">
+          <tr [ngStyle]="{'background-color': customer.expanded ? '#7CB342' : 'white', 'color': customer.expanded ? 'white' : 'black'}">
+              <td colspan="5">
+                <button type="button" (click)="onExpanded(customer)" pButton pRipple [pRowToggler]="customer" 
+                class="p-button-text p-button-rounded p-button-plain mr-2" icon="fa fa-fw ui-clickable ui-icon-people-outline"></button>
+                <span class="font-bold ml-2">{{customer.roleName}}</span>
+              </td>
+          </tr>
+        </ng-template>
+          <ng-template pTemplate="rowexpansion" let-deluser >
+            <p-table [value]="deluser.members" [resizableColumns]="true" columnResizeMode="expand" styleClass="p-datatable-gridlines">
+              <ng-template pTemplate="header">
+                  <tr>
+                    <th class="text-align-left">#</th>
+                    <th class="text-align-left">Template</th>
+                    <th class="text-align-left">Creator</th>
+                    <th class="text-align-left">CreatedOn</th>
+                    <th class="text-align-left"></th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-product let-i="rowIndex">
+                  <tr>
+                    <td>{{i+1}}</td>
+                    <td>{{product.template}}</td>
+                    <td>{{product.modifier}}</td>
+                    <td>{{product.modifyDate}}</td>
+                    <td>
+                      <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit" class="remove-btn"
+                        (click)="editRefTemplate(product,true)"></button>
+                      <button pButton type="button" icon="fa fa-fw ui-icon-clear" title="Remove"
+                        class="remove-btn" (click)="confirm(product)"></button>
+                    </td>
+                  </tr>
+              </ng-template>
+            </p-table>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="ui-g-6 ui-md-6 p-0">
+    <div class="form-group">
+      <div class="ui-g-6 ui-md-6 p-l-0 p-r-0">
+        <div class="ui-g-12 ui-md-12">
+          <span class="text-bold">Template Editor</span>
+        </div>
+        <div class="ui-g-12 ui-md-12">
+          <div class="searchBox">
+            <form #refTemplateForm="ngForm" (submit)="saveMemoRefTemplate()">
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-3">
+                  <label class="text-bold">Ref Parts</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                  <label class="text-bold">Type</label>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <label class="text-bold">Part Value</label>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-3">
+                  <label>Part-1:</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                  <p-dropdown id="part1Type" [options]="refPartTypes" [(ngModel)]="refTemplate.part1Type"  
+                          optionLabel="name" name="part1Type" (onChange)="onPartTypeChange($event, 'part1')">
+                  </p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText name="part1" [disabled]="isPart1Disable" [(ngModel)]="refTemplate.part1">
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-3">
+                  <label>Part-2:</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                  <p-dropdown id="part2Type" [options]="refPartTypes" optionLabel="name"
+                    [(ngModel)]="refTemplate.part2Type" name="part2Type"  (onChange)="onPartTypeChange($event, 'part2')">
+                  </p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText name="part2" [disabled]="isPart2Disable" [(ngModel)]="refTemplate.part2">
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-3">
+                  <label>Part-3:</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                  <p-dropdown id="part3Type" [options]="refPartTypes" optionLabel="name"
+                    [(ngModel)]="refTemplate.part3Type" name="part3Type" (onChange)="onPartTypeChange($event, 'part3')">
+                  </p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText name="part3" [disabled]="isPart3Disable" [(ngModel)]="refTemplate.part3">
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-3">
+                  <label>Part-4:</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                  <p-dropdown id="part4Type" [options]="refPartTypes" optionLabel="name"
+                    [(ngModel)]="refTemplate.part4Type"  name="part4Type" (onChange)="onPartTypeChange($event, 'part4')">
+                  </p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText [(ngModel)]="refTemplate.part4" [disabled]="isPart4Disable" name="part4">
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-3">
+                  <label>Part-5:</label>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                  <p-dropdown id="part5Type" [options]="refPartTypes"  optionLabel="name" 
+                    [(ngModel)]="refTemplate.part5Type" name="part5Type" (onChange)="onPartTypeChange($event, 'part5')">
+                  </p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                  <span class="md-inputfield">
+                    <input type="text" pInputText name="part5" [disabled]="isPart5Disable" [(ngModel)]="refTemplate.part5">
+                  </span>
+                </div>
+              </div>
+              
+              <div *ngIf="isUID" class="ui-g form-group">
+                <div class="ui-g-12 ui-md-3">
+                  <label>UID Value:</label>
+                </div>
+                <div class="ui-g-12 ui-md-9">
+                  <span class="md-inputfield">
+                    <!--<input type="text" pInputText name="uidCounter" [(ngModel)]="refTemplate.uidCounter">-->
+                    <div class="ui-fluid">
+                      <input [(ngModel)]="refTemplate.uidCounter" name="uidCounter" pInputText class="no-spinners" [disabled]="editEnabled">
+                    </div>
+                  </span>
+                </div>
+              </div>
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-12 p-l-0">
+                  <button *ngIf="editEnabled" [disabled]="!(user.roles.length>0)" pButton type="submit" label="Save" class="pull-right m-l-md"></button>
+                  <button *ngIf="!editEnabled" [disabled]="!(user.roles.length>0)" pButton type="submit" label="Add" class="pull-right m-l-md"></button>
+                  <button pButton type="button" (click)="refTemplateForm.reset();clearResult();" label="Clear" class="pull-right"></button>
+                </div>
+              </div>
+            </form>
+            <div style="clear:both"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-confirmDialog header="Remove Template?" key="removeRefKey" icon="ui-icon-supervisor-account" width="425" #rd>
+  <p-footer>
+    <button type="button" pButton icon="ui-icon-close" label="No" (click)="rd.reject()"></button>
+    <button type="button" pButton icon="ui-icon-check" label="Yes" (click)="rd.accept()"></button>
+  </p-footer>
+</p-confirmDialog>
+<div class="progress-bar" style="position: static !important;" >
+  <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+</div>

@@ -31,6 +31,7 @@ import { DialogModule } from 'primeng/dialog';
 import { TreeModule } from 'primeng/tree';
 import { TableModule } from 'primeng/table';
 import { SignComponent } from './esign/esign.component';
+import { MemoRefComponent } from './memoreference/memoref.component';
 import { FileUploadModule } from 'primeng/fileupload';
 //import {ContentService} from "../../services/content.service";
 
@@ -40,7 +41,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     DelegationComponent,
     ListComponent,
     GeneralComponent,
-    SignComponent
+    SignComponent,
+    MemoRefComponent
   ],
   imports: [
     CommonModule,
