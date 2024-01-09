@@ -104,7 +104,7 @@
           </div>
         </ng-template>
       </p-dataTable> -->
-      <p-table selectionMode="single" [value]="delegatedRoles" sortField="roleName" sortMode="single" 
+      <!-- <p-table selectionMode="single" [value]="delegatedRoles" sortField="roleName" sortMode="single" 
       dataKey="roleName" rowGroupMode="subheader" groupRowsBy="roleName" [rowExpandMode]="'single'"
         [styleClass]="'p-datatable-sm p-datatable-striped p-datatable-gridlines'">
         <ng-template pTemplate="caption">
@@ -114,8 +114,8 @@
           <div class="role-name">
             Role Name
           </div>
-        </ng-template>
-        <ng-template pTemplate="groupheader" let-customer let-rowIndex="rowIndex" let-expanded="expanded">
+        </ng-template> -->
+      <!-- <ng-template pTemplate="groupheader" let-customer let-rowIndex="rowIndex" let-expanded="expanded">
           <tr [ngStyle]="{'background-color': customer.expanded ? '#7CB342' : 'white', 'color': customer.expanded ? 'white' : 'black'}">
               <td colspan="5">
                 <button type="button" (click)="onExpanded(customer)" pButton pRipple [pRowToggler]="customer" 
@@ -150,8 +150,48 @@
                   </tr>
               </ng-template>
             </p-table>
-        </ng-template>
-      </p-table>
+        </ng-template> -->
+      <!-- </p-table> -->
+
+      <div>
+        <div class="caption-container">
+          Delegated Users
+        </div>
+        <div class="role-name">
+          <div></div>
+          <div>
+            Role Name
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let item of delegatedRoles">
+        <div (click)="changeRole(item.userId)" class="role-head">
+          <div>
+            <button type="button" pButton
+            class="p-button-text p-button-rounded p-button-plain mr-2" icon="fa fa-fw ui-clickable ui-icon-people-outline"></button>
+          </div>
+        <div>{{ item.roleName }}</div>
+        </div>
+        <p-table *ngIf="role === item.userId" [value]="item.members"
+          styleClass="p-datatable-sm p-datatable-striped p-datatable-gridlines">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>#</th>
+              <th>Role Members</th>
+              <th>Active From</th>
+              <th>Expire On</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr>
+              <td></td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.fromDate }}</td>
+              <td>{{ product.toDate }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
     </div>
     <div *ngIf="user.roles.length===0" class="ui-g-12 ui-md-12 ui-sm-12 p-t-md">
       <!-- <p-dataTable selectionMode="single" [emptyMessage]="emptyMessage" [value]="delegatedUsers">

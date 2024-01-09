@@ -46,6 +46,7 @@
   justify-content: center;
   color: white;
   height: 30px;
+  background-color: #607D8B;
 }
 
 .role-name {
@@ -54,14 +55,44 @@
   height: 30px;
   display: flex;
   align-items: center;
-  justify-content: center;
   font-weight: bold;
-  margin: 0 -6px;
+  margin: 0;
+  border: 1px solid #bbb;
 }
-.headerOOO{
+
+.role-name div:nth-child(1) {
+  width: 6%;
+  border-right: 1px solid #bbb;
+  height: 100%;
+}
+
+.role-name div:nth-child(2) {
+  text-align: center;
+  /* display: flex; */
+  width: 100%;
+  margin-left: -6%;
+}
+
+.headerOOO {
   background-color: white !important;
-  color: black !important ;
+  color: black !important;
 }
+
 /* .headerOOO:focus-within{
   background-color: blue !important;
 } */
+
+.role-head {
+  display: flex;
+  height: 30px;
+  align-items: center;
+  border: 1px solid #bbb;
+  gap: 5px;
+}
+
+.role-head div:nth-child(1) {
+  width: 6%;
+  height: 100%;
+  border-bottom: none;
+  border-right: 1px solid #bbb;
+}

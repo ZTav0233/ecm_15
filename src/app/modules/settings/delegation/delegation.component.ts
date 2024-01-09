@@ -62,6 +62,7 @@ export class DelegationComponent implements OnInit, OnDestroy {
   maxFromDate: Date;
   isCurrentRoleInactive = false;
   busy: boolean;
+  role:any
 
   constructor(
     private toastr:ToastrService,
@@ -189,6 +190,9 @@ export class DelegationComponent implements OnInit, OnDestroy {
     //this.searchText = '';
   }
 
+  changeRole(role: any){
+    this.role = role;
+  }
   checkChange(event) {
     if (event === true) {
       this.isUnlimited = true;
@@ -628,7 +632,7 @@ export class DelegationComponent implements OnInit, OnDestroy {
         });
         this.delegatedRoles = Object.assign([], allRoleDelegations);
         if (this.user.roles.length === finalIndex + 1) {
-          //console.log(this.delegatedRoles);
+          console.log(this.delegatedRoles);
           this.onSelectionChange({ value: this.selectedRole });
         }
          finalIndex++;
@@ -742,7 +746,7 @@ export class DelegationComponent implements OnInit, OnDestroy {
           });
           this.delegatedRoles = Object.assign([], allRoleDelegations);
           if (this.user.roles.length === finalIndex + 1) {
-            //console.log(this.delegatedRoles);
+            console.log(this.delegatedRoles);
             this.onSelectionChange({ value: this.selectedRole });
           }
             finalIndex++;
@@ -937,12 +941,16 @@ export class DelegationComponent implements OnInit, OnDestroy {
   }
 
   onSelectionChange(event) {
+    console.log(event);
+    this.role=event.value
     if (this.checkCurrentRoleActive(event.value)) {
       this.isCurrentRoleInactive = true;
     }
     else {
       this.isCurrentRoleInactive = false;
     }
+    console.log(this.selectedRole);
+    
     /*this.selectedRoleMembers[event.value] = [];
     const roleMembers = [];
     const subscription = this.us.getRoleMembers(event.value).subscribe((res: any) => {
@@ -960,7 +968,7 @@ export class DelegationComponent implements OnInit, OnDestroy {
     this.addToSubscriptions(subscription);*/
     this.expandedItems = [];
     this.selectedRows = [];
-    //console.log(this.delegatedRoles);
+    console.log(this.delegatedRoles);
     var item = _.find(this.delegatedRoles, function (role) {
       return role.userId === event.value;
     });
