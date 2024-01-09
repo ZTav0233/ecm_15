@@ -101,4 +101,32 @@ export class MemoService {
         const url = `${global.base_url}MemoService/lockMemo?mId=${ie11_polyfill(JSON.stringify(mId))}&uId=${ie11_polyfill(JSON.stringify(uId))}&wId=${ie11_polyfill(JSON.stringify(wId))}&rType=${ie11_polyfill(rType)}&uType=${ie11_polyfill(uType)}&sysdatetime=${this.coreService.getSysTimeStamp()}`
         return this.http.get(url, { responseType: 'text' });
     }
+
+        //Added on 27-Dec-2023
+        getMemoRefSettingsByRole(rId:string){
+            console.log("getMemoRefSettingsByRole :: " + rId)
+            const user = this.us.getCurrentUser();
+            const url =`${global.base_url}MemoService/getMemoRefSettingsByRole?rId=${ie11_polyfill(JSON.stringify(rId))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
+            return this.http.get(url);
+        }
+        saveMemoRefSettings(memoRefSettings: any): any {
+            const url = `${global.base_url}MemoService/saveMemoRefSettings`;
+            return this.http.post(url, memoRefSettings, { responseType: 'text' });
+        }
+        removeMemoRefSettings(memoRefId: any): any {
+            const url = `${global.base_url}MemoService/removeMemoRefSettings?id=${ie11_polyfill(JSON.stringify(memoRefId))}&sysdatetime=${this.coreService.getSysTimeStamp()}`
+            return this.http.get(url, { responseType: 'text' });
+        }
+        getMemoRefValuesByRole(rId:string){
+            console.log("getMemoRefValuesByRole :: " + rId)
+            const user = this.us.getCurrentUser();
+            const url =`${global.base_url}MemoService/getMemoRefValuesByRole?rId=${ie11_polyfill(JSON.stringify(rId))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
+            return this.http.get(url);
+        }
+        updateMemoRefCounter(rId:string, mRef:string){
+            console.log("updateMemoRefUIDCounter :: " + rId)
+            const user = this.us.getCurrentUser();
+            const url =`${global.base_url}MemoService/updateMemoRefCounter?rId=${ie11_polyfill(JSON.stringify(rId))}&mRef=${ie11_polyfill(JSON.stringify(mRef))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
+            return this.http.get(url, { responseType: 'text' });
+        }
 }
