@@ -124,7 +124,7 @@
                           [(ngModel)]="dynamicProp.mvalues[0] " name="{{'ab'+i}}"
                           (keyup)="dynamicProp.selectedOption.symName==='DocumentTitle' && (!data.model.contentSearch.mvalues[0] ||  (data.model.contentSearch.mvalues[0] 
                           && data.model.contentSearch.mvalues[0].trim().length===0))?validateStopWordForTitle($event,'0'):validateDateField()">
-                        <span title="Click Here To Select" class="close close-right close-border"
+                        <span title="Click Here To Select" class="close close-right close-border" style="background-color: gainsboro;"
                           *ngIf="(!dynamicProp.mvalues[0] && !(excepClassNames && excepClassNames.indexOf(data.model.selectedDocumentClass.etName.toLowerCase())> -1) 
                           && (dynamicProp.selectedOption.symName.toLowerCase()==='documentfrom' || dynamicProp.selectedOption.symName.toLowerCase()==='documentto'))"
                           (click)="openListDialog(dynamicProp.selectedOption.symName)">...</span>
