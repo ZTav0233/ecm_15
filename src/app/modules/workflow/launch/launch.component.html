@@ -333,7 +333,7 @@
     </div>
     <div class="ui-g-8 ui-md-8 ui-sm-12 p-l-0 p-t-0 p-b-xs">
       <div class="ui-g-12" [ngClass]="{'hide':actionTypes==='launch' && !isRelaunch}">
-        <button pButton type="button" icon="ui-icon-arrow-back" title="Back" (click)="goBack()"
+        <button pButton type="button" icon="fa fa-fw ui-icon-arrow-back" title="Back" (click)="goBack()"
           class="remove-btn pull-right"></button>
       </div>
       <div class="ui-g-12" form-group>
@@ -462,7 +462,7 @@
               </div>
               <div *ngIf="launch.workflow.model.isDeadlineEnabled">
                 <div class="ui-g-1 text-align-center" style="background-color: #FFFFCC; margin-bottom: 4px;">
-                  <i class="fa ui-icon-warning" style="font-size: 26px;color:#fcbc03"></i>
+                  <i class="fa fa-fw ui-icon-warning" style="font-size: 26px;color:#fcbc03"></i>
                 </div>
                 <div class="ui-g-6" style="background-color: #FFFFCC; margin-bottom: 4px;">
                   <span class="m-0 text-bold-11">The Default Deadline is Five Business Days[Excluding Friday and

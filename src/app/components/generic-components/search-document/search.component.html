@@ -109,18 +109,28 @@
                   !(dynamicProp.selectedOption.symName.toLowerCase()==='creator')" class="form-group">
                     <div class="ui-g-5">
                       <span
-                        (click)="(!(excepClassNames && excepClassNames.indexOf(data.model.selectedDocumentClass.etName.toLowerCase())> -1) && (dynamicProp.selectedOption.symName.toLowerCase()==='documentfrom' || dynamicProp.selectedOption.symName.toLowerCase()==='documentto')) ? openListDialog(dynamicProp.selectedOption.symName):''"
+                        (click)="(!(excepClassNames && excepClassNames.indexOf(data.model.selectedDocumentClass.etName.toLowerCase())> -1) 
+                        && (dynamicProp.selectedOption.symName.toLowerCase()==='documentfrom1' 
+                        || dynamicProp.selectedOption.symName.toLowerCase()==='documentto1')) ? openListDialog(dynamicProp.selectedOption.symName):''"
                         class="md-inputfield">
                         <input id="placeholder{{dynamicProp.selectedOption.symName}}Search" class="w-80-per"
-                          [placeholder]="(!(excepClassNames && excepClassNames.indexOf(data.model.selectedDocumentClass.etName.toLowerCase())> -1) && (dynamicProp.selectedOption.symName.toLowerCase()==='documentfrom' || dynamicProp.selectedOption.symName.toLowerCase()==='documentto')) ? 'Click Here To Select' :''"
-                          [disabled]="(!(excepClassNames && excepClassNames.indexOf(data.model.selectedDocumentClass.etName.toLowerCase())> -1) && (dynamicProp.selectedOption.symName.toLowerCase()==='documentfrom' || dynamicProp.selectedOption.symName.toLowerCase()==='documentto'))"
+                          [placeholder]="(!(excepClassNames && excepClassNames.indexOf(data.model.selectedDocumentClass.etName.toLowerCase())> -1) 
+                          && (dynamicProp.selectedOption.symName.toLowerCase()==='documentfrom1' 
+                          || dynamicProp.selectedOption.symName.toLowerCase()==='documentto1')) ? 'Click Here To Select' :''"
+                          [disabled]="(!(excepClassNames && excepClassNames.indexOf(data.model.selectedDocumentClass.etName.toLowerCase())> -1) 
+                          && (dynamicProp.selectedOption.symName.toLowerCase()==='documentfrom1' || dynamicProp.selectedOption.symName.toLowerCase()==='documentto1'))"
                           [title]="dynamicProp.mvalues[0]?dynamicProp.mvalues[0]:''" type="text" pInputText
                           (keypress)="dynamicProp.selectedOption.dtype.toLowerCase()=='long'  || dynamicProp.selectedOption.dtype.toLowerCase() =='integer'?isNumber($event):''"
                           [(ngModel)]="dynamicProp.mvalues[0] " name="{{'ab'+i}}"
-                          (keyup)="dynamicProp.selectedOption.symName==='DocumentTitle' && (!data.model.contentSearch.mvalues[0] ||  (data.model.contentSearch.mvalues[0] && data.model.contentSearch.mvalues[0].trim().length===0))?validateStopWord($event,'0'):''">
-
+                          (keyup)="dynamicProp.selectedOption.symName==='DocumentTitle' && (!data.model.contentSearch.mvalues[0] ||  (data.model.contentSearch.mvalues[0] 
+                          && data.model.contentSearch.mvalues[0].trim().length===0))?validateStopWordForTitle($event,'0'):validateDateField()">
+                        <span title="Click Here To Select" class="close close-right close-border"
+                          *ngIf="(!dynamicProp.mvalues[0] && !(excepClassNames && excepClassNames.indexOf(data.model.selectedDocumentClass.etName.toLowerCase())> -1) 
+                          && (dynamicProp.selectedOption.symName.toLowerCase()==='documentfrom' || dynamicProp.selectedOption.symName.toLowerCase()==='documentto'))"
+                          (click)="openListDialog(dynamicProp.selectedOption.symName)">...</span>
                         <span class="close close-right"
-                          *ngIf="(dynamicProp.mvalues[0] && !(excepClassNames && excepClassNames.indexOf(data.model.selectedDocumentClass.etName.toLowerCase())> -1) && (dynamicProp.selectedOption.symName.toLowerCase()==='documentfrom' || dynamicProp.selectedOption.symName.toLowerCase()==='documentto'))"
+                          *ngIf="(dynamicProp.mvalues[0] && !(excepClassNames && excepClassNames.indexOf(data.model.selectedDocumentClass.etName.toLowerCase())> -1) 
+                          && (dynamicProp.selectedOption.symName.toLowerCase()==='documentfrom' || dynamicProp.selectedOption.symName.toLowerCase()==='documentto'))"
                           (click)="clearDocToFrom(dynamicProp)">&times;</span>
                       </span>
                     </div>

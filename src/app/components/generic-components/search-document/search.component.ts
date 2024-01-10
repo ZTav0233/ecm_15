@@ -51,6 +51,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   isClassChange = false;
   public busy: boolean;
   public busySearchPagination: boolean;
+  public isDateRequired: boolean = false;
   //{label: '=', value: 'is equal to'},
   //operDate: any = [{ label: '>=', value: '>=' }, { label: '<=', value: '<=' }, { label: 'bet', value: 'between' }];
   operDate: any = [{ label: 'bet', value: 'between' }];
@@ -68,15 +69,17 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   datasource: any;
   showDesignation = false;
   public excepClassNames = global.excep_class_names;
+  public advanceSearchDateFilterETs = global.et_adv_search;
   searchResultData: any;
   @ViewChild('gb') searchInput: ElementRef;
+  @ViewChild('dt') namelist: any;
   maxToCreated: any;
   minFromCreated: any;
   today: any;
   searchButtonDisabledStopWord: any = true;
   msgs: Message[] = [];
   stopwordmessageGlobal: any;
-  constructor(public documentService: DocumentService,private toastr:ToastrService,
+  constructor(public documentService: DocumentService, private toastr:ToastrService,
     private browserEvents: BrowserEvents, private coreService: CoreService,
     private growlService: GrowlService, private userService: UserService,
     private confirmationService: ConfirmationService, private contentService: ContentService,
@@ -85,6 +88,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    debugger;
     this.stopwordmessageGlobal = global.stop_word_message;
     this.maxToCreated = new Date();
     this.minFromCreated = new Date('1900-01-01');
@@ -151,8 +155,8 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
     //let desigData = JSON.parse(localStorage.getItem('designationJSON'));
     let desigData;
     if (this.adminService.designationValues && this.adminService.designationValues.length <= 0) {
-      //AKV-getDesignationValues
-        this.adminService.getDesignationData().subscribe(data => {
+      //AKV-getDesignationValues getDesignationData
+        this.adminService.getDesignationValues().subscribe(data => {
         this.adminService.designationValues = data;
         this.adminService.designationValues.unshift({ id: "", value: null, action: "" });
         this.assignDesignationData(this.adminService.designationValues);
@@ -190,8 +194,10 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
       }, 250);
     }
   }
+  
 
   openListDialog(detail) {
+    this.namelist.onFilterKeyup('', 'data', 'contains');
     this.showDesignation = true;
     this.searchInput.nativeElement.value = '';
     this.selectedDesignation = [];
@@ -207,7 +213,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
     if (input === 'Document To') {
       this.dynamicProps.map(d => {
         if (d.selectedOption.symName === 'DocumentTo') {
-          d.mvalues[0] = (val.data.value);
+          d.mvalues[0] = (val.value);
         }
       })
     }
@@ -308,8 +314,8 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
         d.selectedOption.oper = d.selectedOption.operFields[0].value;
         if (d.selectedOption.symName.toLowerCase() === 'documenttitle')
           d.selectedOption.oper = d.selectedOption.operFields[1].value;
-
-        if (d.selectedOption.symName === 'DateCreated') {
+        //(this.advanceSearchDateFilterETs.indexOf(this.data.searchTemplate.name.toLowerCase())> -1)
+        if (d.selectedOption.symName === 'DateCreated' && this.isDateRequired) {
           d.mvalues[1] = new Date();
           d.mvalues[0] = new Date(new Date().setFullYear(new Date().getFullYear() - 5))
         }
@@ -329,7 +335,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
     this.updateSearchResultCopy.emit([]);
   }
 
-  addAllProperties(selectedProp?) {
+  addAllProperties() {
     let propArr = [];
     let sProp;
     this.data.searchTemplate.props.map((prop, index) => {
@@ -388,7 +394,8 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
         if (searcharray.advanceSearchSaved.length === finalIndex + 1) {
           if (searcharray.advanceSearchSaved.length === 0 || !isCreatedDateNotSaved) {
             this.dynamicProps.map(d => {
-              if (d.selectedOption.symName === 'DateCreated') {
+              //(this.advanceSearchDateFilterETs.indexOf(this.data.searchTemplate.name.toLowerCase())> -1)
+              if (d.selectedOption.symName === 'DateCreated' && this.isDateRequired) {
                 d.mvalues[1] = new Date();
                 d.mvalues[0] = new Date(new Date().setFullYear(new Date().getFullYear() - 5))
               }
@@ -399,7 +406,8 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
       });
       if (searcharray.advanceSearchSaved.length === 0 || isCreatedDateNotSaved) {
         this.dynamicProps.map(d => {
-          if (d.selectedOption.symName === 'DateCreated') {
+          //(this.advanceSearchDateFilterETs.indexOf(this.data.searchTemplate.name.toLowerCase())> -1)
+          if (d.selectedOption.symName === 'DateCreated' && this.isDateRequired) {
             d.mvalues[1] = new Date();
             d.mvalues[0] = new Date(new Date().setFullYear(new Date().getFullYear() - 5))
           }
@@ -408,7 +416,8 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
     }
     else {
       this.dynamicProps.map(d => {
-        if (d.selectedOption.symName === 'DateCreated') {
+        //(this.advanceSearchDateFilterETs.indexOf(this.data.searchTemplate.name.toLowerCase())> -1)
+        if (d.selectedOption.symName === 'DateCreated' && this.isDateRequired) {
           d.mvalues[1] = new Date();
           d.mvalues[0] = new Date(new Date().setFullYear(new Date().getFullYear() - 5))
         }
@@ -468,6 +477,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   }
 
   getEntryTemplateForSearch() {
+    debugger;
     this.data.documentClasses = [];
     let searcharray = JSON.parse(sessionStorage.getItem("savedSearch"));
     if (searcharray && searcharray.documentClassSaved && searcharray.documentClassSaved.id && !this.isLaunchSearch) {
@@ -509,7 +519,9 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
     }
   }
 
+  //AKV1
   getEntryTemplateForSearchId(value) {
+    debugger;
     this.dynamicProps = [];
     // if(!this.isClassChange && this.documentService.savedSearch.ets.props && !this.selectedSearch){
     //   this.data.searchTemplate =this.documentService.savedSearch.ets;
@@ -532,6 +544,10 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
       this.contentService.getEntryTemplateForSearchId(value.id, value.vsid).subscribe(data => {
         this.busy = false;
         this.data.searchTemplate = data;
+        if(this.advanceSearchDateFilterETs.indexOf(this.data.searchTemplate.name.toLowerCase())> -1 || (this.data.model.contentSearch.mvalues[0] && this.data.model.contentSearch.mvalues[0].length>2)) 
+          this.isDateRequired = true;
+        else
+          this.isDateRequired = false;
         this.contentService.entryTemplatesListForSearchAndAdd.entryTemplateForSearch.push({ 'template': _.cloneDeep(data) });
         if (this.selectedSearch) {
           this.data.searchTemplate.props.map((p, i) => {
@@ -543,7 +559,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
                 p.mvalues = [];
                 if (elm.dtype.toLowerCase() === 'date') {
                   p.mvalues[0] = new Date(elm.mvalues[0]);
-                  if (elm.symName === 'DateCreated') {
+                  if (elm.symName === 'DateCreated' && this.isDateRequired) {
                     p.mvalues[0] = new Date(new Date().setFullYear(new Date().getFullYear() - 5))
                   }
                 } else {
@@ -553,7 +569,8 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
               if (elm.mvalues[1]) {
                 if (elm.dtype.toLowerCase() === 'date') {
                   p.mvalues[1] = new Date(elm.mvalues[1]);
-                  if (elm.symName === 'DateCreated') {
+                  //(this.advanceSearchDateFilterETs.indexOf(this.data.searchTemplate.name.toLowerCase())> -1)
+                  if (elm.symName === 'DateCreated' && this.isDateRequired) {
                     p.mvalues[1] = new Date();
                   }
                 } else {
@@ -584,6 +601,11 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
 
   _assignTemplateFromMemory(data) {
     this.data.searchTemplate = data;
+    if(this.advanceSearchDateFilterETs.indexOf(this.data.searchTemplate.name.toLowerCase())> -1 || (this.data.model.contentSearch.mvalues[0] && this.data.model.contentSearch.mvalues[0].length>2)) 
+          this.isDateRequired = true;
+        else
+          this.isDateRequired = false;
+    
     if (this.selectedSearch) {
       this.data.searchTemplate.props.map((p, i) => {
         //p.dtype.toLowerCase() === 'date'? p.operFields=this.operDate : p.operFields=this.operFields;
@@ -634,10 +656,18 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
     this.getEntryTemplateForSearchId(this.data.model.selectedDocumentClass);
   }
 
+  // updateContentSearchText(csText) {
+  //   this.data.model.contentSearch.mvalues[0] = csText;
+  //   this.dynamicProps = [];
+  //   this.isClassChange = true;
+  //   this.getEntryTemplateForSearchId(this.data.model.selectedDocumentClass);
+  // }
+
   fromDateChanged(dynamicProp) {
     const d = new Date(dynamicProp.mvalues[0]);
     d.setDate(d.getDate());
     dynamicProp.minDate = d;
+    this.validateDateField();
   }
 
   fromDateChangedCreated(dynamicProp) {
@@ -765,6 +795,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
     return req;
   }
 
+  //AKV2
   searchDocument(clearPreviousResults, flag?) {
     if (clearPreviousResults) {
       this.data.totalResults = 0;
@@ -805,10 +836,10 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
         });
       }
       if (isDateFieldsEmpty) {
-        // this.growlService.showGrowl({
-        //   severity: 'error',
-        //   summary: 'Invalid Search', detail: 'From Date and To Date Required'
-        // });
+        /* this.growlService.showGrowl({
+          severity: 'error',
+          summary: 'Invalid Search', detail: 'From Date and To Date Required'
+        }); */
         this.toastr.error('From Date and To Date Required', 'Invalid Search');
         return;
       }
@@ -855,6 +886,33 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
           if (p.mvalues[0] && p.selectedOption.symName !== 'DateCreated') {
             result = false;
           }
+        });
+      }
+    }
+    return result;
+  }
+
+  searchIsDocumentTitleLikeOnly() {
+    let result = true;
+    let isDocTitleVal = false;
+    if (!this.isSimpleSearch) {
+      if (this.data.model.contentSearch.mvalues[0]) {
+        result = false;
+        return result;
+      }
+
+      if (this.dynamicProps) {
+        this.dynamicProps.map((p, i) => {
+          if (p.mvalues[0] && p.selectedOption.symName !== 'DateCreated' && p.selectedOption.symName !== 'DocumentTitle') {
+            result = false;
+          }
+          if(p.selectedOption.symName === 'DocumentTitle' && p.mvalues[0] && p.mvalues[0].trim().length >= 1)
+            isDocTitleVal = true;
+          else if(p.selectedOption.symName === 'DocumentTitle'){
+            result = false;
+          }
+          
+          return result;
         });
       }
     }
@@ -1197,11 +1255,13 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   usersSelected(event) {
     this.data.isCurrent = false;
     this.createdByFieldSearch = true;
+    this.validateDateField();
   }
 
   clearSelection(event) {
     this.data.isCurrent = true;
     this.createdByFieldSearch = false;
+    this.validateDateField();
   }
 
   getLookupValues(prop) {
@@ -1274,19 +1334,63 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
     d.minDate = todatemin;
   }
 
-  validateStopWord(e:any, f) {
+  validateStopWord(e, f) {
     this.msgs = [];
     let regex = /[\u0600-\u06FF\u0750-\u077F]/;
-    let method = this.isNotSingleWord(e.target.value.trim());
-    if (e.target.value.match(regex)) {
-      method = this.isNotSingleWordArabic(e.target.value.trim());
+    let method = this.isNotSingleWord(e.trim());
+    if (e.match(regex)) {
+      method = this.isNotSingleWordArabic(e.trim());
     }
-    if (e.target.value && e.target.value.trim().length >= 2 && !method) {
-      if (e.target.value.trim().length === 2) {
+    if (e && e.trim().length >= 2 && !method) {
+      if (e.trim().length === 2) {
         this.searchButtonDisabledStopWord = false;
         return;
       }
-      this.adminService.validateStopWords(e.target.value.trim()).subscribe(d => {
+      this.adminService.validateStopWords(e.trim()).subscribe(d => {
+        if (d === 'True') {
+          this.searchButtonDisabledStopWord = true;
+          this.msgs = [];
+          if (this.isSimpleSearch && f === '1') {
+            this.searchDocument(true);
+          }
+        }
+        else {
+          this.searchButtonDisabledStopWord = false;
+          this.msgs = [];
+          this.msgs.push({ severity: 'warn', summary: '', detail: this.stopwordmessageGlobal.message });
+        }
+        //this.updateContentSearchText(e);
+      })
+    }
+    else if (e && e.trim().length <= 1) {
+      this.searchButtonDisabledStopWord = false;
+    }
+    else {
+      this.searchButtonDisabledStopWord = true;
+      if (this.isSimpleSearch && f === '1') {
+        this.searchDocument(true);
+      }
+      else
+      {
+        //this.updateContentSearchText(e);
+      }
+    }
+    return this.searchButtonDisabledStopWord;
+  }
+
+  validateStopWordForTitle(e, f) {
+    this.msgs = [];
+    let regex = /[\u0600-\u06FF\u0750-\u077F]/;
+    let method = this.isNotSingleWord(e.trim());
+    if (e.match(regex)) {
+      method = this.isNotSingleWordArabic(e.trim());
+    }
+    if (e && e.trim().length >= 2 && !method) {
+      if (e.trim().length === 2) {
+        this.searchButtonDisabledStopWord = false;
+        return;
+      }
+      this.adminService.validateStopWords(e.trim()).subscribe(d => {
         if (d === 'True') {
           this.searchButtonDisabledStopWord = true;
           this.msgs = [];
@@ -1301,7 +1405,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
         }
       })
     }
-    else if (e.target.value && e.target.value.trim().length <= 1) {
+    else if (e && e.trim().length <= 1) {
       this.searchButtonDisabledStopWord = false;
     }
     else {
@@ -1310,21 +1414,76 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
         this.searchDocument(true);
       }
     }
+
+    if (e && e.trim().length >= 1)
+      this.validateDateField();
+    else{
+      this.dynamicProps.map(d => {
+        if (d.selectedOption.symName === 'DateCreated' && !this.isDateRequired && d.selectedOption.symName !== 'DocumentTitle')
+          d.mvalues = [];
+      });
+    }
+    
     return this.searchButtonDisabledStopWord;
   }
 
-  isNotSingleWord(s):any {
+  isNotSingleWord(s) {
+    let result = false;
     if (s.trim().split(/\W+/).length > 1) {
-      return true;
+      result = true;
     }
+    
+    return result;
   }
 
-  isNotSingleWordArabic(s):any {
+  isNotSingleWordArabic(s) {
+    let result = false;
     if (s.trim().split(/\s+/).length > 1) {
-      return true;
+      result = true;
     }
+    return result;
   }
 
+
+  validateDateField(){
+    let isCS = this.searchIsDocumentTitleLikeOnly();
+    if(isCS){
+      this.dynamicProps.map(d => {
+        if (d.selectedOption.symName === 'DateCreated') {
+          d.mvalues[1] = new Date();
+          d.mvalues[0] = new Date(new Date().setFullYear(new Date().getFullYear() - 5));
+        }
+      }) ;
+    } else{
+      this.dynamicProps.map(d => {
+        if (d.selectedOption.symName === 'DateCreated' && !this.isDateRequired)
+          d.mvalues = [];
+      });
+    }
+    
+    return true;
+  }
+
+  validateDateField2(dynamicPropV){
+    debugger;
+    dynamicPropV.mvalues[1] = null;
+    let isCS = this.searchIsDocumentTitleLikeOnly();
+    if(isCS){
+      this.dynamicProps.map(d => {
+        if (d.selectedOption.symName === 'DateCreated') {
+          d.mvalues[1] = new Date();
+          d.mvalues[0] = new Date(new Date().setFullYear(new Date().getFullYear() - 5));
+        }
+      }) ;
+    } else{
+      this.dynamicProps.map(d => {
+        if (d.selectedOption.symName === 'DateCreated' && !this.isDateRequired)
+          d.mvalues = [];
+      });
+    }
+    
+    return true;
+  }
 
   assignDependentLookup(detail) {
     //debugger;
@@ -1408,7 +1567,6 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
               });
             }
             else{
-              
               if(detail.lkpId && detail.lkpId > 0){
                 this.busy = true;
                 this.adminService.getLookupValues(detail.lkpId).subscribe(val => {
@@ -1431,10 +1589,11 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   onClickLookup(d) {
     //debugger;
     //alert("New change");
-    let testval = this.data.model.selectedDocumentClass.etName;
+    //let testval = this.data.model.selectedDocumentClass.etName;
     if (this.et_dependent_lookup.trim().toUpperCase().indexOf(this.data.searchTemplate.name.trim().toUpperCase()) != -1)
         this.assignDependentLookup(d);
     
+    this.validateDateField();
     /* let exist = false;
     let obj = { id: -1, label: "", value: null, action: "" };
     d.lookups.map(d => {
