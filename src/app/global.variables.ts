@@ -12,6 +12,7 @@ export let no_doc_found = 'No Documents Found';
 export let no_workitem_found = 'No Items Found';
 export let no_news = 'No News Found';
 export let no_del = 'No Delegated Users Found';
+export let et_adv_search=0;
 export let username = 'fatima';
 export let integ_prop = ['Id', 'Date Created'];
 export let fold = "Top Management";

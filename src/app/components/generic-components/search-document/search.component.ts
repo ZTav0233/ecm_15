@@ -69,7 +69,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   datasource: any;
   showDesignation = false;
   public excepClassNames = global.excep_class_names;
-  public advanceSearchDateFilterETs = global.et_adv_search;
+  public advanceSearchDateFilterETs:any = global.et_adv_search;
   searchResultData: any;
   @ViewChild('gb') searchInput: ElementRef;
   @ViewChild('dt') namelist: any;
