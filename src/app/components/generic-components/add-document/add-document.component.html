@@ -277,7 +277,7 @@
         (click)="saveScannedImages();" [disabled]="!(DWObject && DWObject.HowManyImagesInBuffer > 0)"></button>
     </p-footer>
   </p-dialog>
-  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTree" [style]="{ width: '60vw' }">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTree" [style]="{ width: '60vw', height: '450px' }">
     <p-header>
       Select Folder Path
     </p-header>
@@ -332,10 +332,11 @@
         [selection]="selectedDesignation">
         <p-column field="value" header=""></p-column>
       </p-dataTable> -->
-      <!-- <p-table (onRowClick)="onSelectionChange($event,docToOrFrom);showDesignation=false" scrollHeight="450px" selectionMode="single" #dt [globalFilterFields]!="gb" [value]="designation" 
-      [lazy]="false" [rows]="10" [paginator]="true" (onLazyLoad)="loadLazy($event)" [selection]="selectedDesignation" [totalRecords]="totalRecords">
+      <!-- <p-table (onRowClick)="onSelectionChange($event,docToOrFrom);showDesignation=false" scrollHeight="450px" 
+        selectionMode="single" #dt [globalFilterFields]!="gb" [value]="designation" [style]="{'max-height':'450px','min-height':'450px'}" 
+        [lazy]="false" [rows]="10" [paginator]="true" (onLazyLoad)="loadLazy($event)" [selection]="selectedDesignation" [totalRecords]="totalRecords">
       <p-columnFilter field="value" header=""></p-columnFilter>
-    </p-table> -->
+      </p-table> -->
     </div>
   </p-dialog>
 </div>

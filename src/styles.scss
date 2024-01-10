@@ -147,6 +147,14 @@ body {
     cursor: pointer;
     color: #0074cc;
 }
+
+.ui-icon-arrow-back::before{
+    content: "arrow_back";
+}
+
+.ui-icon-warning::before{
+    content: "warning";
+}
 .ui-icon-record-voice-over::before{
     content: "record_voice_over";
 }
