@@ -192,6 +192,7 @@ export class DelegationComponent implements OnInit, OnDestroy {
 
   changeRole(role: any){
     this.role = role;
+    this.selectedRole=role
   }
   checkChange(event) {
     if (event === true) {
