@@ -47,3 +47,4 @@ src/app/services/workflow.service.ts.bak
 src/app/modules/workflow/task-detail/task-detail.component.html.bak
 src/app/services/content.service.ts.bak
 src/app/services/document.service.ts.bak
+src/app/modules/workflow/memo/memo.component.ts.bak

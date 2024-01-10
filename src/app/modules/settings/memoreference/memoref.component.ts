@@ -102,7 +102,9 @@ export class MemoRefComponent implements OnInit, OnDestroy {
     this.emptyMessage = global.no_del;
     this.roles = [];
     for (const role of this.user.roles) {
-      this.roles.push({ label: role.name, value: role.id });
+      if(role.status === 'ACTIVE'){
+        this.roles.push({ label: role.name, value: role.id });
+      }
     }
     this.busy = true;
 
@@ -115,31 +117,35 @@ export class MemoRefComponent implements OnInit, OnDestroy {
         let finalIndex = 0;
         this.user.roles.map((role, index) => {
           this.busy = true;
-          this.us.getRoleDelegation(role.id).subscribe(val => {
-            this.busy = false;
-            val.map((d, i) => {
-              if (d.fromDate !== undefined) {
-                d.fromDate = this.coreService.getFormattedDateString(d.fromDate, this.coreService.dateTimeFormats.DDMMYYYY, null);
-              }
-              if (d.toDate !== undefined) {
-                d.toDate = this.coreService.getFormattedDateString(d.toDate, this.coreService.dateTimeFormats.DDMMYYYY, null);
-              }
-              this.showRoleMembers(d);
-              allRoleDelegations.push(d);
+          if(role.status === 'ACTIVE'){
+            this.us.getRoleDelegation(role.id).subscribe(val => {
+              this.busy = false;
+              val.map((d, i) => {
+                if (d.fromDate !== undefined) {
+                  d.fromDate = this.coreService.getFormattedDateString(d.fromDate, this.coreService.dateTimeFormats.DDMMYYYY, null);
+                }
+                if (d.toDate !== undefined) {
+                  d.toDate = this.coreService.getFormattedDateString(d.toDate, this.coreService.dateTimeFormats.DDMMYYYY, null);
+                }
+                this.showRoleMembers(d);
+                allRoleDelegations.push(d);
+              });
+              this.delegatedRoles = Object.assign([], allRoleDelegations);
+              // if (this.user.roles.length === finalIndex + 1) {
+              //   this.selectedRows.push();
+              //   this.selectedRole = this.user.roles[0].id;
+              //   if (this.user.roles[0].status === 'INACTIVE' && this.user.roles.length > 1) {
+              //     this.selectedRole = this.user.roles[1].id;
+              //   }
+              //   this.onSelectionChange({ value: this.selectedRole });
+              // }
+              this.changeRole(role.id);
+              finalIndex++;
+            }, err => {
+              this.busy = false;
             });
-            this.delegatedRoles = Object.assign([], allRoleDelegations);
-            if (this.user.roles.length === finalIndex + 1) {
-              this.selectedRows.push();
-              this.selectedRole = this.user.roles[0].id;
-              if (this.user.roles[0].status === 'INACTIVE') {
-                this.isCurrentRoleInactive = true;
-              }
-              this.onSelectionChange({ value: this.selectedRole });
-            }
-            finalIndex++;
-          }, err => {
-            this.busy = false;
-          });
+            
+          }
           //this.onSelectionChange({value: role.id});
         });
       }
