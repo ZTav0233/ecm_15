@@ -73,7 +73,7 @@
       </p-table> -->
       <div>
         <div class="caption-container">
-          Delegated Users
+          Memo Reference No# Templates by Role
         </div>
         <div class="role-name">
           <div></div>
@@ -94,24 +94,25 @@
           styleClass="p-datatable-sm p-datatable-striped p-datatable-gridlines">
           <ng-template pTemplate="header">
             <tr>
-              <th>#</th>
-              <th>Role Members</th>
-              <th>Active From</th>
-              <th>Expire On</th>
+              <th class="text-align-left">#</th>
+              <th class="text-align-left">Template</th>
+              <th class="text-align-left">Creator</th>
+              <th class="text-align-left">CreatedOn</th>
+              <th class="text-align-left"></th>
               <th></th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-product let-i="rowIndex">
             <tr>
               <td>{{i+1}}</td>
-              <td>{{ product.name }}</td>
-              <td>{{ product.fromDate }}</td>
-              <td>{{ product.toDate }}</td>
+              <td>{{product.template}}</td>
+              <td>{{product.modifier}}</td>
+              <td>{{product.modifyDate}}</td>
               <td>
-                <!-- <button pButton type="button" icon="pi pi-pencil" title="Edit" class="remove-btn"
-                  (click)="editDelegationUser(product)" [disabled]="product.delegateId===user.EmpNo"></button> -->
-                <button pButton type="button" icon="pi pi-times" title="Remove"
-                  [disabled]="product.delegateId===user.EmpNo" class="remove-btn" (click)="confirm(product)"></button>
+                <button pButton type="button" icon="fa fa-fw ui-icon-edit" title="Edit" class="remove-btn"
+                  (click)="editRefTemplate(product,true)"></button>
+                <button pButton type="button" icon="fa fa-fw ui-icon-clear" title="Remove"
+                  class="remove-btn" (click)="confirm(product)"></button>
               </td>
             </tr>
           </ng-template>

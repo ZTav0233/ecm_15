@@ -106,6 +106,13 @@ export class MemoRefComponent implements OnInit, OnDestroy {
     }
     this.busy = true;
 
+    this.colHeaderUsers = [
+      { field: 'delName', header: 'Name' },
+      /*{field: 'delegatedByName', header: 'Delegated By'},*/
+      { field: 'fromDate', header: 'Active From' },
+      { field: 'toDate', header: 'Expire On' },
+    ];
+
     this.us.logIn(global.username, 'def').subscribe(loginData => {
       this.busy = false;
       this.us.setCurrentUser(loginData);
@@ -115,31 +122,33 @@ export class MemoRefComponent implements OnInit, OnDestroy {
         let finalIndex = 0;
         this.user.roles.map((role, index) => {
           this.busy = true;
-          this.us.getRoleDelegation(role.id).subscribe(val => {
-            this.busy = false;
-            val.map((d, i) => {
-              if (d.fromDate !== undefined) {
-                d.fromDate = this.coreService.getFormattedDateString(d.fromDate, this.coreService.dateTimeFormats.DDMMYYYY, null);
+          if(role.status === 'ACTIVE'){
+            this.us.getRoleDelegation(role.id).subscribe(val => {
+              this.busy = false;
+              val.map((d, i) => {
+                if (d.fromDate !== undefined) {
+                  d.fromDate = this.coreService.getFormattedDateString(d.fromDate, this.coreService.dateTimeFormats.DDMMYYYY, null);
+                }
+                if (d.toDate !== undefined) {
+                  d.toDate = this.coreService.getFormattedDateString(d.toDate, this.coreService.dateTimeFormats.DDMMYYYY, null);
+                }
+                this.showRoleMembers(d);
+                allRoleDelegations.push(d);
+              });
+              this.delegatedRoles = Object.assign([], allRoleDelegations);
+              if (this.user.roles.length === finalIndex + 1) {
+                this.selectedRows.push();
+                this.selectedRole = this.user.roles[0].id;
+                if (this.user.roles[0].status === 'INACTIVE') {
+                  this.isCurrentRoleInactive = true;
+                }
+                this.onSelectionChange({ value: this.selectedRole });
               }
-              if (d.toDate !== undefined) {
-                d.toDate = this.coreService.getFormattedDateString(d.toDate, this.coreService.dateTimeFormats.DDMMYYYY, null);
-              }
-              this.showRoleMembers(d);
-              allRoleDelegations.push(d);
+              finalIndex++;
+            }, err => {
+              this.busy = false;
             });
-            this.delegatedRoles = Object.assign([], allRoleDelegations);
-            if (this.user.roles.length === finalIndex + 1) {
-              this.selectedRows.push();
-              this.selectedRole = this.user.roles[0].id;
-              if (this.user.roles[0].status === 'INACTIVE') {
-                this.isCurrentRoleInactive = true;
-              }
-              this.onSelectionChange({ value: this.selectedRole });
-            }
-            finalIndex++;
-          }, err => {
-            this.busy = false;
-          });
+          }
           //this.onSelectionChange({value: role.id});
         });
       }

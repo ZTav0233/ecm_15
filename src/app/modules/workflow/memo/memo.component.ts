@@ -3929,7 +3929,6 @@ export class MemoComponent implements OnInit, OnDestroy {
         exist
       }
     });
-
     return exist
   }
 
