@@ -392,7 +392,7 @@
               [src]="product.isMemo ? 'assets/images/icons/note24x.png' : 'assets/images/icons/note24xbw.png'"
               class="flag-img-dim">
           </td>
-          <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" class="subjectMinWidth txt"
+          <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" class="subjectMinWidth txt" [ngClass]="{'text-bold':product.new}"
             (click)="goToTaskDetails($event,'hyperlink',product)">{{ product.subject }}</td>
           <td *ngIf="showInfoIcon"> <span *ngIf="product.format">
               <span class="v-m"></span>
@@ -646,7 +646,7 @@
               [src]="product.isMemo ? 'assets/images/icons/note24x.png' : 'assets/images/icons/note24xbw.png'"
               class="flag-img-dim">
           </td>
-          <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" class="subjectMinWidth txt"
+          <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" class="subjectMinWidth txt" [ngClass]="{'text-bold':product.new}"
             (click)="goToTaskDetails($event,'hyperlink',product)">{{ product.subject }}</td>
           <td *ngIf="showInfoIcon"> {{ product.name }}</td>
           <td *ngFor="let col of columns">{{ product[col.field] }}</td>

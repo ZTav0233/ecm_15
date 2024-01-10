@@ -1,10 +1,12 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
+
 @font-face {
     font-family: 'Glyphicons';
     src: url('assets/fonts/glyphicons-halflings-regular.ttf') format('truetype');
-  }
+}
+
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -137,42 +139,51 @@ body {
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'liga';
 }
-.p-button.p-button-icon-only{
+
+.p-button.p-button-icon-only {
     border-radius: 50% !important;
     height: 1.5rem !important;
     width: 1.5rem !important;
 }
+
 .txt:hover {
     text-decoration: underline;
     cursor: pointer;
     color: #0074cc;
 }
 
-.ui-icon-arrow-back::before{
+.ui-icon-arrow-back::before {
     content: "arrow_back";
 }
 
-.ui-icon-warning::before{
+.ui-icon-warning::before {
     content: "warning";
 }
-.ui-icon-record-voice-over::before{
+
+.ui-icon-record-voice-over::before {
     content: "record_voice_over";
 }
+
 .ui-icon-reply:before {
     content: "reply";
 }
-.ui-icon-apps::before{
-    content:"apps"
+
+.ui-icon-apps::before {
+    content: "apps"
 }
-.ui-icon-scanner::before{
+
+.ui-icon-scanner::before {
     content: "scanner";
 }
-.ui-icon-people-outline::before{
+
+.ui-icon-people-outline::before {
     content: "people_outline";
 }
-.ui-clickable::before{
+
+.ui-clickable::before {
     content: "clickable";
 }
+
 .ui-icon-reply-all:before {
     content: "reply_all";
 }
@@ -228,216 +239,286 @@ body {
 .ui-icon-remove-red-eye:before {
     content: "remove_red_eye";
 }
-.ui-icon-add::before{
+
+.ui-icon-add::before {
     content: "add";
 }
-.ui-icon-star-border::before{
+
+.ui-icon-star-border::before {
     content: "star_border";
 }
-.ui-icon-view-list::before{
+
+.ui-icon-view-list::before {
     content: "view_list";
 }
+
 .ui-icon-remove::before {
     content: "remove";
 }
-.ui-icon-remove-circle-outline::before{
+
+.ui-icon-remove-circle-outline::before {
     content: "remove_circle_outline";
 }
-.ui-icon-arrow-back::before{
+
+.ui-icon-arrow-back::before {
     content: "arrow_back";
 }
-.ui-icon-get-app::before{
+
+.ui-icon-get-app::before {
     content: "get_app";
 }
-.ui-icon-info-outline::before{
+
+.ui-icon-info-outline::before {
     content: "info_outline";
 }
-.ui-icon-edit::before{
+
+.ui-icon-edit::before {
     content: "edit";
 }
-.ui-icon-block::before{
+
+.ui-icon-block::before {
     content: "block";
 }
-.ui-icon-folder::before{
+
+.ui-icon-folder::before {
     content: "folder";
 }
-.ui-icon-comment::before{
+
+.ui-icon-comment::before {
     content: "comment";
 }
-.ui-icon-replay::before{
+
+.ui-icon-replay::before {
     content: "replay";
 }
-.ui-icon-person-add::before{
+
+.ui-icon-person-add::before {
     content: "person_add";
 }
-.ui-icon-archive::before{
+
+.ui-icon-archive::before {
     content: "archive";
 }
-.ui-icon-check::before{
+
+.ui-icon-check::before {
     content: "check";
 }
-.ui-icon-close::before{
+
+.ui-icon-close::before {
     content: "close";
 }
-.ui-icon-star::before{
+
+.ui-icon-star::before {
     content: "star";
 }
-.ui-icon-mail::before{
+
+.ui-icon-mail::before {
     content: "mail";
 }
-.ui-icon-save::before{
+
+.ui-icon-save::before {
     content: "save";
 }
-.ui-icon-folder-special::before{
+
+.ui-icon-folder-special::before {
     content: "folder_special";
 }
-.ui-icon-launch::before{
+
+.ui-icon-launch::before {
     content: "launch";
 }
-.ui-icon-update::before{
+
+.ui-icon-update::before {
     content: "update";
 }
-.ui-icon-file-edit::before{
+
+.ui-icon-file-edit::before {
     content: "file_edit";
 }
-.ui-icon-clear::before{
+
+.ui-icon-clear::before {
     content: "clear";
 }
-.ui-icon-folder-open::before{
+
+.ui-icon-folder-open::before {
     content: "folder_open";
 }
-.ui-icon-search::before{
+
+.ui-icon-search::before {
     content: "search";
 }
-.ui-icon-insert-drive-file::before{
+
+.ui-icon-insert-drive-file::before {
     content: "insert_drive_file";
 }
-.ui-icon-folder-shared::before{
+
+.ui-icon-folder-shared::before {
     content: "folder_shared";
 }
-.ui-icon-personal-video::before{
+
+.ui-icon-personal-video::before {
     content: "personal_video";
 }
-.ui-icon-person::before{
+
+.ui-icon-person::before {
     content: "person";
 }
-.ui-icon-restore::before{
+
+.ui-icon-restore::before {
     content: "restore";
 }
-.ui-icon-https::before{
+
+.ui-icon-https::before {
     content: "https";
 }
-.ui-icon-filter-none::before{
+
+.ui-icon-filter-none::before {
     content: "filter_none";
 }
-.ui-icon-date-range::before{
+
+.ui-icon-date-range::before {
     content: "date_range";
 }
-.ui-icon-chevron-right::before{
+
+.ui-icon-chevron-right::before {
     content: "chevron_right";
 }
-.ui-icon-track-changes::before{
+
+.ui-icon-track-changes::before {
     content: "track_changes";
 }
-.ui-icon-today::before{
+
+.ui-icon-today::before {
     content: "today";
 }
-.ui-icon-delete::before{
+
+.ui-icon-delete::before {
     content: "delete";
 }
-.ui-icon-account-circle::before{
+
+.ui-icon-account-circle::before {
     content: "account_circle";
 }
-.ui-icon-playlist-add::before{
+
+.ui-icon-playlist-add::before {
     content: "playlist_add";
 }
-.ui-icon-build::before{
+
+.ui-icon-build::before {
     content: "build";
 }
-.ui-icon-navigate-next::before{
+
+.ui-icon-navigate-next::before {
     content: "navigate_next";
 }
-.ui-icon-navigate-before::before{
+
+.ui-icon-navigate-before::before {
     content: "navigate_before";
 }
-.ui-icon-vertical-align-center::before{
+
+.ui-icon-vertical-align-center::before {
     content: "vertical_align_center";
 }
-.ui-icon-compare::before{
+
+.ui-icon-compare::before {
     content: "compare";
 }
-.ui-icon-input::before{
+
+.ui-icon-input::before {
     content: "input";
 }
-.ui-icon-security::before{
+
+.ui-icon-security::before {
     content: "security";
 }
-.ui-icon-beenhere::before{
+
+.ui-icon-beenhere::before {
     content: "beenhere";
 }
-.ui-icon-verified-user::before{
+
+.ui-icon-verified-user::before {
     content: "verified_user";
 }
-.ui-icon-arrow-drop-down-circle::before{
+
+.ui-icon-arrow-drop-down-circle::before {
     content: "arrow_drop_down_circle";
 }
-.ui-icon-swap-horiz::before{
+
+.ui-icon-swap-horiz::before {
     content: "swap_horiz";
 }
-.ui-icon-supervisor-account::before{
+
+.ui-icon-supervisor-account::before {
     content: "supervisor_account";
 }
-.ui-icon-people-outline::before{
+
+.ui-icon-people-outline::before {
     content: "people_outline";
 }
-.ui-icon-people::before{
+
+.ui-icon-people::before {
     content: "people";
 }
-.ui-icon-contacts::before{
+
+.ui-icon-contacts::before {
     content: "contacts";
 }
-.ui-icon-view-stream::before{
+
+.ui-icon-view-stream::before {
     content: "view_stream";
 }
-.ui-icon-account-balance::before{
+
+.ui-icon-account-balance::before {
     content: "account_balance";
 }
-.ui-icon-event-busy::before{
+
+.ui-icon-event-busy::before {
     content: "event_busy";
 }
-.ui-icon-assignment-ind::before{
+
+.ui-icon-assignment-ind::before {
     content: "assignment_ind";
 }
-.ui-icon-assignment-late::before{
+
+.ui-icon-assignment-late::before {
     content: "assignment_late";
 }
-.ui-icon-settings::before{
+
+.ui-icon-settings::before {
     content: "settings";
 }
-.ui-icon-list::before{
+
+.ui-icon-list::before {
     content: "list";
 }
-.ui-icon-directions-walk::before{
+
+.ui-icon-directions-walk::before {
     content: "directions_walk";
 }
-.ui-icon-shopping-cart::before{
+
+.ui-icon-shopping-cart::before {
     content: "shopping_cart";
 }
-.ui-icon-remove-circle::before{
+
+.ui-icon-remove-circle::before {
     content: "remove_circle";
 }
-.ui-icon-today::before{
+
+.ui-icon-today::before {
     content: "today";
 }
-.p-datatable-resizable-table>.p-datatable-thead>tr>th, .p-datatable-resizable-table>.p-datatable-tfoot>tr>td, .p-datatable-resizable-table>.p-datatable-tbody>tr>td {
+
+.p-datatable-resizable-table>.p-datatable-thead>tr>th,
+.p-datatable-resizable-table>.p-datatable-tfoot>tr>td,
+.p-datatable-resizable-table>.p-datatable-tbody>tr>td {
     white-space: inherit !important;
 }
 
-.p-multiselect .p-multiselect-label{
+.p-multiselect .p-multiselect-label {
     padding: 4px 8px !important;
 }
 
-.p-inputtext{
+.p-inputtext {
     padding: 4px 8px !important;
 }
 
@@ -451,32 +532,50 @@ body .p-datatable .p-datatable-thead>tr>th {
     white-space: nowrap !important;
     text-align: center !important;
 }
-.autorenew{
+
+.autorenew {
     position: absolute !important;
     right: 5px !important;
 }
-.p-autoClass .p-inputtext{
+
+.p-autoClass .p-inputtext {
     background-color: #607d8b !important;
     color: white !important;
 }
-.ecm-table1 td{
+
+.ecm-table1 td {
     padding: 4px 5px
 }
-.remarks-box .p-inputtext{
+
+.remarks-box .p-inputtext {
     border: 1px solid rgba(0, 0, 0, 0.38);
     color: black;
 }
-.Attach-From-ECM-File-System .p-inputtext{
+
+.Attach-From-ECM-File-System .p-inputtext {
     color: white;
 }
-.dropConent{
-    .p-fileupload-content{
+
+.dropConent {
+    .p-fileupload-content {
         width: 300px;
     }
 }
-.selectedUserRoleListHeader{
-    .p-datatable-header{
+
+.selectedUserRoleListHeader {
+    .p-datatable-header {
         background-color: white !important;
         text-align: center !important;
     }
+}
+
+.p-scroller .ui-g-12,
+.p-scroller .ui-g-10 .p-scroller .ui-g {
+    padding: 0;
+}
+
+.p-scroller {
+    min-height: 65px !important;
+    height: 150px !important;
+    border: 1px solid #bbb;
 }

@@ -395,7 +395,7 @@
               <label
                 *ngIf="actionTypes !='reply' && actionTypes !='replyAll' &&
               actionTypes !='draftLaunch' && actionTypes !='browseLaunch' && actionTypes !='reLaunch' && actionTypes !='launch'">Action
-                Taken::</label>
+                Taken:</label>
               <label
                 *ngIf="actionTypes =='reply' || actionTypes =='replyAll' ||
               actionTypes =='draftLaunch' || actionTypes =='browseLaunch' || actionTypes =='reLaunch' || actionTypes =='launch'">Remarks:</label>
@@ -408,7 +408,7 @@
                 Taken:</label>
             </div>
             <div class=" ui-g-6">
-              <div
+              <div class="remarks-box"
                 *ngIf="actionTypes !='reply' && actionTypes !='replyAll' &&
               actionTypes !='draftLaunch' && actionTypes !='browseLaunch' && actionTypes !='reLaunch' && actionTypes !='launch' ">
                 <textarea [spellcheck]="true" class="text-area-resize-none bordered" [rows]="5" maxlength="500"
@@ -440,7 +440,7 @@
                 <span *ngIf="launch.workflow.model.instructions">{{500-launch.workflow.model.instructions.length}}
                   Remaining</span>
               </div>
-              <div *ngIf=" wiaAction?.isMemo==0 &&(actionTypes =='reply' || actionTypes =='replyAll') && (actionTypes !='draftLaunch' &&
+              <div class="remarks-box" *ngIf=" wiaAction?.isMemo==0 &&(actionTypes =='reply' || actionTypes =='replyAll') && (actionTypes !='draftLaunch' &&
               actionTypes !='browseLaunch' && actionTypes !='reLaunch' && actionTypes !='launch')">
                 <textarea [spellcheck]="true" class="text-area-resize-none bordered" [rows]="5" maxlength="500"
                   [cols]="30" pInputTextarea [autoResize]="false" [(ngModel)]="launch.workflow.model.actionTaken"

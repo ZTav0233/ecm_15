@@ -73,14 +73,14 @@
 
           <div class="max-h-500 ui-g-12 border-none p-0">
 
-            <p-table [value]="deactRoles" [resizableColumns]="true" #dt1 [globalFilterFields]="['name', 'typeText']"
+            <p-table [value]="deactRoles" [resizableColumns]="false" #dt1 [globalFilterFields]="['name', 'typeText']"
               styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
               [tableStyle]="{ 'min-width': '25rem' }">
               <ng-template pTemplate="caption">
                 <span class="p-input-icon-left ml-auto">
                   <!-- <!--<i class="pi pi-search"></i>-->
                   <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" class="quickSearch"
-                    placeholder="Search keyword" />
+                    placeholder="Search Deactivated Roles" />
                 </span>
               </ng-template>
               <ng-template pTemplate="header">

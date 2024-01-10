@@ -52,16 +52,16 @@
       <h4 [ngClass]="{'m-t-0': !(selectedParentList!==0)}">Selected Users/Roles</h4>
       <div *ngIf="listUsers && selectedIndex>=0" class="roleSearch-box border-grey">
         <div class="ui-inputgroup">
-          <span class="md-inputfield ">
+          <span class="md-inputfield " style="display: flex;width: 90%;">
             <input type="text" pInputText (input)="searchUserAndRole('',$event)" placeholder="Filter" [(ngModel)]="userOrRole" />
             <i class="topbar-icon material-icons">search</i>
           </span>
         </div>
       </div>
-      <p-scroller *ngIf="listUsers && listUsers.length>0" styleClass="max-h-200" [items]="listUsers" 
+      <p-scroller *ngIf="listUsers && listUsers.length>0"  [items]="listUsers" styleClass="p-scroller" 
         [lazy]="true">
-        <ng-template let-value pTemplate="selectedItem">
-          <div class="ui-g form-group">
+        <ng-template let-value pTemplate="selectedItem" >
+          <div class="ui-g form-group" >
             <div class="ui-g-12">
               <div class="ui-g-10">
                 <i *ngIf="value.appRole==='ROLE'" class="fa fa fa-fw ui-icon-people"></i>
