@@ -102,16 +102,11 @@ export class MemoRefComponent implements OnInit, OnDestroy {
     this.emptyMessage = global.no_del;
     this.roles = [];
     for (const role of this.user.roles) {
-      this.roles.push({ label: role.name, value: role.id });
+      if(role.status === 'ACTIVE'){
+        this.roles.push({ label: role.name, value: role.id });
+      }
     }
     this.busy = true;
-
-    this.colHeaderUsers = [
-      { field: 'delName', header: 'Name' },
-      /*{field: 'delegatedByName', header: 'Delegated By'},*/
-      { field: 'fromDate', header: 'Active From' },
-      { field: 'toDate', header: 'Expire On' },
-    ];
 
     this.us.logIn(global.username, 'def').subscribe(loginData => {
       this.busy = false;
@@ -136,18 +131,20 @@ export class MemoRefComponent implements OnInit, OnDestroy {
                 allRoleDelegations.push(d);
               });
               this.delegatedRoles = Object.assign([], allRoleDelegations);
-              if (this.user.roles.length === finalIndex + 1) {
-                this.selectedRows.push();
-                this.selectedRole = this.user.roles[0].id;
-                if (this.user.roles[0].status === 'INACTIVE') {
-                  this.isCurrentRoleInactive = true;
-                }
-                this.onSelectionChange({ value: this.selectedRole });
-              }
+              // if (this.user.roles.length === finalIndex + 1) {
+              //   this.selectedRows.push();
+              //   this.selectedRole = this.user.roles[0].id;
+              //   if (this.user.roles[0].status === 'INACTIVE' && this.user.roles.length > 1) {
+              //     this.selectedRole = this.user.roles[1].id;
+              //   }
+              //   this.onSelectionChange({ value: this.selectedRole });
+              // }
+              this.changeRole(role.id);
               finalIndex++;
             }, err => {
               this.busy = false;
             });
+            
           }
           //this.onSelectionChange({value: role.id});
         });
