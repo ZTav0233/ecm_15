@@ -1,3 +1,4 @@
+<div style="border: 1px solid #eee;">
 <p-tabView styleClass="tab-dialog" (onChange)="changeTab($event)" [(activeIndex)]="tabActiveIndex">
   <!-- <div class="p-sm"> -->
   <p-tabPanel header="Properties" leftIcon="fa fa-fw ui-icon-insert-drive-file" [selected]="true">
@@ -349,6 +350,7 @@
     <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
   </div>
 </p-tabView>
+</div>
 <p-dialog [modal]="true" showEffect="fade" appendTo="body" [style]="{'max-width':'70%'}" [resizable]="false"
   [(visible)]="viewer" [responsive]="true" (onHide)="closeViewPopUp()">
   <p-header>

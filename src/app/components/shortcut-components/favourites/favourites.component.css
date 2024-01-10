@@ -3,3 +3,7 @@
   float: right;
   margin-right: 10px;
 }
+:host ::ng-deep.p-tree.p-component{
+  height: 100% !important;
+  overflow: auto !important;
+}

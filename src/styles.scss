@@ -466,3 +466,9 @@ body .p-datatable .p-datatable-thead>tr>th {
         width: 300px;
     }
 }
+.selectedUserRoleListHeader{
+    .p-datatable-header{
+        background-color: white !important;
+        text-align: center !important;
+    }
+}

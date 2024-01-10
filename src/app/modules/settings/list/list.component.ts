@@ -64,6 +64,7 @@ export class ListComponent implements OnInit, OnDestroy {
   public busy: boolean;
   isBtnDisabled = true;
   isFilterEnabled = false;
+  searchVisible:boolean =false
   @ViewChild('dt') dataTableComponentRef: any;
   tempArray: any;
   isAddOperation;
@@ -163,6 +164,9 @@ export class ListComponent implements OnInit, OnDestroy {
     );
   }
   showListMembers(event, listid, i) {
+    console.log(event,listid,i);
+    i==1?this.searchVisible=true:this.searchVisible=false
+    
     // if(!this.isBtnDisabled ){
     //   alert('proceed without saving?');
     // }

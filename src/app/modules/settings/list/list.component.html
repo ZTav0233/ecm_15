@@ -8,7 +8,7 @@
             <i class="fa fa-fw ui-icon-view-list ui-icon-ac-h"></i>
             {{list.name==='Favourites'?'Favorites':list.name}}
           </p-header>
-          <div class="w-100 ">
+          <div class="w-100 " *ngIf="searchVisible">
             <div class="ui-g roleSearch-box">
               <div class="ui-g-12 ui-inputgroup">
                 <span class="md-inputfield " style="display: flex; width: 100%;">
@@ -35,7 +35,7 @@
                   </td>
                   <td align="right" class="action-btn-group">
                     <span class="action-btn-group-sm p-r-lg">
-                      <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete"
+                      <button pButton type="button" icon="fa fa-fw ui-icon-delete" title="Delete" style="padding: 3px !important;"
                         (click)="confirmRemoveDL($event,member,user.EmpNo)"></button>
                     </span>
                   </td>
@@ -124,10 +124,10 @@
           </ng-template>
         </p-column>
       </p-dataTable> -->
-      <p-table [value]="listUsers" #dt1
-        [styleClass]="'list-max-h-365 p-datatable-sm p-datatable-striped p-datatable-gridlines'" 
+      <p-table [value]="listUsers" #dt1 
+        [styleClass]="'list-max-h-365 p-datatable-sm p-datatable-striped p-datatable-gridlines selectedUserRoleListHeader'" 
         [responsive]="true" [globalFilterFields]="['fulName']">
-        <ng-template pTemplate="caption">
+        <ng-template pTemplate="caption" >
           <div class="flex align-items-center justify-content-center">
             Selected Users/Roles
           </div>
