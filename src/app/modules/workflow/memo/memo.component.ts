@@ -298,6 +298,12 @@ export class MemoComponent implements OnInit, OnDestroy {
   memo: boolean = true;
   ECM_NO: any;
   signUser2: any = "";
+  memoRoleId: any = 0;
+  memoRefSetId: any = 0;
+  isMemoReferenceList: boolean = false;
+  memoReferenceList: any[] = [];
+  public memoRefListData: any[] = [{ 'setid': 0, 'roleId': 1002, 'refNo': 'Test' }];
+  memoReferenceNo: any;
   memoLang: any = { name: 'English', code: 'English' };
   memoType: any = { name: 'Memo', code: 'Memo' };
   memoDocId: any = "";
@@ -917,7 +923,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.toastr.info('Document Removed From Enclosures', 'Success');
   }
 
-  prepareStepItems() {
+  prepareStepItems(isFrom?) {
     // console.log("prepareStepItems" ,this.launch.documents.existing.model.actionType)
     if (this.launch.documents.existing.model.actionType === 'bulkLaunch') {
       // console.log("if" )
@@ -928,6 +934,44 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.launch.launchBtnItems = [];
       this.assignLaunchUserOptions();
     }
+    if(isFrom == '1')
+    {
+      this.getMemoReferenceListValues('0');
+    }
+  }
+
+  getMemoReferenceListValues(isEdit, refNo?){
+    this.memoRoleId = this.getMemoRoleId();
+      if(this.memoRoleId > 0)
+      {
+        this.memoReferenceList = [];
+        this.memoRefListData= [];
+        if(isEdit == '1')
+          this.memoReferenceList.push({ label: refNo , value: refNo });
+        this.busy = true;
+        this.memoService.getMemoRefValuesByRole(this.memoRoleId).subscribe((res: any) => {
+          this.busy = false;
+          res.map(d => {
+              this.memoReferenceList.push({ label: d.refValue , value: d.refValue });
+              this.memoRefListData.push({ 'setId': d.setId, 'roleId': d.roleId, 'refNo': d.refValue });
+          });
+          this.memoReferenceList.push({ label: "Enter Manually" , value: "Enter Manually" });
+          this.isMemoReferenceList = true;
+        }, err => {
+          this.busy = false;
+        });
+      }
+  }
+
+  //this.launch.workflow.model.refNo
+  updateMemoReferenceCounter(){
+    this.busy = true;
+    console.log("updateMemoReferenceCounter :: roleid = " + this.memoRoleId + " : RefSetId = " + this.memoRefSetId);
+    this.memoService.updateMemoRefCounter(this.memoRoleId, this.memoRefSetId).subscribe((res: any) => {
+      this.busy = false;
+    }, err => {
+      this.busy = false;
+    });
   }
 
   assignSubjectFromCart(data) {
@@ -1618,7 +1662,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         wiRemarks: ""
       })
       //console.log(this.recipients)
-      this.prepareStepItems();
+      this.prepareStepItems('1');
     }
   }
   addToRevList(role) {
@@ -2254,7 +2298,7 @@ export class MemoComponent implements OnInit, OnDestroy {
             }
           }
         });
-        this.prepareStepItems();
+        this.prepareStepItems('1');
       } else {
         this.busy = true;
         this.us.getListUsers(list.id).subscribe((users: any) => {
@@ -2311,7 +2355,7 @@ export class MemoComponent implements OnInit, OnDestroy {
             }
           });
           list.users = users;
-          this.prepareStepItems();
+          this.prepareStepItems('1');
         }, err => {
           this.busy = false;
         });
@@ -2417,7 +2461,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.toastr.error('Only three user or role allowed in From', 'Warning');
         return;
       }
-      this.prepareStepItems();
+      this.prepareStepItems('1');
     }
     else {
       if (!this.existsInList(list)) {
@@ -2464,7 +2508,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           this.toastr.error('Only three user or role allowed in From', 'Warning');
           return;
         }
-        this.prepareStepItems();
+        this.prepareStepItems('1');
       }
     }
   }
@@ -2802,7 +2846,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         status: 'ACTIVE',
         wiRemarks: ""
       })
-      this.prepareStepItems();
+      this.prepareStepItems('1');
     }
   }
   //Add REV from Default List, Favorite List and Search User
@@ -4716,6 +4760,29 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.memoSubFontSize = event.value;
   }
 
+  storeSelectedMemoRef(event){
+    console.log("storeSelectedMemoRef :: " + event.value);
+    if(event.value === "Enter Manually"){
+      this.memoReferenceList = [];
+      this.isMemoReferenceList = false;
+    }
+    else{
+      this.memoReferenceNo = event.value;
+      this.launch.workflow.model.refNo = event.value;
+
+      this.memoRefListData.map(d => {
+        if(d.refNo === this.memoReferenceNo)
+          this.memoRefSetId = d.setId;
+      });
+    }
+    console.log("storeSelectedMemoRef :: roleid = " + this.memoRoleId + " : RefSetId = " + this.memoRefSetId);
+  }
+
+  setMemoRefNo(value){
+    this.memoReferenceNo = value;
+    this.launch.workflow.model.refNo = value;
+  }
+
   onChangeOnBehalf(event) {
     this.isOnBehalf = event.value;
   }
@@ -5546,15 +5613,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         })
       }
     }
-    //console.log(attachmentData);
-    // if (clickType != "Preview" ? this.attachment.length == 0 : '') {
-    //   let msg = "Please select at least one attachment."
-    //   this.growlService.showGrowl({
-    //     severity: 'error',
-    //     summary: 'Attachment Required', detail: msg
-    //   });
-    //   return;
-    // }
+    
     let recipientsData;
     if (this.memoType.name == 'Letter' && this.memoLang.name == 'Arabic') {
       recipientsData = this.recipients.filter(word => word.recipientType != "CC" && word.recipientType != "TO");
@@ -5568,7 +5627,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       subject: this.launch.workflow.model.subject ? this.launch.workflow.model.subject.replace(/\n/g, '<br>') : '',
       ecmNo: this.ECM_NO,
       orgcode: this.launch.workflow.model.selectedorgCode.orgCode,
-      referenceNo: this.launch.workflow.model.refNo,
+      referenceNo: this.isMemoReferenceList?this.memoReferenceNo:this.launch.workflow.model.refNo,
       message: this.editorEN.getData() ? this.editorEN.getData() : (this.editorAR.getData() ? this.editorAR.getData() : ''),
       priority: this.launch.workflow.model.priority,
       memoType: this.memoType.name,

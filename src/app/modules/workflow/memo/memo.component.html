@@ -785,10 +785,19 @@
                 <div *ngIf="memo || fileNote || letter" class="ui-g-0" style="padding-left: 39px;">
                   <label>Ref No. :<span class="required">*</span></label>
                 </div>
-                <div *ngIf="memo || fileNote || letter" class="ui-g-2 ui-xl-3 ui-lg-2">
-                  <input type="text" pInputText class="mostRequired" name="refNo"
-                    [(ngModel)]="launch.workflow.model.refNo" [ngModelOptions]="{standalone: true}" required
-                    maxlength="40" />
+                <div class="ui-g-2 ui-xl-3 ui-lg-2">
+                  <div *ngIf="!isMemoReferenceList && (memo || fileNote || letter)" class="ui-g-2 ui-xl-3 ui-lg-2" style="width: 84% !important;">
+                    <input type="text" pInputText class="mostRequired" name="refNo" 
+                      [(ngModel)]="launch.workflow.model.refNo" [ngModelOptions]="{standalone: true}" required  maxlength="40"/>
+                    <!--<span><button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="getMemoReferenceListValues('0')"
+                        class="remove-btn v-m"></button></span>-->
+                  </div>
+                  <div *ngIf="isMemoReferenceList && (memo || fileNote || letter)" class="ui-g-2 ui-xl-3 ui-lg-2" style="width: 84% !important;">
+                    <p-dropdown name="memoRefList" class= "mostRequired" [options]="memoReferenceList" [(ngModel)]="this.memoReferenceNo" 
+                        (onChange)="storeSelectedMemoRef($event)"></p-dropdown>
+                  </div>
+                  <span><button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="getMemoReferenceListValues('0')"
+                    class="remove-btn v-m"></button></span>
                 </div>
                 <div class="ui-g-0" style="padding-left: 20px;" *ngIf="memo || fileNote || letter">
                   <label>OrgCode :<span class="required">*</span></label>
