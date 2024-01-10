@@ -287,11 +287,10 @@
       [rowStyleClass]="getEmptyRow">
       <p-column field="value" header=""></p-column>
     </p-dataTable> -->
-    <!-- <p-table selectionMode="single" #dt [globalFilterFields]!="gb"
+    <!--  <p-table selectionMode="single" #dt [globalFilterFields]!="gb" [style]="{'max-height':'450px','min-height':'450px'}"
       [value]="designation" [lazy]="false" [rows]="10" [paginator]="true"
       (onRowClick)="onSelectionChange($event,docToOrFrom);showDesignation=false" [totalRecords]="totalRecords"
-      [responsive]="true" (onLazyLoad)="loadLazy($event,dt)" [selection]="selectedDesignation"
-      >
+      [responsive]="true" (onLazyLoad)="loadLazy($event,dt)" [selection]="selectedDesignation">
       <p-columnFilter field="value" header=""></p-columnFilter>
     </p-table> -->
   </div>
