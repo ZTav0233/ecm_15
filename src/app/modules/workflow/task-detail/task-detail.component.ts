@@ -2554,7 +2554,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   openSubTree(doc) {
     this.validateWorkitemForAttachementActions().then((data: any) => {
       if (data === 'ACTIVE') {
-        this.callAddMissingPermissions(cb => {
+        // this.callAddMissingPermissions(cb => {
           this.ds.getDocumentInfo(doc.docId, 0).subscribe(data => {
             this.showFileIn = true;
             this.selectedAddDocument = doc;
@@ -2566,7 +2566,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
               this.busy = false;
             });
           }, err => this.noDocFound(doc));
-        });
+        // });
       }
     });
   }

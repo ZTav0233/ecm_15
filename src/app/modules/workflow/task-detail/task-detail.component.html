@@ -701,7 +701,7 @@
                 <tbody>
                   <tr *ngFor="let attachment of workitem.attachments;let i=index;let isOdd=odd;let isEven=even;"
                     [class.even]="isEven">
-                    <ng-container *ngIf="attachment.isMemo===0 || (workitem.isMemo==0 && attachment.isMemo===1)">
+                    <ng-container >
                       <td class="icon p-r-0">
                         <span *ngIf="attachment.format">
                           <span class="v-m"></span>
@@ -1274,12 +1274,12 @@
   </p-footer>
 </p-dialog>
 <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showFileIn" [resizable]="false"
-  [style]="{ width: '60vw', height: '400px' }">
+  [style]="{ width: '60vw' }">
   <p-header>
     File-In Folder
   </p-header>
   <div class="fix-h-350">
-    <div class="scrollable">
+    <div >
       <!--<tree [folderPermission]="folderPermission" [clearSelectedDocs]="true" [changeView]="false"></tree>-->
       <p-tree [value]="addToFolderList" selectionMode="single" [(selection)]="selectedAddFolder"
         (onNodeExpand)="nodeExpand($event)"></p-tree>
