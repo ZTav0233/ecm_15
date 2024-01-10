@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {ConfirmationService, SelectItem, TreeNode} from 'primeng/api';
+import { ConfirmationService, SelectItem, TreeNode } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user/user.model';
@@ -68,7 +68,7 @@ export class MemoRefComponent implements OnInit, OnDestroy {
     uidCounter: undefined
   };
 
-  refPartTypes:  { name: string; code: string; }[];
+  refPartTypes: { name: string; code: string; }[];
   tempToday: any;
   public expandedItems = [];
   public selectedRows = [];
@@ -82,9 +82,9 @@ export class MemoRefComponent implements OnInit, OnDestroy {
   isUID = false;
 
   busy: boolean;
-
+  role: any
   constructor(
-    private toastr:ToastrService,
+    private toastr: ToastrService,
     private us: UserService,
     private ms: MemoService,
     private confirmationService: ConfirmationService,
@@ -92,7 +92,7 @@ export class MemoRefComponent implements OnInit, OnDestroy {
     private breadcrumbService: BreadcrumbService,
     private coreService: CoreService) {
     this.userSelected = [];
-    this.refPartTypes = [{ name:'-', code:'-' }, { name:'Text', code:'Text' },{ name:'UniqueId', code:'UniqueId' },{ name:'YYYY', code:'YYYY' },{ name:'YY', code:'YY' }];
+    this.refPartTypes = [{ name: '-', code: '-' }, { name: 'Text', code: 'Text' }, { name: 'UniqueId', code: 'UniqueId' }, { name: 'YYYY', code: 'YYYY' }, { name: 'YY', code: 'YY' }];
   }
 
   ngOnInit() {
@@ -105,7 +105,7 @@ export class MemoRefComponent implements OnInit, OnDestroy {
       this.roles.push({ label: role.name, value: role.id });
     }
     this.busy = true;
-    
+
     this.us.logIn(global.username, 'def').subscribe(loginData => {
       this.busy = false;
       this.us.setCurrentUser(loginData);
@@ -128,7 +128,7 @@ export class MemoRefComponent implements OnInit, OnDestroy {
               allRoleDelegations.push(d);
             });
             this.delegatedRoles = Object.assign([], allRoleDelegations);
-            if (this.user.roles.length === finalIndex  + 1) {
+            if (this.user.roles.length === finalIndex + 1) {
               this.selectedRows.push();
               this.selectedRole = this.user.roles[0].id;
               if (this.user.roles[0].status === 'INACTIVE') {
@@ -136,7 +136,7 @@ export class MemoRefComponent implements OnInit, OnDestroy {
               }
               this.onSelectionChange({ value: this.selectedRole });
             }
-             finalIndex++;
+            finalIndex++;
           }, err => {
             this.busy = false;
           });
@@ -146,6 +146,10 @@ export class MemoRefComponent implements OnInit, OnDestroy {
     }, err => {
       this.busy = false;
     });
+  }
+  changeRole(role: any) {
+    this.role = role;
+    this.selectedRole = role
   }
 
   clearResult() {
@@ -175,7 +179,7 @@ export class MemoRefComponent implements OnInit, OnDestroy {
 
   removeRefTemplate(templateId) {
     console.log("removeRefTemplate :: " + templateId);
-    if(templateId > 0){
+    if (templateId > 0) {
       this.busy = true;
       this.ms.removeMemoRefSettings(templateId).subscribe(data => {
         this.busy = false;
@@ -200,8 +204,8 @@ export class MemoRefComponent implements OnInit, OnDestroy {
     let formValid = true;
     let idVal = 0;
     console.log("SaveMemoRefTemplate :: currentObjId = " + this.currentObjId);
-    if(this.currentObjId !== undefined)
-        idVal = this.currentObjId;
+    if (this.currentObjId !== undefined)
+      idVal = this.currentObjId;
     console.log("SaveMemoRefTemplate :: ID = " + idVal);
     if ((this.refTemplate.part1 !== undefined && this.refTemplate.part1 !== '' && this.refTemplate.part1 !== null) ||
       (this.refTemplate.part2 !== undefined && this.refTemplate.part2 !== '' && this.refTemplate.part2 !== null) ||
@@ -226,19 +230,19 @@ export class MemoRefComponent implements OnInit, OnDestroy {
       id: idVal,
       roleId: this.selectedRole,
       orgCode: undefined,
-      part1Type: this.refTemplate.part1Type?this.refTemplate.part1Type.name:'-',
+      part1Type: this.refTemplate.part1Type ? this.refTemplate.part1Type.name : '-',
       part1: this.refTemplate.part1,
-      part2Type: this.refTemplate.part2Type?this.refTemplate.part2Type.name:'-',
+      part2Type: this.refTemplate.part2Type ? this.refTemplate.part2Type.name : '-',
       part2: this.refTemplate.part2,
-      part3Type: this.refTemplate.part3Type?this.refTemplate.part3Type.name:'-',
+      part3Type: this.refTemplate.part3Type ? this.refTemplate.part3Type.name : '-',
       part3: this.refTemplate.part3,
-      part4Type: this.refTemplate.part4Type?this.refTemplate.part4Type.name:'-',
+      part4Type: this.refTemplate.part4Type ? this.refTemplate.part4Type.name : '-',
       part4: this.refTemplate.part4,
-      part5Type: this.refTemplate.part5Type?this.refTemplate.part5Type.name:'-',
+      part5Type: this.refTemplate.part5Type ? this.refTemplate.part5Type.name : '-',
       part5: this.refTemplate.part5,
       creator: this.user.fulname,
       modifier: this.user.fulname,
-      uidCounter: this.refTemplate.uidCounter?this.refTemplate.uidCounter:0
+      uidCounter: this.refTemplate.uidCounter ? this.refTemplate.uidCounter : 0
     };
 
     if (formValid) {
@@ -292,7 +296,7 @@ export class MemoRefComponent implements OnInit, OnDestroy {
           allRoleDelegations.push(d);
         });
         this.delegatedRoles = Object.assign([], allRoleDelegations);
-        if (this.user.roles.length === finalIndex  + 1) {
+        if (this.user.roles.length === finalIndex + 1) {
           this.selectedRows.push();
           this.selectedRole = this.user.roles[0].id;
           if (this.user.roles[0].status === 'INACTIVE') {
@@ -300,7 +304,7 @@ export class MemoRefComponent implements OnInit, OnDestroy {
           }
           this.onSelectionChange({ value: this.selectedRole });
         }
-         finalIndex++;
+        finalIndex++;
       }, err => {
         this.busy = false;
       });
@@ -338,9 +342,9 @@ export class MemoRefComponent implements OnInit, OnDestroy {
     this.toastr.info('Add Delegate Failed', 'Failure');
   }
 
-  onExpanded(ev:any){
+  onExpanded(ev: any) {
     console.log(ev);
-    ev.expanded=!ev.expanded
+    ev.expanded = !ev.expanded
   }
 
   editRefTemplate(data, rowExp?) {
@@ -349,12 +353,12 @@ export class MemoRefComponent implements OnInit, OnDestroy {
     this.currentObjId = data.id;
     console.log("editRefTemplate :: currentObjId = " + this.currentObjId);
     this.refTemplate = {
-      id: data.id, roleId: data.roleId, orgCode: data.orgcode, 
-      part1Type: { name: data.part1Type, code: data.part1Type }, part1: data.part1, 
-      part2Type: { name: data.part2Type, code: data.part2Type }, part2: data.part2, 
-      part3Type: { name: data.part3Type, code: data.part3Type }, part3: data.part3, 
-      part4Type: { name: data.part4Type, code: data.part4Type }, part4: data.part4, 
-      part5Type: { name: data.part5Type, code: data.part5Type }, part5: data.part5, 
+      id: data.id, roleId: data.roleId, orgCode: data.orgcode,
+      part1Type: { name: data.part1Type, code: data.part1Type }, part1: data.part1,
+      part2Type: { name: data.part2Type, code: data.part2Type }, part2: data.part2,
+      part3Type: { name: data.part3Type, code: data.part3Type }, part3: data.part3,
+      part4Type: { name: data.part4Type, code: data.part4Type }, part4: data.part4,
+      part5Type: { name: data.part5Type, code: data.part5Type }, part5: data.part5,
       creator: data.creator, modifier: data.modifier, uidCounter: data.uidCounter
     };
     this.checkUIDFieldAvailable();
@@ -392,7 +396,7 @@ export class MemoRefComponent implements OnInit, OnDestroy {
     else {
       this.isCurrentRoleInactive = false;
     }
-    if(!isOP){
+    if (!isOP) {
       this.selectedRole = data.userId;
     }
     if (!data.members) {
@@ -401,13 +405,13 @@ export class MemoRefComponent implements OnInit, OnDestroy {
         this.busy = false;
         res.map(d => {
           d.template = d.part1;
-          if(d.part2 != null)
+          if (d.part2 != null)
             d.template += '/' + d.part2;
-          if(d.part3 != null)
+          if (d.part3 != null)
             d.template += '/' + d.part3;
-          if(d.part4 != null)
+          if (d.part4 != null)
             d.template += '/' + d.part4;
-          if(d.part5 != null)
+          if (d.part5 != null)
             d.template += '/' + d.part5;
         });
         data.members = res;
@@ -435,6 +439,7 @@ export class MemoRefComponent implements OnInit, OnDestroy {
   }
 
   onSelectionChange(event) {
+    this.role = event.value;
     if (this.checkCurrentRoleActive(event.value)) {
       this.isCurrentRoleInactive = true;
     }
@@ -457,47 +462,47 @@ export class MemoRefComponent implements OnInit, OnDestroy {
     let typeObjVal = event.value;
     let typeVal = typeObjVal.name;
     console.log("onPartTypeChange :: " + typeVal);
-    if(typeVal === "UniqueId" || typeVal  === "YYYY" || typeVal === "YY" || (typeVal === "-")){
+    if (typeVal === "UniqueId" || typeVal === "YYYY" || typeVal === "YY" || (typeVal === "-")) {
       switch (partNum) {
         case 'part1':
-          this.refTemplate.part1 = (typeVal === "UniqueId")?'#UID#':(typeVal === "YYYY")?'#YYYY#':(typeVal === "YY")?'#YY#':'-';
+          this.refTemplate.part1 = (typeVal === "UniqueId") ? '#UID#' : (typeVal === "YYYY") ? '#YYYY#' : (typeVal === "YY") ? '#YY#' : '-';
           this.isPart1Disable = true;
           break;
         case 'part2':
-          this.refTemplate.part2 = (typeVal === "UniqueId")?'#UID#':(typeVal === "YYYY")?'#YYYY#':(typeVal === "YY")?'#YY#':'-';
+          this.refTemplate.part2 = (typeVal === "UniqueId") ? '#UID#' : (typeVal === "YYYY") ? '#YYYY#' : (typeVal === "YY") ? '#YY#' : '-';
           this.isPart2Disable = true;
           break;
         case 'part3':
-          this.refTemplate.part3 = (typeVal === "UniqueId")?'#UID#':(typeVal === "YYYY")?'#YYYY#':(typeVal === "YY")?'#YY#':'-';
+          this.refTemplate.part3 = (typeVal === "UniqueId") ? '#UID#' : (typeVal === "YYYY") ? '#YYYY#' : (typeVal === "YY") ? '#YY#' : '-';
           this.isPart3Disable = true;
           break;
         case 'part4':
-          this.refTemplate.part4 = (typeVal === "UniqueId")?'#UID#':(typeVal === "YYYY")?'#YYYY#':(typeVal === "YY")?'#YY#':'-';
+          this.refTemplate.part4 = (typeVal === "UniqueId") ? '#UID#' : (typeVal === "YYYY") ? '#YYYY#' : (typeVal === "YY") ? '#YY#' : '-';
           this.isPart4Disable = true;
           break;
         case 'part5':
-          this.refTemplate.part5 = (typeVal === "UniqueId")?'#UID#':(typeVal === "YYYY")?'#YYYY#':(typeVal === "YY")?'#YY#':'-';
+          this.refTemplate.part5 = (typeVal === "UniqueId") ? '#UID#' : (typeVal === "YYYY") ? '#YYYY#' : (typeVal === "YY") ? '#YY#' : '-';
           this.isPart5Disable = true;
           break;
       }
       this.checkUIDFieldAvailable();
     }
-    else{
+    else {
       this.enableInputbyPartType(partNum);
       this.checkUIDFieldAvailable();
     }
   }
 
-checkUIDFieldAvailable(){
+  checkUIDFieldAvailable() {
 
-  if(this.refTemplate.part1 === "#UID#" || this.refTemplate.part2 === "#UID#" || this.refTemplate.part3 === "#UID#" || 
-                      this.refTemplate.part4 === "#UID#" || this.refTemplate.part5 === "#UID#")  
-    this.isUID = true;
-  else
-    this.isUID = false;
-}
+    if (this.refTemplate.part1 === "#UID#" || this.refTemplate.part2 === "#UID#" || this.refTemplate.part3 === "#UID#" ||
+      this.refTemplate.part4 === "#UID#" || this.refTemplate.part5 === "#UID#")
+      this.isUID = true;
+    else
+      this.isUID = false;
+  }
 
-  disableInputbyPartType(partNum){
+  disableInputbyPartType(partNum) {
     switch (partNum) {
       case 'part1':
         this.isPart1Disable = true;
@@ -517,7 +522,7 @@ checkUIDFieldAvailable(){
     }
   }
 
-  enableInputbyPartType(partNum){
+  enableInputbyPartType(partNum) {
     switch (partNum) {
       case 'part1':
         this.isPart1Disable = false;

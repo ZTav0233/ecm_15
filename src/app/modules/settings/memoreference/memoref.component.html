@@ -26,7 +26,7 @@
       </div>
     </div>
     <div *ngIf="user.roles.length>0" class="ui-g-12 ui-md-12 ui-sm-12 p-t-md">
-      <p-table selectionMode="single" [value]="delegatedRoles" sortField="roleName" sortMode="single" 
+      <!-- <p-table selectionMode="single" [value]="delegatedRoles" sortField="roleName" sortMode="single" 
       dataKey="roleName" rowGroupMode="subheader" groupRowsBy="roleName" [rowExpandMode]="'single'"
         [styleClass]="'p-datatable-sm p-datatable-striped p-datatable-gridlines'">
         <ng-template pTemplate="caption">
@@ -70,7 +70,53 @@
               </ng-template>
             </p-table>
         </ng-template>
-      </p-table>
+      </p-table> -->
+      <div>
+        <div class="caption-container">
+          Delegated Users
+        </div>
+        <div class="role-name">
+          <div></div>
+          <div>
+            Role Name
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let item of delegatedRoles">
+        <div (click)="changeRole(item.userId)" class="role-head" [ngStyle]="{'background-color': item.userId === role ? '#7CB342' : '', 'color': item.userId === role ? 'white' : ''}">
+          <div>
+            <button type="button" pButton
+            class="p-button-text p-button-rounded p-button-plain mr-2" icon="fa fa-fw ui-clickable ui-icon-people-outline"></button>
+          </div>
+        <div>{{ item.roleName }}</div>
+        </div>
+        <p-table *ngIf="role === item.userId" [value]="item.members"
+          styleClass="p-datatable-sm p-datatable-striped p-datatable-gridlines">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>#</th>
+              <th>Role Members</th>
+              <th>Active From</th>
+              <th>Expire On</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product let-i="rowIndex">
+            <tr>
+              <td>{{i+1}}</td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.fromDate }}</td>
+              <td>{{ product.toDate }}</td>
+              <td>
+                <!-- <button pButton type="button" icon="pi pi-pencil" title="Edit" class="remove-btn"
+                  (click)="editDelegationUser(product)" [disabled]="product.delegateId===user.EmpNo"></button> -->
+                <button pButton type="button" icon="pi pi-times" title="Remove"
+                  [disabled]="product.delegateId===user.EmpNo" class="remove-btn" (click)="confirm(product)"></button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
     </div>
   </div>
   <div class="ui-g-6 ui-md-6 p-0">
