@@ -47,8 +47,6 @@ export class ArchiveComponent implements OnInit, OnDestroy {
     { field: 'senderName', header: 'Sender Name', hidden: true },
     { field: 'recipientName', header: 'Recipient Name', hidden: true },
     { field: 'wfCreatorName', header: 'Created By', hidden: true },
-    { field: 'workitemId', header: 'workitemId', hidden: true },
-    { field: 'sentitemId', header: 'sentitemId', hidden: true },
     { field: 'instructions', header: 'Instructions', hidden: true },
     { field: 'deadline', header: 'Deadline', hidden: true, sortField: 'deadline2' },
     { field: 'reminder', header: 'Reminder', hidden: true, sortField: 'reminder2' }
