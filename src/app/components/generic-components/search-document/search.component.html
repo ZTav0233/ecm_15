@@ -11,13 +11,12 @@
                 <label>Search Text:</label>
               </div>
               <div class="ui-g-2">
-                <p-dropdown [options]="data.matchTypes" [(ngModel)]="data.model.contentSearch.oper" 
+                <p-dropdown [options]="data.matchTypes" [(ngModel)]="data.model.contentSearch.oper"
                   name="oper"></p-dropdown>
               </div>
               <div class="ui-g-7">
                 <span class="md-inputfield">
-                  <input type="text" [style]="{'width':'480px'}" pInputText
-                    (keyup)="validateStopWord($event,'0')"
+                  <input type="text" [style]="{'width':'480px'}" pInputText (keyup)="validateStopWord($event,'0')"
                     [(ngModel)]="data.model.contentSearch.mvalues[0]" name="query">
                 </span>
               </div>
@@ -29,8 +28,8 @@
                 </div>
                 <div class="ui-g-3">
                   <p-dropdown [options]="data.documentClasses" [filter]="true"
-                    [(ngModel)]="data.model.selectedDocumentClass"  name="matchType"
-                    [disabled]="selectedSearch" (onChange)="switchDocumentClass()"></p-dropdown>
+                    [(ngModel)]="data.model.selectedDocumentClass" name="matchType" [disabled]="selectedSearch"
+                    (onChange)="switchDocumentClass()"></p-dropdown>
                 </div>
                 <div class="ui-g-2">
                   <label class="pull-right">{{data.isCurrent ? 'Current Version' : 'All Versions'}}</label>
@@ -44,7 +43,7 @@
                   <label>Maximum result limit</label>
                 </div>
                 <div style="display: none" class="ui-g-1">
-                  <p-spinner size="30" [(ngModel)]="data.maxRowLimit" [ngModelOptions]="{standalone: true}" 
+                  <p-spinner size="30" [(ngModel)]="data.maxRowLimit" [ngModelOptions]="{standalone: true}"
                     [disabled]="!!(data.model.contentSearch.mvalues[0] && data.model.contentSearch.mvalues[0].length>0)">
                   </p-spinner>
                 </div>
@@ -53,13 +52,13 @@
                 <div class="ui-g-6" *ngFor="let dynamicProp of dynamicProps;let i=index;">
                   <div class="ui-g-4" [ngClass]="{'red-back': dynamicProp.selectedOption.symName === 'DateCreated'}">
                     <p-dropdown *ngIf="dynamicProp.selectedOption.symName !== 'DateCreated'"
-                      [options]="dynamicProp.options" [(ngModel)]="dynamicProp.selectedOption" 
-                      name="{{i}}f" (onChange)="propChanged(i)"></p-dropdown>
+                      [options]="dynamicProp.options" [(ngModel)]="dynamicProp.selectedOption" name="{{i}}f"
+                      (onChange)="propChanged(i)"></p-dropdown>
                     <label *ngIf="dynamicProp.selectedOption.symName === 'DateCreated'">Created Date</label>
                   </div>
                   <div class="ui-g-2">
                     <p-dropdown [options]="dynamicProp.selectedOption.operFields"
-                      [(ngModel)]="dynamicProp.selectedOption.oper"  class="p-dropdownarrow-lg "
+                      [(ngModel)]="dynamicProp.selectedOption.oper" class="p-dropdownarrow-lg "
                       (onChange)="operChanged(dynamicProp)" name="{{i}}o"></p-dropdown>
                   </div>
                   <ng-container
@@ -85,17 +84,16 @@
                     *ngIf="dynamicProp.selectedOption && dynamicProp.selectedOption.dtype.toLowerCase()=='date' && dynamicProp.selectedOption.symName==='DateCreated'"
                     class="form-group">
                     <div class="ui-g-3">
-                      <p-calendar  [required]="true" [attr.required]="true" placeholder="From"
-                        dateFormat="dd-mm-yy" [showIcon]="true" [(ngModel)]="dynamicProp.mvalues[0]"
-                        [readonlyInput]="true" (onClearClick)="dynamicProp.mvalues[1]=null"
-                        [name]="dynamicProp.selectedOption.symName" (onSelect)="fromDateChangedCreated(dynamicProp)"
-                        [minDate]="minFromCreated" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030"
-                        [showButtonBar]="true">
+                      <p-calendar [required]="true" [attr.required]="true" placeholder="From" dateFormat="dd-mm-yy"
+                        [showIcon]="true" [(ngModel)]="dynamicProp.mvalues[0]" [readonlyInput]="true"
+                        (onClearClick)="dynamicProp.mvalues[1]=null" [name]="dynamicProp.selectedOption.symName"
+                        (onSelect)="fromDateChangedCreated(dynamicProp)" [minDate]="minFromCreated"
+                        [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showButtonBar]="true">
                       </p-calendar>
                     </div>
                     <div class="ui-g-2">
-                      <p-calendar  [required]="true" [attr.required]="true" placeholder="To"
-                        dateFormat="dd-mm-yy" [disabled]="!dynamicProp.mvalues[0] || dynamicProp.selectedOption.oper === '>='
+                      <p-calendar [required]="true" [attr.required]="true" placeholder="To" dateFormat="dd-mm-yy"
+                        [disabled]="!dynamicProp.mvalues[0] || dynamicProp.selectedOption.oper === '>='
                      || dynamicProp.selectedOption.oper === '<=' || dynamicProp.selectedOption.oper === 'is equal to' "
                         (onFocus)="onFocusToDate(dynamicProp)" [readonlyInput]="true" [monthNavigator]="true"
                         [yearNavigator]="true" yearRange="1900:2030" (onSelect)="toDateChangedCreated(dynamicProp)"
@@ -124,7 +122,8 @@
                           [(ngModel)]="dynamicProp.mvalues[0] " name="{{'ab'+i}}"
                           (keyup)="dynamicProp.selectedOption.symName==='DocumentTitle' && (!data.model.contentSearch.mvalues[0] ||  (data.model.contentSearch.mvalues[0] 
                           && data.model.contentSearch.mvalues[0].trim().length===0))?validateStopWordForTitle($event,'0'):validateDateField()">
-                        <span title="Click Here To Select" class="close close-right close-border" style="background-color: gainsboro;"
+                        <span title="Click Here To Select" class="close close-right close-border"
+                          style="background-color: gainsboro;"
                           *ngIf="(!dynamicProp.mvalues[0] && !(excepClassNames && excepClassNames.indexOf(data.model.selectedDocumentClass.etName.toLowerCase())> -1) 
                           && (dynamicProp.selectedOption.symName.toLowerCase()==='documentfrom' || dynamicProp.selectedOption.symName.toLowerCase()==='documentto'))"
                           (click)="openListDialog(dynamicProp.selectedOption.symName)">...</span>
@@ -151,7 +150,7 @@
                     class="form-group">
                     <div class="ui-g-5">
                       <p-dropdown [options]="dynamicProp.selectedOption.lookups" placeholder="Select"
-                        [(ngModel)]="dynamicProp.mvalues[0]"  (click)="onClickLookup(dynamicProp.selectedOption)" 
+                        [(ngModel)]="dynamicProp.mvalues[0]" (click)="onClickLookup(dynamicProp.selectedOption)"
                         name="{{dynamicProp.selectedOption.symName}}" [filter]="true" filterBy="label,value.name">
                       </p-dropdown>
                     </div>
@@ -167,27 +166,25 @@
                     <button pButton type="button" label="Add More" class="pull-left" (click)="addDynamicProp()"
                       [disabled]="(dynamicProps.length>0 && dynamicProps[0].options && dynamicProps[0].options.length===1) "></button>
                   </div>
-                </div>
 
-              </div>
-            </ng-container>
-            <tr>
-              <td colspan="9" align="right">
-                <button [disabled]="(!data.model.contentSearch.mvalues[0] && searchIsEmpty()) || !searchButtonDisabledStopWord
+                </div>
+                <div style="display: inline-flex; width: 100%;">
+                  <button [disabled]="(!data.model.contentSearch.mvalues[0] && searchIsEmpty()) || !searchButtonDisabledStopWord
                         || isSimpleSearch && !(data.model.contentSearch.mvalues[0] && data.model.contentSearch.mvalues[0].length>2)
                         || !data.maxRowLimit || data.maxRowLimit<=0 || searchForm.form.invalid || !searchForm.valid"
-                  pButton label="Search" class="pull-right" style="margin-bottom:10px;width:auto"></button>
-                <button *ngIf="showSavedSearches" pButton type="button" [label]="selectedSearch?'Update':'Save'"
-                  class="pull-right m-r-md" style="margin-bottom:10px;width:auto" (click)="initSaveSearch()" [disabled]="(!data.model.contentSearch.mvalues[0] && searchIsEmpty())
+                    pButton label="Search" style="margin-bottom:10px;width:auto"></button>
+                  <button *ngIf="showSavedSearches" pButton type="button" [label]="selectedSearch?'Update':'Save'"
+                    class=" m-r-md" style="margin-bottom:10px;width:auto" (click)="initSaveSearch()" [disabled]="(!data.model.contentSearch.mvalues[0] && searchIsEmpty())
                         || !data.maxRowLimit || data.maxRowLimit<=0"></button>
-                <button *ngIf="showSavedSearches && selectedSearch" pButton type="button" label="Reset To Default"
-                  class="pull-right m-r-md" style="margin-bottom:10px;width:auto" (click)="resetToDefault()"></button>
-                <button pButton (click)="clearSearch();" type="button" label="Clear" class="pull-right m-r-md"
-                  style="margin-bottom:10px;width:auto"
-                  [disabled]="(!data.model.contentSearch.mvalues[0] && searchIsEmpty())"></button>
-              </td>
-              <p-messages [(value)]="msgs"></p-messages>
-            </tr>
+                  <button *ngIf="showSavedSearches && selectedSearch" pButton type="button" label="Reset To Default"
+                    class=" m-r-md" style="margin-bottom:10px;width:auto" (click)="resetToDefault()"></button>
+                  <button pButton (click)="clearSearch();" type="button" label="Clear" class=" m-r-md"
+                    style="margin-bottom:10px;margin-right:5px;width:auto"
+                    [disabled]="(!data.model.contentSearch.mvalues[0] && searchIsEmpty())"></button>
+                  <p-messages style="display: inline;" [(value)]="msgs"></p-messages>
+                </div>
+              </div>
+            </ng-container>
           </div>
 
         </div>
@@ -215,8 +212,8 @@
                     <td align="right" class="action-btn-group" style="width: 105px !important;"
                       [ngClass]="{'ui-state-highlight':search===selectedSearch}">
                       <span class="action-btn-group-sm">
-                        <button pButton type="button" icon="fa fa-fw ui-icon-clear" (click)="removeSearch(search)" title="Delete" style="padding: 3px !important;"
-                          class="remove-btn v-m pull-right"></button>
+                        <button pButton type="button" icon="fa fa-fw ui-icon-clear" (click)="removeSearch(search)"
+                          title="Delete" style="padding: 3px !important;" class="remove-btn v-m pull-right"></button>
                       </span>
                     </td>
                   </tr>
@@ -238,7 +235,7 @@
 </div>
 
 <p-dialog styleClass="p-0" appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showSaveSearchModal"
-   [style]="{ width: '650px' }" (onHide)="onSaveSearchModalHide()">
+  [style]="{ width: '650px' }" (onHide)="onSaveSearchModalHide()">
   <p-header>
     Show Saved Searches
   </p-header>
@@ -261,38 +258,45 @@
     <button pButton class="pull-right" type="button" label="Cancel" (click)="showSaveSearchModal=false"></button>
   </p-footer>
 </p-dialog>
-<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showDesignation" width="550" height="550">
+
+<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showDesignation"
+  [style]="{ width: '50vw', height: '800px' }">
   <p-header> Select {{docToOrFrom}}</p-header>
   <div class="ui-g-12 ui-md-12">
-    <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+    <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none; background: #607D8B;">
       <!-- global filter -->
       <div class="ui-g">
         <div class="ui-g-10 p-0">
           <table>
             <tr>
-              <td><i class="fa fa-search v-m m-r-md"></i></td>
+              <td><i style="color: white;" class="fa fa-fw ui-icon-search v-m m-r-md"></i></td>
               <td>
-                <input #gb type="text" pInputText size="50" placeholder="Search Designation" style="color: #ffffff"
-                  class="v-m p-0">
+                <input #gb type="text" pInputText size="50" placeholder="Search Designation"
+                  style="color: #ffffff; background:#607D8B ;" class="v-m p-0"
+                  (input)="applyFilterGlobal($event, 'contains')">
               </td>
+
             </tr>
           </table>
         </div>
       </div>
     </div>
-    <!-- <p-dataTable [style]="{'max-height':'450px','min-height':'450px'}" selectionMode="single" #dt [globalFilter]="gb"
-      [value]="designation" [lazy]="false" [rows]="10" [paginator]="true"
-      (onRowClick)="onSelectionChange($event.data,docToOrFrom);showDesignation=false" [totalRecords]="totalRecords"
-      [responsive]="true" (onLazyLoad)="loadLazy($event,dt)" [selection]="selectedDesignation"
-      [rowStyleClass]="getEmptyRow">
-      <p-column field="value" header=""></p-column>
-    </p-dataTable> -->
-    <!--  <p-table selectionMode="single" #dt [globalFilterFields]!="gb" [style]="{'max-height':'450px','min-height':'450px'}"
-      [value]="designation" [lazy]="false" [rows]="10" [paginator]="true"
-      (onRowClick)="onSelectionChange($event,docToOrFrom);showDesignation=false" [totalRecords]="totalRecords"
-      [responsive]="true" (onLazyLoad)="loadLazy($event,dt)" [selection]="selectedDesignation">
-      <p-columnFilter field="value" header=""></p-columnFilter>
-    </p-table> -->
+
+
+    <p-table [value]="designation" styleClass="p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="9" #dt
+      (onLazyLoad)="loadLazy($event,dt)" [globalFilterFields]="['value']">
+      <ng-template pTemplate="header">
+        <tr>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr>
+          <td (click)="onSelectionChange(product,docToOrFrom);showDesignation=false">{{product.value}}</td>
+
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
 </p-dialog>
 <p-confirmDialog key="savedSearchRemoveConfirmation" [appendTo]="'body'"></p-confirmDialog>

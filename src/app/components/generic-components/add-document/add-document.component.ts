@@ -2319,7 +2319,6 @@ Unl
     else {
       this.newDocumentForm.get('DocumentFrom').setValue(this.desigVal);
     }
-    this.desigVal=null
   }
   applyFilterGlobal($event, stringVal) {
     console.log(($event.target as HTMLInputElement).value);

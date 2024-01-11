@@ -28,6 +28,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './search.component.html'
 })
 export class SearchDocumentComponent implements OnInit, OnDestroy {
+  @ViewChild('dt') dataTable!: Table;
   //private savedSearches: any[] = [];
   public showSaveSearchModal = false;
   saveSearchObj: any = {};
@@ -169,6 +170,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
       this.assignDesignationData(desigData);
     }
   }
+ 
 
   assignDesignationData(desigData) {
     if (desigData && desigData.length > 0) {
@@ -197,7 +199,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   
 
   openListDialog(detail) {
-    this.namelist.onFilterKeyup('', 'data', 'contains');
+    // this.namelist.onFilterKeyup('', 'data', 'contains');
     this.showDesignation = true;
     this.searchInput.nativeElement.value = '';
     this.selectedDesignation = [];
@@ -207,6 +209,13 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
     else {
       this.docToOrFrom = 'Document From';
     }
+  }
+  applyFilterGlobal($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value);
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
   }
 
   onSelectionChange(val, input) {

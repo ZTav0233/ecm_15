@@ -1,24 +1,43 @@
 :host ::ng-deep .ui-g-12 {
     padding: 0.5em !important;
 }
+
 :host ::ng-deep .ui-g-2 {
     padding: 0.5em !important;
 }
+
 :host ::ng-deep .ui-g-1 {
     padding: 0.5em !important;
 }
+
 :host ::ng-deep .ui-g-3 {
     padding: 0.5em !important;
 }
+
 :host ::ng-deep .ui-g-4 {
     padding: 0.5em !important;
 }
+
 :host ::ng-deep .ui-g-5 {
     padding: 0.5em !important;
 }
+
 :host ::ng-deep .ui-g-6 {
     padding: 0.5em !important;
 }
+
 :host ::ng-deep .ui-g-7 {
     padding: 0.5em !important;
+}
+
+:host ::ng-deep .p-message-wrapper {
+    padding: 0;
+}
+
+:host ::ng-deep .p-message.p-message-warn {
+    margin: 0;
+}
+
+:host ::ng-deep .p-messages.p-component {
+    padding: 0 !important;
 }

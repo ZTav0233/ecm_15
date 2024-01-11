@@ -32,10 +32,7 @@
           class="pull-right m-5">
           Total Items: {{totalCount}}
         </div> -->
-        <button style="width: 170px" [disabled]="isLoadButtonDisabled"
-          *ngIf="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')" pButton
-          (click)="loadMoreSearchData();" icon="load-more" type="button" label="Load More Results"
-          class="bold pull-right m-r-md bg-black"></button>
+
       </div>
     </div>
   </div>
@@ -301,12 +298,12 @@
       [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
       [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
       [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt [paginator]="true"
-      [globalFilterFields]="['subject','fileName','modifier']">
+      [globalFilterFields]="['subject','fileName','modifier','title','name','fileName']">
       <ng-template pTemplate="caption">
         <div style="display: flex; justify-content: space-between;">
           <div>
             <p-columnFilter
-              *ngIf="activePage!='favoriteFolders'&&activePage!='browse'&&activePage!='favorites'&&activePage!='recents'&&activePage!='teamshared'"
+              *ngIf="activePage!='favoriteFolders'&&activePage!='browse'&&activePage!='favorites'&&activePage!='recents'&&activePage!='teamshared' &&activePage!='advanceSearch'"
               type="text" placeholder="Quick Search" field="subject"></p-columnFilter>
             <input class="quickSearch"
               *ngIf="activePage=='favoriteFolders'||activePage=='browse'||activePage=='favorites'||activePage=='recents'||activePage=='teamshared'"
@@ -319,6 +316,10 @@
             </div>
           </div>
           <div style="display: flex;align-items: center;">
+            <button style="width: 170px;color: white !important;" [disabled]="isLoadButtonDisabled"
+              *ngIf="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')" pButton
+              (click)="loadMoreSearchData();" icon="load-more" type="button" label="Load More Results"
+              class="reload-button bold pull-right m-r-md bg-black"></button>
             <p-multiSelect (onChange)="onChange($event)" [options]="colHeaders" [(ngModel)]="cols" optionLabel="header"
               selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"
               style="margin-right: 45px"></p-multiSelect>
@@ -387,8 +388,9 @@
               [src]="product.isMemo ? 'assets/images/icons/note24x.png' : 'assets/images/icons/note24xbw.png'"
               class="flag-img-dim">
           </td>
-          <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" class="subjectMinWidth txt" [ngClass]="{'text-bold':product.new}"
-            (click)="goToTaskDetails($event,'hyperlink',product)">{{ product.subject }}</td>
+          <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" class="subjectMinWidth txt"
+            [ngClass]="{'text-bold':product.new}" (click)="goToTaskDetails($event,'hyperlink',product)">{{
+            product.subject }}</td>
           <td *ngIf="showInfoIcon"> <span *ngIf="product.format">
               <span class="v-m"></span>
               <img src="assets/images/icons/file-pdf-o.png" *ngIf="product.format.indexOf('pdf')!==-1">
@@ -641,8 +643,9 @@
               [src]="product.isMemo ? 'assets/images/icons/note24x.png' : 'assets/images/icons/note24xbw.png'"
               class="flag-img-dim">
           </td>
-          <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" class="subjectMinWidth txt" [ngClass]="{'text-bold':product.new}"
-            (click)="goToTaskDetails($event,'hyperlink',product)">{{ product.subject }}</td>
+          <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" class="subjectMinWidth txt"
+            [ngClass]="{'text-bold':product.new}" (click)="goToTaskDetails($event,'hyperlink',product)">{{
+            product.subject }}</td>
           <td *ngIf="showInfoIcon"> {{ product.name }}</td>
           <td *ngFor="let col of columns">{{ product[col.field] }}</td>
           <td *ngIf="activePage==='sent'">

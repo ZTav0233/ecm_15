@@ -181,6 +181,8 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
   applyFilterGlobal($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value);
+    
     if(($event.target as HTMLInputElement).value.length>2){
       this.tableData = this.tableData.filter(entry => {
         return entry.fileName.toLowerCase().match(($event.target as HTMLInputElement).value.toLowerCase())

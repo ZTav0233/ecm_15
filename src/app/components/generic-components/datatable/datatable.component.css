@@ -41,3 +41,6 @@ input.quickSearch::placeholder {
     color: #bbb !important;
 }
 
+:host::ng-deep .p-button-icon .p-button-icon-left .load-more{
+    margin-top: -10px !important;
+}

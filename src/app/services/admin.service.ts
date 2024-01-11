@@ -234,7 +234,7 @@ export class AdminService {
 
   getDesignationValues(): any {
     const url = `${global.base_url}AdministrationService/getDesignationValues?sysdatetime=${this.coreService.getSysTimeStamp()}`;
-    return this.http.get(url);
+    return this.http.get('./assets/data/getDesignationValues.json');
   }
   getclassDefinitions(): any {
     const url = `${global.sectool_url}SecurityTool/classDefinitions?sysdatetime=${this.coreService.getSysTimeStamp()}`;
