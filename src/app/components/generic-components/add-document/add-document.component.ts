@@ -1295,8 +1295,8 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
         rejectVisible: true,
         accept: () => {
           this.uploadedFiles = '';
-          Dynamsoft.WebTwainEnv.Load();
-          Dynamsoft.WebTwainEnv.RegisterEvent("OnWebTwainReady", () => {
+          Dynamsoft.DWT.Load();
+          Dynamsoft.DWT.RegisterEvent("OnWebTwainReady", () => {
             this.Dynamsoft_OnReady()
           });
           this.pageonload();
@@ -1306,8 +1306,8 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
         }
       });
     } else {
-      Dynamsoft.WebTwainEnv.Load();
-      Dynamsoft.WebTwainEnv.RegisterEvent("OnWebTwainReady", () => {
+      Dynamsoft.DWT.Load();
+      Dynamsoft.DWT.RegisterEvent("OnWebTwainReady", () => {
         this.Dynamsoft_OnReady()
       });
       this.pageonload();
@@ -1404,7 +1404,7 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
     this.displayScannerSettings = false;
     this.docFromScanner = undefined;
     if (typeof Dynamsoft !== 'undefined') {
-      Dynamsoft.WebTwainEnv.Unload();
+      Dynamsoft.DWT.Unload();
     }
   }
 
@@ -1554,7 +1554,7 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
     }
     return false;
   }
-
+Unl
   closetblLoadImage_onclick(): boolean {
     document.getElementById("tblLoadImage").style.visibility = "hidden";
     document.getElementById("Resolution").style.visibility = "visible";
@@ -1569,7 +1569,7 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
     //   this.EnumDWT_ConvertMode = EnumDWT_ConverMode;
     // }
     let liNoScanner = document.getElementById("pNoScanner");
-    this.DWObject = Dynamsoft.WebTwainEnv.GetWebTwain('dwtcontrolContainer');
+    this.DWObject = Dynamsoft.DWT.GetWebTwain('dwtcontrolContainer');
     // If the ErrorCode is 0, it means everything is fine for the control. It is fully loaded.
     if (this.DWObject) {
       if (this.DWObject.ErrorCode == 0) {
