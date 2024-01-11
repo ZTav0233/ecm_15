@@ -322,11 +322,6 @@
             <p-multiSelect (onChange)="onChange($event)" [options]="colHeaders" [(ngModel)]="cols" optionLabel="header"
               selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"
               style="margin-right: 45px"></p-multiSelect>
-            <!-- <div style="color: white;"
-              *ngIf="router.url.includes('draft') && !(router.url.includes('draftLaunch')) && totalCount>1"
-              class="pull-right m-5">
-              Total Items: {{totalCount}}
-            </div> -->
             <button class="autorenew" style="padding: 0;"
               [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
               pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"></button>

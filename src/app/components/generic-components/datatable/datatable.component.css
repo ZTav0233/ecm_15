@@ -25,12 +25,19 @@ td img {
     opacity: 1;
     /* Firefox */
 }
-:host ::ng-deep .p-element .p-fluid .p-inputtext{
+
+:host ::ng-deep .p-element .p-fluid .p-inputtext {
     background-color: #607d8b;
     border: none;
     border-bottom: 1px solid white;
-    color :white
+    color: white
 }
-:host ::ng-deep .p-element .p-fluid .p-inputtext::placeholder{
-    color: white !important;
+
+:host ::ng-deep .p-element .p-fluid .p-inputtext::placeholder {
+    color: #bbb !important;
 }
+
+input.quickSearch::placeholder {
+    color: #bbb !important;
+}
+

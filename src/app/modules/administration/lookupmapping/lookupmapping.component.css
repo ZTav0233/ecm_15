@@ -7,7 +7,7 @@
 }
 
 .quickSearch::placeholder {
-    color: white !important;
+    color: #bbb !important;
     opacity: 1;
     /* Firefox */
 }

@@ -271,7 +271,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
       var filter:any=document.getElementsByClassName('p-element p-fluid');
       var inputFIlter:any=filter[0].getElementsByTagName('input')[0];
       inputFIlter.placeholder='Subject'
-      // inputFIlter.style.color ='white'
+      // inputFIlter.style.color ='blue'
     }, 1000);
     
     console.log(this.activePage);
