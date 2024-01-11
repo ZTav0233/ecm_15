@@ -1334,7 +1334,8 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
     d.minDate = todatemin;
   }
 
-  validateStopWord(e, f) {
+  validateStopWord(ev, f) {
+    let e=ev.target.value
     this.msgs = [];
     let regex = /[\u0600-\u06FF\u0750-\u077F]/;
     let method = this.isNotSingleWord(e.trim());
@@ -1378,7 +1379,8 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
     return this.searchButtonDisabledStopWord;
   }
 
-  validateStopWordForTitle(e, f) {
+  validateStopWordForTitle(ev, f) {
+    let e=ev.target.value
     this.msgs = [];
     let regex = /[\u0600-\u06FF\u0750-\u077F]/;
     let method = this.isNotSingleWord(e.trim());

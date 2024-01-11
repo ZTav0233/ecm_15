@@ -36,6 +36,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
 {
+  @ViewChild('dt') dataTable!: Table;
   @Output() onAddSuccess = new EventEmitter();
   private subscriptions: Subscription[] = [];
   @Input() public assignedPath: any;
@@ -70,6 +71,7 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   public ecmNo;
   results: any;
   folderIdFromUrl: any;
+  public desigVal:any
   index: any;
   public allowedExtensions = [".msg", ".csv", ".pdf", ".doc", ".zip", ".docx", ".xls", ".xlsx", ".msg", ".ppt", ".pptx", ".dib", ".webp",
     ".jpeg", ".svgz", ".gif", ".jpg", ".ico", ".png", ".svg", ".tif", ".xbm", ".bmp", ".jfif", ".pjpeg", ".pjp", ".tiff", ".txt",".doc",".bin",".pdf",".ppt",".rtf",".xls",".xla",".xlsb",
@@ -139,7 +141,9 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   }
 
   openListDialog(detail) {
-    this.namelist.onFilterKeyup('', 'data', 'contains');
+    console.log(this.namelist);
+    
+    // this.namelist.onFilterKeyup('', 'data', 'contains');
     this.searchInput.nativeElement.value = '';
     this.showDesignation = true;
     this.selectedDesignation = [];
@@ -152,11 +156,14 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   }
 
   onSelectionChange(val, input) {
+    console.log(val,input);
+    console.log(this.newDocumentForm.get('DocumentTo'));
+    
     if (input === 'Document To') {
-      this.newDocumentForm.get('DocumentTo').setValue(val.data.value);
+      this.newDocumentForm.get('DocumentTo').setValue(val.value);
     }
     else {
-      this.newDocumentForm.get('DocumentFrom').setValue(val.data.value);
+      this.newDocumentForm.get('DocumentFrom').setValue(val.value);
     }
   }
 
@@ -245,6 +252,8 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
       this.designation = this.datasource//.slice(0, 10);
 
     }
+    console.log(this.designation);
+    
 
   }
 
@@ -2302,6 +2311,24 @@ Unl
   isNumber(event){
     return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57
   }
+  addValueAsText(input) {
+    console.log("desigVal :: " + this.desigVal);
+    if (input === 'Document To') {
+      this.newDocumentForm.get('DocumentTo').setValue(this.desigVal);
+    }
+    else {
+      this.newDocumentForm.get('DocumentFrom').setValue(this.desigVal);
+    }
+    this.desigVal=null
+  }
+  applyFilterGlobal($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value);
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
+  
 }
 
 declare var Dynamsoft;
@@ -2315,3 +2342,4 @@ export interface IMyMarkedDates {
   dates: Array<Date>;
   color: string;
 }
+

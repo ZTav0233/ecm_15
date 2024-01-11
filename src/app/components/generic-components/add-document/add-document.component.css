@@ -876,4 +876,6 @@ select#source {
   opacity: 0.5;
   pointer-events: none;
 }
-
+.box-shadow-button {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adjust the values according to your design */
+}
