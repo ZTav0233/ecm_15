@@ -65,7 +65,7 @@ export class MemoService {
         return this.http.get(url);
     }
     getMemoRemarksById(memoId:any){
-        console.log(memoId)
+       // console.log(memoId)
         const url = `${global.base_url}MemoService/getMemoRemarks?mId=${ie11_polyfill(memoId)}&sysdatetime=${this.coreService.getSysTimeStamp()}`
         return this.http.get(url);
     }
@@ -78,7 +78,7 @@ export class MemoService {
         return this.http.get(url,);
     }
     getMemoLockStatus(mId:string,wId:String,rType:any,uType:any,uId:any){
-        console.log("getMemoLockStatus" + mId,wId,rType,uType,uId)
+        //console.log("getMemoLockStatus" + mId,wId,rType,uType,uId)
         const user = this.us.getCurrentUser();
         const url =`${global.base_url}MemoService/getMemoLockStatus?mId=${ie11_polyfill(JSON.stringify(mId))}&uId=${ie11_polyfill(JSON.stringify(uId))}&wId=${ie11_polyfill(JSON.stringify(wId))}&rType=${ie11_polyfill(rType)}&uType=${ie11_polyfill(uType)}&sysdatetime=${this.coreService.getSysTimeStamp()}`
         return this.http.get(url);
@@ -90,13 +90,13 @@ export class MemoService {
         return this.http.get(url, { responseType: 'text' });
     }
     updateMemoDate(mId:string,mDate:String){
-        console.log("updateMemoDate" + mId,mDate)
+        //console.log("updateMemoDate" + mId,mDate)
         //const user = this.us.getCurrentUser();
         const url = `${global.base_url}MemoService/updateMemoDate?mId=${ie11_polyfill(JSON.stringify(mId))}&mDate=${ie11_polyfill(mDate)}&sysdatetime=${this.coreService.getSysTimeStamp()}`
         return this.http.get(url, { responseType: 'text' });
     }
     lockMemo(mId:string,wId:String,rType:any,uType:any,uId:any){
-        console.log("LockMemo" + mId,wId,rType,uType,uId)
+        //console.log("LockMemo" + mId,wId,rType,uType,uId)
         const user = this.us.getCurrentUser();
         const url = `${global.base_url}MemoService/lockMemo?mId=${ie11_polyfill(JSON.stringify(mId))}&uId=${ie11_polyfill(JSON.stringify(uId))}&wId=${ie11_polyfill(JSON.stringify(wId))}&rType=${ie11_polyfill(rType)}&uType=${ie11_polyfill(uType)}&sysdatetime=${this.coreService.getSysTimeStamp()}`
         return this.http.get(url, { responseType: 'text' });
@@ -104,7 +104,7 @@ export class MemoService {
 
         //Added on 27-Dec-2023
         getMemoRefSettingsByRole(rId:string){
-            console.log("getMemoRefSettingsByRole :: " + rId)
+            //console.log("getMemoRefSettingsByRole :: " + rId)
             const user = this.us.getCurrentUser();
             const url =`${global.base_url}MemoService/getMemoRefSettingsByRole?rId=${ie11_polyfill(JSON.stringify(rId))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
             return this.http.get(url);
@@ -118,15 +118,21 @@ export class MemoService {
             return this.http.get(url, { responseType: 'text' });
         }
         getMemoRefValuesByRole(rId:string){
-            console.log("getMemoRefValuesByRole :: " + rId)
+            //console.log("getMemoRefValuesByRole :: " + rId)
             const user = this.us.getCurrentUser();
             const url =`${global.base_url}MemoService/getMemoRefValuesByRole?rId=${ie11_polyfill(JSON.stringify(rId))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
             return this.http.get(url);
         }
         updateMemoRefCounter(rId:string, mRef:string){
-            console.log("updateMemoRefUIDCounter :: " + rId)
+            //console.log("updateMemoRefUIDCounter :: " + rId)
             const user = this.us.getCurrentUser();
             const url =`${global.base_url}MemoService/updateMemoRefCounter?rId=${ie11_polyfill(JSON.stringify(rId))}&mRef=${ie11_polyfill(JSON.stringify(mRef))}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
+            return this.http.get(url, { responseType: 'text' });
+        }
+        validateMemoRefNo(mRef:string){
+            //console.log("validateMemoRefNo :: " + mRef)
+            const user = this.us.getCurrentUser();
+            const url =`${global.base_url}MemoService/validateMemoRefNo?mRef=${ie11_polyfill(mRef)}&sysdatetime=${this.coreService.getSysTimeStamp()}`;
             return this.http.get(url, { responseType: 'text' });
         }
 }

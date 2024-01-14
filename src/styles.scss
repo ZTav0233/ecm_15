@@ -160,6 +160,14 @@ body {
     content: "warning";
 }
 
+.ui-icon-refresh::before {
+    content: "refresh";
+}
+
+.ui-icon-open-in-new::before {
+    content: "open_in_new";
+}
+
 .ui-icon-record-voice-over::before {
     content: "record_voice_over";
 }
@@ -538,6 +546,11 @@ body .p-datatable .p-datatable-thead>tr>th {
     text-align: center !important;
 }
 
+body .action-btn-group-sm .p-button .p-button-label {
+    line-height: 2em !important;
+    min-width: 1em !important;
+  }
+
 .autorenew {
     position: absolute !important;
     right: 5px !important;
@@ -573,6 +586,20 @@ body .p-datatable .p-datatable-thead>tr>th {
         text-align: center !important;
     }
 }
+
+.ui-g.form-group>div {
+    padding: 0.75em !important;
+}
+
+button.p-element.v-m.p-button.p-component.ng-star-inserted {
+    line-height: 2em !important;
+    min-width: 1em !important;
+    font-size: .85em !important;
+  }
+
+.p-autocomplete {
+    width: 100% !important;
+  }
 
 .p-scroller .ui-g-12,
 .p-scroller .ui-g-10 .p-scroller .ui-g {

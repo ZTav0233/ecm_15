@@ -6,7 +6,8 @@ import {
   HostListener,
   ViewChildren,
   QueryList,
-  Input
+  Input,
+  OnChanges
 } from '@angular/core';
 import { BreadcrumbService } from "../../../services/breadcrumb.service";
 // service
@@ -300,6 +301,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   signUser2: any = "";
   memoRoleId: any = 0;
   memoRefSetId: any = 0;
+  isMemoRefValid: boolean = false;
   isMemoReferenceList: boolean = false;
   memoReferenceList: any[] = [];
   public memoRefListData: any[] = [{ 'setid': 0, 'roleId': 1002, 'refNo': 'Test' }];
@@ -940,27 +942,56 @@ export class MemoComponent implements OnInit, OnDestroy {
     }
   }
 
+  resetMemoRefControl(){
+    let listLen = this.memoReferenceList?this.memoReferenceList.length:0;
+    console.log("resetMemoRefControl Len :: " +listLen);
+    if(this.memoReferenceList && this.memoReferenceList.length > 0){
+      this.isMemoReferenceList=true;
+      let firstRefVal = this.memoReferenceList[0].value;
+      this.launch.workflow.model.refNo = firstRefVal;
+      this.memoReferenceNo = firstRefVal;
+      this.validateData(firstRefVal, 0);
+    }
+    else{
+      this.isMemoReferenceList=false;
+      //if()
+      this.getMemoReferenceListValues('0');
+    }
+  }
+
   getMemoReferenceListValues(isEdit, refNo?){
+    console.log("getMemoReferenceListValues");
     this.memoRoleId = this.getMemoRoleId();
-      if(this.memoRoleId > 0)
-      {
-        this.memoReferenceList = [];
-        this.memoRefListData= [];
-        if(isEdit == '1')
-          this.memoReferenceList.push({ label: refNo , value: refNo });
-        this.busy = true;
-        this.memoService.getMemoRefValuesByRole(this.memoRoleId).subscribe((res: any) => {
-          this.busy = false;
-          res.map(d => {
-              this.memoReferenceList.push({ label: d.refValue , value: d.refValue });
-              this.memoRefListData.push({ 'setId': d.setId, 'roleId': d.roleId, 'refNo': d.refValue });
-          });
+    //if(isEdit === '2')
+      //this.updateMemoReferenceCounter();
+    if(this.memoRoleId > 0)
+    {
+      this.memoReferenceList = [];
+      this.memoRefListData= [];
+      if(isEdit == '1')
+        this.memoReferenceList.push({ label: refNo , value: refNo });
+      this.busy = true;
+      this.memoService.getMemoRefValuesByRole(this.memoRoleId).subscribe((res: any) => {
+        this.busy = false;
+        let isValueExists = false;
+        res.map(d => {
+            isValueExists = true;
+            this.memoReferenceList.push({ label: d.refValue , value: d.refValue });
+            this.memoRefListData.push({ 'setId': d.setId, 'roleId': d.roleId, 'refNo': d.refValue });
+        });
+        if(isValueExists){
           this.memoReferenceList.push({ label: "Enter Manually" , value: "Enter Manually" });
           this.isMemoReferenceList = true;
-        }, err => {
-          this.busy = false;
-        });
-      }
+          let firstRefVal = this.memoReferenceList[0].value;
+          this.launch.workflow.model.refNo = firstRefVal;
+          this.memoReferenceNo = firstRefVal;
+          this.validateData(firstRefVal, 0);
+        }
+          
+      }, err => {
+        this.busy = false;
+      });
+    }
   }
 
   //this.launch.workflow.model.refNo
@@ -1610,7 +1641,7 @@ export class MemoComponent implements OnInit, OnDestroy {
         wiRemarks: ""
       })
       //console.log(this.recipients)
-      this.prepareStepItems();
+      this.prepareStepItems('1');
     }
   }
   addToFromList(role) {
@@ -4759,16 +4790,54 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.memoSubFontSize = event.value;
   }
 
-  storeSelectedMemoRef(event){
-    console.log("storeSelectedMemoRef :: " + event.value);
-    if(event.value === "Enter Manually"){
-      this.memoReferenceList = [];
+  validateMemoRefNo(refNo, iFrom){
+    let bReturn = false;
+    //this.busy = true;
+    this.memoService.validateMemoRefNo(refNo.trim()).subscribe(d => {
+      //this.busy = false;
+      if(d === 'yes'){
+        this.isMemoRefValid = false;
+        //this.memoReferenceNo = '';
+        let msg = "The reference no already exists. Type new to continue"
+          this.growlService.showGrowl({
+            severity: 'error',
+            summary: 'Already exists!', detail: msg
+          });
+      }else{
+        this.isMemoRefValid = true;
+        if(iFrom == '1')
+        {
+          this.storeSelectedMemoRef(refNo);
+        }
+        else{
+          //this.memoReferenceNo = '';
+          //this.launch.workflow.model.refNo = refNo;
+        }
+      }
+    }, (err) => {
+      //this.busy = false;
+    });
+    
+  }
+
+  validateData(refNo, iFrom?){
+    console.log("validateData RefNo :: " + refNo);
+    if(refNo !== null && refNo.length >= 4)
+    {
+      this.validateMemoRefNo(refNo, iFrom);
+    }
+  }
+
+  storeSelectedMemoRef(refNo){
+    console.log("storeSelectedMemoRef :: " + refNo);
+    if(refNo === "Enter Manually"){
+      //this.memoReferenceList = [];
       this.isMemoReferenceList = false;
+      this.launch.workflow.model.refNo = '';
     }
     else{
-      this.memoReferenceNo = event.value;
-      this.launch.workflow.model.refNo = event.value;
-
+      this.memoReferenceNo = refNo;
+      this.launch.workflow.model.refNo = refNo;
       this.memoRefListData.map(d => {
         if(d.refNo === this.memoReferenceNo)
           this.memoRefSetId = d.setId;
@@ -5069,35 +5138,93 @@ export class MemoComponent implements OnInit, OnDestroy {
   storeSelectedFor(event) {
     this.selectedFor = event.value.name
   }
-  previewData() {
-    this.busy = true
-    let data = this.memoData("Preview")
-    if (this.memoType.name == 'Letter' && this.memoLang.name == 'Arabic') {
-      delete data.isDraft
-      //console.log(data)
-    } else if (this.memoType.name == 'Letter') {
-      delete data.isDraft
-      delete data.greeting
-    } else {
-      delete data.isDraft
-      delete data.greeting
-      delete data.designation
-      delete data.address
-      delete data.suffix
-      delete data.letterTo
-    }
 
-    this.memoService.previewMemo(data).subscribe(res => {
-      this.blobToBase64(res).then(res => {
-        this.busy = false
-        this.previewResponseForNewTab = res
-        this.previewResponse = this.transform(res);
-        this.openThePreviewDialog = true;
-        this.openTheDialogPreview = true
-      })
-    }, err => {
-      this.busy = false;
+  finalValidationForMemoRef(routeMethod, isInitial?){
+    let refNo = this.isMemoReferenceList?this.memoReferenceNo:this.launch.workflow.model.refNo;
+    //this.validateMemoRefNo(refNo, 0);
+    this.memoService.validateMemoRefNo(refNo.trim()).subscribe(d => {
+      //this.busy = false;
+      if(d === 'yes'){
+        this.isMemoRefValid = false;
+        //this.memoReferenceNo = '';
+        let msg = "The Reference No# [" + refNo + "] already exists. Refresh or Type new to continue"
+          this.growlService.showGrowl({
+            severity: 'error',
+            summary: 'Already exists!', detail: msg
+          });
+      }else{
+        this.isMemoRefValid = true;
+        console.log("finalValidationForMemoRef isMemoRefValid :: " + this.isMemoRefValid);
+        if(this.isMemoRefValid && this.isMemoRefValid === true){
+          switch (routeMethod) {
+            case 'previewData':
+              this.previewData();
+              break;
+            case 'saveDraftData':
+              this.saveDraftData();
+              this.updateMemoReferenceCounter();
+              break;
+            case 'submitMemoForReview':
+              this.submitMemoForReview();
+              this.updateMemoReferenceCounter();
+              break;
+            case 'submitMemoForPreReview':
+              this.submitMemoForPreReview();
+              this.updateMemoReferenceCounter();
+              break;
+            case 'submitMemoForReview':
+              this.sendforApprovalConfirmation();
+              this.updateMemoReferenceCounter();
+              break;
+            case 'signAndSubmitMemo':
+              this.signAndSubmitMemo(isInitial);
+              this.updateMemoReferenceCounter();
+              break;
+          }
+        }
+      }
+    }, (err) => {
+      //this.busy = false;
     });
+ 
+  }
+
+  previewData() {
+    // if (this.actionTypes === 'edit') {
+    //   this.isConfirmationActionChecked = true
+    // }
+    // if (this.isConfirmationActionChecked == false) {
+    //   this.openConfirmationActionDialog = true;
+    //   this.openTheConfirmationActionDialog = true;
+    // } else {
+        this.busy = true
+        let data = this.memoData("Preview")
+        if (this.memoType.name == 'Letter' && this.memoLang.name == 'Arabic') {
+          delete data.isDraft
+          //console.log(data)
+        } else if (this.memoType.name == 'Letter') {
+          delete data.isDraft
+          delete data.greeting
+        } else {
+          delete data.isDraft
+          delete data.greeting
+          delete data.designation
+          delete data.address
+          delete data.suffix
+          delete data.letterTo
+        }
+        
+        this.memoService.previewMemo(data).subscribe(res => {
+          this.blobToBase64(res).then(res => {
+            this.busy = false
+            this.previewResponseForNewTab = res
+            this.previewResponse = this.transform(res);
+            this.openThePreviewDialog = true;
+            this.openTheDialogPreview = true
+          })
+        }, err => {
+          this.busy = false;
+        });
     //}
 
   }

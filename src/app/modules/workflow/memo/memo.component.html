@@ -513,7 +513,7 @@
                 <div class="ui-g-1">
                   <label>From:<span class="required">*</span></label>
                 </div>
-                <div class="ui-g-5">
+                <div class="ui-g-11">
                   <p-autoComplete [readonly]="true" pDroppable="From" styleClass="scrollautocompleteForMemo"
                     [(ngModel)]="launch.recipients.FromList" [ngModelOptions]="{standalone: true}" aria-required="true"
                     (onUnselect)="onRecipientRemoved($event)" (click)="selectRecipientsTab()"
@@ -535,10 +535,13 @@
                     <span class="glyphicon glyphicon-tasks"></span>
                   </button>
                 </div>
+              </div>
+              <div class="ui-g form-group" *ngIf="this.launch.recipients.SubFromList && this.launch.recipients.SubFromList.length > 0">
+                <!--style="margin-top: 5px;"-->
                 <div class="ui-g-1">
                   <label>From(Other):</label>
                 </div>
-                <div class="ui-g-5">
+                <div class="ui-g-11">
                   <p-autoComplete [readonly]="true" pDroppable="From" styleClass="scrollautocompleteForMemo"
                     [(ngModel)]="launch.recipients.SubFromList" [ngModelOptions]="{standalone: true}"
                     (onUnselect)="onRecipientRemoved($event)" (click)="selectRecipientsTab()"
@@ -558,11 +561,6 @@
                     type="button" class="btn glyphonButton">
                     <span class="glyphicon glyphicon-tasks"></span>
                   </button>
-                  <!-- <button [attr.disabled]="this.launch.recipients.SubFromList.length>0 ? null : 'disabled'"
-                    (click)="openTheDialog=true;openTheDialogLoaded=true;fromClicked()" type="button"
-                    class="btn glyphonButton">
-                    <span class="glyphicon glyphicon-user"></span>
-                  </button> -->
                 </div>
               </div>
               <div class="ui-g form-group" *ngIf="(!memo && !fileNote && !letter)">
@@ -745,7 +743,7 @@
                 </div>
               </div>
               <div class="ui-g form-group" *ngIf="memo || fileNote">
-                <div class="ui-g-1">
+                <div class="ui-g-1 ui-md-2">
                   <label>Need Sign:</label>
                 </div>
                 <div class="ui-g-11 ui-md-2">
@@ -759,7 +757,7 @@
                     [ngModelOptions]="{standalone: true}"></p-radioButton>
                   <label class="ui-radiobutton-label-memo" disabled="enableToRadioButton">To User/Role</label>
                 </div>
-                <div class="ui-g-11 ui-md-2">
+                <div class="ui-g-11 ui-md-3">
                   <p-radioButton title="Select for eSign" name="workflowPriority" value="THRU" inputId="val3"
                     [disabled]="enableThruRadioButton" [(ngModel)]="signUser2"
                     [ngModelOptions]="{standalone: true}"></p-radioButton>
@@ -771,8 +769,7 @@
             <p-accordionTab header="{{memo?'Memo Details':(fileNote?'File-Note Details':'Letter Details')}}"
               [selected]="!recipientTab">
               <div class="ui-g form-group" style="padding-left: 0px; margin-top: 5px;" form-group>
-
-                <div *ngIf="memo || fileNote || letter" class="ui-g-1" style="padding-left: 12px;">
+                <div *ngIf="memo || fileNote || letter" class="ui-g-1"> <!--style="padding-left: 7px;"-->
                   <label>Date :<span class="required">*</span></label>
                 </div>
                 <div *ngIf="memo || fileNote || letter">
@@ -783,23 +780,34 @@
                 </div>
 
                 <div *ngIf="memo || fileNote || letter" class="ui-g-0" style="padding-left: 39px;">
-                  <label>Ref No. :<span class="required">*</span></label>
+                  <label *ngIf="isMemoRefValid">Ref No. :<span class="required">*</span></label>
+                  <label *ngIf="!isMemoRefValid">Ref No. :<span class="required">*!</span></label>
                 </div>
                 <div class="ui-g-2 ui-xl-3 ui-lg-2">
                   <div *ngIf="!isMemoReferenceList && (memo || fileNote || letter)" class="ui-g-2 ui-xl-3 ui-lg-2" style="width: 84% !important;">
-                    <input type="text" pInputText class="mostRequired" name="refNo" 
+                    <input type="text" pInputText class="mostRequired" name="refNo" (keyup)="validateData($event, 0)"
                       [(ngModel)]="launch.workflow.model.refNo" [ngModelOptions]="{standalone: true}" required  maxlength="40"/>
-                    <!--<span><button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="getMemoReferenceListValues('0')"
+                    <!--<span><button pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="getMemoReferenceListValues('0')"
                         class="remove-btn v-m"></button></span>-->
                   </div>
                   <div *ngIf="isMemoReferenceList && (memo || fileNote || letter)" class="ui-g-2 ui-xl-3 ui-lg-2" style="width: 84% !important;">
-                    <p-dropdown name="memoRefList" class= "mostRequired" [options]="memoReferenceList" [(ngModel)]="this.memoReferenceNo" 
-                        (onChange)="storeSelectedMemoRef($event)"></p-dropdown>
+                    <p-dropdown name="memoRefList" class= "mostRequired" [options]="memoReferenceList" [(ngModel)]="memoReferenceNo" 
+                        (onChange)="validateData($event.value, 1)"></p-dropdown>
                   </div>
-                  <span><button pButton type="button" icon="ui-icon-autorenew" title="Refresh" (click)="getMemoReferenceListValues('0')"
-                    class="remove-btn v-m"></button></span>
+                  <span *ngIf="!isMemoReferenceList">
+                    <button *ngIf="!isMemoReferenceList && (memo || fileNote || letter)" pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Reset" (click)="resetMemoRefControl()"
+                    class="remove-btn v-m"></button>
+                  </span>
+                  <span *ngIf="isMemoReferenceList && isMemoRefValid">
+                    <button *ngIf="isMemoReferenceList && (memo || fileNote || letter)" pButton type="button" icon="fa fa-fw ui-icon-refresh" title="Refresh" (click)="getMemoReferenceListValues('0')"
+                    class="remove-btn v-m"></button>
+                  </span>
+                  <span *ngIf="isMemoReferenceList && !isMemoRefValid">
+                    <button *ngIf="isMemoReferenceList && (memo || fileNote || letter)" pButton type="button" icon="fa fa-fw ui-icon-refresh" title="Refresh" (click)="getMemoReferenceListValues('2')"
+                    class="remove-btn v-m"></button>
+                  </span>
                 </div>
-                <div class="ui-g-0" style="padding-left: 20px;" *ngIf="memo || fileNote || letter">
+                <div class="ui-g-0" *ngIf="memo || fileNote || letter"> <!--style="padding-left: 20px;"-->
                   <label>OrgCode :<span class="required">*</span></label>
                 </div>
                 <div class="ui-g-2 ui-xl-3 ui-lg-2" *ngIf="memo || fileNote || letter" style="display: flex;">
@@ -824,7 +832,7 @@
                 <div class="ui-g-1">
                   <label>Contract:</label>
                 </div>
-                <div class="ui-g-11 ui-fluid">
+                <div class="ui-g-11 ui-fluid remarks-box">
                   <textarea [spellcheck]="true" class="text-area-resize-none bordered" maxlength="2000" 
                     [rows]="2" [cols]="30" pInputTextarea [autoResize]="false"
                     [(ngModel)]="memoContract" [ngModelOptions]="{standalone: true}" name="contractNo"></textarea>
@@ -834,7 +842,7 @@
                 <div class="ui-g-1">
                   <label>Subject:<span class="required">*</span></label>
                 </div>
-                <div class="ui-g-8" style="width: 70% !important;">
+                <div class="ui-g-8 remarks-box" style="width: 70% !important;">
                   <textarea [spellcheck]="true" class="text-area-resize-none bordered" maxlength="2000" [rows]="2"
                     [cols]="30" pInputTextarea [autoResize]="false" [(ngModel)]="launch.workflow.model.subject"
                     (change)="setMemoDocTitle()" [ngModelOptions]="{standalone: true}" name="workflowSubject"
@@ -885,12 +893,12 @@
                     name="memoDocTitle" maxlength="500" pInputText>
                 </div>
               </div>
-              <div class="ui-g form-group" style="margin-left: 12px;">
+              <div class="ui-g form-group" > <!--style="margin-left: 12px; */"-->
                 <div class="ui-folderpath">
                   <label>Folder Path:<span class="required">*</span></label>
                   <!-- <span class="required">*</span> -->
                 </div>
-                <div class="ui-g-10">
+                <div class="ui-g-9">
                   <input [(ngModel)]="folderpath" disabled="disabled" [ngModelOptions]="{standalone: true}"
                     class="form-control" name="folderpath" pInputText>
                 </div>
@@ -923,7 +931,6 @@
                   <label *ngIf="actionTypes !='reply' && actionTypes !='replyAll'">Instructions:</label>
                 </div>
                 <div class=" ui-g-6">
-
                   <div class="remarks-box">
                     <textarea type="text" [spellcheck]="true" class="text-area-resize-none bordered" [rows]="4"
                       maxlength="2000" [cols]="30" pInputTextarea [autoResize]="false"
@@ -1016,7 +1023,7 @@
         </form>
         <div class="ui-g-12" class="buttonGroups">
           <div class="ui-g-12 ui-sm-12" style="text-align: center">
-            <button (click)="previewData()" pButton type="button"
+            <button (click)="finalValidationForMemoRef('previewData')" pButton type="button"
               [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0)||!folderpath||!date
               ||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) 
               ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)"
@@ -1025,7 +1032,7 @@
               title="Cancel and delete data"></button>&nbsp;
             <button (click)="navigateToInboxForReview()" *ngIf="!Approver && !Composer" pButton type="button"
               label="Cancel" title="Cancel Edit"></button>&nbsp;
-            <button (click)="saveDraftData()" pButton type="button" label="Save Draft" title="Save data for later"
+            <button (click)="finalValidationForMemoRef('saveDraftData')" pButton type="button" label="Save Draft" title="Save data for later"
               [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0) ||!folderpath||!date||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)">
             </button>&nbsp;
             <button (click)="saveAsTemplate()" *ngIf="(!actionId && Composer)" pButton type="button"
@@ -1033,28 +1040,28 @@
               [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0) ||!folderpath||!date||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)">
             </button>&nbsp;
             <!--*ngIf="!actionId && (Approver || Composer)"-->
-            <button (click)="submitMemoForReview()" *ngIf="Approver && !Composer" pButton type="button"
+            <button (click)="finalValidationForMemoRef('submitMemoForReview')" *ngIf="Approver && !Composer" pButton type="button"
               label="Submit For Review" title="Send for review and comments"
               [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0) ||!folderpath||launch.recipients.RevList.length == 0||!date||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) 
               ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)"></button> &nbsp;
-            <button (click)="submitMemoForPreReview()" *ngIf="!Approver" pButton type="button" label="Submit For Review"
+            <button (click)="finalValidationForMemoRef('submitMemoForPreReview')" *ngIf="!Approver" pButton type="button" label="Submit For Review"
               title="Send for initial review and comments"
               [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0) ||!folderpath||launch.recipients.RevList.length == 0
               ||!date||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject 
               ||( memoLang.name=='English' && !launch.workflow.model.messages) ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) 
               ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)"></button>&nbsp;
-            <button pButton (click)="sendforApprovalConfirmation()" *ngIf="!Approver" type="button"
+            <button pButton (click)="finalValidationForMemoRef('sendforApprovalConfirmation')" *ngIf="!Approver" type="button"
               label="Send For Approval" title="Send for From User/Role Review & Approval"
               [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0) ||!folderpath
               ||!date||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject 
               ||( memoLang.name=='English' && !launch.workflow.model.messages) ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) 
               ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)"></button>&nbsp;
-            <button (click)="signAndSubmitMemo(1)" *ngIf="!Approver && !Composer" pButton type="button"
+            <button (click)="finalValidationForMemoRef('signAndSubmitMemo',1)" *ngIf="!Approver && !Composer" pButton type="button"
               label="Initial & Send For Approval" title="Initial & Send For Approval" [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0)||!folderpath||!date
               ||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) 
               ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)
               ||(memoType.name=='Letter'&&!To)"></button>&nbsp;
-            <button (click)="signAndSubmitMemo(0)" *ngIf="Approver && !Composer" pButton type="button"
+            <button (click)="finalValidationForMemoRef('signAndSubmitMemo',0)" *ngIf="Approver && !Composer" pButton type="button"
               label="Sign & Submit" title="Sign and Submit" [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0)||!folderpath||!date
               ||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) 
               ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)
