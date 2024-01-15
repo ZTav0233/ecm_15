@@ -4808,11 +4808,12 @@ export class MemoComponent implements OnInit, OnDestroy {
       if(d === 'yes'){
         this.isMemoRefValid = false;
         //this.memoReferenceNo = '';
-        let msg = "The reference no already exists. Type new to continue"
-          this.growlService.showGrowl({
-            severity: 'error',
-            summary: 'Already exists!', detail: msg
-          });
+        let msg = "The reference no# already exists. Type new to continue"
+          // this.growlService.showGrowl({
+          //   severity: 'error',
+          //   summary: 'Already exists!', detail: msg
+          // });
+          this.toastr.error(msg, 'Already exists!');
       }else{
         this.isMemoRefValid = true;
         if(iFrom == '1')
