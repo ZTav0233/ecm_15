@@ -1359,13 +1359,12 @@
     [responsive]="true" [style]="{width: '900px',height:'800px'}">
     <p-header>
       Preview
-
     </p-header>
     <div style="display: flex;
-      justify-content: end;
-      margin-right: -4px;margin-top:-8px;margin-bottom:5px">
-      <button (click)="opneInNewTab()">
-        <span style="font-size: 17px;" class="glyphicon glyphicon-new-window"></span>
+      justify-content: end;"> <!--
+      margin-right: -4px;margin-top:-8px;margin-bottom:5px-->
+      <button (click)="openInNewTab()" title="Open in New Tab">
+        <span><div class="px20-new-win">⧉</div></span>
       </button>
     </div>
     <iframe id="iframe" *ngIf="previewResponse != ''" [attr.src]="previewResponse" width="100%" height="650"> </iframe>

@@ -4370,6 +4370,16 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.launch.recipients.ThruList = [...this.launch.recipients.ThruList]
       this.launch.recipients.RevList = [...this.launch.recipients.RevList]
       this.launch.recipients.RevList = [...this.launch.recipients.RevList]
+
+      //Commented by Abhishek 14/Jan/2024
+      // if(this.actionTypes === 'draftMemo')
+      //   this.getMemoReferenceListValues('1', data.referenceNo);
+      // else if(this.actionTypes === 'edit')
+      // {
+          this.memoReferenceList = [];
+          this.memoRefListData= [];
+          this.isMemoRefValid = true;
+      // }
     }
   }
 
@@ -5228,7 +5238,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     //}
 
   }
-  opneInNewTab() {
+  openInNewTab() {
     this.openThePreviewDialog = false;
     this.openTheDialogPreview = false
     var win = window.open(this.previewResponseForNewTab);
@@ -5815,8 +5825,8 @@ export class MemoComponent implements OnInit, OnDestroy {
 
     if (roleId === 0) {
       var recipientsData = this.recipients.filter(word => word.recipientType == "FROM");
-      if (recipientsData[0].userType == "ROLE")
-        roleId = (recipientsData[0].id) ? recipientsData[0].id : recipientsData[0].EmpNo;
+      if(recipientsData && recipientsData.length > 0 && recipientsData[0].userType == "ROLE")
+        roleId = (recipientsData[0].id)?recipientsData[0].id:recipientsData[0].EmpNo;
     }
 
     return roleId;

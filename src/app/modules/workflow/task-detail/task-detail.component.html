@@ -1221,7 +1221,7 @@
     <button type="button" pButton label="Cancel" (click)="editRemarksVisible=false"></button>
   </p-footer>
 </p-dialog>
-<p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="eSignDialog" [style]="{ width: '250vw', height: '120' }"
+<p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="eSignDialog" [style]="{ width: '200vw', height: '120px' }"
   (onHide)="canceleSign()">
   <p-header>
     <span>{{workitem.actions === 'Signature' ? 'eSign' : 'Initial'}} In-Progress</span>

@@ -81,7 +81,6 @@ $ecm_15-theme: mat.define-light-theme((color: (primary: $ecm_15-primary,
 //   }
 
 .ui-accordion-header {
-
     a:focus,
     a:hover {
         color: #23527c;
@@ -600,6 +599,20 @@ button.p-element.v-m.p-button.p-component.ng-star-inserted {
 .p-autocomplete {
     width: 100% !important;
   }
+
+.p-multiselect-panel .p-multiselect-header {
+    padding: .75rem !important;
+    border-bottom: 1px solid rgba(0,0,0,.12) !important;
+    color: #000000 !important;
+    background: #607D8B !important;
+    margin: 0 !important;
+    border-top-right-radius: 4px !important;
+    border-top-left-radius: 4px !important;
+}
+
+.p-calendar .p-datepicker {
+    min-width: 50% !important;
+}
 
 .p-scroller .ui-g-12,
 .p-scroller .ui-g-10 .p-scroller .ui-g {
