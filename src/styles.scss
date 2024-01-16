@@ -74,11 +74,13 @@ $ecm_15-theme: mat.define-light-theme((color: (primary: $ecm_15-primary,
     }
 }
 
-// .label23{
-//     ui-g-1{
-//         min-width:50px;
-//     }
-//   }
+.ck-content .table table td, .ck-content .table table th {
+    border: 1px solid #bfbfbf;
+    min-width: 2em !important;
+    padding: .4em !important;
+    height: 2em !important;
+    min-height: 2em !important;
+}
 
 .ui-accordion-header {
     a:focus,

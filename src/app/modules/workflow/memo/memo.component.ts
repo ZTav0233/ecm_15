@@ -4802,7 +4802,6 @@ export class MemoComponent implements OnInit, OnDestroy {
     }, (err) => {
       //this.busy = false;
     });
-    
   }
 
   validateData(refNo, iFrom?){

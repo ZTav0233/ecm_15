@@ -405,42 +405,39 @@
       </div>
     </div>
     <div class="ui-g-8 ui-md-8 ui-sm-12 p-l-0 p-t-0 p-b-xs">
-      <div class="ui-g-12" [ngClass]="{'hide':actionTypes==='launch' && !isRelaunch}">
+      <div class="ui-g-12 memoheader" [ngClass]="{'hide':actionTypes==='launch' && !isRelaunch}">
         <span class="ui-info-label">The fields marked with red&nbsp;asterisk (</span>
         <span class="ui-info-label_red">*</span>
         <span class="ui-info-label">) are mandatory</span>
-        <!--div class="ui-info-label-div"></div>-->
         <button pButton type="button" icon="fa fa-fw ui-icon-arrow-back" title="Back" (click)="goBack()"
           class="remove-btn pull-right"></button>
+        <hr width="100%" size="1">
       </div>
 
-
-      <div form-group>
-       
+      <div class="ui-g-12 memoheader" form-group>
         <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class=" label23">
-          <label>Type :<span class="required">*</span></label>
+          <label class="label-pad23">Type :<span class="required">*</span></label>
         </div>
         <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class=" label23 ">
-
           <p-dropdown class="ecmText" [options]="type" [(ngModel)]="memoType" optionLabel="name"
             (onChange)="storeValue($event)"></p-dropdown>
         </div>
         <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class=" label23">
-          <label>ECM No :<span class="required">*</span></label>
+          <label class="label-pad23">ECM No :<span class="required">*</span></label>
         </div>
         <div class=" label23 ">
           <input [(ngModel)]="ECM_NO" type="text" pInputText class="ecmText" required
             [ngModelOptions]="{standalone: true}" maxlength="20" />
         </div>
         <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class=" label23">
-          <label>Language :<span class="required">*</span></label>
+          <label class="label-pad23">Language :<span class="required">*</span></label>
         </div>
         <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class=" label23">
           <p-dropdown class="langText" [options]="language" [(ngModel)]="memoLang"
             (onChange)="storeSelectedLanguage($event)" optionLabel="name"></p-dropdown>
         </div>
         <div class=" label23">
-          <label>Priority:<span class="required">*</span></label>
+          <label class="label-pad23">Priority:<span class="required">*</span></label>
         </div>
         <div class="label23">
           <p-radioButton name="workflowPriority" value="2" label="Normal" [(ngModel)]="launch.workflow.model.priority"
