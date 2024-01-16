@@ -201,7 +201,7 @@ export class DraftComponent implements OnInit, OnDestroy {
     console.log(event);
     
     if (event.memo) {
-      this.router.navigate(['/workflow/memo', 'draftMemo', { id: event.draftId }]);
+      this.router.navigate(['/workflow/memo', 'draftMemo', { id: event.draftId, memoId: event.memo.id, memoStep: event.memo.memoStepName, workItemId:event.memo.workitemId }]);
     } else {
       this.router.navigate(['/workflow/launch', 'draftLaunch', { id: event.draftId }]);
     }
