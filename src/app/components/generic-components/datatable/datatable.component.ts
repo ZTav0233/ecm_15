@@ -119,7 +119,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   public showDelegationInactiveDialog = false;
   public reportPage = false;
   @ViewChild('dt') unGroupedTableRef: ElementRef;
-  @ViewChild('gdt') groupedTableRef: ElementRef;
+  @ViewChild('dt1') groupedTableRef: ElementRef;
   @ViewChild('infoDialog') infoDialogRef: ElementRef;
   @ViewChild('infoLinkedDialog') infoLinkedDialog: ElementRef;
   @ViewChild('infoTrackDialog') infoTrackDialog: ElementRef;
@@ -736,8 +736,10 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
 
   refresh(table?) {
     this.goToPage = 1;
-    this.dataTable.reset();
-    this.dataTable1.reset();
+    if(this.dataTable)
+      this.dataTable.reset();
+    if(this.dataTable1)
+      this.dataTable1.reset();
     if (!table) {
       table = this.rowGroupMode ? this.groupedTableRef : this.unGroupedTableRef;
     }
