@@ -1297,7 +1297,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       }
     });
   }
-  listItemDailogue(ev:any){
+  listItemDialogue(ev:any){
     console.log(ev);
     this.showItemDialogue=true
     this.showItemDialogueDetails=ev;

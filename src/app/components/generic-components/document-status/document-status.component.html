@@ -11,7 +11,7 @@
             <p class="m-0 w-100 text-align-right">{{item.createdBy}}, {{item.createdDate | date:'dd-MMM-yyyy hh:mm a'}}</p>
             <span class="pull-right text-align-right">
               <span class="message text-align-left">{{item.message}}</span>
-                <button pButton type="button" icon="ui-icon-close" class="remove-btn v-m m-l-sm" (click)="removeProgress(item.id)"></button>
+                <button pButton type="button" icon="fa fa-fw ui-icon-close" class="remove-btn v-m m-l-sm" (click)="removeProgress(item.id)"></button>
             </span>
           </li>
         </ng-container>

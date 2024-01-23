@@ -50,7 +50,7 @@
                 [disabled]="item.disabled || actionType==='Signature' || actionType==='Initial'"></button>
               <button *ngIf="showFromBtn" pButton type="button" label="From" class="v-m" (click)="mAddToFromList(item)"
                 [disabled]="item.disabled || actionType==='Signature' || actionType==='Initial'"></button>
-              <button pButton type="button" icon="ui-icon-add" (click)="mAddToList(item)" class="remove-btn v-m "
+              <button pButton type="button" icon="fa fa-fw ui-icon-add" (click)="mAddToList(item)" class="remove-btn v-m "
                 *ngIf="showAddBtn" [disabled]="item.disabled"></button>
               <button *ngIf="showSelectBtn" pButton type="button" label="Select" class="v-m"
                 (click)="mSelectToList(item)"></button>

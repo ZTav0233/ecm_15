@@ -165,6 +165,10 @@ body {
     content: "arrow_back";
 }
 
+.ui-icon-priority-high::before {
+    content: "priority_high";
+}
+
 .ui-icon-touch-app::before {
     content: "touch_app";
 }
@@ -639,9 +643,13 @@ button.p-element.v-m.p-button.p-component.ng-star-inserted {
     padding:0.5em !important;
 }
 
+.mdc-tab .mdc-tab__text-label {
+    letter-spacing: normal !important;
+}
+
 .p-scroller {
     min-height: 65px !important;
-    height: 150px !important;
+    height: 290px !important;
     border: 1px solid #bbb;
 }
 .reload-button .p-button-icon {

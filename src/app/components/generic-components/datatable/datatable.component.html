@@ -296,7 +296,7 @@
       [tableStyle]="{ 'min-width': '40rem' }" responsiveLayout="stack" [breakpoint]="'960px'"
       [(selection)]="selectedRows" (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
       [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
-      [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
+      [rows]="itemsPerPage" [showCurrentPageReport]="true" (onRowExpand)="showSentWorkitems($event)"
       [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt [paginator]="true"
       [globalFilterFields]="colHeaders">
       <ng-template pTemplate="caption">
@@ -368,11 +368,15 @@
               class="p-button-text p-button-rounded p-button-plain"
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
           </td>
-          <td *ngIf="activePage==='inbox' && !reportPage" style="width: 30px;">
+          <td *ngIf="activePage==='inbox' && !reportPage" style="width: 50px;">
             <div class="icons ">
-              <div class="display-inline-block">
-                <i title="High Priority" [hidden]="!(product.priority && product.priority.toLowerCase() === 'high')"
-                  class="fa ui-icon-priority-high text-red"></i>
+              <div class="display-inline-block" *ngIf="(product.priority && product.priority.toLowerCase() === 'high')">
+                <i title="High Priority" class="fa fa-fw ui-icon-priority-high text-red"></i>
+                <!--[hidden]="!(product.priority && product.priority.toLowerCase() === 'high')"-->
+              </div>
+              <div class="display-inline-block" *ngIf="(product.priority && product.priority.toLowerCase() !== 'high')">
+                <i title="Normal Priority"></i>
+                <!--[hidden]="!(product.priority && product.priority.toLowerCase() === 'high')"-->
               </div>
               <div class="display-inline-block">
                 <img title="Type" src="assets/images/icons/cc.png"
@@ -381,7 +385,7 @@
               </div>
             </div>
           </td>
-          <td *ngIf="activePage==='inbox' && !reportPage">
+          <td *ngIf="activePage==='inbox' && !reportPage" style="width: 60px;">
             <img title="Type" [src]="product.isFlag ? 'assets/images/icons/flag.png' : 'assets/images/icons/unflag.png'"
               class="flag-img-dim">
             <img *ngIf="product.isMemo" title="Memo"
@@ -551,7 +555,7 @@
       responsiveLayout="stack" [breakpoint]="'960px'" [(selection)]="selectedRows"
       (onLazyLoad)="onLazyLoad($event, tabNameIdentifier)" (onPage)="onPaging($event)"
       [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
-      [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
+      [rows]="itemsPerPage" [showCurrentPageReport]="true" (onRowExpand)="showSentWorkitems($event)"
       [reorderableColumns]="reorderableColumns" [rowExpandMode]="'dt.value'" #dt1 [paginator]="true">
       <ng-template pTemplate="caption">
         <div style="display: flex; justify-content: space-between;">
@@ -623,11 +627,15 @@
           <td *ngIf="activePage!='draft'" style="width:17px;">
             <p-tableCheckbox [value]="product"></p-tableCheckbox>
           </td>
-          <td *ngIf="activePage==='inbox' && !reportPage" style="width: 30px;">
+          <td *ngIf="activePage==='inbox' && !reportPage" style="width: 50px;">
             <div class="icons ">
-              <div class="display-inline-block">
-                <i title="High Priority" [hidden]="!(product.priority && product.priority.toLowerCase() === 'high')"
-                  class="fa ui-icon-priority-high text-red"></i>
+              <div class="display-inline-block" *ngIf="(product.priority && product.priority.toLowerCase() === 'high')">
+                <i title="High Priority" class="fa fa-fw ui-icon-priority-high text-red"></i>
+                <!--[hidden]="!(product.priority && product.priority.toLowerCase() === 'high')"-->
+              </div>
+              <div class="display-inline-block" *ngIf="(product.priority && product.priority.toLowerCase() !== 'high')">
+                <i title="Normal Priority"></i>
+                <!--[hidden]="!(product.priority && product.priority.toLowerCase() === 'high')"-->
               </div>
               <div class="display-inline-block">
                 <img title="Type" src="assets/images/icons/cc.png"
@@ -636,7 +644,7 @@
               </div>
             </div>
           </td>
-          <td *ngIf="activePage==='inbox' && !reportPage">
+          <td *ngIf="activePage==='inbox' && !reportPage" style="width: 50px;">
             <img title="Type" [src]="product.isFlag ? 'assets/images/icons/flag.png' : 'assets/images/icons/unflag.png'"
               class="flag-img-dim">
             <img *ngIf="product.isMemo" title="Memo"
@@ -652,7 +660,7 @@
             <button pButton type="button" icon="fa fa-fw ui-icon-timeline" title="Track Preview"
               (click)="previewTrackSentitem(product.workflowId)" class="remove-btn v-m"></button>
           </td>
-          <td *ngIf="showProgressBtn && activePage==='inbox'">
+          <td *ngIf="showProgressBtn && activePage==='inbox'" style="width: 70px;">
             <button pButton type="button"
               icon="{{product.hasProgress ? 'fa fa-fw ui-icon-hourglass-full' : 'fa fa-fw ui-icon-hourglass-empty'}}"
               title="Work Progress" (click)="mToggleProgressDialogue(product.workitemId)"
@@ -743,7 +751,7 @@
 <div class="progress-bar">
   <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
 </div>
-<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="displayBasic" [responsive]="true"
+<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="displayBasic"
   [style]="{ width: '400px', height: '200px' }">
   <p-header>
     Confirmation

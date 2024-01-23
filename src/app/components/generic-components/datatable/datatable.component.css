@@ -12,6 +12,10 @@ td img {
     width: 16px;
 }
 
+.text-red {
+    color: red !important;
+  }
+
 .quickSearch {
     background-color: #607d8b;
     color: white;

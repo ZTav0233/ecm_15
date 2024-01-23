@@ -62,14 +62,14 @@
           [showInfoIcon]="false" [showDownloadIcon]="false" [showAddCartIcon]="false"
           [tableData]="inboxWorkitems.workitems" [colHeaders]="colHeaders" [itemsPerPage]="itemsPerPage"
           [rowExpandable]="true" [activePage]="'inbox'" [userType]="tab.tabType" [userId]="tab.recordId"
-          (toggleProgressDialogue)="showProgressDialogue($event)" (listItemsDialogue)="listItemDailogue($event)" [isSelectedRoleInActive]="tab.status ==='INACTIVE'"
+          (toggleProgressDialogue)="showProgressDialogue($event)" (listItemsDialogue)="listItemDialogue($event)" [isSelectedRoleInActive]="tab.status ==='INACTIVE'"
           [showProgressBtn]="true" [workflowFilter]="request && request.exportFilter || advanceFilterShown"
           [tabNameIdentifier]="tab.tabIdentifier"></data-table>
         <data-table *ngIf="userGridView === gridViewOptions.grouped.value" [lazy]="true" [emptyMessage]="emptyMessage"
           [defaultSortField]="tab.sortField" [sortOrder]="tab.sortDirection" [rowGroupMode]="'subheader'"
           [groupField]="'recordGroupName'" [expandedRowsGroups]="expandedRowsGroups"
           [expandedRowsGroupsSubTotal]="expandedRowsGroupsSubTotal"
-          (sendSortPagination)="assignSortNotPaginationInfo($event)" (listItemsDialogue)="listItemDailogue($event)" [totalRecords]="tab.totalRecords"
+          (sendSortPagination)="assignSortNotPaginationInfo($event)" (listItemsDialogue)="listItemDialogue($event)" [totalRecords]="tab.totalRecords"
           [selectedRows]="inboxSelectedItem" (refreshScreen)="refreshTable()" (sendData)="getData($event)"
           (sendSelectedColumns)="columnSelectionChanged($event)" [dataKeyValue]="'workitemId'"
           [showInfoIcon]="false" [showDownloadIcon]="false" [showAddCartIcon]="false"
@@ -124,7 +124,7 @@
     <button pButton class="pull-right" type="button" label="Ok" (click)="reloadApp()"></button>
   </p-footer>
 </p-dialog>
-<p-dialog [modal]="true"  [(visible)]="showItemDialogue" [closable]="false" [closeOnEscape]="false" [style]="{ width: '80vw', height: '40vh' }">
+<p-dialog [modal]="true"  [(visible)]="showItemDialogue" [closable]="false" [closeOnEscape]="false" [style]="{ width: '80vw', height: '60vh' }">
   <p-header>
     <span >Workitem Details</span>
   </p-header>
