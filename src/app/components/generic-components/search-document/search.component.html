@@ -64,40 +64,40 @@
                   <ng-container
                     *ngIf="dynamicProp.selectedOption && dynamicProp.selectedOption.dtype.toLowerCase()=='date' && dynamicProp.selectedOption.symName!=='DateCreated'"
                     class="form-group">
-                    <div class="ui-g-3">
-                      <p-calendar placeholder="From" dateFormat="dd-mm-yy" [showIcon]="true"
+                    <div class="ui-g-2-5">
+                      <p-calendar placeholder="From" dateFormat="dd-mm-yy" [showIcon]="false"
                         [(ngModel)]="dynamicProp.mvalues[0]" [readonlyInput]="true"
                         (onClearClick)="dynamicProp.mvalues[1]=null" [name]="dynamicProp.selectedOption.symName"
                         (onSelect)="fromDateChanged(dynamicProp)" [monthNavigator]="true" [yearNavigator]="true"
                         yearRange="1900:2030" [showButtonBar]="true">
                       </p-calendar>
                     </div>
-                    <div class="ui-g-2">
+                    <div class="ui-g-2-5">
                       <p-calendar placeholder="To" dateFormat="dd-mm-yy" [disabled]="!dynamicProp.mvalues[0] || dynamicProp.selectedOption.oper === '>='
                      || dynamicProp.selectedOption.oper === '<=' || dynamicProp.selectedOption.oper === 'is equal to' "
                         [readonlyInput]="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030"
-                        [showIcon]="true" [(ngModel)]="dynamicProp.mvalues[1]" [minDate]="dynamicProp.minDate"
+                        [showIcon]="false" [(ngModel)]="dynamicProp.mvalues[1]" [minDate]="dynamicProp.minDate"
                         [name]="dynamicProp.selectedOption.symName+'2'" [showButtonBar]="true"></p-calendar>
                     </div>
                   </ng-container>
                   <ng-container
                     *ngIf="dynamicProp.selectedOption && dynamicProp.selectedOption.dtype.toLowerCase()=='date' && dynamicProp.selectedOption.symName==='DateCreated'"
                     class="form-group">
-                    <div class="ui-g-3">
+                    <div class="ui-g-2-5">
                       <p-calendar [required]="true" [attr.required]="true" placeholder="From" dateFormat="dd-mm-yy"
-                        [showIcon]="true" [(ngModel)]="dynamicProp.mvalues[0]" [readonlyInput]="true"
+                        [showIcon]="false" [(ngModel)]="dynamicProp.mvalues[0]" [readonlyInput]="true"
                         (onClearClick)="dynamicProp.mvalues[1]=null" [name]="dynamicProp.selectedOption.symName"
                         (onSelect)="fromDateChangedCreated(dynamicProp)" [minDate]="minFromCreated"
                         [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showButtonBar]="true">
                       </p-calendar>
                     </div>
-                    <div class="ui-g-2">
+                    <div class="ui-g-2-5">
                       <p-calendar [required]="true" [attr.required]="true" placeholder="To" dateFormat="dd-mm-yy"
                         [disabled]="!dynamicProp.mvalues[0] || dynamicProp.selectedOption.oper === '>='
                      || dynamicProp.selectedOption.oper === '<=' || dynamicProp.selectedOption.oper === 'is equal to' "
                         (onFocus)="onFocusToDate(dynamicProp)" [readonlyInput]="true" [monthNavigator]="true"
                         [yearNavigator]="true" yearRange="1900:2030" (onSelect)="toDateChangedCreated(dynamicProp)"
-                        [showIcon]="true" [(ngModel)]="dynamicProp.mvalues[1]" [minDate]="dynamicProp.minDate"
+                        [showIcon]="false" [(ngModel)]="dynamicProp.mvalues[1]" [minDate]="dynamicProp.minDate"
                         [maxDate]="maxToCreated" [name]="dynamicProp.selectedOption.symName+'2'" [showButtonBar]="true">
                       </p-calendar>
                     </div>

@@ -256,6 +256,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   suggestionsResults: any;
   fileNote: boolean = false;
   letter: boolean = false;
+  isMemo: boolean = true;
   memo: boolean = true;
   ECM_NO: any;
   signUser2: any = "";
@@ -397,6 +398,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       { name: 'Update', code: 'Update' },
       { name: 'Verification', code: 'Verification' },
     ]
+    this.isMemo = true;
     this.init();
 
   }
@@ -5741,7 +5743,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     }
     let data
     return data = {
-      id: 0,
+      id: this.memoId,
       subject: this.launch.workflow.model.subject ? this.launch.workflow.model.subject.replace(/\n/g, '<br>') : '',
       ecmNo: this.ECM_NO,
       orgcode: this.launch.workflow.model.selectedorgCode.orgCode,

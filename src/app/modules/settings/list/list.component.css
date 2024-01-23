@@ -28,6 +28,10 @@
   padding: 8px;
 }
 
+.border-1.surface-border.p-scroller.ng-star-inserted {
+  height: 290px !important;
+}
+
 .userResultsBox > ul > li {
   cursor: pointer;
   padding: 5px;
@@ -37,6 +41,11 @@
   margin-bottom: 4px;
   font-size: 16px;
   transition: 0.2s all ease-in-out;
+}
+
+.list-max-h-365{
+  overflow-y: scroll;
+  max-height: 265px;
 }
 
 .m-t-0 {

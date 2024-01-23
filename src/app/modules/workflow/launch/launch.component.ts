@@ -2193,7 +2193,8 @@ export class LaunchComponent implements OnInit, OnDestroy {
     localStorage.removeItem('sentSelectedUserTab');
     localStorage.removeItem('navigateToDraft');
     if ((this.actionTypes === 'launch' || this.actionTypes === 'bulkLaunch') && !this.isRelaunch) {
-      this.router.navigate(['/workflow/launch']);
+      //this.router.navigate(['/workflow/launch']);
+      this.router.navigate(['/']);
       window.parent.postMessage('LoadDash', '*');
     }
     else {
@@ -2980,6 +2981,9 @@ export class LaunchComponent implements OnInit, OnDestroy {
       this.actionTypes = 'launch';
       this.isRelaunch = true;
     }
+
+    this.launch.recipients.toList = [...this.launch.recipients.toList];
+    this.launch.recipients.ccList = [...this.launch.recipients.ccList];
   }
 
   assignDraft(data) {
@@ -3036,6 +3040,9 @@ export class LaunchComponent implements OnInit, OnDestroy {
     } else {
       this.launch.workflow.model.actions = Object.assign([], actions);
     }
+
+    this.launch.recipients.toList = [...this.launch.recipients.toList];
+    this.launch.recipients.ccList = [...this.launch.recipients.ccList];
   }
 
   setforwardWorkItem() {

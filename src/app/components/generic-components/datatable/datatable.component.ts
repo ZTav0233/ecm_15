@@ -190,6 +190,8 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
     } else if (($event.target as HTMLInputElement).value.length==0) {
       this.tableData=this.tableDataStored
     }
+
+    this.totalCount = this.tableData.length;
   }
 
   mToggleProgressDialogue(workitemId, $event?) {
@@ -269,12 +271,12 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   
 
   ngOnInit() {
-    setTimeout(() => {
+    /* setTimeout(() => {
       var filter:any=document.getElementsByClassName('p-element p-fluid');
       var inputFIlter:any=filter[0].getElementsByTagName('input')[0];
       inputFIlter.placeholder='Subject'
       // inputFIlter.style.color ='blue'
-    }, 1000);
+    }, 1000); */
     
     console.log(this.activePage);
     console.log(this.tableData);

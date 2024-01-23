@@ -153,7 +153,7 @@
                       <app-user [isNoFoundMessage]="true" [iconClass]="'fa fa-fw ui-icon-view-list'"
                         [showTooltip]="true" [showAddBtn]="false"
                         [actionType]="launch.documents.existing.model.actionType" [showToBtn]="!letter"
-                        [showCcBtn]="!letter" [isUserRoleNotList]="true"
+                        [showCcBtn]="!letter" [isUserRoleNotList]="true" [isMemo]="isMemo"
                         [items]="launch.recipients.list.selectedUserList.lists" [field]="'name'"
                         (addToThruList)="addToThruListFrom($event)" (addToFromList)="addToFromListFrom($event)"
                         (addToRevList)="addToRevListFrom($event)" (addToToList)="addToToListFromList($event)"
@@ -187,7 +187,7 @@
                       <app-user [isNoFoundMessage]="true" [showAddBtn]="false"
                         [actionType]="launch.documents.existing.model.actionType" [showToBtn]="!letter"
                         [showCcBtn]="!letter" [items]="launch.recipients.list.selectedUserList.users" [field]="'name'"
-                        (addToToList)="addToToListFromList($event)" [isUserRoleNotList]="true"
+                        (addToToList)="addToToListFromList($event)" [isUserRoleNotList]="true" [isMemo]="isMemo"
                         (addToCCList)="addToCCListFromList($event)" (addToThruList)="addToThruListFrom($event)"
                         (addToFromList)="addToFromListFrom($event)" (addToRevList)="addToRevListFrom($event)"
                         (existsInList)="existsInList($event)" (getRoleMembers)="getRoleMembers($event,'fav')">
@@ -1032,7 +1032,7 @@
             <button (click)="finalValidationForMemoRef('saveDraftData')" pButton type="button" label="Save Draft" title="Save data for later"
               [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0) ||!folderpath||!date||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)">
             </button>&nbsp;
-            <button (click)="saveAsTemplate()" *ngIf="(!actionId && Composer)" pButton type="button"
+            <button (click)="saveAsTemplate()" *ngIf="(!actionId && (Approver || Composer))" pButton type="button"
               label="Save as Template" title="Save as Memo Template"
               [disabled]="launch.recipients.FromList.length == 0||(memoType.name=='Memo'&&launch.recipients.toList.length == 0) ||!folderpath||!date||!launch.workflow.model.selectedorgCode ||!launch.workflow.model.refNo|| !launch.workflow.model.subject ||( memoLang.name=='English' && !launch.workflow.model.messages) ||  (memoLang.name!='English' && !launch.workflow.model.arMessages) ||(memoType.name=='Letter'&&!designation) ||(memoType.name=='Letter'&&!address)||(memoType.name=='Letter'&&!To)">
             </button>&nbsp;

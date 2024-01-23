@@ -95,7 +95,7 @@
     </app-document-status>
   </p-dialog>
   <p-dialog [closable]="false" [closeOnEscape]="false" [appendTo]="inboxDialog" [modal]="true"
-    [(visible)]="showDelegationInactiveDialog" [style]="{ width: '148vw', height: '380px' }" #delegationMsgDialog>
+    [(visible)]="showDelegationInactiveDialog" [style]="{ width: '30vw', height: '380px' }" #delegationMsgDialog>
     <p-header>
       Delegated user access has ended.
     </p-header>
@@ -114,7 +114,7 @@
   <!-- <div [ngBusy]="{busy: busyProgress, message: '', backdrop: true}"></div> -->
   <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
 </div>
-<p-dialog [modal]="true"  [(visible)]="showRecallInactiveDialog" [closable]="false" [closeOnEscape]="false" [style]="{ width: '380vw', height: '160px' }">
+<p-dialog [modal]="true"  [(visible)]="showRecallInactiveDialog" [closable]="false" [closeOnEscape]="false" [style]="{ width: '30vw', height: '160px' }">
   <p-header>
     <span *ngIf="!router.url.includes('sent')">Workitem has been Recalled</span>
     <span *ngIf="router.url.includes('sent')">Sentitem has been Recalled</span>
@@ -183,7 +183,7 @@
   </p-footer>
 </p-dialog>
  <p-dialog [closable]="false" [closeOnEscape]="false"  [modal]="true"
-    [(visible)]="showOperationNotPossible"  [style]="{ width: '380vw', height: '148px' }">
+    [(visible)]="showOperationNotPossible"  [style]="{ width: '30vw', height: '148px' }">
     <p-header>
     </p-header>
     <div>

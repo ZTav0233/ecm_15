@@ -41,3 +41,9 @@
 :host ::ng-deep .p-messages.p-component {
     padding: 0 !important;
 }
+
+.ui-g-2-5{
+    width:20.75%;
+    float:left;
+    padding:0.5em !important;
+}

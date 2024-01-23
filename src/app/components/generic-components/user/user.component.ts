@@ -15,6 +15,7 @@ export class UserComponent implements OnDestroy {
   @Input() public showFromBtn = true;
   @Input() public showReviewerBtn = true;
   @Input() public showThruBtn = true;
+  @Input() public isMemo = false;
   @Input() public showAddBtn = true;
   @Input() public showSelectBtn = false;
   @Input() public showTooltip = true;

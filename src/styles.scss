@@ -147,6 +147,14 @@ body {
     width: 1.5rem !important;
 }
 
+.p-ripple.p-element.p-button.p-component {
+    line-height: 2.5em !important;
+    min-width: 2em !important;
+    font-weight: bold !important;
+    text-align: justify !important;
+    /*padding: 2px 26px 2px 10px;*/
+}
+
 .txt:hover {
     text-decoration: underline;
     cursor: pointer;
@@ -155,6 +163,10 @@ body {
 
 .ui-icon-arrow-back::before {
     content: "arrow_back";
+}
+
+.ui-icon-touch-app::before {
+    content: "touch_app";
 }
 
 .ui-icon-warning::before {
@@ -619,6 +631,12 @@ button.p-element.v-m.p-button.p-component.ng-star-inserted {
 .p-scroller .ui-g-12,
 .p-scroller .ui-g-10 .p-scroller .ui-g {
     padding: 0;
+}
+
+.ui-g-2-5{
+    width:20.75%;
+    float:left;
+    padding:0.5em !important;
 }
 
 .p-scroller {

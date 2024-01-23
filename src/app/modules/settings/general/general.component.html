@@ -79,7 +79,7 @@
     </form>
   </div>
 </div>
-<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTree" [style]="{ width: '50vw', height: '60vh' }">
+<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openTree" [style]="{ width: '40vw'}">
   <p-header>
     Select Folder Path
   </p-header>
@@ -92,10 +92,12 @@
     *ngIf="folderPermission && folderPermission.folderSelected && folderPermission.permission">
     User don't have permission to add document in selected folder
   </span>
-  <button pButton type="button" label="Cancel" class="small-btn-right m-t-xl m-r-md m-b-md"
-    (click)="openTree=false"></button>
-  <button pButton type="button" label="OK" class="small-btn-right m-t-xl m-r-md m-b-md"
-    [disabled]="folderPermission && folderPermission.permission" (click)="selectFolder();openTree=false"></button>
+  <p-footer>
+    <button pButton type="button" label="Cancel" class="small-btn-right m-t-xl m-r-md m-b-md"
+      (click)="openTree=false"></button>
+    <button pButton type="button" label="OK" class="small-btn-right m-t-xl m-r-md m-b-md"
+      [disabled]="folderPermission && folderPermission.permission" (click)="selectFolder();openTree=false"></button>
+  </p-footer>
 </p-dialog>
 <div class="progress-bar">
   <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>

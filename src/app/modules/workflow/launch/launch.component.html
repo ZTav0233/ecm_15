@@ -345,7 +345,7 @@
         <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class="ui-g-1">
           <label>Type :</label>
         </div>
-        <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class="ui-g-11 ui-xl-5 ui-lg-6">
+        <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class="ui-g-11 ui-xl-7 ui-lg-6">
           <p-selectButton [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'"
             (onChange)="onActionTypeChanged($event)" [options]="launch.documents.existing.actionTypes"
             [(ngModel)]="launch.documents.existing.model.actionType" name="actionType"></p-selectButton>
@@ -353,7 +353,7 @@
         <div class="ui-g-1">
           <label>Priority:</label>
         </div>
-        <div class="ui-g-1 ui-xl-5 ui-lg-4 prio">
+        <div class="ui-g-1 ui-xl-3 ui-lg-3 prio">
           <p-radioButton [disabled]="wiaAction?.isMemo == 1 && this.actionTypes == 'reply'" name="workflowPriority"
             value="2" label="Normal" [(ngModel)]="launch.workflow.model.priority">
           </p-radioButton>

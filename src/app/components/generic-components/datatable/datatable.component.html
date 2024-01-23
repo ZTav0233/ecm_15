@@ -37,7 +37,7 @@
     </div>
   </div>
 
-  <div class="data-table-scroll" *ngIf="!rowGroupMode">
+  <div class="data-table-scroll" *ngIf="!rowGroupMode" style="min-height: 60vh;">
     <!-- <p-table *ngIf="!rowGroupMode" [lazy]="lazy"  [totalRecords]="totalRecords"
       [sortField]="defaultSortField" [sortOrder]="sortOrder" [value]="tableData" (onHeaderCheckboxToggle)="checked()"
       [(selection)]="selectedRows" [(first)]="first" (onRowClick)="rowSelected($event)"
@@ -298,7 +298,7 @@
       [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
       [rows]="itemsPerPage" [showCurrentPageReport]="true" [responsive]="true" (onRowExpand)="showSentWorkitems($event)"
       [reorderableColumns]="reorderableColumns" [rowExpandMode]="'single'" #dt [paginator]="true"
-      [globalFilterFields]="['subject','fileName','modifier','title','name','fileName']">
+      [globalFilterFields]="colHeaders">
       <ng-template pTemplate="caption">
         <div style="display: flex; justify-content: space-between;">
           <div>
@@ -542,7 +542,7 @@
     </p-table>
   </div>
   <!-- Grouped -->
-  <div class="data-table-scroll" *ngIf="rowGroupMode">
+  <div class="data-table-scroll" *ngIf="rowGroupMode" style="min-height: 60vh;">
     <p-table [value]="tableData" [columns]="cols" sortField="dateGroup" [dataKey]="dataKeyValue"
       rowGroupMode="subheader" groupRowsBy="dateGroup" [tableStyle]="{'min-width': '70rem'}"
       (onHeaderCheckboxToggle)="checked()" (onRowSelect)="checked($event)" (onRowUnselect)="unchecked($event)"

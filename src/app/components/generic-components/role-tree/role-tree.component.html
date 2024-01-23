@@ -19,9 +19,9 @@
                                                         <button style="padding: 3px;" *ngIf="showAddToToBtn" pButton
                                                                 type="button" label="To" class="v-m"
                                                                 (click)="mAddToToList(node.data)" [disabled]="node.data.disabled || (actionType==='Signature' && node.data.iseSignAllowed===0) ||
-                       (actionType==='Initial' && node.data.isInitalAllowed===0) ||
-                      (actionType==='Initial' && node.data.isInitialAllowed===0) ||
-                      (actionType==='Initial' && node.data.isIntialAllowed===0)"
+                                                                (actionType==='Initial' && node.data.isInitalAllowed===0) ||
+                                                                (actionType==='Initial' && node.data.isInitialAllowed===0) ||
+                                                                (actionType==='Initial' && node.data.isIntialAllowed===0)"
                                                                 [ngClass]="{'hide-Important':!node.data.orgCode}"></button>
                                                         <button style="padding: 3px;" *ngIf="showAddToCCBtn" pButton
                                                                 type="button" label="CC" class="v-m"

@@ -41,8 +41,8 @@ export class ListComponent implements OnInit, OnDestroy {
   public selectedList = '';
   public updateList = new UserList();
   public searchTypes = [
-    { label: 'User', value: 'USER', icon: 'fa fa-fw fa-cc-paypal' },
-    { label: 'Role', value: 'ROLE', icon: 'fa fa-fw fa-cc-visa' }
+    { label: 'User', value: 'USER' },
+    { label: 'Role', value: 'ROLE' }
   ];
   public selectedType = 'USER';
   public showRoleTree = false;
@@ -713,7 +713,7 @@ export class ListComponent implements OnInit, OnDestroy {
         });
       });
       this.roleData.roles.roleTree = this.tmpRoleTree;
-      this.roleData.roles.oRoleTree = this.tmpRoleTree
+      this.roleData.roles.oRoleTree = this.tmpRoleTree;
     }, err => {
       this.busy = false;
     });

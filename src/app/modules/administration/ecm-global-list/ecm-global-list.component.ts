@@ -47,8 +47,8 @@ export class EcmGlobalListComponent implements OnInit {
   public selectedId;
   public noListSelected = true;
   public searchTypes = [
-    { label: 'User', value: 'USER', icon: 'fa fa-fw fa-cc-paypal' },
-    { label: 'Role', value: 'ROLE', icon: 'fa fa-fw fa-cc-visa' }
+    { label: 'User', value: 'USER' },
+    { label: 'Role', value: 'ROLE' }
   ];
 
   public updateList = new UserList();

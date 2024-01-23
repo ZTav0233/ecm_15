@@ -103,7 +103,7 @@
       <h4 class="m-t-0">List Name</h4>
       <input type="text" [(ngModel)]="listName" id="listNameId" (ngModelChange)="changeListName($event)" pInputText>
     </div>
-    <div class="p-t-lg">
+    <div class="p-t-lg list-max-h-365">
       <!-- <p-dataTable styleClass="list-max-h-265" (onFilter)="filterItems($event)" [value]="listUsers"
         *ngIf="listUsers.length>0 || newDistList" [responsive]="true" [globalFilter]="gb" #dt>
         <p-column [style]="{'width':'95%'}" filterMatchMode="contains" field="fulName" [filter]="true"
@@ -128,7 +128,7 @@
         [styleClass]="'list-max-h-365 p-datatable-sm p-datatable-striped p-datatable-gridlines selectedUserRoleListHeader'" 
         [responsive]="true" [globalFilterFields]="['fulName']">
         <ng-template pTemplate="caption" >
-          <div class="flex align-items-center justify-content-center">
+          <div class="flex align-items-center justify-content-center" style="font-weight: bold;">
             Selected Users/Roles
           </div>
           <input
@@ -155,10 +155,8 @@
           </tr>
         </ng-template>
       </p-table>
-
-
     </div>
-    <div class="ui-g-12 ui-md-12 p-0">
+    <div class="ui-g-12 ui-md-12 p-0" style="padding-top: 1em !important;">
       <button *ngIf="selectedParentList===0" [disabled]="isBtnDisabled  " pButton type="button"
         class="right-button m-t-md m-b-md medium-btn saveBtnF" (click)="save();" label="Save"></button>
       <button *ngIf="selectedParentList===0" class="right-button m-t-md m-b-md medium-btn m-r-md" pButton type="button"
@@ -181,7 +179,7 @@
             </p-selectButton>
           </div>
           <div class="ui-g-12 ui-md-2">
-            <span *ngIf="selectedType==='ROLE'" class="hyperLink pull-left"
+            <span *ngIf="selectedType==='ROLE'" class="hyperLink pull-left" style="font-weight: bold;"
               [ngClass]="{'disableClearAll':selectedParentList!==0 && !listName || isFilterEnabled}"
               (click)="(selectedParentList===0 || listName) && !isFilterEnabled?showRoleTreeModel():null">Role
               List</span>
@@ -314,8 +312,8 @@
   <div class="ui-g-12 ui-md-5 p-r-0 p-b-0 p-t-0">
     <label>List Name: </label>{{selectedParentList===0?'Favorites':listName}}
     <h4>Selected Users/Roles</h4>
-    <p-scroller *ngIf="listUsers && listUsers.length>0" [items]="listUsers" [itemSize]="10" scrollHeight="300px" styleClass="border-1 surface-border" [style]="{'height': '300px'}"
-      [lazy]="true">
+    <p-scroller *ngIf="listUsers && listUsers.length>0" [items]="listUsers" [itemSize]="10" scrollHeight="300px" styleClass="border-1 surface-border" [style]="{'height': '290px !important'}"
+      [lazy]="true" style="height: 290px !important;">
       <ng-template let-value pTemplate="selectedItem">
         <div class="ui-g form-group">
           <div class="ui-g-12">

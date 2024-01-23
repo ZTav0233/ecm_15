@@ -48,6 +48,7 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   public entryTemplates: any[];
   public newClassDetails = new EntryTemplateDetails();
   public selectedEntryTemplate: any[];
+  public desigVal: any;
   public entryTemplate: any[];
   public selectedClassName: any;
   public selectedEntryTemplateName: any;
@@ -71,7 +72,8 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   public ecmNo;
   results: any;
   folderIdFromUrl: any;
-  public desigVal:any
+  folderIdFromSettings: any;
+  folderPathFromSettings: any;
   index: any;
   public allowedExtensions = [".msg", ".csv", ".pdf", ".doc", ".zip", ".docx", ".xls", ".xlsx", ".msg", ".ppt", ".pptx", ".dib", ".webp",
     ".jpeg", ".svgz", ".gif", ".jpg", ".ico", ".png", ".svg", ".tif", ".xbm", ".bmp", ".jfif", ".pjpeg", ".pjp", ".tiff", ".txt",".doc",".bin",".pdf",".ppt",".rtf",".xls",".xla",".xlsb",
@@ -164,6 +166,16 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
     }
     else {
       this.newDocumentForm.get('DocumentFrom').setValue(val.value);
+    }
+  }
+
+  addValueAsText(input) {
+    console.log("desigVal :: " + this.desigVal);
+    if (input === 'Document To') {
+      this.newDocumentForm.get('DocumentTo').setValue(this.desigVal);
+    }
+    else {
+      this.newDocumentForm.get('DocumentFrom').setValue(this.desigVal);
     }
   }
 
@@ -260,8 +272,8 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   ngOnInit() {
     let desigData;
     if(this.as.designationValues && this.as.designationValues.length<=0){
-      //AKV-getDesignationValues
-       this.as.getDesignationData().subscribe(data => {
+      //AKV-getDesignationValues //getDesignationData
+       this.as.getDesignationValues().subscribe(data => {
          //data=[{"id":2,"value":" AL GHUNAIM TRADING CO - شركة الغنيم التجارية المحدودة","action":""},{"id":3,"value":" MINISTRY OF SOCIAL AFFAIRS & LABOUR","action":""}];
          this.as.designationValues=data;
          this.as.designationValues.unshift({ id: "", value: null, action: "" });
@@ -280,6 +292,9 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
     this.folderIdFromUrl = this.getSecondPart(this.router.url);
     if (this.folderIdFromUrl) {
       this.cs.getFolderDetails(this.folderIdFromUrl).subscribe(data => this.assignUrlPath(data));
+    }
+    else{
+      this.loadUserDefaultSettings();
     }
     this.bs.addDocPath.subscribe(data => this.assignPath(data));
     this.bs.addDocId.subscribe(data => this.assignId(data));
@@ -390,6 +405,65 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
       this.busy = false;
     });
   }
+
+  loadUserDefaultSettings() {
+    if (this.us.userSettings) {
+      this.us.userSettings.map((setting, i) => {
+        if (setting.key === 'Default Folder') {
+          if (setting.val && setting.val != "") {
+            this.setDefaultFolderDetails(setting.val);
+          }
+        }
+      });
+    }
+    else {
+      this.busy = true;
+      this.us.getUserSettings().subscribe(val => {
+        this.busy = false;
+        val.map((setting, i) => {
+          if (setting.key === 'Default Folder') {
+            if (setting.val && setting.val != "") {
+              this.setDefaultFolderDetails(setting.val);
+            }
+          }
+        });
+      }, Error => {
+        this.busy = false;
+      });
+    }
+  }
+
+
+  setDefaultFolderDetails(fId){
+    this.busy = true
+    this.cs.getFolderDetails(fId).subscribe(res => {
+      this.busy = false;
+      this.folderId = res.id;
+      this.folderIdFromSettings = res.id;
+      this.folderpath = res.path;
+      this.folderPathFromSettings = res.path;
+    });
+  }
+
+  // getETDefaultOrgCodeConfigValue(){
+  //   this.configService.getAppConfigurationValue('ET_DEFAULT_ORGCODE').subscribe(config => {
+  //     this.et_default_orgcode = JSON.parse(config)
+  //     console.log(this.et_default_orgcode)
+     
+  //   }, err => {
+  //     this.busy = false;
+  //   });
+  // }
+
+  // getETDefaultDateConfigValue(){
+  //   this.configService.getAppConfigurationValue('ET_DEFAULT_DATE').subscribe(config => {
+  //     this.et_default_date = JSON.parse(config)
+  //     console.log(this.et_default_orgcode)
+     
+  //   }, err => {
+  //     this.busy = false;
+  //   });
+  // }
 
 
   selectDefaultFolder(defaultFolderId) {
@@ -1304,9 +1378,13 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
         rejectVisible: true,
         accept: () => {
           this.uploadedFiles = '';
-          Dynamsoft.DWT.Load();
+          Dynamsoft.DWT.Load(); 
+          //-------------------------------------------------------------
+          //Abhishek comment for new staging env Dynamsoft 17.1.1
+          //Replace Dynamsoft.WebTwainEnv with Dynamsoft.DWT for version 
+          //-------------------------------------------------------------
           Dynamsoft.DWT.RegisterEvent("OnWebTwainReady", () => {
-            this.Dynamsoft_OnReady()
+            this.Dynamsoft_OnReady();
           });
           this.pageonload();
           this.displayScannerSettings = true;
@@ -1356,9 +1434,26 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   }
 
   removeFolderPath() {
-    this.folderId = "";
-    this.folderpath = "";
-    this.removeEnabled = false;
+    if(this.folderIdFromSettings && this.folderPathFromSettings && this.folderIdFromSettings !== "")
+    {
+      this.folderId = this.folderIdFromSettings;
+      this.folderpath = this.folderPathFromSettings;
+      this.removeEnabled = false;
+    }
+    else{
+      this.loadUserDefaultSettings();
+      if(this.folderIdFromSettings && this.folderPathFromSettings && this.folderIdFromSettings !== "")
+      {
+        this.folderId = this.folderIdFromSettings;
+        this.folderpath = this.folderPathFromSettings;
+        this.removeEnabled = false;
+      }
+      else{
+        this.folderId = "";
+        this.folderpath = "";
+        this.removeEnabled = false;
+      }
+    }
   }
 
   openTreeDialog() {
@@ -1563,7 +1658,7 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
     }
     return false;
   }
-Unl
+
   closetblLoadImage_onclick(): boolean {
     document.getElementById("tblLoadImage").style.visibility = "hidden";
     document.getElementById("Resolution").style.visibility = "visible";
@@ -2311,15 +2406,7 @@ Unl
   isNumber(event){
     return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57
   }
-  addValueAsText(input) {
-    console.log("desigVal :: " + this.desigVal);
-    if (input === 'Document To') {
-      this.newDocumentForm.get('DocumentTo').setValue(this.desigVal);
-    }
-    else {
-      this.newDocumentForm.get('DocumentFrom').setValue(this.desigVal);
-    }
-  }
+
   applyFilterGlobal($event, stringVal) {
     console.log(($event.target as HTMLInputElement).value);
     this.dataTable.filterGlobal(

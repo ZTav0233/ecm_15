@@ -596,14 +596,14 @@
                             || workitem.actions === 'Signature') && (currentUser.isInitialAllowed===1) 
                             && (workitem.memoStepname=='APPROVER') && (attachment.docId !== this.curVerMemoDocId)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-touch-app"
                           (click)="eSign(attachment, 1, 0);"> </button>
                         <button pButton
                           *ngIf="(workitem.memoStepname=='REVIEWER') && (workitem.isMemo && workitem.isMemo === 1) 
                             && (workitem.actions === 'Initial' || workitem.actions === 'Signature') 
                             && (currentUser.isInitialAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-touch-app"
                           (click)="eSign(attachment, 1, 0);"> </button>
                         <button pButton
                           *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1' || workitem.memoStepname=='SUB-FROM' 
@@ -611,7 +611,7 @@
                             || (workitem.memoStepname=='TO' && (workitem.actions === 'Initial' || workitem.actions === 'Signature'))) 
                             && (workitem.isMemo && workitem.isMemo === 1)  && (currentUser.isInitialAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-touch-app"
                           (click)="eSign(attachment, 1, 0);"> </button>
                         <!--<button pButton
                           *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1') && (workitem.isMemo && workitem.isMemo === 1) 
@@ -624,7 +624,7 @@
                           *ngIf="(!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0)) && (workitem.actions === 'Initial') 
                             && (attachment.isSign && attachment.isSign===1) && (currentUser.isInitialAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-touch-app"
                           (click)="eSign(attachment, 1, 0);"></button>
 
                         <button pButton
@@ -775,14 +775,14 @@
                             || workitem.actions === 'Signature') && (currentUser.isInitialAllowed===1) 
                             && (workitem.memoStepname=='APPROVER') && (attachment.docId !== this.curVerMemoDocId)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-touch-app"
                           (click)="eSign(attachment, 1, 0);"> </button>
                         <button pButton
                           *ngIf="(workitem.memoStepname=='REVIEWER') && (workitem.isMemo && workitem.isMemo === 1) 
                             && (workitem.actions === 'Initial' || workitem.actions === 'Signature') 
                             && (currentUser.isInitialAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-touch-app"
                           (click)="eSign(attachment, 1, 0);"> </button>
                         <button pButton
                           *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1' || workitem.memoStepname=='SUB-FROM' 
@@ -790,7 +790,7 @@
                             || (workitem.memoStepname=='TO' && (workitem.actions === 'Initial' || workitem.actions === 'Signature'))) 
                             && (workitem.isMemo && workitem.isMemo === 1)  && (currentUser.isInitialAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-touch-app"
                           (click)="eSign(attachment, 1, 0);"> </button>
                         <!--<button pButton
                           *ngIf="(workitem.memoStepname=='PREP_REVIEW' || workitem.memoStepname=='PREP_REVIEW1') && (workitem.isMemo && workitem.isMemo === 1) 
@@ -803,7 +803,7 @@
                           *ngIf="(!workitem.isMemo || workitem.isMemo == undefined || (workitem.isMemo && workitem.isMemo === 0)) && (workitem.actions === 'Initial') 
                             && (attachment.isSign && attachment.isSign===1) && (currentUser.isInitialAllowed===1)"
                           [disabled]="(fromPage[0] === 'sent') || isAllActionsDisabled || this.fromPage[0] === 'archive'"
-                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-save"
+                          type="button" title="Initial" class="remove-btn v-m ui-button-icon-only" icon="fa fa-fw ui-icon-touch-app"
                           (click)="eSign(attachment, 1, 0);"></button>
 
                         <button pButton
@@ -1114,7 +1114,7 @@
   </p-footer>
 </p-dialog>
 <p-dialog styleClass="without-footer" [(visible)]="AddUserDialog" [modal]="true" [appendTo]="taskDetailDialog"
-  (onHide)="closeAddUserModel()" [style]="{ width: '1100vw', height: '550px' }" [styleClass]="'max-h-488'"
+  (onHide)="closeAddUserModel()" [style]="{ width: '70vw', height: '550px' }" [styleClass]="'max-h-488'"
   [contentStyle]="{'overflow':'auto'}">
   <p-header>
     Add User
@@ -1131,7 +1131,7 @@
   </p-footer>
 </p-dialog>
 <p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
-  [(visible)]="displayProgress" [style]="{ width: '650vw', height: '550px' }" [contentStyle]="{'overflow':'auto'}">
+  [(visible)]="displayProgress" [style]="{ width: '60vw', height: '550px' }" [contentStyle]="{'overflow':'auto'}">
   <p-header>
     <span>Work Progress</span>
     <!--<span><button pButton type="button" icon="fa fa-fw ui-icon-refresh" class="remove-btn v-m m-l-sm" (click)="getWorkitemProgress($event)"></button></span>-->
@@ -1168,7 +1168,7 @@
   </table>
 </p-dialog>
 <p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
-  [(visible)]="wiRemarksVisible" [style]="{ width: '650vw', height: '250px' }" [contentStyle]="{'overflow':'auto'}">
+  [(visible)]="wiRemarksVisible" [style]="{ width: '60vw', height: '250px' }" [contentStyle]="{'overflow':'auto'}">
   <p-header>
     <span>Please add comments to proceed</span>
   </p-header>
@@ -1184,7 +1184,7 @@
   </p-footer>
 </p-dialog>
 <p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
-  [(visible)]="wiRemarksVisibleForReturn" [style]="{ width: '650vw', height: '250px' }"
+  [(visible)]="wiRemarksVisibleForReturn" [style]="{ width: '60vw', height: '250px' }" 
   [contentStyle]="{'overflow':'auto'}">
   <p-header>
     <span>Please add comments to proceed</span>
@@ -1199,7 +1199,7 @@
   </p-footer>
 </p-dialog>
 <p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
-  [(visible)]="wiReferenceVisible" [style]="{ width: '350vw', height: '150px' }" [contentStyle]="{'overflow':'auto'}">
+  [(visible)]="wiReferenceVisible" [style]="{ width: '30vw', height: '150px' }" [contentStyle]="{'overflow':'auto'}">
   <p-header>
     <span>Please provide value for memo reference no: </span>
   </p-header>
@@ -1212,7 +1212,7 @@
   </p-footer>
 </p-dialog>
 <p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
-  [(visible)]="editRemarksVisible" [style]="{ width: '650vw', height: '200px' }" [contentStyle]="{'overflow':'auto'}">
+  [(visible)]="editRemarksVisible" [style]="{ width: '40vw', height: '200px' }" [contentStyle]="{'overflow':'auto'}">
   <p-header>
     <span>Edit Action will generate a new copy and miss all previous obtained initials/eSigns</span>
   </p-header>
@@ -1221,7 +1221,7 @@
     <button type="button" pButton label="Cancel" (click)="editRemarksVisible=false"></button>
   </p-footer>
 </p-dialog>
-<p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="eSignDialog" [style]="{ width: '200vw', height: '120px' }"
+<p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="eSignDialog" [style]="{ width: '20vw', height: '120px' }"
   (onHide)="canceleSign()">
   <p-header>
     <span>{{workitem.actions === 'Signature' ? 'eSign' : 'Initial'}} In-Progress</span>
@@ -1232,7 +1232,7 @@
   </p-footer>
 </p-dialog>
 <p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="showDelegationInactiveDialog"
-  [style]="{ width: '380vw', height: '160px' }" [closable]="false" [closeOnEscape]="false">
+  [style]="{ width: '20vw', height: '160px' }" [closable]="false" [closeOnEscape]="false">
   <p-header>
     {{inactiveDialogMessage}}
     <!--Delegated user access has ended.-->
@@ -1243,7 +1243,7 @@
   </p-footer>
 </p-dialog>
 <p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="showRecallInactiveDialog"
-  [style]="{ width: '380vw', height: '160px' }" [closable]="false" [closeOnEscape]="false">
+  [style]="{ width: '50vw', height: '160px' }" [closable]="false" [closeOnEscape]="false">
   <p-header>
     <span *ngIf="!router.url.includes('sent')">Workitem has been Recalled</span>
     <span *ngIf="router.url.includes('sent')">Sentitem has been Recalled</span>
@@ -1253,7 +1253,7 @@
     <button pButton class="pull-right" type="button" label="OK" (click)="reloadApp()"></button>
   </p-footer>
 </p-dialog>
-<p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="showRecallActionedDialog" [style]="{ width: '380vw', height: '160px' }" 
+<p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="showRecallActionedDialog" [style]="{ width: '30vw', height: '160px' }" 
     [closable]="false" [closeOnEscape]="false">
   <p-header>
     <span>Recall Notification</span>
@@ -1264,7 +1264,7 @@
   </p-footer>
 </p-dialog>
 <p-dialog [modal]="true" [appendTo]="taskDetailDialog" [(visible)]="showMemoRecallSelectOneDialog" 
-[style]="{ width: '380vw', height: '200px' }" [closable]="false" [closeOnEscape]="false">
+[style]="{ width: '50vw', height: '200px' }" [closable]="false" [closeOnEscape]="false">
   <p-header>
     <span>Recall Notification</span>
   </p-header>
@@ -1292,7 +1292,7 @@
   </p-footer>
 </p-dialog>
 <p-dialog styleClass="p-0" [styleClass]="'max-h-488'" [modal]="true" [appendTo]="taskDetailDialog"
-  [(visible)]="overrideRemarksVisible" [style]="{ width: '650vw', height: '250px' }" [contentStyle]="{'overflow':'auto'}">
+  [(visible)]="overrideRemarksVisible" [style]="{ width: '60vw', height: '250px' }" [contentStyle]="{'overflow':'auto'}">
   <p-header>
     <span>Memo is not initialed, please provide comments to proceed</span>
   </p-header>
@@ -1306,7 +1306,7 @@
 </p-dialog>
 <div *ngIf="openConfirmationDialog" class="text">
   <p-dialog appendTo="body" [modal]="true"  showEffect="fade" [(visible)]="openTheConfirmationDialog" [responsive]="true"
-      [style]="{ width: '600vw', height: '250px' }">
+      [style]="{ width: '60vw', height: '250px' }">
     <p-header>
       Information
     </p-header>
@@ -1324,7 +1324,7 @@
 </div>
 <div *ngIf="submitConfirmationDialog" class="text">
   <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="submitTheConfirmationDialog" [responsive]="true"
-      [style]="{ width: '600vw', height: '250px' }">
+      [style]="{ width: '60vw', height: '250px' }">
     <p-header>
       Information
     </p-header>

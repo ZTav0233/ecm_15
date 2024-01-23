@@ -13,16 +13,16 @@
           <div class="ui-g-12 ui-lg-4 p-l-0">
             <div class="task-box task-box-1 chart-card">
               <div class="task-box-header">
-                <h4 style="color: white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].today.all.active">
+                <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].today.all.active">
                   Today: (All)
                   <span style="float: right;">{{dashboardStatistics[currentUser.EmpNo].today.all.total}}
                     Workitems</span>
                 </h4>
-                <h4 style="color: white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].today.to.active">
+                <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].today.to.active">
                   Today: (To)
                   <span style="float: right;">{{dashboardStatistics[currentUser.EmpNo].today.to.total}} Workitems</span>
                 </h4>
-                <h4 style="color: white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].today.cc.active">
+                <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].today.cc.active">
                   Today: (CC)
                   <span style="float: right;">{{dashboardStatistics[currentUser.EmpNo].today.cc.total}} Workitems</span>
                 </h4>
@@ -52,7 +52,7 @@
               </div>
               <div class="task-box-footer">
                 <div class="pull-right">
-                  <p-selectButton [options]="types"
+                  <p-selectButton class="dashStyle" [options]="types"
                     (click)="changeActiveView(dashboardStatistics[currentUser.EmpNo].today.selectedType,currentUser.EmpNo,'today')"
                     [(ngModel)]="dashboardStatistics[currentUser.EmpNo].today.selectedType"></p-selectButton>
                 </div>
@@ -62,16 +62,16 @@
           <div class="ui-g-12 ui-lg-4">
             <div class="task-box task-box-2 chart-card">
               <div class="task-box-header">
-                <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].total.all.active">
+                <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].total.all.active">
                   Total: (All)
                   <span style="float: right;">{{dashboardStatistics[currentUser.EmpNo].total.all.total}}
                     Workitems</span>
                 </h4>
-                <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].total.to.active">
+                <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].total.to.active">
                   Total: (To)
                   <span style="float: right;">{{dashboardStatistics[currentUser.EmpNo].total.to.total}} Workitems</span>
                 </h4>
-                <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].total.cc.active">
+                <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[currentUser.EmpNo].total.cc.active">
                   Total: (CC)
                   <span style="float: right;">{{dashboardStatistics[currentUser.EmpNo].total.cc.total}} Workitems</span>
                 </h4>
@@ -111,7 +111,7 @@
           <div class="ui-g-12 ui-lg-4 p-r-0">
             <div class="task-box task-box-3 chart-card">
               <div class="task-box-header">
-                <h4 style="color:white" class="m-0">Workitems Due Today & Overdue</h4>
+                <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0">Workitems Due Today & Overdue</h4>
               </div>
               <div class="task-box-content">
                 <ng-container
@@ -180,13 +180,13 @@
                 <div class="ui-g-12 ui-lg-4 p-l-0">
                   <div class="task-box task-box-1 chart-card">
                     <div class="task-box-header">
-                      <h4 style="color: white;" class="m-0" *ngIf="dashboardStatistics[role?.id].today.all.active">Today:
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[role?.id].today.all.active">Today:
                         (All) <span style="float: right;">{{dashboardStatistics[role?.id]?.today?.all?.total}}
                           Workitems</span></h4>
-                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role?.id].today.to.active">Today:
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[role?.id].today.to.active">Today:
                         (To) <span style="float: right;">{{dashboardStatistics[role?.id].today.to.total}}
                           Workitems</span></h4>
-                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role?.id].today.cc.active">Today:
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[role?.id].today.cc.active">Today:
                         (CC) <span style="float: right;">{{dashboardStatistics[role?.id].today.cc.total}}
                           Workitems</span></h4>
                     </div>
@@ -225,13 +225,13 @@
                 <div class="ui-g-12 ui-lg-4">
                   <div class="task-box task-box-2 chart-card">
                     <div class="task-box-header">
-                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role?.id].total.all.active">Total:
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[role?.id].total.all.active">Total:
                         (All) <span style="float: right;">{{dashboardStatistics[role?.id].total.all.total}}
                           Workitems</span></h4>
-                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role?.id].total.to.active">Total:
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[role?.id].total.to.active">Total:
                         (To) <span style="float: right;">{{dashboardStatistics[role?.id].total.to.total}}
                           Workitems</span></h4>
-                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[role?.id].total.cc.active">Total:
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[role?.id].total.cc.active">Total:
                         (CC) <span style="float: right;">{{dashboardStatistics[role?.id].total.cc.total}}
                           Workitems</span></h4>
                     </div>
@@ -270,7 +270,7 @@
                 <div class="ui-g-12 ui-lg-4 p-r-0">
                   <div class="task-box task-box-3 chart-card">
                     <div class="task-box-header">
-                      <h4 style="color:white" class="m-0">Workitems Due Today & Overdue</h4>
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0">Workitems Due Today & Overdue</h4>
                     </div>
                     <div class="task-box-content">
                       <ng-container
@@ -339,14 +339,14 @@
                 <div class="ui-g-12 ui-lg-4 p-l-0">
                   <div class="task-box task-box-1 chart-card">
                     <div class="task-box-header">
-                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate?.userId].today.all.active">
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[delegate?.userId].today.all.active">
                         Today: (All) <span
                           style="float: right;">{{dashboardStatistics[delegate?.userId].today.all.total}}
                           Workitems</span></h4>
-                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate?.userId].today.to.active">
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[delegate?.userId].today.to.active">
                         Today: (To) <span style="float: right;">{{dashboardStatistics[delegate?.userId].today.to.total}}
                           Workitems</span></h4>
-                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate?.userId].today.cc.active">
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[delegate?.userId].today.cc.active">
                         Today: (CC) <span style="float: right;">{{dashboardStatistics[delegate?.userId].today.cc.total}}
                           Workitems</span></h4>
                     </div>
@@ -385,14 +385,14 @@
                 <div class="ui-g-12 ui-lg-4">
                   <div class="task-box task-box-2 chart-card">
                     <div class="task-box-header">
-                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate?.userId].total.all.active">
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[delegate?.userId].total.all.active">
                         Total: (All) <span
                           style="float: right;">{{dashboardStatistics[delegate?.userId].total.all.total}}
                           Workitems</span></h4>
-                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate?.userId].total.to.active">
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[delegate?.userId].total.to.active">
                         Total: (To) <span style="float: right;">{{dashboardStatistics[delegate?.userId].total.to.total}}
                           Workitems</span></h4>
-                      <h4 style="color:white" class="m-0" *ngIf="dashboardStatistics[delegate?.userId].total.cc.active">
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0" *ngIf="dashboardStatistics[delegate?.userId].total.cc.active">
                         Total: (CC) <span style="float: right;">{{dashboardStatistics[delegate?.userId].total.cc.total}}
                           Workitems</span></h4>
                     </div>
@@ -431,7 +431,7 @@
                 <div class="ui-g-12 ui-lg-4 p-r-0">
                   <div class="task-box task-box-3 chart-card">
                     <div class="task-box-header">
-                      <h4 style="color:white" class="m-0">Workitems Due Today & Overdue</h4>
+                      <h4 style="color: white;font-size: 16px;font-weight: 400; margin: unset;" class="m-0">Workitems Due Today & Overdue</h4>
                     </div>
                     <div class="task-box-content">
                       <ng-container
