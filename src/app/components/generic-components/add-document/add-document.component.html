@@ -327,7 +327,7 @@
                 <td><i style="color: white;" class="fa fa-fw ui-icon-search v-m m-r-md"></i></td>
                 <td>
                   <input #gb type="text" pInputText size="50" placeholder="Search Designation"
-                    style="color: #ffffff; background:#607D8B ;" class="v-m p-0" [(ngModel)]="desigVal" (input)="applyFilterGlobal($event, 'contains')">
+                    style="color: #ffffff; background:#607D8B;" class="v-m p-0" [(ngModel)]="desigVal" (input)="applyFilterGlobal($event, 'contains')">
                 </td>
                 <td>
                   <button pButton type="button" [disabled]="(desigVal && desigVal.length<=0)" label="Use New"

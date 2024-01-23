@@ -88,6 +88,7 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   et_dependent_lookup: any;
   docToOrFrom: any;
   designation: any;
+  desigDataCopy: any;
   selectedDesignation: any;
   totalRecords: number;
   datasource: any;
@@ -143,9 +144,9 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   }
 
   openListDialog(detail) {
-    console.log(this.namelist);
-    
-    // this.namelist.onFilterKeyup('', 'data', 'contains');
+    console.log('namelist :' + this.namelist);
+    this.applyOnLoadFilter();
+    //this.namelist.onFilterKeyup('', 'data', 'contains');
     this.searchInput.nativeElement.value = '';
     this.showDesignation = true;
     this.selectedDesignation = [];
@@ -263,14 +264,14 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
       this.totalRecords = this.datasource.length;
       this.designation = this.datasource//.slice(0, 10);
 
+      this.desigDataCopy = desigData;
     }
-    console.log(this.designation);
+    //console.log(this.designation);
     
 
   }
 
   ngOnInit() {
-    let desigData;
     if(this.as.designationValues && this.as.designationValues.length<=0){
       //AKV-getDesignationValues //getDesignationData
        this.as.getDesignationValues().subscribe(data => {
@@ -284,8 +285,7 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
        });
     }
     else{
-      desigData = this.as.designationValues;
-      this.assignDesignationData(desigData);
+      this.assignDesignationData(this.as.designationValues);
     }
 
     //this.setEcmNo();
@@ -2413,6 +2413,10 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
       ($event.target as HTMLInputElement).value,
       stringVal
     );
+  }
+
+  applyOnLoadFilter(){
+    this.dataTable.filterGlobal('','contains');
   }
   
 }
