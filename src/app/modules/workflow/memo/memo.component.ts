@@ -55,30 +55,13 @@ declare var DecoupledEditor: any
 })
 export class MemoComponent implements OnInit, OnDestroy {
   watchdog: any
-  date1: Date;
-  date2: Date;
-  date3: Date;
-  date4: Date;
-  date5: Date;
-  date6: Date;
-  date7: Date;
-  date8: Date;
-  date9: Date;
-  date10: Date;
-  date11: Date;
-  date12: Date;
-  date13: Date;
-  date14: Date;
   dates: Date[];
   rangeDates: Date[];
   minDate: Date;
   maxDate: Date;
   es: any;
-  invalidDates: Array<Date>
+  invalidDates: Array<Date>;
   data: any;
-  secOndOne: string;
-  thirdOne: string;
-  list = ['item1', 'item2', 'item1', 'item1', 'item2', 'item3']
   recipientsActionType = [{ name: '' }, { name: 'Initial' }, { name: 'Signature' }, { name: 'Comments' }];
   fromReciActionType = [{ name: 'Signature' }];
   toReciActionType = [{ name: '' }, { name: 'Initial' }, { name: 'Signature' }];
@@ -702,6 +685,7 @@ export class MemoComponent implements OnInit, OnDestroy {
 
 
   timerStop() {
+    console.log("Clear Interval 2");
     clearInterval(this.intervalId)
   }
   
@@ -723,32 +707,17 @@ export class MemoComponent implements OnInit, OnDestroy {
     console.log('Start timerElement = ' + myElement);
       //updateMemoPreview testing
     let self = this;
-    self.intervalId = setInterval(function () {
+    let memoPreviewInt = setInterval(function () {
+      self.intervalId = memoPreviewInt;
       let timeleft = parseInt(myElement.innerHTML, 10); ;
       if(+timeleft > 0){
         myElement.innerHTML = (+timeleft - 1).toString();
       } else{
         debugger;
-        //CKEDITOR.on( 'currentInstance', function() {
-          /* editor = CKEDITOR.currentInstance;
-          console.log("CKEditor Instance Name:: " + editor)
-          if(!editor)
-          {
-            for ( var i in CKEDITOR.instances ){
-              var currentInstance = i;
-              console.log("CKEditor Instance ID :: " + currentInstance)
-              break;
-            }
-            editor = CKEDITOR.instances[currentInstance];
-            console.log("CKEditor Instance Name :: " + editor)
-          } */
-          //console.log("Mode:: "+ editor?editor.mode:'Editor not loaded');
-          //this.launch.recipients && this.launch.recipients.FromList.length == 0 
-              //||(this.memoType.name=='Memo'&& (this.launch.recipients && this.launch.recipients.toList.length == 0)) 
-              //|| !this.folderpath || (self.launch.recipients && self.launch.recipients.RevList.length == 0)  
           if(!self.launch || self.launch === null || self.launch === undefined 
               || !self.launch.recipients || self.launch.recipients === null || self.launch.recipients === undefined){
-            clearInterval(self.intervalId);
+            console.log("Clear Interval 1");
+            clearInterval(memoPreviewInt);
             self.isOnlinePreviewReady = false;
           }
 
