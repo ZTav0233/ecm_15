@@ -72,6 +72,25 @@
                 </p-accordionTab>
               </p-accordion>
             </div>
+            <div class="ui-g-12 ui-sm-12 document-cart p-t-xl p-l-0 p-r-0">
+              <p-accordion>
+                <p-accordionTab [selected]="true">
+                  <p-header>
+                    <div class="ui-g">
+                      <div class="ui-g-2 ui-sm-12 p-v-0"><i class="fa ui-icon-remove-red-eye v-m"></i></div>
+                      <div class="ui-g-10 ui-sm-12 p-v-0">
+                        <div class="v-m doc-cart-label">Memo Preview</div>
+                        <div id="timerVal" class="custom-label">20</div>
+                        <div class="custom-text">Secs</div>
+                      </div>
+                    </div>
+                  </p-header>
+                  <div class="ui-g-12 ui-sm-12 previewpane" style="height: 50vh;">
+                    <iframe id="pdfIframe" src="pdfjs/web/memoView.html" style="width: 100%; height: 100%;"></iframe>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
           </p-tabPanel>
           <p-tabPanel header="Enclosures">
             <button (click)="openSearchDialog=true;openSearchDialogLoaded=true;" pButton type="button"

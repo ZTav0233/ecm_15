@@ -117,6 +117,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   public memoWorkitemId: any = 0;
   public memoSubject: any;
   public wiaAction: any;
+  public memoDataLength: any = 0;
   public subscriptionEsign: any;
   public userSearchSuggestion;
   public onBehalfUser;
@@ -279,6 +280,8 @@ export class MemoComponent implements OnInit, OnDestroy {
   attachment: any[] = [];
   Enclosures: any[] = [];
   previewResponse: any = '';
+  onlinePreview: any = '';
+  isOnlinePreviewReady: any = '';
   previewResponseForNewTab: any = '';
   date: any = new Date();
   recipientTab: boolean = false;
@@ -319,6 +322,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   selectedFolder: any;
   editorEN: any;
   editorAR: any;
+  intervalId: any;
 
   constructor(
     private toastr:ToastrService,
@@ -682,15 +686,126 @@ export class MemoComponent implements OnInit, OnDestroy {
           this.busy = false
         });
       }
+
+      setTimeout(() => {
+        //this.timerStart();
+      } , 1000);
     }
     setTimeout(() => {
       // this.onReadyCkEditor()
-      this.onReadyCkEditorEN('en')
-      this.onReadyCkEditorAR('ar')
-    }, 300);
+      this.onReadyCkEditorEN('en');
+      this.onReadyCkEditorAR('ar');
+    }, 600);
+  }
 
 
+  timerStop = () => {
+    let self = this;
+    clearInterval(self.intervalId)
+  }
+  
+  timerRestart = () => {
+    let self = this;
+    const myElement = document.getElementById("timerVal");
+    console.log('Restart timerElement = ' + myElement);
+    self.timerStop()
+    myElement.innerHTML = '20';
+    setTimeout(() => {
+      self.timerStart();
+    } , 250);
+  }
 
+  timerStart () {
+    var editor  = null;
+    this.timerStop();
+    const myElement = document.getElementById("timerVal");
+    console.log('Start timerElement = ' + myElement);
+      //updateMemoPreview testing
+    let self = this;
+    self.intervalId = setInterval(function () {
+      let timeleft = parseInt(myElement.innerHTML, 10); ;
+      if(+timeleft > 0){
+        myElement.innerHTML = (+timeleft - 1).toString();
+      } else{
+        debugger;
+        //CKEDITOR.on( 'currentInstance', function() {
+          editor = CKEDITOR.currentInstance;
+          console.log("CKEditor Instance Name:: " + editor)
+          if(!editor)
+          {
+            for ( var i in CKEDITOR.instances ){
+              var currentInstance = i;
+              console.log("CKEditor Instance ID :: " + currentInstance)
+              break;
+            }
+            editor = CKEDITOR.instances[currentInstance];
+            console.log("CKEditor Instance Name :: " + editor)
+          }
+          //console.log("Mode:: "+ editor?editor.mode:'Editor not loaded');
+          //this.launch.recipients && this.launch.recipients.FromList.length == 0 
+              //||(this.memoType.name=='Memo'&& (this.launch.recipients && this.launch.recipients.toList.length == 0)) 
+              //|| !this.folderpath || (self.launch.recipients && self.launch.recipients.RevList.length == 0)  
+
+          if(self.launch.recipients && self.launch.recipients.FromList.length == 0 
+              ||(self.memoType.name=='Memo'&& (self.launch.recipients && self.launch.recipients.toList.length == 0)) 
+              || !self.folderpath || !self.date || !self.launch.workflow.model.selectedorgCode 
+              || !self.launch.workflow.model.refNo|| !self.launch.workflow.model.subject 
+              || (self.memoLang.name=='English' && !self.launch.workflow.model.messages) 
+              || (self.memoLang.name!='English' && !self.launch.workflow.model.arMessages) 
+              || (self.memoType.name=='Letter' && !self.designation) ||(self.memoType.name=='Letter' && !self.address) 
+              || (self.memoType.name=='Letter' && !self.To)){
+                setTimeout(() => {
+                  self.timerRestart();
+                } , 200);
+          }
+          else{
+              var ckData = editor.getData();
+              console.log("CKEditor data :: " + ckData)
+              if(ckData && ckData.length > 0)
+              {
+                self.memoDataLength = ckData.length;
+                console.log( 'Total bytes: ' + self.memoDataLength);
+
+                self.updateMemoPreview();
+                setTimeout(() => {
+                  self.timerRestart();
+                } , 500);
+              }
+              else{
+                ckData = this.editorEN.getData() ? this.editorEN.getData() : (this.editorAR.getData() ? this.editorAR.getData() : '');
+                if(ckData && ckData.length > 0)
+                {
+                  self.memoDataLength = ckData.length;
+                  console.log( 'Total bytes: ' + self.memoDataLength);
+
+                  self.updateMemoPreview();
+                  setTimeout(() => {
+                    self.timerRestart();
+                  } , 500);
+                }
+              }
+          }
+
+        /*   editor.on( 'change', function( evt ) {
+            // getData() returns CKEditor's HTML content.
+            var ckData = evt.editor.getData();
+            console.log("CKEditor data :: " + ckData)
+            if(ckData && ckData.length > 0)
+            {
+              self.memoDataLength = ckData.length;
+              console.log( 'Total bytes: ' + self.memoDataLength);
+
+              self.updateMemoPreview();
+              setTimeout(() => {
+                self.timerRestart();
+              } , 500);
+            }
+          }); */
+        //}); 
+       
+      }
+      
+    }, 1000);
   }
 
   loadUserSettings() {
@@ -1403,6 +1518,48 @@ export class MemoComponent implements OnInit, OnDestroy {
     }
   }
   
+  addToCart2(doc) {
+    this.busy = true;
+    this.documentService.addToCart(this.currentUser.EmpNo, doc.id).subscribe(res => {
+      this.busy = false;
+      this.openNewDocDilaog = false;
+      if (res === 'OK') {
+        // this.growlService.showGrowl({
+        //   severity: 'info',
+        //   summary: 'Success', detail: 'Document Added To Cart'
+        // });
+        this.toastr.info('Document Added To Cart', 'Success');
+        this.getDocumentCart(true);
+        window.parent.postMessage('AddCartSuccess', '*');
+      }
+      else if (res === 'Exists') {
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Already Exist', detail: 'Document Already Exist in Cart'
+        // });
+        this.toastr.error('Document Already Exist in Cart', 'Already Exist');
+      }
+      else {
+        // this.growlService.showGrowl({
+        //   severity: 'error',
+        //   summary: 'Failure', detail: 'Add To Cart Failed'
+        // });
+        this.toastr.error('Add To Cart Failed', 'Failure');
+      }
+      if (res.status !== 'Exists' && (this.actionTypes === 'forward' || this.actionTypes === 'reply' || this.actionTypes === 'replyAll')) {
+        let temp = [...[doc]];
+        let newarray = [];
+        newarray = this.documentService.checkedCartItems;
+        temp.map(d => {
+          newarray.push(d);
+        });
+        this.bs.setCartSelection.emit(newarray);
+      }
+    }, Error => {
+      this.busy = false;
+    });
+  }
+  
   addToCart2_v2(doc) {
     this.busy = true;
     if (this.addDocumentType == "Enclosure") {
@@ -1456,47 +1613,6 @@ export class MemoComponent implements OnInit, OnDestroy {
         this.busy = false;
       });
     }
-  }
-  addToCart2(doc) {
-    this.busy = true;
-    this.documentService.addToCart(this.currentUser.EmpNo, doc.id).subscribe(res => {
-      this.busy = false;
-      this.openNewDocDilaog = false;
-      if (res === 'OK') {
-        // this.growlService.showGrowl({
-        //   severity: 'info',
-        //   summary: 'Success', detail: 'Document Added To Cart'
-        // });
-        this.toastr.info('Document Added To Cart', 'Success');
-        this.getDocumentCart(true);
-        window.parent.postMessage('AddCartSuccess', '*');
-      }
-      else if (res === 'Exists') {
-        // this.growlService.showGrowl({
-        //   severity: 'error',
-        //   summary: 'Already Exist', detail: 'Document Already Exist in Cart'
-        // });
-        this.toastr.error('Document Already Exist in Cart', 'Already Exist');
-      }
-      else {
-        // this.growlService.showGrowl({
-        //   severity: 'error',
-        //   summary: 'Failure', detail: 'Add To Cart Failed'
-        // });
-        this.toastr.error('Add To Cart Failed', 'Failure');
-      }
-      if (res.status !== 'Exists' && (this.actionTypes === 'forward' || this.actionTypes === 'reply' || this.actionTypes === 'replyAll')) {
-        let temp = [...[doc]];
-        let newarray = [];
-        newarray = this.documentService.checkedCartItems;
-        temp.map(d => {
-          newarray.push(d);
-        });
-        this.bs.setCartSelection.emit(newarray);
-      }
-    }, Error => {
-      this.busy = false;
-    });
   }
 
   downloadDoc(doc) {
@@ -4086,6 +4202,9 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.launch.workflow.model.ECMNo = data.ECMNo;
     //this.memoDocTitle = (data.memoDocTitle && data.memoDocTitle !== null)? data.memoDocTitle : data.subject;
     this.ECM_NO = data.ECMNo;
+    setTimeout(() => {
+      this.timerStart();
+    } , 1000);
   }
 
   setMemoDocTitle() {
@@ -4345,8 +4464,12 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.launch.recipients.ccList = [...this.launch.recipients.ccList]
       this.launch.recipients.ThruList = [...this.launch.recipients.ThruList]
       this.launch.recipients.RevList = [...this.launch.recipients.RevList]
-      this.launch.recipients.RevList = [...this.launch.recipients.RevList]
+      this.launch.recipients.RevList = [...this.launch.recipients.RevList];
 
+      //Start time for memo preview
+	    setTimeout(() => {
+        this.timerStart();
+      } , 1000);
       //Commented by Abhishek 14/Jan/2024
       // if(this.actionTypes === 'draftMemo')
       //   this.getMemoReferenceListValues('1', data.referenceNo);
@@ -5133,8 +5256,8 @@ export class MemoComponent implements OnInit, OnDestroy {
       if(d === 'yes' && this.actionTypes !== 'edit' && this.memoId === 0){
         this.isMemoRefValid = false;
         //this.memoReferenceNo = '';
-          let msg = "The reference no already exists. Type new to continue";
-          /* this.growlService.showGrowl({
+        let msg = "The Reference No# [" + refNo + "] already exists. Refresh or Type new to continue"
+          /*this.growlService.showGrowl({
             severity: 'error',
             summary: 'Already exists!', detail: msg
           }); */
@@ -5142,6 +5265,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       }else{
         this.isMemoRefValid = true;
         console.log("finalValidationForMemoRef isMemoRefValid :: " + this.isMemoRefValid);
+        this.timerStop();
         if(this.isMemoRefValid && this.isMemoRefValid === true){
           switch (routeMethod) {
             case 'previewData':
@@ -5219,6 +5343,26 @@ export class MemoComponent implements OnInit, OnDestroy {
     //}
 
   }
+
+  updateMemoPreview(){
+    let data = this.memoData("Preview")
+    //this.busy = true;
+    this.memoService.previewMemo(data).subscribe(res => {
+      this.blobToBase64(res).then(res => {
+        //this.busy = false;
+        this.onlinePreview = res;
+        this.setMemoPreviewSource();
+      })
+    }, err => {
+      this.busy = false;
+    });
+  }
+
+  setMemoPreviewSource(){
+    let element = <HTMLImageElement>document.getElementById("pdfIframe");
+    element.src = 'pdfjs/web/memoView.html?file=' + this.onlinePreview;
+  }
+  
   openInNewTab() {
     this.openThePreviewDialog = false;
     this.openTheDialogPreview = false
@@ -5239,6 +5383,7 @@ export class MemoComponent implements OnInit, OnDestroy {
 
   saveAsTemplate() {
     let data = this.memoData("saveAsTemplate")
+    this.timerStop();
     //console.log(data)
     if (this.actionTypes === 'draftMemo') {
       data = Object.assign({ draftId: this.draftWorkflow.draftId }, data);
@@ -6443,6 +6588,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       })
       .catch();
   }
+
   onReadyCkEditorAR(language: string) {
     this.watchdog = new CKSource.EditorWatchdog();
     window['watchdog'] = this.watchdog;
