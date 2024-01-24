@@ -700,12 +700,11 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
 
 
-  timerStop = () => {
-    let self = this;
-    clearInterval(self.intervalId)
+  timerStop() {
+    clearInterval(this.intervalId)
   }
   
-  timerRestart = () => {
+  timerRestart() {
     let self = this;
     const myElement = document.getElementById("timerVal");
     console.log('Restart timerElement = ' + myElement);
