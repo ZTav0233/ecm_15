@@ -697,12 +697,13 @@ export class MemoComponent implements OnInit, OnDestroy {
     console.log('Restart timerElement = ' + myElement);
     self.timerStop();
     myElement.innerHTML = '25';
-    self.timerStart();
+    setTimeout(() => {
+      self.timerStart();
+    } , 1000);
   }
 
   timerStart () {
     var editor  = null;
-    this.timerStop();
     const myElement = document.getElementById("timerVal");
     console.log('Start timerElement = ' + myElement);
       //updateMemoPreview testing
@@ -5008,7 +5009,6 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log("Destroy Memo objects");
     this.documentService.checkedCartItems = [];
     this.subscriptions.map(s => {
       s.unsubscribe();
@@ -6545,7 +6545,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           editor.model.document.on('change', (event, data) => {
             // Access data on change event
             this.launch.workflow.model.messages = editor.getData()
-            console.log('Editor content changed:', this.launch.workflow.model.messages);
+            //console.log('Editor content changed:', this.launch.workflow.model.messages);
             // You can do something with the data here
           });
           return editor;
@@ -6571,7 +6571,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           editor.model.document.on('change', (event, data) => {
             // Access data on change event
             this.launch.workflow.model.arMessages = editor.getData()
-            console.log('Editor content changed:', this.launch.workflow.model.arMessages);
+            //console.log('Editor content changed:', this.launch.workflow.model.arMessages);
             // You can do something with the data here
           });
           return editor;
