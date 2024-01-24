@@ -76,7 +76,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     maintainAspectRatio: false,
 
     plugins: {
-
       datalabels: {
         align: 'center',
         anchor: 'center',
@@ -590,48 +589,54 @@ export class DashboardComponent implements OnInit, OnDestroy {
   tabChange(textLabel, index) {
     console.log("textLabel, index", textLabel, index);
 
-    this.currentUser = this.us.getCurrentUser();
-    console.log(this.currentUser);
-
-    this.selectedTabIndex = index;
-    this.breadcrumbService.dashboardTabSelected = this.selectedTabIndex + '@' + textLabel;
+    //this.currentUser = this.us.getCurrentUser();
+    //console.log(this.currentUser);
     let type;
     let id;
-    
-    for (const role of this.currentUser.roles) {
-      if (textLabel === role.name) {
-        type = 'role';
-        id = role.id;
-      }
-    }
-    if (type === undefined) {
-      for (const del of this.currentUser.delegated) {
-        if (textLabel === del.delName) {
-          type = 'del';
-          id = del.userId;
-
-          this.us.validateDelegation(del.id).subscribe(res => {
-            if (res === 'INACTIVE') {
-              this.showDelegationInactiveDialog = true;
-            }
-          });
-          this.workflowService.delegateId = del.id;
+    //if(this.selectedTabIndex !== index)
+   // {
+      this.selectedTabIndex = index;
+      this.breadcrumbService.dashboardTabSelected = this.selectedTabIndex + '@' + textLabel;
+      
+  
+      if(this.currentUser && this.currentUser.roles && this.currentUser.roles.length > 0){
+        for (const role of this.currentUser.roles) {
+          if (textLabel === role.name) {
+            type = 'role';
+            id = role.id;
+          }
         }
       }
-    }
-    if (type === undefined) {
-      if (textLabel === this.currentUser.fulName) {
-        type = 'user';
-        id = this.currentUser.EmpNo;
+    
+      if (type === undefined) {
+        for (const del of this.currentUser.delegated) {
+          if (textLabel === del.delName) {
+            type = 'del';
+            id = del.userId;
+
+            this.us.validateDelegation(del.id).subscribe(res => {
+              if (res === 'INACTIVE') {
+                this.showDelegationInactiveDialog = true;
+              }
+            });
+            this.workflowService.delegateId = del.id;
+          }
+        }
       }
-    }
-    if (type === 'role') {
-      this.getRoleStat(id);
-    } else if (type === 'del') {
-      this.getDelegateStat(id);
-    } else if (type === 'user') {
-      this.getUserStat(id);
-    }
+      if (type === undefined) {
+        if (textLabel === this.currentUser.fulName) {
+          type = 'user';
+          id = this.currentUser.EmpNo;
+        }
+      }
+      if (type === 'role') {
+        this.getRoleStat(id);
+      } else if (type === 'del') {
+        this.getDelegateStat(id);
+      } else if (type === 'user') {
+        this.getUserStat(id);
+      }
+   // }
   }
 
   clearSubscriptions() {
