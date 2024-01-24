@@ -305,7 +305,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   selectedFolder: any;
   editorEN: any;
   editorAR: any;
-  intervalId: any;
+  intervalId!: ReturnType<typeof setTimeout>;
 
   constructor(
     private toastr:ToastrService,
@@ -686,18 +686,18 @@ export class MemoComponent implements OnInit, OnDestroy {
 
   timerStop() {
     console.log("Clear Interval 2");
-    clearInterval(this.intervalId)
+    if(this.intervalId)
+      clearInterval(this.intervalId);
+    this.intervalId = null;
   }
   
   timerRestart() {
     let self = this;
     const myElement = document.getElementById("timerVal");
     console.log('Restart timerElement = ' + myElement);
-    self.timerStop()
-    myElement.innerHTML = '20';
-    setTimeout(() => {
-      self.timerStart();
-    } , 250);
+    self.timerStop();
+    myElement.innerHTML = '25';
+    self.timerStart();
   }
 
   timerStart () {
@@ -707,8 +707,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     console.log('Start timerElement = ' + myElement);
       //updateMemoPreview testing
     let self = this;
-    let memoPreviewInt = setInterval(function () {
-      self.intervalId = memoPreviewInt;
+    self.intervalId = setInterval(function () {
       let timeleft = parseInt(myElement.innerHTML, 10); ;
       if(+timeleft > 0){
         myElement.innerHTML = (+timeleft - 1).toString();
@@ -717,7 +716,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           if(!self.launch || self.launch === null || self.launch === undefined 
               || !self.launch.recipients || self.launch.recipients === null || self.launch.recipients === undefined){
             console.log("Clear Interval 1");
-            clearInterval(memoPreviewInt);
+            clearInterval(self.intervalId);
             self.isOnlinePreviewReady = false;
           }
 
@@ -755,7 +754,7 @@ export class MemoComponent implements OnInit, OnDestroy {
                 self.updateMemoPreview();
                 setTimeout(() => {
                   self.timerRestart();
-                } , 500);
+                } , 1000);
               }
           }
        
@@ -4446,11 +4445,8 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    let self = this;
-    setTimeout(() => {
-      clearInterval(self.intervalId);
-    }, 100);
-    
+    this.timerStop();
+    this.intervalId = null;
     this.location.back();
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))  // Use pipe to apply the filter operator
@@ -5031,7 +5027,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.previewResponse = null;
     this.previewResponseForNewTab = null;
     this.timerStop();
-    clearInterval(this.intervalId);
+    this.intervalId = null;
     this.isOnlinePreviewReady = false;
   }
 
