@@ -36,6 +36,7 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
   @Output() toggleStrikeDeletedItem = new EventEmitter();
   @Output() public fileChanged = new EventEmitter();
   public saveDocInfo = new DocumentInfoModel();
+  @ViewChild('dt') dataTable!: Table;
   //public attachmentMail  = new Attachment();
   public docTemplateDetails = new EntryTemplateDetails();
   public docEditPropForm: FormGroup;
@@ -153,9 +154,11 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   openListDialog(detail) {
-    this.namelist.onFilterKeyup('', 'data', 'contains');
-    this.showDesignation = true;
+    //console.log('namelist :' + this.namelist);
+    this.applyOnLoadFilter();
+    //this.namelist.onFilterKeyup('', 'data', 'contains');
     this.searchInput.nativeElement.value = '';
+    this.showDesignation = true;
     this.selectedDesignation = [];
     if (detail === 'DocumentTo') {
       this.docToOrFrom = 'Document To';
@@ -163,6 +166,18 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     else {
       this.docToOrFrom = 'Document From';
     }
+  }
+
+  applyFilterGlobal($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value);
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
+
+  applyOnLoadFilter(){
+    this.dataTable.filterGlobal('','contains');
   }
 
   onSelectionChange(val:any, input) {

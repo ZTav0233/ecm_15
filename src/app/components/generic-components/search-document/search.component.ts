@@ -199,9 +199,11 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   
 
   openListDialog(detail) {
-    // this.namelist.onFilterKeyup('', 'data', 'contains');
-    this.showDesignation = true;
+    //console.log('namelist :' + this.namelist);
+    this.applyOnLoadFilter();
+    //this.namelist.onFilterKeyup('', 'data', 'contains');
     this.searchInput.nativeElement.value = '';
+    this.showDesignation = true;
     this.selectedDesignation = [];
     if (detail === 'DocumentTo') {
       this.docToOrFrom = 'Document To';
@@ -210,12 +212,17 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
       this.docToOrFrom = 'Document From';
     }
   }
+
   applyFilterGlobal($event, stringVal) {
     console.log(($event.target as HTMLInputElement).value);
     this.dataTable.filterGlobal(
       ($event.target as HTMLInputElement).value,
       stringVal
     );
+  }
+
+  applyOnLoadFilter(){
+    this.dataTable.filterGlobal('','contains');
   }
 
   onSelectionChange(val, input) {

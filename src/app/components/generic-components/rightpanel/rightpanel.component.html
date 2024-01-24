@@ -287,31 +287,41 @@
     <button type="button" pButton (click)="showPermissionDialogue=false" label="Cancel"></button>
   </p-footer>
 </p-dialog>
-<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showDesignation" [style]="{ width: '550px', height: '550px' }">
+<p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showDesignation"
+  [style]="{ width: '50vw', height: '800px' }">
   <p-header> Select {{docToOrFrom}}</p-header>
   <div class="ui-g-12 ui-md-12">
-    <div class="ui-widget-header" style="padding:2px 10px;border-bottom: 0 none">
+    <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none; background: #607D8B;">
       <!-- global filter -->
       <div class="ui-g">
         <div class="ui-g-10 p-0">
           <table>
             <tr>
-              <td><i class="fa fa-search v-m m-r-md"></i></td>
+              <td><i style="color: white;" class="fa fa-fw ui-icon-search v-m m-r-md"></i></td>
               <td>
-                <input #gb type="text" pInputText size="50" placeholder="Search Designation" style="color: #ffffff"
-                  class="v-m p-0">
+                <input #gb type="text" pInputText size="50" placeholder="Search Designation"
+                  style="color: #ffffff; background:#607D8B ;" class="v-m p-0"
+                  (input)="applyFilterGlobal($event, 'contains')">
               </td>
+
             </tr>
           </table>
         </div>
       </div>
     </div>
-  <p-table [style]="{'max-height':'450px','min-height':'450px'}" selectionMode="single" #dt 
-      [value]="designation" [lazy]="false" [rows]="10" [paginator]="true"
-      (onRowClick)="onSelectionChange($event,docToOrFrom);showDesignation=false" [totalRecords]="totalRecords"
-      [responsive]="true" (onLazyLoad)="loadLazy($event,dt)" [selection]="selectedDesignation"
-      >
-      <!-- <p-column field="value" header=""></p-column> -->
+    <p-table [value]="designation" styleClass="p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="9" #dt
+      (onLazyLoad)="loadLazy($event,dt)" [globalFilterFields]="['value']">
+      <ng-template pTemplate="header">
+        <tr>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr>
+          <td (click)="onSelectionChange(product,docToOrFrom);showDesignation=false">{{product.value}}</td>
+
+        </tr>
+      </ng-template>
     </p-table>
   </div>
 </p-dialog>

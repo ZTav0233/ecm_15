@@ -144,7 +144,7 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   }
 
   openListDialog(detail) {
-    console.log('namelist :' + this.namelist);
+    //console.log('namelist :' + this.namelist);
     this.applyOnLoadFilter();
     //this.namelist.onFilterKeyup('', 'data', 'contains');
     this.searchInput.nativeElement.value = '';
@@ -157,6 +157,19 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
       this.docToOrFrom = 'Document From';
     }
   }
+
+  applyFilterGlobal($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value);
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
+
+  applyOnLoadFilter(){
+    this.dataTable.filterGlobal('','contains');
+  }
+  
 
   onSelectionChange(val, input) {
     console.log(val,input);
@@ -2405,18 +2418,6 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   }
   isNumber(event){
     return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57
-  }
-
-  applyFilterGlobal($event, stringVal) {
-    console.log(($event.target as HTMLInputElement).value);
-    this.dataTable.filterGlobal(
-      ($event.target as HTMLInputElement).value,
-      stringVal
-    );
-  }
-
-  applyOnLoadFilter(){
-    this.dataTable.filterGlobal('','contains');
   }
   
 }
