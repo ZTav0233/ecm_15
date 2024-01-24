@@ -45,7 +45,7 @@
 
 .list-max-h-365{
   overflow-y: scroll;
-  max-height: 265px;
+  max-height: 21em; /*265px*/
 }
 
 .m-t-0 {

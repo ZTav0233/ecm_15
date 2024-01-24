@@ -1409,7 +1409,7 @@ body .p-fluid .p-fileupload .p-button {
 }
 
 .fix-h-326 .p-tree-container {
-  height: 400px !important;
+  height: 60vh !important;
   overflow: auto !important;
 }
 
