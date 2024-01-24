@@ -281,7 +281,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   Enclosures: any[] = [];
   previewResponse: any = '';
   onlinePreview: any = '';
-  isOnlinePreviewReady: any = '';
+  isOnlinePreviewReady: boolean = false;
   previewResponseForNewTab: any = '';
   date: any = new Date();
   recipientTab: boolean = false;
@@ -686,16 +686,17 @@ export class MemoComponent implements OnInit, OnDestroy {
           this.busy = false
         });
       }
-
-      setTimeout(() => {
-        //this.timerStart();
-      } , 1000);
     }
+
     setTimeout(() => {
       // this.onReadyCkEditor()
       this.onReadyCkEditorEN('en');
       this.onReadyCkEditorAR('ar');
     }, 600);
+
+    setTimeout(() => {
+      this.timerStart();
+    } , 1000);
   }
 
 
@@ -729,7 +730,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       } else{
         debugger;
         //CKEDITOR.on( 'currentInstance', function() {
-          editor = CKEDITOR.currentInstance;
+          /* editor = CKEDITOR.currentInstance;
           console.log("CKEditor Instance Name:: " + editor)
           if(!editor)
           {
@@ -740,7 +741,7 @@ export class MemoComponent implements OnInit, OnDestroy {
             }
             editor = CKEDITOR.instances[currentInstance];
             console.log("CKEditor Instance Name :: " + editor)
-          }
+          } */
           //console.log("Mode:: "+ editor?editor.mode:'Editor not loaded');
           //this.launch.recipients && this.launch.recipients.FromList.length == 0 
               //||(this.memoType.name=='Memo'&& (this.launch.recipients && this.launch.recipients.toList.length == 0)) 
@@ -759,7 +760,7 @@ export class MemoComponent implements OnInit, OnDestroy {
                 } , 200);
           }
           else{
-              var ckData = editor.getData();
+              /* var ckData = editor.getData();
               console.log("CKEditor data :: " + ckData)
               if(ckData && ckData.length > 0)
               {
@@ -770,38 +771,19 @@ export class MemoComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                   self.timerRestart();
                 } , 500);
-              }
-              else{
-                ckData = this.editorEN.getData() ? this.editorEN.getData() : (this.editorAR.getData() ? this.editorAR.getData() : '');
-                if(ckData && ckData.length > 0)
-                {
-                  self.memoDataLength = ckData.length;
-                  console.log( 'Total bytes: ' + self.memoDataLength);
+              }*/
+              var ckData = (self.memoLang.name==='English' && self.editorEN.getData()) ? self.editorEN.getData() : ((self.memoLang.name!=='English' && self.editorAR.getData()) ? self.editorAR.getData() : '');
+              if(ckData && ckData.length > 0)
+              {
+                self.memoDataLength = ckData.length;
+                console.log( 'Total bytes: ' + self.memoDataLength);
 
-                  self.updateMemoPreview();
-                  setTimeout(() => {
-                    self.timerRestart();
-                  } , 500);
-                }
+                self.updateMemoPreview();
+                setTimeout(() => {
+                  self.timerRestart();
+                } , 500);
               }
           }
-
-        /*   editor.on( 'change', function( evt ) {
-            // getData() returns CKEditor's HTML content.
-            var ckData = evt.editor.getData();
-            console.log("CKEditor data :: " + ckData)
-            if(ckData && ckData.length > 0)
-            {
-              self.memoDataLength = ckData.length;
-              console.log( 'Total bytes: ' + self.memoDataLength);
-
-              self.updateMemoPreview();
-              setTimeout(() => {
-                self.timerRestart();
-              } , 500);
-            }
-          }); */
-        //}); 
        
       }
       
@@ -4202,9 +4184,9 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.launch.workflow.model.ECMNo = data.ECMNo;
     //this.memoDocTitle = (data.memoDocTitle && data.memoDocTitle !== null)? data.memoDocTitle : data.subject;
     this.ECM_NO = data.ECMNo;
-    setTimeout(() => {
+    /* setTimeout(() => {
       this.timerStart();
-    } , 1000);
+    } , 1000); */
   }
 
   setMemoDocTitle() {
@@ -4465,11 +4447,6 @@ export class MemoComponent implements OnInit, OnDestroy {
       this.launch.recipients.ThruList = [...this.launch.recipients.ThruList]
       this.launch.recipients.RevList = [...this.launch.recipients.RevList]
       this.launch.recipients.RevList = [...this.launch.recipients.RevList];
-
-      //Start time for memo preview
-	    setTimeout(() => {
-        this.timerStart();
-      } , 1000);
       //Commented by Abhishek 14/Jan/2024
       // if(this.actionTypes === 'draftMemo')
       //   this.getMemoReferenceListValues('1', data.referenceNo);
@@ -4479,6 +4456,10 @@ export class MemoComponent implements OnInit, OnDestroy {
           this.memoRefListData= [];
           this.isMemoRefValid = true;
       // }
+      //Start time for memo preview
+	   /*  setTimeout(() => {
+        this.timerStart();
+      } , 1000); */
     }
   }
 
@@ -5050,6 +5031,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log("Destroy Memo objects");
     this.documentService.checkedCartItems = [];
     this.subscriptions.map(s => {
       s.unsubscribe();
@@ -5064,6 +5046,11 @@ export class MemoComponent implements OnInit, OnDestroy {
     Object.keys(this).map(k => {
       delete this[k];
     });
+    this.onlinePreview = null;
+    this.previewResponse = null;
+    this.previewResponseForNewTab = null;
+    this.timerStop();
+    this.isOnlinePreviewReady = false;
   }
 
   subfromClicked() {
@@ -5359,6 +5346,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
 
   setMemoPreviewSource(){
+    this.isOnlinePreviewReady = true;
     let element = <HTMLImageElement>document.getElementById("pdfIframe");
     element.src = 'pdfjs/web/memoView.html?file=' + this.onlinePreview;
   }
@@ -5371,6 +5359,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     win.history.replaceState('<iframe src="' + this.previewResponseForNewTab + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>', "Preview")
     win.document.title = "Preview"
   }
+
   blobToBase64 = blob => {
     const reader = new FileReader();
     reader.readAsDataURL(blob);
