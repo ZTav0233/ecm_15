@@ -55,30 +55,13 @@ declare var DecoupledEditor: any
 })
 export class MemoComponent implements OnInit, OnDestroy {
   watchdog: any
-  date1: Date;
-  date2: Date;
-  date3: Date;
-  date4: Date;
-  date5: Date;
-  date6: Date;
-  date7: Date;
-  date8: Date;
-  date9: Date;
-  date10: Date;
-  date11: Date;
-  date12: Date;
-  date13: Date;
-  date14: Date;
   dates: Date[];
   rangeDates: Date[];
   minDate: Date;
   maxDate: Date;
   es: any;
-  invalidDates: Array<Date>
+  invalidDates: Array<Date>;
   data: any;
-  secOndOne: string;
-  thirdOne: string;
-  list = ['item1', 'item2', 'item1', 'item1', 'item2', 'item3']
   recipientsActionType = [{ name: '' }, { name: 'Initial' }, { name: 'Signature' }, { name: 'Comments' }];
   fromReciActionType = [{ name: 'Signature' }];
   toReciActionType = [{ name: '' }, { name: 'Initial' }, { name: 'Signature' }];
@@ -322,7 +305,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   selectedFolder: any;
   editorEN: any;
   editorAR: any;
-  intervalId: any;
+  intervalId!: ReturnType<typeof setTimeout>;
 
   constructor(
     private toastr:ToastrService,
@@ -688,37 +671,39 @@ export class MemoComponent implements OnInit, OnDestroy {
       }
     }
 
+    let self = this;
     setTimeout(() => {
       // this.onReadyCkEditor()
-      this.onReadyCkEditorEN('en');
-      this.onReadyCkEditorAR('ar');
+      self.onReadyCkEditorEN('en');
+      self.onReadyCkEditorAR('ar');
     }, 600);
 
     setTimeout(() => {
-      this.timerStart();
+      self.timerStart();
     } , 1000);
   }
 
 
-  timerStop = () => {
-    let self = this;
-    clearInterval(self.intervalId)
+  timerStop() {
+    console.log("Clear Interval 2");
+    if(this.intervalId)
+      clearInterval(this.intervalId);
+    this.intervalId = null;
   }
   
-  timerRestart = () => {
+  timerRestart() {
     let self = this;
     const myElement = document.getElementById("timerVal");
     console.log('Restart timerElement = ' + myElement);
-    self.timerStop()
-    myElement.innerHTML = '20';
+    self.timerStop();
+    myElement.innerHTML = '25';
     setTimeout(() => {
       self.timerStart();
-    } , 250);
+    } , 1000);
   }
 
   timerStart () {
     var editor  = null;
-    this.timerStop();
     const myElement = document.getElementById("timerVal");
     console.log('Start timerElement = ' + myElement);
       //updateMemoPreview testing
@@ -729,23 +714,12 @@ export class MemoComponent implements OnInit, OnDestroy {
         myElement.innerHTML = (+timeleft - 1).toString();
       } else{
         debugger;
-        //CKEDITOR.on( 'currentInstance', function() {
-          /* editor = CKEDITOR.currentInstance;
-          console.log("CKEditor Instance Name:: " + editor)
-          if(!editor)
-          {
-            for ( var i in CKEDITOR.instances ){
-              var currentInstance = i;
-              console.log("CKEditor Instance ID :: " + currentInstance)
-              break;
-            }
-            editor = CKEDITOR.instances[currentInstance];
-            console.log("CKEditor Instance Name :: " + editor)
-          } */
-          //console.log("Mode:: "+ editor?editor.mode:'Editor not loaded');
-          //this.launch.recipients && this.launch.recipients.FromList.length == 0 
-              //||(this.memoType.name=='Memo'&& (this.launch.recipients && this.launch.recipients.toList.length == 0)) 
-              //|| !this.folderpath || (self.launch.recipients && self.launch.recipients.RevList.length == 0)  
+          if(!self.launch || self.launch === null || self.launch === undefined 
+              || !self.launch.recipients || self.launch.recipients === null || self.launch.recipients === undefined){
+            console.log("Clear Interval 1");
+            clearInterval(self.intervalId);
+            self.isOnlinePreviewReady = false;
+          }
 
           if(self.launch.recipients && self.launch.recipients.FromList.length == 0 
               ||(self.memoType.name=='Memo'&& (self.launch.recipients && self.launch.recipients.toList.length == 0)) 
@@ -781,7 +755,7 @@ export class MemoComponent implements OnInit, OnDestroy {
                 self.updateMemoPreview();
                 setTimeout(() => {
                   self.timerRestart();
-                } , 500);
+                } , 1000);
               }
           }
        
@@ -4195,6 +4169,7 @@ export class MemoComponent implements OnInit, OnDestroy {
 
   maximumDate: any
   assignRecepients(data, fromDraft) {
+    let self = this;
     //console.log("assignRecepients", data, data.deadline, fromDraft)
     this.launch.documents.existing.actionTypes = Object.assign([], [{ label: 'Default', value: 'Default' },
     { label: 'Signature', value: 'Signature' }, { label: 'Initial', value: 'Initial' }]);
@@ -4314,8 +4289,9 @@ export class MemoComponent implements OnInit, OnDestroy {
 	  this.launch.workflow.model.priority = data.priority,
 	  this.memoType = { name: data.memoType, code: data.memoType },
 	  this.memoLang = { name: data.memoLang, code: data.memoLang },
+    
 	  setTimeout(() => {
-	    data.memoLang == "English" ? (this.editorEN.setData((data.memoLang == "English") ? data.message : null)) : (this.editorAR.setData((data.memoLang == "Arabic") ? data.message : null))
+	    data.memoLang == "English" ? (self.editorEN.setData((data.memoLang == "English") ? data.message : null)) : (self.editorAR.setData((data.memoLang == "Arabic") ? data.message : null))
 	  }, 500);
 	  this.memoDocId = data.memoDocId;
       this.signUser2 = data.signUser2;
@@ -4470,6 +4446,8 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
+    this.timerStop();
+    this.intervalId = null;
     this.location.back();
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))  // Use pipe to apply the filter operator
@@ -4716,15 +4694,19 @@ export class MemoComponent implements OnInit, OnDestroy {
   searchRL(roleSearchquery) {
     this.launch.recipients.roles.roleTree = this.launch.recipients.roles.roleTree2.filter(e => {
       if (e.data.name) {
-        e.data.name.toUpperCase().indexOf(this.launch.recipients.search.roleSearchquery.toUpperCase()) !== -1
+        return e.data.name.toUpperCase().indexOf(this.launch.recipients.search.roleSearchquery.toUpperCase()) !== -1;
       }
+      return false; // Return false for elements that don't have a name
     });
+  
     this.launch.recipients.list.selectedUserList.lists = this.launch.recipients.list.selectedUserList.lists2.filter(e => {
       if (e.name) {
-        e.name.toUpperCase().indexOf(this.launch.recipients.search.roleSearchquery.toUpperCase()) !== -1
+        return e.name.toUpperCase().indexOf(this.launch.recipients.search.roleSearchquery.toUpperCase()) !== -1;
       }
+      return false; // Return false for elements that don't have a name
     });
   }
+  
 
   searchDL(dlSearchquery) {
     this.launch.recipients.list.selectedUserList.lists = this.launch.recipients.list.selectedUserList.lists2.filter(e => {
@@ -5031,7 +5013,6 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log("Destroy Memo objects");
     this.documentService.checkedCartItems = [];
     this.subscriptions.map(s => {
       s.unsubscribe();
@@ -5050,6 +5031,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.previewResponse = null;
     this.previewResponseForNewTab = null;
     this.timerStop();
+    this.intervalId = null;
     this.isOnlinePreviewReady = false;
   }
 
@@ -5193,8 +5175,9 @@ export class MemoComponent implements OnInit, OnDestroy {
   storeValue(event) {
     //console.log(event.value)
     this.selectRecipientsTab()
+    let self = this;
     setTimeout(() => {
-      this.dataService.setDefaultMemoType(event.value.name)
+      self.dataService.setDefaultMemoType(event.value.name)
     }, 1000);
     this.selectedPort = event.originalEvent.srcElement.innerText;
     this.memoType = event.value;
@@ -6566,7 +6549,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           editor.model.document.on('change', (event, data) => {
             // Access data on change event
             this.launch.workflow.model.messages = editor.getData()
-            console.log('Editor content changed:', this.launch.workflow.model.messages);
+            //console.log('Editor content changed:', this.launch.workflow.model.messages);
             // You can do something with the data here
           });
           return editor;
@@ -6592,7 +6575,7 @@ export class MemoComponent implements OnInit, OnDestroy {
           editor.model.document.on('change', (event, data) => {
             // Access data on change event
             this.launch.workflow.model.arMessages = editor.getData()
-            console.log('Editor content changed:', this.launch.workflow.model.arMessages);
+            //console.log('Editor content changed:', this.launch.workflow.model.arMessages);
             // You can do something with the data here
           });
           return editor;

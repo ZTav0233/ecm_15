@@ -3860,15 +3860,19 @@ export class LaunchComponent implements OnInit, OnDestroy {
   searchRL(roleSearchquery) {
     this.launch.recipients.roles.roleTree = this.launch.recipients.roles.roleTree2.filter(e => {
       if (e.data.name) {
-         e.data.name.toUpperCase().indexOf(this.launch.recipients.search.roleSearchquery.toUpperCase()) !== -1
+        return e.data.name.toUpperCase().indexOf(this.launch.recipients.search.roleSearchquery.toUpperCase()) !== -1;
       }
+      return false; // Return false for elements that don't have a name
     });
+  
     this.launch.recipients.list.selectedUserList.lists = this.launch.recipients.list.selectedUserList.lists2.filter(e => {
       if (e.name) {
-         e.name.toUpperCase().indexOf(this.launch.recipients.search.roleSearchquery.toUpperCase()) !== -1
+        return e.name.toUpperCase().indexOf(this.launch.recipients.search.roleSearchquery.toUpperCase()) !== -1;
       }
+      return false; // Return false for elements that don't have a name
     });
   }
+  
 
   searchDL(dlSearchquery) {
     this.launch.recipients.list.selectedUserList.lists = this.launch.recipients.list.selectedUserList.lists2.filter(e => {

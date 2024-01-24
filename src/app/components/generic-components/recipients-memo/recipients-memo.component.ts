@@ -743,15 +743,19 @@ export class RecipientsMemoComponent implements OnDestroy {
   searchRL(roleSearchquery) {
     this.recipientsData.roles.roleTree = this.recipientsData.roles.roleTree2.filter(e => {
       if (e.data.name) {
-         e.data.name.toUpperCase().indexOf(this.recipientsData.search.roleSearchquery.toUpperCase()) !== -1
+        return e.data.name.toUpperCase().indexOf(this.recipientsData.search.roleSearchquery.toUpperCase()) !== -1;
       }
+      return false; // Return false for elements that don't have a name
     });
+  
     this.recipientsData.list.selectedUserList.lists = this.recipientsData.list.selectedUserList.lists2.filter(e => {
       if (e.name) {
-         e.name.toUpperCase().indexOf(this.recipientsData.search.roleSearchquery.toUpperCase()) !== -1
+        return e.name.toUpperCase().indexOf(this.recipientsData.search.roleSearchquery.toUpperCase()) !== -1;
       }
+      return false; // Return false for elements that don't have a name
     });
   }
+  
   searchDL(dlSearchquery) {
     this.recipientsData.list.selectedUserList.lists = this.recipientsData.list.selectedUserList.lists2.filter(e => {
       if (e.name) {
