@@ -688,14 +688,15 @@ export class MemoComponent implements OnInit, OnDestroy {
       }
     }
 
+    let self = this;
     setTimeout(() => {
       // this.onReadyCkEditor()
-      this.onReadyCkEditorEN('en');
-      this.onReadyCkEditorAR('ar');
+      self.onReadyCkEditorEN('en');
+      self.onReadyCkEditorAR('ar');
     }, 600);
 
     setTimeout(() => {
-      this.timerStart();
+      self.timerStart();
     } , 1000);
   }
 
@@ -745,6 +746,11 @@ export class MemoComponent implements OnInit, OnDestroy {
           //this.launch.recipients && this.launch.recipients.FromList.length == 0 
               //||(this.memoType.name=='Memo'&& (this.launch.recipients && this.launch.recipients.toList.length == 0)) 
               //|| !this.folderpath || (self.launch.recipients && self.launch.recipients.RevList.length == 0)  
+          if(!self.launch || self.launch === null || self.launch === undefined 
+              || !self.launch.recipients || self.launch.recipients === null || self.launch.recipients === undefined){
+            clearInterval(self.intervalId);
+            self.isOnlinePreviewReady = false;
+          }
 
           if(self.launch.recipients && self.launch.recipients.FromList.length == 0 
               ||(self.memoType.name=='Memo'&& (self.launch.recipients && self.launch.recipients.toList.length == 0)) 
@@ -4194,6 +4200,7 @@ export class MemoComponent implements OnInit, OnDestroy {
 
   maximumDate: any
   assignRecepients(data, fromDraft) {
+    let self = this;
     //console.log("assignRecepients", data, data.deadline, fromDraft)
     this.launch.documents.existing.actionTypes = Object.assign([], [{ label: 'Default', value: 'Default' },
     { label: 'Signature', value: 'Signature' }, { label: 'Initial', value: 'Initial' }]);
@@ -4313,8 +4320,9 @@ export class MemoComponent implements OnInit, OnDestroy {
 	  this.launch.workflow.model.priority = data.priority,
 	  this.memoType = { name: data.memoType, code: data.memoType },
 	  this.memoLang = { name: data.memoLang, code: data.memoLang },
+    
 	  setTimeout(() => {
-	    data.memoLang == "English" ? (this.editorEN.setData((data.memoLang == "English") ? data.message : null)) : (this.editorAR.setData((data.memoLang == "Arabic") ? data.message : null))
+	    data.memoLang == "English" ? (self.editorEN.setData((data.memoLang == "English") ? data.message : null)) : (self.editorAR.setData((data.memoLang == "Arabic") ? data.message : null))
 	  }, 500);
 	  this.memoDocId = data.memoDocId;
       this.signUser2 = data.signUser2;
@@ -4469,6 +4477,11 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
+    let self = this;
+    setTimeout(() => {
+      clearInterval(self.intervalId);
+    }, 100);
+    
     this.location.back();
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))  // Use pipe to apply the filter operator
@@ -5049,6 +5062,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     this.previewResponse = null;
     this.previewResponseForNewTab = null;
     this.timerStop();
+    clearInterval(this.intervalId);
     this.isOnlinePreviewReady = false;
   }
 
@@ -5192,8 +5206,9 @@ export class MemoComponent implements OnInit, OnDestroy {
   storeValue(event) {
     //console.log(event.value)
     this.selectRecipientsTab()
+    let self = this;
     setTimeout(() => {
-      this.dataService.setDefaultMemoType(event.value.name)
+      self.dataService.setDefaultMemoType(event.value.name)
     }, 1000);
     this.selectedPort = event.originalEvent.srcElement.innerText;
     this.memoType = event.value;
