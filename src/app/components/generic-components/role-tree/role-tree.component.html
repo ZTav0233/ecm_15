@@ -1,8 +1,8 @@
 <div [class]="noLeaves? 'tree-no-leaf' :''">
         <p-tree [value]="data.roles.roleTree" selectionMode="single" (onNodeExpand)="mExpandNode($event)"
-                [styleClass]="'role-tree'" (onNodeSelect)="mSelectNode($event)">
+                [styleClass]="'role-tree hover'" (onNodeSelect)="mSelectNode($event)" >
                 <ng-template let-node pTemplate="default">
-                        <table class="ecm-table item" (mouseover)="mExistsInList(node.data)">
+                        <table class="ecm-table item" (mouseover)="mExistsInList(node.data)" style="width: 95%;">
                                 <tr (mouseover)="mGetRoleMembers(node.data)" [escape]="false"
                                         pTooltip="{{node.data.members}}" positionStyle="fixed"
                                         [tooltipStyleClass]="'tooltip-min-width'" tooltipPosition="right">

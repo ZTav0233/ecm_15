@@ -180,17 +180,15 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
       }
     }
   }
-  applyFilterGlobal($event, stringVal) {
-    console.log(($event.target as HTMLInputElement).value);
-    
-    if(($event.target as HTMLInputElement).value.length>2){
-      this.tableData = this.tableData.filter(entry => {
-        return entry.fileName.toLowerCase().match(($event.target as HTMLInputElement).value.toLowerCase())
+  applyFilterGlobal(event) {
+    const inputValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+  
+    if (inputValue.length > 2 || inputValue.length === 0) {
+      this.tableData = this.tableDataStored.filter(entry => {
+        return entry.fileName.toLowerCase().includes(inputValue);
       });
-    } else if (($event.target as HTMLInputElement).value.length==0) {
-      this.tableData=this.tableDataStored
     }
-
+  
     this.totalCount = this.tableData.length;
   }
 
@@ -283,7 +281,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
     // this.tableDataStored=this.tableData
     // console.log("this.colHeaders",this.colHeaders);
     this.cols=this.colHeaders.filter(column => !column.hidden);
-    // console.log(this.cols);
+    console.log(this.cols);
     this.bs.setPageNoOnLoadMore.subscribe(d => {
       this.first = d;
     });

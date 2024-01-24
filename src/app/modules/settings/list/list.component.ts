@@ -665,11 +665,15 @@ export class ListComponent implements OnInit, OnDestroy {
   searchRoleList() {
     this.roleData.roles.roleTree = this.roleData.roles.oRoleTree.filter(e => {
       if (e.data.name && e.data.orgCode) {
-         e.data.name.toUpperCase().indexOf(this.roleData.roles.model.query2.toUpperCase()) !== -1
-          || e.data.orgCode.toUpperCase().indexOf(this.roleData.roles.model.query2.toUpperCase()) !== -1
+        return (
+          e.data.name.toUpperCase().indexOf(this.roleData.roles.model.query2.toUpperCase()) !== -1 ||
+          e.data.orgCode.toUpperCase().indexOf(this.roleData.roles.model.query2.toUpperCase()) !== -1
+        );
       }
+      return false; // Return false for elements that don't have both name and orgCode
     });
   }
+  
 
   searchRole() {
     this.roleData.roles.roleTree = this.roleData.roles.oRoleTree.filter(e =>

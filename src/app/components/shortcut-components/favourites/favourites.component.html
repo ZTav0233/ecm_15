@@ -31,7 +31,7 @@
           </div>
           <div *ngIf="favDocuments" class="ui-g-12 p-r-0 p-t-0">
             <data-table [showCount]="true" [totalCount]="favDocuments.length" (sendData)="getData($event,sidemenu);"
-              [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable();" [tableData]="favDocuments"
+              [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable();" [tableData]="favDocuments" [tableDataStored]="favDocuments"
               [activePage]="'favorites'" [colHeaders]="colHeaders" [showDownloadIcon]="false" [showAddCartIcon]="false"
               [selectedRows]="selectedItem" [showInfoIcon]="true" [itemsPerPage]="itemsPerPage" [rowExpandable]="false"
               [totalRecords]="favDocuments?favDocuments.length:0" (filteredGridItemsToExport)="getFilteredItems($event)">

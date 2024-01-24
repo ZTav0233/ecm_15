@@ -275,12 +275,23 @@ export class EcmGlobalListComponent implements OnInit {
     user.disabled = true;
     this.isSaveDisabled = false;
   }
+  // searchRole() {
+  //   this.roleData.roles.roleTree = this.roleData.roles.oRoleTree.filter(e => {
+  //     if (e.data.name && e.data.orgCode) {
+  //       e.data.name.toUpperCase().indexOf(this.roleData.roles.model.query2.toUpperCase()) !== -1
+  //         || e.data.orgCode.toUpperCase().indexOf(this.roleData.roles.model.query2.toUpperCase()) !== -1
+  //     }
+  //   });
+  // }
   searchRole() {
     this.roleData.roles.roleTree = this.roleData.roles.oRoleTree.filter(e => {
       if (e.data.name && e.data.orgCode) {
-        e.data.name.toUpperCase().indexOf(this.roleData.roles.model.query2.toUpperCase()) !== -1
-          || e.data.orgCode.toUpperCase().indexOf(this.roleData.roles.model.query2.toUpperCase()) !== -1
+        return (
+          e.data.name.toUpperCase().indexOf(this.roleData.roles.model.query2.toUpperCase()) !== -1 ||
+          e.data.orgCode.toUpperCase().indexOf(this.roleData.roles.model.query2.toUpperCase()) !== -1
+        );
       }
+      return false; // Return false for elements that don't have both name and orgCode
     });
   }
 
