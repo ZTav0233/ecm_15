@@ -677,9 +677,9 @@ export class MemoComponent implements OnInit, OnDestroy {
       }
     }
 
-    setTimeout(() => {
-      self.timerStart();
-    } , 1000);
+    // setTimeout(() => {
+    //   self.timerStart();
+    // } , 1000);
   }
 
 

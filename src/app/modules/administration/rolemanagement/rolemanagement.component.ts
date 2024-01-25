@@ -467,17 +467,19 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
   searchRoleTree() {
     this.roleTreeData.roles.roleTree = this.roleTreeData.roles.tempRoleTree.filter(e => {
       if (e.data.headRoleName) {
-         e.data.headRoleName.toUpperCase().indexOf(this.roleTreeData.roles.model.query.toUpperCase()) !== -1
+         return e.data.headRoleName.toUpperCase().indexOf(this.roleTreeData.roles.model.query.toUpperCase()) !== -1
       }
+      return false;
     });
   }
 
   searchRole() {
     this.roleData.roles.roleTree = this.roleData.roles.oRoleTree.filter(e => {
       if (e.data.name && e.data.orgCode) {
-         e.data.name.toUpperCase().indexOf(this.roleData.roles.model.query.toUpperCase()) !== -1
+        return e.data.name.toUpperCase().indexOf(this.roleData.roles.model.query.toUpperCase()) !== -1
           || e.data.orgCode.toUpperCase().indexOf(this.roleData.roles.model.query.toUpperCase()) !== -1
       }
+      return false;
     });
   }
 
@@ -492,9 +494,10 @@ export class RolemanagementComponent implements OnInit, OnDestroy {
   searchDeactRole() {
     this.deactRoles = this.deactRolesTemp.filter(e => {
       if (e.name && e.type) {
-         e.name.toUpperCase().indexOf(this.deactQuery.toUpperCase()) !== -1
+        return e.name.toUpperCase().indexOf(this.deactQuery.toUpperCase()) !== -1
           || e.type.toUpperCase().indexOf(this.deactQuery.toUpperCase()) !== -1
       }
+      return false;
     });
   }
 
