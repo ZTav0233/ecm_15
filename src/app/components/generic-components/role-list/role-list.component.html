@@ -3,7 +3,7 @@
     <tbody>
       <ng-container *ngFor="let item of items">
         <tr (mouseover)="mExistsInList(item.data)" class="item">
-          <td><i icon="fa fa-fw ui-icon-people"></i></td>
+          <td><i [ngClass]="(item.label)?'fa fa-fw ui-icon-people':'fa fa-fw ui-icon-people'"></i></td>
           <td>
             <div class="w-100" (mouseover)="mGetItemMembers(item.data)" [escape]="false"
               pTooltip="{{item.data.members}}" [tooltipStyleClass]="'tooltip-min-width'" tooltipPosition="right">

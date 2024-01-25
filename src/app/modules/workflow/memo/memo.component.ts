@@ -568,6 +568,7 @@ export class MemoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    let self = this;
     var editor  = null;
     this.recipientTab = true;
 
@@ -612,6 +613,11 @@ export class MemoComponent implements OnInit, OnDestroy {
       { label: 'Memo' }
     ]);
     this.busy = true;
+    setTimeout(() => {
+      // this.onReadyCkEditor()
+      self.onReadyCkEditorEN('en');
+      self.onReadyCkEditorAR('ar');
+    }, 600);
     this.actroute.paramMap.subscribe(data => {
       //console.log(data)
       this.busy = false;
@@ -671,16 +677,9 @@ export class MemoComponent implements OnInit, OnDestroy {
       }
     }
 
-    let self = this;
-    setTimeout(() => {
-      // this.onReadyCkEditor()
-      self.onReadyCkEditorEN('en');
-      self.onReadyCkEditorAR('ar');
-    }, 600);
-
-    setTimeout(() => {
-      self.timerStart();
-    } , 1000);
+    // setTimeout(() => {
+    //   self.timerStart();
+    // } , 1000);
   }
 
 
@@ -688,7 +687,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     console.log("Clear Interval 2");
     if(this.intervalId)
       clearInterval(this.intervalId);
-    this.intervalId = null;
+    //this.intervalId = null;
   }
   
   timerRestart() {
@@ -696,7 +695,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     const myElement = document.getElementById("timerVal");
     console.log('Restart timerElement = ' + myElement);
     self.timerStop();
-    myElement.innerHTML = '25';
+    myElement.innerHTML = '30';
     setTimeout(() => {
       self.timerStart();
     } , 1000);
