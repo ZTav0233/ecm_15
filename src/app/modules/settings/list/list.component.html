@@ -284,7 +284,7 @@
 </div>
 <p-confirmDialog appendTo="body" key="confirmKey" header="Delete Confirmation" icon="fa fa-help-outline">
 </p-confirmDialog>
-<p-dialog #pd appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showRoleTree" width="900"
+<p-dialog #pd appendTo="body" [modal]="true" showEffect="fade" [(visible)]="showRoleTree" [style]="{width: '65vw'}"
   (onShow)="openRoleList()" (onHide)="closeRoleList($event);isAddOperation=false;">
   <p-header>
     Role List
