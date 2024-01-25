@@ -275,7 +275,7 @@
     </p-footer>
   </p-dialog>
 </div>
-<p-dialog header="Modify Security Permission {{selectedPolicy.name}}" [style]="{width:'700px'}" [modal]="true" showEffect="fade"
+<p-dialog header="Modify Security Permission {{selectedPolicy.name}}" [style]="{width:'70vw'}" [modal]="true" showEffect="fade"
   appendTo="body" [(visible)]="showPermissionDialogue" (onHide)="closeEditSecurity();isButtonSaveDisabled=true;"
   (onShow)="openEditSecurityPopUp()">
   <app-edit-ap-permission [selectedPolicy]="selectedPolicy" [newPermissions]="newPermissions" (isSaveDisabled)="isSaveButtonDisabled($event)"
