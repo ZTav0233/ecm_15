@@ -590,8 +590,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   tabChange(textLabel, index) {
     console.log("textLabel, index", textLabel, index);
 
-    this.currentUser = this.us.getCurrentUser();
-    console.log(this.currentUser);
+    //this.currentUser = this.us.getCurrentUser();
+    //console.log(this.currentUser);
 
     this.selectedTabIndex = index;
     this.breadcrumbService.dashboardTabSelected = this.selectedTabIndex + '@' + textLabel;
