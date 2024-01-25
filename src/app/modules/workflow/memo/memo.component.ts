@@ -720,8 +720,7 @@ export class MemoComponent implements OnInit, OnDestroy {
             clearInterval(self.intervalId);
             self.isOnlinePreviewReady = false;
           }
-
-          if(self.launch.recipients && self.launch.recipients.FromList.length == 0 
+          else if((self.launch.recipients && self.launch.recipients.FromList.length == 0) 
               ||(self.memoType.name=='Memo'&& (self.launch.recipients && self.launch.recipients.toList.length == 0)) 
               || !self.folderpath || !self.date || !self.launch.workflow.model.selectedorgCode 
               || !self.launch.workflow.model.refNo|| !self.launch.workflow.model.subject 
