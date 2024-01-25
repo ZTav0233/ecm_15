@@ -2,7 +2,7 @@
     
   
     <div class="data-table-scroll" *ngIf="!rowGroupMode" style="min-height: 60vh;">
-      <p-table #dt [columns]="cols" [value]="tableData" [(selection)]="selectedRows" [rowHover]="true" [rows]="2"
+      <p-table #dt [columns]="cols" [value]="tableData" [(selection)]="selectedRows" [rowHover]="true" [rows]="itemsPerPage"
         [showCurrentPageReport]="true"  [paginator]="true" styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
         [tableStyle]="{ 'min-width': '40rem' }"
          [filterDelay]="0" 
