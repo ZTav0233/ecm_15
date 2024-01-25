@@ -1169,19 +1169,19 @@ export class ReportComponent implements OnInit, OnDestroy {
     let maxRows = 0;
     let page = 0;
     let index = 0;
-    this.report.options.chartPages = { 0: { chartLabels: [], chartData: [{ data: [] }], chartColors: [{ backgroundColor: [] }] } };
+    this.report.options.chartPages = { 0: { chartLabels: [], chartData: [{ data: [],backgroundColor: [], }], chartColors: [{ backgroundColor: [] }] } };
     this.report.options.chartPageCount = 0;
     reportCountSorted.map((d) => {
       if (d.count >= 0 && maxRows < 26) {
         maxRows++;
         this.report.options.chartPages[page].chartLabels.push(this.getChartLabelText(d));
         this.report.options.chartPages[page].chartData[0].data.push(d.count);
-        this.report.options.chartPages[page].chartColors[0].backgroundColor.push(this.rs.getRandomMaterialColor(index));
+        this.report.options.chartPages[page].chartData[0].backgroundColor.push(this.rs.getRandomMaterialColor(index));
         debugger;
         if (maxRows === 25 && maxRows < reportCountSorted.length) {
           maxRows = 0;
           page++;
-          this.report.options.chartPages[page] = { chartLabels: [], chartData: [{ data: [] }], chartColors: [{ backgroundColor: [] }] };
+          this.report.options.chartPages[page] = { chartLabels: [], chartData: [{ data: [],backgroundColor: [] }], chartColors: [{ backgroundColor: [] }] };
           this.report.options.chartPageCount++;
         }
         index++;
@@ -1203,14 +1203,14 @@ export class ReportComponent implements OnInit, OnDestroy {
     let maxRows = 0;
     let page = 0;
     let index = 0;
-    this.report.options.chartPages = { 0: { chartLabels: [], chartData: [{ data: [] }], chartColors: [{ backgroundColor: [] }] } };
+    this.report.options.chartPages = { 0: { chartLabels: [], chartData: [{ data: [],backgroundColor: [] }], chartColors: [{ backgroundColor: [] }] } };
     this.report.options.chartPageCount = 0;
     reportCountSorted.map((d) => {
       if (maxRows < reportCountSorted.length) {
         maxRows++;
         this.report.options.chartPages[page].chartLabels.push(this.getChartLabelText(d));
         this.report.options.chartPages[page].chartData[0].data.push(d.count);
-        this.report.options.chartPages[page].chartColors[0].backgroundColor.push(this.rs.getRandomMaterialColor(index));
+        this.report.options.chartPages[page].chartData[0].backgroundColor.push(this.rs.getRandomMaterialColor(index));
         index++;
       }
     });
@@ -1233,8 +1233,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     let page = 0;
     this.report.options.chartPages = {
       0: {
-        chartLabels: [], chartData: [{ data: [], label: 'Received' }, { data: [], label: 'Sent' },
-        { data: [], label: 'Documents' }, { data: [], label: 'eSign' }],
+        chartLabels: [], chartData: [{ data: [], label: 'Received',backgroundColor: ['#82B65F'] }, { data: [], label: 'Sent' ,backgroundColor: ['#AC3E31']},
+        { data: [], label: 'Documents' ,backgroundColor: ['#5C83C9'] }, { data: [], label: 'eSign',backgroundColor: ['#E98949'] }],
         chartColors: [{ backgroundColor: [] }, { backgroundColor: [] },
         { backgroundColor: [] }, { backgroundColor: [] }]
       }
@@ -1266,8 +1266,8 @@ export class ReportComponent implements OnInit, OnDestroy {
             maxRows = 0;
             page++;
             this.report.options.chartPages[page] = {
-              chartLabels: [], chartData: [{ data: [], label: 'Received' }, { data: [], label: 'Sent' },
-              { data: [], label: 'Documents' }, { data: [], label: 'eSign' }],
+              chartLabels: [], chartData: [{ data: [], label: 'Received',backgroundColor: ['#82B65F'] }, { data: [], label: 'Sent',backgroundColor: ['#AC3E31'] },
+              { data: [], label: 'Documents',backgroundColor: ['#5C83C9'] }, { data: [], label: 'eSign',backgroundColor: ['#E98949'] }],
               chartColors: [{ backgroundColor: [] }, { backgroundColor: [] },
               { backgroundColor: [] }, { backgroundColor: [] }]
             };
