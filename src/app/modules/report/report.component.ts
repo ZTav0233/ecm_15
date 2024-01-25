@@ -86,46 +86,46 @@ export class ReportComponent implements OnInit, OnDestroy {
       }
     },
     scales: {
-      xAxes: [
-        {
-          ticks: {
-            fontSize: 12,
-            fontColor: '#000000',
-            fontFamily: 'sans-serif',
-            min: 0, // it is for ignoring negative step.
-            maxTicksLimit: 12,
-            beginAtZero: true,
-            callback: function (value, index, values) {
-              if (Math.floor(value) === value) {
-                return value;
-              }
-            }
-          },
-          gridLines: {
-            drawBorder: true,
-            display: false,
-            //drawOnChartArea: false
-          }
-        }
-      ],
-      yAxes: [
-        {
-          barPercentage: 0.1,
-          categoryPercentage: 1.0,
-          maxBarThickness: 15,
-          barThickness:10,
-          ticks: {
-            fontSize: 12,
-            fontColor: '#000000',
-            fontFamily: 'sans-serif'
-          },
-          gridLines: {
-            drawBorder: true,
-            display: false,
-            //drawOnChartArea: false
-          },
-        }
-      ]
+      // xAxes: [
+      //   {
+      //     ticks: {
+      //       fontSize: 12,
+      //       fontColor: '#000000',
+      //       fontFamily: 'sans-serif',
+      //       min: 0, // it is for ignoring negative step.
+      //       maxTicksLimit: 12,
+      //       beginAtZero: true,
+      //       callback: function (value, index, values) {
+      //         if (Math.floor(value) === value) {
+      //           return value;
+      //         }
+      //       }
+      //     },
+      //     gridLines: {
+      //       drawBorder: true,
+      //       display: false,
+      //       //drawOnChartArea: false
+      //     }
+      //   }
+      // ],
+      // yAxes: [
+      //   {
+      //     barPercentage: 0.1,
+      //     categoryPercentage: 1.0,
+      //     maxBarThickness: 15,
+      //     barThickness:10,
+      //     ticks: {
+      //       fontSize: 12,
+      //       fontColor: '#000000',
+      //       fontFamily: 'sans-serif'
+      //     },
+      //     gridLines: {
+      //       drawBorder: true,
+      //       display: false,
+      //       //drawOnChartArea: false
+      //     },
+      //   }
+      // ]
     },
     title: {
       display: false,
@@ -178,46 +178,46 @@ export class ReportComponent implements OnInit, OnDestroy {
       }
     },
     scales: {
-      xAxes: [
-        {
-          ticks: {
-            fontSize: 12,
-            fontColor: '#000000',
-            fontFamily: 'sans-serif',
-            min: 0, // it is for ignoring negative step.
-            maxTicksLimit: 12,
-            beginAtZero: true,
-            callback: function (value, index, values) {
-              if (Math.floor(value) === value) {
-                return value;
-              }
-            }
-          },
-          gridLines: {
-            drawBorder: true,
-            display: false,
-            //drawOnChartArea: false
-          }
-        }
-      ],
-      yAxes: [
-        {
-          barPercentage: 0.8,
-          categoryPercentage: 1.0,
-          maxBarThickness: 45,
-          barThickness: 12,
-          ticks: {
-            fontSize: 12,
-            fontColor: '#000000',
-            fontFamily: 'sans-serif'
-          },
-          gridLines: {
-            drawBorder: true,
-            display: false,
-            //drawOnChartArea: false
-          },
-        }
-      ]
+      // xAxes: [
+      //   {
+      //     ticks: {
+      //       fontSize: 12,
+      //       fontColor: '#000000',
+      //       fontFamily: 'sans-serif',
+      //       min: 0, // it is for ignoring negative step.
+      //       maxTicksLimit: 12,
+      //       beginAtZero: true,
+      //       callback: function (value, index, values) {
+      //         if (Math.floor(value) === value) {
+      //           return value;
+      //         }
+      //       }
+      //     },
+      //     gridLines: {
+      //       drawBorder: true,
+      //       display: false,
+      //       //drawOnChartArea: false
+      //     }
+      //   }
+      // ],
+      // yAxes: [
+      //   {
+      //     barPercentage: 0.8,
+      //     categoryPercentage: 1.0,
+      //     maxBarThickness: 45,
+      //     barThickness: 12,
+      //     ticks: {
+      //       fontSize: 12,
+      //       fontColor: '#000000',
+      //       fontFamily: 'sans-serif'
+      //     },
+      //     gridLines: {
+      //       drawBorder: true,
+      //       display: false,
+      //       //drawOnChartArea: false
+      //     },
+      //   }
+      // ]
     },
     title: {
       display: false,
@@ -270,45 +270,45 @@ export class ReportComponent implements OnInit, OnDestroy {
       }
     },
     scales: {
-      xAxes: [
-        {
-          ticks: {
-            fontSize: 12,
-            fontColor: '#000000',
-            fontFamily: 'sans-serif',
-            min: 0, // it is for ignoring negative step.
-            maxTicksLimit: 12,
-            beginAtZero: true,
-            callback: function (value, index, values) {
-              if (Math.floor(value) === value) {
-                return value;
-              }
-            }
-          },
-          gridLines: {
-            drawBorder: true,
-            display: false,
-            //drawOnChartArea: false
-          }
-        }
-      ],
-      yAxes: [
-        {
-          barPercentage: 0.8,
-          categoryPercentage: 1.0,
-          maxBarThickness: 45,
-          ticks: {
-            fontSize: 12,
-            fontColor: '#000000',
-            fontFamily: 'sans-serif'
-          },
-          gridLines: {
-            drawBorder: true,
-            display: false,
-            //drawOnChartArea: false
-          },
-        }
-      ]
+      // xAxes: [
+      //   {
+      //     ticks: {
+      //       fontSize: 12,
+      //       fontColor: '#000000',
+      //       fontFamily: 'sans-serif',
+      //       min: 0, // it is for ignoring negative step.
+      //       maxTicksLimit: 12,
+      //       beginAtZero: true,
+      //       callback: function (value, index, values) {
+      //         if (Math.floor(value) === value) {
+      //           return value;
+      //         }
+      //       }
+      //     },
+      //     gridLines: {
+      //       drawBorder: true,
+      //       display: false,
+      //       //drawOnChartArea: false
+      //     }
+      //   }
+      // ],
+      // yAxes: [
+      //   {
+      //     barPercentage: 0.8,
+      //     categoryPercentage: 1.0,
+      //     maxBarThickness: 45,
+      //     ticks: {
+      //       fontSize: 12,
+      //       fontColor: '#000000',
+      //       fontFamily: 'sans-serif'
+      //     },
+      //     gridLines: {
+      //       drawBorder: true,
+      //       display: false,
+      //       //drawOnChartArea: false
+      //     },
+      //   }
+      // ]
     },
     title: {
       display: false,
