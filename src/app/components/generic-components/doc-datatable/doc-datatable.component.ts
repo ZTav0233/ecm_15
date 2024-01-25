@@ -185,12 +185,19 @@ import {
     
       if (inputValue.length > 2 || inputValue.length === 0) {
         this.tableData = this.tableDataStored.filter(entry => {
-          return entry.fileName.toLowerCase().includes(inputValue);
+          const fileNameMatch = entry.fileName.toLowerCase().includes(inputValue);
+          const ecmNoMatch = entry.ECMNo.toLowerCase().includes(inputValue);
+          const referenceNoMatch = entry.referenceNo.toLowerCase().includes(inputValue);
+          const modOnMatch = entry.modOn.toLowerCase().includes(inputValue);
+          const addOnMatch=entry.addOn.toLowerCase().includes(inputValue)
+          // Adjust the conditions based on your requirements, for example, you may want to use logical OR (||) or AND (&&) as needed.
+          return fileNameMatch || ecmNoMatch || referenceNoMatch || modOnMatch||addOnMatch;
         });
       }
     
       this.totalCount = this.tableData.length;
     }
+    
   
     mToggleProgressDialogue(workitemId, $event?) {
       this.toggleProgressDialogue.emit(workitemId);
