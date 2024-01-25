@@ -26,13 +26,13 @@
               [disabled]="!gridItemsToExport || gridItemsToExport.length==0"></button>
           </div>
           <div *ngIf="documentFolders" class="ui-g-12 p-r-0 p-t-0">
-            <data-table [showCount]="true" [totalCount]="documentFolders.length" [emptyMessage]="emptyMessage"
+            <doc-data-table [showCount]="true" [totalCount]="documentFolders.length" [emptyMessage]="emptyMessage"
               (sendData)="getData($event,sideMenu);" (refreshScreen)="refreshTable();" [tableData]="documentFolders" [tableDataStored]="documentFolders"
               [showDownloadIcon]="false" [activePage]="'browse'" [showAddCartIcon]="false" [showInfoIcon]="true"
               [colHeaders]="colHeaders" [totalRecords]="documentFolders?documentFolders.length:0"
               [itemsPerPage]="itemsPerPage" [selectedRows]="selectedItem"
               (filteredGridItemsToExport)="getFilteredItems($event)">
-            </data-table>
+            </doc-data-table>
             <div [ngClass]="{'hidden':!selectedItem || selectedItem.length===0}">
               <div #sidemenu class="aside-panel">
                 <app-rightpanel (sendFolders)="getBrowseUpdated($event);" [currentScreen]="screen"

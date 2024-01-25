@@ -30,14 +30,13 @@
               [disabled]="!gridItemsToExport || gridItemsToExport.length==0"></button>
           </div>
           <div *ngIf="favDocuments" class="ui-g-12 p-r-0 p-t-0">
-            <data-table [showCount]="true" [totalCount]="favDocuments.length" (sendData)="getData($event,sidemenu);"
+            <doc-data-table [showCount]="true" [totalCount]="favDocuments.length" (sendData)="getData($event,sidemenu);"
               [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable();" [tableData]="favDocuments" [tableDataStored]="favDocuments"
               [activePage]="'favorites'" [colHeaders]="colHeaders" [showDownloadIcon]="false" [showAddCartIcon]="false"
               [selectedRows]="selectedItem" [showInfoIcon]="true" [itemsPerPage]="itemsPerPage" [rowExpandable]="false"
               [totalRecords]="favDocuments?favDocuments.length:0" (filteredGridItemsToExport)="getFilteredItems($event)">
-            </data-table>
+            </doc-data-table>
             <div [ngClass]="{'hidden':!selectedItem || selectedItem.length===0}">
-           
               <div #sidemenu class="aside-panel">
                 <app-rightpanel (sendUpdate)="getFavUpdated($event);" (sendFolders)="getBrowseUpdated($event);"
                 [currentScreen]="screen" (refreshScreen)="refresh($event);" (togglePanel)="toggle()"></app-rightpanel>

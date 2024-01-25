@@ -28,14 +28,14 @@
     <div class="ui-g">
       <div class="ui-g-12 " *ngIf="searchObj.searchResult">
         <!--(sendSortPagination)="continueSearch($event)"-->
-        <data-table [showCount]="true" [totalCount]="searchObj.totalResults" (sendData)="getData($event,sidemenu);"
+        <doc-data-table [showCount]="true" [totalCount]="searchObj.totalResults" (sendData)="getData($event,sidemenu);"
           [tableData]="searchObj.searchResult" [colHeaders]="colHeaders" [isLoadButtonDisabled]="isLastPage"
           [itemsPerPage]="searchpageSize?searchpageSize:searchCountLimit" [rowExpandable]="false" [showInfoIcon]="true"
           (addToCart)="addToCart($event)" [totalRecords]="searchObj.searchResult?searchObj.totalResults:0"
           (sendPaginationInfoSearch)="getPaginationInfoSearch($event)" (download)="downloadDoc($event)" [lazy]="false"
            [selectedRows]="selectedItem" [activePage]="'simpleSearch'"
           [showCheckBox]="true" (filteredGridItemsToExport)="getFilteredItems($event)">
-        </data-table>
+        </doc-data-table>
       </div>
     </div>
   </p-accordionTab>

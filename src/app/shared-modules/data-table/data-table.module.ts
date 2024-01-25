@@ -17,11 +17,13 @@ import { CommonModule } from '@angular/common';
 import { CgBusyModule } from 'angular-busy2';
 import { FormsModule } from '@angular/forms';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { DocDataTableComponent } from 'src/app/components/generic-components/doc-datatable/doc-datatable.component';
 
 
 @NgModule({
   declarations: [
-    DataTableComponent
+    DataTableComponent,
+    DocDataTableComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +36,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
     MultiSelectModule 
   ],
   providers: [],
-  exports: [DataTableComponent],
+  exports: [DataTableComponent,DocDataTableComponent],
 })
 export class SharedDataTableModule {
 }

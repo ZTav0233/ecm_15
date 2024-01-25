@@ -591,12 +591,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     //this.currentUser = this.us.getCurrentUser();
     //console.log(this.currentUser);
-<<<<<<< HEAD
-
-    this.selectedTabIndex = index;
-    this.breadcrumbService.dashboardTabSelected = this.selectedTabIndex + '@' + textLabel;
-=======
->>>>>>> 97a9a11a28a7ffbd6724c397403689ab4be8ce0c
     let type;
     let id;
     //if(this.selectedTabIndex !== index)

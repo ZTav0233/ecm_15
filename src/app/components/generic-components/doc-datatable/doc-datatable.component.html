@@ -1,0 +1,338 @@
+<div class="ui-g-12 p-0">
+    
+  
+    <div class="data-table-scroll" *ngIf="!rowGroupMode" style="min-height: 60vh;">
+      <p-table #dt [columns]="cols" [value]="tableData" [(selection)]="selectedRows" [rowHover]="true" [rows]="2"
+        [showCurrentPageReport]="true"  [paginator]="true" styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
+        [tableStyle]="{ 'min-width': '40rem' }"
+         [filterDelay]="0" 
+        (onHeaderCheckboxToggle)="checked()" (onRowSelect)="checked($event)" (onRowUnselect)="unchecked($event)" [totalRecords]="totalRecords"
+        (onRowClick)="rowSelected($event)">
+        <ng-template pTemplate="caption">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              <p-columnFilter
+                *ngIf="activePage!='favoriteFolders'&&activePage!='browse'&&activePage!='favorites'&&activePage!='recents'&&activePage!='teamshared' &&activePage!='advanceSearch'"
+                type="text" placeholder="Quick Search" field="subject"></p-columnFilter>
+              <input class="quickSearch"
+                *ngIf="activePage=='favoriteFolders'||activePage=='browse'||activePage=='favorites'||activePage=='recents'||activePage=='teamshared'"
+                pInputText type="text" (input)="applyFilterGlobal($event)" (change)="applyFilterGlobal($event)"
+                placeholder="Quick Search" />
+              <div style="color:white" *ngIf="showCount && totalCount===1" class="pull-right m-5">
+                Found {{totalCount}} Item
+              </div>
+              <div style="color:white" *ngIf="showCount && totalCount>1" class="pull-right m-5">
+                Found {{totalCount}} Items
+              </div>
+            </div>
+            <div style="display: flex;align-items: center;">
+              <button style="width: 170px;color: white !important;" [disabled]="isLoadButtonDisabled"
+                *ngIf="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')" pButton
+                (click)="loadMoreSearchData();" icon="load-more" type="button" label="Load More Results"
+                class="reload-button bold pull-right m-r-md bg-black"></button>
+              <p-multiSelect (onChange)="onChange($event)" [options]="colHeaders" [(ngModel)]="cols" optionLabel="header"
+                selectedItemsLabel="{0} columns selected" [style]="{'min-width': '200px'}" placeholder="Choose Columns"
+                style="margin-right: 45px"></p-multiSelect>
+              <button class="autorenew" style="padding: 0;"
+                [ngClass]="{'hide-Important':(activePage && (activePage==='simpleSearch' || activePage==='advanceSearch' || activePage==='launch'))}"
+                pButton type="button" icon="fa fa-fw ui-icon-autorenew" title="Refresh" (click)="refresh()"></button>
+            </div>
+  
+          </div>
+  
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngIf="activePage!='draft'" style="width:17px;">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th *ngIf="activePage==='inbox' && !reportPage" style="width:29px;"></th>
+            <th *ngIf="activePage==='inbox' && !reportPage" style="width: 30px;"></th>
+            <th *ngIf="activePage==='inbox' && !reportPage" pSortableColumn="isFlag">
+              Flag <p-sortIcon field="flag"></p-sortIcon>
+            </th>
+            <th *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" pSortableColumn="subject"
+              class="subjectMinWidth">
+              Subject <p-sortIcon field="subject"></p-sortIcon>
+            </th>
+            <th *ngIf="showInfoIcon" pSortableColumn="name">
+              Title <p-sortIcon field="name"></p-sortIcon>
+            </th>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.sortField?col.sortField:col.field">
+              {{col.header}} <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+            <th *ngIf="activePage==='sent'">
+            </th>
+            <th *ngIf="showProgressBtn && activePage==='inbox'"></th>
+            <th *ngIf="showInfoIcon"></th>
+            <th *ngIf="activePage==='draft'"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-columns="columns" let-rowIndex="rowIndex" let-expanded="expanded">
+          <tr [pSelectableRow]="product" [pSelectableRowIndex]="rowIndex">
+            <td *ngIf="activePage!='draft'" style="width:17px;">
+              <p-tableCheckbox [value]="product"></p-tableCheckbox>
+            </td>
+            <td *ngIf="activePage==='inbox' && !reportPage" style="width:29px;">
+              <button type="button" pButton pRipple [pRowToggler]="product"
+                class="p-button-text p-button-rounded p-button-plain"
+                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+            </td>
+            <td *ngIf="activePage==='inbox' && !reportPage" style="width: 50px;">
+              <div class="icons ">
+                <div class="display-inline-block" *ngIf="(product.priority && product.priority.toLowerCase() === 'high')">
+                  <i title="High Priority" class="fa fa-fw ui-icon-priority-high text-red"></i>
+                  <!--[hidden]="!(product.priority && product.priority.toLowerCase() === 'high')"-->
+                </div>
+                <div class="display-inline-block" *ngIf="(product.priority && product.priority.toLowerCase() !== 'high')">
+                  <i title="Normal Priority"></i>
+                  <!--[hidden]="!(product.priority && product.priority.toLowerCase() === 'high')"-->
+                </div>
+                <div class="display-inline-block">
+                  <img title="Type" src="assets/images/icons/cc.png"
+                    [hidden]="!(product.type && (product.type.toLowerCase()==='cc' || product.type.toLowerCase()==='reply-cc'))"
+                    class="flag-img-dim">
+                </div>
+              </div>
+            </td>
+            <td *ngIf="activePage==='inbox' && !reportPage" style="width: 60px;">
+              <img title="Type" [src]="product.isFlag ? 'assets/images/icons/flag.png' : 'assets/images/icons/unflag.png'"
+                class="flag-img-dim">
+              <img *ngIf="product.isMemo" title="Memo"
+                [src]="product.isMemo ? 'assets/images/icons/note24x.png' : 'assets/images/icons/note24xbw.png'"
+                class="flag-img-dim">
+            </td>
+            <td *ngIf="activePage==='inbox' || activePage==='sent' || activePage==='draft'" class="subjectMinWidth txt"
+              [ngClass]="{'text-bold':product.isNew}" (click)="goToTaskDetails($event,'hyperlink',product)">{{
+              product.subject }}</td>
+            <td *ngIf="showInfoIcon"> <span *ngIf="product.format">
+                <span class="v-m"></span>
+                <img src="assets/images/icons/file-pdf-o.png" *ngIf="product.format.indexOf('pdf')!==-1">
+                <img src="assets/images/icons/file-excel-o.png"
+                  *ngIf="product.format.indexOf('sheet')!==-1 || product.format.indexOf('xls')!==-1 || product.format.indexOf('xlsx')!==-1
+                || product.format.indexOf('spreadsheet')!==-1 || product.format.indexOf('vnd.ms-excel')!==-1
+                 || product.format.indexOf('vnd.excel')!==-1 ||  product.format.indexOf('vnd.openxmlformats-officedocument.spreadsheetml.sheet')!==-1">
+                <img src="assets/images/icons/file-image-o.png"
+                  *ngIf="product.format.indexOf('image')!==-1 && product.format.indexOf('tiff')===-1 && product.format.indexOf('tif')===-1">
+                <img src="assets/images/icons/file-word-o.png" *ngIf="product.format.indexOf('word')!==-1 || product.format.indexOf('msword')!==-1 ||
+               product.format.indexOf('vnd.openxmlformats-officedocument.wordprocessingml.document')!==-1">
+                <img src="assets/images/icons/file-msg-48.png" *ngIf="product.format.indexOf('vnd.ms-outlook')!==-1">
+                <img src="assets/images/icons/file-ppt-48.png" *ngIf="product.format.indexOf('ppt')!==-1 || product.format.indexOf('pptx')!==-1 || product.format.indexOf('vnd.powerpoint')!==-1 || product.format.indexOf('vnd.ms-powerpoint')!==-1 ||
+                product.format.indexOf('vnd.openxmlformats-officedocument.presentationml.presentation')!==-1">
+                <img src="assets/images/icons/file-tiff-48.png"
+                  *ngIf="product.format.indexOf('tiff')!==-1 || product.format.indexOf('tif')!==-1">
+                <img src="assets/images/icons/file-text-o.png" *ngIf="product.format.indexOf('pdf')===-1 && product.format.indexOf('sheet')===-1
+                     && product.format.indexOf('xls')===-1 && product.format.indexOf('xlsx')===-1
+                     && product.format.indexOf('image')===-1  && product.format.indexOf('word')===-1 && product.format.indexOf('officedocument')===-1
+                     && product.format.indexOf('vnd.ms-outlook')===-1 && product.format.indexOf('ppt')===-1 && product.format.indexOf('pptx')===-1
+                     && product.format.indexOf('tiff')===-1 && product.format.indexOf('tif')===-1 && product.format.indexOf('vnd.ms-excel')===-1
+                     && product.format.indexOf('vnd.excel')===-1 && product.format.indexOf('vnd.openxmlformats-officedocument.spreadsheetml.sheet')===-1
+                      && product.format.indexOf('msword')===-1 && product.format.indexOf('vnd.openxmlformats-officedocument.wordprocessingml.document')===-1 && product.format.indexOf('vnd.powerpoint')===-1
+                      && product.format.indexOf('vnd.ms-powerpoint')===-1 && product.format.indexOf('vnd.openxmlformats-officedocument.presentationml.presentation')===-1
+                      && product.format.indexOf('spreadsheet')===-1">
+              </span>
+              <span *ngIf="!product.format">
+                <span class="v-m"></span>
+                <img src="assets/images/icons/file-text-o.png" class="icon">
+              </span>
+              <!-- <td class="v-m"> -->
+              <span
+                (click)="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch') && product.isDeleted ? null : openView($event,product) "
+                class="txt">
+                {{product.name}}
+              </span>
+            </td>
+            <td *ngFor="let col of columns">{{ product[col.field] }}</td>
+            <td *ngIf="activePage==='sent'">
+              <button pButton type="button" icon="fa fa-fw ui-icon-timeline" title="Track Preview"
+                (click)="previewTrackSentitem(product.workflowId)" class="remove-btn v-m"></button>
+            </td>
+            <td *ngIf="showProgressBtn && activePage==='inbox'">
+              <button pButton type="button"
+                icon="{{product.hasProgress ? 'fa fa-fw ui-icon-hourglass-full' : 'fa fa-fw ui-icon-hourglass-empty'}}"
+                title="Work Progress" (click)="mToggleProgressDialogue(product.workitemId)"
+                class="remove-btn v-m"></button>
+            </td>
+            <td *ngIf="showInfoIcon">
+              <button pButton type="button" *ngIf="showInfoIcon" icon="fa fa-fw ui-icon-info-outline" title="Info"
+                (click)="openDocInfo(product);displayinfo=true;" class="remove-btn v-m"
+                [disabled]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch') && product.isDeleted"></button>
+            </td>
+            <td *ngIf="activePage==='draft'">
+              <button pButton type="button" icon="fa fa-fw ui-icon-remove-red-eye" title="View"
+                (click)="viewDraftItem(product)" class="remove-btn v-m"></button>
+              <button pButton type="button" *ngIf="activePage === 'draft'" icon="fa fa-fw ui-icon-remove" title="Remove"
+                (click)="removeDraft(product)" class="remove-btn v-m"></button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-table>
+          <tr>
+            <td colspan="15">
+              <div class="ui-grid ui-grid-responsive ui-fluid">
+                <div class="ui-grid-row" *ngIf="activePage === 'inbox'">
+                  <table id="details" class="ecm-table  inner-table w-100">
+                    <tbody>
+                      <tr class="even label-width">
+                        <td>Subject:</td>
+                        <td>{{table.subject}}</td>
+                        <td>Received Date:</td>
+                        <td>{{table.receivedDate}}</td>
+                      </tr>
+                      <tr class="label-width">
+                        <td>Sender Name:</td>
+                        <td>{{table.senderName}}</td>
+                        <td>Priority:</td>
+                        <td>{{table.priority}}</td>
+                      </tr>
+                      <tr class="even label-width">
+                        <td>Originator:</td>
+                        <td>{{table.wfCreatorName}}</td>
+                        <td>Status:</td>
+                        <td>{{table.status}}</td>
+                      </tr>
+                      <tr class="label-width">
+                        <td>Reminder:</td>
+                        <td>{{table.reminder}}</td>
+                        <td>Deadline:</td>
+                        <td>{{table.deadline}}</td>
+                      </tr>
+                      <tr class="even label-width">
+                        <td>For:</td>
+                        <td colspan="3">
+                          <div>{{table.actions}}</div>
+                        </td>
+                      </tr>
+                      <tr class="label-width">
+                        <td>Instructions:</td>
+                        <td colspan="3">
+                          <div *ngIf="table.instructions" [innerHTML]="table.instructions"></div>
+                        </td>
+                      </tr>
+                      <tr class="even label-width">
+                        <td>Remarks:</td>
+                        <td colspan="3">{{table.comments}}</td>
+                      </tr>
+                      <tr class="label-width" *ngIf="table.actionTaken && table.actionTaken!='Launch'">
+                        <td>Action Taken:</td>
+                        <td colspan="3">{{table.actionTaken}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <ng-container *ngIf="activePage === 'sent'">
+                  <table id="sentWorkitemdetails" class="ecm-table ">
+                    <thead>
+                      <th>#</th>
+                      <th>Recipient</th>
+                      <th>Subject</th>
+                      <th>Sent On</th>
+                      <th>Type</th>
+                      <th>Status</th>
+                      <th [ngClass]="{'hide' : reportPage}">Action</th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let workitem of sentitemWorkitems;let i=index;let isOdd=odd;let isEven=even;"
+                        [class.even]="isEven" (click)="openSentWorkitem(workitem.workitemId)" role="button">
+                        <td>{{i + 1}}</td>
+                        <td>{{workitem.recipientName}}</td>
+                        <td>{{workitem.subject}}</td>
+                        <td>{{workitem.receivedDate}}</td>
+                        <td>{{workitem.type}}</td>
+                        <td>{{workitem.status}}</td>
+                        <td [ngClass]="{'hide' : reportPage}"
+                          (click)="mToggleProgressDialogue(workitem.workitemId,$event)">
+                          <button pButton type="button" icon="fa fa-fw ui-icon-hourglass-empty" title="Work Progress"
+                            class="remove-btn v-m"></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-container>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+   
+    <div *ngIf="displayinfo">
+      <p-dialog styleClass="p-0" [modal]="true" [appendTo]="'body'" [resizable]="false" [(visible)]="displayinfo"
+        #infoDialog [style]="{height: '500px' }" [contentStyle]="{'overflow':'visible'}" (onHide)="closeModal()">
+        <p-header>
+          {{viewDocTitle}}
+        </p-header>
+        <!--For making doc details tab lazy-->
+  
+        <app-doc-details-modal [docInfo]="docInfo" [docSysProp]="docSysProp" [docSecurity]="docSecurity"
+          [foldersFiledIn]="foldersFiledIn" [docTitle]="viewDocTitle">
+        </app-doc-details-modal>
+      </p-dialog>
+    </div>
+    <div *ngIf="islinked">
+      <p-dialog styleClass="p-0" [modal]="true" [appendTo]="'body'" [resizable]="false" [(visible)]="islinked"
+        #infoLinkedDialog [style]="{height: '300px' }" [contentStyle]="{'overflow':'visible'}" (onHide)="closeModal()">
+        <p-header>
+          {{viewDocTitle }}
+        </p-header>
+        <!--For making doc details tab lazy-->
+  
+        <app-doc-linked-details-modal [docInfo]="docInfo" [docSysProp]="docSysProp" [docSecurity]="docSecurity"
+          [linkedDocument]="linkedDocument" [foldersFiledIn]="foldersFiledIn" [docTitle]="viewDocTitle">
+        </app-doc-linked-details-modal>
+      </p-dialog>
+    </div>
+    <div *ngIf="isDocTrack">
+      <p-dialog styleClass="p-0" [modal]="true" [appendTo]="'body'" [resizable]="false" [(visible)]="isDocTrack"
+        #infoTrackDialog [style]="{height: '300px' }" [contentStyle]="{'overflow':'visible'}" (onHide)="closeModal()">
+        <p-header>
+          {{viewDocTitle }}
+        </p-header>
+        <!--For making doc details tab lazy-->
+        <app-doc-track-details-modal [docInfo]="docInfo" [docSysProp]="docSysProp" [docSecurity]="docSecurity"
+          [docTrack]="docTrack" [foldersFiledIn]="foldersFiledIn" [docTitle]="viewDocTitle">
+        </app-doc-track-details-modal>
+      </p-dialog>
+    </div>
+    <div *ngIf="viewer">
+      <p-dialog [modal]="true" #viewerDialog [appendTo]="'body'" [resizable]="false" [(visible)]="viewer"
+        (onHide)="closeViewPopUp()">
+        <p-header>
+          {{viewDocTitle}}
+        </p-header>
+        <iframe *ngIf="showIframe" class="dynamic-Iframe-size" [src]="attach_url" frameborder="0"
+          allowfullscreen></iframe>
+      </p-dialog>
+    </div>
+  </div>
+  <div *ngIf="showDelegationInactiveDialog">
+    <p-dialog [closable]="false" [closeOnEscape]="false" [modal]="true" #delegationMsgDialog [appendTo]="'body'"
+      [(visible)]="showDelegationInactiveDialog" [style]="{ width: '380px', height: '160px' }">
+      <p-header>
+        Delegated user Access has been ended.
+      </p-header>
+      <p>Application will refresh now.</p>
+      <p-footer>
+        <button pButton class="pull-right" type="button" label="Ok" (click)="reloadApp()"></button>
+      </p-footer>
+    </p-dialog>
+  </div>
+  <p-confirmDialog appendTo="body" key="confirmNavigateTaskDetails{{tabNameIdentifier}}" acceptLabel="OK"
+    [rejectVisible]="false" header="Confirmation" icon="fa fa-help-outline" width="425"></p-confirmDialog>
+  <p-confirmDialog appendTo="body" key="confirmRemoveDraft" acceptLabel="Yes" rejectLabel="No" header="Confirmation"
+    icon="fa fa-help-outline" width="425"></p-confirmDialog>
+  <div class="progress-bar">
+    <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+  </div>
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="displayBasic"
+    [style]="{ width: '400px', height: '200px' }">
+    <p-header>
+      Confirmation
+    </p-header>
+    <p>Are you sure that you want to remove this draft item?</p>
+    <div style="height: 40px;"></div>
+    <div style="margin-left: 20vh">
+      <button (click)="cancel()" pButton type="button" class="mr-1" label="Cancel"></button> &nbsp;
+      <button (click)="ok()" pButton type="button" class="mr-1" label="OK"></button> &nbsp;
+    </div>
+  </p-dialog>

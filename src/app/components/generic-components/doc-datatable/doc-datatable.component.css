@@ -1,0 +1,50 @@
+.autorenew {
+    height: auto !important;
+    width: 40px !important;
+}
+
+.autorenew .fa {
+    font-size: 24px !important;
+}
+
+td img {
+    height: 16px;
+    width: 16px;
+}
+
+.text-red {
+    color: red !important;
+  }
+
+.quickSearch {
+    background-color: #607d8b;
+    color: white;
+    border: none;
+    border-bottom: 1px solid white;
+    height: 95% !important;
+}
+
+.quickSearch::placeholder {
+    color: white !important;
+    opacity: 1;
+    /* Firefox */
+}
+
+:host ::ng-deep .p-element .p-fluid .p-inputtext {
+    background-color: #607d8b;
+    border: none;
+    border-bottom: 1px solid white;
+    color: white
+}
+
+:host ::ng-deep .p-element .p-fluid .p-inputtext::placeholder {
+    color: #bbb !important;
+}
+
+input.quickSearch::placeholder {
+    color: #bbb !important;
+}
+
+:host::ng-deep .p-button-icon .p-button-icon-left .load-more{
+    margin-top: -10px !important;
+}

@@ -305,12 +305,10 @@
             <p-columnFilter
               *ngIf="activePage!='favoriteFolders'&&activePage!='browse'&&activePage!='favorites'&&activePage!='recents'&&activePage!='teamshared' &&activePage!='advanceSearch'"
               type="text" placeholder="Quick Search" field="subject"></p-columnFilter>
-              <input class="quickSearch"
-       *ngIf="activePage=='favoriteFolders'||activePage=='browse'||activePage=='favorites'||activePage=='recents'||activePage=='teamshared'"
-       pInputText type="text"
-       (input)="applyFilterGlobal($event)"
-       (change)="applyFilterGlobal($event)"
-       placeholder="Quick Search" />
+            <input class="quickSearch"
+              *ngIf="activePage=='favoriteFolders'||activePage=='browse'||activePage=='favorites'||activePage=='recents'||activePage=='teamshared'"
+              pInputText type="text" (input)="applyFilterGlobal($event)" (change)="applyFilterGlobal($event)"
+              placeholder="Quick Search" />
             <div style="color:white" *ngIf="showCount && totalCount===1" class="pull-right m-5">
               Found {{totalCount}} Item
             </div>
@@ -560,6 +558,7 @@
       [tableStyleClass]="activePage && (activePage==='simpleSearch' || activePage==='advanceSearch')?'border-bottom-dtable':''"
       [rows]="itemsPerPage" [showCurrentPageReport]="true" (onRowExpand)="showSentWorkitems($event)"
       [reorderableColumns]="reorderableColumns" [rowExpandMode]="'dt.value'" #dt1 [paginator]="true">
+
       <ng-template pTemplate="caption">
         <div style="display: flex; justify-content: space-between;">
           <p-columnFilter type="text" field="subject"></p-columnFilter>

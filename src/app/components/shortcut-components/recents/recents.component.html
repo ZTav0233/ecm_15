@@ -1,12 +1,12 @@
 <button pButton type="button" label="Export" (click)="exportToExcel();" class="pull-right m-b-sm"
   [disabled]="!gridItemsToExport || gridItemsToExport.length==0"></button>
 <div *ngIf="recDocuments">
-  <data-table [showCount]="true" [totalCount]="recDocuments.length" (sendData)="getData($event,sidemenu)"
+  <doc-data-table [showCount]="true" [totalCount]="recDocuments.length" (sendData)="getData($event,sidemenu)"
     [emptyMessage]="emptyMessage" (refreshScreen)="refreshTable();" [activePage]="'recents'"
     [tableData]="recDocuments" [tableDataStored]="recDocuments" [showDownloadIcon]="false" [showAddCartIcon]="false" [showInfoIcon]="true"
     [totalRecords]="recDocuments?recDocuments.length:0" [colHeaders]="colHeaders" [itemsPerPage]="itemsPerPage"
     [rowExpandable]="false" [selectedRows]="selectedItem" (filteredGridItemsToExport)="getFilteredItems($event)">
-  </data-table>
+  </doc-data-table>
   <p-table  (sendData)="getData($event)"
      (refreshScreen)="refreshTable()" 
     
