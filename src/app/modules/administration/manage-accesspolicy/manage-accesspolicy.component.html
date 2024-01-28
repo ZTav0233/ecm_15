@@ -228,7 +228,7 @@
       </div>
     </div>
     <div>
-      <p-dialog header="Modify Access Policy - [{{selectedPolicy.name}}]" [style]="{width: '700px'}" [modal]="true"
+      <p-dialog header="Modify Access Policy - [{{selectedPolicy.name}}]" [style]="{width: '76em'}" [modal]="true"
         showEffect="fade" *ngIf="showPermissionDialogue" [(visible)]="showPermissionDialogue" (onHide)="isButtonSaveDisabled=true;">
         <app-edit-ap-permission [selectedPolicy]="selectedPolicy" [screen]="'manageAP'"
           [newPermissions]="newPermissions" (addNP)="addNewPermission()" (addP)="addPermission($event)"

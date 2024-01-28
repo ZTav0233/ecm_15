@@ -101,7 +101,7 @@
   </div>
 </div>
 <div>
-  <p-dialog [modal]="true" [(visible)]="showUserInfo" showEffect="fade" [style]="{width: '500px',height:'350px'}">
+  <p-dialog [modal]="true" [(visible)]="showUserInfo" showEffect="fade" [style]="{width: '40vw',height:'40vh'}">
     <p-header>
       Edit User
     </p-header>
@@ -140,7 +140,7 @@
     </p-footer>
   </p-dialog>
 </div>
-<p-dialog *ngIf="allusers" [modal]="true" showEffect="fade" [(visible)]="viewuser" [style]="{width: '600px'}">
+<p-dialog *ngIf="allusers" [modal]="true" showEffect="fade" [(visible)]="viewuser" [style]="{width: '70em'}">
   <p-header>
     {{allusers.fulName}}
   </p-header>

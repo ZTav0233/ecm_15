@@ -488,7 +488,7 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   download() {
-     this.busy = true;
+    this.busy = true;
     if (this.selectedDocs.length > 1) {
       const docIDs = [];
       for (const doc of this.selectedDocs) {
@@ -498,7 +498,7 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
         const file = new Blob([res], { type: 'application/zip' });
         const fileName = 'Documents' + '.zip';
         saveAs(file, fileName);
-         this.busy = false;
+        this.busy = false;
       });
     } else {
       window.location.assign(this.ds.downloadDocument(this.selectedDocs[0].id));
@@ -686,13 +686,23 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
        let attachmentMail  = new Attachment();
        attachmentMail.docTitle=d.fileName;
        attachmentMail.docId=d.id;
+       attachmentMail.format=d.format;
        postdata.push(attachmentMail)
      });
 
+     this.busy = true;
      this.ds.emailDocuments(postdata).subscribe(d=>{
-       const file = new Blob([d], { type: 'text/plain' });
-       saveAs(file, "mailto.eml");
-     });
+      const file = new Blob([d], { type: 'text/plain' });
+      saveAs(file, "mailto.eml");
+      this.busy = false;
+    }, error => {
+      this.busy = false;
+      // this.growlService.showGrowl({
+      //   severity: 'error',
+      //   summary: 'Error Occurred', detail: 'Please try again!'
+      // });
+      this.toastr.error('Please try again!', 'Error Occurred');
+    });
      }
 
 

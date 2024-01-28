@@ -205,6 +205,7 @@ export class DraftComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['/workflow/launch', 'draftLaunch', { id: event.draftId }]);
     }
+    
     window.parent.postMessage('GoToLaunch', '*');
   }
 

@@ -279,11 +279,12 @@ export class DocumentService {
     // const options = {
     //   responseType: 'blob' as 'blob', // Set responseType to 'blob' explicitly
     //   headers,
-    // };
+    // };s
     // return this.http.get(url, options);
-    let options = new HttpHeaders();
+    //let options = new RequestOptions({});
     const url = `${global.base_url}DocumentService/downloadThisDocument?id=${id}`;
-    return this.http.post(url, options);
+    return url;
+    
   }
  
   downloadThisDocument(id: any): any {
@@ -314,8 +315,7 @@ export class DocumentService {
  
   emailDocuments(doc ): any {
     const url = `${global.base_url}DocumentService/emailDocuments`;
-    return this.http.post(url, doc,{responseType:"blob"
-    });
+    return this.http.post(url, doc,{responseType:"blob"});
   }
  
   // getRequest(reqId: any):any{

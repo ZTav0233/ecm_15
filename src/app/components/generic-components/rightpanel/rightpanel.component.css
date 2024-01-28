@@ -100,8 +100,8 @@
 }
 
 .folder_popup {
-  width: 100%;
-  height: 40px;
+  width: 14em;
+  height: em;
   background-color: darkgray !important;
   color: white!important;
   font: menu!important;

@@ -127,9 +127,10 @@ export class DocLinkedDetailsModalComponent implements OnInit, OnDestroy, OnChan
   }
 
   downloadDoc(doc) {
-    //  window.location.assign(this.ds.downloadThisDocument(doc.id));
+    window.location.assign(this.ds.downloadThisDoc(doc.id));
+    
     //const fileName = this.docInfo[0].mvalues;
-    let fileName;
+  /*   let fileName;
     this.ds.downloadThisDoc(doc.id).subscribe(res => {
       let disposition = res.headers.get('Content-Disposition');
       if (disposition && disposition.indexOf('attachment') !== -1) {
@@ -140,7 +141,7 @@ export class DocLinkedDetailsModalComponent implements OnInit, OnDestroy, OnChan
         }
       }
       saveAs(res._body, decodeURIComponent(fileName));
-    });
+    }); */
   }
 
   selectVersion(version) {

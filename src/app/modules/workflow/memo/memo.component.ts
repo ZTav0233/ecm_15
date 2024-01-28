@@ -4446,10 +4446,16 @@ export class MemoComponent implements OnInit, OnDestroy {
   goBack() {
     this.timerStop();
     this.intervalId = null;
-    this.location.back();
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))  // Use pipe to apply the filter operator
-      .subscribe(e => this.identifyNavigateScreen(e));
+
+    this.router.navigate(['/workflow/launch']);
+    window.parent.postMessage('GoToLaunch', '*');
+    /*   {
+      this.location.back();
+      this.router.events
+        .pipe(filter(event => event instanceof NavigationEnd))  // Use pipe to apply the filter operator
+        .subscribe(e => this.identifyNavigateScreen(e));
+    } */
+    
   }
 
   identifyNavigateScreen(e) {

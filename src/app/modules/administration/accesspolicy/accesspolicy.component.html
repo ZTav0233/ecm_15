@@ -142,7 +142,7 @@
       </div>
     </div>
     <div>
-      <p-dialog header="Modify Access Policy - [{{selectedpolicyname}}]" [responsive]="true" [style]="{width: '700px'}"
+      <p-dialog header="Modify Access Policy - [{{selectedpolicyname}}]" [responsive]="true" [style]="{width: '76em'}"
         [modal]="true" showEffect="fade" *ngIf="showPermissionDialogue" [visible]="showPermissionDialogue"
         (onHide)="showPermissionDialogue=false;isButtonSaveDisabled=true;">
         <app-edit-ap-permission [selectedPolicy]="selectedPolicy" [screen]="'APComponent'"
@@ -158,7 +158,7 @@
     </div>
   </div>
 </div>
-<p-dialog *ngIf="allpolicy" [modal]="true" showEffect="fade" [(visible)]="viewpolicy" [style]="{width: '600px'}">
+<p-dialog *ngIf="allpolicy" [modal]="true" showEffect="fade" [(visible)]="viewpolicy" [style]="{width: '70em'}">
   <p-header>
     {{allpolicy.name}}
   </p-header>
