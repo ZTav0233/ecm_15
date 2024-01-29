@@ -187,12 +187,12 @@ export class BrowseDocumentComponent implements OnInit, OnDestroy {
     this.sideMenu = sidemenu;
     this.selectedItem = data;
     if (data !== undefined) {
-      if (data.length === 0 && sidemenu.isOpened) {
-        sidemenu.toggle();
-      }
-      if (data.length >= 1 && !sidemenu.isOpened) {
-        sidemenu.show();
-      }
+      // if (data.length === 0 && sidemenu.isOpened) {
+      //   sidemenu.toggle();
+      // }
+      // if (data.length >= 1 && !sidemenu.isOpened) {
+      //   sidemenu.show();
+      // }
     }
   }
 
@@ -202,9 +202,9 @@ export class BrowseDocumentComponent implements OnInit, OnDestroy {
       loop++;
       if (loop === docs.length) {
         docs.splice(0, docs.length);
-        if (this.sideMenu.isOpened) {
-          this.sideMenu.toggle();
-        }
+        // if (this.sideMenu.isOpened) {
+        //   this.sideMenu.toggle();
+        // }
       }
     });
     const folderId = localStorage.getItem('folderId');
@@ -235,9 +235,9 @@ export class BrowseDocumentComponent implements OnInit, OnDestroy {
   }
 
   toggle() {
-    if (this.sideMenu.isOpened !== false) {
-      //this.sideMenu.toggle();
-    }
+    // if (this.sideMenu.isOpened !== false) {
+    //   //this.sideMenu.toggle();
+    // }
   }
   getRowTrackBy = (index, item) => {
     return item.id;

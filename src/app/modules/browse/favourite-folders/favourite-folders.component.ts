@@ -244,15 +244,17 @@ export class FavouriteFoldersComponent implements OnDestroy {
   }
 
   getData(data: any, sidemenu?: any) {
+    console.log("sidemenu",sidemenu);
+    
     this.sideMenu = sidemenu;
     this.selectedItem = data;
     if (data !== null && data !== undefined) {
-      if (data.length === 0 && sidemenu.isOpened) {
-        sidemenu.toggle();
-      }
-      if (data.length >= 1 && !sidemenu.isOpened) {
-        sidemenu.show();
-      }
+      // if (data.length === 0) {
+      //   sidemenu.toggle();
+      // }
+      // if (data.length >= 1) {
+      //   sidemenu.show();
+      // }
     }
   }
 
@@ -276,9 +278,9 @@ export class FavouriteFoldersComponent implements OnDestroy {
       loop++;
       if (loop === docs.length) {
         docs.splice(0, docs.length);
-        if (this.sideMenu.isOpened) {
-          this.sideMenu.toggle();
-        }
+        // if (this.sideMenu.isOpened) {
+        //   this.sideMenu.toggle();
+        // }
 
       }
     });
