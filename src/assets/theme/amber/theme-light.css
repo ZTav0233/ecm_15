@@ -2955,7 +2955,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 }
 .p-column-filter-menu-button.p-column-filter-menu-button-active, .p-column-filter-menu-button.p-column-filter-menu-button-active:hover {
   background: rgba(255, 179, 0, 0.12);
-  color: #FFB300;
+  color: #CFDC12; /*#FFB300 */
 }
 .p-column-filter-menu-button:focus {
   outline: 0 none;
