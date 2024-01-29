@@ -277,7 +277,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
     }, 1000); */
     
     console.log(this.activePage);
-    console.log(this.tableData);
+    //console.log(this.tableData);
     // this.tableDataStored=this.tableData
     // console.log("this.colHeaders",this.colHeaders);
     this.cols=this.colHeaders.filter(column => !column.hidden);

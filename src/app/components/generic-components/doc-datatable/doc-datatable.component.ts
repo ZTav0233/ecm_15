@@ -16,6 +16,7 @@ import {
   import { GrowlService } from "../../../services/growl.service";
   import { WorkitemDetails } from "../../../models/workflow/workitem-details.model";
   import { ContentService } from '../../../services/content.service';
+
   import { Table } from 'primeng/table';
   import * as _ from 'lodash';
   import { ToastrService } from 'ngx-toastr';
@@ -286,9 +287,6 @@ import {
       }, 1000); */
       
       console.log(this.activePage);
-      console.log(this.tableData);
-      this.tableDataStored=this.tableData
-      // console.log("this.colHeaders",this.colHeaders);
       this.cols=this.colHeaders.filter(column => !column.hidden);
       console.log(this.cols);
       this.bs.setPageNoOnLoadMore.subscribe(d => {
