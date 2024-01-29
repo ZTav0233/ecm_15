@@ -185,6 +185,25 @@
                 </div>
               </div>
             </ng-container>
+            <tr *ngIf="isSimpleSearch">
+              <td>
+                <div style="display: inline-flex; width: 100%;">
+                  <button [disabled]="(!data.model.contentSearch.mvalues[0] && searchIsEmpty()) || !searchButtonDisabledStopWord
+                        || isSimpleSearch && !(data.model.contentSearch.mvalues[0] && data.model.contentSearch.mvalues[0].length>2)
+                        || !data.maxRowLimit || data.maxRowLimit<=0 || searchForm.form.invalid || !searchForm.valid"
+                    pButton label="Search" style="margin-bottom:10px;width:auto"></button>
+                  <button *ngIf="showSavedSearches" pButton type="button" [label]="selectedSearch?'Update':'Save'"
+                    class=" m-r-md" style="margin-bottom:10px;width:auto" (click)="initSaveSearch()" [disabled]="(!data.model.contentSearch.mvalues[0] && searchIsEmpty())
+                        || !data.maxRowLimit || data.maxRowLimit<=0"></button>
+                  <button *ngIf="showSavedSearches && selectedSearch" pButton type="button" label="Reset To Default"
+                    class=" m-r-md" style="margin-bottom:10px;width:auto" (click)="resetToDefault()"></button>
+                  <button pButton (click)="clearSearch();" type="button" label="Clear" class=" m-r-md"
+                    style="margin-bottom:10px;margin-right:5px;width:auto"
+                    [disabled]="(!data.model.contentSearch.mvalues[0] && searchIsEmpty())"></button>
+                  <p-messages style="display: inline;" [(value)]="msgs"></p-messages>
+                </div>
+              </td>
+            </tr>
           </div>
 
         </div>
