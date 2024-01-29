@@ -183,7 +183,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
   applyFilterGlobal(event) {
     const inputValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
   
-    if (inputValue.length > 2 || inputValue.length === 0) {
+    if (inputValue.length >= 2 || inputValue.length === 0) {
       this.tableData = this.tableDataStored.filter(entry => {
         return entry.fileName.toLowerCase().includes(inputValue);
       });
@@ -277,7 +277,7 @@ export class DataTableComponent implements OnInit, OnDestroy, OnChanges {
     }, 1000); */
     
     console.log(this.activePage);
-    console.log(this.tableData);
+    //console.log(this.tableData);
     // this.tableDataStored=this.tableData
     // console.log("this.colHeaders",this.colHeaders);
     this.cols=this.colHeaders.filter(column => !column.hidden);

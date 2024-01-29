@@ -156,19 +156,18 @@
   </p-footer>
 </p-dialog>
 <div *ngIf="showFileIn">
-  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [resizable]="false" [(visible)]="showFileIn" [style]="{ width: '600px', height: '400px' }">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [resizable]="false" [(visible)]="showFileIn" [style]="{ width: '50em', height: '36em' }">
     <p-header>
       <div class="ui-g-7"><span>Add To Public Folder</span></div>
-      <div class="ui-g-4"><button pButton class="ui-g-12 folder_popup" type="button"
+      <div class="ui-g-5"><button pButton class="ui-g-12 folder_popup" type="button"
          label="Add to Classify Folder" (click)="openClassifySubTree()"></button></div>
     </p-header>
-    <div class="fix-h-350">
+    <!--<div class="fix-h-350"></div> -->
       <div class="scrollable">
         <!--<tree [folderPermission]="folderPermission" [clearSelectedDocs]="true" [changeView]="false"></tree>-->
         <p-tree [value]="addToFolderList" selectionMode="single" [(selection)]="selectedAddFolder"
           (onNodeExpand)="nodeExpand($event)"></p-tree>
       </div>
-    </div>
     <p-footer>
       <button type="button" pButton (click)="fileIn()" label="Add"></button>
       <button type="button" pButton (click)="showFileIn=false" label="Cancel"></button>
@@ -177,18 +176,18 @@
 </div>
 <div *ngIf="showFavFileIn">
   <p-dialog appendTo="body" [modal]="true" showEffect="fade" [resizable]="false" [(visible)]="showFavFileIn"
-   [style]="{width: '60vw',height:'60vh'}">
+  [style]="{ width: '50em', height: '36em' }">
     <p-header>
       <div class="ui-g-7"><span>Add To Classify Folder</span></div>
       <div class="ui-g-4"><button pButton class="ui-g-12 folder_popup" type="button" label="Add to Public Folder" (click)="openSubTreePop()"></button></div>
     </p-header>
-    <div class="fix-h-350">
+    <!--<div class="fix-h-350"></div> -->
       <div class="scrollable">
         <!--<tree [folderPermission]="folderPermission" [clearSelectedDocs]="true" [changeView]="false"></tree>-->
         <p-tree [value]="addToFolderList" selectionMode="single" [(selection)]="selectedAddFolder"
           (onNodeExpand)="nodeExpand($event)"></p-tree>
       </div>
-    </div>
+    
     <p-footer>
       <button type="button" pButton (click)="fileIn()" label="Add"></button>
       <button type="button" pButton (click)="showFavFileIn=false" label="Cancel"></button>
@@ -197,16 +196,15 @@
 </div>
 <div *ngIf="showMove">
   <p-dialog appendTo="body" [modal]="true" showEffect="fade" [resizable]="false" (onHide)="hideTree();"
-    [(visible)]="showMove" [style]="{ width: '600px', height: '400px' }">
+    [(visible)]="showMove" [style]="{ width: '34vw', height: '36em' }">
     <p-header>
       Move To Folder
     </p-header>
-    <div class="fix-h-350">
+    <!--<div class="fix-h-350"></div>-->
       <div class="scrollable">
         <p-tree [value]="moveToList" selectionMode="single" [(selection)]="selectedMoveToFolder"
           (onNodeExpand)="nodeExpand($event)"></p-tree>
       </div>
-    </div>
     <!--<div *ngIf="!(router.url.includes('browse'))" class="fix-h-350">-->
     <!--<div class="scrollable">-->
     <!--<tree [folderPermission]="folderPermission" [clearSelectedDocs]="true" [changeView]="false"></tree>-->
@@ -219,11 +217,11 @@
   </p-dialog>
 </div>
 <div *ngIf="showRemove">
-  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [resizable]="false" [(visible)]="showRemove" [style]="{ width: '600px', height: '400px' }">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [resizable]="false" [(visible)]="showRemove" [style]="{ width: '34vw', height: '36em' }">
     <p-header>
       Select Folder
     </p-header>
-    <div class="fix-h-350">
+    <!--<div class="fix-h-350"></div>-->
       <div class="scrollable">
         <ng-container *ngIf="removeFolderList">
           <p-tree *ngIf="removeFolderList.length>=1" [value]="removeFolderList" disabled="true" selectionMode="checkbox"
@@ -236,7 +234,7 @@
         <!--<span *ngIf="removeFolderList.length==1"> Remove is not allowed since it is placed in only one folder</span>-->
         <!--</ng-template>-->
       </div>
-    </div>
+    
     <p-footer *ngIf="removeFolderList">
       <span class="pull-left p-t-md" style="color: red;" *ngIf="removeFolderList.length===1">
         Remove is not allowed since the document is placed in only one folder
@@ -258,14 +256,12 @@
 </div>
 <div *ngIf="showMoveFrom">
   <p-dialog appendTo="body" [modal]="true" showEffect="fade" [resizable]="false" (onHide)="hideTree();"
-    [(visible)]="showMoveFrom"  [style]="{ width: '600px', height: '400px' }">
+    [(visible)]="showMoveFrom"  [style]="{ width: '34vw', height: '36em' }">
     <p-header>
       Select Folder From Which Document Should Be Moved
     </p-header>
-    <div class="fix-h-350">
-      <div class="scrollable">
-        <p-tree [value]="moveFolderList" selectionMode="single" [(selection)]="selectedMoveFromFolder"></p-tree>
-      </div>
+    <div class="scrollable">
+      <p-tree [value]="moveFolderList" selectionMode="single" [(selection)]="selectedMoveFromFolder"></p-tree>
     </div>
     <p-footer *ngIf="moveFolderList">
       <button
@@ -275,7 +271,7 @@
     </p-footer>
   </p-dialog>
 </div>
-<p-dialog header="Modify Security Permission {{selectedPolicy.name}}" [style]="{width:'70vw'}" [modal]="true" showEffect="fade"
+<p-dialog header="Modify Security Permission {{selectedPolicy.name}}" [style]="{width:'70em'}" [modal]="true" showEffect="fade"
   appendTo="body" [(visible)]="showPermissionDialogue" (onHide)="closeEditSecurity();isButtonSaveDisabled=true;"
   (onShow)="openEditSecurityPopUp()">
   <app-edit-ap-permission [selectedPolicy]="selectedPolicy" [newPermissions]="newPermissions" (isSaveDisabled)="isSaveButtonDisabled($event)"

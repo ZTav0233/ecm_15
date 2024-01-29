@@ -116,10 +116,10 @@
             (onChange)="permissionChanged(product)"></p-dropdown>
         </td>
         <td>
-          <button pButton type="button" icon="ui-icon-remove" title="Remove Permission"
+          <button pButton type="button" icon="fa fa-fw ui-icon-remove" title="Remove Permission"
             (click)="removePermission(product)" [disabled]="product.accessLevel==='Full Control' && !isAdmin"
             class="remove-btn v-m" *ngIf="product.action!=='REMOVE'"></button>
-          <button pButton type="button" *ngIf="product.action==='REMOVE'" icon="ui-icon-add" title="Remove Permission"
+          <button pButton type="button" *ngIf="product.action==='REMOVE'" icon="fa fa-fw ui-icon-add" title="Remove Permission"
             (click)="addPermission(product)" class="remove-btn v-m"></button>
         </td>
       </tr>
@@ -198,7 +198,7 @@
         <td>
           <div class="ui-g">
             <div class="ui-g-12 p-0">
-              <div class="ui-g-10 p-l-0 p-t-0 p-b-0">
+              <div class="ui-g-8 p-l-0 p-t-0 p-b-0" style="margin-top: 1.4em;">
                 <p-autoComplete [(ngModel)]="newPermission.granteeName"
                                 [suggestions]="newPermission.granteesSuggestion" (onSelect)="selectParticipant($event,newPermission);"
                                 (completeMethod)="getGranteesSuggestion($event,newPermission)" field="name"
@@ -207,7 +207,7 @@
                 </p-autoComplete>
                 <span *ngIf="newPermission.Isexist" class="error">Already Exist</span>
               </div>
-              <div class="ui-g-2 p-r-0">
+              <div class="ui-g-4 p-r-0">
                 <p-dropdown [options]="granteeTypes" [(ngModel)]="newPermission.granteeType" 
                             name="granteeType{{ri}}" appendTo="body"
                             (onChange)="onGranteeTypeChange(newPermission)"></p-dropdown>

@@ -16,6 +16,7 @@ import {
   import { GrowlService } from "../../../services/growl.service";
   import { WorkitemDetails } from "../../../models/workflow/workitem-details.model";
   import { ContentService } from '../../../services/content.service';
+
   import { Table } from 'primeng/table';
   import * as _ from 'lodash';
   import { ToastrService } from 'ngx-toastr';
@@ -183,15 +184,17 @@ import {
     applyFilterGlobal(event) {
       const inputValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     
-      if (inputValue.length > 2 || inputValue.length === 0) {
+      if (inputValue.length >= 2 || inputValue.length === 0) {
         this.tableData = this.tableDataStored.filter(entry => {
-          const fileNameMatch = entry.fileName.toLowerCase().includes(inputValue);
-          const ecmNoMatch = entry.ECMNo.toLowerCase().includes(inputValue);
-          const referenceNoMatch = entry.referenceNo.toLowerCase().includes(inputValue);
-          const modOnMatch = entry.modOn.toLowerCase().includes(inputValue);
-          const addOnMatch=entry.addOn.toLowerCase().includes(inputValue)
+          const fileNameMatch = entry.fileName && entry.fileName.toLowerCase().includes(inputValue);
+          const ecmNoMatch = entry.ECMNo && entry.ECMNo.toLowerCase().includes(inputValue);
+          const referenceNoMatch = entry.referenceNo && entry.referenceNo.toLowerCase().includes(inputValue);
+          const modOnMatch = entry.modOn && entry.modOn.toLowerCase().includes(inputValue);
+          const addOnMatch= entry.addOn && entry.addOn.toLowerCase().includes(inputValue);
+          const creatorMatch = entry.creator && entry.creator.toLowerCase().includes(inputValue);
+          const modifierMatch = entry.modifier && entry.modifier.toLowerCase().includes(inputValue);
           // Adjust the conditions based on your requirements, for example, you may want to use logical OR (||) or AND (&&) as needed.
-          return fileNameMatch || ecmNoMatch || referenceNoMatch || modOnMatch||addOnMatch;
+          return fileNameMatch || ecmNoMatch || referenceNoMatch || modOnMatch || addOnMatch || creatorMatch || modifierMatch;
         });
       }
     
@@ -284,9 +287,6 @@ import {
       }, 1000); */
       
       console.log(this.activePage);
-      console.log(this.tableData);
-      // this.tableDataStored=this.tableData
-      // console.log("this.colHeaders",this.colHeaders);
       this.cols=this.colHeaders.filter(column => !column.hidden);
       console.log(this.cols);
       this.bs.setPageNoOnLoadMore.subscribe(d => {
