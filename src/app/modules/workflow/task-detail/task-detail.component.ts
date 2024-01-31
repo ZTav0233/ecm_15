@@ -648,7 +648,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                     });
                     this.editAttachment = true
                   });
-                } else {
+                } 
+                else {
                   this.busy = true;
                   this.ds.getDocument(doc.docId).subscribe(data => {
                     this.busy = false;

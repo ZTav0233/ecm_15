@@ -34,7 +34,7 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
   @Output() refreshScreen = new EventEmitter();
   @Output() togglePanel = new EventEmitter();
   @Output() toggleStrikeDeletedItem = new EventEmitter();
-  @Output() public fileChanged = new EventEmitter();
+  //@Output() public fileChanged = new EventEmitter();
   public saveDocInfo = new DocumentInfoModel();
   @ViewChild('dt') dataTable!: Table;
   //public attachmentMail  = new Attachment();
@@ -189,34 +189,39 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     }
   }
 
-  onUpload(event) {
-
-    if (event.files && event.files.length) {
-      let fileSize = event.files[0].size;
-      if (fileSize <= Number(this.fileSizeConfiguration.value)){
-        this.isFileSizeCorrect = true
-        let name = event.files[0].name.toLowerCase(),
-        extension = name.substr(name.lastIndexOf('.'));
-        if (this.allowedExtensions.indexOf(extension) > -1) {
-          this.fileUploaded = event.files[0];
-          if (this.fileUploaded !== undefined && this.entryTemp) {
-            this.fileselected = true;
-            this.fileChanged.emit({ fileselected: true, fileUploaded: this.fileUploaded })
-          } else {
-            this.fileselected = false;
-            this.fileChanged.emit({ fileselected: false, fileUploaded: null })
-          }
-        }
-      }
-      else {
-        this.isFileSizeCorrect = false
-        console.log("Maximum File size allowed 800 MB!");
-      }
-    }
-    else {
-      console.log("File is not selected");
-    }
+  fileChanged(event) {
+    this.fileselected = event.fileselected;
+    this.fileUploaded = event.fileUploaded;
   }
+
+  // onUpload(event) {
+
+  //   if (event.files && event.files.length) {
+  //     let fileSize = event.files[0].size;
+  //     if (fileSize <= Number(this.fileSizeConfiguration.value)){
+  //       this.isFileSizeCorrect = true
+  //       let name = event.files[0].name.toLowerCase(),
+  //       extension = name.substr(name.lastIndexOf('.'));
+  //       if (this.allowedExtensions.indexOf(extension) > -1) {
+  //         this.fileUploaded = event.files[0];
+  //         if (this.fileUploaded !== undefined && this.entryTemp) {
+  //           this.fileselected = true;
+  //           this.fileChanged.emit({ fileselected: true, fileUploaded: this.fileUploaded })
+  //         } else {
+  //           this.fileselected = false;
+  //           this.fileChanged.emit({ fileselected: false, fileUploaded: null })
+  //         }
+  //       }
+  //     }
+  //     else {
+  //       this.isFileSizeCorrect = false
+  //       console.log("Maximum File size allowed 800 MB!");
+  //     }
+  //   }
+  //   else {
+  //     console.log("File is not selected");
+  //   }
+  // }
 
   onModalHide() {
     this.docEditPropForm.reset();
@@ -829,7 +834,7 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     });
   }
 
-  assignFieldsForEditDoc(data) {
+ /*  assignFieldsForEditDoc(data) {
     this.saveDocInfo = data;
     this.busy = true;
     this.cs.getEntryTemplate(data.entryTemplate).subscribe(data2 => {
@@ -894,6 +899,62 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     this.as.getNextECMNo().subscribe(data => {
       this.ecmNo = data;
     }, err => {
+    });
+  } */
+
+  assignFieldsForEditDoc(data) {
+    this.saveDocInfo = data;
+    this.busy = true;
+    this.cs.getEntryTemplate(data.entryTemplate).subscribe(data1 => {
+      this.busy = false;
+      this.entryTemp = true;
+      this.docTemplateDetails = data1;
+      this.docTemplateDetails.props.forEach(control => {
+        // if (control.hidden === 'false'){
+        if (control.req === 'true') {
+          if (control.dtype === 'DATE') {
+            this.docEditPropForm.addControl(control.symName, new FormControl(null, Validators.required));
+          } else {
+            this.docEditPropForm.addControl(control.symName, new FormControl(null, [Validators.required, this.noWhitespaceValidator]));
+          }
+        } else {
+          this.docEditPropForm.addControl(control.symName, new FormControl(null, Validators.maxLength(400)));
+        }
+        // if (control.symName === 'OrgCode') {
+        //   if (control.lookups) {
+        //     const removables = [];
+        //     control.lookups.map((d, i) => {
+        //       if (d.label.trim().length > 4) {
+        //         removables.push(i);
+        //       }
+        //     });
+        //     removables.map((d, i) => {
+        //       control.lookups.splice(d - i, 1);
+        //     });
+        //   }
+        // }
+        // }
+      });
+      for (const prop of this.saveDocInfo.props) {
+        // if (prop.hidden === 'false') {
+        if (prop.dtype === 'DATE' && prop.mvalues[0] !== null) {
+          this.docEditPropForm.get(prop.symName).setValue(prop.mvalues[0]);
+        } else if (prop.ltype === 2 && prop.mvalues[0] !== null) {
+          if (prop.lookups) {
+            prop.lookups.map((d, i) => {
+              if (prop.mvalues[0] === d.label) {
+                this.docEditPropForm.get(prop.symName).setValue(d.value);
+              }
+            });
+          }
+        }
+        else {
+          this.docEditPropForm.get(prop.symName).setValue(prop.mvalues[0]);
+        }
+        // }
+      }
+    }, err => {
+      this.busy = false;
     });
   }
 
@@ -1345,7 +1406,7 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     this.fileselected = false;
     this.uploadedFile = undefined;
     this.fileUploaded = undefined;
-    this.fileChanged.emit({ fileselected: false, fileUploaded: null })
+    //this.fileChanged.emit({ fileselected: false, fileUploaded: null })
   }
 
   updatedAttachment() {
