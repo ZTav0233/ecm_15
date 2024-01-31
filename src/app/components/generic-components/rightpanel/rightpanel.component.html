@@ -235,14 +235,8 @@
         <!--</ng-template>-->
       </div>
     
-    <p-footer *ngIf="removeFolderList">
-      <span class="pull-left p-t-md" style="color: red;" *ngIf="removeFolderList.length===1">
-        Remove is not allowed since the document is placed in only one folder
-      </span>
-      <span class="pull-left p-t-md" style="color: red;"
-        *ngIf="(selectedRemoveFolder && removeFolderList && selectedRemoveFolder.length == removeFolderList.length)">
-        Remove is not allowed from all folders
-      </span>
+    <p-footer>
+     
       <!--<span class="pull-left p-t-md" style="color: red;" *ngIf="isRemoveDisable">-->
       <!--User dont have permission to remove from this folder-->
       <!--</span>-->
@@ -251,6 +245,13 @@
         [disabled]="isRemoveDisable && removeFolderList.length==1 || !(selectedRemoveFolder && removeFolderList && selectedRemoveFolder.length < removeFolderList.length && selectedRemoveFolder.length>0) "
         type="button" pButton (click)="removeFromFolderConfirm()" label="Remove"></button>
       <button type="button" pButton (click)="showRemove=false" label="Cancel"></button>
+      <span class="pull-left p-t-md" style="color: red;" *ngIf="removeFolderList.length===1">
+        Remove is not allowed since the document is placed in only one folder
+      </span>
+      <span class="pull-left p-t-md" style="color: red;"
+        *ngIf="(selectedRemoveFolder && removeFolderList && selectedRemoveFolder.length == removeFolderList.length)">
+        Remove is not allowed from all folders
+      </span>
     </p-footer>
   </p-dialog>
 </div>
@@ -299,7 +300,6 @@
                   style="color: #ffffff; background:#607D8B ;" class="v-m p-0"
                   (input)="applyFilterGlobal($event, 'contains')">
               </td>
-
             </tr>
           </table>
         </div>

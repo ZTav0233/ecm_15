@@ -23,10 +23,12 @@ export class UpdateDocumentComponent implements OnInit, DoCheck {
   docToOrFrom: any;
   designation: any;
   selectedDesignation: any;
+  public desigVal: any;
   et_dependent_lookup: any;
   totalRecords: number;
   datasource: any;
   showDesignation = false;
+  @ViewChild('dt') dataTable!: Table;
   @ViewChild('gb') searchInput: ElementRef;
   @ViewChild('dt') namelist:any;
   fileSizeConfiguration:any;
@@ -89,11 +91,12 @@ export class UpdateDocumentComponent implements OnInit, DoCheck {
     // });
   }
 
-  loadLazy(event: LazyLoadEvent, table: Table) {
+  loadLazy(event: LazyLoadEvent) {
     if (event.globalFilter.length > 0) {
       this.designation = this.datasource.filter(
         item => item.value ? item.value.toLowerCase().indexOf(event.globalFilter.toLowerCase()) != -1 : "");
       this.totalRecords = this.designation.length;
+      //console.log(this.totalRecords);
     }
     else {
       setTimeout(() => {
@@ -106,7 +109,9 @@ export class UpdateDocumentComponent implements OnInit, DoCheck {
   }
 
   openListDialog(detail) {
-    this.namelist.onFilterKeyup('', 'data', 'contains');
+    //console.log('namelist :' + this.namelist);
+    this.applyOnLoadFilter();
+    //this.namelist.onFilterKeyup('', 'data', 'contains');
     this.searchInput.nativeElement.value = '';
     this.showDesignation = true;
     this.selectedDesignation = [];
@@ -118,14 +123,40 @@ export class UpdateDocumentComponent implements OnInit, DoCheck {
     }
   }
 
+  applyFilterGlobal($event, stringVal) {
+    console.log(($event.target as HTMLInputElement).value);
+    this.dataTable.filterGlobal(
+      ($event.target as HTMLInputElement).value,
+      stringVal
+    );
+  }
+
+  applyOnLoadFilter(){
+    this.dataTable.filterGlobal('','contains');
+  }
+
   onSelectionChange(val, input) {
+    console.log(val,input);
+    console.log(this.docEditPropForm.get('DocumentTo'));
+    
     if (input === 'Document To') {
-      this.docEditPropForm.get('DocumentTo').setValue(val.data.value);
+      this.docEditPropForm.get('DocumentTo').setValue(val.value);
     }
     else {
-      this.docEditPropForm.get('DocumentFrom').setValue(val.data.value);
+      this.docEditPropForm.get('DocumentFrom').setValue(val.value);
     }
   }
+
+  addValueAsText(input) {
+    console.log("desigVal :: " + this.desigVal);
+    if (input === 'Document To') {
+      this.docEditPropForm.get('DocumentTo').setValue(this.desigVal);
+    }
+    else {
+      this.docEditPropForm.get('DocumentFrom').setValue(this.desigVal);
+    }
+  }
+  
 
 //   bytesToSize(bytes:any) {
 //     let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
