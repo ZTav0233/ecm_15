@@ -491,7 +491,8 @@ export class FilterResultComponent implements OnInit, OnDestroy {
         return;
       }
       this.request.pageNo = Math.ceil(data.first / data.rows) + 1;
-      if (data && data.filters.subject.value && data.filters.subject.value.trim()) {
+      if (data && data.filters.subject?.value && data.filters.subject?.value?.trim() ) {
+        //&& data.filters.subject?.value?.trim().length > 2
         this._filterRecords(data.filters.subject.value.trim(), data.sortField, data.sortOrder, (sentWorkitems) => {
           this.sentWorkitems.workitems = sentWorkitems;
         });

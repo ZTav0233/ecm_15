@@ -1,5 +1,5 @@
 <div>
-  <mat-tab-group (selectedTabChange)="sentGridTabChange($event.tab.textLabel,selectedTabIndex,true,false)"
+  <mat-tab-group (selectedTabChange)="sentGridTabChange($event.tab?.textLabel?$event.tab.textLabel:'Sent',selectedTabIndex,true,false)"
     [(selectedIndex)]="selectedTabIndex" [@.disabled]="true">
     <mat-tab *ngFor="let tab of tabsList;let r=index;" label="{{tab.tabLabel}}">
       <ng-template mat-tab-label>
