@@ -1207,10 +1207,12 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
               self.ESignedAttachments[signAttachId] = true;
               self.signedDocCount++;
             }
-            self.growlService.showGrowl({
+            /* self.growlService.showGrowl({
               severity: 'info',
               summary: 'Success', detail: action + ' Successful'
-            });
+            }); */
+
+            this.toastr.info(action + ' is Successful', 'Success');
 
             let attachment = _.find(self.workitem.attachments, ['docId', signAttachId]);
             if (attachment) {
@@ -1255,10 +1257,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             self.eSignDialog = false;
             self.isReturnButtonDisabled = true;
           } else if (data && data === 'FAILED') {
-            self.growlService.showGrowl({
+            /* self.growlService.showGrowl({
               severity: 'error',
               summary: 'Failure', detail: 'User ' + action + ' is Cancelled'
-            });
+            }); */
+            this.toastr.error('User ' + action + ' is Cancelled', 'Failure');
             clearInterval(timer);
             self.eSignDialog = false;
           } else if (data && data === 'PENDING') {
@@ -3050,10 +3053,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                               }, 3000);
                             }
                           } else if (data && data === 'FAILED') {
-                              self.growlService.showGrowl({
+                              /* self.growlService.showGrowl({
                                 severity: 'error',
                                 summary: 'Failure', detail: 'Cancelled or Error while signing'
-                              });
+                              }); */
+                              this.toastr.error('Cancelled or Error while signing', 'Failure');
                               clearInterval(timer);
                               self.eSignDialog = false;
                           } else if (data && data === 'PENDING') {
@@ -3442,10 +3446,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                             });
                           } */
                         } else if (data && data === 'FAILED') {
-                            self.growlService.showGrowl({
-                              severity: 'error',
-                              summary: 'Failure', detail: 'Cancelled or Error while signing'
-                            });
+                            /* self.growlService.showGrowl({
+                                severity: 'error',
+                                summary: 'Failure', detail: 'Cancelled or Error while signing'
+                              }); */
+                            this.toastr.error('Cancelled or Error while signing', 'Failure');
                             clearInterval(timer);
                             self.eSignDialog = false;
                         } else if (data && data === 'PENDING') {

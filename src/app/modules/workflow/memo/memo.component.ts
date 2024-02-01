@@ -5983,10 +5983,11 @@ export class MemoComponent implements OnInit, OnDestroy {
 
             clearInterval(timer);
             self.eSignDialog = false;
-            self.growlService.showGrowl({
+            /* self.growlService.showGrowl({
               severity: 'info',
               summary: 'Success', detail: 'eSign Successful'
-            });
+            }); */
+            this.toastr.info(action + ' is Successful', 'Success');
 
             self.submitMemoDialog = true;
             if (self.actionId) {
@@ -6056,10 +6057,11 @@ export class MemoComponent implements OnInit, OnDestroy {
             self.busy = false;
             self.eSignDialog = false;
           } else if (data && data === 'FAILED') {
-            self.growlService.showGrowl({
+            /* self.growlService.showGrowl({
               severity: 'error',
               summary: 'Failure', detail: 'User ' + action + ' is Cancelled'
-            });
+            }); */
+            this.toastr.error('User ' + action + ' is Cancelled', 'Failure');
             clearInterval(timer);
             self.eSignDialog = false;
           } else if (data && data === 'PENDING') {
