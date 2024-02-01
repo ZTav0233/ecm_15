@@ -1212,7 +1212,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
               summary: 'Success', detail: action + ' Successful'
             }); */
 
-            this.toastr.info(action + ' is Successful', 'Success');
+            self.toastr.info(action + ' is Successful', 'Success');
 
             let attachment = _.find(self.workitem.attachments, ['docId', signAttachId]);
             if (attachment) {
@@ -1261,7 +1261,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
               severity: 'error',
               summary: 'Failure', detail: 'User ' + action + ' is Cancelled'
             }); */
-            this.toastr.error('User ' + action + ' is Cancelled', 'Failure');
+            self.toastr.error('User ' + action + ' is Cancelled', 'Failure');
             clearInterval(timer);
             self.eSignDialog = false;
           } else if (data && data === 'PENDING') {
@@ -3057,7 +3057,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                                 severity: 'error',
                                 summary: 'Failure', detail: 'Cancelled or Error while signing'
                               }); */
-                              this.toastr.error('Cancelled or Error while signing', 'Failure');
+                              self.toastr.error('Cancelled or Error while signing', 'Failure');
                               clearInterval(timer);
                               self.eSignDialog = false;
                           } else if (data && data === 'PENDING') {
@@ -3450,7 +3450,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                                 severity: 'error',
                                 summary: 'Failure', detail: 'Cancelled or Error while signing'
                               }); */
-                            this.toastr.error('Cancelled or Error while signing', 'Failure');
+                            self.toastr.error('Cancelled or Error while signing', 'Failure');
                             clearInterval(timer);
                             self.eSignDialog = false;
                         } else if (data && data === 'PENDING') {

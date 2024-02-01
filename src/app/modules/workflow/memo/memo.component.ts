@@ -5987,7 +5987,7 @@ export class MemoComponent implements OnInit, OnDestroy {
               severity: 'info',
               summary: 'Success', detail: 'eSign Successful'
             }); */
-            this.toastr.info(action + ' is Successful', 'Success');
+            self.toastr.info(action + ' is Successful', 'Success');
 
             self.submitMemoDialog = true;
             if (self.actionId) {
@@ -6061,7 +6061,7 @@ export class MemoComponent implements OnInit, OnDestroy {
               severity: 'error',
               summary: 'Failure', detail: 'User ' + action + ' is Cancelled'
             }); */
-            this.toastr.error('User ' + action + ' is Cancelled', 'Failure');
+            self.toastr.error('User ' + action + ' is Cancelled', 'Failure');
             clearInterval(timer);
             self.eSignDialog = false;
           } else if (data && data === 'PENDING') {
