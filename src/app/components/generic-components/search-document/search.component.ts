@@ -115,7 +115,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
       if (this.data.model.contentSearch.mvalues[0].length > 0 && this.data.model.contentSearch.oper) {
         searcharray.simpleSearchText = this.data.model.contentSearch.mvalues[0];
         searcharray.searchCriteria = this.data.model.contentSearch.oper;
-        this.validateStopWord(this.data.model.contentSearch.mvalues[0], '1');
+        this.validateStopWord_Init(this.data.model.contentSearch.mvalues[0], '1');
     }
     
     } else {
@@ -829,10 +829,13 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
         labelTemp = d.label;
       }
     });
-    window.parent.postMessage({
-      'v1': 'searchText', 'v2': this.data.model.contentSearch.mvalues[0], 'v3': this.data.model.contentSearch.oper,
-      'v4': labelTemp
-    }, '*');
+    if(this.data.model.contentSearch.mvalues[0] && this.data.model.contentSearch.mvalues[0].length > 0){
+      window.parent.postMessage({
+        'v1': 'searchText', 'v2': this.data.model.contentSearch.mvalues[0], 'v3': this.data.model.contentSearch.oper,
+        'v4': labelTemp
+      }, '*');
+    }
+    
     if (!this.isSimpleSearch) {
       let noFilter = true;
       let isDateFieldsEmpty = false;
@@ -1348,6 +1351,50 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   onFocusToDate(d) {
     const todatemin = new Date(d.mvalues[0]);
     d.minDate = todatemin;
+  }
+
+  validateStopWord_Init(e, f) {
+    this.msgs = [];
+    let regex = /[\u0600-\u06FF\u0750-\u077F]/;
+    let method = this.isNotSingleWord(e.trim());
+    if (e.match(regex)) {
+      method = this.isNotSingleWordArabic(e.trim());
+    }
+    if (e && e.trim().length >= 2 && !method) {
+      if (e.trim().length === 2) {
+        this.searchButtonDisabledStopWord = false;
+        return;
+      }
+      this.adminService.validateStopWords(e.trim()).subscribe(d => {
+        if (d === 'True') {
+          this.searchButtonDisabledStopWord = true;
+          this.msgs = [];
+          if (this.isSimpleSearch && f === '1') {
+            this.searchDocument(true);
+          }
+        }
+        else {
+          this.searchButtonDisabledStopWord = false;
+          this.msgs = [];
+          this.msgs.push({ severity: 'warn', summary: '', detail: this.stopwordmessageGlobal.message });
+        }
+        //this.updateContentSearchText(e);
+      })
+    }
+    else if (e && e.trim().length <= 1) {
+      this.searchButtonDisabledStopWord = false;
+    }
+    else {
+      this.searchButtonDisabledStopWord = true;
+      if (this.isSimpleSearch && f === '1') {
+        this.searchDocument(true);
+      }
+      else
+      {
+        //this.updateContentSearchText(e);
+      }
+    }
+    return this.searchButtonDisabledStopWord;
   }
 
   validateStopWord(ev, f) {

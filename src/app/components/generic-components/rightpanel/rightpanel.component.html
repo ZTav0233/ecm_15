@@ -35,7 +35,7 @@
   </ul>
 </div>
 <p-confirmDialog appendTo="body" key="confirmKey" header="Confirmation"></p-confirmDialog>
-<p-dialog appendTo="body" [(visible)]="update" [modal]="true" showEffect="fade" [style]="{ width: '800px' }" 
+<!-- <p-dialog appendTo="body" [(visible)]="update" [modal]="true" showEffect="fade" [style]="{ width: '800px' }" 
   (onHide)="onModalHide()">
   <p-header>
     Update Document
@@ -93,10 +93,6 @@
                         && (info.symName.toLowerCase()==='documentfrom' || info.symName.toLowerCase()==='documentto')"
                         (click)="clearDocToFrom(info.symName)">&times;</span>
                     </td>
-                    <!--<td>-->
-                    <!--<button *ngIf="(docTemplateDetails.name.toLowerCase()!=='ap contracts payments') && (info.symName.toLowerCase()==='documentfrom' || info.symName.toLowerCase()==='documentto')" pButton type="button" (click)="openListDialog(info.symName);showDesignation=true;"-->
-                    <!--icon="ui-icon-view-list"></button>-->
-                    <!--</td>-->
                   </ng-container>
                 </tr>
               </tbody>
@@ -143,9 +139,6 @@
     <div class="progress-bar">
       <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
     </div>
-    <!-- <button pButton class="pull-right"
-      [disabled]="docEditPropForm.get('DocumentFrom')|| docEditPropForm.get('DocumentTo')? !(docEditPropForm.valid && (docEditPropForm.dirty || fileselected || docEditPropForm.get('DocumentFrom').value || docEditPropForm.get('DocumentTo').value )):!(docEditPropForm.valid && (docEditPropForm.dirty || fileselected)) "
-      type="button" label="Save" (click)="fileselected ? updatedAttachment() : updateEdits()"></button> -->
     <button pButton class="pull-right" [disabled]="docEditPropForm.get('DocumentFrom') ? !(docEditPropForm.valid &&
       (docEditPropForm.dirty || fileselected || docEditPropForm.get('DocumentFrom').value)) :
       docEditPropForm.get('DocumentTo') ? !(docEditPropForm.valid &&
@@ -153,6 +146,26 @@
       !(docEditPropForm.valid && (docEditPropForm.dirty || fileselected))" type="button" label="Save"
       (click)="fileselected ? updatedAttachment() : updateEdits()"></button>
     <button pButton class="pull-right" type="button" label="Cancel" (click)="cancel()"></button>
+  </p-footer>
+</p-dialog> -->
+<p-dialog appendTo="body" [(visible)]="update" [modal]="true" showEffect="fade" [style]="{ width: '60vw', height: '46em' }" 
+  (onHide)="onModalHide()">
+  <p-header>
+    Update Document
+  </p-header>
+  <app-update-document [docEditPropForm]="docEditPropForm" [docTemplateDetails]="docTemplateDetails"
+    [entryTemp]="entryTemp" [fileselected]="fileselected" [fileUploaded]="fileselected"
+    (fileChanged)="fileChanged($event)"></app-update-document>
+  <p-footer>
+    <div class="progress-bar">
+      <!-- <div [ngBusy]="{busy: busyModel, message: 'Loading...', backdrop: true}"></div> -->
+      <div [cgBusy]=busy [cgBusyConfig]="{message: 'Please Wait...', backdrop: true}"></div>
+    </div>
+    <button pButton class="pull-right" type="button" label="Save" [disabled]="docEditPropForm.get('DocumentFrom') || docEditPropForm.get('DocumentTo') ?
+      !(docEditPropForm.valid && (docEditPropForm.dirty || fileselected || docEditPropForm.get('DocumentFrom').value || docEditPropForm.get('DocumentTo').value )) :
+      !(docEditPropForm.valid && (docEditPropForm.dirty || fileselected))"
+      (click)="fileselected ? updatedAttachment() : updateEdits()"></button>
+    <button pButton class="pull-right" type="submit" label="Cancel" (click)="cancel()"></button>
   </p-footer>
 </p-dialog>
 <div *ngIf="showFileIn">
@@ -235,14 +248,8 @@
         <!--</ng-template>-->
       </div>
     
-    <p-footer *ngIf="removeFolderList">
-      <span class="pull-left p-t-md" style="color: red;" *ngIf="removeFolderList.length===1">
-        Remove is not allowed since the document is placed in only one folder
-      </span>
-      <span class="pull-left p-t-md" style="color: red;"
-        *ngIf="(selectedRemoveFolder && removeFolderList && selectedRemoveFolder.length == removeFolderList.length)">
-        Remove is not allowed from all folders
-      </span>
+    <p-footer>
+     
       <!--<span class="pull-left p-t-md" style="color: red;" *ngIf="isRemoveDisable">-->
       <!--User dont have permission to remove from this folder-->
       <!--</span>-->
@@ -251,6 +258,13 @@
         [disabled]="isRemoveDisable && removeFolderList.length==1 || !(selectedRemoveFolder && removeFolderList && selectedRemoveFolder.length < removeFolderList.length && selectedRemoveFolder.length>0) "
         type="button" pButton (click)="removeFromFolderConfirm()" label="Remove"></button>
       <button type="button" pButton (click)="showRemove=false" label="Cancel"></button>
+      <span class="pull-left p-t-md" style="color: red;" *ngIf="removeFolderList.length===1">
+        Remove is not allowed since the document is placed in only one folder
+      </span>
+      <span class="pull-left p-t-md" style="color: red;"
+        *ngIf="(selectedRemoveFolder && removeFolderList && selectedRemoveFolder.length == removeFolderList.length)">
+        Remove is not allowed from all folders
+      </span>
     </p-footer>
   </p-dialog>
 </div>
@@ -299,7 +313,6 @@
                   style="color: #ffffff; background:#607D8B ;" class="v-m p-0"
                   (input)="applyFilterGlobal($event, 'contains')">
               </td>
-
             </tr>
           </table>
         </div>

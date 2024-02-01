@@ -17,28 +17,30 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextModule } from 'primeng/inputtext';
 import { TooltipModule } from 'primeng/tooltip';
 import { TreeModule } from 'primeng/tree';
+import { SharedUpdateDocumentModule } from "../update-document/update-document.module";
 
 @NgModule({
-  declarations: [
-    RightpanelComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    ConfirmDialogModule,
-    DialogModule,
-    FileUploadModule, InputTextModule, TreeModule,
-    CalendarModule,
-    DropdownModule,
-    SharedTreeModule,
-    InputTextModule,
-    CgBusyModule,
-    SharedEditApPermissionModule, TooltipModule, TableModule
-  ],
-  providers: [AccessPolicyService, AdminService],
-  exports: [RightpanelComponent]
+    declarations: [
+        RightpanelComponent
+    ],
+    providers: [AccessPolicyService, AdminService],
+    exports: [RightpanelComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        ConfirmDialogModule,
+        DialogModule,
+        FileUploadModule, InputTextModule, TreeModule,
+        CalendarModule,
+        DropdownModule,
+        SharedTreeModule,
+        InputTextModule,
+        CgBusyModule,
+        SharedEditApPermissionModule, TooltipModule, TableModule,
+        SharedUpdateDocumentModule
+    ]
 })
 export class SharedRightPanelModule {
 }

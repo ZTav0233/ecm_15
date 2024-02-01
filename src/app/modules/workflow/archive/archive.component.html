@@ -8,7 +8,7 @@
       </mat-select>
     </div>-->
   <div class="ui-g-12 p-0">
-    <mat-tab-group (selectedTabChange)="archiveGridTabChange($event.tab.textLabel,selectedTabIndex, false, true)"
+    <mat-tab-group (selectedTabChange)="archiveGridTabChange($event.tab?.textLabel?$event.tab.textLabel:'Archive',selectedTabIndex, false, true)"
       [(selectedIndex)]="selectedTabIndex" [@.disabled]="true">
       <ng-container *ngFor="let tab of tabsList;let r=index;">
         <!-- Inbox Grid -->
