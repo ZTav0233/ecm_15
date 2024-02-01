@@ -829,10 +829,13 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
         labelTemp = d.label;
       }
     });
-    window.parent.postMessage({
-      'v1': 'searchText', 'v2': this.data.model.contentSearch.mvalues[0], 'v3': this.data.model.contentSearch.oper,
-      'v4': labelTemp
-    }, '*');
+    if(this.data.model.contentSearch.mvalues[0] && this.data.model.contentSearch.mvalues[0].length > 0){
+      window.parent.postMessage({
+        'v1': 'searchText', 'v2': this.data.model.contentSearch.mvalues[0], 'v3': this.data.model.contentSearch.oper,
+        'v4': labelTemp
+      }, '*');
+    }
+    
     if (!this.isSimpleSearch) {
       let noFilter = true;
       let isDateFieldsEmpty = false;
