@@ -673,7 +673,7 @@ export class SentComponent implements OnInit, OnDestroy {
           this.sentWorkitems.workitems = sentWorkitems;
         });
         return;
-      } else if (data && data.filters.subject.value && data.filters.subject.value.trim() && data.filters.subject.value.trim().length <= 2) {
+      } else if (data && data.filters.subject?.value && data.filters.subject?.value?.trim() && data.filters.subject?.value?.trim().length <= 2) {
         // this.growlService.showGrowl({
         //   severity: 'info',
         //   summary: 'Message', detail: "Please enter more than 2 characters to filter"
