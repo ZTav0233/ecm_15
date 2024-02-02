@@ -181,7 +181,7 @@
                   <button pButton (click)="clearSearch();" type="button" label="Clear" class=" m-r-md"
                     style="margin-bottom:10px;margin-right:5px;width:auto"
                     [disabled]="(!data.model.contentSearch.mvalues[0] && searchIsEmpty())"></button>
-                  <p-messages style="display: inline;" [(value)]="msgs"></p-messages>
+                  <p-messages  [(value)]="msgs"></p-messages>
                 </div>
               </div>
             </ng-container>
@@ -200,7 +200,7 @@
                   <button pButton (click)="clearSearch();" type="button" label="Clear" class=" m-r-md"
                     style="margin-bottom:10px;margin-right:5px;width:auto"
                     [disabled]="(!data.model.contentSearch.mvalues[0] && searchIsEmpty())"></button>
-                  <p-messages style="display: inline;" [(value)]="msgs"></p-messages>
+                  <p-messages [(value)]="msgs"></p-messages>
                 </div>
               </td>
             </tr>
