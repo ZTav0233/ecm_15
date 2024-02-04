@@ -193,7 +193,7 @@
   </div>
 </div>
 
-<p-dialog [(visible)]="showEdit" [modal]="true" showEffect="fade" [style]="{width: '500px',height:'150px'}">
+<p-dialog [(visible)]="showEdit" [modal]="true" showEffect="fade" [style]="{width: '35em',height:'30vh'}">
   <p-header>
     {{headerTitle}}
   </p-header>
@@ -220,7 +220,7 @@
     <button [disabled]="!dat.label || !dat.value" pButton type="submit" label="Save" (click)="save();"></button>
   </p-footer>
 </p-dialog>
-<p-dialog [(visible)]="showEditLookup" [modal]="true" showEffect="fade" [style]="{width: '500px',height:'150px'}">
+<p-dialog [(visible)]="showEditLookup" [modal]="true" showEffect="fade" [style]="{width: '35em',height:'30vh'}">
   <p-header>
     {{headerTitleLookup}}
   </p-header>

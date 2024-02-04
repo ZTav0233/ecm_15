@@ -63,11 +63,11 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th style="text-align: center;" pResizableColumn pSortableColumn="id">Id<p-sortIcon field="id"></p-sortIcon></th>
-          <th style="text-align: center;" pResizableColumn pSortableColumn="userName">User Name<p-sortIcon field="userName"></p-sortIcon></th>
-          <th style="text-align: center;" pResizableColumn pSortableColumn="fulName">Full Name<p-sortIcon field="fulName"></p-sortIcon></th>
-          <th style="text-align: center;" pResizableColumn pSortableColumn="KocId">Koc Id<p-sortIcon field="KocId"></p-sortIcon></th>
-          <th style="text-align: center;" pResizableColumn pSortableColumn="isReportAdmin">Report Admin<p-sortIcon field="isReportAdmin"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="id">ID<p-sortIcon field="id"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="userName">UserName<p-sortIcon field="userName"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="fulName">FullName<p-sortIcon field="fulName"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="KocId">KOC ID<p-sortIcon field="KocId"></p-sortIcon></th>
+          <th style="text-align: center;" pResizableColumn pSortableColumn="isReportAdmin">Is Report Admin<p-sortIcon field="isReportAdmin"></p-sortIcon></th>
           <th></th>
         </tr>
       </ng-template>
@@ -123,7 +123,7 @@
 </div>
 <div *ngIf="showEditUser">
   <p-dialog [(visible)]="showEditUser" [modal]="true" showEffect="fade" (onHide)="closeModel()"
-    [style]="{width: '650px',height:'500px'}">
+    [style]="{width: '60rem',height:'70vh'}">
     <p-header>
       Add User
     </p-header>
