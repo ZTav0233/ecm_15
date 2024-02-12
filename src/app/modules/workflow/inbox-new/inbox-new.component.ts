@@ -672,7 +672,7 @@ export class InboxNewComponent implements OnInit, OnDestroy {
     this.confirmationService.confirm({
       message: 'Do you want to Finish this workitem?',
       header: 'Finish Confirmation',
-      icon: 'ui-icon-help',
+      icon: 'fa fa-fw ui-icon-help',
       accept: () => {
         if (this.inboxSelectedItem.length > 0) {
           let count = 0;

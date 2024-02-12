@@ -1078,7 +1078,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       message: msg,
       header: 'Finish Confirmation',
       key: 'inboxConfirmation',
-      icon: 'ui-icon-help',
+      icon: 'fa fa-fw ui-icon-help',
       accept: () => {
         if (this.inboxSelectedItem.length === 1) {
           this.ws.validateWorkitem(this.inboxSelectedItem[0].workitemId).subscribe(res1 => {
@@ -1187,6 +1187,9 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   openOverlayPanel(op) {
+    console.log('openOverlayPanel:: ' + op);
+    if(op && op !== null)
+    console.log('openOverlayPanel: visible : ' + op.visible);
     this.dateBeforeOverlayPanel = op;
     op.visible = !op.visible;
   }

@@ -512,7 +512,7 @@
       </div>
       <div class="ui-g-12 p-0 p-t-md" *ngIf="workitem.isMemo==1"> <!--Abhishek-->
         <div class="ui-g-12 p-0">
-          <p-accordionTab header="Main Attachment" [selected]="true">
+          <p-accordionTab header="{{(memoDetails && memoDetails.memoType && memoDetails.memoType === 'Memo')?'Memo':((memoDetails && memoDetails.memoType && memoDetails.memoType === 'Letter')?'Letter':((memoDetails && memoDetails.memoType && memoDetails.memoType === 'File Note')?'File Note':'Memo / Letter / File Note'))}}" [selected]="true">
             <div class="ui-md-7">
               <table class="ecm-table w-100">
                 <thead>

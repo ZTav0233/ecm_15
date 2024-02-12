@@ -1086,7 +1086,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     /*this.confirmationService.confirm({
         message: 'Are you sure to proceed for Submit with Auto-eSign of memo attachment and date update?',
         header: 'Submit Confirmation',
-        icon: 'ui-icon-help',
+        icon: 'fa fa-fw ui-icon-help',
         key: 'taskDetailConfirmation',
         accept: () => {
           
@@ -1244,7 +1244,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
               self.confirmationService.confirm({
                 message: action + ' successful. Would you like to reply to ' + senderName,
                 header: action + ' Confirmation',
-                icon: 'ui-icon-help',
+                icon: 'fa fa-fw ui-icon-help',
                 key: 'taskDetailConfirmation',
                 accept: () => {
                   self.replyWorkitem(self.workitem);
@@ -1473,7 +1473,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.confirmationService.confirm({
           message: 'Please note that all sub workitems will be recalled, do you want to recall this workitem?',
           header: 'Recall Confirmation',
-          icon: 'ui-icon-help',
+          icon: 'fa fa-fw ui-icon-help',
           key: 'taskDetailConfirmation',
           accept: () => {
             if (!!this.workflowService.delegateId) {
@@ -1537,7 +1537,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
           this.confirmationService.confirm({
             message: 'Please confirm to recall this workitem?',
             header: 'Recall Confirmation',
-            icon: 'ui-icon-help',
+            icon: 'fa fa-fw ui-icon-help',
             key: 'taskDetailConfirmation',
             accept: () => {
               if (!!this.workflowService.delegateId) {
@@ -1694,7 +1694,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
           message: 'Do you want to Archive this Item?',
           header: 'Archive Confirmation',
           key: 'taskDetailConfirmation',
-          icon: 'ui-icon-help',
+          icon: 'fa fa-fw ui-icon-help',
           accept: () => {
             if (!!this.workflowService.delegateId) {
               this.us.validateDelegation(this.workflowService.delegateId).subscribe(res => {
@@ -2937,7 +2937,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.confirmationService.confirm({
                   message: 'Please confirm to proceed for Submit with Auto-eSign of memo attachment and date update?',
                   header: 'Submit Confirmation',
-                  icon: 'ui-icon-help',
+                  icon: 'fa fa-fw ui-icon-help',
                   key: 'taskDetailConfirmation',
                   accept: () => {
                     if(this.isMemoDateChange){
@@ -2963,7 +2963,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                               self.confirmationService.confirm({
                                 message: 'To view signed memo document, click Yes',
                                 header: 'Successfully Completed',
-                                icon: 'ui-icon-help',
+                                icon: 'fa fa-fw ui-icon-help',
                                 key: 'taskDetailConfirmation',
                                 accept: () => {
                                   self.viewMemoAttachment(eSigndocId);
@@ -2994,7 +2994,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.confirmationService.confirm({
                   message: 'Please confirm to proceed for Submit with Auto-eSign of memo attachment and date update?',
                   header: 'Submit Confirmation',
-                  icon: 'ui-icon-help',
+                  icon: 'fa fa-fw ui-icon-help',
                   key: 'taskDetailConfirmation',
                   accept: () => {
                     this.eSign(this.workitem.attachments[memoAttachmentIndex], 0, 1);
@@ -3030,7 +3030,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                                       self.confirmationService.confirm({
                                         message: 'To view signed memo document, click Yes',
                                         header: 'Successfully Completed',
-                                        icon: 'ui-icon-help',
+                                        icon: 'fa fa-fw ui-icon-help',
                                         key: 'taskDetailConfirmation',
                                         accept: () => {
                                           self.viewMemoAttachment(eSigndocId);
@@ -3298,7 +3298,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
               this.confirmationService.confirm({
                 message: 'Please confirm to proceed for Submit with Auto-eSign of memo attachment and date update?',
                 header: 'Submit Confirmation',
-                icon: 'ui-icon-help',
+                icon: 'fa fa-fw ui-icon-help',
                 key: 'taskDetailConfirmation',
                 accept: () => {
                   if(this.isMemoDateChange){
@@ -3324,7 +3324,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                             self.confirmationService.confirm({
                               message: 'To view signed memo document, click Yes',
                               header: 'Successfully Completed',
-                              icon: 'ui-icon-help',
+                              icon: 'fa fa-fw ui-icon-help',
                               key: 'taskDetailConfirmation',
                               accept: () => {
                                 self.viewMemoAttachment(eSigndocId);
@@ -3374,7 +3374,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
               this.confirmationService.confirm({
                 message: 'Please confirm to proceed for Submit with Auto-eSign of memo attachment and date update?',
                 header: 'Submit Confirmation',
-                icon: 'ui-icon-help',
+                icon: 'fa fa-fw ui-icon-help',
                 key: 'taskDetailConfirmation',
                 accept: () => {
                   this.eSign(this.workitem.attachments[memoAttachmentIndex], 0, 1);
@@ -3410,7 +3410,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                                     self.confirmationService.confirm({
                                       message: 'To view signed memo document, click Yes',
                                       header: 'Successfully Completed',
-                                      icon: 'ui-icon-help',
+                                      icon: 'fa fa-fw ui-icon-help',
                                       key: 'taskDetailConfirmation',
                                       accept: () => {
                                         self.viewMemoAttachment(eSigndocId);

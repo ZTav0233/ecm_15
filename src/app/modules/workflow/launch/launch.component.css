@@ -75,6 +75,10 @@
   background-color: blueviolet !important;
 }
 
+.ui-g-12.launchheader{
+  padding: 0 0 0 1em;
+}
+
 .attachment {
   margin-right: -4px;
   margin-left: -4px;
@@ -108,9 +112,10 @@
   padding: 0px 5px !important;
   margin-left: -5px !important;
 }
-:host ::ng-deep .p-inputtext{
-  /* color: white; */
-}
+
+/*:host ::ng-deep .p-inputtext{
+  color: white; 
+}*/
 :host ::ng-deep .ecm-table td{
   padding: 4px 5px 4px 5px;
 }

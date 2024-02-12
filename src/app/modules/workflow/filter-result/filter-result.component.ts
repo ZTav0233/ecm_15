@@ -725,7 +725,7 @@ export class FilterResultComponent implements OnInit, OnDestroy {
       message: 'Do you want to Archive this workitem?',
       header: 'Archive Confirmation',
       key: 'filterResConfirmation',
-      icon: 'ui-icon-help',
+      icon: 'fa fa-fw ui-icon-help',
       accept: () => {
         if (this.selectedItem.length > 0) {
           let count = 0;
@@ -751,7 +751,7 @@ export class FilterResultComponent implements OnInit, OnDestroy {
       message: 'Do you want to Recall this workitem?',
       header: 'Recall Confirmation',
       key: 'filterResConfirmation',
-      icon: 'ui-icon-help',
+      icon: 'fa fa-fw ui-icon-help',
       accept: () => {
         this.recalled = true;
         if (this.selectedItem.length > 0) {

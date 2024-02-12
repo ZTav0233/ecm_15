@@ -325,7 +325,7 @@
                   <span class="p-input-icon-left ml-auto">
 
                     <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" class="quickSearch"
-                      placeholder="Search keyword" />
+                      placeholder="Filter Text" />
                   </span>
 
                 </ng-template>
@@ -404,11 +404,11 @@
                 groupRowsBy="recordGroupName" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                 [paginator]="true" [rows]="15" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
                 #dt
-                [globalFilterFields]="['orgTeamName','orgCode','inboxCount','sentCount','docCount','eSignCount','orgRoleName','orgGroupName']">
+                [globalFilterFields]="['empName','empTitle','orgCode','reqDate','signDate']">
                 <ng-template pTemplate="caption">
                   <span class="p-input-icon-left ml-auto">
                     <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" class="quickSearch"
-                      placeholder="Search keyword" />
+                      placeholder="Filter Text" />
                   </span>
                 </ng-template>
                 <ng-template pTemplate="header" let-columns>
@@ -471,16 +471,24 @@
                   header="{{colHeader.header}}" [sortable]="true"
                   [sortField]="colHeader.sortField?colHeader.sortField:colHeader.field">
                 </p-column>
+                { field: 'memoEmpName', header: 'User Display Name' },
+      { field: 'reqDate', header: 'Request Date', sortField: 'reqDate2' },
+      { field: 'memoLang', header: 'Memo Lang', hidden: true },
+      { field: 'memoType', header: 'Memo Type' },
+      { field: 'memoDate', header: 'Memo Date', sortField: 'memoDate2' },
+      { field: 'signUser', header: 'From User' },
+      { field: 'orgCode', header: 'Org Code' },
+      { field: 'status', header: 'Status' }
               </p-dataTable> -->
               <p-table [columns]="colHeadersMemo" [value]="memoDocData" [resizableColumns]="true"
                 sortField="recordGroupName" sortMode="single" rowGroupMode="subheader" groupRowsBy="recordGroupName"
                 styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [paginator]="true" [rows]="15"
                 [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }" #dt
-                [globalFilterFields]="['orgTeamName','orgCode','inboxCount','sentCount','docCount','eSignCount','orgRoleName','orgGroupName']">
+                [globalFilterFields]="['memoEmpName','reqDate','memoLang','memoType','memoDate','signUser','orgCode','status']">
                 <ng-template pTemplate="caption">
                   <span class="p-input-icon-left ml-auto">
                     <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" class="quickSearch"
-                      placeholder="Search keyword" />
+                      placeholder="Filter Text" />
                   </span>
                 </ng-template>
                 <ng-template pTemplate="header" let-columns>
@@ -581,11 +589,12 @@
               </p-dataTable> -->
               <p-table [tableStyle]="{'min-width': '50rem'}"
                 styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [value]="reportCount"
-                [reorderableColumns]="true" [resizableColumns]="true" [rows]="pageSize" [paginator]="true">
+                [reorderableColumns]="true" [resizableColumns]="true" [rows]="pageSize" [paginator]="true"
+                [globalFilterFields]="['orgTeamName','orgCode','inboxCount','sentCount','docCount','eSignCount','orgRoleName','orgGroupName']">
                 <ng-template pTemplate="caption">
                   <span class="p-input-icon-left ml-auto">
                     <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" class="quickSearch"
-                      placeholder="Search keyword" />
+                      placeholder="Filter Text" />
                   </span>
                 </ng-template>
                 <ng-template pTemplate="header">

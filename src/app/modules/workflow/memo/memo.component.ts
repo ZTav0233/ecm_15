@@ -695,7 +695,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     const myElement = document.getElementById("timerVal");
     console.log('Restart timerElement = ' + myElement);
     self.timerStop();
-    myElement.innerHTML = '30';
+    myElement.innerHTML = '20';
     setTimeout(() => {
       self.timerStart();
     } , 1000);
@@ -5691,13 +5691,17 @@ export class MemoComponent implements OnInit, OnDestroy {
         console.log("attachFiltered after :: " + attachFiltered);
         this.workitem.attachments = Object.assign([], attachFiltered);
         this.launch.workflow.model.attachments = Object.assign([], attachFiltered);
-		this.memoStepname = this.workitem.memoStepname;
+		    this.memoStepname = this.workitem.memoStepname;
         if (this.workitem.memoStepname == 'COMPOSER') {
           this.Approver = false;
           this.Composer = true;
         } else if (this.workitem.memoStepname == 'PREP_REVIEW' || this.workitem.memoStepname == 'PREP_REVIEW1') {
           this.Approver = false;
           this.Composer = false;
+        } else if (memoStep === 'COMPOSER' && (this.workitem.memoStepname == null || this.workitem.memoStepname == undefined)) {
+          this.Approver = false;
+          this.Composer = true;
+          this.memoStepname = 'COMPOSER';
         } else {
           this.Composer = false;
           this.Approver = true;

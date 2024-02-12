@@ -332,16 +332,25 @@
       </div>
     </div>
     <div class="ui-g-8 ui-md-8 ui-sm-12 p-l-0 p-t-0 p-b-xs">
-      <div class="ui-g-12" [ngClass]="{'hide':actionTypes==='launch' && !isRelaunch}">
+      <div class="ui-g-12 launchheader" [ngClass]="{'hide':actionTypes==='launch' && !isRelaunch}">
+        <span class="ui-info-label">The fields marked with red&nbsp;asterisk (</span>
+        <span class="ui-info-label_red">*</span>
+        <span class="ui-info-label">) are mandatory</span>
+        <button pButton *ngIf="actionTypes==='launch' && isRelaunch"  type="button" icon="fa fa-fw ui-icon-arrow-back" title="Back" (click)="goBack()"
+          class="remove-btn pull-right"></button>
+        <hr width="100%" size="1">
+      </div>
+
+      <!-- <div class="ui-g-12" [ngClass]="{'hide':actionTypes==='launch' && !isRelaunch}">
         <button pButton type="button" icon="fa fa-fw ui-icon-arrow-back" title="Back" (click)="goBack()"
           class="remove-btn pull-right"></button>
-      </div>
-      <div class="ui-g-12" form-group>
-        <div class="ui-info-label-div">
+      </div> -->
+      <div class="ui-g-12 launchheader" form-group>
+       <!--  <div class="ui-info-label-div">
           <span class="ui-info-label">The fields marked with red&nbsp;asterisk (</span>
           <span class="ui-info-label_red">*</span>
           <span class="ui-info-label">) are mandatory</span>
-        </div>
+        </div> -->
         <div *ngIf="actionTypes==='launch' || 'browseLaunch'" class="ui-g-1">
           <label>Type :</label>
         </div>

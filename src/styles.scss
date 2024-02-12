@@ -253,6 +253,10 @@ body {
     content: "timeline";
 }
 
+.ui-icon-help:before {
+    content: "help";
+}
+
 .ui-icon-hourglass-full:before {
     content: "hourglass_full";
 }
@@ -614,7 +618,7 @@ body .action-btn-group-sm .p-button .p-button-label {
 button.p-element.v-m.p-button.p-component.ng-star-inserted {
     line-height: 2em !important;
     min-width: 1em !important;
-    font-size: .85em !important;
+    font-size: .95em !important;
   }
 
 .p-autocomplete {
