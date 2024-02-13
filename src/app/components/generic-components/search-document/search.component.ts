@@ -89,7 +89,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    debugger;
+    // debugger;
     this.stopwordmessageGlobal = global.stop_word_message;
     this.maxToCreated = new Date();
     this.minFromCreated = new Date('1900-01-01');
@@ -493,7 +493,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   }
 
   getEntryTemplateForSearch() {
-    debugger;
+    // debugger;
     this.data.documentClasses = [];
     let searcharray = JSON.parse(sessionStorage.getItem("savedSearch"));
     if (searcharray && searcharray.documentClassSaved && searcharray.documentClassSaved.id && !this.isLaunchSearch) {
@@ -537,7 +537,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
 
   //AKV1
   getEntryTemplateForSearchId(value) {
-    debugger;
+    // debugger;
     this.dynamicProps = [];
     // if(!this.isClassChange && this.documentService.savedSearch.ets.props && !this.selectedSearch){
     //   this.data.searchTemplate =this.documentService.savedSearch.ets;
@@ -1530,7 +1530,7 @@ export class SearchDocumentComponent implements OnInit, OnDestroy {
   }
 
   validateDateField2(dynamicPropV){
-    debugger;
+    // debugger;
     dynamicPropV.mvalues[1] = null;
     let isCS = this.searchIsDocumentTitleLikeOnly();
     if(isCS){

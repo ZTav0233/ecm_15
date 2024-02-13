@@ -712,7 +712,7 @@ export class MemoComponent implements OnInit, OnDestroy {
       if(+timeleft > 0){
         myElement.innerHTML = (+timeleft - 1).toString();
       } else{
-        debugger;
+        // debugger;
           if(!self.launch || self.launch === null || self.launch === undefined 
               || !self.launch.recipients || self.launch.recipients === null || self.launch.recipients === undefined){
             console.log("Clear Interval 1");

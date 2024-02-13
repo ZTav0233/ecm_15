@@ -29,6 +29,7 @@ import { async } from '@angular/core/testing';
 import { WorkItemAction } from '../../../models/workflow/workitem-action.model';
 import { WorkflowDetails } from '../../../models/workflow/workflow-details.model';
 import { ToastrService } from 'ngx-toastr';
+import { OverlayPanel } from 'primeng/overlaypanel';
 
 declare var ie11_polyfill: any;
 
@@ -38,6 +39,7 @@ declare var ie11_polyfill: any;
   styleUrls: ['../workflow.component.css']
 })
 export class InboxComponent implements OnInit, OnDestroy {
+  @ViewChild('dateBeforePanel') overlayPanel: OverlayPanel;
   public inboxSelectedItem: any[] = [];
   public colHeaders: any[] = [
     { field: 'status', header: 'Status', hidden: true },
@@ -150,12 +152,13 @@ export class InboxComponent implements OnInit, OnDestroy {
   public showRecallInactiveDialog = false;
   public showOperationNotPossible = false;
   public showItemDialogue = false;
-  public showItemDialogueDetails :any;
+  public showItemDialogueDetails: any;
   public today = new Date();
   userSetting = [];
   public messageDenyAction: any;
+
   constructor(private breadcrumbService: BreadcrumbService, private ws: WorkflowService, private route: ActivatedRoute,
-    private toastr:ToastrService,
+    private toastr: ToastrService,
     private us: UserService, private bs: BrowserEvents, public coreService: CoreService,
     private confirmationService: ConfirmationService, public router: Router, private growlService: GrowlService) {
     this.subscribeRouterEvents();
@@ -239,7 +242,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   @HostListener('window:message', ['$event'])
   onMessage(e) {
     if (e.data === 'navigateToInbox') {
-      //console.log('refreshTable called from icn ' + this.ws.inboxMenu.badge);
+      console.log('refreshTable called from icn ' + this.ws.inboxMenu.badge);
       //this.refreshTable();
     }
   }
@@ -747,6 +750,8 @@ export class InboxComponent implements OnInit, OnDestroy {
           if (data === 'Finish') {
             this.finishWorkitems();
           } else if (data === 'Finish Before') {
+            console.log(op);
+
             this.openOverlayPanel(op);
           } else if (data === 'Reply') {
             this.replyWorkitem(op);
@@ -765,6 +770,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       if (data === 'Finish') {
         this.finishWorkitems();
       } else if (data === 'Finish Before') {
+        console.log(op);
         this.openOverlayPanel(op);
       } else if (data === 'Reply') {
         this.replyWorkitem(op);
@@ -875,7 +881,7 @@ export class InboxComponent implements OnInit, OnDestroy {
         }
       }
       this.updateGeneralSetting();
-    }else{
+    } else {
       for (const tableHead of this.colHeaders) {
         tableHead.hidden = true;
       }
@@ -1186,12 +1192,11 @@ export class InboxComponent implements OnInit, OnDestroy {
     });
   }
 
-  openOverlayPanel(op) {
-    console.log('openOverlayPanel:: ' + op);
-    if(op && op !== null)
-    console.log('openOverlayPanel: visible : ' + op.visible);
-    this.dateBeforeOverlayPanel = op;
-    op.visible = !op.visible;
+  openOverlayPanel(op: any) {
+    // console.log(op);
+    // this.dateBeforeOverlayPanel = op;
+    // op.visible = !op.visible;
+    this.overlayPanel.toggle(event);
   }
 
   selectBeforeDate(event) {
@@ -1300,10 +1305,10 @@ export class InboxComponent implements OnInit, OnDestroy {
       }
     });
   }
-  listItemDialogue(ev:any){
+  listItemDialogue(ev: any) {
     console.log(ev);
-    this.showItemDialogue=true
-    this.showItemDialogueDetails=ev;
+    this.showItemDialogue = true
+    this.showItemDialogueDetails = ev;
   }
 
   /**
@@ -1623,6 +1628,8 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log("this.ngOnDestroy");
+    this.overlayPanel.toggle(event);
     this.filterComponent.destroy();
     //this.VCR.clear();
     this.breadcrumbService.dashboardFilterQuery = undefined;

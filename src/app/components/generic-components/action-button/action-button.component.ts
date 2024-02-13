@@ -23,6 +23,7 @@ export class ActionButtonComponent implements OnInit, OnChanges {
   public tieredItems: any[] = [];
 
   ngOnChanges() {
+    console.log(this.actions);    
     this.tieredItems = [];
     if (this.activePage === 'sent') {
       this.actions.map((action, index) => {

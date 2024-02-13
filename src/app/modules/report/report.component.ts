@@ -1177,7 +1177,7 @@ export class ReportComponent implements OnInit, OnDestroy {
         this.report.options.chartPages[page].chartLabels.push(this.getChartLabelText(d));
         this.report.options.chartPages[page].chartData[0].data.push(d.count);
         this.report.options.chartPages[page].chartData[0].backgroundColor.push(this.rs.getRandomMaterialColor(index));
-        debugger;
+        // debugger;
         if (maxRows === 25 && maxRows < reportCountSorted.length) {
           maxRows = 0;
           page++;

@@ -1,16 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
-// import { WorkflowRoute } from './workflow-routing.module';
-// import {
-//   AccordionModule, AutoCompleteModule,
-//   ButtonModule, CalendarModule,
-//   ConfirmDialogModule, DataTableModule, DialogModule,
-//   DropdownModule, FileUploadModule,
-//   InputTextareaModule, InputTextModule, MenubarModule, MultiSelectModule, OrderListModule,
-//   OverlayPanelModule, PanelModule, SelectButtonModule, SplitButtonModule, StepsModule, TabViewModule,
-//   TooltipModule, CheckboxModule, InputSwitchModule, ConfirmationService, SpinnerModule, RadioButtonModule, TreeModule,
-// } from 'primeng/primeng';
 import { HttpClientModule } from '@angular/common/http';
 import { WorkflowComponent } from './workflow.component';
 import { DraftComponent } from './drafts/draft.component';
@@ -73,8 +63,6 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { WorkflowRoutingModule } from './workflow-routing.module';
-// import { DataTableComponent } from 'src/app/components/generic-components/datatable/datatable.component';
-// import { SharedRecipientsMemoModule } from '../../shared-modules/recipients-memo/recipients-memo.module';
 import { TableModule } from 'primeng/table';
 import { SharedDataTableModule } from 'src/app/shared-modules/data-table/data-table.module';
 import {MatIconModule} from '@angular/material/icon'

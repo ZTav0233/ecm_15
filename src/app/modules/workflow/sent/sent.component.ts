@@ -32,6 +32,7 @@ import { WorkItemAction } from '../../../models/workflow/workitem-action.model';
 import { WorkitemDetails } from '../../../models/workflow/workitem-details.model';
 import { ConfirmationService, SelectItem } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
+import { OverlayPanel } from 'primeng/overlaypanel';
 
 @Component({
   selector: 'inbox',
@@ -40,6 +41,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['../workflow.component.css']
 })
 export class SentComponent implements OnInit, OnDestroy {
+  @ViewChild('dateBeforePanel') overlayPanel: OverlayPanel;
   public user = new User();
   emptyMessage: string = globalv.no_workitem_found;
   public disableAction = true;
@@ -1144,9 +1146,9 @@ export class SentComponent implements OnInit, OnDestroy {
   }
 
   openOverlayPanel(op) {
-    this.dateBeforeOverlayPanel = op;
-    op.visible = !op.visible;
-
+    // this.dateBeforeOverlayPanel = op;
+    // op.visible = !op.visible;
+    this.overlayPanel.toggle(event);
   }
 
   selectBeforeDate(event) {
@@ -1585,6 +1587,8 @@ export class SentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log("ngOnDestroy");
+    
     this.datatableComponent.destroy();
     this.filterComponent.destroy();
     this.breadcrumbService.sentDashboardFilterQuery = undefined;

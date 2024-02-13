@@ -638,7 +638,11 @@ button.p-element.v-m.p-button.p-component.ng-star-inserted {
 .p-calendar .p-datepicker {
     min-width: 50% !important;
 }
-
+.overLayPanel{
+    .p-calendar .p-datepicker {
+        width: 100% !important;
+    }
+}
 .p-scroller .ui-g-12,
 .p-scroller .ui-g-10 .p-scroller .ui-g {
     padding: 0;
