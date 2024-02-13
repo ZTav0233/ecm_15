@@ -253,17 +253,18 @@ export class EcmGlobalListComponent implements OnInit {
 
   selectUser(user) {
     const exist = this.userExist(user);
-
+    let temp = [...this.listUsers];
     if (!exist) {
       if (this.selectedType === 'USER') {
-        this.listUsers.push({ 'EmpNo': user.EmpNo, 'fulName': user.fulName, 'appRole': 'USER' });
+        temp.push({ 'EmpNo': user.EmpNo, 'fulName': user.fulName, 'appRole': 'USER' });
       } else if (this.selectedType === 'ROLE') {
         if (user.name) {
-          this.listUsers.push({ 'EmpNo': user.id, 'fulName': user.name, 'appRole': 'ROLE' });
+          temp.push({ 'EmpNo': user.id, 'fulName': user.name, 'appRole': 'ROLE' });
         } else if (user.headRoleName) {
-          this.listUsers.push({ 'EmpNo': user.id, 'fulName': user.headRoleName, 'appRole': 'ROLE' });
+          temp.push({ 'EmpNo': user.id, 'fulName': user.headRoleName, 'appRole': 'ROLE' });
         }
       }
+      this.listUsers = temp;
     }
     else {
       // this.growlService.showGrowl({

@@ -61,7 +61,7 @@
       <p-scroller *ngIf="listUsers && listUsers.length>0"  [items]="listUsers" styleClass="p-scroller" 
         [lazy]="true">
         <ng-template let-value pTemplate="selectedItem" >
-          <div class="ui-g form-group" >
+          <div class="ui-g form-group ecmlist" >
             <div class="ui-g-12">
               <div class="ui-g-10">
                 <i *ngIf="value.appRole==='ROLE'" class="fa fa fa-fw ui-icon-people"></i>
@@ -114,7 +114,7 @@
             <label class="text-bold">Search Text</label>
           </div>
         </div>
-        <div class="ui-g form-group">
+        <div class="ui-g form-group ecmsearch">
           <div class="ui-g-12 ui-md-4">
             <label>Name:</label>
           </div>
@@ -124,7 +124,7 @@
             </span>
           </div>
         </div>
-        <div class="ui-g form-group" [ngClass]="{'hidden-I':selectedType==='ROLE'}">
+        <div class="ui-g form-group ecmsearch" [ngClass]="{'hidden-I':selectedType==='ROLE'}">
           <div class="ui-g-12 ui-md-4">
             <label>Email:</label>
           </div>
@@ -134,7 +134,7 @@
             </span>
           </div>
         </div>
-        <div class="ui-g form-group" [ngClass]="{'hidden-I':selectedType==='ROLE'}">
+        <div class="ui-g form-group ecmsearch" [ngClass]="{'hidden-I':selectedType==='ROLE'}">
           <div class="ui-g-12 ui-md-4">
             <label>Designation:</label>
           </div>
@@ -144,7 +144,7 @@
             </span>
           </div>
         </div>
-        <div class="ui-g form-group" [ngClass]="{'hidden-I':selectedType==='ROLE'}">
+        <div class="ui-g form-group ecmsearch" [ngClass]="{'hidden-I':selectedType==='ROLE'}">
           <div class="ui-g-12 ui-md-4">
             <label>Phone:</label>
           </div>
@@ -157,7 +157,7 @@
             </span>
           </div>
         </div>
-        <div class="ui-g form-group">
+        <div class="ui-g form-group ecmsearch">
           <div class="ui-g-12 ui-md-4">
             <label>Org Code:</label>
           </div>
@@ -167,7 +167,7 @@
             </span>
           </div>
         </div>
-        <div class="ui-g form-group" [ngClass]="{'hidden-I':selectedType==='ROLE'}">
+        <div class="ui-g form-group ecmsearch" [ngClass]="{'hidden-I':selectedType==='ROLE'}">
           <div class="ui-g-12 ui-md-4">
             <label>KOC No:</label>
           </div>
@@ -177,7 +177,7 @@
             </span>
           </div>
         </div>
-        <div class="ui-g form-group">
+        <div class="ui-g form-group ecmsearch">
           <div class="ui-g-12 ui-md-12 p-l-0">
             <button pButton type="submit" label="Search" class="pull-right m-l-md" [disabled]="!listName"></button>
             <button pButton type="button" (click)="searchUserForm.reset();SelectedUserList=[];" label="Clear"
@@ -233,7 +233,7 @@
     <p-scroller *ngIf="listUsers && listUsers.length>0" styleClass="list-max-h-265" [items]="listUsers" [itemSize]="10" scrollHeight="300px" 
       styleClass="border-1 surface-border" [style]="{'height': '290px !important'}" [lazy]="true" style="height: 290px !important;">
       <ng-template let-value pTemplate="selectedItem">
-        <div class="ui-g form-group">
+        <div class="ui-g form-group ecmlist">
           <div class="ui-g-12">
             <div class="ui-g-10">
               <i *ngIf="value.appRole==='ROLE'" class="fa fa fa-fw ui-icon-people"></i>
