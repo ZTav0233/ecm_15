@@ -323,7 +323,6 @@
                 [globalFilterFields]="['orgTeamName','orgCode','inboxCount','sentCount','docCount','eSignCount','orgRoleName','orgGroupName']">
                 <ng-template pTemplate="caption">
                   <span class="p-input-icon-left ml-auto">
-
                     <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" class="quickSearch"
                       placeholder="Filter Text" />
                   </span>
@@ -403,8 +402,7 @@
                 sortField="recordGroupName" sortMode="single" dataKey="recordGroupName" rowGroupMode="subheader"
                 groupRowsBy="recordGroupName" styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm"
                 [paginator]="true" [rows]="15" [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
-                #dt
-                [globalFilterFields]="['empName','empTitle','orgCode','reqDate','signDate']">
+                #dt [globalFilterFields]="['empName','empTitle','empNo','orgCode','reqDate','signDate']">
                 <ng-template pTemplate="caption">
                   <span class="p-input-icon-left ml-auto">
                     <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" class="quickSearch"
@@ -589,7 +587,7 @@
               </p-dataTable> -->
               <p-table [tableStyle]="{'min-width': '50rem'}"
                 styleClass="p-datatable-gridlines p-datatable-striped p-datatable-sm" [value]="reportCount"
-                [reorderableColumns]="true" [resizableColumns]="true" [rows]="pageSize" [paginator]="true"
+                [reorderableColumns]="true" [resizableColumns]="true" [rows]="pageSize" [paginator]="true" #dt
                 [globalFilterFields]="['orgTeamName','orgCode','inboxCount','sentCount','docCount','eSignCount','orgRoleName','orgGroupName']">
                 <ng-template pTemplate="caption">
                   <span class="p-input-icon-left ml-auto">
@@ -608,7 +606,7 @@
 
                   </tr>
                   <tr>
-                    <th>Sl.no</th>
+                    <th>Sl.No</th>
                     <th pResizableColumn pSortableColumn="orgTeamName">Team Name<p-sortIcon
                         field="orgTeamName"></p-sortIcon></th>
                     <th pResizableColumn pSortableColumn="inboxCount">Received<p-sortIcon

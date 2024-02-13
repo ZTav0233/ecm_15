@@ -609,17 +609,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     
       if (type === undefined) {
-        for (const del of this.currentUser.delegated) {
-          if (textLabel === del.delName) {
-            type = 'del';
-            id = del.userId;
-
-            this.us.validateDelegation(del.id).subscribe(res => {
-              if (res === 'INACTIVE') {
-                this.showDelegationInactiveDialog = true;
-              }
-            });
-            this.workflowService.delegateId = del.id;
+        if(this.currentUser && this.currentUser.delegated && this.currentUser.delegated.length > 0){
+          for (const del of this.currentUser.delegated) {
+            if (textLabel === del.delName) {
+              type = 'del';
+              id = del.userId;
+  
+              this.us.validateDelegation(del.id).subscribe(res => {
+                if (res === 'INACTIVE') {
+                  this.showDelegationInactiveDialog = true;
+                }
+              });
+              this.workflowService.delegateId = del.id;
+            }
           }
         }
       }
