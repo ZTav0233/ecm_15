@@ -2258,7 +2258,7 @@ a:hover {
 }
 
 .layout-wrapper .layout-sidebar.layout-sidebar-dark .layout-menu li > a:hover {
-  background-color: #rgba 255, 255, 255, 0.4;
+  background-color: rgba(255, 255, 255, 0.4);
   color: #ffffff;
 }
 
