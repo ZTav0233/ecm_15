@@ -6,7 +6,7 @@ import {
 import { BreadcrumbService } from "../../../services/breadcrumb.service";
 import { WorkflowService } from '../../../services/workflow.service';
 import { UserService } from '../../../services/user.service';
-import { Subscription } from 'rxjs';
+import { Subscription, filter } from 'rxjs';
 import * as $ from 'jquery';
 import { WorkitemSet } from '../../../models/workflow/workitem-set.model';
 import { User } from '../../../models/user/user.model';
@@ -156,7 +156,6 @@ export class InboxComponent implements OnInit, OnDestroy {
   public today = new Date();
   userSetting = [];
   public messageDenyAction: any;
-
   constructor(private breadcrumbService: BreadcrumbService, private ws: WorkflowService, private route: ActivatedRoute,
     private toastr: ToastrService,
     private us: UserService, private bs: BrowserEvents, public coreService: CoreService,
@@ -165,6 +164,7 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.subscribeRefreshRequiredEvent();
   }
   ngOnInit() {
+    
     let isOnInitCall = !this.resetFirstAndSort;
     this.isFirstLoadCall = true;
     this.getUserSetting();
@@ -820,7 +820,7 @@ export class InboxComponent implements OnInit, OnDestroy {
         summary: 'Success',
         detail: 'Flag Updated Successfully'
       }); 
-
+  
       this.refreshTabList();
     });*/
     // }
@@ -1628,6 +1628,7 @@ export class InboxComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+
     console.log("this.ngOnDestroy");
     this.overlayPanel.toggle(event);
     this.filterComponent.destroy();

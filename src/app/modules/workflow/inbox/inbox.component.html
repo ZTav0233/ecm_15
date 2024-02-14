@@ -16,7 +16,7 @@
           [disableAction]="inboxSelectedItem.length<=0||inboxSelectedItem[0].isMemo==1" [disableFilter]="tab.quickFilterText!=''"
           [totalTableRecords]="tab.totalRecords" [hasFilterRes]="request && request.exportFilter || advanceFilterShown"
           (clearFilter)="resetAndCloseFilters()" [userId]="tab.recordId"></action-button>
-        <p-overlayPanel [dismissable]="true" [style]="{'z-index':'999'}" #dateBeforePanel>
+        <p-overlayPanel [dismissable]="true" [style]="{'z-index':'999'}" #dateBeforePanel id="dateBeforePanel">
           <p-calendar appendTo="body" (onSelect)="selectBeforeDate($event)" [(ngModel)]="beforeDate" [inline]="true" [maxDate]="today" class="overLayPanel"
             [readonlyInput]="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030"></p-calendar>
         </p-overlayPanel>
