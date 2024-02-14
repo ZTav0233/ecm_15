@@ -230,7 +230,7 @@
   <div class="ui-g-12 ui-md-5 p-r-0 p-b-0 p-t-0">
     <h4>Selected Users/Roles</h4>
     <!--<p-autoComplete [(ngModel)]="listUsers" [multiple]="true" field="fulName" name="fulName"></p-autoComplete>-->
-    <p-scroller *ngIf="listUsers && listUsers.length>0" styleClass="list-max-h-265" [items]="listUsers" [itemSize]="10" scrollHeight="300px" 
+    <p-scroller *ngIf="listUsers && listUsers.length>0" styleClass="list-max-h-265" [items]="listUsers" [itemSize]="100" scrollHeight="300px"
       styleClass="border-1 surface-border" [style]="{'height': '290px !important'}" [lazy]="true" style="height: 290px !important;">
       <ng-template let-value pTemplate="selectedItem">
         <div class="ui-g form-group ecmlist">

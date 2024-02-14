@@ -312,7 +312,7 @@
   <div class="ui-g-12 ui-md-5 p-r-0 p-b-0 p-t-0">
     <label>List Name: </label>{{selectedParentList===0?'Favorites':listName}}
     <h4>Selected Users/Roles</h4>
-    <p-scroller *ngIf="listUsers && listUsers.length>0" [items]="listUsers" [itemSize]="10" scrollHeight="300px" styleClass="border-1 surface-border" [style]="{'height': '290px !important'}"
+    <p-scroller *ngIf="listUsers && listUsers.length>0" [items]="listUsers" [itemSize]="100" styleClass="border-1 surface-border" [style]="{'height': '290px !important'}"
       [lazy]="true" style="height: 290px !important;">
       <ng-template let-value pTemplate="selectedItem">
         <div class="ui-g form-group ecmlist">
