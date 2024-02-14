@@ -894,8 +894,9 @@ export class RecipientsMemoComponent implements OnDestroy {
               }
               l.actionType = 'TO';
               l.disabled = true;
-              console.log(this.recipientsData.toList);
+              //console.log(this.recipientsData.toList);
               this.recipientsData.toList.push(l);
+              this.recipientsData.toList=[...this.recipientsData.toList];
             }
           });
           this.prepareStepItems.emit();
@@ -913,6 +914,7 @@ export class RecipientsMemoComponent implements OnDestroy {
                 l.actionType = 'TO';
                 l.disabled = true;
                 this.recipientsData.toList.push(l);
+                this.recipientsData.toList=[...this.recipientsData.toList];
               }
             });
             list.users = users;
@@ -932,6 +934,7 @@ export class RecipientsMemoComponent implements OnDestroy {
           list.actionType = 'TO';
           list.disabled = true;
           this.recipientsData.toList.push(list);
+          this.recipientsData.toList=[...this.recipientsData.toList];
           this.prepareStepItems.emit();
         }
       }
@@ -946,6 +949,7 @@ export class RecipientsMemoComponent implements OnDestroy {
         list.actionType = 'TO';
         list.disabled = true;
         this.recipientsData.toList.push(list);
+        this.recipientsData.toList=[...this.recipientsData.toList];
         this.prepareStepItems.emit();
       }
     }
@@ -966,6 +970,7 @@ export class RecipientsMemoComponent implements OnDestroy {
               l.actionType = 'CC';
               l.disabled = true;
               this.recipientsData.ccList.push(l);
+              this.recipientsData.ccList=[...this.recipientsData.ccList];
             }
           });
           this.prepareStepItems.emit();
@@ -983,6 +988,7 @@ export class RecipientsMemoComponent implements OnDestroy {
                 l.actionType = 'CC';
                 l.disabled = true;
                 this.recipientsData.ccList.push(l);
+                this.recipientsData.ccList=[...this.recipientsData.ccList];
               }
             });
             list.users = users;
@@ -1002,6 +1008,7 @@ export class RecipientsMemoComponent implements OnDestroy {
           list.actionType = 'CC';
           list.disabled = true;
           this.recipientsData.ccList.push(list);
+          this.recipientsData.ccList=[...this.recipientsData.ccList];
           this.prepareStepItems.emit();
         }
       }
@@ -1016,6 +1023,7 @@ export class RecipientsMemoComponent implements OnDestroy {
         list.actionType = 'CC';
         list.disabled = true;
         this.recipientsData.ccList.push(list);
+        this.recipientsData.ccList=[...this.recipientsData.ccList];
         this.prepareStepItems.emit();
       }
     }
