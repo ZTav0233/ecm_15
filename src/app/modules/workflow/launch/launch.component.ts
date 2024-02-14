@@ -4174,7 +4174,8 @@ export class LaunchComponent implements OnInit, OnDestroy {
   }
 
   onMouseClick(e: any) {
-    var abc = e.target.className.includes("ui-dropdown-label")
+    const target = e.target as Element;
+    var abc = (target.className).includes("ui-dropdown-label")
     setTimeout(() => {
       if (abc == false) {
         const myElement = document.getElementById("up");

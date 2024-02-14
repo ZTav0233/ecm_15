@@ -1181,7 +1181,7 @@ export class SentComponent implements OnInit, OnDestroy {
         });
       }
     });
-    this.dateBeforeOverlayPanel.visible = false;
+    //this.dateBeforeOverlayPanel.visible = false;
     //}
   }
 
@@ -1590,6 +1590,7 @@ export class SentComponent implements OnInit, OnDestroy {
     console.log("ngOnDestroy");
     
     this.datatableComponent.destroy();
+    this.overlayPanel.toggle(event);
     this.filterComponent.destroy();
     this.breadcrumbService.sentDashboardFilterQuery = undefined;
     this.clearSubscriptions();

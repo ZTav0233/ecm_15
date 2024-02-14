@@ -1224,7 +1224,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       }
 
     });
-    this.dateBeforeOverlayPanel.visible = false;
+    //this.dateBeforeOverlayPanel.visible = false;
     // }
 
   }

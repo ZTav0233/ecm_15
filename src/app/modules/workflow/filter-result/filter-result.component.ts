@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from "@angular/router";
 import { Subscription } from "rxjs";
+import { OverlayPanel } from 'primeng/overlaypanel';
 // services
 import { ConfirmationService, SelectItem } from "primeng/api";
 import { WorkflowService } from "../../../services/workflow.service";
@@ -16,10 +17,9 @@ import { User } from "../../../models/user/user.model";
 import * as global from "../../../global.variables";
 import * as $ from 'jquery';
 import { saveAs } from 'file-saver';
-
+// Others
 import { FilterComponent } from "../../../components/generic-components/filter/filter.component";
 import { DataTableComponent } from "../../../components/generic-components/datatable/datatable.component";
-import { WorkitemDetails } from "../../../models/workflow/workitem-details.model";
 import * as _ from "lodash";
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
@@ -29,6 +29,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['../workflow.component.css']
 })
 export class FilterResultComponent implements OnInit, OnDestroy {
+  @ViewChild('dateBeforePanel') overlayPanel: OverlayPanel;
   public user = new User();
   public emptyMessage: any = global.no_workitem_found;
   public selectedItem: any[] = [];
@@ -64,7 +65,6 @@ export class FilterResultComponent implements OnInit, OnDestroy {
   type: any;
   lazy = true;
   beforeDate: Date;
-  overlayPanel: any;
   public selectedTabIndex = 0;
   public dashboardSelectedTab: any;
   filterCount = { total: -1, pageSize: 0, to: 0, cc: 0, reply: 0, replyto: 0, replycc: 0, new: 0, read: 0, forwarded: 0 };
@@ -821,7 +821,7 @@ export class FilterResultComponent implements OnInit, OnDestroy {
     this.getSentItems();
   }
 
-  openOverlayPanel(op) {
+/*   openOverlayPanel(op) {
     this.overlayPanel = op;
     if (op.visible) {
       op.visible = false;
@@ -830,6 +830,13 @@ export class FilterResultComponent implements OnInit, OnDestroy {
       op.visible = true;
     }
 
+  } */
+
+  openOverlayPanel(op: any) {
+    // console.log(op);
+    // this.dateBeforeOverlayPanel = op;
+    // op.visible = !op.visible;
+    this.overlayPanel.toggle(event);
   }
 
   selectBeforeDate(event) {
@@ -864,7 +871,7 @@ export class FilterResultComponent implements OnInit, OnDestroy {
           });
         }
       });
-      this.overlayPanel.visible = false;
+      //this.overlayPanel.visible = false;
     //}
   }
 
@@ -1058,6 +1065,7 @@ export class FilterResultComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.dataTableComponent.destroy();
     this.clearSubscriptions();
+    this.overlayPanel.toggle(event);
     this.selectedItem = [];
     this.user = undefined;
     this.emptyMessage = undefined;
