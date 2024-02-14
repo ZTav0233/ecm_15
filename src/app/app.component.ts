@@ -6,7 +6,7 @@ import {
 } from "@angular/router";
 import { Message, MessageService } from 'primeng/api';
 import { GrowlService } from './services/growl.service';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, filter } from 'rxjs';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import * as $ from 'jquery';
 
@@ -21,12 +21,12 @@ export class AppComponent {
   topbarMenuButtonClick!: boolean;
   topbarMenuClick!: boolean;
   topbarMenuActive!: boolean;
-  activeTopbarItem!: Element|any;
+  activeTopbarItem!: Element | any;
   layoutStatic = true;
   sidebarActive!: boolean;
   mobileMenuActive!: boolean;
   darkMenu!: boolean;
-  isRTL: boolean=false;
+  isRTL: boolean = false;
   msgs: Message[] = [];
   loading = { loading: false };
   private subscriptions: any[] = [];
@@ -37,13 +37,22 @@ export class AppComponent {
   constructor(private growlService: GrowlService,
     private messageService: MessageService,
     private router: Router) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      console.log('Current URL:', event.url);
+      var pOverLayPanel =document.querySelector(".p-overlaypanel.p-component")
+      pOverLayPanel.remove()
+      
+    });
   }
+
 
   ngOnInit() {
     // this.ds.getLastSearchToLocalStorage();
     // var preventBackspace = require('prevent-backspace');
     // preventBackspace();
-    this.growlService.growl$.subscribe((msg: Message|any) => {
+    this.growlService.growl$.subscribe((msg: Message | any) => {
       this.msgs = [];
       this.messageService.add({ key: 'toast1', severity: 'success', summary: 'Success', detail: msg });
       this.msgs.push(msg);
@@ -55,11 +64,11 @@ export class AppComponent {
     })
   }
   @HostListener('window:unload', ['$event'])
-    unloadHandler(event:any) {
-        window.sessionStorage.clear();
-        console.log("session storage cleared");
-    }
-  @HostListener('window:beforeunload', ['$event']) reload($event:any) {
+  unloadHandler(event: any) {
+    window.sessionStorage.clear();
+    console.log("session storage cleared");
+  }
+  @HostListener('window:beforeunload', ['$event']) reload($event: any) {
     //console.log("reloading");
     const subject = new Subject();
     (window as any)['destroySubject'] = subject;
@@ -86,7 +95,7 @@ export class AppComponent {
 
   ngAfterViewInit() {
     // this.busy = true;
-    this.router.events.subscribe((event:any) => {
+    this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
         // this.coreService.progress = { busy: false, message: '', backdrop: true };
         // this.busy = false;
@@ -179,7 +188,7 @@ export class CustomRouteReuseStategy implements RouteReuseStrategy {
    * If it returns true, the method store will be fired.
    * @param route current route
    */
-  shouldDetach(route: ActivatedRouteSnapshot|any): boolean {
+  shouldDetach(route: ActivatedRouteSnapshot | any): boolean {
     return route.data.shouldReuse || false;
   }
 
@@ -189,7 +198,7 @@ export class CustomRouteReuseStategy implements RouteReuseStrategy {
    * @param route : current route
    * @param handle : identifies the stored component
    */
-  store(route: ActivatedRouteSnapshot|any, handle: {}): void {
+  store(route: ActivatedRouteSnapshot | any, handle: {}): void {
     if (route.data.shouldReuse) {
       this.handlers[route.routeConfig.path] = handle;
     }
@@ -200,7 +209,7 @@ export class CustomRouteReuseStategy implements RouteReuseStrategy {
    * Fired when shouldReuseRoute returns false
    * @param route current route
    */
-  shouldAttach(route: ActivatedRouteSnapshot|any): boolean {
+  shouldAttach(route: ActivatedRouteSnapshot | any): boolean {
     return !!route.routeConfig && !!this.handlers[route.routeConfig.path];
 
     // Reset all the stored routes if we're on the AuthComponent
@@ -215,13 +224,13 @@ export class CustomRouteReuseStategy implements RouteReuseStrategy {
    * Fired when shouldAttach returns true
    * @param route current route
    */
-  retrieve(route: ActivatedRouteSnapshot|any): DetachedRouteHandle|any {
+  retrieve(route: ActivatedRouteSnapshot | any): DetachedRouteHandle | any {
     if (!route.routeConfig) return null;
     if (route.routeConfig.loadChildren) return null;
     return this.handlers[route.routeConfig.path];
   }
 
-  shouldReuseRoute(future: ActivatedRouteSnapshot|any, curr: ActivatedRouteSnapshot): boolean {
+  shouldReuseRoute(future: ActivatedRouteSnapshot | any, curr: ActivatedRouteSnapshot): boolean {
     return future.data.shouldReuse || false;
   }
 
