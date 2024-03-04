@@ -3,6 +3,8 @@ import { BrowserEvents } from '../../../services/browser-events.service';
 import { DocumentService } from '../../../services/document.service';
 import { MenuItem } from 'primeng/api';
 import * as global from '../../../global.variables';
+import { Router } from '@angular/router';
+import { AppComponent } from '../../../app.component';
 import { DocumentSecurityModel } from '../../../models/document/document-security.model';
 import { GrowlService } from '../../../services/growl.service';
 import { CoreService } from '../../../services/core.service';
@@ -24,6 +26,8 @@ export class TreeComponent implements OnInit {
   folderList: any[];
   selectedFolder: any;
   folderTitle: any;
+  private navFolderPath: any;
+  private navFolderId: any;
   index: any;
   privilage: any;
   busy: boolean;
@@ -42,10 +46,20 @@ export class TreeComponent implements OnInit {
   ngOnInit() {
     if (this.ds.savedFolderBrowse.folderTreeSaved && this.ds.savedFolderBrowse.folderTreeSaved.length > 0 && !this.isPopUp) {
       this.folderList = this.ds.savedFolderBrowse.folderTreeSaved;
-    } else {
-      this.cs.getTopFolders().subscribe(data => this.getMainFolders(data));
+    } else if(this.ds.navfolderPath && this.ds.navfolderPath != "" && this.ds.navfolderPath.length > 0 && !this.isPopUp){
+      //debugger;
+      this.navFolderPath = this.ds.navfolderPath;
+      this.navFolderId = this.ds.navfolderId;
+      this.cs.getTopFolders().subscribe(data => this.getMainFolders(data, true));
+      //this.getNavigationFolders();
+    }else {
+      this.cs.getTopFolders().subscribe(data => this.getMainFolders(data, false));
     }
     if (this.ds.savedFolderBrowse.setSelectedFolder && !this.isPopUp) {
+      this.selectedFolder = this.ds.savedFolderBrowse.setSelectedFolder;
+      localStorage.setItem('folderId', this.ds.savedFolderBrowse.selectedFolderId);
+    }
+    else if(this.ds.navfolderPath && this.ds.navfolderPath != "" && this.ds.navfolderPath.length > 0 && !this.isPopUp){
       this.selectedFolder = this.ds.savedFolderBrowse.setSelectedFolder;
       localStorage.setItem('folderId', this.ds.savedFolderBrowse.selectedFolderId);
     }
@@ -165,7 +179,9 @@ export class TreeComponent implements OnInit {
     this.toastr.error('Move To Folder Failed', 'Failure');
   }
 
-  getMainFolders(data) {
+  getMainFolders(data, isNav?) {
+    if(!isNav || isNav == undefined)
+      isNav = false;
     if (data[0].id !== undefined) {
       localStorage.setItem('folderId', data[0].id);
     }
@@ -212,16 +228,149 @@ export class TreeComponent implements OnInit {
       return (folderName.toUpperCase() === global.fold.toUpperCase()) ? 0 : 1;
     });
     //this.folderList = topFolder;
-    if (global.fold && isDefaultFolderExistInTopFolder && !this.isPopUp) {
-      this.cs.getSubFolders(this.folderList[0].data.id).subscribe(data =>
-        this.assignSubFoldersFor(this.folderList[0], data));
-    } else {
-      this.ds.notRootPath = false;
-      this.bs.isRootFolShown.emit();
+
+    if(isNav && this.folderList && this.folderList.length > 0){
+      this.getNavigationFolders();
+    }
+    else {
+      if (global.fold && isDefaultFolderExistInTopFolder && !this.isPopUp) {
+        this.cs.getSubFolders(this.folderList[0].data.id).subscribe(data =>
+          this.assignSubFoldersFor(this.folderList[0], data));
+      } else {
+        this.ds.notRootPath = false;
+        this.bs.isRootFolShown.emit();
+      }
     }
   }
 
-  assignSubFoldersFor(parent, data) {
+  getNavigationFolders() {
+    this.busy = true;
+    //this.navFolderPath | this.navFolderId
+    //this.folderList = topFolder;
+    //debugger;
+    let navPathFolders = this.navFolderPath.split('/');
+    let pathTocheck = "";
+    let folderDepth = navPathFolders.length;
+    let iterFolderList = _.cloneDeep(this.folderList);
+    let isRootPathOK = false;
+    for (let iFolder = 0; iFolder < folderDepth; iFolder++) {
+      if(iFolder==0){
+        continue;
+      }
+      let currentFolderPath = "/" + navPathFolders[iFolder];
+      pathTocheck += currentFolderPath;
+      var fIndex = -1;
+      
+      if(iFolder == 1){
+        if(iterFolderList[0].data.path.startsWith(pathTocheck)) 
+          isRootPathOK = true;
+      }else if(iFolder == 2 || (iFolder == 3 && pathTocheck.startsWith("/ECMRootFolder"))){
+        if(iFolder == 2 && pathTocheck.startsWith("/ECMRootFolder")){
+          if(iterFolderList[0].data.path.startsWith(pathTocheck)) 
+            isRootPathOK = true;
+          continue;
+        }
+        else{
+          fIndex = iterFolderList.findIndex((res: any) => (res.data.path == pathTocheck));
+          if(fIndex >= 0 && ((iFolder+1) == folderDepth)){
+            let parent = this.folderList[fIndex];
+            parent.expanded = true;
+            this.selectedFolder = parent;
+            this.ds.notRootPath = true;
+            //this.bs.folderPath.emit(parent.data.path);
+            localStorage.setItem('folderId', parent.data.id);
+            localStorage.setItem('path', parent.data.path);
+            this.bs.isRootFolShown.emit(parent.data);
+            this.busy = true;
+            this.cs.getDocumentFolders(parent.data.id).subscribe(data => {
+              this.busy = false;
+              this.assignFolderDoc(data)
+            }, err => {
+              this.busy = false;
+            });
+            break;
+          }
+          else if(fIndex >= 0) {
+            let parent = this.folderList[fIndex];
+            this.getNavigationSubFolders(parent, navPathFolders, pathTocheck, folderDepth, iFolder);
+            break;
+          }
+          else{
+            //Folder does not exist or Not a valid Folder Path
+            this.growlService.showGrowl({
+              severity: 'error',
+              summary: 'Failure', detail: 'Invalid or No Permission to access folder'
+            });
+            break;
+          }
+        }
+      } 
+      else{
+           //Folder does not exist or Not a valid Folder Path
+           this.growlService.showGrowl({
+            severity: 'error',
+            summary: 'Failure', detail: 'Invalid or No Permission to access folder'
+          });
+           break;
+      }
+    }
+
+    this.busy = false;
+  }
+
+  getNavigationSubFolders(currentFolder, navPathFolders, pathTocheck, folderDepth, iFolder) {
+    let isRootPathOK = false;
+    if(!(currentFolder.children) || (currentFolder.children && currentFolder.children.length == 0)){
+      this.cs.getSubFolders(currentFolder.data.id).subscribe(data =>
+        this.assignSubFoldersForSubNav(currentFolder, data, navPathFolders, pathTocheck, folderDepth, iFolder));
+    }
+  }
+
+  setNavigationSubFolderPath(currentFolder, navPathFolders, pathTocheck, folderDepth, iFolder){
+    let iterSubFolderList = _.cloneDeep(currentFolder.children);
+
+    for (let iSubFolder = iFolder + 1; iSubFolder < folderDepth; iSubFolder++) {
+      let currentFolderPath = "/" + navPathFolders[iSubFolder];
+      pathTocheck += currentFolderPath;
+      
+      var sfIndex = -1;
+      sfIndex = iterSubFolderList.findIndex((res: any) => (res.data.path == pathTocheck));
+      
+      if(sfIndex >= 0 && ((iSubFolder+1) == folderDepth)){
+        let parent = currentFolder.children[sfIndex];
+        parent.expanded = true;
+        this.selectedFolder = parent;
+        this.ds.notRootPath = true;
+        //this.bs.folderPath.emit(parent.data.path);
+        localStorage.setItem('folderId', parent.data.id);
+        localStorage.setItem('path', parent.data.path);
+        this.bs.isRootFolShown.emit(parent.data);
+        this.busy = true;
+        this.cs.getDocumentFolders(parent.data.id).subscribe(data => {
+          this.busy = false;
+          this.assignFolderDoc(data)
+        }, err => {
+          this.busy = false;
+        });
+        break;
+      }
+      else if(sfIndex >= 0) {
+        let parent = currentFolder.children[sfIndex];
+        this.getNavigationSubFolders(parent, navPathFolders, pathTocheck, folderDepth, iSubFolder);
+        break;
+      }
+      else{
+        //Folder does not exist or Not a valid Folder Path
+        this.growlService.showGrowl({
+          severity: 'error',
+          summary: 'Failure', detail: 'Invalid or No Permission to access folder'
+        });
+        break;
+      }
+    }
+  }
+
+  assignSubFoldersFor(parent, data, isNav?) {
     this.index++;
     const subFolder = [];
     data.map((d, i) => {
@@ -264,10 +413,77 @@ export class TreeComponent implements OnInit {
       }, err => {
         this.busy = false;
       });
-    }
+    } 
+    else if (isNav){
+      // Write logic here
+      parent.expanded = true;
+      this.selectedFolder = parent;
+      this.ds.notRootPath = true;
+      if(parent.data.id = this.navFolderId){
+        localStorage.setItem('folderId', parent.data.id);
+        localStorage.setItem('path', parent.data.path);
+        this.bs.isRootFolShown.emit(parent.data);
+        this.busy = true;
+        this.cs.getDocumentFolders(parent.data.id).subscribe(data => {
+          this.busy = false;
+          this.assignFolderDoc(data)
+        }, err => {
+          this.busy = false;
+        });
+      }
+    } 
     else {
       this.ds.notRootPath = false;
       this.bs.isRootFolShown.emit();
+    }
+  }
+
+  assignSubFoldersForSubNav(parent, data, navPathFolders, pathTocheck, folderDepth, iFolder) {
+    this.index++;
+    const subFolder = [];
+    data.map((d, i) => {
+      if (d != null) {
+        if (d.type === 'PermissionsFolder' || d.type === 'PermissionFolder') {
+          subFolder.push({
+            label: d.name,
+            data: d,
+            'level': '2',
+            'expandedIcon': 'ui-icon-folder-open',
+            'collapsedIcon': 'ui-icon-folder-shared',
+            'leaf': false
+          });
+        }
+        else {
+          subFolder.push({
+            label: d.name,
+            data: d,
+            'level': '2',
+            'expandedIcon': 'ui-icon-folder-open',
+            'collapsedIcon': 'ui-icon-folder',
+            'leaf': false
+          });
+        }
+      }
+    });
+    parent.children = subFolder;
+    
+    parent.expanded = true;
+    this.selectedFolder = parent;
+    this.ds.notRootPath = true;
+    if(parent.data.id === this.navFolderId && parent.data.path === this.navFolderPath){
+      localStorage.setItem('folderId', parent.data.id);
+      localStorage.setItem('path', parent.data.path);
+      this.bs.isRootFolShown.emit(parent.data);
+      this.busy = true;
+      this.cs.getDocumentFolders(parent.data.id).subscribe(data => {
+        this.busy = false;
+        this.assignFolderDoc(data)
+      }, err => {
+        this.busy = false;
+      });
+    }
+    else {
+      this.setNavigationSubFolderPath(parent, navPathFolders, pathTocheck, folderDepth, iFolder)
     }
   }
 
@@ -374,6 +590,7 @@ export class TreeComponent implements OnInit {
     if (!this.isPopUp) {
       this.ds.savedFolderBrowse.folderTreeSaved = this.folderList;
       this.ds.savedFolderBrowse.setSelectedFolder = this.selectedFolder;
+      this.ds.savedFolderBrowse.selectedFolderId = this.selectedFolder.data.id;
     }
   }
 }

@@ -219,7 +219,11 @@ export class SentComponent implements OnInit, OnDestroy {
     this.selectedUser = undefined;
     this.showDelegationInactiveDialog = false;
     this.type = undefined;
-    this.selectedColumns = ['lastItemSentOn', 'wfCreatorName', 'deadline'];
+    this.selectedColumns = [{"field":"lastItemSentOn","header":"Sent On","hidden":false,"sortField":"lastItemSentOn2"},
+                            {"field":"wfCreatorName","header":"Workflow Created By","hidden":false},
+                            {"field":"createdOn","header":"Workflow Created Date","hidden":false,"sortField":"createdOn2"},
+                            {"field":"deadline","header":"Deadline","hidden":false,"sortField":"deadline2"}]
+    //['lastItemSentOn', 'wfCreatorName', 'deadline'];
 
     this.user = null;
     // get user details
@@ -246,7 +250,7 @@ export class SentComponent implements OnInit, OnDestroy {
 
 
       for (const setting of this.userSetting) {
-        if (setting.key === 'Sent Selected Columns') {
+        if (setting.key === 'Sent Selected Columns New') {
           isFound = true;
           if (setting.val) {
             let sentSelectedColumns = JSON.parse(setting.val);
@@ -622,7 +626,7 @@ export class SentComponent implements OnInit, OnDestroy {
   updateGeneralSetting() {
     let isFound = false;
     for (const setting of this.userSetting) {
-      if (setting.key === 'Sent Selected Columns') {
+      if (setting.key === 'Sent Selected Columns New') {
         isFound = true;
         setting.val = JSON.stringify(this.selectedColumns)
       }
@@ -632,7 +636,7 @@ export class SentComponent implements OnInit, OnDestroy {
         'id': null,
         'appId': 'ECM',
         'empNo': this.user.EmpNo,
-        'key': 'Sent Selected Columns',
+        'key': 'Sent Selected Columns New',
         'val': JSON.stringify(this.selectedColumns)
     });
     }

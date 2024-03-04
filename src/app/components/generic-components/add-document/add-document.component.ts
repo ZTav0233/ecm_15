@@ -66,6 +66,7 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   folderId: any;
   folderpath: any;
   errorJson: any;
+  htmlObjString = "";
   public loaded = false;
   public displayScannerSettings = false;
   public docFromScanner = false;
@@ -1391,12 +1392,12 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
         rejectVisible: true,
         accept: () => {
           this.uploadedFiles = '';
-          Dynamsoft.DWT.Load(); 
+          Dynamsoft.WebTwainEnv.Load(); 
           //-------------------------------------------------------------
           //Abhishek comment for new staging env Dynamsoft 17.1.1
           //Replace Dynamsoft.WebTwainEnv with Dynamsoft.DWT for version 
           //-------------------------------------------------------------
-          Dynamsoft.DWT.RegisterEvent("OnWebTwainReady", () => {
+          Dynamsoft.WebTwainEnv.RegisterEvent("OnWebTwainReady", () => {
             this.Dynamsoft_OnReady();
           });
           this.pageonload();
@@ -1406,8 +1407,8 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
         }
       });
     } else {
-      Dynamsoft.DWT.Load();
-      Dynamsoft.DWT.RegisterEvent("OnWebTwainReady", () => {
+      Dynamsoft.WebTwainEnv.Load();
+      Dynamsoft.WebTwainEnv.RegisterEvent("OnWebTwainReady", () => {
         this.Dynamsoft_OnReady()
       });
       this.pageonload();
@@ -1521,7 +1522,7 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
     this.displayScannerSettings = false;
     this.docFromScanner = undefined;
     if (typeof Dynamsoft !== 'undefined') {
-      Dynamsoft.DWT.Unload();
+      Dynamsoft.WebTwainEnv.Unload();
     }
   }
 
@@ -1686,7 +1687,7 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
     //   this.EnumDWT_ConvertMode = EnumDWT_ConverMode;
     // }
     let liNoScanner = document.getElementById("pNoScanner");
-    this.DWObject = Dynamsoft.DWT.GetWebTwain('dwtcontrolContainer');
+    this.DWObject = Dynamsoft.WebTwainEnv.GetWebTwain('dwtcontrolContainer');
     // If the ErrorCode is 0, it means everything is fine for the control. It is fully loaded.
     if (this.DWObject) {
       if (this.DWObject.ErrorCode == 0) {
@@ -1987,7 +1988,11 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
     this.DWObject.SelectSourceByIndex(cIndex);
     this.DWObject.CloseSource();
     this.DWObject.OpenSource();
-    this.DWObject.IfShowUI = (<HTMLInputElement>document.getElementById("ShowUI")).checked;
+    let showUIElement = <HTMLInputElement>document.getElementById("ShowUI");
+    if(showUIElement !== null && showUIElement !== undefined)
+      this.DWObject.IfShowUI = showUIElement.checked;
+    else
+      this.DWObject.IfShowUI = false;
 
     let i;
     for (i = 0; i < 3; i++) {
@@ -2004,7 +2009,10 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
       this.appendMessage("<span style='color:#cE5E04'><strong>" + this.DWObject.ErrorString + "</strong></span><br />");
     }
 
-    let bADFChecked = (<HTMLInputElement>document.getElementById("ADF")).checked;
+    let ADFElement = <HTMLInputElement>document.getElementById("ADF");
+    let bADFChecked = false;
+    if(ADFElement !== null && ADFElement !== undefined)
+      bADFChecked = (<HTMLInputElement>document.getElementById("ADF")).checked;
     this.DWObject.IfFeederEnabled = bADFChecked;
     if (bADFChecked == true && this.DWObject.ErrorCode != 0) {
       this.appendMessage('<strong>Error setting ADF value: </strong>');
@@ -2024,9 +2032,12 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
   }
 
   pageonload() {
+    console.log("Inside pageonload 1");
+   
     this.initCustomScan();
+    
     let twainsource = <HTMLSelectElement>document.getElementById("source");
-    if (typeof (twainsource) != "undefined") {
+    if (typeof (twainsource) != "undefined" && twainsource !== null) {
       twainsource.options.length = 0;
       twainsource.options.add(new Option("Looking for devices.Please wait.", "0"));
       twainsource.options[0].selected = true;
@@ -2092,9 +2103,9 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
         }
       });
     }
+
     this.initiateInputs();
     this.setDefaultValue();
-
   }
 
   initCustomScan() {
@@ -2112,8 +2123,38 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
     ObjString += "<span>Resolution:</span><select size='1' id='Resolution' style='margin-left: 3px;width: 192px;height: 26px;'><option value = ''></option></select></li>";
     ObjString += "</ul>";
 
-    if (document.getElementById("divProductDetail"))
+    this.htmlObjString = ObjString;
+    console.log("Inside initCustomScan 1");
+
+    setTimeout(() => {
+      if (document.getElementById("divProductDetail")){
+        console.log("Inside initCustomScan 2");
+        document.getElementById("divProductDetail").innerHTML = ObjString;
+      }
+        
+      let vResolution = <HTMLSelectElement>document.getElementById("Resolution");
+      if (vResolution) {
+        vResolution.options.length = 0;
+        vResolution.options.add(new Option("100", "100"));
+        vResolution.options.add(new Option("150", "150"));
+        vResolution.options.add(new Option("200", "200"));
+        vResolution.options.add(new Option("300", "300"));
+        vResolution.options[3].selected = true;
+      }
+      this.initiateInputs();
+      this.setDefaultValue();
+    }, 250);
+
+    console.log("Inside initCustomScan Out");
+  }
+
+  updateDWTHTML(ObjString){
+    console.log("Inside updateDWTHTML 1");
+    if (document.getElementById("divProductDetail")){
+      console.log("Inside updateDWTHTML 2");
       document.getElementById("divProductDetail").innerHTML = ObjString;
+    }
+      
     let vResolution = <HTMLSelectElement>document.getElementById("Resolution");
     if (vResolution) {
       vResolution.options.length = 0;
@@ -2123,28 +2164,40 @@ export class AddDocumentComponent implements OnInit, OnDestroy //, AfterViewInit
       vResolution.options.add(new Option("300", "300"));
       vResolution.options[3].selected = true;
     }
+    this.setDefaultValue();
   }
 
   initiateInputs() {
-    let allinputs = document.getElementById("dwtScanDemo").getElementsByTagName("input");
-    for (let i = 0; i < allinputs.length; i++) {
-      if (allinputs[i].type == "checkbox") {
-        allinputs[i].checked = false;
-      }
-      else if (allinputs[i].type == "text") {
-        allinputs[i].value = "";
-      }
+    console.log("Inside initiateInputs 1");
+    let allinputs = document.getElementById("dwtScanDemo")?.getElementsByTagName("input");
+    if(allinputs === null || allinputs === undefined){
+      console.log("Inside initiateInputs 2");
+      this.updateDWTHTML(this.htmlObjString);
+      allinputs = document.getElementById("dwtScanDemo")?.getElementsByTagName("input");
     }
-    if (Dynamsoft.Lib.env.bIE == true && Dynamsoft.Lib.env.bWin64 == true) {
-      let o = document.getElementById("samplesource64bit");
-      if (o)
-        o.style.display = "inline";
 
-      o = document.getElementById("samplesource32bit");
-      if (o)
-        o.style.display = "none";
+    if(allinputs !== null && allinputs !== undefined){
+      console.log("Inside initiateInputs 3");
+      for (let i = 0; i < allinputs.length; i++) {
+        if (allinputs[i].type == "checkbox") {
+          allinputs[i].checked = false;
+        }
+        else if (allinputs[i].type == "text") {
+          allinputs[i].value = "";
+        }
+      }
+    
+      if (Dynamsoft.Lib.env.bIE == true && Dynamsoft.Lib.env.bWin64 == true) {
+        let o = document.getElementById("samplesource64bit");
+        if (o)
+          o.style.display = "inline";
+
+        o = document.getElementById("samplesource32bit");
+        if (o)
+          o.style.display = "none";
+      }
+      (<HTMLInputElement>document.getElementById("ADF")).checked=true;
     }
-    (<HTMLInputElement>document.getElementById("ADF")).checked=true;
   }
 
   setDefaultValue() {

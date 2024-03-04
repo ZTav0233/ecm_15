@@ -225,15 +225,18 @@ export class ArchiveComponent implements OnInit, OnDestroy {
     this.actions = [];
     // inbox
 
-    this.inboxSelectedColumns = ['receivedDate', 'senderName', 'deadline'];
-
-
-
+    this.inboxSelectedColumns = [{"field":"status","header":"Status","hidden":false},
+                                 {"field":"actions","header":"For","hidden":false},
+                                 {"field":"receivedDate","header":"Received Date","hidden":false,"sortField":"receivedDate2"},
+                                 {"field":"senderName","header":"Sender Name","hidden":false}];
+    //['receivedDate', 'senderName', 'deadline'];
 
     // sentitems
-    this.sentSelectedColumns = ['lastItemSentOn', 'wfCreatorName', 'deadline'];
-
-
+    this.sentSelectedColumns = [{"field":"lastItemSentOn","header":"Sent On","hidden":false,"sortField":"lastItemSentOn2"},
+                                {"field":"wfCreatorName","header":"Workflow Created By","hidden":false},
+                                {"field":"createdOn","header":"Workflow Created Date","hidden":false,"sortField":"createdOn2"},
+                                {"field":"deadline","header":"Deadline","hidden":false,"sortField":"deadline2"}]
+    //['lastItemSentOn', 'wfCreatorName', 'deadline'];
   }
 
   getUserSetting() {
@@ -241,7 +244,7 @@ export class ArchiveComponent implements OnInit, OnDestroy {
       this.userSetting = result;
       let isFound = false;
       for (const setting of this.userSetting) {
-        if (setting.key === 'Archive Inbox Selected Columns') {
+        if (setting.key === 'Archive Inbox Selected Columns New') {
           isFound = true;
           if (setting.val) {
             let inboxSelectedColumns = JSON.parse(setting.val);
@@ -253,7 +256,7 @@ export class ArchiveComponent implements OnInit, OnDestroy {
         }
         // } 
         // for (const setting of this.userSetting) {      
-        if (setting.key === 'Archive Sent Selected Columns') {
+        if (setting.key === 'Archive Sent Selected Columns New') {
           isFound = true;
           if (setting.val) {
             let sentSelectedColumns = JSON.parse(setting.val);
@@ -748,7 +751,7 @@ export class ArchiveComponent implements OnInit, OnDestroy {
   updateInboxGeneralSetting() {
     let isFound = false;
     for (const setting of this.userSetting) {
-      if (setting.key === 'Archive Inbox Selected Columns') {
+      if (setting.key === 'Archive Inbox Selected Columns New') {
         isFound = true;
         setting.val = JSON.stringify(this.inboxSelectedColumns)
       }
@@ -758,7 +761,7 @@ export class ArchiveComponent implements OnInit, OnDestroy {
         'id': null,
         'appId': 'ECM',
         'empNo': this.user.EmpNo,
-        'key': 'Archive Inbox Selected Columns',
+        'key': 'Archive Inbox Selected Columns New',
         'val': JSON.stringify(this.inboxSelectedColumns)
       });
     }
@@ -772,7 +775,7 @@ export class ArchiveComponent implements OnInit, OnDestroy {
   updateSentGeneralSetting() {
     let isFound = false;
     for (const setting of this.userSetting) {
-      if (setting.key === 'Archive Sent Selected Columns') {
+      if (setting.key === 'Archive Sent Selected Columns New') {
         isFound = true;
         setting.val = JSON.stringify(this.sentSelectedColumns)
       }
@@ -782,7 +785,7 @@ export class ArchiveComponent implements OnInit, OnDestroy {
         'id': null,
         'appId': 'ECM',
         'empNo': this.user.EmpNo,
-        'key': 'Archive Sent Selected Columns',
+        'key': 'Archive Sent Selected Columns New',
         'val': JSON.stringify(this.sentSelectedColumns)
       });
     }

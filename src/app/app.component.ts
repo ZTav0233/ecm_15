@@ -37,14 +37,15 @@ export class AppComponent {
   constructor(private growlService: GrowlService,
     private messageService: MessageService,
     private router: Router) {
-    this.router.events.pipe(
+    /* this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      console.log('Current URL:', event.url);
+      //console.log('Current URL:', event.url);
       var pOverLayPanel =document.querySelector(".p-overlaypanel.p-component")
-      pOverLayPanel.remove()
+      if(pOverLayPanel && pOverLayPanel !== null && pOverLayPanel !== undefined)
+        pOverLayPanel.remove();
       
-    });
+    }); */
   }
 
 

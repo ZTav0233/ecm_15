@@ -2858,6 +2858,8 @@ export class LaunchComponent implements OnInit, OnDestroy {
         this.wiaForward.workflow.isMemo = this.wiaAction.isMemo;
         this.wiaForward.workflow.memoId = this.wiaAction.memoId;
       }
+      else
+        this.wiaForward.memoStepName = this.wiaAction.memoStepname;
     }
     else if (this.actionTypes === 'reply') {
       this.activeIndex = 1;
@@ -2879,6 +2881,8 @@ export class LaunchComponent implements OnInit, OnDestroy {
         this.wiaReply.workflow.isMemo = this.wiaAction.isMemo;
         this.wiaReply.workflow.memoId = this.wiaAction.memoId;
       }
+      else
+        this.wiaReply.memoStepName = this.wiaAction.memoStepname;
       // launch.workflow.model.instructions
 
       if (!fromDraft) {

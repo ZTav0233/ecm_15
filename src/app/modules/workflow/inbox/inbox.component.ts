@@ -188,7 +188,12 @@ export class InboxComponent implements OnInit, OnDestroy {
     this.showDelegationInactiveDialog = false;
     this.selectedUser = undefined;
     this.type = undefined;
-    this.selectedColumns = ['status', 'actions', 'receivedDate', 'senderName', 'deadline'];
+    this.selectedColumns = [{"field":"status","header":"Status","hidden":false},
+                            {"field":"actions","header":"For","hidden":false},
+                            {"field":"receivedDate","header":"Received Date","hidden":false,"sortField":"receivedDate2"},
+                            {"field":"senderName","header":"Sender Name","hidden":false},
+                            {"field":"deadline","header":"Deadline","hidden":false,"sortField":"deadline2"}];
+    //['status', 'actions', 'receivedDate', 'senderName', 'deadline'];
 
     this.user = null;
     // get user details
@@ -220,7 +225,7 @@ export class InboxComponent implements OnInit, OnDestroy {
 
 
       for (const setting of this.userSetting) {
-        if (setting.key === 'Inbox Selected Columns') {
+        if (setting.key === 'Inbox Selected Columns New') {
           isFound = true;
           if (setting.val) {
             let inboxSelectedColumns = JSON.parse(setting.val);
@@ -875,7 +880,7 @@ export class InboxComponent implements OnInit, OnDestroy {
       }
       for (const column of this.selectedColumns) {
         for (const tableHead of this.colHeaders) {
-          if (tableHead.field === column.field) {
+          if (tableHead.field.toUpperCase() === column.field.toUpperCase()) {
             tableHead.hidden = false;
           }
         }
@@ -887,19 +892,19 @@ export class InboxComponent implements OnInit, OnDestroy {
       }
       for (const column of this.selectedColumns) {
         for (const tableHead of this.colHeaders) {
-          if (tableHead.field === column.field) {
+          if (tableHead.field.toUpperCase() === column.field.toUpperCase()) {
             tableHead.hidden = false;
           }
         }
       }
-      this.updateGeneralSetting()
+      this.updateGeneralSetting();
     }
   }
 
   updateGeneralSetting() {
     let isFound = false;
     for (const setting of this.userSetting) {
-      if (setting.key === 'Inbox Selected Columns') {
+      if (setting.key === 'Inbox Selected Columns New') {
         isFound = true;
         setting.val = JSON.stringify(this.selectedColumns)
       }
@@ -909,7 +914,7 @@ export class InboxComponent implements OnInit, OnDestroy {
         'id': null,
         'appId': 'ECM',
         'empNo': this.user.EmpNo,
-        'key': 'Inbox Selected Columns',
+        'key': 'Inbox Selected Columns New',
         'val': JSON.stringify(this.selectedColumns)
       });
     }
