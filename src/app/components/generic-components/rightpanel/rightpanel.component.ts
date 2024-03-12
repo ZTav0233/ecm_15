@@ -446,9 +446,11 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
           this.allowShowTrack = false;
           this.allowLinks = false;
           if (this.ds == null) {
+            this.busy = true;
             ds.validateDocumentPermissions(this.selectedDocs[0].id).subscribe(resp => this.validateForDocPermisssion(resp),
               err => this.validateDocPermissionFailure(err));
           } else {
+            this.busy = true;
             this.ds.validateDocumentPermissions(this.selectedDocs[0].id).subscribe(resp => this.validateForDocPermisssion(resp),
               err => this.validateDocPermissionFailure(err));
           }
@@ -471,6 +473,7 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   validateDocPermissionFailure(err) {
+    this.busy = false;
     this.allowEditSec = false;
     this.allowCheckin = false;
     this.allowDelete = false;
@@ -490,6 +493,7 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     this.allowRemoveFol = !!+res[3];
     this.allowShowLinks = !!+res[4];
     this.allowShowTrack = !!+res[5];
+    this.busy = false;
   }
 
   download() {

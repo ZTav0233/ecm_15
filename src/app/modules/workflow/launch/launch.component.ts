@@ -151,6 +151,8 @@ export class LaunchComponent implements OnInit, OnDestroy {
   searchResultDocsSelected: any = [];
   public tabActiveIndex :any= 0;
   public openSearchDialog = false;
+  public openMultiSignWarning = false;
+  public openMultiSignWarningDialog = false;
   public openAddFromFolderDilaog = false;
   public openSearchDialogLoaded = false;
   public openAddFromFolderDilaogLoaded = false;
@@ -659,6 +661,18 @@ export class LaunchComponent implements OnInit, OnDestroy {
     if (event.value === 'Signature' || event.value === 'Initial'|| event.value === 'MultiSign') {
       this.launch.recipients.ccList = [];
       this.launch.recipients.toList = [];
+    }
+
+    if (event.value === 'MultiSign') {
+      if(((this.selectedCartItems && this.selectedCartItems.length>1) ||
+      (this.selectedCartItems && this.launch.workflow.model.attachments && (this.selectedCartItems.length + this.launch.workflow.model.attachments.length)>1) ||
+      (this.selectedCartItems && !(this.launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
+      (!this.selectedCartItems && this.launch.workflow.model.attachments && this.launch.workflow.model.attachments.length >1)))
+      {
+        this.openMultiSignWarning = true;
+        this.openMultiSignWarningDialog = true;
+        return;
+      }
     }
     this.emitActionType = event.value;
     if (event.value === 'bulkLaunch') {
@@ -4149,6 +4163,12 @@ export class LaunchComponent implements OnInit, OnDestroy {
       //this[k] = null;
       delete this[k];
     });
+  }
+
+  cancelMultiSignDialog(){
+    this.openMultiSignWarning = false;
+    this.openMultiSignWarningDialog = false;
+    this.workflowType = 'Default';
   }
 
   generateNew() {

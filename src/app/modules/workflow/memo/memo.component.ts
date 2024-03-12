@@ -5960,7 +5960,7 @@ export class MemoComponent implements OnInit, OnDestroy {
     let workItemId = 10001;
     //console.log("getTokenURL::id=" + this.currentUser.KocId + ", rId= " + this.roleId + ", dId= " + doc + ", wItemId= " + workItemId);
     //getNewTokenUrl getTokenUrl
-    this.ws.getNewTokenUrl(this.currentUser.KocId, this.roleId, doc, workItemId, flagInitial).subscribe(d =>
+    this.ws.getTokenUrl(this.currentUser.KocId, this.roleId, doc, workItemId, flagInitial).subscribe(d =>
       this.assignesignUrl(doc, d, isEsign),
       err => {
         alert("Error connecting to eSign Server. Please try again or contact ECM Support team.");

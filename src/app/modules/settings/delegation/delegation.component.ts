@@ -194,9 +194,11 @@ export class DelegationComponent implements OnInit, OnDestroy {
     this.role = role;
     this.selectedRole=role
   }
-  checkChange(event) {
-    if (event === true) {
-      this.isUnlimited = true;
+  
+  checkChange() {
+    //console.log('checkChange ::' + event + '| isUnlimited :: ' + this.isUnlimited);
+    if (this.isUnlimited == true) {
+      this.isUnlimited = true
       this.toDate = undefined;
     }
     else {
@@ -285,6 +287,7 @@ export class DelegationComponent implements OnInit, OnDestroy {
       this.toastr.error('User Already Exist', 'Already Exist');
       return;
     }
+    console.log('isUnlimited ::' + this.isUnlimited);
     if (this.isUnlimited === false) {
       if (this.delegateId && this.fromDate && this.toDate) {
         this.userDelegation.id = 0;
@@ -471,104 +474,105 @@ export class DelegationComponent implements OnInit, OnDestroy {
 
   }
   checkDelegation(d){
+    console.log('isUnlimited ::' + this.isUnlimited);
     if(d.length<=0){
-        if (this.isUnlimited === false) {
-      if (this.delegateId && this.fromDate && this.toDate) {
-        this.roleDelegation.id = 0;
-        this.roleDelegation.delegateId = this.delegateId;
-        this.roleDelegation.delegatedBy = this.user.EmpNo;
-        this.roleDelegation.fromDate = this.fromDate;
-        this.roleDelegation.toDate = this.toDate;
-        this.roleDelegation.userId = this.selectedRole;
-        this.roleDelegation.userType = 'ROLE';
-        if (this.editEnabled) {
-          this.roleDelegation.status = 'ACTIVE';
-          this.roleDelegation.id = this.delegationId;
-          this.roleDelegation.delName = this.delName;
-          this.roleDelegation.delegatedOn = this.delegatedOn;
-        }
-        if (this.roleDelegation.delegateId !== this.user.EmpNo) {
-          this.busy = true;
-          this.us.saveDelegation(this.roleDelegation).subscribe(data => {
-            this.busy = false;
-            this.addRoleSuccessfull(data)
-          }, error => {
-            this.busy = false;
-            this.addUserRoleFailed()
-          });
+      if (this.isUnlimited === false) {
+        if (this.delegateId && this.fromDate && this.toDate) {
+          this.roleDelegation.id = 0;
+          this.roleDelegation.delegateId = this.delegateId;
+          this.roleDelegation.delegatedBy = this.user.EmpNo;
+          this.roleDelegation.fromDate = this.fromDate;
+          this.roleDelegation.toDate = this.toDate;
+          this.roleDelegation.userId = this.selectedRole;
+          this.roleDelegation.userType = 'ROLE';
+          if (this.editEnabled) {
+            this.roleDelegation.status = 'ACTIVE';
+            this.roleDelegation.id = this.delegationId;
+            this.roleDelegation.delName = this.delName;
+            this.roleDelegation.delegatedOn = this.delegatedOn;
+          }
+          if (this.roleDelegation.delegateId !== this.user.EmpNo) {
+            this.busy = true;
+            this.us.saveDelegation(this.roleDelegation).subscribe(data => {
+              this.busy = false;
+              this.addRoleSuccessfull(data)
+            }, error => {
+              this.busy = false;
+              this.addUserRoleFailed()
+            });
+          }
+          else {
+            // this.growlService.showGrowl({
+            //   severity: 'error',
+            //   summary: 'Not Allowed', detail: 'Cannot Delegate To Self'
+            // });
+            this.toastr.error('Cannot Delegate To Self', 'Not Allowed');
+          }
         }
         else {
+          let message = 'Select User and Active From';
+          if (!this.delegateId) {
+            message = 'Select User';
+          } else if (!this.fromDate) {
+            message = 'Select Active From';
+          }
+          else if (!this.toDate) {
+            message = 'Select Expire On';
+          }
           // this.growlService.showGrowl({
           //   severity: 'error',
-          //   summary: 'Not Allowed', detail: 'Cannot Delegate To Self'
+          //   summary: 'Fill Required', detail: message
           // });
-          this.toastr.error('Cannot Delegate To Self', 'Not Allowed');
+          this.toastr.error(message, 'Fill Required');
         }
       }
       else {
-        let message = 'Select User and Active From';
-        if (!this.delegateId) {
-          message = 'Select User';
-        } else if (!this.fromDate) {
-          message = 'Select Active From';
-        }
-        else if (!this.toDate) {
-          message = 'Select Expire On';
-        }
-        // this.growlService.showGrowl({
-        //   severity: 'error',
-        //   summary: 'Fill Required', detail: message
-        // });
-        this.toastr.error(message, 'Fill Required');
-      }
-    }
-    else {
-      if (this.delegateId && this.fromDate) {
-        this.roleDelegation.id = 0;
-        this.roleDelegation.delegateId = this.delegateId;
-        this.roleDelegation.delegatedBy = this.user.EmpNo;
-        this.roleDelegation.fromDate = this.fromDate;
-        this.roleDelegation.toDate = this.toDate;
-        this.roleDelegation.userId = this.selectedRole;
-        this.roleDelegation.userType = 'ROLE';
-        if (this.editEnabled) {
-          this.roleDelegation.status = 'ACTIVE';
-          this.roleDelegation.id = this.delegationId;
-          this.roleDelegation.delName = this.delName;
-          this.roleDelegation.delegatedOn = this.delegatedOn;
-        }
-        if (this.roleDelegation.delegateId !== this.user.EmpNo) {
-          this.busy = true;
-          this.us.saveDelegation(this.roleDelegation).subscribe(data => {
-            this.busy = false;
-            this.addRoleSuccessfull(data)
-          }, error => {
-            this.busy = false;
-            this.addUserRoleFailed()
-          });
+        if (this.delegateId && this.fromDate) {
+          this.roleDelegation.id = 0;
+          this.roleDelegation.delegateId = this.delegateId;
+          this.roleDelegation.delegatedBy = this.user.EmpNo;
+          this.roleDelegation.fromDate = this.fromDate;
+          this.roleDelegation.toDate = this.toDate;
+          this.roleDelegation.userId = this.selectedRole;
+          this.roleDelegation.userType = 'ROLE';
+          if (this.editEnabled) {
+            this.roleDelegation.status = 'ACTIVE';
+            this.roleDelegation.id = this.delegationId;
+            this.roleDelegation.delName = this.delName;
+            this.roleDelegation.delegatedOn = this.delegatedOn;
+          }
+          if (this.roleDelegation.delegateId !== this.user.EmpNo) {
+            this.busy = true;
+            this.us.saveDelegation(this.roleDelegation).subscribe(data => {
+              this.busy = false;
+              this.addRoleSuccessfull(data)
+            }, error => {
+              this.busy = false;
+              this.addUserRoleFailed()
+            });
+          }
+          else {
+            // this.growlService.showGrowl({
+            //   severity: 'error',
+            //   summary: 'Not Allowed', detail: 'Cannot Delegate To Self'
+            // });
+            this.toastr.error('Cannot Delegate To Self', 'Not Allowed');
+          }
         }
         else {
+          let message = 'Select User and Active From';
+          if (!this.delegateId) {
+            message = 'Select User';
+          } else if (!this.fromDate) {
+            message = 'Select Active From';
+          }
           // this.growlService.showGrowl({
           //   severity: 'error',
-          //   summary: 'Not Allowed', detail: 'Cannot Delegate To Self'
+          //   summary: 'Fill Required', detail: message
           // });
-          this.toastr.error('Cannot Delegate To Self', 'Not Allowed');
+          this.toastr.error(message, 'Fill Required');
         }
       }
-      else {
-        let message = 'Select User and Active From';
-        if (!this.delegateId) {
-          message = 'Select User';
-        } else if (!this.fromDate) {
-          message = 'Select Active From';
-        }
-        // this.growlService.showGrowl({
-        //   severity: 'error',
-        //   summary: 'Fill Required', detail: message
-        // });
-        this.toastr.error(message, 'Fill Required');
-      }
-    }
     }
     else{
       this.confirmationService.confirm({

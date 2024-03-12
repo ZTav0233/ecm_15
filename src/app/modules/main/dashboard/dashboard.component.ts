@@ -14,6 +14,7 @@ import { CoreService } from "../../../services/core.service";
 import { BrowserEvents } from '../../../services/browser-events.service';
 import { AdminService } from "../../../services/admin.service";
 import { ChartOptions } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -60,8 +61,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       pointBackgroundColor: ['#80CBC4', '#90A4ff'],
     }
   ];
+  pieChartPlugins = [];
+  
   public chartOptions: any = {
-    /*pieceLabel: {
+    pieceLabel: {
       render: function (args) {
         const value = args.value;
         return value;
@@ -70,13 +73,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
       fontStyle: 'bold',
       fontColor: '#fff',
       fontFamily: '"Lucida Console", Monaco, monospace'
-    },*/
+    },
 
     resposive: true,
     maintainAspectRatio: false,
 
     plugins: {
       datalabels: {
+        display: true,
         align: 'center',
         anchor: 'center',
         backgroundColor: null,
@@ -91,9 +95,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         offset: 4,
         padding: 0,
         formatter: function (value) {
+          console.log('chart value :' + value);
           return value
         }
       }
+    },
+    labels: {
+      display: true,
+      render: 'value',
+      fontColor:['white','white','white'],
+      precision: 2
     },
     legend: {
       onHover: function (e) {
@@ -125,7 +136,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let navigateToDraft = localStorage.getItem('navigateToDraft');
     let pageClickRefresh = localStorage.getItem('pageRefresh');
 
-
+    this.pieChartPlugins = [ChartDataLabels];
     if (sentSelectedUserTab) {
       this.workflowService.sentSelectedUserTab = sentSelectedUserTab;
       localStorage.removeItem('sentSelectedUserTab');

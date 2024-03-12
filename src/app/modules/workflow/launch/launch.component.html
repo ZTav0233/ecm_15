@@ -750,7 +750,7 @@
               (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)>1) ||
               (this.selectedCartItems && !(launch.workflow.model.attachments) && this.selectedCartItems.length>1) ||
               (!this.selectedCartItems && launch.workflow.model.attachments && launch.workflow.model.attachments.length >1)))">
-              <br /> &nbsp; Please select only one attachment for multi-sign..! </span>
+              <br /> &nbsp; Only One Attachment Allowed for Multi-sign Workflow! </span>
             <span class="warning"
               *ngIf="(launch.documents.existing.model.actionType==='MultiSign' && ((this.selectedCartItems && this.selectedCartItems.length<=0) ||
               (this.selectedCartItems && launch.workflow.model.attachments && (this.selectedCartItems.length + launch.workflow.model.attachments.length)<=0) ||
@@ -886,6 +886,18 @@
       <button class="pull-right footer-btn-blue" pButton type="button" label="Done"
         (click)="showRoleTree=false;"></button>
     </p-footer>
+  </p-dialog>
+</div>
+<div *ngIf="openMultiSignWarning" class="text">
+  <p-dialog appendTo="body" [modal]="true" showEffect="fade" [(visible)]="openMultiSignWarningDialog" [style]="{ width: '20vw', height: '200px' }">
+    <p-header>
+      Warning!
+    </p-header>
+    <p>Only One Attachment Allowed for Multi-sign Workflow!</p>
+    <div style="height: 40px;"></div>
+    <div style="margin-left: 20vh">
+      <button (click)="cancelMultiSignDialog()" pButton class="mr-1" label="OK"></button> &nbsp;
+    </div>
   </p-dialog>
 </div>
 <p-confirmDialog header="Forward Without New Attachments?" key="forwardConfirm"></p-confirmDialog>

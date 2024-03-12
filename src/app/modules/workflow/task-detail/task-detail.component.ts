@@ -1166,7 +1166,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     else {
       //getNewTokenUrl getTokenUrl
-      this.workflowService.getNewTokenUrl(this.currentUser.KocId, this.roleId, this.docId, this.workitem.workitemId, this.flagInitial).subscribe(d =>
+      this.workflowService.getTokenUrl(this.currentUser.KocId, this.roleId, this.docId, this.workitem.workitemId, this.flagInitial).subscribe(d =>
         this.assignesignUrl(this.docId, d, isEsign, 0, 0, signAttachId),
         err => {
           alert("Error connecting to eSign Server. Please try again or contact ECM Support team.");
