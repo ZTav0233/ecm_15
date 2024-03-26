@@ -1379,6 +1379,9 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   selectFile(event) {
+    console.log("Select file :: " + event);
+    console.log("Select file files :: " + event.files);
+    console.log("Select file files length :: " + event.files?event.files.length:0);
     if (event.files && event.files.length) {
       let fileSize = event.files[0].size;
       if (fileSize <= Number(this.fileSizeConfiguration.value)){
@@ -1414,6 +1417,8 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   updatedAttachment() {
+    this.updateddDocuments = new FormData();
+    this.updateddDocuments.append('document', this.fileUploaded);
     this.busy = true;
     this.ds.checkOut(this.saveDocInfo.id).subscribe(data => {
       this.busy = false;
@@ -1426,7 +1431,7 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
       if (prop.dtype === 'DATE') {
         prop.mvalues = [];
         if (this.docEditPropForm.get(prop.symName).value !== null) {
-          let datetemp= moment(this.docEditPropForm.get(prop.symName).value, "DD/MM/YYYY").toDate();
+          let datetemp = moment(this.docEditPropForm.get(prop.symName).value, "DD/MM/YYYY").toDate();
           prop.mvalues = [this.getFormatedDate(datetemp)];
         }
       } else if (prop.dtype !== 'DATE') {
@@ -1441,7 +1446,6 @@ export class RightpanelComponent implements OnInit, OnDestroy, DoCheck {
     const date = new Date(value);
     return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
   }
-
 
   checkoutSuccess(data) {
     this.busy = true;
